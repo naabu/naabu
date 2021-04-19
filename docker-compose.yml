@@ -1,0 +1,19 @@
+version: "3"
+
+services:
+  sveltekit:
+    build:
+      context: .
+      dockerfile: dockerfiles/sveltekit/dev/Dockerfile
+    volumes:
+      - ./:/var/www/
+    ports:
+      - 3000:3000
+      - 3001:3001
+      - 9222:9222
+      - 9229:9229
+    networks:
+      - internal_network
+
+networks:
+  internal_network:

@@ -1,8 +1,8 @@
-<script context="module" lang="ts">
+<script context="module">
 	export const prerender = true;
 </script>
 
-<script lang="ts">
+<script>
 	import Counter from '$lib/Counter/index.svelte';
 </script>
 
@@ -11,30 +11,7 @@
 </svelte:head>
 
 <section>
-	<h1>
-		<div class="welcome">
-			<picture>
-				<source srcset="svelte-welcome.webp" type="image/webp">
-				<img src="svelte-welcome.png" alt="Welcome"/>
-			</picture>
-		</div>
-
-		to your new<br />SvelteKit app asdasdf aasdsd sdf asdfsfd Hello
-	</h1>
-
-	<h2>
-		geagaga try editing bababab afdasfasdf <strong>src/routes/index.svelte!!!!!abc!!!b!cde woo ahlo</strong>
-	</h2>
-
-	<p>
-		Test abc abcasdf
-		The hot reloading module works great! Does this still work?
-		Not sure how this works?
-
-		Testing again lets see how it works abcdefghasd test abcd defghijklimnkopqrstuvwxyz Hahahahaha... Development was never this easy?
-	</p>
-
-	<Counter />
+	<a href="beheer"> Platform beheren</a>
 </section>
 
 <style>
@@ -48,7 +25,6 @@
 
 	h1 {
 		width: 100%;
-		color: grey;
 	}
 
 	.welcome {

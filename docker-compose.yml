@@ -7,6 +7,8 @@ services:
       dockerfile: dockerfiles/sveltekit/dev/Dockerfile
     volumes:
       - ./:/var/www/
+    environment:
+      - ENVIRONMENT=development
     ports:
       - 3000:3000
       - 3001:3001
@@ -14,6 +16,8 @@ services:
       - 9229:9229
       - 24678:24678
       - 9005:9005
+      - 5000-5030:5000-5030
+      - 4500:4500
     networks:
       - internal_network
 

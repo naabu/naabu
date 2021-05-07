@@ -1,44 +1,36 @@
-<script context="module" lang="ts">
+<script context="module">
 	import { enhance } from '$lib/form';
-	import type { Load } from '@sveltejs/kit';
-
+	
 	// see https://kit.svelte.dev/docs#loading
-	export const load: Load = async ({ fetch }) => {
+	export const load = async ({ fetch }) => {
 		const res = await fetch('/todos.json');
-
+	
 		if (res.ok) {
 			const todos = await res.json();
-
+	
 			return {
 				props: { todos }
 			};
 		}
-
+	
 		const { message } = await res.json();
-
+	
 		return {
 			error: new Error(message)
 		};
-	}
+	};
 </script>
 
-<script lang="ts">
+<script>
 	import { scale } from 'svelte/transition';
 	import { flip } from 'svelte/animate';
-
-	type Todo = {
-		uid: string;
-		created_at: Date;
-		text: string;
-		done: boolean;
-	};
-
-	export let todos: Todo[];
-
-	async function patch(res: Response) {
+	
+	export let todos;
+	
+	async function patch(res) {
 		const todo = await res.json();
-
-		todos = todos.map(t => {
+	
+		todos = todos.map((t) => {
 			if (t.uid === todo.uid) return todo;
 			return t;
 		});
@@ -67,12 +59,7 @@
 		<div class="todo" class:done={todo.done} transition:scale|local={{start:0.7}} animate:flip={{duration:200}}>
 			<form action="/todos/{todo.uid}.json?_method=patch" method="post" use:enhance={{
 				pending: (data) => {
-					const done = !!data.get('done');
-
-					todos = todos.map(t => {
-						if (t === todo) return { ...t, done };
-						return t;
-					});
+					todo.done = !!data.get('done');
 				},
 				result: patch
 			}}>

@@ -1,0 +1,64 @@
+{
+    "firestore": {
+      "rules": "firestore.rules",
+      "indexes": "firestore.indexes.json"
+    },
+    "functions": {
+      "predeploy": [
+        "npm --prefix \"$RESOURCE_DIR\" install"
+      ],
+      "source": "functions"
+    },
+    "hosting": {
+      "public": "public",
+      "ignore": [
+        "firebase.json",
+        "**/.*",
+        "**/node_modules/**"
+      ],
+      "rewrites": [
+        {
+          "source": "**",
+          "function": "ssr"
+        }
+      ]
+    },
+    "storage": {
+      "rules": "storage.rules"
+    },
+    "emulators": {
+      "auth": {
+        "port": 5020,
+        "host": "0.0.0.0"
+      },
+      "functions": {
+        "port": 5021,
+        "host": "0.0.0.0"
+      },
+      "firestore": {
+        "port": 5022,
+        "host": "0.0.0.0"
+      },
+      "database": {
+        "port": 5023,
+        "host": "0.0.0.0"
+      },
+      "hosting": {
+        "port": 5024,
+        "host": "0.0.0.0"
+      },
+      "pubsub": {
+        "port": 5025,
+        "host": "0.0.0.0"
+      },
+      "ui": {
+        "enabled": true,
+        "port": 5002,
+        "host": "0.0.0.0"
+      }
+    },
+    "remoteconfig": {
+      "template": "remoteconfig.template.json"
+    }
+  }
+  

@@ -1,21 +1,21 @@
-<script lang="ts">
+<script>
 	import { spring } from 'svelte/motion';
-
+	
 	let count = 0;
-
+	
 	const displayed_count = spring();
 	$: displayed_count.set(count);
 	$: offset = modulo($displayed_count, 1);
-
-	function modulo(n: number, m: number) {
+	
+	function modulo(n, m) {
 		// handle negative numbers
 		return ((n % m) + m) % m;
 	}
 </script>
 
-<div class="counter">
+<div class="counter bg-red-500">
 	<button on:click={() => (count -= 1)} aria-label="Decrease the counter by one">
-		<svg aria-hidden="true" viewBox="0 0 1 1">
+		<svg class="stroke-current text-white"aria-hidden="true" viewBox="0 0 1 1">
 			<path d="M0,0.5 L1,0.5"></path>
 		</svg>
 	</button>
@@ -27,14 +27,19 @@
 		</div>
 	</div>
 
-	<button on:click={() => (count += 1)} aria-label="Increase the counter by one">
-		<svg aria-hidden="true" viewBox="0 0 1 1">
+	<button class="text-black bg-blue-500" on:click={() => (count += 1)} aria-label="Increase the counter by one">
+		<svg class="stroke-current text-white"aria-hidden="true" viewBox="0 0 1 1">
 			<path d="M0,0.5 L1,0.5 M0.5,0 L0.5,1"></path>
 		</svg>
 	</button>
 </div>
 
-<style>
+<style style lang="postcss">
+
+	svg {
+		 @apply bg-blue-500 hover:bg-blue-900 text-white;
+	}
+
 	.counter {
 		display: flex;
 		border-top: 1px solid rgba(0,0,0,0.1);

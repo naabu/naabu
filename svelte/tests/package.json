@@ -1,0 +1,15 @@
+{
+  "name": "tests",
+  "version": "1.0.0",
+  "description": "Unit testing exp wisvids",
+  "main": "test.js",
+  "scripts": {
+    "test": "FIRESTORE_EMULATOR_HOST=\"0.0.0.0:5022\" mocha * --exit"
+  },
+  "author": "Niels van der Molen",
+  "license": "ISC",
+  "devDependencies": {
+    "@firebase/testing": "^0.20.11",
+    "mocha": "^8.3.2"
+  }
+}

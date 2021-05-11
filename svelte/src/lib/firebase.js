@@ -1,4 +1,5 @@
 import { getApp, initializeApp } from "firebase/app"
+import { getFirestore, useFirestoreEmulator } from "firebase/firestore"
 import { getAuth, useAuthEmulator  } from "firebase/auth";
 
 const firebaseConfig = {
@@ -21,11 +22,19 @@ function getOrCreateFirebaseApp() {
 }
 export const firebaseApp = getOrCreateFirebaseApp();
 
-export function getFirebaseAuth(environment = "development") {
-    console.log('here');
-    const auth =  getAuth(firebaseApp);
-    if (environment === 'development'){
-        useAuthEmulator(auth, "http://localhost:5010");
+export async function getFirebaseAuth(environment = "production") {
+    const auth =  await getAuth(firebaseApp);
+    console.log(auth);
+    if (environment === 'development' && !auth.emulatorConfig){
+        await useAuthEmulator(auth, "http://0.0.0.0:5010");
     }
     return auth;
+}
+
+export async function getFirebaseFirestore(environment = "production") {
+    const firestore =  await getFirestore(firebaseApp);
+    if (environment === 'development'){
+        await useFirestoreEmulator(firestore, "0.0.0.0", 5012);
+    }
+    return firestore;
 }

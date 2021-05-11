@@ -7,5 +7,6 @@ exports.ssr = functions.https.onRequest(async (request, response) => {
               ssrServer = require("./ssr/index").default;
               functions.logger.info("SvelteKit SSR Handler initialised!");
       }
+      functions.logger.info(process.env);
       return await ssrServer(request, response);
 });

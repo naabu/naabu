@@ -1,3 +1,10 @@
+#build directory
+.svelte-kit/
+public
+
+#keys
+adminkey.json
+
 # Logs
 logs
 *.log

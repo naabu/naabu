@@ -7,7 +7,8 @@
     "preview": "svelte-kit preview",
     "lint": "prettier --check . && eslint --ignore-path .gitignore .",
     "format": "prettier --write .",
-    "test-setup": "firebase emulators:start --config=\"./firebase.test.json\""
+    "emulate": "firebase emulators:start --token \"$FIREBASE_TOKEN\" --import=./.devdata --export-on-exit",
+    "test-setup": "export GOOGLE_APPLICATION_CREDENTIALS=/var/www/svelte/adminkey.json; firebase emulators:start --config=\"./firebase.test.json\""
   },
   "devDependencies": {
     "@sveltejs/kit": "next",

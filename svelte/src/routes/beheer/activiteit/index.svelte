@@ -1,0 +1,1 @@
+<a href="activiteit/maken"> Nieuwe activiteit maken</a>

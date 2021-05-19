@@ -1,4 +1,4 @@
-<script context="module">
+<!-- <script context="module">
 	// see https://kit.svelte.dev/docs#loading
 	export function load({ page, fetch, session, context }) {
 		return {
@@ -8,47 +8,67 @@
 		}
 	};
 
-</script>
+</script> -->
 
 <script>
 	// , getFirestore, getAuth, googleProvider
-	// import {firebaseApp} from '$lib/firebase';
+	import {firebaseApp} from '$lib/firebase';
 	import {getFirebaseAuth, getFirebaseFirestore} from '$lib/firebase';
-	import {signInWithPopup, GoogleAuthProvider, signOut} from "firebase/auth";
+	import {getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, setPersistence, browserLocalPersistence} from "firebase/auth";
 	import { doc, setDoc, getDoc } from "firebase/firestore"; 
+	import { getStores, navigating, page, session } from '$app/stores';
 
 	import Header from '$lib/Header/index.svelte';
 	import '../app.postcss';
-	export let session;
 
-	$:console.log(session);
+	$:console.log($session);
+
+	
 
 	// functions.logger.log("Hello from info. Here's an object:", session);
+	const auth = getAuth(firebaseApp);
 
-	let user;
+
+	let user = auth.currentUser;
+	// console.log(auth.currentUser);
+
+	$:console.log(user);
+
+	onAuthStateChanged(auth, (newUser) => {
+		console.log('onAuthStateChanged called' + newUser);
+		if (newUser) {
+			// User is signed in, see docs for a list of available properties
+			// https://firebase.google.com/docs/reference/js/firebase.User
+			const uid = newUser.uid;
+			// ...
+			console.log(uid);
+			user = newUser;
+			// $session.user = user;
+		} else {
+			user = null;
+		}
+		});
 
 	async function logout() {
 		console.log('logout logic here');
-		const auth = await getFirebaseAuth(session.environment);
-		// let result = await signOut(auth);
-
+		const auth = await getFirebaseAuth($session.environment);
+		let result = await signOut(auth);
 	}
 
 	async function login() {
 		console.log('login logic here');
-		const auth = await getFirebaseAuth(session.environment);
+	
+		const auth = await getFirebaseAuth($session.environment);
+		await setPersistence(auth, browserLocalPersistence);
 		const provider = new GoogleAuthProvider();
 		const result = await signInWithPopup(auth, provider);
-		console.log(result);
-		user = result.user;
 	}
 
 	async function createDocument(){
-		const firestore = await getFirebaseFirestore(session.environment);
-		console.log(firestore);
+		const firestore = await getFirebaseFirestore($session.environment);
 		// Add a new document in collection "cities"
 		try {
-			let thedoc = await doc(firestore, "cities", "LA");
+			let thedoc = await doc(firestore, "goals", "test");
 			console.log(thedoc);
 			// let retrievDoc = await getDoc(thedoc);
 			// console.log('here2');
@@ -56,11 +76,10 @@
 			const docData = {
 				name: "Los Angeles",
 				state: "CA",
-				country: "USA"
+				country: "USA test"
 			}
 			try {
-				let editDoc = await setDoc(thedoc, docData);
-				console.log("Document written with ID: ", editDoc.id);
+				await setDoc(thedoc, docData);
 			} catch (e) {
 				console.error("Error adding document: ", e);
 			}

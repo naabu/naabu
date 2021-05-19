@@ -4,7 +4,7 @@
   "description": "Unit testing exp wisvids",
   "main": "test.js",
   "scripts": {
-    "test": "GOOGLE_APPLICATION_CREDENTIALS=\"/var/www/svelte/adminkey.json\" FIRESTORE_EMULATOR_HOST=\"0.0.0.0:5022\" FIREBASE_AUTH_EMULATOR_HOST=\"0.0.0.0:5020\" mocha * --exit"
+    "test": "FIRESTORE_EMULATOR_HOST=\"0.0.0.0:5022\" FIREBASE_AUTH_EMULATOR_HOST=\"0.0.0.0:5020\" mocha * --exit"
   },
   "author": "Niels van der Molen",
   "license": "ISC",

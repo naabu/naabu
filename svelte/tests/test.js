@@ -6,7 +6,7 @@ const myId = "user_abc";
 const theirId = "user_xyz";
 const myAuth = {uid: myId, email: "abc@gmail.com"}
 const modId = "user_mod";
-const myModeratorAuth = {uid: modId, email: "mod@gmail.com", isModerator: true}
+const myModeratorAuth = {uid: modId, email: "mod@gmail.com", canModerate: true}
 
 function getFirestore(auth = null) {
     return firebase.initializeTestApp({projectId: MY_PROJECT_ID, auth: auth}).firestore();

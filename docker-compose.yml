@@ -9,7 +9,7 @@ services:
       - ./:/var/www/
     environment:
       - ENVIRONMENT=development
-      - FIREBASE_TOKEN=1//09M3SUzOVSCzuCgYIARAAGAkSNwF-L9IrUMKtp1MY6pl0ghbm3YawXj5NKXywlV8iI8iRMhib7VST-qhVVOPQ-HqCbLltSdQzdfs
+      - FIREBASE_TOKEN=1//09uD1x9-ulEYFCgYIARAAGAkSNwF-L9Ir5pJvOEBFJq9J_sDDNoHWSJXlLU4VNcWO-kmWLUKAmGNjkCe9OuSYc6bJ05_nq_BIjOk
     ports:
       - 3000:3000
       - 3001:3001

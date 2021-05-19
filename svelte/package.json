@@ -7,7 +7,9 @@
     "preview": "svelte-kit preview",
     "lint": "prettier --check . && eslint --ignore-path .gitignore .",
     "format": "prettier --write .",
-    "emulate": "firebase emulators:start --token \"$FIREBASE_TOKEN\" --import=./.devdata --export-on-exit",
+    "testvar": "echo $FIREBASE_TOKEN",
+    "deploy": "firebase --token \"$FIREBASE_TOKEN\" deploy",
+    "emulate": "firebase --token \"$FIREBASE_TOKEN\" emulators:start  --import=./.devdata --export-on-exit",
     "test-setup": "export GOOGLE_APPLICATION_CREDENTIALS=/var/www/svelte/adminkey.json; firebase emulators:start --config=\"./firebase.test.json\""
   },
   "devDependencies": {
@@ -29,8 +31,12 @@
   },
   "type": "module",
   "dependencies": {
+    "@algolia/autocomplete-js": "^1.0.1",
+    "@algolia/autocomplete-theme-classic": "^1.0.1",
     "@fontsource/fira-mono": "^4.2.2",
     "@lukeed/uuid": "^2.0.0",
+    "@tailwindcss/forms": "^0.3.2",
+    "algoliasearch": "^4.9.1",
     "cookie": "^0.4.1",
     "firebase": "^9.0.0-beta.1",
     "svelte-class-transition": "^1.0.4"

@@ -35,11 +35,17 @@ module.exports = {
 				DEFAULT: '#288BE8',
 			  },
 			},
+			gridTemplateColumns: {
+				// Simple 8 row grid
+			   'taxonomy': '2fr minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr)',
+			},
 		},
 	},
 	variants: {
 		extend: {},
 	},
-	plugins: [],
+	plugins: [
+		require('@tailwindcss/forms'),
+	],
 	darkMode: false,
 };

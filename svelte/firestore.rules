@@ -16,13 +16,18 @@ service cloud.firestore {
       allow read: if (resource.data.visibility == "public") ||
        (resource.data.authorId == request.auth.uid)
       allow update: if (resource.data.authorId == request.auth.uid) ||
-        (request.auth.token.isModerator)
+        (request.auth.token.canModerate)
     }
      
     match /goals/{goalsId} {
       allow read: if (resource.data.visibility == "public") ||
-        (request.auth.token.isModerator)
-      allow write, update: if (request.auth.token.isModerator)
+        (request.auth.token.canModerate)
+      allow write, update: if (request.auth.token.canModerate)
+    }
+        match /activities/{acitivtyId} {
+      allow read: if (resource.data.visibility == "public") ||
+        (request.auth.token.canModerate)
+      allow write, update: if (request.auth.token.canModerate)
     }
   }
 }

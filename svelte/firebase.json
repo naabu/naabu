@@ -4,6 +4,10 @@
     "indexes": "firestore.indexes.json"
   },
   "functions": {
+    "ignore": [
+      "public/",
+      "functions/ssr/"
+    ],
     "predeploy": [
       "npm --prefix \"$RESOURCE_DIR\" install"
     ],

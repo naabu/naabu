@@ -3,7 +3,7 @@
   import { collection, addDoc } from "firebase/firestore";
   import { session } from "$app/stores";
   import {onMount} from 'svelte';
-  import algoliasearch from 'algoliasearch';
+  import { searchClient, getGoalIndex } from "$lib/algolia";
   import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js'
   import '@algolia/autocomplete-theme-classic';
 
@@ -18,20 +18,9 @@
   let quizNewAnswerCorrect = false;
   let quizAnswers = [];
   let testQuestion = null;
-
-
   let selectedLeerdoelen = [];
   let filters = "";
-  let goalIndex = "acc_goals";
-
-  $: console.log($session);
-
-  $: console.log(quizes);
-
-  if ($session.environment === 'development') {
-    goalIndex = "dev_goals";
-  }
-
+  let goalIndex = getGoalIndex($session.environment);
 
   function addQuiz(){
     console.log(quizQuestion);
@@ -93,11 +82,7 @@
   })
 
   function runAutocomplete() {
-    const searchClient = algoliasearch(
-      '6868GHOPYM',
-      '91b10504939fb851e4fab041ddd92618'
-    );
-   
+
     autocomplete({
       container: '#autocomplete-leerdoelen',
       placeholder: 'Zoek voor leerdoelen',

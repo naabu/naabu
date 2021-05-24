@@ -18,42 +18,67 @@ exports.ssr = functions.https.onRequest(async (request, response) => {
 
 const APP_ID = functions.config().algolia.app;
 const ADMIN_KEY = functions.config().algolia.key;
-const ENVIRONMENT = functions.config().app.environment;
 
 const client = algoliasearch(APP_ID, ADMIN_KEY);
-let goalIndex = 'goals';
 
-console.log(functions.config());
 
-if (ENVIRONMENT === 'acceptance') {
-      goalIndex = 'acc_' + goalIndex;
+function getIndex(suffix, environment) {
+   let index = suffix;
+     if (environment === 'development') {
+         index = "dev_" + suffix;
+     }
+     else if (environment === 'acceptance') {
+         index = "acc_" + suffix;
+     }
+     else if (environment === 'production') {
+         index = "prod_" + suffix;
+     }
+     return index;
 }
-else if (ENVIRONMENT === 'development') {
-      goalIndex = 'dev_' + goalIndex;
-}
 
-console.log(goalIndex);
-const index = client.initIndex(goalIndex);
+let goalIndexName = getIndex('goals', ENVIRONMENT);
+let activityIndexName = getIndex('activities', ENVIRONMENT);
+const goalIndex = client.initIndex(goalIndexName);
+const activityIndex = client.initIndex(activityIndexName);
 
-exports.addToIndex = functions.firestore.document('goals/{goalId}')
+exports.addToGoalIndex = functions.firestore.document('goals/{goalId}')
 .onCreate((snap, context)  => {
-      console.log('addToIndex');
       const data = snap.data();
       const objectID = snap.id;
-      return index.saveObject({... data, objectID});
+      return goalIndex.saveObject({... data, objectID});
 
 });
 
-exports.updateIndex = functions.firestore.document('goals/{goalId}')
+exports.updateGoalIndex = functions.firestore.document('goals/{goalId}')
 .onUpdate((change, context) => {
       console.log('UpdateIndex');
       const newData = change.after.data();
       const objectID = change.after.id;
-      return index.saveObject({... newData, objectID});
+      return goalIndex.saveObject({... newData, objectID});
 });
 
-exports.deleteFromIndex = functions.firestore.document('goals/{goalId}')
+exports.deleteFromGoalIndex = functions.firestore.document('goals/{goalId}')
 .onDelete((snap, context) => {
       console.log('DeleteIndex');
-      return index.deleteObject(snap.id);
+      return goalIndex.deleteObject(snap.id);
+});
+
+exports.addToActivityIndex = functions.firestore.document('activities/{activyId}')
+.onCreate((snap, context)  => {
+      const data = snap.data();
+      const objectID = snap.id;
+      return activityIndex.saveObject({... data, objectID});
+
+});
+
+exports.updateActivityIndex = functions.firestore.document('activities/{activyId}')
+.onUpdate((change, context) => {
+      const newData = change.after.data();
+      const objectID = change.after.id;
+      return activityIndex.saveObject({... newData, objectID});
+});
+
+exports.deleteFromActivityIndex = functions.firestore.document('activities/{activyId}')
+.onDelete((snap, context) => {
+      return activityIndex.deleteObject(snap.id);
 });

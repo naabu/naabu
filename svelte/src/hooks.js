@@ -6,7 +6,6 @@ import { v4 as uuid } from '@lukeed/uuid';
 
 
 export function getSession(request) {
-	console.log(process.env);
 	return {
 		environment: process.env['ENVIRONMENT'],
 	};

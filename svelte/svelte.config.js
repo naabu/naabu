@@ -12,7 +12,15 @@ const config = {
 	kit: {
 		// hydrate the <div id="svelte"> element in src/app.html
 		adapter: firebaseAdapter(),
-		target: '#svelte'
+		target: '#svelte',
+		vite: {
+			// optimizeDeps: {
+			// 	exclude: ['@algolia/autocomplete-js']
+			// },
+			ssr: {
+				noExternal: ['@algolia/autocomplete-js']
+			}
+		}
 	}
 };
 

@@ -1,8 +1,7 @@
-FROM cypress/base:14.16.0
+FROM node:14
 RUN apt-get update; \
     apt-get install -y \
-    default-jre; \
-    tmux;    
+    default-jre; 
 COPY . /var/www/
 WORKDIR /var/www/svelte/
 RUN npm install; \

@@ -1,8 +1,12 @@
 const functions = require("firebase-functions");
 const algoliasearch = require('algoliasearch');
+const ENVIRONMENT = functions.config().app.environment;
 
 let ssrServer;
 exports.ssr = functions.https.onRequest(async (request, response) => {
+      functions.logger.info(process.env);
+      process.env.ENVIRONMENT = ENVIRONMENT;
+      functions.logger.info(process.env);
       if (!ssrServer) {
               functions.logger.info("Initializing SvelteKit SSR Handler");
               ssrServer = require("./ssr/index").default;
@@ -14,9 +18,22 @@ exports.ssr = functions.https.onRequest(async (request, response) => {
 
 const APP_ID = functions.config().algolia.app;
 const ADMIN_KEY = functions.config().algolia.key;
+const ENVIRONMENT = functions.config().app.environment;
 
 const client = algoliasearch(APP_ID, ADMIN_KEY);
-const index = client.initIndex('dev_goals');
+let goalIndex = 'goals';
+
+console.log(functions.config());
+
+if (ENVIRONMENT === 'acceptance') {
+      goalIndex = 'acc_' + goalIndex;
+}
+else if (ENVIRONMENT === 'development') {
+      goalIndex = 'dev_' + goalIndex;
+}
+
+console.log(goalIndex);
+const index = client.initIndex(goalIndex);
 
 exports.addToIndex = functions.firestore.document('goals/{goalId}')
 .onCreate((snap, context)  => {

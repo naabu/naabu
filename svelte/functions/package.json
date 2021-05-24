@@ -13,9 +13,12 @@
   },
   "main": "index.js",
   "dependencies": {
+    "@algolia/autocomplete-js": "^1.0.1",
+    "@algolia/autocomplete-theme-classic": "^1.0.1",
     "@fontsource/fira-mono": "^4.2.2",
     "@lukeed/uuid": "^2.0.0",
     "@sveltejs/kit": "next",
+    "algoliasearch": "^4.9.1",
     "cookie": "^0.4.1",
     "firebase-admin": "^9.2.0",
     "firebase-functions": "^3.11.0",

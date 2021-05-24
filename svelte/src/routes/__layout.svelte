@@ -1,15 +1,3 @@
-<!-- <script context="module">
-	// see https://kit.svelte.dev/docs#loading
-	export function load({ page, fetch, session, context }) {
-		return {
-			props: {
-				session: session
-			}
-		}
-	};
-
-</script> -->
-
 <script>
 	// , getFirestore, getAuth, googleProvider
 	import {firebaseApp} from '$lib/firebase';
@@ -17,7 +5,7 @@
 	import {getAuth, signInWithPopup, GoogleAuthProvider, signOut, onAuthStateChanged, setPersistence, browserLocalPersistence} from "firebase/auth";
 	import { doc, setDoc, getDoc } from "firebase/firestore"; 
 	import { getStores, navigating, page, session } from '$app/stores';
-
+	import { onMount } from 'svelte';
 	import Header from '$lib/Header/index.svelte';
 	import '../app.postcss';
 
@@ -26,28 +14,31 @@
 	
 
 	// functions.logger.log("Hello from info. Here's an object:", session);
-	const auth = getAuth(firebaseApp);
+	// const auth = getAuth(firebaseApp);
 
 
-	let user = auth.currentUser;
+	let user = null;
 	// console.log(auth.currentUser);
-
+	onMount(async () => {
+		const auth = getAuth(firebaseApp);
+		onAuthStateChanged(auth, (newUser) => {
+			console.log('onAuthStateChanged called' + newUser);
+			if (newUser) {
+				// User is signed in, see docs for a list of available properties
+				// https://firebase.google.com/docs/reference/js/firebase.User
+				const uid = newUser.uid;
+				// ...
+				console.log(uid);
+				user = newUser;
+				// $session.user = user;
+			} else {
+				user = null;
+			}
+		});
+	});
 	$:console.log(user);
 
-	onAuthStateChanged(auth, (newUser) => {
-		console.log('onAuthStateChanged called' + newUser);
-		if (newUser) {
-			// User is signed in, see docs for a list of available properties
-			// https://firebase.google.com/docs/reference/js/firebase.User
-			const uid = newUser.uid;
-			// ...
-			console.log(uid);
-			user = newUser;
-			// $session.user = user;
-		} else {
-			user = null;
-		}
-		});
+
 
 	async function logout() {
 		console.log('logout logic here');

@@ -13,5 +13,4 @@ RUN npm install; \
     | tee -a /etc/sysctl.conf;
 EXPOSE 3000
 USER node
-COPY dockerfiles/sveltekit/dev/.tmux.conf /home/node
 CMD ["tail", "-f", "/dev/null"]

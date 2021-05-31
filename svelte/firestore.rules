@@ -4,10 +4,6 @@ service cloud.firestore {
     match /{document=**} {
       allow read, write: if false
     }
-    match /readonly/{docId} {
-      allow read: if true
-      allow write: if false
-    }
     match /users/{userId} {
       allow write: if (request.auth.uid == userId)
     }
@@ -24,7 +20,7 @@ service cloud.firestore {
         (request.auth.token.canModerate)
       allow write, update: if (request.auth.token.canModerate)
     }
-        match /activities/{acitivtyId} {
+    match /activities/{acitivtyId} {
       allow read: if (resource.data.visibility == "public") ||
         (request.auth.token.canModerate)
       allow write, update: if (request.auth.token.canModerate)

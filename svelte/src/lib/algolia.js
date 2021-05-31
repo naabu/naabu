@@ -14,10 +14,12 @@ function getIndex(suffix, environment) {
    return index;
 }
 
-export const searchClient = algoliasearch(
+export function getAlgoliaSearchClient() {
+  return algoliasearch(
     '6868GHOPYM',
     '91b10504939fb851e4fab041ddd92618'
  );
+}
  
  export function getGoalIndex(environment = 'development') {
     return getIndex("goals", environment);

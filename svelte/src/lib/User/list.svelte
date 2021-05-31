@@ -1,4 +1,22 @@
-<!-- This example requires Tailwind CSS v2.0+ -->
+<script>
+  import ManagementTabs from "$lib/Tabs/management.svelte";
+  import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
+  let breadcrumbs = [ 
+    {
+      url: '/beheer',
+      value: 'Beheer'
+    },
+    {
+      url: '/beheer/gebruiker',
+      value: 'Gebruiker'
+    },
+  ];
+</script>
+
+
+<ShowBreadcrumb bind:breadcrumbs />
+<ManagementTabs selected="user" />
+
 <div class="flex flex-col">
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">

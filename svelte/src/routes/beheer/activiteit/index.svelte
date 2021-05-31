@@ -1,1 +1,7 @@
-<a href="activiteit/maken"> Nieuwe activiteit maken</a>
+
+<script>
+	import ListActivities from '$lib/Activity/list.svelte';
+</script>
+
+<ListActivities/>
+

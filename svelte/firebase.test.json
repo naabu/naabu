@@ -51,6 +51,10 @@
         "port": 5025,
         "host": "0.0.0.0"
       },
+      "storage": {
+        "port": 5026,
+        "host": "0.0.0.0"
+      },
       "ui": {
         "enabled": true,
         "port": 5002,

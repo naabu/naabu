@@ -137,9 +137,6 @@ class Router {
 
 			const url = new URL(href);
 
-			// Don't handle hash changes
-			if (url.pathname === location.pathname && url.search === location.search) return;
-
 			if (!this.owns(url)) return;
 
 			const noscroll = a.hasAttribute('sveltekit:noscroll');

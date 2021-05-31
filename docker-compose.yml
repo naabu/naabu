@@ -9,7 +9,6 @@ services:
       - ./:/var/www/
     environment:
       - ENVIRONMENT=development
-      - FIREBASE_TOKEN=1//09uD1x9-ulEYFCgYIARAAGAkSNwF-L9Ir5pJvOEBFJq9J_sDDNoHWSJXlLU4VNcWO-kmWLUKAmGNjkCe9OuSYc6bJ05_nq_BIjOk
     ports:
       - 3000:3000
       - 3001:3001
@@ -22,16 +21,16 @@ services:
     networks:
       - internal_network
 
-  nginx:
-    build:
-      context: .
-      dockerfile: dockerfiles/nginx/Dockerfile
-    volumes:
-      - ./:/var/www/
-    ports:
-      - 8004:80
-    networks:
-      - internal_network
+  # nginx:
+  #   build:
+  #     context: .
+  #     dockerfile: dockerfiles/nginx/Dockerfile
+  #   volumes:
+  #     - ./:/var/www/
+  #   ports:
+  #     - 8004:80
+  #   networks:
+  #     - internal_network
   
 networks:
   internal_network:

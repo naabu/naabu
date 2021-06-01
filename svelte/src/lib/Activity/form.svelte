@@ -1,6 +1,5 @@
 <script>
-  import { getStores } from "$app/stores"
-  const { session, page } = getStores();
+  import { getStores, session, page } from "$app/stores"
   import {onMount} from 'svelte';
   import { getAlgoliaSearchClient, getGoalIndex } from "$lib/algolia";
   import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js'
@@ -8,6 +7,7 @@
   import { renderKatexOutput } from "./helper.js";
 
   export let activity;
+  $:console.log(activity);
   let quizTimeInVideo = null;
   let quizType = "multiple_choice";
   let quizQuestion = null;
@@ -23,6 +23,20 @@
     activity.description = renderKatexOutput(activity.descriptionRaw);
   }
 
+  function deleteQuiz(i) {
+    activity.quizzes.splice(i, 1);
+    activity = activity;
+  }
+
+  function deleteQuizAnswer(quizI, answerI) {
+    activity.quizzes[quizI].answers.splice(answerI, 1);
+    activity = activity;
+  }
+
+  function deleteAnswer(i) {
+    quizAnswers.splice(i, 1);
+    quizAnswers = quizAnswers;
+  }
 
   function addQuiz(){
     if (quizQuestion != null && quizQuestion.length > 0)
@@ -36,7 +50,8 @@
       if (testQuestion !== null && testQuestion > 0) {
         quiz.testQuestion = testQuestion;
       }
-      quizes = [... quizes, quiz];
+      console.log(activity);
+      activity.quizzes = [... activity.quizzes, quiz];
     
       quizTimeInVideo = null;
       quizType = "multiple_choice";
@@ -47,7 +62,23 @@
     }
   }
 
-  
+  function addAnswerInExistingQuiz(quiz){
+    if (!quiz.quizNewAnswerCorrect) {
+      quiz.quizNewAnswerCorrect = false;
+    }
+    if (quiz.quizNewAnswer != null && quiz.quizNewAnswer.length > 0)
+    {
+      let answer = {
+        answer: quiz.quizNewAnswer,
+        correct: quiz.quizNewAnswerCorrect,
+      }
+      quiz.answers = [... quiz.answers, answer];
+    }
+    quiz.quizNewAnswerCorrect = false;
+    quiz.quizNewAnswer = null;
+    activity = activity;
+  }
+
   function addAnswer(){
     if (quizNewAnswer != null && quizNewAnswer.length > 0)
     {
@@ -268,8 +299,17 @@
       </p>
     </div>
 
-    {#each activity.quizes as quiz, i}
-      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-startsm:pt-5 sm:border-t sm:border-gray-200">
+    {#each activity.quizzes as quiz, i}
+      <div class = "sm:grid sm:grid-cols-3 sm:gap-4 sm:items-startsm:pt-5 sm:border-t sm:border-gray-200">
+        <label for="quiz_video_time_{i}" class="block text-sm font-medium text-gray-700">
+          Quiz {i+1} actions:
+        </label>
+        <button type="button" on:click|preventDefault={() => deleteQuiz(i)} class="mt-3  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+          Deze quiz verwijderen
+        </button>
+      </div>
+      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-startsm:pt-5 ">
+  
         <label for="quiz_video_time_{i}" class="block text-sm font-medium text-gray-700">
           Tijd in video
         </label>
@@ -321,31 +361,34 @@
         <div class="mt-3 sm:col-span-2">
         {#each quiz.answers as answer, i2}
           <div class="mt-3 sm:col-span-2">
-            <textarea
-            rows="3"
-            bind:value={answer.answer}
-            class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
-          />
-          <div class="mt-3">
-            <input bind:checked={answer.correct} type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
-            <label class="font-medium text-gray-700">Goed antwoord</label>
-          </div>  
+              <textarea
+              rows="3"
+              bind:value={answer.answer}
+              class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+            />
+            <div class="mt-3">
+              <input bind:checked={answer.correct} type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
+              <label class="font-medium text-gray-700">Goed antwoord</label>
+            </div> 
+            <button type="button" on:click|preventDefault={() => deleteQuizAnswer(i, i2)} class="mt-3  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+              Antwoord verwijderen
+            </button>
           </div>
         {/each}
           <div class="mt-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start">
             <div class="mt-1 sm:mt-0 sm:col-span-2">
               <textarea
               rows="3"
-              bind:value={quizNewAnswer}
+              bind:value={quiz.quizNewAnswer}
               class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
             />
 
             <div class="mt-3">
-              <input id="quiz_answer_correct" name="quiz_answer_correct" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" bind:checked={quizNewAnswerCorrect}>
+              <input id="quiz_answer_correct" name="quiz_answer_correct" type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded" bind:checked={quiz.quizNewAnswerCorrect}>
               <label for="quiz_answer_correct" class="font-medium text-gray-700">Goed antwoord</label>
             </div>  
           </div>
-            <button type="button" on:click|preventDefault={addAnswer} class="mt-3  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            <button type="button" on:click|preventDefault={() => addAnswerInExistingQuiz(quiz)} class="mt-3  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
               Antwoord toevoegen
             </button>
           </div>
@@ -353,6 +396,8 @@
       </div>
     {/each}
 
+
+    <b>This form is for new quizzes!</b>
 
     <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5 sm:border-t sm:border-gray-200">
       <label for="quiz_video_time" class="block text-sm font-medium text-gray-700">
@@ -404,7 +449,7 @@
         Antwoorden
       </label>
       <div class="mt-3 sm:col-span-2">
-      {#each quizAnswers as answer}
+      {#each quizAnswers as answer, i}
         <div class="mt-3 sm:col-span-2">
           <textarea
           rows="3"
@@ -414,6 +459,9 @@
         <div class="mt-3">
           <input bind:checked={answer.correct} type="checkbox" class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded">
           <label class="font-medium text-gray-700">Goed antwoord</label>
+          <button type="button" on:click|preventDefault={() => deleteAnswer(i)} class="mt-3  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+            Antwoord verwijderen
+          </button>
         </div>  
         </div>
       {/each}

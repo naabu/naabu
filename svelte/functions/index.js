@@ -6,7 +6,8 @@ let ssrServer;
 exports.ssr = functions.https.onRequest(async (request, response) => {
   functions.logger.info(process.env);
   process.env.ENVIRONMENT = ENVIRONMENT;
-  functions.logger.info(process.env);
+  process.env.firestore = functions.firestore;
+  functions.logger.info(functions.firestore);
   if (!ssrServer) {
     functions.logger.info("Initializing SvelteKit SSR Handler");
     ssrServer = require("./ssr/index").default;

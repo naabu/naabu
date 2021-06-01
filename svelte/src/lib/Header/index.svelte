@@ -4,8 +4,7 @@
   import personIcon from './person-icon.svg';
 	import Transition from 'svelte-class-transition';
   import {getFirebaseAuth} from '$lib/firebase';
-  import { getStores } from "$app/stores"
-  const { session } = getStores();
+  import { getStores, session } from "$app/stores";
 	import {signInWithPopup, GoogleAuthProvider, signOut, setPersistence, browserLocalPersistence} from "firebase/auth";
 
 	let openMenu = false;

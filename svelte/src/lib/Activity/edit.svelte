@@ -1,8 +1,7 @@
 <script>
   import { getFirebaseFirestore } from "$lib/firebase";
   import { getDoc, updateDoc  } from "firebase/firestore";
-  import { getStores } from "$app/stores"
-  const { session, page } = getStores();
+  import { getStores, session, page } from "$app/stores"
 	import { onMount } from 'svelte';
   import ActivityForm from './form.svelte';
   import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
@@ -44,6 +43,9 @@
     snap = await getDoc(ref);
 		if (snap.exists()) {
 			activity = snap.data();
+      if (!activity.quizzes && activity.quizes) {
+        activity.quizzes = activity.quizes;
+      }
 		}
   });
 
@@ -66,7 +68,7 @@
       goals: addLeerdoelen,
       descriptionRaw: activity.descriptionRaw,
       description: activity.description,
-      quizes: activity.quizes,
+      quizzes: activity.quizzes,
       visibility: 'public',
       video: {
         vimeoId: activity.video.vimeoId

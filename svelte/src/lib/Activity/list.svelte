@@ -1,8 +1,7 @@
 <script>
   import { onMount } from 'svelte';
   import { getAlgoliaSearchClient, getGoalIndex, getActivityIndex } from "$lib/algolia";
-  import { getStores } from "$app/stores"
-  const { session, page } = getStores();
+  import { getStores, session } from "$app/stores"
   import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
   import ManagementTabs from "$lib/Tabs/management.svelte";
 
@@ -25,7 +24,12 @@
   ];
 
   function truncate(str, n){
-    return (str.length > n) ? str.substr(0, n-1) + '&hellip;' : str;
+    if (str) {
+      return (str.length > n) ? str.substr(0, n-1) + '&hellip;' : str;
+    }
+    else {
+      return str;
+    }
   };
 
   onMount(async() => {
@@ -38,7 +42,7 @@
     const result = await index.search(query);
     hits = result.hits;
     for(let i = 0; i < hits.length; i++) {
-      hits[i].description = truncate(hits[i].description, truncateDescription);
+      hits[i].descriptionRaw = truncate(hits[i].descriptionRaw, truncateDescription);
     }
   
   }
@@ -96,7 +100,7 @@
                       </div>
                   </td>
                   <td class="px-6 py-4">
-                    <div class="description text-sm text-gray-900"> {#if hit.description}{@html hit.description}{:else}Geen beschrijving{/if}</div>
+                    <div class="description text-sm text-gray-900"> {#if hit.descriptionRaw}{@html hit.descriptionRaw}{:else}Geen beschrijving{/if}</div>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap">
                     <div class="text-sm text-gray-900"> {#if hit.quizes}{hit.quizes.length}{:else}Geen quizjes gevonden{/if}</div>

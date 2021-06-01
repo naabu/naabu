@@ -1,8 +1,7 @@
 <script>
   import { getFirebaseFirestore } from "$lib/firebase";
   import { collection, addDoc } from "firebase/firestore";
-  import { getStores } from "$app/stores"
-  const { session, page } = getStores();
+  import { getStores, session } from "$app/stores"
   import GoalForm from './form.svelte';
   import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
 	import { onMount } from 'svelte';

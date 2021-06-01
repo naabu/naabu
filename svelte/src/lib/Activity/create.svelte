@@ -30,7 +30,7 @@
     video: {
       vimeoId: null,
     },
-    quizes: [],
+    quizzes: [],
     goals: [],
   }
 
@@ -70,7 +70,7 @@
       goals: addLeerdoelen,
       descriptionRaw: activity.descriptionRaw,
       description: activity.description,
-      quizes: activity.quizes,
+      quizzes: activity.quizzes,
       video: {
         vimeoId: activity.video.vimeoId
       },

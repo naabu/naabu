@@ -10,7 +10,7 @@
 </svelte:head>
 
 <section>
-	<a href="beheer"> Platform beheren</a>
+	<a href="beheer">Platform beheren</a>
   <br>
 </section>
 

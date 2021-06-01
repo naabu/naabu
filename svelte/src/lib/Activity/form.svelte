@@ -1,9 +1,12 @@
 <script>
-  import { session } from "$app/stores";
+  import { getStores } from "$app/stores"
+  const { session, page } = getStores();
   import {onMount} from 'svelte';
   import { getAlgoliaSearchClient, getGoalIndex } from "$lib/algolia";
   import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js'
   import '@algolia/autocomplete-theme-classic';
+  import { renderKatexOutput } from "./helper.js";
+
   export let activity;
   let quizTimeInVideo = null;
   let quizType = "multiple_choice";
@@ -15,6 +18,11 @@
 
   let filters = "";
   let goalIndex = getGoalIndex($session.environment);
+
+  function updatePreview() {
+    activity.description = renderKatexOutput(activity.descriptionRaw);
+  }
+
 
   function addQuiz(){
     if (quizQuestion != null && quizQuestion.length > 0)
@@ -119,6 +127,14 @@
   }
 </script>
 
+<style>
+  .preview-button {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+</style>
+
 <div class="space-y-8 divide-y divide-gray-200 sm:space-y-5">
   <div>
     <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
@@ -153,12 +169,19 @@
           id="description"
           name="description"
           rows="3"
-          bind:value={activity.description}
+          bind:value={activity.descriptionRaw}
           class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
         />
         <p class="mt-2 text-sm text-gray-500">
           Beschrijf kort de activiteit of de vraag
         </p>
+        
+        <button class="preview-button mt-3  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" on:click|preventDefault={updatePreview}>Update preview</button>
+
+        {#if activity.description}
+          {@html activity.description}
+        {/if}
+
       </div>
     </div>
     </div>

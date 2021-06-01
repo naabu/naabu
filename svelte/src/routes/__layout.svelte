@@ -3,18 +3,14 @@
 	import { getFirebaseApp } from '$lib/firebase';
 	import { getFirebaseAuth } from '$lib/firebase';
 	import { onAuthStateChanged} from "firebase/auth";
-	import { session } from '$app/stores';
+  import { getStores, session } from "$app/stores"
 	import { onMount } from 'svelte';
 	import Header from '$lib/Header/index.svelte';
 	import '../app.postcss';
 
-  $:if ($session.user) {
-    console.log('here');
-    console.log($session.user.idToken);
-  }
-
 	let user = null;
 	onMount(async () => {
+    // console.log(getCookie('jkt'));
 		const firebaseApp = await getFirebaseApp();
 		const auth = await getFirebaseAuth($session.environment);
 		await onAuthStateChanged(auth, async (newUser) => {
@@ -23,19 +19,14 @@
 				// https://firebase.google.com/docs/reference/js/firebase.User
 				const uid = newUser.uid;
 				user = newUser;
-        user.idToken = await user.getIdToken();
         user.idTokenResult = await user.getIdTokenResult();
+        // Set token in a cookie so it will be send to the server next time on full refresh?
 			} else {
 				user = null;
 			}
 			$session.user = user;
 		});
 	});
-
-
-
-
-
 </script>
 
 <Header />

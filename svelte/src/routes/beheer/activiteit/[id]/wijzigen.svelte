@@ -3,7 +3,8 @@
 	import {doc} from "firebase/firestore";
 	import Edit from '$lib/Activity/edit.svelte';
 	import { onMount } from 'svelte';
-	import { session, page } from "$app/stores";
+  import { getStores } from "$app/stores"
+  const { session, page  } = getStores();
 
 	let ref;
 

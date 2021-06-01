@@ -1,6 +1,7 @@
 <script>
   import Transition from 'svelte-class-transition';
-  import { session } from '$app/stores';
+  import { getStores } from "$app/stores"
+  const { session, page } = getStores();
 
   export let breadcrumbs = [];
   let toggleNotification= false;

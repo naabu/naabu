@@ -1,6 +1,6 @@
 import { getApp, initializeApp } from "firebase/app"
 import { getFirestore, useFirestoreEmulator } from "firebase/firestore"
-import { getAuth, useAuthEmulator  } from "firebase/auth";
+import { getAuth, useAuthEmulator, signInWithCustomToken} from "firebase/auth";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDTQTwe21wwYm2TsMBwH8m1lSHWMEK4KmQ",

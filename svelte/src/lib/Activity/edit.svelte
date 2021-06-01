@@ -1,11 +1,13 @@
 <script>
   import { getFirebaseFirestore } from "$lib/firebase";
   import { getDoc, updateDoc  } from "firebase/firestore";
-  import { session, page } from "$app/stores";
+  import { getStores } from "$app/stores"
+  const { session, page } = getStores();
 	import { onMount } from 'svelte';
   import ActivityForm from './form.svelte';
   import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
+  import { renderKatexOutput } from "./helper.js";
 
   export let ref;
   let snap;
@@ -57,10 +59,12 @@
       toAdd.title = activity.goals[i].title;
       addLeerdoelen = [... addLeerdoelen, toAdd]
     }
-    
+    activity.description = renderKatexOutput(activity.descriptionRaw);
+
     const data = {
       title: activity.title,
       goals: addLeerdoelen,
+      descriptionRaw: activity.descriptionRaw,
       description: activity.description,
       quizes: activity.quizes,
       visibility: 'public',
@@ -89,6 +93,10 @@
 
 </script>
 
+<svelte:head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
+</svelte:head>
+
 {#if activity}
 <div>
   <ShowBreadcrumb bind:breadcrumbs />
@@ -109,12 +117,12 @@
   <form class="space-y-8 divide-y divide-gray-200" on:submit|preventDefault={formSubmit}>
     <ActivityForm bind:activity/>
 
-    <div class="mt-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+    <div class="">
       <div class="pt-5">
         <div class="flex justify-end">
           <button
             type="submit"
-            class="ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            class="float-right ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Activiteit wijzigen
           </button>

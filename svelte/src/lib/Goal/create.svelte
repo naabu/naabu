@@ -1,7 +1,8 @@
 <script>
   import { getFirebaseFirestore } from "$lib/firebase";
   import { collection, addDoc } from "firebase/firestore";
-  import { session } from "$app/stores";
+  import { getStores } from "$app/stores"
+  const { session, page } = getStores();
   import GoalForm from './form.svelte';
   import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
 	import { onMount } from 'svelte';
@@ -104,7 +105,7 @@
         <button
           disabled={buttonDisabled}
           type="submit"
-          class="disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          class="float-right disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
           Leerdoel aanmaken
         </button>

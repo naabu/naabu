@@ -4,7 +4,8 @@
 	import {doc, getDoc} from "firebase/firestore";
 	import Show from '$lib/Activity/show.svelte';
 	import { onMount } from 'svelte';
-	import { session, page } from "$app/stores";
+  import { getStores } from "$app/stores"
+  const { session, page  } = getStores();
 
 	let activity;
   let mounted = false;

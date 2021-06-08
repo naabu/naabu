@@ -31,10 +31,18 @@ export async function getFirebaseAuth(environment = "production") {
 }
 
 export async function getFirebaseFirestore(environment = "production") {
-  const firebaseApp = await getFirebaseApp();
-  const firestore =  await getFirestore(firebaseApp);
-  if (environment === 'development' && firestore._settings.host !== "localhost:5012"){
-    await useFirestoreEmulator(firestore, "localhost", 5012);
+  if (typeof window !== "undefined") {
+    // console.log('RUNs in the CLIENT');
+    const firebaseApp = await getFirebaseApp();
+    const firestore =  await getFirestore(firebaseApp);
+    if (environment === 'development' && firestore._settings.host !== "localhost:5012"){
+      await useFirestoreEmulator(firestore, "localhost", 5012);
+      // console.log('Firestore emulator set');
+    }
+    return firestore;
   }
-  return firestore;
+  // console.log('RUNs in the SERVER');
+  // const fb = await import("firebase-compat");
+  // console.log(fb);
+  
 }

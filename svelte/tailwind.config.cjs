@@ -18,7 +18,14 @@ module.exports = {
 	},
 	theme: {
 		extend: {
+      minHeight: {
+        '56': '14rem',
+        '72': '18rem',
+      },
 			colors: {
+      black: {
+        500: "#262626",
+      },
 			blue: {
 				50: "#e3f0fc",
 				100: "#cce4fa",

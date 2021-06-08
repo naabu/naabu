@@ -10,15 +10,11 @@
   let mounted = false;
   let breadcrumbs = [ 
     {
-      url: '/beheer',
-      value: 'Beheer'
+      url: '/',
+      value: 'Reis'
     },
     {
-      url: '/beheer/activiteit',
-      value: 'Activiteit'
-    },
-    {
-      url: "/beheer/activiteit/" + $page.params.id,
+      url: "/" + $page.params.id,
       value: 'Activiteit bekijken'
     },
   ];
@@ -38,6 +34,6 @@
 	}
 </script>
 
-{#if mounted}
+{#if mounted && activity}
   <Show bind:activity bind:breadcrumbs/> 
 {/if}

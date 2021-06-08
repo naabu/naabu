@@ -8,6 +8,7 @@
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
   import { renderKatexOutput } from "./helper.js";
 
+  let y;
   export let ref;
   let snap;
   let activity;
@@ -45,6 +46,16 @@
 			activity = snap.data();
       if (!activity.quizzes && activity.quizes) {
         activity.quizzes = activity.quizes;
+        
+      }
+      if (!activity.difficulty) {
+        activity.difficulty = 1;
+      }
+      if (!activity.type) {
+        activity.type = "";
+      }
+      if (!activity.svg) {
+        activity.svg = "";
       }
 		}
   });
@@ -68,6 +79,9 @@
       goals: addLeerdoelen,
       descriptionRaw: activity.descriptionRaw,
       description: activity.description,
+      type: activity.type,
+      difficulty: activity.difficulty,
+      svg: activity.svg,
       quizzes: activity.quizzes,
       visibility: 'public',
       video: {
@@ -76,7 +90,7 @@
     };
     alert = getDefaultAlertValues();
     try {
-      let result = await updateDoc(ref, data);
+      await updateDoc(ref, data);
       alert.success = true;
       alert.successTitle = "Activiteit gewijzigd";
       // TODO: check out why there is no result?
@@ -87,6 +101,7 @@
       alert.errorCode = e.code;
       alert.errorMessage = e.message;
     }
+    y = 0;
   }
 
   async function formSubmit(event) {
@@ -98,6 +113,8 @@
 <svelte:head>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
 </svelte:head>
+
+<svelte:window bind:scrollY={y}/>
 
 {#if activity}
 <div>

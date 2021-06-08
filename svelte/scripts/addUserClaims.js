@@ -4,4 +4,4 @@ import firebase from "firebase-admin";
 firebase.initializeApp()
 
 let auth = firebase.auth();
-auth.setCustomUserClaims('PG3y9x3wB5VwwGks7aYU5IrABHj1', {"canModerate":true});
+auth.setCustomUserClaims('QUUeeSzTnVcIKkNH8VUdgQioNkJ3', {"canModerate":true, "canDebugDevelopment": true});

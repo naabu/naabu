@@ -8,6 +8,8 @@
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
   import { renderKatexOutput } from "./helper.js";
 
+  let y;
+
   let breadcrumbs = [ 
     {
       url: '/beheer',
@@ -27,6 +29,9 @@
     title: "",
     descriptionRaw: "",
     description: "",
+    type: "",
+    difficulty: 1,
+    svg: "",
     video: {
       vimeoId: null,
     },
@@ -70,6 +75,9 @@
       goals: addLeerdoelen,
       descriptionRaw: activity.descriptionRaw,
       description: activity.description,
+      type: activity.type,
+      difficulty: activity.difficulty,
+      svg: activity.svg,
       quizzes: activity.quizzes,
       video: {
         vimeoId: activity.video.vimeoId
@@ -88,6 +96,7 @@
       alert.errorCode = e.code;
       alert.errorMessage = e.message;
     }
+    y = 0;
   }
 
   async function formSubmit(event) {
@@ -99,6 +108,8 @@
   }
 
 </script>
+
+<svelte:window bind:scrollY={y}/>
 
 <svelte:head>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">

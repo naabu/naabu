@@ -20,10 +20,19 @@ service cloud.firestore {
         (request.auth.token.canModerate)
       allow write, update: if (request.auth.token.canModerate)
     }
+
     match /activities/{acitivtyId} {
       allow read: if (resource.data.visibility == "public") ||
         (request.auth.token.canModerate)
       allow write, update: if (request.auth.token.canModerate)
+    }
+
+    match /path/{userId} {
+      allow read: if (request.auth.uid == userId)
+    }
+
+    match /triggers/{triggerId} {
+      allow read, write, update: if (request.auth.token.canDebugDevelopment)
     }
   }
 }

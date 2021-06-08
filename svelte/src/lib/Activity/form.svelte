@@ -7,7 +7,6 @@
   import { renderKatexOutput } from "./helper.js";
 
   export let activity;
-  $:console.log(activity);
   let quizTimeInVideo = null;
   let quizType = "multiple_choice";
   let quizQuestion = null;
@@ -50,7 +49,6 @@
       if (testQuestion !== null && testQuestion > 0) {
         quiz.testQuestion = testQuestion;
       }
-      console.log(activity);
       activity.quizzes = [... activity.quizzes, quiz];
     
       quizTimeInVideo = null;
@@ -169,9 +167,7 @@
 <div class="space-y-8 divide-y divide-gray-200 sm:space-y-5">
   <div>
     <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
-      <div
-        class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
-      >
+      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
         <label
           for="title"
           class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
@@ -189,32 +185,81 @@
         </div>
       </div>
       <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
-      <label
-        for="description"
-        class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-      >
-        Beschrijving
-      </label>
-      <div class="mt-1 sm:mt-0 sm:col-span-2">
-        <textarea
-          id="description"
-          name="description"
-          rows="3"
-          bind:value={activity.descriptionRaw}
-          class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
-        />
-        <p class="mt-2 text-sm text-gray-500">
-          Beschrijf kort de activiteit of de vraag
-        </p>
-        
-        <button class="preview-button mt-3  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" on:click|preventDefault={updatePreview}>Update preview</button>
-
-        {#if activity.description}
-          {@html activity.description}
-        {/if}
-
+        <label
+          for="description"
+          class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+        >
+          Beschrijving
+        </label>
+        <div class="mt-1 sm:mt-0 sm:col-span-2">
+          <textarea
+            id="description"
+            name="description"
+            rows="3"
+            bind:value={activity.descriptionRaw}
+            class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+          />
+          <p class="mt-2 text-sm text-gray-500">
+            Beschrijf kort de activiteit of de vraag
+          </p>  
+          <button class="preview-button mt-3  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" on:click|preventDefault={updatePreview}>Update preview</button>
+          {#if activity.description}
+            {@html activity.description}
+          {/if}
+        </div>
       </div>
-    </div>
+      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+        <label
+          for="type"
+          class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+        >
+          Type
+        </label>
+        <div class="mt-1 sm:mt-0 sm:col-span-2">
+          <textarea
+            id="type"
+            name="type"
+            rows="1"
+            bind:value={activity.type}
+            class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+          />
+        </div>
+      </div>
+      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+        <label
+          for="difficulty"
+          class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+        >
+          Difficulty
+        </label>
+        <div class="mt-1 sm:mt-0 sm:col-span-2">
+          <input
+            id="difficulty"
+            name="difficulty"
+            type="number"
+            min="1" max="5"
+            bind:value={activity.difficulty}
+            class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+          />
+        </div>
+      </div>
+      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+        <label
+          for="svg"
+          class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+        >
+          SVG
+        </label>
+        <div class="mt-1 sm:mt-0 sm:col-span-2">
+          <textarea
+            id="svg"
+            name="svg"
+            rows="5"
+            bind:value={activity.svg}
+            class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+          />
+        </div>
+      </div>
     </div>
   </div>
 
@@ -315,7 +360,7 @@
         </label>
         <div class="mt-1 sm:mt-0 sm:col-span-2">
           <div class="mt-1 flex rounded-md shadow-sm">
-            <input type="number" name="quiz_video_time_{i}" id="quiz_video_time_{i}" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300" bind:value={quiz.timeInVideo}>
+            <input type="number" step="0.1" name="quiz_video_time_{i}" id="quiz_video_time_{i}" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300" bind:value={quiz.timeInVideo}>
           </div>
         </div>
       </div>
@@ -405,7 +450,7 @@
       </label>
       <div class="mt-1 sm:mt-0 sm:col-span-2">
         <div class="mt-1 flex rounded-md shadow-sm">
-          <input type="number" name="quiz_video_time" id="quiz_video_time" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300" bind:value={quizTimeInVideo}>
+          <input type="number" step="0.1" name="quiz_video_time" id="quiz_video_time" class="focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300" bind:value={quizTimeInVideo}>
         </div>
       </div>
     </div>

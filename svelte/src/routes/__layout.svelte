@@ -10,14 +10,12 @@
 
 	let user = null;
 	onMount(async () => {
-    // console.log(getCookie('jkt'));
 		const firebaseApp = await getFirebaseApp();
 		const auth = await getFirebaseAuth($session.environment);
 		await onAuthStateChanged(auth, async (newUser) => {
 			if (newUser) {
 				// User is signed in, see docs for a list of available properties
 				// https://firebase.google.com/docs/reference/js/firebase.User
-				const uid = newUser.uid;
 				user = newUser;
         user.idTokenResult = await user.getIdTokenResult();
         // Set token in a cookie so it will be send to the server next time on full refresh?

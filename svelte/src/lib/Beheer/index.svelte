@@ -33,13 +33,25 @@
     }
   }
 
-  async function exportData() {
+  async function exportActivityData() {
     let docRef = doc(db, 'triggers', 'data-export');
     let snap = await getDoc(docRef);
     if (snap.exists()) {
       let data = snap.data();
       if (data.output) {
-        navigator.clipboard.writeText(data.output);
+        navigator.clipboard.writeText(data.output1);
+        displayNotification = true;
+      }
+    }
+  }
+
+  async function exportGoalData() {
+    let docRef = doc(db, 'triggers', 'data-export');
+    let snap = await getDoc(docRef);
+    if (snap.exists()) {
+      let data = snap.data();
+      if (data.output) {
+        navigator.clipboard.writeText(data.output2);
         displayNotification = true;
       }
     }
@@ -61,7 +73,8 @@
 
  {#if $session.user && $session.user.idTokenResult.claims.canDebugDevelopment}
   <button on:click={trigger} class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Trigger Functions</button>
-  <button on:click={exportData} class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Get export in JSON</button>
+  <button on:click={exportActivityData} class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Get activities export in JSON</button>
+  <button on:click={exportGoalData} class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Get goals export in JSON</button>
 {/if}
 
 TODO: Maybe some dashboards here. Related to activity?

@@ -32,6 +32,7 @@
   let goal = {
     title: "",
     description: "",
+    goalLinks: [],
     taxonomy_bloom: [],
     taxonomy_solo: [],
   }
@@ -48,13 +49,26 @@
   }
 
   async function createGoal() {
+    let addLeerdoelen = [];
+
+    for (let i = 0; i < goal.goalLinks.length; i++) {
+      let toAdd = {};
+      toAdd.objectID =  goal.goalLinks[i].objectID;
+      toAdd.taxonomy_solo =  goal.goalLinks[i].taxonomy_solo;
+      toAdd.taxonomy_bloom =  goal.goalLinks[i].taxonomy_bloom;
+      toAdd.title = goal.goalLinks[i].title;
+      addLeerdoelen = [... addLeerdoelen, toAdd]
+    }
+
     const data = {
       title: goal.title,
       description: goal.description,
+      goalLinks: addLeerdoelen,
       taxonomy_solo: goal.taxonomy_solo,
       taxonomy_bloom: goal.taxonomy_bloom,
       visibility: 'public',
     };
+    console.log(data);
     alert = getDefaultAlertValues();
     try {
       let result = await addDoc(collection(db, "goals"), data);

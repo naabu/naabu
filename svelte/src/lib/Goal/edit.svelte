@@ -42,13 +42,29 @@
     goalSnap = await getDoc(goalRef);
     if (goalSnap.exists()) {
 			goal = goalSnap.data();
+      goal.id = goalRef.id;
+      if (!goal.goalLinks) {
+        goal.goalLinks = []
+      }
 		}
   });
 
   async function editGoal() {
     const db = await getFirebaseFirestore($session.environment);
+    let addLeerdoelen = [];
+
+    for (let i = 0; i < goal.goalLinks.length; i++) {
+      let toAdd = {};
+      toAdd.objectID =  goal.goalLinks[i].objectID;
+      toAdd.taxonomy_solo =  goal.goalLinks[i].taxonomy_solo;
+      toAdd.taxonomy_bloom =  goal.goalLinks[i].taxonomy_bloom;
+      toAdd.title = goal.goalLinks[i].title;
+      addLeerdoelen = [... addLeerdoelen, toAdd]
+    }
+
     const data = {
       title: goal.title,
+      goalLinks: addLeerdoelen,
       description: goal.description,
       taxonomy_solo: goal.taxonomy_solo,
       taxonomy_bloom: goal.taxonomy_bloom,

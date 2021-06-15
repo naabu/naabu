@@ -19,3 +19,8 @@ Convert tailwind to this component
 - Leaving = outTransition
 - Leaving from = Not there and not needed
 - To = outState
+
+
+## Some handy things to know about non-obvious things
+- If deploying on firebase functions. Do not supply default config. 
+It is loaded automatically. Even the admin keys!

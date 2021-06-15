@@ -71,7 +71,7 @@ exports.updateGoalIndex = functions.firestore.document('goals/{goalId}')
 });
 
 exports.manuallyTrigger = functions.firestore.document('/triggers/{triggerId}')
-    .onWrite((change, context) => {
+    .onWrite(async (change, context) => {
       if (!change.after.exists) {
         return null;
       }
@@ -93,7 +93,7 @@ exports.manuallyTrigger = functions.firestore.document('/triggers/{triggerId}')
           let db = fb.firestore();
           let activitiesRef = db.collection("activities");
           let data = {};
-          return activitiesRef.get()
+          await activitiesRef.get()
             .then((querySnapshot) => {
               let activitiesExportData = [];
               querySnapshot.forEach((docSnap) => {
@@ -121,14 +121,67 @@ exports.manuallyTrigger = functions.firestore.document('/triggers/{triggerId}')
                     }
                   }
                 }
+                if (activityData.goals) {
+                  for (let i = 0; i < activityData.goals.length; i++) {
+                    let key = 'goal_' + i + "_";
+                    activityExportData[key + 'id'] = activityData.goals[i].objectID;
+                    activityExportData[key + 'title'] = activityData.goals[i].title
+                  }
+                }
                 activitiesExportData.push(activityExportData);
               });
-              data.activity = activitiesExportData;
+              data = activitiesExportData;
               let triggersRef = db.collection("triggers");
-              triggerData.output = JSON.stringify(data);
+              triggerData.output1 = JSON.stringify(data);
               let timestampAfterExport = Date.now();
               let differenceExportTimestamp = timestampAfterExport - timestampBeforeExport;
-              if (differenceExportTimestamp > 50000) {
+              if (differenceExportTimestamp > 10000) {
+                functions.logger.error('Export of data is taking too long. Aborting mission!');
+                return null;
+              }
+              // Will it trigger another onWrite?
+            }).catch(err => {
+              functions.logger.error(err.message);
+            });
+
+            // Get the goal exports.
+            let goalsRef = db.collection("goals");
+            data = {};
+            return goalsRef.get().then((querySnapshot) => {
+              let goalsExportData = [];
+              querySnapshot.forEach((docSnap) => {
+                let goalData = docSnap.data();
+                let goalExportData = {
+                  id: docSnap.id,
+                  title: goalData.title,
+                  descriptionRaw : goalData.descriptionRaw, 
+                }
+                if (goalData.goalLinks) {
+                  for (let i = 0; i < goalData.goalLinks.length; i++) {
+                    let key = 'goal_links_' + i + "_";
+                    goalExportData[key + 'id'] = goalData.goalLinks[i].objectID
+                    goalExportData[key + 'title'] = goalData.goalLinks[i].title
+                  }
+                }
+                if (goalData.taxonomy_bloom) {
+                  for (let i = 0; i < goalData.taxonomy_bloom.length; i++) {
+                    let key = 'taxonomy_bloom_' + i + "_";
+                    goalExportData[key] = goalData.taxonomy_bloom[i]
+                  }
+                }
+                if (goalData.taxonomy_solo) {
+                  for (let i = 0; i < goalData.taxonomy_solo.length; i++) {
+                    let key = 'taxonomy_solo_' + i + "_";
+                    goalExportData[key] = goalData.taxonomy_solo[i]
+                  }
+                }
+                goalsExportData.push(goalExportData);
+              });
+              let triggersRef = db.collection("triggers");
+              triggerData.output2 = JSON.stringify(goalsExportData);
+              let timestampAfterExport = Date.now();
+              let differenceExportTimestamp = timestampAfterExport - timestampBeforeExport;
+              if (differenceExportTimestamp > 10000) {
                 functions.logger.error('Export of data is taking too long. Aborting mission!');
                 return null;
               }

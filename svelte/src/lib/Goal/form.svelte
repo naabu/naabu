@@ -1,5 +1,11 @@
 
 <script>
+  import { getStores, session} from "$app/stores"
+  import {onMount} from 'svelte';
+  import { getAlgoliaSearchClient, getGoalIndex } from "$lib/algolia";
+  import { autocomplete, getAlgoliaResults } from '@algolia/autocomplete-js'
+  import '@algolia/autocomplete-theme-classic';
+
   export let goal;
   let bloomCheckValues =[
     ['bloom1-1', 'bloom1-2', 'bloom1-3', 'bloom1-4', 'bloom1-5', 'bloom1-6' ],
@@ -7,7 +13,80 @@
     ['bloom3-1', 'bloom3-2', 'bloom3-3', 'bloom3-4', 'bloom3-5', 'bloom3-6' ],
     ['bloom4-1', 'bloom4-2', 'bloom4-3', 'bloom4-4', 'bloom4-5', 'bloom4-6' ]
   ]
+  let filters = "";
+  let goalIndex = getGoalIndex($session.environment);
 
+  onMount(() => {
+    resetFilters();
+    runAutocomplete();
+  })
+
+  function runAutocomplete() {
+    const searchClient = getAlgoliaSearchClient();
+    autocomplete({
+      container: '#autocomplete-leerdoelen',
+      placeholder: 'Zoek voor leerdoelen',
+      onSubmit({state}) {
+        console.log(state);
+      },
+      getSources({ query }) {
+        return [
+          {
+            sourceId: goalIndex,
+            onSelect({ state, item }) {
+              addLeerdoel(item);
+            },
+            getItems() {
+              return getAlgoliaResults({
+                searchClient,
+                queries: [
+                  {
+                    indexName: goalIndex,
+                    query,
+                    params: {
+                      hitsPerPage: 5,
+                    },
+                    filters: filters,
+                  },
+                ],
+              })
+            },
+            templates: {
+              item({ item }) {
+                return item.title;
+              },
+              noResults() {
+                return 'Geen leerdoelen gevonden';
+              },
+            },
+            // ...
+          },
+        ];
+      },
+    });
+  }
+
+  function resetFilters() {
+    let objectIDsFilter = goal.goalLinks.map(leerdoel => "NOT objectID:" + leerdoel.objectID);
+    console.log(goal.id);
+    if (goal.id) {
+      let ownId = "NOT objectID: " + goal.id;
+      objectIDsFilter = [... objectIDsFilter, ownId];
+    }
+    console.log(objectIDsFilter);
+    filters = objectIDsFilter.join(' AND ');
+  }
+
+  function addLeerdoel(leerdoel) {
+    goal.goalLinks = [... goal.goalLinks, leerdoel];
+    resetFilters();
+  }
+
+  function removeLeerdoel(i) {
+    goal.goalLinks.splice(i, 1);
+    goal.goalLinks = goal.goalLinks;
+    resetFilters();
+  }
 </script>
 
 <div>
@@ -63,6 +142,51 @@
               <li>Kan classifieren van voorbeelden van linaire en exponentiele verbanden</li> 
             </ul>
           </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="divide-y divide-gray-200 pt-8 space-y-6 sm:pt-10 sm:space-y-5">
+    <h3 class="text-lg leading-6 font-medium text-gray-900">
+      Leerdoelen
+    </h3>
+    <p class="mt-1 max-w-2xl text-sm text-gray-500">
+      Met welke leerdoelen heeft deze leerdoel te maken?
+    </p>
+    <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
+      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+        <label
+          for="title"
+          class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+        >
+          Gekoppelde leerdoelen
+        </label>
+        <div class="mt-1 sm:mt-0 sm:col-span-2">
+          {#if goal.goalLinks.length === 0 }
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">
+              Nog geen koppeling met andere leerdoelen toegevoegd
+            </p>
+          {:else}
+            <ul>
+              {#each goal.goalLinks as leerdoel , i}
+                <li>{leerdoel.title} <button on:click|preventDefault={() => removeLeerdoel(i)}>Weghalen</button></li>
+              {/each}
+            </ul>
+          {/if}
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
+      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5">
+        <label
+          for="autocomplete-leerdoelen"
+          class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+        >
+          Leerdoel toevoegen
+        </label>
+        <div class="mt-1 sm:mt-0 sm:col-span-2">
+          <div id="autocomplete-leerdoelen" class="max-w-lg"></div>
         </div>
       </div>
     </div>

@@ -4,10 +4,12 @@
   import { renderKatexOutput } from "./helper.js";
   import Player from "@vimeo/player";
 	import { onMount } from 'svelte';
-  import Notification from "../Misc/notification.svelte";
-
+  import Notification from "$lib/Misc/notification.svelte";
+  import DifficultyFeedback from "$lib/Feedback/difficulty.svelte";
+  
   let displayNotification = false;
   let lastQuizShown = null;
+  let endVideoInSeconds = null;
   let activeQuiz = null;
   let lastActiveQuiz = null;
   let hideVideoIframe = false;
@@ -15,8 +17,11 @@
     title: "We ondersteunen niet fullscreen modus",
     description: "Omdat de video's interactief zijn werkt dit nog niet goed genoeg",
   }
+  
+  let activityHasEnded = false;
 
   export let activity;
+
   let element;
   let player;
   let iframe;
@@ -57,8 +62,8 @@
 
         setInterval(checkTime, 50);
         
-        player.on("play", function () {
-          console.log('ON play!');
+        player.on("play", function (data) {
+          endVideoInSeconds = data.duration - 7;
         });
           
         player.on("fullscreenchange", function () {
@@ -81,13 +86,16 @@
             }
           }
         });
-        // player.play();
       });
     }
   });
 
-  async function checkTime(){
+  async function checkTime() {
     let seconds = await player.getCurrentTime();
+
+    if (endVideoInSeconds !== null && seconds >= endVideoInSeconds) {
+      activityHasEnded = true;
+    }
 
     for (let i = 0; i < activity.quizzes.length; i++) {
       let quiz = activity.quizzes[i];
@@ -174,6 +182,7 @@
 
 <div>
   <ShowBreadcrumb bind:breadcrumbs/>
+  <DifficultyFeedback bind:toggle={activityHasEnded} bind:activity/>
   {#if activity}
     <h1 class="text-lg leading-6 font-medium text-gray-900">Activiteit -
       {#if activity.title}

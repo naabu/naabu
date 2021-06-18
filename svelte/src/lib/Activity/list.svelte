@@ -108,6 +108,7 @@
                   <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                       <a href="/beheer/activiteit/{hit.objectID}" class="text-indigo-600 hover:text-indigo-900">Bekijken</a>
                       <a href="/beheer/activiteit/{hit.objectID}/wijzigen" class="text-indigo-600 hover:text-indigo-900">Wijzigen</a>
+                      <a href="/beheer/activiteit/{hit.objectID}/dashboard" class="text-indigo-600 hover:text-indigo-900">Dashboard</a>
                   </td>
               </tr>
             {/each}

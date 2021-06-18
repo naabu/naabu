@@ -7,6 +7,9 @@
   import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
 
+ 
+  let y;
+
   let breadcrumbs = [ 
     {
       url: '/beheer',
@@ -46,6 +49,21 @@
       if (!goal.goalLinks) {
         goal.goalLinks = []
       }
+      if (!goal.unitopic) {
+        goal.unitopic = "";
+      }
+      if (!goal.multitopics) {
+        goal.multitopics = [];
+      }
+      if (!goal.context) {
+        goal.context = "";
+      }
+      if (!goal.selectedVerbs) {
+        goal.selectedVerbs = [];
+      }
+      if (!goal.fromText) {
+        goal.fromText = "";
+      }
 		}
   });
 
@@ -69,6 +87,11 @@
       taxonomy_solo: goal.taxonomy_solo,
       taxonomy_bloom: goal.taxonomy_bloom,
       visibility: 'public',
+      unitopic: goal.unitopic,
+      context: goal.context,
+      multitopics: goal.multitopics,
+      selectedVerbs: goal.selectedVerbs,
+      fromText: goal.fromText,
     };
     alert = getDefaultAlertValues();
     try {
@@ -82,6 +105,7 @@
       alert.errorCode = e.code;
       alert.errorMessage = e.message;
     }
+    y = 0;
   }
 
   async function formSubmit(event) {
@@ -89,6 +113,8 @@
   }
 
 </script>
+
+<svelte:window bind:scrollY={y}/>
 
 {#if goal}
 

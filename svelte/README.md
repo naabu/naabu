@@ -18,7 +18,7 @@ Convert tailwind to this component
 - Entering to = onState
 - Leaving = outTransition
 - Leaving from = Not there and not needed
-- To = outState
+- Leaving To = outState
 
 
 ## Some handy things to know about non-obvious things

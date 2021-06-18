@@ -34,5 +34,10 @@ service cloud.firestore {
     match /triggers/{triggerId} {
       allow read, write, update: if (request.auth.token.canDebugDevelopment)
     }
+
+    match /feedback/{feedbackId} {
+      allow create: if (!("canDebugDevelopment" in request.resource.data) || !("canModerate" in request.resource.data))
+      allow read: if (request.auth.token.canModerate)
+    }
   }
 }

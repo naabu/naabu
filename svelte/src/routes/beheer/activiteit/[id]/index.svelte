@@ -34,6 +34,7 @@
     let snap = await getDoc(ref);
     if (snap.exists()) {
       activity = snap.data();
+      activity.id = ref.id;
     }
 	}
 </script>

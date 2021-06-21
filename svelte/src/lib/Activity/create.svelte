@@ -1,6 +1,6 @@
 <script>
   import { getFirebaseFirestore } from "$lib/firebase";
-  import { collection, addDoc } from "firebase/firestore";
+  import { collection, addDoc, setDoc, doc } from "firebase/firestore";
   import { getStores, session } from "$app/stores"
   import ActivityForm from "./form.svelte";
   import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";

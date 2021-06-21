@@ -19,6 +19,21 @@
   }
   
   let activityHasEnded = false;
+  let videoHasEnded = false;
+
+  // Detect if there is a test question attached to the activity.
+  // If not activity has ended when video has ended.
+  // Ask the test question before showing the activity
+  // Store which version (id) of the question was asked
+  // If video has ended lets show a similar question again. 
+  // If possible a different question. If not the same question.
+  
+  // Refactor the quizzes storage?
+  // Sub collection / new collection?
+  // Activity Id => Goal Id => Quizz.
+
+  
+
 
   export let activity;
 
@@ -94,7 +109,7 @@
     let seconds = await player.getCurrentTime();
 
     if (endVideoInSeconds !== null && seconds >= endVideoInSeconds) {
-      activityHasEnded = true;
+      videoHasEnded = true;
     }
 
     for (let i = 0; i < activity.quizzes.length; i++) {

@@ -1,6 +1,6 @@
 <script>
   import { getFirebaseFirestore } from "$lib/firebase";
-  import { collection, addDoc } from "firebase/firestore";
+  import { collection, addDoc, doc, setDoc } from "firebase/firestore";
   import { getStores, session } from "$app/stores";
   import GoalForm from "./form.svelte";
   import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
@@ -41,6 +41,7 @@
     context: "",
     selectedVerbs: [],
     fromText: "",
+    battleName: "",
   };
   let alert = getDefaultAlertValues();
 
@@ -83,6 +84,12 @@
     alert = getDefaultAlertValues();
     try {
       let result = await addDoc(collection(db, "goals"), data);
+      console.log("/goals/" + result.id + "/battles/"+ goal.battleName);
+      if (goal.battleName.length > 0) {
+        let battleDocRef = doc(db, "/goals/" + result.id + "/battles/"+ goal.battleName);
+        let battleResult = await setDoc(battleDocRef, {'quizzes': "test"});
+      }
+
       alert.success = true;
       alert.successTitle = "Leerdoel gemaakt";
       alert.successMessage = "id: " + result.id;

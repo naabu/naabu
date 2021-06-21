@@ -9,6 +9,7 @@
   export let goal;
   let verbs;
   let selectedColumnId = [];
+  $: console.log(goal.battleName);
 
   let bloomCheckValues = [
     ["bloom1-1", "bloom1-2", "bloom1-3", "bloom1-4", "bloom1-5", "bloom1-6"],
@@ -694,6 +695,25 @@
         </div>
       </div>
     </div>
+    <div
+    class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
+  >
+    <label
+      for="battleName"
+      class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+    >
+      Battle name
+    </label>
+    <div class="mt-1 sm:mt-0 sm:col-span-2">
+      <textarea
+        id="battleName"
+        name="battleName"
+        rows="1"
+        bind:value={goal.battleName}
+        class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+      />
+    </div>
+  </div>
   </div>
 </div>
 <div class="divide-y divide-gray-200 pt-8 space-y-6 sm:pt-10 sm:space-y-5">

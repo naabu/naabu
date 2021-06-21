@@ -19,6 +19,11 @@ service cloud.firestore {
       allow read: if (resource.data.visibility == "public") ||
         (request.auth.token.canModerate)
       allow write, update: if (request.auth.token.canModerate)
+
+      match /battles/{battleId} {
+        allow read: if true
+        allow create, write, update: if (request.auth.token.canModerate)
+      }
     }
 
     match /activities/{acitivtyId} {

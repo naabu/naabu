@@ -41,7 +41,6 @@
       } catch (e) {
         console.log(e);
       }
-      console.log($page.path);
       await goto('/')
     }
     else {

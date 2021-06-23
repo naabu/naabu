@@ -6,7 +6,7 @@
   import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
 	import { onMount } from 'svelte';
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
-  import { renderKatexOutput } from "./helper.js";
+  import { renderKatexOutput } from "$lib/Misc/helper.js";
 
   let y;
 

@@ -41,7 +41,7 @@
     context: "",
     selectedVerbs: [],
     fromText: "",
-    battleName: "",
+    battles: [],
   };
   let alert = getDefaultAlertValues();
 
@@ -84,10 +84,16 @@
     alert = getDefaultAlertValues();
     try {
       let result = await addDoc(collection(db, "goals"), data);
-      console.log("/goals/" + result.id + "/battles/"+ goal.battleName);
-      if (goal.battleName.length > 0) {
-        let battleDocRef = doc(db, "/goals/" + result.id + "/battles/"+ goal.battleName);
-        let battleResult = await setDoc(battleDocRef, {'quizzes': "test"});
+      for (let i = 0; i < goal.battles.length; i++) {
+        let battleDocRef = doc(
+          db,
+          "/goals/" + result.id + "/battles/" + goal.battles[i].name
+        );
+        let battleData = {
+          quizzes: goal.battles[i].quizzes,
+        }
+
+        let battleResult = await setDoc(battleDocRef, battleData);
       }
 
       alert.success = true;
@@ -111,7 +117,7 @@
   }
 </script>
 
-<svelte:window bind:scrollY={y}/>
+<svelte:window bind:scrollY={y} />
 
 <div>
   <ShowBreadcrumb bind:breadcrumbs />

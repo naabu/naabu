@@ -1,7 +1,7 @@
 
 <script>
 	import { getFirebaseFirestore } from "$lib/firebase";	
-	import {doc, getDoc} from "firebase/firestore";
+	import {doc, getDoc, collection, query, getDocs} from "firebase/firestore";
 	import Show from '$lib/Activity/show.svelte';
   import { onMount } from 'svelte';
   import { getStores, session, page } from "$app/stores"
@@ -31,7 +31,27 @@
     if (snap.exists()) {
       activity = snap.data();
       activity.id = ref.id;
+      // TODO: There can be multiple goals attached to an activity, support this?
+      if (activity.goals.length > 0)
+      {
+        console.log('HERE');
+        let battleCol = collection(db, 'goals/' + activity.goals[0].objectID + "/battles");
+        const q = query(battleCol);
+        const querySnapshot = await getDocs(q);
+        activity.battles = [];
+        querySnapshot.forEach((doc) => {
+          console.log("EACH");
+          let battleObject =  doc.data();
+          battleObject.name = doc.id;
+          activity.battles = [...activity.battles, battleObject];
+        });
+        console.log(activity);
+      }
+
+
     }
+
+
 	}
 </script>
 

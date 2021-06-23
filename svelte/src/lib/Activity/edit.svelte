@@ -6,7 +6,7 @@
   import ActivityForm from './form.svelte';
   import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
-  import { renderKatexOutput } from "./helper.js";
+  import { renderKatexOutput } from "$lib/Misc/helper.js";
 
   let y;
   export let ref;

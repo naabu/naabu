@@ -1,12 +1,13 @@
 <script>
   import { getFirebaseFirestore } from "$lib/firebase";
-  import { collection, getDoc, updateDoc  } from "firebase/firestore";
+  import { collection, getDoc, updateDoc, query, getDocs, doc } from "firebase/firestore";
   import { getStores, session, page } from "$app/stores";
   import GoalForm from './form.svelte';
 	import { onMount } from 'svelte';
   import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
-
+  
+  export let battleCol;
  
   let y;
 
@@ -45,6 +46,7 @@
     goalSnap = await getDoc(goalRef);
     if (goalSnap.exists()) {
 			goal = goalSnap.data();
+      console.log(goal);
       goal.id = goalRef.id;
       if (!goal.goalLinks) {
         goal.goalLinks = []
@@ -64,8 +66,19 @@
       if (!goal.fromText) {
         goal.fromText = "";
       }
+      if (!goal.battles) {
+        goal.battles = [];
+      }
 		}
+    const q = query(battleCol);
+    const querySnapshot = await getDocs(q);
+    querySnapshot.forEach((doc) => {
+      let battleObject =  doc.data();
+      battleObject.name = doc.id;
+      goal.battles = [...goal.battles, battleObject];
+    });
   });
+
 
   async function editGoal() {
     const db = await getFirebaseFirestore($session.environment);
@@ -96,6 +109,24 @@
     alert = getDefaultAlertValues();
     try {
       await updateDoc(goalRef, data);
+      for (let i = 0; i < goal.battles.length; i++) {
+        let battleDocRef = doc(
+          db,
+          "/goals/" + goalRef.id + "/battles/" + goal.battles[i].name
+        );
+        let battleData = {
+          quizzes: goal.battles[i].quizzes,
+        }
+
+        let snap = await getDoc(battleDocRef);
+        if (snap.exists()) {
+          await updateDoc(battleDocRef, battleData);
+        }
+        else {
+          await setDoc(battleDocRef, battleData);
+        }
+
+      }
       alert.success = true;
       alert.successTitle = "Leerdoel gewijzigd";
       alert.successMessage = "id: " + goalRef.id;

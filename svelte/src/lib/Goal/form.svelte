@@ -4,12 +4,17 @@
   import { getAlgoliaSearchClient, getGoalIndex } from "$lib/algolia";
   import { autocomplete, getAlgoliaResults } from "@algolia/autocomplete-js";
   import DisplayMultiTopics from "./displayMultiTopics.svelte";
+  import BattleListForm from "./battleListForm.svelte";
   import "@algolia/autocomplete-theme-classic";
+  import QuizForm from "$lib/Quizzes/form.svelte";
 
   export let goal;
+  let selectedQuizIndex = 0;
+  let selectedFieldIndex = -1;
+
+  let selectedBattleIndex = 0;
   let verbs;
   let selectedColumnId = [];
-  $: console.log(goal.battleName);
 
   let bloomCheckValues = [
     ["bloom1-1", "bloom1-2", "bloom1-3", "bloom1-4", "bloom1-5", "bloom1-6"],
@@ -116,22 +121,21 @@
     generateGoalTitle();
   }
 
+  function setSelectedBattleIndex(index){
+    selectedBattleIndex = index;
+    selectedQuizIndex = 0;
+    selectedFieldIndex = -1;
+  }
+
   function generateMulti(arrayValues) {
     let output = "";
-    console.log(arrayValues);
     if (arrayValues.length > 1) {
-      let slicedArray = arrayValues.slice(
-        0,
-        arrayValues.length - 1
-      );
+      let slicedArray = arrayValues.slice(0, arrayValues.length - 1);
       output += slicedArray.join(", ");
-      console.log(slicedArray);
       if (arrayValues.length > 2) {
-        output+=
-          ", en " + arrayValues[arrayValues.length - 1] + " ";
+        output += ", en " + arrayValues[arrayValues.length - 1] + " ";
       } else if (arrayValues.length > 1) {
-        output +=
-          " en " + arrayValues[arrayValues.length - 1] + " ";
+        output += " en " + arrayValues[arrayValues.length - 1] + " ";
       }
     } else if (arrayValues.length > 0) {
       {
@@ -155,7 +159,7 @@
         goal.title += generateMulti(goal.multitopics);
       }
       if (goal.taxonomy_solo.includes("solo-4")) {
-        goal.title +=  generateMulti(goal.multitopics);
+        goal.title += generateMulti(goal.multitopics);
       }
       goal.title += generateMulti(goal.selectedVerbs);
 
@@ -277,17 +281,13 @@
   }
 
   $: {
-    console.log('Triggered!');
     if (goal.taxonomy_solo.includes("solo-1")) {
       removeBloomSelectedItems("1", "2");
-    }
-    else if (goal.taxonomy_solo.includes("solo-2")) {
+    } else if (goal.taxonomy_solo.includes("solo-2")) {
       removeBloomSelectedItems("2", "3");
-    }
-    else if (goal.taxonomy_solo.includes("solo-3")) {
+    } else if (goal.taxonomy_solo.includes("solo-3")) {
       removeBloomSelectedItems("3", "4");
-    }
-    else if (goal.taxonomy_solo.includes("solo-4")) {
+    } else if (goal.taxonomy_solo.includes("solo-4")) {
       removeBloomSelectedItems("3", "4", "5", "6");
     }
   }
@@ -298,7 +298,12 @@
       let lastChar = goal.taxonomy_bloom[i].substr(
         goal.taxonomy_bloom[i].length - 1
       );
-      if (lastChar === column1 || lastChar === column2 || lastChar === column3 || lastChar === column4) {
+      if (
+        lastChar === column1 ||
+        lastChar === column2 ||
+        lastChar === column3 ||
+        lastChar === column4
+      ) {
         newArray.push(goal.taxonomy_bloom[i]);
       }
     }
@@ -327,13 +332,20 @@
     }
     if (
       goal.taxonomy_solo.includes("solo-4") &&
-      (bloomColumn === "3" || bloomColumn === "4" || bloomColumn === "5" || bloomColumn === "6")
+      (bloomColumn === "3" ||
+        bloomColumn === "4" ||
+        bloomColumn === "5" ||
+        bloomColumn === "6")
     ) {
       return false;
     }
     return true;
   }
 </script>
+
+<svelte:head>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
+</svelte:head>
 
 <div class="space-y-6 sm:space-y-5 divide-y divide-gray-200" />
 <div class="divide-y divide-gray-200 pt-8 space-y-6 sm:pt-10 sm:space-y-5">
@@ -598,21 +610,21 @@
       </label>
       <div class="mt-1 sm:mt-0 sm:col-span-2">
         <div class="mt-1 sm:mt-0 sm:col-span-2">
-            <label
-              for="from_text"
-              class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-            >
-              Waar moet de leerling het doen?
-            </label>
-            <div class="mt-1 sm:mt-0 sm:col-span-2">
-              <input
-                type="text"
-                bind:value={goal.fromText}
-                name="from_text"
-                id="from_text"
-                class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
-              />
-            </div>
+          <label
+            for="from_text"
+            class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+          >
+            Waar moet de leerling het doen?
+          </label>
+          <div class="mt-1 sm:mt-0 sm:col-span-2">
+            <input
+              type="text"
+              bind:value={goal.fromText}
+              name="from_text"
+              id="from_text"
+              class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -695,10 +707,42 @@
         </div>
       </div>
     </div>
-    <div
-    class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
-  >
-    <label
+    <div>
+      <h3 class="text-lg leading-6 font-medium text-gray-900">Veldslagen</h3>
+      <p class="mt-1 max-w-2xl text-sm text-gray-500">
+        Specificeer veldslagen en quizjes
+      </p>
+    </div>
+    <div>
+      <BattleListForm bind:battles={goal.battles} bind:index={selectedBattleIndex} />
+
+      <div class="block tabs">
+        <div class="border-b mb-1 border-gray-200">
+          <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+            {#each goal.battles as battle, i}
+              {#if selectedBattleIndex !== i}
+                <button
+                  on:click|preventDefault={() => setSelectedBattleIndex(i)}
+                  class="outline-none active:outline-none focus:outline-none border-transparent  text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+                >
+                  {battle.name}
+                </button>
+              {:else}
+                <button
+                  on:click|preventDefault={() => setSelectedBattleIndex(i)}
+                  class="outline-none active:outline-none focus:outline-none border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+                >
+                  {battle.name}
+                </button>
+              {/if}
+            {/each}
+          </nav>
+        </div>
+      </div>
+      {#if goal.battles.length > 0}
+        <QuizForm bind:quizzes={goal.battles[selectedBattleIndex].quizzes} bind:selectedQuizIndex bind:selectedFieldIndex/> 
+      {/if}
+      <!-- <label
       for="battleName"
       class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
     >
@@ -712,8 +756,8 @@
         bind:value={goal.battleName}
         class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
       />
+    </div> -->
     </div>
-  </div>
   </div>
 </div>
 <div class="divide-y divide-gray-200 pt-8 space-y-6 sm:pt-10 sm:space-y-5">

@@ -1,18 +1,20 @@
 <script>
   import {page } from "$app/stores";
   import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
-  import { renderKatexOutput } from "./helper.js";
+  import { renderKatexOutput } from "$lib/Misc/helper.js";
   import Player from "@vimeo/player";
 	import { onMount } from 'svelte';
   import Notification from "$lib/Misc/notification.svelte";
   import DifficultyFeedback from "$lib/Feedback/difficulty.svelte";
-  
+  import BattleFight from "$lib/Battle/fight.svelte";
+
   let displayNotification = false;
   let lastQuizShown = null;
   let endVideoInSeconds = null;
   let activeQuiz = null;
   let lastActiveQuiz = null;
   let hideVideoIframe = false;
+  let fightToggle = true;
   let notificationText = {
     title: "We ondersteunen niet fullscreen modus",
     description: "Omdat de video's interactief zijn werkt dit nog niet goed genoeg",
@@ -21,6 +23,7 @@
   let activityHasEnded = false;
   let videoHasEnded = false;
 
+  $: activityHasEnded = videoHasEnded;
   // Detect if there is a test question attached to the activity.
   // If not activity has ended when video has ended.
   // Ask the test question before showing the activity
@@ -31,9 +34,6 @@
   // Refactor the quizzes storage?
   // Sub collection / new collection?
   // Activity Id => Goal Id => Quizz.
-
-  
-
 
   export let activity;
 
@@ -47,7 +47,6 @@
   for (let i = 0; i < activity.quizzes.length; i++) {
     activity.quizzes[i].selectedAnswer = null;
     activity.quizzes[i].correct = false;
-    // activity.quizzes[i].index = i;
   }
 
   function scrollABitToTheTop(scroll = 200) {
@@ -198,6 +197,8 @@
 <div>
   <ShowBreadcrumb bind:breadcrumbs/>
   <DifficultyFeedback bind:toggle={activityHasEnded} bind:activity/>
+  <BattleFight bind:toggle={fightToggle} bind:activity/>
+
   {#if activity}
     <h1 class="text-lg leading-6 font-medium text-gray-900">Activiteit -
       {#if activity.title}
@@ -247,7 +248,7 @@
                   <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
                     <div class="ml-4 mt-4">
                       <h3 class="text-lg leading-6 font-medium text-gray-900">
-                        {@html renderKatexOutput(activeQuiz.quistion)}
+                        {@html renderKatexOutput(activeQuiz.question)}
                       </h3>
                       <p class="mt-1 text-sm ">
                         {#if activeQuiz.feedback}
@@ -295,7 +296,7 @@
             <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
               <div class="ml-4 mt-4">
                 <h3 class="text-lg leading-6 font-medium text-gray-900">
-                  {@html renderKatexOutput(quiz.quistion)}
+                  {@html renderKatexOutput(quiz.question)}
                 </h3>
                 <p class="mt-1 text-sm ">
                   {#if quiz.feedback}

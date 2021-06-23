@@ -109,7 +109,7 @@ exports.manuallyTrigger = functions.firestore.document('/triggers/{triggerId}')
                 if (activityData.quizzes) {
                   for (let i = 0; i < activityData.quizzes.length; i++) {
                     let key = 'quiz_' + i + "_";
-                    activityExportData[key + 'question'] = activityData.quizzes[i].quistion
+                    activityExportData[key + 'question'] = activityData.quizzes[i].question
                     activityExportData[key + 'timeInVideo'] = activityData.quizzes[i].timeInVideo
                     activityExportData[key + 'type'] = activityData.quizzes[i].type
                     if (activityData.quizzes[i].answers) {

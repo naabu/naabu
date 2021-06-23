@@ -37,7 +37,6 @@
       activity = snap.data();
       activity.id = ref.id;
     }
-    console.log(activity);
     let feedbackCollection = collection(db, 'feedback');
     // Order by time
     // Only show last 100.

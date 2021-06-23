@@ -32,7 +32,6 @@ it("Can assign an moderator role as an admin", async() => {
     // let amdmin = getAdminAuth();
     // TODO: https://firebase-community.slack.com/archives/C1BL01PS7/p1620639105407800
     // let user = createNormalUser();
-    // console.log(process.env);
     // const db = getFirestore(myAdminAuth);
     // const testWrite = db.collection("goals").doc("goal_123");
     // await firebase.assertFails(testWrite.set({title: "before", taxonomy: ['bloom_1_2', 'bloom_3_4', 'solo3']}));

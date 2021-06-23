@@ -1,23 +1,29 @@
 <script>
-  export let goal;
-  let newMultitopic = "";
+  export let battles;
+  export let index;
+  let newBattleName = "";
 
-  function addMultiTopicSubmit() {
-    if (newMultitopic.length > 0) {
-      goal.multitopics = [...goal.multitopics, newMultitopic];
+  function addBattleSubmit() {
+    let newBattleObject = {
+      name: newBattleName,
+      quizzes: [],
+    };
+    if (newBattleName.length > 0) {
+      battles = [...battles, newBattleObject];
     }
-    newMultitopic = "";
+    newBattleName = "";
   }
 
-  function removeMultiTopic(multiTopicToRemoveIndex) {
-    goal.multitopics.splice(multiTopicToRemoveIndex, 1);
-    goal.multitopics = goal.multitopics;
+  function removeBattle(battleToRemoveIndex) {
+    battles.splice(battleToRemoveIndex, 1);
+    battles = battles;
+    index = 0;
   }
 
-  function onKeyPress(e){
+  function onKeyPress(e) {
     if (e.charCode === 13) {
       e.preventDefault();
-      addMultiTopicSubmit();
+      addBattleSubmit();
     }
   }
 </script>
@@ -29,15 +35,15 @@
     for="uni_topic_name"
     class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
   >
-    Onderwerpen
+    Veldslag
   </label>
   <div class="mt-1 sm:mt-0 sm:col-span-2">
-    {#each goal.multitopics as multiTopic, i}
+    {#each battles as battle, i}
       <div class="mt-1 mb-1">
-        {multiTopic}
+        {battle.name}
         <button
           class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          on:click|preventDefault={() => removeMultiTopic(i)}>Weghalen</button
+          on:click|preventDefault={() => removeBattle(i)}>Weghalen</button
         >
       </div>
     {/each}
@@ -45,14 +51,14 @@
       <input
         on:keypress={onKeyPress}
         type="text"
-        bind:value={newMultitopic}
-        name="uni_topic_name"
-        id="uni_topic_name"
+        bind:value={newBattleName}
+        name="battle_name"
+        id="battle_name"
         class="mt-2 mb-2 max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
       />
       <button
         class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        on:click|preventDefault={addMultiTopicSubmit}>Onderwerp toevoegen</button
+        on:click|preventDefault={addBattleSubmit}>Slag toevoegen</button
       >
     </div>
   </div>

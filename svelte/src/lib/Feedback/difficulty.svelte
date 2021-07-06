@@ -4,10 +4,11 @@
   import { getStores, session, page } from "$app/stores";
   import Transition from "svelte-class-transition";
   import { onMount } from "svelte";
-  import { goto } from '$app/navigation';
+  import { hasSpecialClaims} from "$lib/User/helper.js";
 
   export let activity;
   export let toggle = false;
+  export let feedbackEnded = false;
 
   let db;
 
@@ -23,35 +24,19 @@
       feedbackValue: label,
     };
 
-    let storeAndRedirect = true;
-    if ($session.user && $session.user.uid) {
-      data.uid = $session.user.uid;
-      if (
-        $session.user.idTokenResult.claims.canDebugDevelopment ||
-        $session.user.idTokenResult.claims.canModerate
-      ) {
-        storeAndRedirect = false;
-      }
-    }
+    let userHasSpecialClaims = hasSpecialClaims($session.user);
 
-    if (storeAndRedirect) {
+    if ($session.user && !userHasSpecialClaims) {
       try {
+        data.uid = $session.user.uid;
         let collectionRef = collection(db, "feedback");
         let result = addDoc(collectionRef, data);
       } catch (e) {
         console.log(e);
       }
-      await goto('/')
     }
-    else {
-      toggle = false;
-      if ($page.path.includes('beheer')) {
-        await goto('/beheer/activiteit')
-      }
-      else {
-        await goto('/')
-      }
-    }
+    toggle = false;
+    feedbackEnded = true;
   }
 </script>
 

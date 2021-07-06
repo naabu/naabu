@@ -44,5 +44,9 @@ service cloud.firestore {
       allow create: if (!("canDebugDevelopment" in request.resource.data) || !("canModerate" in request.resource.data))
       allow read: if (request.auth.token.canModerate)
     }
+    match /battleResult/{battleResultId} {
+      allow create: if (!("canDebugDevelopment" in request.resource.data) || !("canModerate" in request.resource.data))
+      allow read: if (request.auth.token.canModerate)
+    }
   }
 }

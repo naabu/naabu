@@ -1,5 +1,5 @@
 <script>
-  import {page } from "$app/stores";
+  import {getStores, session, page } from "$app/stores";
   import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
   import { renderKatexOutput } from "$lib/Misc/helper.js";
   import Player from "@vimeo/player";
@@ -7,7 +7,9 @@
   import Notification from "$lib/Misc/notification.svelte";
   import DifficultyFeedback from "$lib/Feedback/difficulty.svelte";
   import BattleFight from "$lib/Battle/fight.svelte";
-
+  import { hasSpecialClaims} from "$lib/User/helper.js";
+  import { goto } from "$app/navigation";
+  
   let displayNotification = false;
   let lastQuizShown = null;
   let endVideoInSeconds = null;
@@ -15,6 +17,13 @@
   let lastActiveQuiz = null;
   let hideVideoIframe = false;
   let fightToggle = true;
+  let toggleFeedback = false;
+  let feedbackEnded = false;
+
+  $: if (feedbackEnded) {
+    fightToggle = true;
+  }
+
   let notificationText = {
     title: "We ondersteunen niet fullscreen modus",
     description: "Omdat de video's interactief zijn werkt dit nog niet goed genoeg",
@@ -22,8 +31,8 @@
   
   let activityHasEnded = false;
   let videoHasEnded = false;
-
   $: activityHasEnded = videoHasEnded;
+  
   // Detect if there is a test question attached to the activity.
   // If not activity has ended when video has ended.
   // Ask the test question before showing the activity
@@ -41,6 +50,29 @@
   let player;
   let iframe;
   let y;
+
+
+  let userHasSpecialClaims = hasSpecialClaims($session.user);
+
+  async function endActivity() {
+    if (!userHasSpecialClaims) {
+      await goto('/')
+    }
+    else {
+      if ($page.path.includes('beheer')) {
+        await goto('/beheer/activiteit')
+      }
+      else {
+        await goto('/')
+      }
+    }
+  }
+
+  
+  $: if (feedbackEnded && !fightToggle) {
+    endActivity();
+  }
+
 
   export let breadcrumbs = [];
 
@@ -109,6 +141,9 @@
 
     if (endVideoInSeconds !== null && seconds >= endVideoInSeconds) {
       videoHasEnded = true;
+      if (!feedbackEnded) {
+        toggleFeedback = true;
+      }
     }
 
     for (let i = 0; i < activity.quizzes.length; i++) {
@@ -196,7 +231,7 @@
 
 <div>
   <ShowBreadcrumb bind:breadcrumbs/>
-  <DifficultyFeedback bind:toggle={activityHasEnded} bind:activity/>
+  <DifficultyFeedback bind:toggle={toggleFeedback} bind:feedbackEnded bind:activity/>
   <BattleFight bind:toggle={fightToggle} bind:activity/>
 
   {#if activity}

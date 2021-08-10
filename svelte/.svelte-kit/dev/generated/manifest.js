@@ -15,7 +15,7 @@ const c = [
 	() => import("../../../src/routes/beheer/leerdoel/maken.svelte"),
 	() => import("../../../src/routes/beheer/leerdoel/[id]/index.svelte"),
 	() => import("../../../src/routes/beheer/leerdoel/[id]/wijzigen.svelte"),
-	() => import("../../../src/routes/about.svelte"),
+	() => import("../../../src/routes/beheer/test-ssr.svelte"),
 	() => import("../../../src/routes/todos/index.svelte"),
 	() => import("../../../src/routes/[id].svelte")
 ];
@@ -62,8 +62,8 @@ export const routes = [
 	// src/routes/beheer/leerdoel/[id]/wijzigen.svelte
 	[/^\/beheer\/leerdoel\/([^/]+?)\/wijzigen\/?$/, [c[0], c[3], c[15]], [c[1]], (m) => ({ id: d(m[1])})],
 
-	// src/routes/about.svelte
-	[/^\/about\/?$/, [c[0], c[16]], [c[1]]],
+	// src/routes/beheer/test-ssr.svelte
+	[/^\/beheer\/test-ssr\/?$/, [c[0], c[3], c[16]], [c[1]]],
 
 	// src/routes/todos/index.json.js
 	[/^\/todos\.json$/],

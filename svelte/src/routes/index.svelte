@@ -1,9 +1,24 @@
+<!-- <script context="module" >
+  import { initFirebase } from "$lib/firebase";
+
+  export async function load({session}) {
+    let firebase = await initFirebase(session.environment);
+    return {
+      props: {
+        firebase: firebase
+      },
+    };
+  }
+</script> -->
+
 <script>
   import ActivityChoiceList from "$lib/ActivityChoice/list.svelte";
   import { getStores, session } from "$app/stores";
-  import {collection, doc, getDoc} from "firebase/firestore";
 	import { onMount } from 'svelte';
-  import { getFirebaseFirestore } from "$lib/firebase";
+ // import firebase from "firebase/app";
+ import { initFirebase } from "$lib/firebase";
+
+  let firebase;
 
   let path = null;
   let timeout = null;
@@ -13,10 +28,10 @@
     timeoutCount = timeoutCount + 1;
     if ($session.user) {
       let uid = $session.user.uid;
-      let db = await getFirebaseFirestore($session.environment);
-      let ref = doc(db, 'path', uid);
-      let snap = await getDoc(ref);
-      if (snap.exists()) {
+      let db = await firebase.firestore();
+      let ref = db.collection('path').doc(uid);
+      let snap = await ref.get(ref);
+      if (snap.exists) {
         path = snap.data();
         if (timeout !== null) {
           clearTimeout(timeout);
@@ -31,6 +46,8 @@
   }
 
   onMount(async () => {
+    firebase = await initFirebase($session.environment);
+
     await getPathFromUser();
   });
 

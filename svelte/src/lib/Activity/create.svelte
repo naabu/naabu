@@ -1,12 +1,14 @@
 <script>
-  import { getFirebaseFirestore } from "$lib/firebase";
-  import { collection, addDoc, setDoc, doc } from "firebase/firestore";
+  // import { getFirebaseFirestore } from "$lib/firebase.js";
+  // import { collection, addDoc, setDoc, doc } from "firebase/firestore";
   import { getStores, session } from "$app/stores"
   import ActivityForm from "./form.svelte";
   import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
 	import { onMount } from 'svelte';
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
   import { renderKatexOutput } from "$lib/Misc/helper.js";
+  export let firebase;
+ // import firebase from "firebase/app";
 
   let y;
 
@@ -54,7 +56,7 @@
   }
 
 	onMount(async() => {
-    db = await getFirebaseFirestore($session.environment);
+    db = await firebase.firestore();
   });
 
   async function createActivity() {   
@@ -86,8 +88,8 @@
     };
     alert = getDefaultAlertValues();
     try {
-      let collectionRef = collection(db, "activities");
-      let result = await addDoc(collectionRef, data);
+      let collectionRef = db.collection("activities");
+      let result = await collectionRef.add(data);
       alert.success = true;
       alert.successTitle = "Activiteit gemaakt";
       alert.successMessage = "id: " + result.id;

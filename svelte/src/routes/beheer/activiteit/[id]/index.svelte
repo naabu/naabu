@@ -1,10 +1,26 @@
+<!-- <script context="module" >
+  import { initFirebase } from "$lib/firebase";
+
+  export async function load({session}) {
+    let firebase = await initFirebase(session.environment);
+    return {
+      props: {
+        firebase: firebase
+      },
+    };
+  }
+</script> -->
 
 <script>
-	import { getFirebaseFirestore } from "$lib/firebase";	
-	import {doc, getDoc} from "firebase/firestore";
+	// import { getFirebaseFirestore } from "$lib/firebase.js";	
+	// import {doc, getDoc} from "firebase/firestore";
+ // import firebase from "firebase/app";
 	import Show from '$lib/Activity/show.svelte';
   import { onMount } from 'svelte';
   import { getStores, session, page } from "$app/stores"
+  import { initFirebase } from "$lib/firebase";
+
+  let firebase;
 
 	let activity;
   let mounted = false;
@@ -24,15 +40,17 @@
   ];
 
   onMount(async() => {
+    firebase = await initFirebase($session.environment);
+
     await retrieveFirestoreData();
     mounted = true;
   });
 
   async function retrieveFirestoreData() {
-		let db = await getFirebaseFirestore($session.environment);
-		let ref = doc(db, 'activities', $page.params.id);
-    let snap = await getDoc(ref);
-    if (snap.exists()) {
+		let db = await firebase.firestore();
+		let ref = db.collection('activities').doc($page.params.id);
+    let snap = await ref.get();
+    if (snap.exists) {
       activity = snap.data();
       activity.id = ref.id;
     }
@@ -40,5 +58,5 @@
 </script>
 
 {#if mounted}
-  <Show bind:activity bind:breadcrumbs/> 
+  <Show bind:activity bind:breadcrumbs bind:firebase/> 
 {/if}

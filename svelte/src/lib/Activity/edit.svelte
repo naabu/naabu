@@ -1,6 +1,4 @@
 <script>
-  import { getFirebaseFirestore } from "$lib/firebase";
-  import { getDoc, updateDoc  } from "firebase/firestore";
   import { getStores, session, page } from "$app/stores"
 	import { onMount } from 'svelte';
   import ActivityForm from './form.svelte';
@@ -40,9 +38,9 @@
     }
   }
 
-	onMount(async() => {
-    snap = await getDoc(ref);
-		if (snap.exists()) {
+	onMount(async() => {;
+    snap = await ref.get();
+		if (snap.exists) {
 			activity = snap.data();
       if (!activity.quizzes && activity.quizes) {
         activity.quizzes = activity.quizes;
@@ -61,7 +59,6 @@
   });
 
   async function edit() {
-    const db = await getFirebaseFirestore($session.environment);
     let addLeerdoelen = [];
     
     for (let i = 0; i < activity.goals.length; i++) {
@@ -90,7 +87,7 @@
     };
     alert = getDefaultAlertValues();
     try {
-      await updateDoc(ref, data);
+      await ref.update(data);
       alert.success = true;
       alert.successTitle = "Activiteit gewijzigd";
       // TODO: check out why there is no result?

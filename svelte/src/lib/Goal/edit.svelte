@@ -1,6 +1,7 @@
 <script>
-  import { getFirebaseFirestore } from "$lib/firebase";
-  import { collection, getDoc, updateDoc, query, getDocs, doc } from "firebase/firestore";
+ // import firebase from "firebase/app";
+  // import { getFirebaseFirestore } from "$lib/firebase";
+  // import { collection, getDoc, updateDoc, query, getDocs, doc } from "firebase/firestore";
   import { getStores, session, page } from "$app/stores";
   import GoalForm from './form.svelte';
 	import { onMount } from 'svelte';
@@ -8,7 +9,8 @@
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
   
   export let battleCol;
- 
+  export let firebase;
+
   let y;
 
   let breadcrumbs = [ 
@@ -43,10 +45,9 @@
   }
 
 	onMount(async() => {
-    goalSnap = await getDoc(goalRef);
-    if (goalSnap.exists()) {
+    goalSnap = await goalRef.get();
+    if (goalSnap.exists) {
 			goal = goalSnap.data();
-      console.log(goal);
       goal.id = goalRef.id;
       if (!goal.goalLinks) {
         goal.goalLinks = []
@@ -70,8 +71,7 @@
         goal.battles = [];
       }
 		}
-    const q = query(battleCol);
-    const querySnapshot = await getDocs(q);
+    const querySnapshot = await battleCol.get();
     querySnapshot.forEach((doc) => {
       let battleObject =  doc.data();
       battleObject.name = doc.id;
@@ -81,7 +81,7 @@
 
 
   async function editGoal() {
-    const db = await getFirebaseFirestore($session.environment);
+    const db = await firebase.firestore();
     let addLeerdoelen = [];
 
     for (let i = 0; i < goal.goalLinks.length; i++) {
@@ -108,22 +108,21 @@
     };
     alert = getDefaultAlertValues();
     try {
-      await updateDoc(goalRef, data);
+      await goalRef.update(data);
       for (let i = 0; i < goal.battles.length; i++) {
-        let battleDocRef = doc(
-          db,
+        let battleDocRef = db.doc(
           "/goals/" + goalRef.id + "/battles/" + goal.battles[i].name
         );
         let battleData = {
           quizzes: goal.battles[i].quizzes,
         }
 
-        let snap = await getDoc(battleDocRef);
-        if (snap.exists()) {
-          await updateDoc(battleDocRef, battleData);
+        let snap = await battleDocRef.get();
+        if (snap.exists) {
+          await battleDocRef.update(battleData);
         }
         else {
-          await setDoc(battleDocRef, battleData);
+          await battleDocRef.set(battleData);
         }
 
       }

@@ -126,7 +126,7 @@ class Router {
 			// Ignore if tag has
 			// 1. 'download' attribute
 			// 2. 'rel' attribute includes external
-			const rel = a.getAttribute('rel')?.split(/\s+/);
+			const rel = a.getAttribute('rel') && a.getAttribute('rel').split(/\s+/);
 
 			if (a.hasAttribute('download') || (rel && rel.includes('external'))) {
 				return;
@@ -140,15 +140,16 @@ class Router {
 			if (!this.owns(url)) return;
 
 			const noscroll = a.hasAttribute('sveltekit:noscroll');
+
 			history.pushState({}, '', url.href);
-			this._navigate(url, noscroll ? scroll_state() : null, [], url.hash);
+			this._navigate(url, noscroll ? scroll_state() : null, false, [], url.hash);
 			event.preventDefault();
 		});
 
 		addEventListener('popstate', (event) => {
 			if (event.state && this.enabled) {
 				const url = new URL(location.href);
-				this._navigate(url, event.state['sveltekit:scroll'], []);
+				this._navigate(url, event.state['sveltekit:scroll'], false, []);
 			}
 		});
 
@@ -182,16 +183,22 @@ class Router {
 	}
 
 	/**
-	 * @param {string} href
-	 * @param {{ noscroll?: boolean, replaceState?: boolean }} opts
+	 * @typedef {Parameters<typeof import('$app/navigation').goto>} GotoParams
+	 *
+	 * @param {GotoParams[0]} href
+	 * @param {GotoParams[1]} opts
 	 * @param {string[]} chain
 	 */
-	async goto(href, { noscroll = false, replaceState = false } = {}, chain) {
+	async goto(
+		href,
+		{ noscroll = false, replaceState = false, keepfocus = false, state = {} } = {},
+		chain
+	) {
 		const url = new URL(href, get_base_uri(document));
 
 		if (this.enabled && this.owns(url)) {
-			history[replaceState ? 'replaceState' : 'pushState']({}, '', href);
-			return this._navigate(url, noscroll ? scroll_state() : null, chain, url.hash);
+			history[replaceState ? 'replaceState' : 'pushState'](state, '', href);
+			return this._navigate(url, noscroll ? scroll_state() : null, keepfocus, chain, url.hash);
 		}
 
 		location.href = url.href;
@@ -225,10 +232,11 @@ class Router {
 	/**
 	 * @param {URL} url
 	 * @param {{ x: number, y: number }} scroll
+	 * @param {boolean} keepfocus
 	 * @param {string[]} chain
 	 * @param {string} [hash]
 	 */
-	async _navigate(url, scroll, chain, hash) {
+	async _navigate(url, scroll, keepfocus, chain, hash) {
 		const info = this.parse(url);
 
 		if (!info) {
@@ -247,7 +255,7 @@ class Router {
 
 			if (incorrect) {
 				info.path = has_trailing_slash ? info.path.slice(0, -1) : info.path + '/';
-				history.replaceState({}, '', `${info.path}${location.search}`);
+				history.replaceState({}, '', `${this.base}${info.path}${location.search}`);
 			}
 		}
 
@@ -258,7 +266,9 @@ class Router {
 
 		await this.renderer.update(info, chain, false);
 
-		document.body.focus();
+		if (!keepfocus) {
+			document.body.focus();
+		}
 
 		const deep_linked = hash && document.getElementById(hash.slice(1));
 		if (scroll) {
@@ -372,10 +382,10 @@ function page_store(value) {
 function initial_fetch(resource, opts) {
 	const url = typeof resource === 'string' ? resource : resource.url;
 
-	let selector = `script[type="svelte-data"][url="${url}"]`;
+	let selector = `script[data-type="svelte-data"][data-url="${url}"]`;
 
 	if (opts && typeof opts.body === 'string') {
-		selector += `[body="${hash(opts.body)}"]`;
+		selector += `[data-body="${hash(opts.body)}"]`;
 	}
 
 	const script = document.querySelector(selector);
@@ -442,7 +452,7 @@ class Renderer {
 		this.stores.session.subscribe(async (value) => {
 			this.$session = value;
 
-			if (!ready) return;
+			if (!ready || !this.router) return;
 			this.session_id += 1;
 
 			const info = this.router.parse(new URL(location.href));
@@ -1099,14 +1109,6 @@ async function start({ paths, target, session, host, route, spa, trailing_slash,
 	if (spa) router.goto(location.href, { replaceState: true }, []);
 
 	dispatchEvent(new CustomEvent('sveltekit:start'));
-}
-
-if (import.meta.env.VITE_SVELTEKIT_SERVICE_WORKER) {
-	if ('serviceWorker' in navigator) {
-		navigator.serviceWorker.register(
-			/** @type {string} */ (import.meta.env.VITE_SVELTEKIT_SERVICE_WORKER)
-		);
-	}
 }
 
 export { start };

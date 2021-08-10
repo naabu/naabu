@@ -1,7 +1,3 @@
-import { getApp, initializeApp } from "firebase/app"
-import { getFirestore, useFirestoreEmulator } from "firebase/firestore"
-import { getAuth, useAuthEmulator} from "firebase/auth";
-
 const firebaseConfig = {
   apiKey: "AIzaSyDTQTwe21wwYm2TsMBwH8m1lSHWMEK4KmQ",
   authDomain: "expwis.firebaseapp.com",
@@ -11,38 +7,64 @@ const firebaseConfig = {
   appId: "1:950890412912:web:a248488bf4e6eb2bc3adb5",
   measurementId: "G-8ZT9LCY8BY"
 };
-  
-export async function getFirebaseApp() {
-  try { 
-    return await getApp();
-  }
-  catch (error) {
-    return await initializeApp(firebaseConfig);
-  }
-}
 
-export async function getFirebaseAuth(environment = "production") {
-  const firebaseApp = await getFirebaseApp();
-  const auth =  await getAuth(firebaseApp);
-  if (environment === 'development' && !auth.emulatorConfig){
-    await useAuthEmulator(auth, "http://localhost:5010");
-  }
-  return auth;
-}
-
-export async function getFirebaseFirestore(environment = "production") {
+export async function initFirebase(environment = "production", proFb) {
+  let fb = null;
   if (typeof window !== "undefined") {
-    // console.log('RUNs in the CLIENT');
-    const firebaseApp = await getFirebaseApp();
-    const firestore =  await getFirestore(firebaseApp);
-    if (environment === 'development' && firestore._settings.host !== "localhost:5012"){
-      await useFirestoreEmulator(firestore, "localhost", 5012);
-      // console.log('Firestore emulator set');
+    fb = (await import("firebase/app")).default;
+    await import("firebase/auth");
+    await import("firebase/firestore");
+    console.log('Client');
+    console.log(fb);
+    if (fb.apps.length == 0) {
+      fb.initializeApp(firebaseConfig);
     }
-    return firestore;
   }
-  // console.log('RUNs in the SERVER');
-  // const fb = await import("firebase-compat");
-  // console.log(fb);
-  
+  else if (environment === 'development') {
+    console.log('Server');
+    fb = await import("firebase");
+    await import("firebase/auth");
+    await import("firebase/firestore");
+    // await import("firebase/auth");
+    // await import("firebase/firestore");
+    // fb = await import("firebase");
+    if (!fb.apps || fb.apps.length == 0) {
+      fb.initializeApp(firebaseConfig);
+    }
+  }
+  else {
+    fb = proFb;
+    
+    console.log(fb);
+    const firebase = require('firebase');
+    fb = (await import("firebase/app")).default;
+    await import("firebase/auth");
+    await import("firebase/firestore");
+    // console.log(firebase);
+    // if (!firebase.apps || firebase.apps.length == 0) {
+    //   firebase.initializeApp(firebaseConfig);
+    // }
+    // fb = require('firebase');
+    // await import("firebase/firestore");
+    // fb = await import("firebase");
+    if (!fb.apps || fb.apps.length == 0) {
+      fb.initializeApp(firebaseConfig);
+    }
+    console.log(fb)
+    console.log(fb.default)
+    console.log(fb.auth())
+    console.log(fb.firestore())
+  }
+
+  console.log(fb.firestore());
+
+  if (environment === 'development') {
+    if (!fb.auth().emulatorConfig) {
+      await fb.auth().useEmulator("http://localhost:5010");
+    }
+    if (fb.firestore()._delegate._settings.host !== "localhost:5012") {
+      await fb.firestore().useEmulator("localhost", 5012);
+    }
+  }
+  return fb;
 }

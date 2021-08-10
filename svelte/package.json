@@ -16,7 +16,7 @@
   "devDependencies": {
     "@sveltejs/kit": "next",
     "autoprefixer": "^10.2.5",
-    "cssnano": "^3.10.0",
+    "cssnano": "^5.0.0",
     "eslint": "^7.22.0",
     "eslint-config-prettier": "^8.1.0",
     "eslint-plugin-svelte3": "^3.2.0",
@@ -26,7 +26,7 @@
     "prettier": "~2.2.1",
     "prettier-plugin-svelte": "^2.3.0",
     "svelte": "^3.29.0",
-    "svelte-adapter-firebase": "^0.8.0",
+    "svelte-adapter-firebase": "^0.9.0",
     "svelte-preprocess": "^4.7.1",
     "tailwindcss": "^2.0.4",
     "vite": "^2.1.0"
@@ -41,8 +41,7 @@
     "@vimeo/player": "^2.15.0",
     "algoliasearch": "^4.9.1",
     "cookie": "^0.4.1",
-    "firebase": "^9.0.0-beta.1",
-    "firebase-functions": "^3.14.1",
+    "firebase": "^8.0.0",
     "katex": "^0.13.11",
     "svelte-class-transition": "^1.0.4"
   }

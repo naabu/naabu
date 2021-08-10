@@ -1,11 +1,13 @@
 <script>
   import ManagementTabs from "$lib/Tabs/management.svelte";
   import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
-  import { doc, getDoc, setDoc, updateDoc  } from "firebase/firestore";
-  import { getStores, session } from "$app/stores"
+  import { getStores, page, session } from "$app/stores"
 	import { onMount } from 'svelte';
-  import { getFirebaseFirestore } from "$lib/firebase";
   import Notification from "../Misc/notification.svelte";
+  import { initFirebase } from "$lib/firebase";
+
+  let firebase;
+  
 
   let db;
   let displayNotification = false;
@@ -23,22 +25,22 @@
 
   async function trigger() {
     // We can put data in the firestore collection Name + timestamp.
-    let docRef = doc(db, 'triggers', 'data-export');
-    let snap = await getDoc(docRef);
-    if (snap.exists()) {
-      updateDoc(docRef, {"lastTriggerTimestamp": Date.now()});
+    let docRef = db.collection('triggers').doc('data-export');
+    let snap = await docRef.get();
+    if (snap.exists) {
+      docRef.update({"lastTriggerTimestamp": Date.now()});
     }
     else {
-      setDoc( docRef, {"lastTriggerTimestamp": Date.now()});
+      docRef.set({"lastTriggerTimestamp": Date.now()});
     }
   }
 
   async function exportActivityData() {
-    let docRef = doc(db, 'triggers', 'data-export');
-    let snap = await getDoc(docRef);
-    if (snap.exists()) {
+    let docRef = db.collection('triggers').doc('data-export');
+    let snap = await docRef.get();
+    if (snap.exists) {
       let data = snap.data();
-      if (data.output) {
+      if (data.output1) {
         navigator.clipboard.writeText(data.output1);
         displayNotification = true;
       }
@@ -46,19 +48,20 @@
   }
 
   async function exportGoalData() {
-    let docRef = doc(db, 'triggers', 'data-export');
-    let snap = await getDoc(docRef);
-    if (snap.exists()) {
+    let docRef = db.collection('triggers').doc('data-export');
+    let snap = await docRef.get();
+    if (snap.exists) {
       let data = snap.data();
-      if (data.output) {
-        navigator.clipboard.writeText(data.output2);
+      if (data.output2) {
+        navigator.clipboard.writeText(data.output1);
         displayNotification = true;
       }
     }
   }
 
 	onMount(async() => {
-    db = await getFirebaseFirestore($session.environment);
+    firebase = await initFirebase($session.environment);
+    db = await firebase.firestore();
   });
 
 </script>

@@ -9,7 +9,7 @@
   import BattleFight from "$lib/Battle/fight.svelte";
   import { hasSpecialClaims} from "$lib/User/helper.js";
   import { goto } from "$app/navigation";
-  
+  export let firebase;
   let displayNotification = false;
   let lastQuizShown = null;
   let endVideoInSeconds = null;
@@ -231,8 +231,8 @@
 
 <div>
   <ShowBreadcrumb bind:breadcrumbs/>
-  <DifficultyFeedback bind:toggle={toggleFeedback} bind:feedbackEnded bind:activity/>
-  <BattleFight bind:toggle={fightToggle} bind:activity/>
+  <DifficultyFeedback bind:toggle={toggleFeedback} bind:feedbackEnded bind:activity bind:firebase/>
+  <BattleFight bind:toggle={fightToggle} bind:activity bind:firebase/>
 
   {#if activity}
     <h1 class="text-lg leading-6 font-medium text-gray-900">Activiteit -

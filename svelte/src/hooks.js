@@ -1,6 +1,7 @@
 export function getSession(request) {
 	return {
 		environment: process.env['ENVIRONMENT'],
+		fb: process.env['fb']
 	};
 }
 

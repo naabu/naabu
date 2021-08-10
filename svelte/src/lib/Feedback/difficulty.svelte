@@ -1,6 +1,7 @@
 <script>
-  import { getFirebaseFirestore } from "$lib/firebase";
-  import { collection, addDoc } from "firebase/firestore";
+ // import firebase from "firebase/app";
+  // import { getFirebaseFirestore } from "$lib/firebase.js";
+  // import { collection, addDoc } from "firebase/firestore";
   import { getStores, session, page } from "$app/stores";
   import Transition from "svelte-class-transition";
   import { onMount } from "svelte";
@@ -9,11 +10,11 @@
   export let activity;
   export let toggle = false;
   export let feedbackEnded = false;
-
+  export let firebase;
   let db;
 
   onMount(async () => {
-    db = await getFirebaseFirestore($session.environment);
+    db = await firebase.firestore();
   });
 
   async function storeFeedback(label) {
@@ -29,8 +30,8 @@
     if ($session.user && !userHasSpecialClaims) {
       try {
         data.uid = $session.user.uid;
-        let collectionRef = collection(db, "feedback");
-        let result = addDoc(collectionRef, data);
+        let collectionRef = db.collection("feedback");
+        let result = collectionRef.add(data);
       } catch (e) {
         console.log(e);
       }

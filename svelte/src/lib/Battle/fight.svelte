@@ -1,6 +1,5 @@
 <script>
-  import { getFirebaseFirestore } from "$lib/firebase";
-  import { collection, addDoc } from "firebase/firestore";
+ // import firebase from "firebase/app";
   import { getStores, session, page } from "$app/stores";
   import Transition from "svelte-class-transition";
   import { onMount } from "svelte";
@@ -9,7 +8,7 @@
 
   export let activity;
   export let toggle = false;
-
+  export let firebase;
 
   let toggleResultScreen;
   let toggleRound;
@@ -23,8 +22,15 @@
   let countdown;
   setDefaultValues();
 
+  let db;
+
+
+  onMount(async () => {
+    db = await firebase.firestore();
+  });
+
   function retrieveQuizFromBattles() {
-    if (activity.battles.length > 0 && activity.battles[0].quizzes.length > 0) {
+    if (activity.battles && activity.battles.length > 0 && activity.battles[0].quizzes.length > 0) {
       let returnQuiz = activity.battles[0].quizzes[0];
       returnQuiz.selectedAnswer = null;
 
@@ -103,11 +109,7 @@
   }
 
 
-  let db;
-
-  onMount(async () => {
-    db = await getFirebaseFirestore($session.environment);
-  });
+ 
 
   function checkCorrectAnswer(quiz) {
     let score = -1;
@@ -149,8 +151,8 @@
     if ($session.user && !userHasSpecialClaims) {
       try {
         data.uid = $session.user.uid;
-        let collectionRef = collection(db, "battleResult");
-        let result = addDoc(collectionRef, data);
+        let collectionRef = db.collection("battleResult");
+        let result = collectionRef.add(data);
       } catch (e) {
         console.log(e);
       }

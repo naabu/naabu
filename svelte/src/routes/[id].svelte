@@ -1,10 +1,26 @@
+<!-- <script context="module" >
+  import { initFirebase } from "$lib/firebase";
+
+  export async function load({session}) {
+    let firebase = await initFirebase(session.environment);
+    return {
+      props: {
+        firebase: firebase
+      },
+    };
+  }
+</script> -->
 
 <script>
-	import { getFirebaseFirestore } from "$lib/firebase";	
-	import {doc, getDoc, collection, query, getDocs} from "firebase/firestore";
+ // import firebase from "firebase/app";
+	// import { getFirebaseFirestore } from "$lib/firebase.js";	
+	// import {doc, getDoc, collection, query, getDocs} from "firebase/firestore";
 	import Show from '$lib/Activity/show.svelte';
   import { onMount } from 'svelte';
   import { getStores, session, page } from "$app/stores"
+  import { initFirebase } from "$lib/firebase";
+
+  let firebase;
 
 	let activity;
   let mounted = false;
@@ -20,23 +36,23 @@
   ];
 
   onMount(async() => {
+    firebase = await initFirebase($session.environment);
     await retrieveFirestoreData();
     mounted = true;
   });
 
   async function retrieveFirestoreData() {
-		let db = await getFirebaseFirestore($session.environment);
-		let ref = doc(db, 'activities', $page.params.id);
-    let snap = await getDoc(ref);
-    if (snap.exists()) {
+		let db = await firebase.firestore();
+		let ref = db.collection('activities').doc($page.params.id);
+    let snap = await ref.get();
+    if (snap.exists) {
       activity = snap.data();
       activity.id = ref.id;
       // TODO: There can be multiple goals attached to an activity, support this?
       if (activity.goals.length > 0)
       {
-        let battleCol = collection(db, 'goals/' + activity.goals[0].objectID + "/battles");
-        const q = query(battleCol);
-        const querySnapshot = await getDocs(q);
+        let battleCol = db.collection('goals/' + activity.goals[0].objectID + "/battles");
+        const querySnapshot = await battleCol.get();
         activity.battles = [];
         querySnapshot.forEach((doc) => {
           let battleObject =  doc.data();
@@ -44,14 +60,10 @@
           activity.battles = [...activity.battles, battleObject];
         });
       }
-
-
     }
-
-
 	}
 </script>
 
 {#if mounted && activity}
-  <Show bind:activity bind:breadcrumbs/> 
+  <Show bind:activity bind:breadcrumbs bind:firebase/> 
 {/if}

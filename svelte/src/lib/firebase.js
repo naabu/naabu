@@ -14,14 +14,11 @@ export async function initFirebase(environment = "production", proFb) {
     fb = (await import("firebase/app")).default;
     await import("firebase/auth");
     await import("firebase/firestore");
-    console.log('Client');
-    console.log(fb);
     if (fb.apps.length == 0) {
       fb.initializeApp(firebaseConfig);
     }
   }
   else if (environment === 'development') {
-    console.log('Server');
     fb = await import("firebase");
     await import("firebase/auth");
     await import("firebase/firestore");
@@ -34,8 +31,6 @@ export async function initFirebase(environment = "production", proFb) {
   }
   else {
     fb = proFb;
-    
-    console.log(fb);
     const firebase = require('firebase');
     fb = (await import("firebase/app")).default;
     await import("firebase/auth");
@@ -50,13 +45,7 @@ export async function initFirebase(environment = "production", proFb) {
     if (!fb.apps || fb.apps.length == 0) {
       fb.initializeApp(firebaseConfig);
     }
-    console.log(fb)
-    console.log(fb.default)
-    console.log(fb.auth())
-    console.log(fb.firestore())
   }
-
-  console.log(fb.firestore());
 
   if (environment === 'development') {
     if (!fb.auth().emulatorConfig) {

@@ -16,6 +16,12 @@ const c = [
 	() => import("../../../src/routes/beheer/leerdoel/[id]/index.svelte"),
 	() => import("../../../src/routes/beheer/leerdoel/[id]/wijzigen.svelte"),
 	() => import("../../../src/routes/beheer/test-ssr.svelte"),
+	() => import("../../../src/routes/beheer/kaart/index.svelte"),
+	() => import("../../../src/routes/beheer/kaart/maken.svelte"),
+	() => import("../../../src/routes/beheer/kaart/[id]/wijzigen.svelte"),
+	() => import("../../../src/routes/beheer/kaart/[id]/paden.svelte"),
+	() => import("../../../src/routes/kaart/[mapId]/locatie/[locationId].svelte"),
+	() => import("../../../src/routes/kaart/[id].svelte"),
 	() => import("../../../src/routes/todos/index.svelte"),
 	() => import("../../../src/routes/[id].svelte")
 ];
@@ -65,17 +71,35 @@ export const routes = [
 	// src/routes/beheer/test-ssr.svelte
 	[/^\/beheer\/test-ssr\/?$/, [c[0], c[3], c[16]], [c[1]]],
 
+	// src/routes/beheer/kaart/index.svelte
+	[/^\/beheer\/kaart\/?$/, [c[0], c[3], c[17]], [c[1]]],
+
+	// src/routes/beheer/kaart/maken.svelte
+	[/^\/beheer\/kaart\/maken\/?$/, [c[0], c[3], c[18]], [c[1]]],
+
+	// src/routes/beheer/kaart/[id]/wijzigen.svelte
+	[/^\/beheer\/kaart\/([^/]+?)\/wijzigen\/?$/, [c[0], c[3], c[19]], [c[1]], (m) => ({ id: d(m[1])})],
+
+	// src/routes/beheer/kaart/[id]/paden.svelte
+	[/^\/beheer\/kaart\/([^/]+?)\/paden\/?$/, [c[0], c[3], c[20]], [c[1]], (m) => ({ id: d(m[1])})],
+
+	// src/routes/kaart/[mapId]/locatie/[locationId].svelte
+	[/^\/kaart\/([^/]+?)\/locatie\/([^/]+?)\/?$/, [c[0], c[21]], [c[1]], (m) => ({ mapId: d(m[1]), locationId: d(m[2])})],
+
+	// src/routes/kaart/[id].svelte
+	[/^\/kaart\/([^/]+?)\/?$/, [c[0], c[22]], [c[1]], (m) => ({ id: d(m[1])})],
+
 	// src/routes/todos/index.json.js
 	[/^\/todos\.json$/],
 
 	// src/routes/todos/index.svelte
-	[/^\/todos\/?$/, [c[0], c[17]], [c[1]]],
+	[/^\/todos\/?$/, [c[0], c[23]], [c[1]]],
 
 	// src/routes/todos/[uid].json.js
 	[/^\/todos\/([^/]+?)\.json$/],
 
 	// src/routes/[id].svelte
-	[/^\/([^/]+?)\/?$/, [c[0], c[18]], [c[1]], (m) => ({ id: d(m[1])})]
+	[/^\/([^/]+?)\/?$/, [c[0], c[24]], [c[1]], (m) => ({ id: d(m[1])})]
 ];
 
 export const fallback = [c[0](), c[1]()];

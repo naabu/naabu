@@ -29,4 +29,10 @@ export function getAlgoliaSearchClient() {
     return getIndex("activities", environment);
  }
 
+ export function getMapIndex(environment = 'development') {
+  return getIndex("maps", environment);
+}
+
+ 
+
   

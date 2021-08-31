@@ -1,6 +1,6 @@
 <script>
   import { onMount } from 'svelte';
-  import { getAlgoliaSearchClient, getGoalIndex, getActivityIndex } from "$lib/algolia";
+  import { getAlgoliaSearchClient, getActivityIndex } from "$lib/algolia";
   import { getStores, session } from "$app/stores"
   import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
   import ManagementTabs from "$lib/Tabs/management.svelte";

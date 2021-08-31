@@ -9,6 +9,7 @@ services:
       - ./:/var/www/
     environment:
       - ENVIRONMENT=development
+      - DEFAULT_MAP_ID=OcZm1UN6gxuUiFWTgoyp
     ports:
       - 3000:3000
       - 3001:3001

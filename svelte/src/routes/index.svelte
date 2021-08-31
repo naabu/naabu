@@ -17,6 +17,7 @@
 	import { onMount } from 'svelte';
  // import firebase from "firebase/app";
  import { initFirebase } from "$lib/firebase";
+ import { goto } from '$app/navigation';
 
   let firebase;
 
@@ -52,10 +53,14 @@
   });
 
   $: {
-    if ($session.user && path === null) {
-      timeoutCount = 0;
-      timeout = setInterval(getPathFromUser, 500);
-    }
+    // if ($session.user && path === null) {
+    //   timeoutCount = 0;
+    //   timeout = setInterval(getPathFromUser, 500);
+    // }
+  }
+
+  if ($session.player) {
+    goto("/kaart/" + $session.player.currentMapId);
   }
 
 </script>
@@ -66,9 +71,9 @@
 </svelte:head>
 
 <section>
-  {#if $session.user && path !== null}
+  <!-- {#if $session.user && path !== null}
     <ActivityChoiceList bind:activities={path.activities} /> 
-  {/if}
+  {/if} -->
 </section>
 
 <style>

@@ -10,7 +10,7 @@
     "testvar": "echo $FIREBASE_TOKEN",
     "addUserClaims": "export GOOGLE_APPLICATION_CREDENTIALS=/var/www/svelte/adminkey.json; node scripts/addUserClaims.js",
     "deploy": "bash scripts/deploy.sh",
-    "emulate": "firebase --token \"$FIREBASE_TOKEN\" emulators:start  --import=./.devdata --export-on-exit",
+    "emulate": "firebase emulators:start  --import=./.devdata --export-on-exit --only auth,functions,firestore,hosting,storage",
     "test-setup": "export GOOGLE_APPLICATION_CREDENTIALS=/var/www/svelte/adminkey.json; firebase emulators:start --config=\"./firebase.test.json\""
   },
   "devDependencies": {
@@ -43,6 +43,7 @@
     "cookie": "^0.4.1",
     "firebase": "^8.0.0",
     "katex": "^0.13.11",
+    "leaflet": "^1.7.1",
     "svelte-class-transition": "^1.0.4"
   }
 }

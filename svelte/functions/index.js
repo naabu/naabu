@@ -55,8 +55,10 @@ function getIndex(suffix, environment) {
 
 let goalIndexName = getIndex('goals', ENVIRONMENT);
 let activityIndexName = getIndex('activities', ENVIRONMENT);
+let mapIndexName = getIndex('maps', ENVIRONMENT);
 const goalIndex = client.initIndex(goalIndexName);
 const activityIndex = client.initIndex(activityIndexName);
+const mapIndex = client.initIndex(mapIndexName);
 
 exports.addToGoalIndex = functions.firestore.document('goals/{goalId}')
   .onCreate((snap, context) => {
@@ -71,6 +73,25 @@ exports.updateGoalIndex = functions.firestore.document('goals/{goalId}')
     const objectID = change.after.id;
     return goalIndex.saveObject({ ...newData, objectID });
   });
+
+  exports.addMapToIndex = functions.firestore.document('maps/{mapId}')
+  .onCreate((snap, context) => {
+    const data = snap.data();
+    const objectID = snap.id;
+    return mapIndex.saveObject({ ...data, objectID });
+  });
+
+exports.updateMapIndex = functions.firestore.document('maps/{mapId}')
+  .onUpdate((change, context) => {
+    const newData = change.after.data();
+    const objectID = change.after.id;
+    return mapIndex.saveObject({ ...newData, objectID });
+  });
+
+exports.deleteMapFromIndex = functions.firestore.document('maps/{mapId}')
+.onDelete((snap, context) => {
+  return mapIndex.deleteObject(snap.id);
+});
 
 exports.scheduleExport = functions.pubsub.schedule('0 3 * * *')
 .timeZone('Europe/Amsterdam')

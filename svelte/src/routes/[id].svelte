@@ -1,21 +1,6 @@
-<!-- <script context="module" >
-  import { initFirebase } from "$lib/firebase";
-
-  export async function load({session}) {
-    let firebase = await initFirebase(session.environment);
-    return {
-      props: {
-        firebase: firebase
-      },
-    };
-  }
-</script> -->
 
 <script>
- // import firebase from "firebase/app";
-	// import { getFirebaseFirestore } from "$lib/firebase.js";	
-	// import {doc, getDoc, collection, query, getDocs} from "firebase/firestore";
-	import Show from '$lib/Activity/show.svelte';
+ 	import Show from '$lib/Activity/show.svelte';
   import { onMount } from 'svelte';
   import { getStores, session, page } from "$app/stores"
   import { initFirebase } from "$lib/firebase";

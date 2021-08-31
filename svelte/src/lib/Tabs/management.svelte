@@ -21,6 +21,11 @@
       url: '/beheer/leerdoel'
     },
     {
+      value: 'map',
+      text: "Kaarten",
+      url: '/beheer/kaart'
+    },
+    {
       value: 'user',
       text: "Gebruikers",
       url: '/beheer/gebruiker'

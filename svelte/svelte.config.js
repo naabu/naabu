@@ -18,7 +18,7 @@ const config = {
 			// 	exclude: ['@algolia/autocomplete-js']
 			// },
 			ssr: {
-				noExternal: ['@algolia/autocomplete-js']
+				noExternal: ['@algolia/autocomplete-js', 'leaflet']
 			}
 		}
 	}

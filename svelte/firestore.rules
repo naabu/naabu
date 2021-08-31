@@ -26,6 +26,17 @@ service cloud.firestore {
       }
     }
 
+    match /maps/{mapId} {
+      allow read, write, update: if true
+      match /players/{playerId} {
+         allow read, write, update: if true
+      }
+    }
+
+    match /players/{playerId} {
+      allow read, write, update: if true
+    }
+
     match /activities/{acitivtyId} {
       allow read: if (resource.data.visibility == "public") ||
         (request.auth.token.canModerate)

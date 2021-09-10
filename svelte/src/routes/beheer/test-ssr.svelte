@@ -2,7 +2,6 @@
     import { initFirebase } from "$lib/firebase";
   
     export async function load({session}) {
-      console.log(session);
       let firebase = await initFirebase(session.environment, session.fb);
       return {
         props: {

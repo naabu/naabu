@@ -4,6 +4,7 @@
   import Form from './form.svelte';
   import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
+import { getMapSaveData } from "../helper";
 
   let y;
   export let ref;
@@ -54,57 +55,12 @@
   });
 
   async function edit() {   
-    let saveLocations = [];
-    for(let i = 0; i < map.locations.length; i++) {
-      let newLocation = {
-        id: map.locations[i].id,
-        isStartLocation: map.locations[i].isStartLocation,
-        accessLocations: map.locations[i].accessLocations,
-        name: map.locations[i].name,
-        textPositionX: map.locations[i].textPositionX,
-        textPositionY: map.locations[i].textPositionY,
-        markerPositionX: map.locations[i].markerPositionX,
-        markerPositionY: map.locations[i].markerPositionY
-      }
-      let saveGoals = [];
-      for(let i2 = 0; i2 < map.locations[i].goals.length; i2++) {
-        let goalData = {
-          title: map.locations[i].goals[i2].title
-        };
-        if ( map.locations[i].goals[i2].objectID) {
-          goalData.id = map.locations[i].goals[i2].objectID;
-        }
-        else {
-          goalData.id  = map.locations[i].goals[i2].id;
-        }
-      } 
-      newLocation.goals = saveGoals;
-      saveLocations.push(newLocation);
-    }
-
-    let savedPath = [] 
-    for(let i = 0; i < map.paths.length; i++) {
-      let newPath = {};
-      newPath.startLocation = map.paths[i].startLocation;
-      newPath.endLocation = map.paths[i].endLocation;
-      newPath.points = JSON.stringify(map.paths[i].points);
-      newPath.startLocationName = map.paths[i].startLocationName;
-      newPath.endLocationName = map.paths[i].endLocationName;
-      newPath.endLocationIndex = map.paths[i].endLocationIndex;
-      savedPath.push(newPath);
-    }
-
-    const data = {
-      title: map.title,
-      image: map.image,
-      locations: saveLocations,
-      paths: savedPath,
-    };
+    let data = getMapSaveData(map);
     alert = getDefaultAlertValues();
     try {
       await ref.update(data);
       alert.success = true;
-      alert.successTitle = "Kaart gewijzigd";
+      alert.successTitle = "Paden op kaart gewijzigd";
       alert.successMessage = "id: " + ref.id;
     } catch (e) {
       console.error("Error adding documfent: ", e);

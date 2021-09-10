@@ -24,7 +24,6 @@
   let firebase;
 
   async function getPlayer(uid) {
-    console.log("Get Player");
 		let db = await firebase.firestore();
 		let ref = db.collection('players').doc(uid);
     let snap = await ref.get();
@@ -57,15 +56,15 @@
 				user = newUser;
         user.idTokenResult = await user.getIdTokenResult();
         player = await getPlayer(user.uid);
-        console.log(player);
-
       } else {
 				user = null;
         player = null;
 			}
-      console.log(player);
       $session.user = user;
       $session.player = player;
+      if (player && player.currentMapId) {
+        $session.defaultMapId = player.currentMapId;
+      }
     });
 	});
 </script>

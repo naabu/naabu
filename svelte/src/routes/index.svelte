@@ -52,14 +52,7 @@
     await getPathFromUser();
   });
 
-  $: {
-    // if ($session.user && path === null) {
-    //   timeoutCount = 0;
-    //   timeout = setInterval(getPathFromUser, 500);
-    // }
-  }
-
-  if ($session.player) {
+  $: if ($session.player) {
     goto("/kaart/" + $session.player.currentMapId);
   }
 

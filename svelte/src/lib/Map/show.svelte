@@ -1,127 +1,197 @@
 <script>
-  import "leaflet/dist/leaflet.css";
- import { goto } from '$app/navigation';
+  import { browser } from "$app/env";
+  import { goto } from "$app/navigation";
   export let map;
   export let userMap;
   import { onMount } from "svelte";
-
-  $: {
-  }
+  import { getStores, session } from "$app/stores";
 
   let leafletMap;
   let bounds;
   let image;
   let L;
+  let mounted = false;
+
+  $: if (userMap && mounted) {
+    putLocationDataOnmap();
+  }
 
   onMount(async () => {
-    const l = await import("leaflet");
-    L = l.default;
-    bounds = [
-      [0, 0],
-      [963, 1286],
-    ];
-    leafletMap = L.map("map", {
-      crs: L.CRS.Simple,
-      maxZoom: 2,
-    });
+    if (browser) {
+      const l = await import("leaflet");
+      // const lcss = await import("leaflet/dist/leaflet.css");
+      L = l.default;
+      bounds = [
+        [0, 0],
+        [963, 1286],
+      ];
+      var southWest = L.latLng(0, 0),
+        northEast = L.latLng(963, 1286);
+      var maxBounds = L.latLngBounds(southWest, northEast);
+      leafletMap = L.map("map", {
+        crs: L.CRS.Simple,
+        maxZoom: 2,
+        doubleClickZoom: false,
+        maxBounds: maxBounds,
+      });
+      leafletMap.fitBounds(bounds);
 
-    image = L.imageOverlay(map.image, bounds).addTo(leafletMap);
-    leafletMap.fitBounds(bounds);
-    var southWest = L.latLng(0, 0),
-      northEast = L.latLng(963, 1286);
-    var bounds = L.latLngBounds(southWest, northEast);
+      leafletMap.on("drag", function () {
+        leafletMap.panInsideBounds(bounds, { animate: false });
+      });
+      image = await L.imageOverlay(map.image, bounds)
+        // .on("load", putLocationDataOnmap)
+        .addTo(leafletMap);
+    }
+    mounted = true;
+  });
 
-    leafletMap.setMaxBounds(bounds);
-
-    leafletMap.on("drag", function () {
-      leafletMap.panInsideBounds(bounds, { animate: false });
-    });
-
-    let tooltip = L.tooltip({
-      direction: "center",
-      permanent: true,
-      interactive: true,
-      noWrap: true,
-      opacity: 1,
-    });
-    tooltip.setLatLng([870, 140]);
-    tooltip.setContent(map.title);
-    tooltip.addTo(leafletMap);
-
-    for (let i = 0; i < map.locations.length; i++) {
-      let location = map.locations[i];
-      let unlockedLocation = false;
-      if (userMap && userMap.unlockedLocations.includes(location.id)) {
-        unlockedLocation = true;
-      }
-      let textLocationX = location.textPositionX;
-      let textLocationY = location.textPositionY;
-      let markerLocationX = location.markerPositionX;
-      let marketLocationY = location.markerPositionY;
-      let tooltip3 = L.tooltip({
+  function putLocationDataOnmap() {
+    if ($session.player) {
+      let tooltip = L.tooltip({
         direction: "center",
         permanent: true,
         interactive: true,
         noWrap: true,
         opacity: 1,
       });
-      tooltip3.setLatLng([textLocationY, textLocationX]);
-      tooltip3.setContent(location.name);
+      tooltip.setLatLng([870, 140]);
+      tooltip.setContent(map.title);
+      tooltip.addTo(leafletMap);
 
-        // tooltip3.on("click" , function () {
-        //   console.log("Tooltip clicked");
-        // });
-    
-      tooltip3.addTo(leafletMap);
-      if (unlockedLocation) {
-        let el = tooltip3.getElement();
-          el.addEventListener('click', function() {
-            goto('/kaart/' + map.id + '/locatie/' + location.id);
+      for (let i = 0; i < map.locations.length; i++) {
+        let location = map.locations[i];
+        let unlockedLocation = false;
+        if (
+          $session.player &&
+          userMap &&
+          userMap.unlockedLocations.includes(location.id)
+        ) {
+          unlockedLocation = true;
+        }
+        let textLocationX = location.textPositionX;
+        let textLocationY = location.textPositionY;
+        let markerLocationX = location.markerPositionX;
+        let marketLocationY = location.markerPositionY;
+
+        let tooltip3 = L.tooltip({
+          direction: "center",
+          permanent: true,
+          interactive: true,
+          noWrap: true,
+          opacity: 1,
+        })
+          .setLatLng([textLocationY, textLocationX])
+          .setContent(location.name);
+
+        tooltip3.addTo(leafletMap);
+
+        if (unlockedLocation) {
+          let el = tooltip3.getElement();
+          el.addEventListener("click", function () {
+            goto("/kaart/" + map.id + "/locatie/" + location.id);
           });
-        el.style.pointerEvents = 'auto';
-        el.style.cursor = 'pointer';
-      }
+          el.style.pointerEvents = "auto";
+          el.style.cursor = "pointer";
+        }
 
-      let icon = L.icon({
-        iconUrl: "/map-icon1.svg",
-        iconAnchor: [12, 12],
-      });
-
-      if (unlockedLocation) {
-        icon = L.icon({
-          iconUrl: "/map-icon1-unlocked.svg",
+        let icon = L.icon({
+          iconUrl: "/map-icon1.svg",
           iconAnchor: [12, 12],
         });
-        let marker = L.marker([marketLocationY, markerLocationX], {
-          icon: icon,
-        });
-        marker.on("click", function () {
-          goto('/kaart/' + map.id + '/locatie/' + location.id);
-        });
 
-        marker.addTo(leafletMap);
-      } else {
-        L.marker([marketLocationY, markerLocationX], {
-          icon: icon,
-        }).addTo(leafletMap);
-      }
-    }
+        for (let i = 0; i < map.paths.length; i++) {
+          let path = map.paths[i];
+          if (userMap && userMap.unlockedLocations.includes(path.endLocation)) {
+            let parsedPoints = JSON.parse(path.points);
+            let polyline = L.polyline(parsedPoints, {
+              color: "#EB7B02",
+              dashArray: "7 12",
+              weight: 5,
+              lineCap: "round",
+              lineJoin: "round",
+            }).addTo(leafletMap).bringToBack();
+          }
+        }
 
-    for (let i = 0; i < map.paths.length; i++) {
-      let path = map.paths[i];
-      if (userMap && userMap.unlockedLocations.includes(path.endLocation)) {
-        path.points = JSON.parse(path.points);
-        let polyline = L.polyline(path.points, {
-          color: "#EB7B02",
-          dashArray: "7 12",
-          weight: 5,
-          lineCap: "round",
-          lineJoin: "round",
-        }).addTo(leafletMap);
+        if (unlockedLocation) {
+          icon = L.icon({
+            iconUrl: "/map-icon1-unlocked.svg",
+            // iconAnchor: [12, 12],
+            iconSize: [36, 36],
+          });
+          let outerCircle = L.circle([marketLocationY, markerLocationX], 18, {
+            color: "#707070",
+            weight: 1,
+            opacity: 1,
+            fillColor: "#9ECBFF",
+            fillOpacity: 1,
+          });
+          let innerCircle = L.circle([marketLocationY, markerLocationX], 5, {
+            color: "#707070",
+            weight: 1,
+            opacity: 1,
+            fillColor: "#7D92FF",
+            fillOpacity: 1,
+          });
+          outerCircle.on("click", function () {
+            goto("/kaart/" + map.id + "/locatie/" + location.id);
+          });
+          innerCircle.on("click", function () {
+            goto("/kaart/" + map.id + "/locatie/" + location.id);
+          });
+
+          outerCircle.addTo(leafletMap);
+          innerCircle.addTo(leafletMap);
+        } else {
+          let outerCircle = L.circle([marketLocationY, markerLocationX], 18, {
+            color: "#707070",
+            weight: 1,
+            opacity: 1,
+            // fillColor: "#ABF6B2",
+            fillColor: "#4A495E",
+            fillOpacity: 1,
+          });
+          let innerCircle = L.circle([marketLocationY, markerLocationX], 5, {
+            color: "#707070",
+            weight: 1,
+            opacity: 1,
+            // fillColor: "#25AF2E",
+            fillColor: "#1C1D1A",
+            fillOpacity: 1,
+          });
+          outerCircle.addTo(leafletMap);
+          innerCircle.addTo(leafletMap);
+          let el = outerCircle.getElement();
+          el.style.pointerEvents = "auto";
+          el.style.cursor = "grab";
+          el = innerCircle.getElement();
+          el.style.pointerEvents = "auto";
+          el.style.cursor = "grab";
+
+          // L.marker([marketLocationY, markerLocationX], {
+          //   icon: icon,
+          // }).addTo(leafletMap);
+        }
       }
+
+     
     }
-  });
+  }
 </script>
+
+<svelte:head>
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css"
+    integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A=="
+    crossorigin=""
+  />
+  <script
+    src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"
+    integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA=="
+    crossorigin=""></script>
+</svelte:head>
 
 <div id="map" />
 

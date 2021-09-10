@@ -22,35 +22,35 @@ beforeEach ( async() => {
 })
 
 describe("Expontineel wisvids", () => {
-    it("Can read items in the read-only collection", async() => {
-        const db = getFirestore();
-        const testDoc = db.collection("readonly").doc("testDoc");
-        await firebase.assertSucceeds(testDoc.get());
-    })
+    // it("Can read items in the read-only collection", async() => {
+    //     const db = getFirestore();
+    //     const testDoc = db.collection("readonly").doc("testDoc");
+    //     await firebase.assertSucceeds(testDoc.get());
+    // })
 
-    it("Can't write items in the read-only collection", async() => {
-        const db = getFirestore();
-        const testDoc = db.collection("readonly").doc("testDoc2");
-        await firebase.assertFails(testDoc.set({foo: "bar"}));
-    })
+    // it("Can't write items in the read-only collection", async() => {
+    //     const db = getFirestore();
+    //     const testDoc = db.collection("readonly").doc("testDoc2");
+    //     await firebase.assertFails(testDoc.set({foo: "bar"}));
+    // })
     
-    it("Can't write items in the read-only collection", async() => {
-        const db = getFirestore();
-        const testDoc = db.collection("readonly").doc("testDoc2");
-        await firebase.assertFails(testDoc.set({foo: "bar"}));
-    })
+    // it("Can't write items in the read-only collection", async() => {
+    //     const db = getFirestore();
+    //     const testDoc = db.collection("readonly").doc("testDoc2");
+    //     await firebase.assertFails(testDoc.set({foo: "bar"}));
+    // })
 
-    it("Can't write to a user docmument with the same ID as our user", async() => {
-        const db = getFirestore(myAuth);
-        const testDoc = db.collection("users").doc(myId);
-        await firebase.assertSucceeds(testDoc.set({foo: "bar"}));
-    })
+    // it("Can't write to a user docmument with the same ID as our user", async() => {
+    //     const db = getFirestore(myAuth);
+    //     const testDoc = db.collection("users").doc(myId);
+    //     await firebase.assertSucceeds(testDoc.set({foo: "bar"}));
+    // })
 
-    it("Can't write to a user docmument with a different ID as our user", async() => {
-        const db = getFirestore(myAuth);
-        const testDoc = db.collection("users").doc(theirId);
-        await firebase.assertFails(testDoc.set({foo: "bar"}));
-    })
+    // it("Can't write to a user docmument with a different ID as our user", async() => {
+    //     const db = getFirestore(myAuth);
+    //     const testDoc = db.collection("users").doc(theirId);
+    //     await firebase.assertFails(testDoc.set({foo: "bar"}));
+    // })
 
     it("Can query all posts set to public visibility", async() => {
         const db = getFirestore();

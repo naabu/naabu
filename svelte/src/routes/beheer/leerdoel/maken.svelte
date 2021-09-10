@@ -20,7 +20,6 @@
 
   onMount(async() => {
     firebase = await initFirebase($session.environment);
-    console.log(firebase);
 	});
 
 </script>

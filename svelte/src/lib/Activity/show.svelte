@@ -1,13 +1,13 @@
 <script>
-  import {getStores, session, page } from "$app/stores";
+  import { getStores, session, page } from "$app/stores";
   import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
   import { renderKatexOutput } from "$lib/Misc/helper.js";
   import Player from "@vimeo/player";
-	import { onMount } from 'svelte';
+  import { onMount } from "svelte";
   import Notification from "$lib/Misc/notification.svelte";
   import DifficultyFeedback from "$lib/Feedback/difficulty.svelte";
   import BattleFight from "$lib/Battle/fight.svelte";
-  import { hasSpecialClaims} from "$lib/User/helper.js";
+  import { hasSpecialClaims } from "$lib/User/helper.js";
   import { goto } from "$app/navigation";
   export let firebase;
   let displayNotification = false;
@@ -19,27 +19,42 @@
   let fightToggle = true;
   let toggleFeedback = false;
   let feedbackEnded = false;
+  let hasBattles = false;
 
-  $: if (feedbackEnded) {
+  $: if (activity.battles && activity.battles.length > 0) {
+    hasBattles = true;
+  }
+
+  $: if (feedbackEnded && hasBattles) {
     fightToggle = true;
   }
 
+  $: if (feedbackEnded && !hasBattles) {
+    endActivity();
+  }
+
+  $: if (feedbackEnded && hasBattles && !fightToggle) {
+    endActivity();
+  }
+
+
   let notificationText = {
     title: "We ondersteunen niet fullscreen modus",
-    description: "Omdat de video's interactief zijn werkt dit nog niet goed genoeg",
-  }
-  
+    description:
+      "Omdat de video's interactief zijn werkt dit nog niet goed genoeg",
+  };
+
   let activityHasEnded = false;
   let videoHasEnded = false;
   $: activityHasEnded = videoHasEnded;
-  
+
   // Detect if there is a test question attached to the activity.
   // If not activity has ended when video has ended.
   // Ask the test question before showing the activity
   // Store which version (id) of the question was asked
-  // If video has ended lets show a similar question again. 
+  // If video has ended lets show a similar question again.
   // If possible a different question. If not the same question.
-  
+
   // Refactor the quizzes storage?
   // Sub collection / new collection?
   // Activity Id => Goal Id => Quizz.
@@ -51,26 +66,22 @@
   let iframe;
   let y;
 
-
   let userHasSpecialClaims = hasSpecialClaims($session.user);
 
   async function endActivity() {
-    if (!userHasSpecialClaims) {
-      await goto('/')
-    }
-    else {
-      if ($page.path.includes('beheer')) {
-        await goto('/beheer/activiteit')
-      }
-      else {
-        await goto('/')
-      }
-    }
-  }
 
-  
-  $: if (feedbackEnded && !fightToggle) {
-    endActivity();
+    if (activity.type === "Eindbaas") {
+      await unlockLocations();
+    }
+    if (!userHasSpecialClaims) {
+      await goto("/");
+    } else {
+      if ($page.path.includes("beheer")) {
+        await goto("/beheer/activiteit");
+      } else {
+        await goto("/");
+      }
+    }
   }
 
 
@@ -84,10 +95,58 @@
   function scrollABitToTheTop(scroll = 200) {
     if (y - scroll > 0) {
       y = y - scroll;
-    }
-    else {
+    } else {
       y = 0;
     }
+  }
+
+  async function unlockLocations() {
+    if (activity.maps) {
+      for (let i = 0; i < activity.maps.length; i++) {
+        let mapId = activity.maps[i];
+        let uid = $session.player.id;
+        let db = await firebase.firestore();
+        let mapRef = db.collection("maps").doc(mapId);
+        mapRef.get().then(async (mapSnap) => {
+          let map = await mapSnap.data();
+          let userMapRef = db
+            .collection("maps")
+            .doc(mapId)
+            .collection("players")
+            .doc(uid);
+          userMapRef.get().then(async (userMapSnap) => {
+            let userMapData = await userMapSnap.data();
+            for (let i2 = 0; i2 < map.locations.length; i2++) {
+              let location = map.locations[i2];
+              for (let i3 = 0; i3 < location.goals.length; i3++) {
+                let goal = location.goals[i3];
+                if (activity.goalIds.includes(goal.id)) {
+                  // We are at the current Location!
+                  if (!userMapData.succeededLocations.includes(location.id)) {
+                    userMapData.succeededLocations.push(location.id);
+                  }
+                  for (let i4 = 0; i4 < location.accessLocations.length; i4++) {
+                    let accessLocationId = location.accessLocations[i4];
+                    if (
+                      !userMapData.unlockedLocations.includes(accessLocationId)
+                    ) {
+                      userMapData.unlockedLocations.push(accessLocationId);
+                    }
+                  }
+                }
+              }
+            }
+            userMapRef.set(userMapData);
+          });
+        });
+      }
+    }
+    // getAccess Location from current location
+    //
+
+    // get the Maps of the activity?
+    // Set unlocked locations based on path for the user
+    // By storing it in the UserMap.
   }
 
   onMount(() => {
@@ -102,16 +161,16 @@
         };
         player = new Player("vimeoVideo", vimeoOptions);
       }
-   
+
       player.ready().then(function () {
         iframe = document.querySelector("#vimeoVideo iframe");
 
         setInterval(checkTime, 50);
-        
+
         player.on("play", function (data) {
           endVideoInSeconds = data.duration - 7;
         });
-          
+
         player.on("fullscreenchange", function () {
           scrollABitToTheTop();
           displayNotification = true;
@@ -150,38 +209,37 @@
       let quiz = activity.quizzes[i];
       let difference = seconds - quiz.timeInVideo;
       if (
-        activeQuiz === null && 
-        difference > 0 && 
+        activeQuiz === null &&
+        difference > 0 &&
         difference < 0.1 &&
-         (
-           lastActiveQuiz === null ||
-           lastActiveQuiz !== quiz
-         )
+        (lastActiveQuiz === null || lastActiveQuiz !== quiz)
       ) {
         player.pause();
         activeQuiz = quiz;
         hideVideoIframe = true;
       }
-      if ((difference > 1 || difference < -1) && (lastActiveQuiz !== null && quiz === lastActiveQuiz)) {
+      if (
+        (difference > 1 || difference < -1) &&
+        lastActiveQuiz !== null &&
+        quiz === lastActiveQuiz
+      ) {
         lastActiveQuiz = null;
       }
     }
   }
 
   function checkCorrectAnswer(quiz) {
-    if (quiz.answers[quiz.selectedAnswer].correct === true)
-    {
+    if (quiz.answers[quiz.selectedAnswer].correct === true) {
       quiz.feedback = "<div class='text-green-700 font-bold'>Correct</div>";
       quiz.correct = true;
-    }
-    else {
+    } else {
       quiz.feedback = "<div class='text-red-400 font-bold'>Incorrect</div>";
       quiz.false = true;
     }
     return quiz;
   }
 
-  function closeActiveQuiz(){
+  function closeActiveQuiz() {
     lastActiveQuiz = activeQuiz;
     activeQuiz.selectedAnswer = null;
     activeQuiz.feedback = "";
@@ -190,52 +248,34 @@
     activeQuiz = null;
     player.play();
   }
-
 </script>
 
-
-<style>
-  .video {
-    width: 100%;
-    padding-top: 56.25%;
-    position: relative;
-    top: 0;
-  }
-
-  #vimeoVideo :global(iframe) {
-    position: absolute;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-  }
-
-  .displaynone {
-    display:none;
-  }
-
-  .quiz-container {
-    width: 100%;
-    min-height: 52.25vw;
-    position: relative;
-  }
-</style>
-
 <svelte:head>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css"
+    integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc"
+    crossorigin="anonymous"
+  />
 </svelte:head>
 
-<svelte:window bind:scrollY={y}/>
+<svelte:window bind:scrollY={y} />
 
-<Notification bind:displayNotification bind:notificationText time=4000 />
+<Notification bind:displayNotification bind:notificationText time="4000" />
 
 <div>
-  <ShowBreadcrumb bind:breadcrumbs/>
-  <DifficultyFeedback bind:toggle={toggleFeedback} bind:feedbackEnded bind:activity bind:firebase/>
-  <BattleFight bind:toggle={fightToggle} bind:activity bind:firebase/>
+  <ShowBreadcrumb bind:breadcrumbs />
+  <DifficultyFeedback
+    bind:toggle={toggleFeedback}
+    bind:feedbackEnded
+    bind:activity
+    bind:firebase
+  />
+  <BattleFight bind:toggle={fightToggle} bind:activity bind:firebase />
 
   {#if activity}
-    <h1 class="text-lg leading-6 font-medium text-gray-900">Activiteit -
+    <h1 class="text-lg leading-6 font-medium text-gray-900">
+      Activiteit -
       {#if activity.title}
         {activity.title}
       {/if}
@@ -244,11 +284,15 @@
       {@html activity.description}
     {/if}
 
-    <button class:displaynone={hideVideoIframe || activeQuiz === null} on:click={() => hideVideoIframe = true} class="relative ml-14 mt-11 float-left z-20 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">Naar onderbreking</button>
+    <button
+      class:displaynone={hideVideoIframe || activeQuiz === null}
+      on:click={() => (hideVideoIframe = true)}
+      class="relative ml-14 mt-11 float-left z-20 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      >Naar onderbreking</button
+    >
 
     <div class:displaynone={hideVideoIframe} class="video mt-4">
-      <div id="vimeoVideo">
-      </div>  
+      <div id="vimeoVideo" />
     </div>
 
     {#if activeQuiz !== null}
@@ -256,31 +300,56 @@
         <div class="bg-gray-100">
           <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
             <div class="max-w-none mx-auto">
-              <div class="quiz-container bg-white overflow-hidden sm:rounded-lg sm:shadow">
-                <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
-                  <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
+              <div
+                class="quiz-container bg-white overflow-hidden sm:rounded-lg sm:shadow"
+              >
+                <div
+                  class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6"
+                >
+                  <div
+                    class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap"
+                  >
                     <div class="ml-4 mt-4">
-                      <button type="button" on:click={() => hideVideoIframe = false} class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                      <button
+                        type="button"
+                        on:click={() => (hideVideoIframe = false)}
+                        class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                      >
                         Bekijk beeld video
                       </button>
                     </div>
-                    <div class="mt-4 mr-10">
-                      Weet jij het antwoord?
-                    </div>
+                    <div class="mt-4 mr-10">Weet jij het antwoord?</div>
                     <div class="ml-4 mt-4 flex-shrink-0">
                       <div class="ml-4 flex-shrink-0 flex">
-                        <button on:click={closeActiveQuiz} class="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <button
+                          on:click={closeActiveQuiz}
+                          class="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        >
                           <span class="sr-only">Close</span>
-                          <svg class="h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                            <path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd" />
+                          <svg
+                            class="h-5 w-5"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            aria-hidden="true"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                              clip-rule="evenodd"
+                            />
                           </svg>
                         </button>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
-                  <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
+                <div
+                  class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6"
+                >
+                  <div
+                    class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap"
+                  >
                     <div class="ml-4 mt-4">
                       <h3 class="text-lg leading-6 font-medium text-gray-900">
                         {@html renderKatexOutput(activeQuiz.question)}
@@ -294,25 +363,41 @@
                     <div class="ml-4 mt-4 flex-shrink-0">
                       <!-- If answer is correct then change this button to doorgaan -->
                       {#if !activeQuiz.correct}
-                        <button type="button" disabled={activeQuiz.selectedAnswer === null} on:click={() => activeQuiz = checkCorrectAnswer(activeQuiz)} class="disabled:opacity-50 relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                        <button
+                          type="button"
+                          disabled={activeQuiz.selectedAnswer === null}
+                          on:click={() =>
+                            (activeQuiz = checkCorrectAnswer(activeQuiz))}
+                          class="disabled:opacity-50 relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        >
                           Nakijken
                         </button>
-                      {:else} 
-                        <button type="button" on:click={closeActiveQuiz} class="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                      {:else}
+                        <button
+                          type="button"
+                          on:click={closeActiveQuiz}
+                          class="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        >
                           Doorgaan
                         </button>
                       {/if}
                     </div>
                   </div>
                 </div>
-      
+
                 <div class="px-4 pb-5 sm:p-6 sm:pt-0">
                   {#each activeQuiz.answers as answer, i}
                     <label class="block mt-2 mb-2 pb-2 pt-2">
-                      <input type=radio bind:group={activeQuiz.selectedAnswer} value={i}>
-                        {@html "<span class='pl-3'>" + renderKatexOutput(answer.answer) + "</span>"}
+                      <input
+                        type="radio"
+                        bind:group={activeQuiz.selectedAnswer}
+                        value={i}
+                      />
+                      {@html "<span class='pl-3'>" +
+                        renderKatexOutput(answer.answer) +
+                        "</span>"}
                     </label>
-                  {/each}     
+                  {/each}
                 </div>
               </div>
             </div>
@@ -366,3 +451,29 @@
   {/if}
 </div>
 
+<style>
+  .video {
+    width: 100%;
+    padding-top: 56.25%;
+    position: relative;
+    top: 0;
+  }
+
+  #vimeoVideo :global(iframe) {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .displaynone {
+    display: none;
+  }
+
+  .quiz-container {
+    width: 100%;
+    min-height: 52.25vw;
+    position: relative;
+  }
+</style>

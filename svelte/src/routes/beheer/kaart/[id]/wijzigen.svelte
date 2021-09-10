@@ -18,5 +18,5 @@
 </script>
 
 {#if firebase && ref}
-	<Edit bind:ref/>
+	<Edit bind:ref bind:firebase/>
 {/if}

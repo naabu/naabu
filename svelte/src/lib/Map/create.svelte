@@ -2,7 +2,8 @@
   import MapForm from "./form.svelte";
   import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
-	import { onMount } from 'svelte';
+  import { onMount } from "svelte";
+  import { getMapSaveData } from "./helper";
   export let firebase;
 
   let breadcrumbs = [
@@ -30,15 +31,15 @@
     paths: [],
   };
   let buttonDisabled = false;
-  
+
   function getDefaultAlertValues() {
     return {
       success: false,
       successMessage: "",
       error: false,
       errorCode: "",
-      errorMessage: "", 
-    }
+      errorMessage: "",
+    };
   }
 
   let alert = getDefaultAlertValues();
@@ -47,51 +48,8 @@
     db = await firebase.firestore();
   });
 
-
-
   async function createMap() {
-
-    let saveLocations = [];
-    for(let i = 0; i < map.locations.length; i++) {
-      let newLocation = {
-        id: map.locations[i].id,
-        isStartLocation: map.locations[i].isStartLocation,
-        accessLocations: map.locations[i].accessLocations,
-        name: map.locations[i].name,
-        textPositionX: map.locations[i].textPositionX,
-        textPositionY: map.locations[i].textPositionY,
-        markerPositionX: map.locations[i].markerPositionX,
-        markerPositionY: map.locations[i].markerPositionY
-      }
-      let saveGoals = [];
-      for(let i2 = 0; i2 < map.locations[i].goals.length; i2++) {
-        saveGoals.push({
-          id: map.locations[i].goals[i2].objectID,
-          title: map.locations[i].goals[i2].title
-        });
-      } 
-      newLocation.goals = saveGoals;
-      saveLocations.push(newLocation);
-    }
-
-    let savedPath = [] 
-    for(let i = 0; i < map.paths.length; i++) {
-      let newPath = {};
-      newPath.startLocation = map.paths[i].startLocation;
-      newPath.endLocation = map.paths[i].endLocation;
-      newPath.points = JSON.stringify(map.paths[i].points);
-      newPath.startLocationName = map.paths[i].startLocationName;
-      newPath.endLocationName = map.paths[i].endLocationName;
-      newPath.endLocationIndex = map.paths[i].endLocationIndex;
-      savedPath.push(newPath);
-    }
-
-    const data = {
-      title: map.title,
-      image: map.image,
-      locations: saveLocations,
-      paths: savedPath,
-    };
+    let data = getMapSaveData(map);
     alert = getDefaultAlertValues();
     try {
       let collectionRef = db.collection("maps");
@@ -99,6 +57,8 @@
       alert.success = true;
       alert.successTitle = "Kaart gemaakt";
       alert.successMessage = "id: " + result.id;
+      map.id = result.id;
+      updateActivities(firebase, map);
     } catch (e) {
       alert.error = true;
       alert.errorCode = e.code;
@@ -119,7 +79,7 @@
 <svelte:window bind:scrollY={y} />
 
 <ShowBreadcrumb bind:breadcrumbs />
-<ResultFeedback bind:alert /> 
+<ResultFeedback bind:alert />
 
 <div>
   <div class="mt-2 md:flex md:items-center md:justify-between">

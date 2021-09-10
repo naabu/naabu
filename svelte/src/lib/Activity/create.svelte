@@ -7,6 +7,7 @@
 	import { onMount } from 'svelte';
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
   import { renderKatexOutput } from "$lib/Misc/helper.js";
+import { getActivitySaveData } from "./helper";
   export let firebase;
  // import firebase from "firebase/app";
 
@@ -59,33 +60,8 @@
     db = await firebase.firestore();
   });
 
-  async function createActivity() {   
-    let addLeerdoelen = [];
-
-    for (let i = 0; i < activity.goals.length; i++) {
-      let toAdd = {};
-      toAdd.objectID = activity.goals[i].objectID;
-      toAdd.taxonomy_solo = activity.goals[i].taxonomy_solo;
-      toAdd.taxonomy_bloom = activity.goals[i].taxonomy_bloom;
-      toAdd.title = activity.goals[i].title;
-      addLeerdoelen = [... addLeerdoelen, toAdd]
-    }
-    activity.description = renderKatexOutput(activity.descriptionRaw);
-    
-    const data = {
-      title: activity.title,
-      goals: addLeerdoelen,
-      descriptionRaw: activity.descriptionRaw,
-      description: activity.description,
-      type: activity.type,
-      difficulty: activity.difficulty,
-      svg: activity.svg,
-      quizzes: activity.quizzes,
-      video: {
-        vimeoId: activity.video.vimeoId
-      },
-      visibility: 'public',
-    };
+  async function createActivity() {
+    let data = getActivitySaveData(activity);
     alert = getDefaultAlertValues();
     try {
       let collectionRef = db.collection("activities");

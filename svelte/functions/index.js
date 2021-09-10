@@ -1,7 +1,7 @@
 const functions = require("firebase-functions");
 const algoliasearch = require('algoliasearch');
 const ENVIRONMENT = functions.config().app.environment;
-
+const DEFAULT_MAP_ID = functions.config().app.defaultmapid;
 
 function getFirebaseApp() {
   const admin = require("firebase-admin");
@@ -21,6 +21,7 @@ let ssrServer;
 exports.ssr = functions.https.onRequest(async (request, response) => {
   functions.logger.info(process.env);
   process.env.ENVIRONMENT = ENVIRONMENT;
+  process.env.DEFAULT_MAP_ID = DEFAULT_MAP_ID;
   // process.env.firestore = functions.firestore;
   functions.logger.info(functions.firestore);
   if (!ssrServer) {
@@ -74,7 +75,7 @@ exports.updateGoalIndex = functions.firestore.document('goals/{goalId}')
     return goalIndex.saveObject({ ...newData, objectID });
   });
 
-  exports.addMapToIndex = functions.firestore.document('maps/{mapId}')
+exports.addMapToIndex = functions.firestore.document('maps/{mapId}')
   .onCreate((snap, context) => {
     const data = snap.data();
     const objectID = snap.id;
@@ -89,24 +90,24 @@ exports.updateMapIndex = functions.firestore.document('maps/{mapId}')
   });
 
 exports.deleteMapFromIndex = functions.firestore.document('maps/{mapId}')
-.onDelete((snap, context) => {
-  return mapIndex.deleteObject(snap.id);
-});
+  .onDelete((snap, context) => {
+    return mapIndex.deleteObject(snap.id);
+  });
 
 exports.scheduleExport = functions.pubsub.schedule('0 3 * * *')
-.timeZone('Europe/Amsterdam')
-.onRun((context) => {
-  const fb = getFirebaseApp();
-  let db = fb.firestore();
-  let triggerData = {
-    lastTriggerTimestamp: Date.now()
-  }
-  let triggersRef = db.collection("triggers");
-  triggersRef.doc('data-export').set(triggerData).then(() => {
-    functions.logger.info('Exported data in data-export trigger');
+  .timeZone('Europe/Amsterdam')
+  .onRun((context) => {
+    const fb = getFirebaseApp();
+    let db = fb.firestore();
+    let triggerData = {
+      lastTriggerTimestamp: Date.now()
+    }
+    let triggersRef = db.collection("triggers");
+    triggersRef.doc('data-export').set(triggerData).then(() => {
+      functions.logger.info('Exported data in data-export trigger');
+    });
+    return null;
   });
-  return null;
-});
 
 // Step 1. When a new feedback item is created (userid)
 // Step 2. Load the user data. (activity sequence data)
@@ -271,7 +272,7 @@ exports.manuallyTrigger = functions.firestore.document('/triggers/{triggerId}')
               time: feedbackData.time,
               uid: feedbackData.uid
             }
-            switch (feedbackData.feedbackValue){
+            switch (feedbackData.feedbackValue) {
               case -1:
                 exportData.feedback = 'too-difficult';
                 break;
@@ -282,7 +283,7 @@ exports.manuallyTrigger = functions.firestore.document('/triggers/{triggerId}')
                 exportData.feedback = 'just-right';
                 break;
             }
-           
+
             feedbackExportData.push(exportData);
           });
           triggerData.output3 = JSON.stringify(feedbackExportData);
@@ -361,6 +362,124 @@ exports.deleteFromActivityIndex = functions.firestore.document('activities/{acti
 
   });
 
+function shuffle(array) {
+  var currentIndex = array.length, randomIndex;
+  while (currentIndex != 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+  return array;
+}
+
+exports.writeFeedbackDevelopRandom = functions.firestore.document('feedback/{feedbackId}')
+  .onCreate(async (snap, context) => {
+    if (ENVIRONMENT === 'development') {
+      const feedbackData = snap.data();
+      let uid = feedbackData.uid;
+      console.log(feedbackData);
+      const fb = getFirebaseApp();
+      let db = fb.firestore();
+      let activities = [];
+      db.collection("activities")
+        .get()
+        .then((activityQuerySnapshot) => {
+          activityQuerySnapshot.forEach((activity_snap) => {
+            activityDict = activity_snap.data();
+            activityChoiceData = {
+              'title': activityDict['title'],
+              'type': activityDict['type'],
+              'svg': activityDict['svg'],
+              'difficulty': activityDict['difficulty'],
+            }
+            if (!activityDict['goalIds']) {
+              activityDict['goalIds'] = []
+            }
+            activity = {
+              'id': activity_snap.id,
+              'data': activityChoiceData,
+              'goalIds': activityDict['goalIds']
+            }
+            activities.push(activity);
+          });
+          shuffle(activities);
+          db.collection("maps")
+            .get()
+            .then((mapsQuerySnapshot) => {
+              mapsQuerySnapshot.forEach(async (map_snap) => {
+                mapId = map_snap.id
+                mapDict = map_snap.data();
+                console.log('map');
+                console.log(mapDict);
+                userMapRef = db.collection('maps').doc(mapId).collection('players').doc(uid);
+                userMapRef.get().then(async (userMapSnap) => {
+                  userMapDict = await userMapSnap.data();
+                  console.log(userMapDict);
+                  let mapActivities = [];
+                  for (let i = 0; i < activities.length; i++) {
+                    let activity = activities[i];
+                    let foundInMap = false;
+                    activity.mapLocations = [];
+                    for (let i2 = 0; i2 < mapDict.locations.length; i2++) {
+                      let location = mapDict.locations[i2];
+                      for (let i3 = 0; i3 < location.goals.length; i3++) {
+                        let goal = location.goals[i3];
+                        console.log('goal');
+                        console.log(goal);
+                        if (activity.goalIds.includes(goal.id)) {
+                          activity.mapLocations.push(location.id)
+                          foundInMap = true;
+                        }
+                      }
+                    }
+                    if (foundInMap) {
+                      mapActivities.push(activity);
+                    }
+                  }
+                  console.log(userMapDict);
+                  console.log(mapActivities);
+                  if (userMapDict) {
+                    userMapDict['selectedActivities'] = mapActivities;
+                    userMapRef.set(userMapDict);
+                  }
+                });
+              });
+            });
+
+        })
+        .catch((error) => {
+          console.log("Error getting documents: ", error);
+        });
+
+    }
+    return null;
+
+    // maps = db.collection(u'maps').stream()
+    // for map in maps:
+    //   mapId = map.id
+    //   mapDict = map.to_dict()
+    //   userMapRef = db.collection('maps').document(mapId).collection('players').document(uid)
+    //   userMapSnap= userMapRef.get()
+    //   if userMapSnap.exists:
+    //     userMapDict = userMapSnap.to_dict();
+    //     mapActivities = []
+    //     for item in sorted_array:
+    //       activityId = indexActivity[item[0]]
+    //       for activity in activities: 
+    //         if activity['id'] == activityId:
+    //           foundInMap = False
+    //           activity['mapLocation'] = []
+    //           for location in mapDict['locations']:
+    //             for goal in location['goals']:
+    //               if  goal['id'] in activity['goalIds']:
+    //                 activity['mapLocation'].append(location['id'])
+    //                 foundInMap = True
+    //           if foundInMap: 
+    //             mapActivities.append(activity)
+    //     userMapDict['selectedActivities'] = mapActivities
+    //     userMapRef.set(userMapDict)
+  });
+
 // - For every user (maybe even AN)
 // - Make a function that checks all the users
 // - If the user has not 3 activities in a path. Add activities to the path collection from Firebase.
@@ -392,7 +511,7 @@ exports.fillPathWithActivitiesForNewUsers = functions.auth.user().onCreate((user
         activities.push(activity);
       });
       let pathRef = db.collection("path");
-      pathRef.doc(user.uid).set({ "activities": activities}).then(() => {
+      pathRef.doc(user.uid).set({ "activities": activities }).then(() => {
         console.log('Created path succeeded!');
       });
     }).catch(err => {

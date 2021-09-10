@@ -6,9 +6,17 @@
   import { getMap, getUserMap } from "$lib/Map/helper";
 
   let firebase;
-
   let map;
   let userMap = null;
+  let mapId = $page.params.id;
+
+  $: (async () => {
+    if ($session.player) {
+      userMap = await getUserMap(firebase, mapId, map, $session.player);
+    }
+  });
+
+
 
   let mounted = false;
   let breadcrumbs = [
@@ -22,16 +30,24 @@
     },
   ];
 
+  $: if ($session.player && firebase) {
+    asynGetUserMap();
+  }
+
+  const asynGetUserMap = async () => {
+    userMap = await getUserMap(firebase, mapId, map, $session.player);
+  }
+
   onMount(async () => {
     firebase = await initFirebase($session.environment);
     await retrieveFirestoreData();
+    await asynGetUserMap();
     mounted = true;
   });
 
   async function retrieveFirestoreData() {
-    let mapId = $page.params.id
+    let mapId = $page.params.id;
     map = await getMap(firebase, mapId);
-    userMap = await getUserMap(firebase, mapId, $session.player);
   }
 </script>
 

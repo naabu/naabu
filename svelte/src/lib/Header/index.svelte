@@ -169,7 +169,7 @@
                 outState="transform opacity-0 scale-95"
               >
                 <div
-                  class="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                  class="highz origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
                   role="menu"
                   aria-orientation="vertical"
                   aria-labelledby="user-menu-button"
@@ -203,7 +203,7 @@
 
     <!-- Mobile menu, show/hide based on menu state. -->
     <div class:hidden={!openMenu} class="sm:hidden" id="mobile-menu">
-      <div class="px-2 pt-2 pb-3 space-y-1">
+      <div class="px-2 pt-2 pb-3 space-y-1 highz">
         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
         <a
           href="#"
@@ -234,4 +234,7 @@
 </header>
 
 <style>
+  .highz {
+    z-index: 10000;
+  }
 </style>

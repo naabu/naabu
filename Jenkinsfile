@@ -28,13 +28,15 @@ pipeline {
               }
               steps {
                 echo 'Cypress tests'
-                try {
-                    sh 'docker-compose -f cypress-docker-compose.yml exec -T cypress npm ci'
-                    sh "docker-compose -f cypress-docker-compose.yml exec -T cypress npm run test"
-                }
-                catch (exc) {
-                    echo 'Something failed, I should sound the klaxons!'
-                    return
+                script {
+                  try {
+                      sh 'docker-compose -f cypress-docker-compose.yml exec -T cypress npm ci'
+                      sh "docker-compose -f cypress-docker-compose.yml exec -T cypress npm run test"
+                  }
+                  catch (exc) {
+                      echo 'Something failed, I should sound the klaxons!'
+                      throw
+                  }
                 }
               }
 

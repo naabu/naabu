@@ -11,7 +11,9 @@ pipeline {
             steps {
                 sh 'echo $GIT_BRANCH'
                 sh 'echo $GIT_COMMIT'
+                sh 'printenv'
                 sh 'docker-compose -f cypress-docker-compose.yml up -d --build'
+                sh 'docker-compose -f cypress-docker-compose.yml exec -T sveltekit printenv'
                 sh 'docker-compose -f cypress-docker-compose.yml exec -T sveltekit npm run dev'
                 sh 'docker-compose -f cypress-docker-compose.yml exec -T sveltekit npm run emulate'
                 sleep 10 

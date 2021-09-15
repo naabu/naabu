@@ -15,8 +15,8 @@ pipeline {
                 sh 'rm -rf svelte/node_modules'
                 sh 'docker-compose -f cypress-docker-compose.yml up -d --build'
                 sh 'docker-compose -f cypress-docker-compose.yml exec -T -u node sveltekit printenv'
-                sh 'docker-compose -f cypress-docker-compose.yml exec -T -u node sveltekit npm run dev'
-                sh 'docker-compose -f cypress-docker-compose.yml exec -T -u node sveltekit npm run emulate'
+                sh 'docker-compose -f cypress-docker-compose.yml exec -T -d -u node sveltekit npm run dev'
+                sh 'docker-compose -f cypress-docker-compose.yml exec -T -d -u node sveltekit npm run emulate'
                 sleep 10 
             }
         }

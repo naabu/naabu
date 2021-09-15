@@ -12,7 +12,6 @@ pipeline {
                 sh 'echo $GIT_BRANCH'
                 sh 'echo $GIT_COMMIT'
                 sh 'docker-compose -f cypress-docker-compose.yml up -d --build'
-                sh 'docker-compose -f cypress-docker-compose.yml exec -T sveltekit npm install'
                 sh 'docker-compose -f cypress-docker-compose.yml exec -T -d sveltekit npm run dev'
                 sh 'docker-compose -f cypress-docker-compose.yml exec -T -d sveltekit npm run emulate'
                 sleep 10 
@@ -29,7 +28,7 @@ pipeline {
             }
             steps {
               echo 'Cypress tests'
-              sh 'docker-compose -f cypress-docker-compose.yml exec -T cypress npm ci'
+              // sh 'docker-compose -f cypress-docker-compose.yml exec -T cypress npm ci'
               sh "docker-compose -f cypress-docker-compose.yml exec -T cypress npm run test"
             }
         }

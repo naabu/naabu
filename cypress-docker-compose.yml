@@ -21,6 +21,13 @@ services:
       - 4500:4500
     networks:
       - internal_network
+  
+  cypress:
+    build:
+      context: .
+      dockerfile: dockerfiles/cypress/Dockerfile
+    networks:
+      - internal_network
 
   # nginx:
   #   build:

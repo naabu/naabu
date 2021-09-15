@@ -8,8 +8,8 @@ const getIframeOfVimeo = () => {
 
 describe("Unlock location on map test", () => {
   it("Goes to the map. Visits a location and goes on adventure. Should unlock locations.", () => {
-    cy.visit('http://localhost:3000/cypress/login-normal-user').contains('Login complete');
-    cy.visit('http://localhost:3000/cypress/reset-map').contains('Player map is deleted!', {timeout: 100000});
+    cy.visit('http://sveltekit:3000/cypress/login-normal-user').contains('Login complete');
+    cy.visit('http://sveltekit:3000/cypress/reset-map').contains('Player map is deleted!', {timeout: 100000});
     cy.get(':nth-child(1) > [data-cy=logo]').click();
     cy.get('.locked_marker_1').first().should('be.visible')
     cy.get('#map').not('.unlocked_marker_1');
@@ -50,7 +50,7 @@ describe("Unlock location on map test", () => {
     cy.get('.unlocked_marker_3').first().should('be.visible')
     cy.get('#map').not('.locked_marker_2');
     cy.get('#map').not('.locked_marker_3');
-    cy.visit('http://localhost:3000/cypress/reset-map').contains('Player map is deleted!', {timeout: 100000});
+    cy.visit('http://sveltekit:3000/cypress/reset-map').contains('Player map is deleted!', {timeout: 100000});
   });
 });
 

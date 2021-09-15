@@ -26,19 +26,10 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/cypress/Dockerfile
+    volumes:
+      - ./functional-tests:/tests
     networks:
       - internal_network
-
-  # nginx:
-  #   build:
-  #     context: .
-  #     dockerfile: dockerfiles/nginx/Dockerfile
-  #   volumes:
-  #     - ./:/var/www/
-  #   ports:
-  #     - 8004:80
-  #   networks:
-  #     - internal_network
   
 networks:
   internal_network:

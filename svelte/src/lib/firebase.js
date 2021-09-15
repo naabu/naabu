@@ -47,7 +47,7 @@ export async function initFirebase(environment = "production", proFb) {
     }
   }
 
-  if (environment === 'development' || environment === 'cypress') {
+  if (environment === 'development') {
     if (!fb.auth().emulatorConfig) {
       await fb.auth().useEmulator("http://localhost:5010");
     }
@@ -56,5 +56,16 @@ export async function initFirebase(environment = "production", proFb) {
       await fb.firestore().useEmulator("localhost", 5012);
     }
   }
+
+  if (environment === 'cypress') {
+    if (!fb.auth().emulatorConfig) {
+      await fb.auth().useEmulator("http://sveltekit:5010");
+    }
+    if (fb.firestore()._delegate._settings.host !== "sveltekit:5012") {
+      fb.firestore().settings({ experimentalAutoDetectLongPolling: true })
+      await fb.firestore().useEmulator("sveltekit", 5012);
+    }
+  }
+
   return fb;
 }

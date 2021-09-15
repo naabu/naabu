@@ -13,4 +13,5 @@ RUN npm install; \
     | tee -a /etc/sysctl.conf;
 EXPOSE 3000
 USER node
+ENV PATH /var/www/svelte/node_modules/.bin:$PATH
 CMD ["tail", "-f", "/dev/null"]

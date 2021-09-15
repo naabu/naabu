@@ -14,32 +14,23 @@ pipeline {
                 sh 'docker-compose -f cypress-docker-compose.yml up -d --build'
                 sh 'docker-compose -f cypress-docker-compose.yml exec sveltekit npm run dev'
                 sh 'docker-compose -f cypress-docker-compose.yml exec -d sveltekit npm run emulate'
-                sleep 10
+                sleep 10 
             }
         }
         stage('Test') {
-              environment {
-                TEST_ENVIROMENTFILE = 'TEST'
-                // we will be recording test results and video on Cypress dashboard
-                // to record we need to set an environment variable
-                // we can load the record key variable from credentials store
-                // see https://jenkins.io/doc/book/using/using-credentials/
-                // CYPRESS_RECORD_KEY = credentials('cypress-example-kitchensink-record-key')
-              }
-              steps {
-                echo 'Cypress tests'
-                script {
-                  try {
-                      sh 'docker-compose -f cypress-docker-compose.yml exec -T cypress npm ci'
-                      sh "docker-compose -f cypress-docker-compose.yml exec -T cypress npm run test"
-                  }
-                  catch (exc) {
-                      echo 'Something failed, I should sound the klaxons!'
-                      throw
-                  }
-                }
-              }
-
+            environment {
+              TEST_ENVIROMENTFILE = 'TEST'
+              // we will be recording test results and video on Cypress dashboard
+              // to record we need to set an environment variable
+              // we can load the record key variable from credentials store
+              // see https://jenkins.io/doc/book/using/using-credentials/
+              // CYPRESS_RECORD_KEY = credentials('cypress-example-kitchensink-record-key')
+            }
+            steps {
+              echo 'Cypress tests'
+              sh 'docker-compose -f cypress-docker-compose.yml exec -T cypress npm ci'
+              sh "docker-compose -f cypress-docker-compose.yml exec -T cypress npm run test"
+            }
         }
         stage('Push') {
             when {

@@ -4,6 +4,7 @@ RUN apt-get update; \
     default-jre; 
 COPY . /var/www/
 WORKDIR /var/www/svelte/
+RUN chmod -R 777 /var/www/svelte
 USER node
 RUN npm install;
 EXPOSE 3000

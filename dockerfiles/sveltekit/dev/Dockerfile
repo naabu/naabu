@@ -5,14 +5,15 @@ RUN apt-get update; \
 COPY . /var/www/
 WORKDIR /var/www/svelte/
 USER node
-RUN npm install; \
+RUN chown -R node /usr/local/lib/node_modules; \
+    npm install; \
     npm install -g \ 
         npm \
         firebase-tools; \
     npm install; \
     echo "fs.inotify.max_user_watches=2097152" \ 
-    | tee -a /etc/sysctl.conf;
+    | tee -a /etc/sysctl.conf; \
+    chown -R node /var/www/svelte/node_modules;
 EXPOSE 3000
-RUN chown -R node /var/www/svelte/node_modules
 ENV PATH /var/www/svelte/node_modules/.bin:$PATH
 CMD ["tail", "-f", "/dev/null"]

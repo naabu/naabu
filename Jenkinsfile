@@ -17,7 +17,7 @@ pipeline {
                 sh 'docker-compose -f cypress-docker-compose.yml exec -T -u node sveltekit printenv'
                 sh 'docker-compose -f cypress-docker-compose.yml exec -T -d -u node sveltekit npm run dev'
                 sh 'docker-compose -f cypress-docker-compose.yml exec -T -d -u node sveltekit npm run emulate'
-                sleep 10 
+                sleep 60 
             }
         }
         stage('Test') {

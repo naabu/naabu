@@ -5,8 +5,8 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/sveltekit/dev/Dockerfile
-    volumes:
-      - ./:/var/www/
+    # volumes:
+    #   - ./:/var/www/
     environment:
       - ENVIRONMENT=cypress
       - DEFAULT_MAP_ID=OcZm1UN6gxuUiFWTgoyp
@@ -26,8 +26,8 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/cypress/Dockerfile
-    volumes:
-      - ./functional-tests:/tests
+    # volumes:
+    #   - ./functional-tests:/tests
     networks:
       - internal_network
   

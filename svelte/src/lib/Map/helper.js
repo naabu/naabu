@@ -13,7 +13,7 @@ export async function getMap(firebase, mapId) {
 export async function getUserMap(firebase, mapId, map, player) {
   let db = await firebase.firestore();
   let userMap = null;
-  if (player) {
+  if (player && map) {
     let userMapRef = db
       .collection("maps/" + mapId + "/players")
       .doc(player.id);

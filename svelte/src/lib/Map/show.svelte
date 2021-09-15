@@ -100,8 +100,8 @@
           iconAnchor: [12, 12],
         });
 
-        for (let i = 0; i < map.paths.length; i++) {
-          let path = map.paths[i];
+        for (let i2 = 0; i2 < map.paths.length; i2++) {
+          let path = map.paths[i2];
           if (userMap && userMap.unlockedLocations.includes(path.endLocation)) {
             let parsedPoints = JSON.parse(path.points);
             let polyline = L.polyline(parsedPoints, {
@@ -126,6 +126,7 @@
             opacity: 1,
             fillColor: "#9ECBFF",
             fillOpacity: 1,
+            className: 'unlocked_marker_' + i
           });
           let innerCircle = L.circle([marketLocationY, markerLocationX], 5, {
             color: "#707070",
@@ -137,12 +138,14 @@
           outerCircle.on("click", function () {
             goto("/kaart/" + map.id + "/locatie/" + location.id);
           });
+      
           innerCircle.on("click", function () {
             goto("/kaart/" + map.id + "/locatie/" + location.id);
           });
 
           outerCircle.addTo(leafletMap);
           innerCircle.addTo(leafletMap);
+          // outerCircle._icon.classList.add("className");
         } else {
           let outerCircle = L.circle([marketLocationY, markerLocationX], 18, {
             color: "#707070",
@@ -151,6 +154,7 @@
             // fillColor: "#ABF6B2",
             fillColor: "#4A495E",
             fillOpacity: 1,
+            className: 'locked_marker_' + i
           });
           let innerCircle = L.circle([marketLocationY, markerLocationX], 5, {
             color: "#707070",

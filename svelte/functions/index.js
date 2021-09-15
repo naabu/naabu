@@ -45,6 +45,9 @@ function getIndex(suffix, environment) {
   if (environment === 'development') {
     index = "dev_" + suffix;
   }
+  if (environment === 'cypress') {
+    index = "cypress_" + suffix;
+  }
   else if (environment === 'acceptance') {
     index = "acc_" + suffix;
   }
@@ -311,6 +314,12 @@ exports.manuallyTrigger = functions.firestore.document('/triggers/{triggerId}')
     return null;
   });
 
+  // maps/OcZm1UN6gxuUiFWTgoyp/players/ZJzqHdwk3Wq5Uv3Ru6RsXCWgjp6V
+exports.onMapPlayerCreated = functions.firestore.document('maps/{mapId}/players/{playerId}')
+.onCreate((snap, context) => {
+  setMapActivitiesForUid(context.params.playerId);
+});
+
 exports.deleteFromGoalIndex = functions.firestore.document('goals/{goalId}')
   .onDelete((snap, context) => {
     return goalIndex.deleteObject(snap.id);
@@ -372,85 +381,83 @@ function shuffle(array) {
   return array;
 }
 
+function setMapActivitiesForUid(uid) {
+  const fb = getFirebaseApp();
+  let db = fb.firestore();
+  let activities = [];
+  db.collection("activities")
+    .get()
+    .then((activityQuerySnapshot) => {
+      activityQuerySnapshot.forEach((activity_snap) => {
+        activityDict = activity_snap.data();
+        activityChoiceData = {
+          'title': activityDict['title'],
+          'type': activityDict['type'],
+          'svg': activityDict['svg'],
+          'difficulty': activityDict['difficulty'],
+        }
+        if (!activityDict['goalIds']) {
+          activityDict['goalIds'] = []
+        }
+        activity = {
+          'id': activity_snap.id,
+          'data': activityChoiceData,
+          'goalIds': activityDict['goalIds']
+        }
+        activities.push(activity);
+      });
+      shuffle(activities);
+      db.collection("maps")
+        .get()
+        .then((mapsQuerySnapshot) => {
+          mapsQuerySnapshot.forEach(async (map_snap) => {
+            mapId = map_snap.id
+            mapDict = map_snap.data();
+            userMapRef = db.collection('maps').doc(mapId).collection('players').doc(uid);
+            userMapRef.get().then(async (userMapSnap) => {
+              userMapDict = await userMapSnap.data();
+              console.log(userMapDict);
+              let mapActivities = [];
+              for (let i = 0; i < activities.length; i++) {
+                let activity = activities[i];
+                let foundInMap = false;
+                activity.mapLocations = [];
+                for (let i2 = 0; i2 < mapDict.locations.length; i2++) {
+                  let location = mapDict.locations[i2];
+                  for (let i3 = 0; i3 < location.goals.length; i3++) {
+                    let goal = location.goals[i3];
+                    console.log('goal');
+                    console.log(goal);
+                    if (activity.goalIds.includes(goal.id)) {
+                      activity.mapLocations.push(location.id)
+                      foundInMap = true;
+                    }
+                  }
+                }
+                if (foundInMap) {
+                  mapActivities.push(activity);
+                }
+              }
+              if (userMapDict) {
+                userMapDict['selectedActivities'] = mapActivities;
+                userMapRef.set(userMapDict);
+              }
+            });
+          });
+        });
+
+    })
+    .catch((error) => {
+      console.log("Error getting documents: ", error);
+    });
+}
+
 exports.writeFeedbackDevelopRandom = functions.firestore.document('feedback/{feedbackId}')
   .onCreate(async (snap, context) => {
     if (ENVIRONMENT === 'development') {
       const feedbackData = snap.data();
       let uid = feedbackData.uid;
-      console.log(feedbackData);
-      const fb = getFirebaseApp();
-      let db = fb.firestore();
-      let activities = [];
-      db.collection("activities")
-        .get()
-        .then((activityQuerySnapshot) => {
-          activityQuerySnapshot.forEach((activity_snap) => {
-            activityDict = activity_snap.data();
-            activityChoiceData = {
-              'title': activityDict['title'],
-              'type': activityDict['type'],
-              'svg': activityDict['svg'],
-              'difficulty': activityDict['difficulty'],
-            }
-            if (!activityDict['goalIds']) {
-              activityDict['goalIds'] = []
-            }
-            activity = {
-              'id': activity_snap.id,
-              'data': activityChoiceData,
-              'goalIds': activityDict['goalIds']
-            }
-            activities.push(activity);
-          });
-          shuffle(activities);
-          db.collection("maps")
-            .get()
-            .then((mapsQuerySnapshot) => {
-              mapsQuerySnapshot.forEach(async (map_snap) => {
-                mapId = map_snap.id
-                mapDict = map_snap.data();
-                console.log('map');
-                console.log(mapDict);
-                userMapRef = db.collection('maps').doc(mapId).collection('players').doc(uid);
-                userMapRef.get().then(async (userMapSnap) => {
-                  userMapDict = await userMapSnap.data();
-                  console.log(userMapDict);
-                  let mapActivities = [];
-                  for (let i = 0; i < activities.length; i++) {
-                    let activity = activities[i];
-                    let foundInMap = false;
-                    activity.mapLocations = [];
-                    for (let i2 = 0; i2 < mapDict.locations.length; i2++) {
-                      let location = mapDict.locations[i2];
-                      for (let i3 = 0; i3 < location.goals.length; i3++) {
-                        let goal = location.goals[i3];
-                        console.log('goal');
-                        console.log(goal);
-                        if (activity.goalIds.includes(goal.id)) {
-                          activity.mapLocations.push(location.id)
-                          foundInMap = true;
-                        }
-                      }
-                    }
-                    if (foundInMap) {
-                      mapActivities.push(activity);
-                    }
-                  }
-                  console.log(userMapDict);
-                  console.log(mapActivities);
-                  if (userMapDict) {
-                    userMapDict['selectedActivities'] = mapActivities;
-                    userMapRef.set(userMapDict);
-                  }
-                });
-              });
-            });
-
-        })
-        .catch((error) => {
-          console.log("Error getting documents: ", error);
-        });
-
+      setMapActivitiesForUid(uid);
     }
     return null;
 
@@ -487,36 +494,37 @@ exports.writeFeedbackDevelopRandom = functions.firestore.document('feedback/{fee
 // Trigger?
 // If a new user is created? Fill path with activities?
 exports.fillPathWithActivitiesForNewUsers = functions.auth.user().onCreate((user, eventContext) => {
-  const fb = getFirebaseApp();
-  db = fb.firestore();
-  let activitiesRef = db.collection("activities");
-  // TODO - maybe fix random in the future
-  // https://stackoverflow.com/questions/46798981/firestore-how-to-get-random-documents-in-a-collection
+  setMapActivitiesForUid(user.uid);
+  // const fb = getFirebaseApp();
+  // db = fb.firestore();
+  // let activitiesRef = db.collection("activities");
+  // // TODO - maybe fix random in the future
+  // // https://stackoverflow.com/questions/46798981/firestore-how-to-get-random-documents-in-a-collection
 
-  return activitiesRef.limit(3).get()
-    .then((querySnapshot) => {
-      let activities = [];
-      querySnapshot.forEach((docSnap) => {
-        let activityData = docSnap.data();
-        let activityChoiceData = {
-          title: activityData.title,
-          type: activityData.type,
-          svg: activityData.svg,
-          difficulty: activityData.difficulty,
-        }
-        let activity = {
-          id: docSnap.id,
-          data: activityChoiceData,
-        };
-        activities.push(activity);
-      });
-      let pathRef = db.collection("path");
-      pathRef.doc(user.uid).set({ "activities": activities }).then(() => {
-        console.log('Created path succeeded!');
-      });
-    }).catch(err => {
-      console.log(err.message)
-    });
+  // return activitiesRef.limit(3).get()
+  //   .then((querySnapshot) => {
+  //     let activities = [];
+  //     querySnapshot.forEach((docSnap) => {
+  //       let activityData = docSnap.data();
+  //       let activityChoiceData = {
+  //         title: activityData.title,
+  //         type: activityData.type,
+  //         svg: activityData.svg,
+  //         difficulty: activityData.difficulty,
+  //       }
+  //       let activity = {
+  //         id: docSnap.id,
+  //         data: activityChoiceData,
+  //       };
+  //       activities.push(activity);
+  //     });
+  //     let pathRef = db.collection("path");
+  //     pathRef.doc(user.uid).set({ "activities": activities }).then(() => {
+  //       console.log('Created path succeeded!');
+  //     });
+  //   }).catch(err => {
+  //     console.log(err.message)
+  //   });
 });
 
 // If an activity is removed from the path

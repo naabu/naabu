@@ -1,0 +1,37 @@
+version: "3"
+
+services:
+  sveltekit:
+    build:
+      context: .
+      dockerfile: dockerfiles/sveltekit/dev/Dockerfile
+    volumes:
+      - ./:/var/www/
+    environment:
+      - ENVIRONMENT=cypress
+      - DEFAULT_MAP_ID=OcZm1UN6gxuUiFWTgoyp
+    ports:
+      - 3000:3000
+      - 3001:3001
+      - 9222:9222
+      - 9229:9229
+      - 24678:24678
+      - 9005:9005
+      - 5000-5040:5000-5040
+      - 4500:4500
+    networks:
+      - internal_network
+
+  # nginx:
+  #   build:
+  #     context: .
+  #     dockerfile: dockerfiles/nginx/Dockerfile
+  #   volumes:
+  #     - ./:/var/www/
+  #   ports:
+  #     - 8004:80
+  #   networks:
+  #     - internal_network
+  
+networks:
+  internal_network:

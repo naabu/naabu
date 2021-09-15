@@ -69,8 +69,10 @@
   let userHasSpecialClaims = hasSpecialClaims($session.user);
 
   async function endActivity() {
-
+    console.log('end activity');
+    console.log(activity.type);
     if (activity.type === "Eindbaas") {
+      console.log('unlock locations');
       await unlockLocations();
     }
     if (!userHasSpecialClaims) {
@@ -116,6 +118,8 @@
             .doc(uid);
           userMapRef.get().then(async (userMapSnap) => {
             let userMapData = await userMapSnap.data();
+            console.log(userMapData);
+            console.log(activity.goalIds);
             for (let i2 = 0; i2 < map.locations.length; i2++) {
               let location = map.locations[i2];
               for (let i3 = 0; i3 < location.goals.length; i3++) {
@@ -136,6 +140,8 @@
                 }
               }
             }
+            console.log('userMapData');
+            console.log(userMapData);
             userMapRef.set(userMapData);
           });
         });
@@ -164,6 +170,7 @@
 
       player.ready().then(function () {
         iframe = document.querySelector("#vimeoVideo iframe");
+        iframe.setAttribute("data-cy", 'vimeo-iframe');
 
         setInterval(checkTime, 50);
 
@@ -211,7 +218,7 @@
       if (
         activeQuiz === null &&
         difference > 0 &&
-        difference < 0.1 &&
+        difference < 1 &&
         (lastActiveQuiz === null || lastActiveQuiz !== quiz)
       ) {
         player.pause();
@@ -230,10 +237,10 @@
 
   function checkCorrectAnswer(quiz) {
     if (quiz.answers[quiz.selectedAnswer].correct === true) {
-      quiz.feedback = "<div class='text-green-700 font-bold'>Correct</div>";
+      quiz.feedback = "<div data-cy='correct-feedback' class='text-green-700 font-bold'>Correct</div>";
       quiz.correct = true;
     } else {
-      quiz.feedback = "<div class='text-red-400 font-bold'>Incorrect</div>";
+      quiz.feedback = "<div data-cy='incorrect-feedback' class='text-red-400 font-bold'>Incorrect</div>";
       quiz.false = true;
     }
     return quiz;
@@ -288,6 +295,7 @@
       class:displaynone={hideVideoIframe || activeQuiz === null}
       on:click={() => (hideVideoIframe = true)}
       class="relative ml-14 mt-11 float-left z-20 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      data-cy="back-to-quiz-button"
       >Naar onderbreking</button
     >
 
@@ -314,6 +322,7 @@
                         type="button"
                         on:click={() => (hideVideoIframe = false)}
                         class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        data-cy="watch-image-video-button"
                       >
                         Bekijk beeld video
                       </button>
@@ -324,6 +333,7 @@
                         <button
                           on:click={closeActiveQuiz}
                           class="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                          data-cy="close-button"
                         >
                           <span class="sr-only">Close</span>
                           <svg
@@ -369,6 +379,7 @@
                           on:click={() =>
                             (activeQuiz = checkCorrectAnswer(activeQuiz))}
                           class="disabled:opacity-50 relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                          data-cy="check-answer-button"
                         >
                           Nakijken
                         </button>
@@ -377,6 +388,7 @@
                           type="button"
                           on:click={closeActiveQuiz}
                           class="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                          data-cy="continue-button"  
                         >
                           Doorgaan
                         </button>
@@ -392,6 +404,7 @@
                         type="radio"
                         bind:group={activeQuiz.selectedAnswer}
                         value={i}
+                        data-cy="input-value-{i}"
                       />
                       {@html "<span class='pl-3'>" +
                         renderKatexOutput(answer.answer) +

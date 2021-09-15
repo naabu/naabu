@@ -47,11 +47,12 @@ export async function initFirebase(environment = "production", proFb) {
     }
   }
 
-  if (environment === 'development') {
+  if (environment === 'development' || environment === 'cypress') {
     if (!fb.auth().emulatorConfig) {
       await fb.auth().useEmulator("http://localhost:5010");
     }
     if (fb.firestore()._delegate._settings.host !== "localhost:5012") {
+      fb.firestore().settings({ experimentalAutoDetectLongPolling: true })
       await fb.firestore().useEmulator("localhost", 5012);
     }
   }

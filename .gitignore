@@ -1,2 +1,4 @@
-svelte/node_modules/
+*/node_modules/
+functional-tests/cypress/videos/**
+functional-tests/cypress/screenshots/**
 svelte/.svelte/

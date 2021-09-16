@@ -6,7 +6,7 @@
 
   onMount(async () => {
     firebase = await initFirebase($session.environment);
-    if ($session.environment === "cypress") {
+    if ($session.environment === "cypress" || $session.environment === "development") {
       let email = "cypress@example.com";
       let password = "cypress";
 
@@ -15,7 +15,7 @@
   });
 </script>
 
-{#if $session.environment === "cypress"}
+{#if $session.environment === "cypress" || $session.environment === "development"}
   Great success! Now login!
   {#if $session.user}
     Login complete

@@ -3,9 +3,11 @@ RUN apt-get update; \
     apt-get install -y \
     default-jre; 
 COPY . /var/www/
-WORKDIR /var/www/svelte/
 RUN chmod -R 777 /var/www/svelte
+WORKDIR /var/www/svelte/functions
 USER node
+RUN npm ci
+WORKDIR /var/www/svelte/
 RUN npm ci
 EXPOSE 3000
 ENV PATH /var/www/svelte/node_modules/.bin:$PATH

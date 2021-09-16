@@ -10,6 +10,7 @@ const firebaseConfig = {
 
 export async function initFirebase(environment = "production", proFb) {
   let fb = null;
+  console.log(environment);
   if (typeof window !== "undefined") {
     fb = (await import("firebase/app")).default;
     await import("firebase/auth");
@@ -56,14 +57,16 @@ export async function initFirebase(environment = "production", proFb) {
       await fb.firestore().useEmulator("localhost", 5012);
     }
   }
-
+  console.log(environment);
   if (environment === 'cypress') {
     if (!fb.auth().emulatorConfig) {
-      await fb.auth().useEmulator("http://sveltekit:5010");
+      await fb.auth().useEmulator("http://firebase:5010");
+      console.log('set cypress emulator');
     }
-    if (fb.firestore()._delegate._settings.host !== "sveltekit:5012") {
+    if (fb.firestore()._delegate._settings.host !== "firebase:5012") {
       fb.firestore().settings({ experimentalAutoDetectLongPolling: true })
-      await fb.firestore().useEmulator("sveltekit", 5012);
+      await fb.firestore().useEmulator("firebase", 5012);
+      console.log('set cypress emulator2');
     }
   }
 

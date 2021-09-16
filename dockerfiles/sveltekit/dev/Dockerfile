@@ -10,3 +10,5 @@ RUN npm install
 EXPOSE 3000
 ENV PATH /var/www/svelte/node_modules/.bin:$PATH
 CMD ["tail", "-f", "/dev/null"]
+
+# CMD ["tail", "-f", "/dev/null"]

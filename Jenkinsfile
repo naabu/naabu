@@ -21,7 +21,7 @@ pipeline {
                 sleep 60 
                 sh 'docker-compose -f cypress-docker-compose.yml logs sveltekit'
                 sh 'docker-compose -f cypress-docker-compose.yml logs firebase'
-                sh "docker-compose -f cypress-docker-compose.yml exec -T cypress export $(xargs < .env);"
+                sh "docker-compose -f cypress-docker-compose.yml exec -T cypress export \$(xargs < .env);"
                  sh "docker-compose -f cypress-docker-compose.yml exec -T cypress printenv;"
             }
         }

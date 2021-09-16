@@ -10,7 +10,7 @@
     "testvar": "echo $FIREBASE_TOKEN",
     "addUserClaims": "export GOOGLE_APPLICATION_CREDENTIALS=/var/www/svelte/adminkey.json; node scripts/addUserClaims.js",
     "deploy": "bash scripts/deploy.sh",
-    "emulate": "firebase emulators:start  --import=./.devdata --export-on-exit --only auth,functions,firestore,hosting,storage",
+    "emulate": "firebase emulators:start  --import=./.devdata --export-on-exit --only auth,functions,firestore",
     "test-setup": "export GOOGLE_APPLICATION_CREDENTIALS=/var/www/svelte/adminkey.json; firebase emulators:start --config=\"./firebase.test.json\""
   },
   "devDependencies": {

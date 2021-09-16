@@ -10,8 +10,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "setkey": "export $(xargs < .env);",
-    "test": " ./node_modules/.bin/cypress run"
+    "test": " ./node_modules/.bin/cypress run --record"
   },
   "author": "",
   "license": "ISC"

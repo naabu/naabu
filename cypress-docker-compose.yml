@@ -40,6 +40,8 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/cypress/Dockerfile
+    env_file:
+      - functional-tests/.env
     # volumes:
     #   - ./functional-tests:/tests
     networks:

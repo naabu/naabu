@@ -9,20 +9,24 @@ service cloud.firestore {
     }
 
     match /posts/{postId} {
-      allow read: if (resource.data.visibility == "public") ||
-       (resource.data.authorId == request.auth.uid)
+      allow read: if true
       allow update: if (resource.data.authorId == request.auth.uid) ||
         (request.auth.token.canModerate)
     }
      
     match /goals/{goalsId} {
-      allow read: if (resource.data.visibility == "public") ||
-        (request.auth.token.canModerate)
-      allow write, update: if (request.auth.token.canModerate)
+      allow read, write: if true
 
       match /battles/{battleId} {
-        allow read: if true
-        allow create, write, update: if (request.auth.token.canModerate)
+        allow read, write: if true
+      }
+    }
+
+    match /revisions/{revisionId} {
+      allow read, create: if true
+
+      match /battles/{battleId} {
+        allow read, create: if true
       }
     }
 

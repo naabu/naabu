@@ -1,10 +1,12 @@
 <script>
- // import firebase from "firebase/app";
+  // import firebase from "firebase/app";
   import { getStores, session } from "$app/stores";
   import GoalForm from "./form.svelte";
   import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
   import { onMount } from "svelte";
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
+  import { createRevision, getGoalSaveData } from "./helper";
+  import { getGoalIndex } from "$lib/algolia";
 
   export let firebase;
 
@@ -13,8 +15,6 @@
   let buttonDisabled = false;
 
   onMount(async () => {
-
-    console.log(firebase);
     db = await firebase.firestore();
   });
 
@@ -59,54 +59,37 @@
   }
 
   async function createGoal() {
-    let addLeerdoelen = [];
+    if ($session.player && $session.player.id) {
+      let data = getGoalSaveData(goal);
+      alert = getDefaultAlertValues();
+      try {
+        let goalResult = await db.collection("goals").add(data);
+        for (let i = 0; i < goal.battles.length; i++) {
+          let battleDocRef = db.doc(
+            "/goals/" + goalResult.id + "/battles/" + goal.battles[i].name
+          );
+          let battleData = {
+            quizzes: goal.battles[i].quizzes,
+          };
 
-    for (let i = 0; i < goal.goalLinks.length; i++) {
-      let toAdd = {};
-      toAdd.objectID = goal.goalLinks[i].objectID;
-      toAdd.taxonomy_solo = goal.goalLinks[i].taxonomy_solo;
-      toAdd.taxonomy_bloom = goal.goalLinks[i].taxonomy_bloom;
-      toAdd.title = goal.goalLinks[i].title;
-      addLeerdoelen = [...addLeerdoelen, toAdd];
-    }
-
-    const data = {
-      title: goal.title,
-      description: goal.description,
-      goalLinks: addLeerdoelen,
-      taxonomy_solo: goal.taxonomy_solo,
-      taxonomy_bloom: goal.taxonomy_bloom,
-      visibility: "public",
-      unitopic: goal.unitopic,
-      context: goal.context,
-      multitopics: goal.multitopics,
-      selectedVerbs: goal.selectedVerbs,
-      fromText: goal.fromText,
-    };
-
-    alert = getDefaultAlertValues();
-    try {
-      let result = await db.collection("goals").add(data);
-      for (let i = 0; i < goal.battles.length; i++) {
-        let battleDocRef = db.doc("/goals/" + result.id + "/battles/" + goal.battles[i].name
-        );
-        let battleData = {
-          quizzes: goal.battles[i].quizzes,
+          await battleDocRef.set(battleData);
         }
 
-        let battleResult = await battleDocRef.set(battleData);
+        data.authorId = $session.player.id;
+        data.goalId = goalResult.id;
+        await createRevision(db, goal, data);
+        
+        alert.success = true;
+        alert.successTitle = "Leerdoel gemaakt";
+        alert.successMessage = "id: " + goalResult.id;
+      } catch (e) {
+        console.error("Error adding document: ", e);
+        alert.error = true;
+        alert.errorCode = e.code;
+        alert.errorMessage = e.message;
       }
-
-      alert.success = true;
-      alert.successTitle = "Leerdoel gemaakt";
-      alert.successMessage = "id: " + result.id;
-    } catch (e) {
-      console.error("Error adding document: ", e);
-      alert.error = true;
-      alert.errorCode = e.code;
-      alert.errorMessage = e.message;
+      y = 0;
     }
-    y = 0;
   }
 
   async function formSubmit(event) {
@@ -131,8 +114,6 @@
             Leerdoel maken
           </h3>
           <p class="mt-1 max-w-2xl text-sm text-gray-500">
-            Als je een leerdoel maakt wordt niet niet meteen gepuliceerd. Dat
-            kan pas nadat je hem aangemaakt hebt.
           </p>
         </div>
       </div>
@@ -151,7 +132,7 @@
           type="submit"
           class="float-right disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >
-          Leerdoel aanmaken
+          Leerdoel publiseren
         </button>
       </div>
     </div>

@@ -1,14 +1,11 @@
 <script>
-  // import firebase from "firebase/app";
-  // import { getFirebaseFirestore } from "$lib/firebase";
-  // import { collection, getDoc, updateDoc, query, getDocs, doc } from "firebase/firestore";
   import { getStores, session, page } from "$app/stores";
-  import GoalForm from "./form.svelte";
+  import GoalForm from "$lib/Goal/form.svelte";
   import { onMount } from "svelte";
   import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
-  import MainTabs from "$lib/Tabs/goal.svelte";
+  import MainTabs from "$lib/Tabs/revision.svelte";
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
-  import { createRevision, getGoalSaveData } from "./helper";
+  import { createRevision, getGoalSaveData } from "$lib/Goal/helper";
 
   export let battleCol;
   export let firebase;
@@ -30,9 +27,9 @@
     },
   ];
 
-  export let goalRef;
-  let goalSnap;
-  let goal;
+  export let revisionRef;
+  let revisionSnap;
+  let revision;
 
   let alert = getDefaultAlertValues();
 
@@ -47,53 +44,56 @@
   }
 
   onMount(async () => {
-    goalSnap = await goalRef.get();
-    if (goalSnap.exists) {
-      goal = goalSnap.data();
-      goal.id = goalRef.id;
-      if (!goal.goalLinks) {
-        goal.goalLinks = [];
+    revisionSnap = await revisionRef.get();
+    if (revisionSnap.exists) {
+      revision = revisionSnap.data();
+      revision.id = revision.goalId;
+      revision.revisionId = revisionRef.id;
+      if (!revision.goalLinks) {
+        revision.goalLinks = [];
       }
-      if (!goal.unitopic) {
-        goal.unitopic = "";
+      if (!revision.unitopic) {
+        revision.unitopic = "";
       }
-      if (!goal.multitopics) {
-        goal.multitopics = [];
+      if (!revision.multitopics) {
+        revision.multitopics = [];
       }
-      if (!goal.context) {
-        goal.context = "";
+      if (!revision.context) {
+        revision.context = "";
       }
-      if (!goal.selectedVerbs) {
-        goal.selectedVerbs = [];
+      if (!revision.selectedVerbs) {
+        revision.selectedVerbs = [];
       }
-      if (!goal.fromText) {
-        goal.fromText = "";
+      if (!revision.fromText) {
+        revision.fromText = "";
       }
-      if (!goal.battles) {
-        goal.battles = [];
+      if (!revision.battles) {
+        revision.battles = [];
       }
     }
     const querySnapshot = await battleCol.get();
     querySnapshot.forEach((doc) => {
       let battleObject = doc.data();
       battleObject.name = doc.id;
-      goal.battles = [...goal.battles, battleObject];
+      revision.battles = [...revision.battles, battleObject];
     });
   });
 
   async function editGoal() {
     const db = await firebase.firestore();
-    let data = getGoalSaveData(goal);
+    let data = getGoalSaveData(revision);
 
     alert = getDefaultAlertValues();
+    // Edit a goal not a revision!
     try {
+      let goalRef = db.collection('goals').doc(revision.goalId);
       await goalRef.update(data);
-      for (let i = 0; i < goal.battles.length; i++) {
+      for (let i = 0; i < revision.battles.length; i++) {
         let battleDocRef = db.doc(
-          "/goals/" + goalRef.id + "/battles/" + goal.battles[i].name
+          "/goals/" + goalRef.id + "/battles/" + revision.battles[i].name
         );
         let battleData = {
-          quizzes: goal.battles[i].quizzes,
+          quizzes: revision.battles[i].quizzes,
         };
 
         let snap = await battleDocRef.get();
@@ -107,7 +107,7 @@
       if ($session.player && $session.player.id) {
         data.authorId = $session.player.id;
         data.goalId = goalRef.id;
-        await createRevision(db, goal, data);
+        await createRevision(db, revision, data);
       }
       alert.success = true;
       alert.successTitle = "Leerdoel gewijzigd";
@@ -128,10 +128,31 @@
 
 <svelte:window bind:scrollY={y} />
 
-{#if goal}
+{#if revision}
   <div>
-    <MainTabs bind:goal subSelected='edit' />
+    <MainTabs bind:revision subSelected='edit' />
     <ShowBreadcrumb bind:breadcrumbs />
+
+    <div class="rounded-md bg-yellow-50 p-4">
+      <div class="flex">
+        <div class="flex-shrink-0">
+          <svg class="h-5 w-5 text-yellow-400" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+            <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd" />
+          </svg>
+        </div>
+        <div class="ml-3">
+          <h3 class="text-sm font-medium text-yellow-800">
+            Waarschuwing: u bewerkt een oude versie van deze pagina. 
+          </h3>
+          <div class="mt-2 text-sm text-yellow-700">
+            <p>Als u uw bewerking opslaat, gaan alle wijzigingen verloren die na deze versie zijn gemaakt. </p>
+            <p>
+              <a class="underline" href="/beheer/leerdoel/{revision.goalId}/wijzigen">bewerk huidige versie</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <ResultFeedback bind:alert />
 
@@ -152,7 +173,7 @@
       class="space-y-8 divide-y divide-gray-200"
       on:submit|preventDefault={formSubmit}
     >
-      <GoalForm bind:goal />
+      <GoalForm bind:goal={revision} />
 
       <div class="pt-5">
         <div class="flex justify-end">

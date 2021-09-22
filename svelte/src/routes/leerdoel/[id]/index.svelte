@@ -18,7 +18,7 @@
 
   async function retrieveFirestoreData() {
 		let db = await firebase.firestore();
-		let ref = db.collection('goal').doc($page.params.id);
+		let ref = db.collection('goals').doc($page.params.id);
     let snap = await ref.get();
     if (snap.exists) {
       goal = snap.data();
@@ -28,5 +28,5 @@
 </script>
 
 {#if mounted}
-  <!-- <Show bind:activity bind:breadcrumbs bind:firebase/>  -->
+  <Show bind:goal/> 
 {/if}

@@ -325,6 +325,34 @@ exports.deleteFromGoalIndex = functions.firestore.document('goals/{goalId}')
     return goalIndex.deleteObject(snap.id);
   });
 
+exports.writeGoalSetTimeRevision = functions.firestore.document('revisions/{revisionId}')
+  .onCreate(async (snap, context) => {
+    const fb = getFirebaseApp();
+    let db = fb.firestore();
+    let revisionData = snap.data();
+    snap.ref.update({createdAt: snap['_createTime']._seconds})
+
+    let goalRef =  db.collection("goals").doc(revisionData.goalId);
+    let goalSnap = await goalRef.get();
+    if (goalSnap.exists) {
+      let goal = goalSnap.data();
+      console.log(goal);
+      let revisionList = [];
+      if (goal.revisionList)
+      {
+        revisionList = goal.revisionList;
+      }
+      console.log(revisionList);
+      revisionList.push({
+        id: context.params.revisionId,
+        createdAt: snap['_createTime']._seconds
+      })
+      console.log(revisionList);
+      goalRef.update({revisionList: revisionList})
+    }
+    return null;
+  });
+
 exports.addToActivityIndex = functions.firestore.document('activities/{activyId}')
   .onCreate((snap, context) => {
     const data = snap.data();

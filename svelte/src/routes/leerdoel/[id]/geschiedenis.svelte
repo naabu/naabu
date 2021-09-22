@@ -1,5 +1,5 @@
 <script>
-	import Show from '$lib/Goal/show.svelte';
+	import History from '$lib/Goal/history.svelte';
   import { onMount } from 'svelte';
   import { getStores, session, page } from "$app/stores"
   import { initFirebase } from "$lib/firebase";
@@ -18,7 +18,7 @@
 
   async function retrieveFirestoreData() {
 		let db = await firebase.firestore();
-		let ref = db.collection('goal').doc($page.params.id);
+		let ref = db.collection('goals').doc($page.params.id);
     let snap = await ref.get();
     if (snap.exists) {
       goal = snap.data();
@@ -28,5 +28,5 @@
 </script>
 
 {#if mounted}
-  <!-- <Show bind:activity bind:breadcrumbs bind:firebase/>  -->
+  <History bind:goal bind:firebase/> 
 {/if}

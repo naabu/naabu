@@ -3,6 +3,7 @@
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
   import { initFirebase } from "$lib/firebase";
+  import { getNextAndPreviousRevisions } from "$lib/Revision/helper";
 
   let firebase;
   let db;
@@ -11,11 +12,18 @@
   let previousPreviousRevision = null;
   let previousRevision = null;
   let nextRevision = null;
+  let loading = false;
 
-  $: if ($page.params.id && mounted) {
+  const update = async () => {
+    loading = true;
     previousRevision = null;
     nextRevision = null;
-    retrieveFirestoreData();
+    await retrieveFirestoreData();
+    loading = false;
+  };
+
+  $: if ($page.params.id && mounted) {
+    update();
   }
 
   onMount(async () => {
@@ -24,16 +32,6 @@
     mounted = true;
     await retrieveFirestoreData();
   });
-
-  function compare(a, b) {
-    if (a.createdAt < b.createdAt) {
-      return 1;
-    }
-    if (a.createdAt > b.createdAt) {
-      return -1;
-    }
-    return 0;
-  }
 
   async function retrieveFirestoreData() {
     let ref = db.collection("revisions").doc($page.params.id);
@@ -44,21 +42,13 @@
       let goalSnap = await db.collection("goals").doc(revision.goalId).get();
       if (goalSnap.exists) {
         let goalData = goalSnap.data();
-        let revisionList = goalData.revisionList;
-        revisionList.sort(compare);
-        for (let i = 0; i < revisionList.length; i++) {
-          if (revisionList[i].id === revision.id) {
-            if (i > 0) {
-              nextRevision = revisionList[i - 1];
-            }
-            if (i < revisionList.length - 1) {
-              previousRevision = revisionList[i + 1];
-            }
-            if (i < revisionList.length - 2) {
-              previousPreviousRevision = revisionList[i + 2];
-            }
-          }
-        }
+        let returnRevisions = getNextAndPreviousRevisions(
+          goalData.revisionList,
+          revision.id
+        );
+        nextRevision = returnRevisions.nextRevision;
+        previousRevision = returnRevisions.previousRevision;
+        previousPreviousRevision = returnRevisions.previousPreviousRevision;
       }
     }
   }
@@ -70,5 +60,6 @@
     bind:previousPreviousRevision
     bind:previousRevision
     bind:nextRevision
+    bind:loading
   />
 {/if}

@@ -1,30 +1,14 @@
 <script>
+  import { getDateString } from "$lib/Misc/helper";
+
   export let goal;
   export let firebase;
   import MainTabs from "$lib/Tabs/goal.svelte";
 
-  goal.revisionList = goal.revisionList.reverse();
-
-  function getDateString(timestamp) {
-    let date = new Date(timestamp * 1000);
-
-    const leadingZero = (num) => `0${num}`.slice(-2);
-
-    let formatDateString = [date.getDate(), date.getMonth()+1]
-      .map(leadingZero)
-      .join("-");
-
-    let formatTimeString = [
-      date.getHours(),
-      date.getMinutes(),
-      date.getSeconds(),
-    ]
-      .map(leadingZero)
-      .join(":");
-    let dateTimeString = formatDateString + "-" + date.getFullYear()  + " " + formatTimeString;
-
-    return dateTimeString;
+  $: if (goal.revisionList) {
+    goal.revisionList = goal.revisionList.reverse();
   }
+  
 </script>
 
 <MainTabs bind:goal subSelected="history" />

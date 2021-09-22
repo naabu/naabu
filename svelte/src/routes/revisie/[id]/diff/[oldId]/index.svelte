@@ -1,40 +1,82 @@
 <script>
-	import Diff from '$lib/Revision/diff.svelte';
-  import { onMount } from 'svelte';
-  import { getStores, session, page } from "$app/stores"
+  import Diff from "$lib/Revision/diff.svelte";
+  import { onMount } from "svelte";
+  import { getStores, session, page } from "$app/stores";
   import { initFirebase } from "$lib/firebase";
+  import { getNextAndPreviousRevisions } from "$lib/Revision/helper";
 
   let firebase;
 
-	let revisionNew;
+  let revisionNew;
   let revisionOld;
-  
+  let goBackRevision;
+  let goForwardRevision;
+
   let mounted = false;
+  let loading = false;
 
-  onMount(async() => {
-    firebase = await initFirebase($session.environment);
+  $: console.log(loading);
 
+  const update = async () => {
+    loading = true;
+    goBackRevision = null;
+    goForwardRevision = null;
     await retrieveFirestoreData();
+    loading = false;
+  };
+
+  $: if ($page.params.id && $page.params.oldId && mounted) {
+    update();
+  }
+
+  // $: if ($page.params.id && $page.params.oldId && mounted) {
+  //   loading = true;
+  //   goBackRevision = null;
+  //   goForwardRevision = null;
+  //   retrieveFirestoreData();
+  //   loading = false;
+  // }
+
+  onMount(async () => {
+    firebase = await initFirebase($session.environment);
     mounted = true;
+    await retrieveFirestoreData();
   });
 
   async function retrieveFirestoreData() {
-		let db = await firebase.firestore();
-		let newRef = db.collection('revisions').doc($page.params.id);
+    let db = await firebase.firestore();
+    let newRef = db.collection("revisions").doc($page.params.id);
     let newSnap = await newRef.get();
     if (newSnap.exists) {
       revisionNew = newSnap.data();
       revisionNew.id = newRef.id;
     }
-    let oldRef = db.collection('revisions').doc($page.params.oldId);
+    let oldRef = db.collection("revisions").doc($page.params.oldId);
     let oldSnap = await oldRef.get();
     if (oldSnap.exists) {
       revisionOld = oldSnap.data();
       revisionOld.id = oldRef.id;
     }
-	}
+
+    let goalSnap = await db.collection("goals").doc(revisionNew.goalId).get();
+    if (goalSnap.exists) {
+      let goalData = goalSnap.data();
+      let returnRevisions = getNextAndPreviousRevisions(
+        goalData.revisionList,
+        revisionNew.id
+      );
+      goForwardRevision = returnRevisions.nextRevision;
+      goBackRevision = returnRevisions.previousPreviousRevision;
+    }
+  }
 </script>
 
-{#if mounted}
-  <Diff bind:revisionNew bind:revisionOld/> 
+{#if mounted && revisionNew && revisionOld}
+  <Diff
+    bind:revisionNew
+    bind:revisionOld
+    bind:goForwardRevision
+    bind:goBackRevision
+    bind:loading
+  />
 {/if}

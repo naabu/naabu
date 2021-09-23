@@ -59,7 +59,7 @@
 </style>
 
 <ShowBreadcrumb bind:breadcrumbs />
-<ManagementTabs selected="activity" />
+<ManagementTabs mainSelected="activity" />
 
 <a href="activiteit/maken"> Nieuwe activiteit maken</a>
 

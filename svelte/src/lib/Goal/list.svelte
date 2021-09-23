@@ -56,7 +56,7 @@
 
   
 <ShowBreadcrumb bind:breadcrumbs />
-<ManagementTabs selected="goal" />
+<ManagementTabs mainSelected="goal" />
 
 <a href="leerdoel/maken"> Nieuw leerdoel maken</a>
 

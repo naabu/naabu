@@ -3,12 +3,11 @@
   import logosmall from "./logo-small.svg";
   import personIcon from "./person-icon.svg";
   import Transition from "svelte-class-transition";
- // import firebase from "firebase/app";
+  // import firebase from "firebase/app";
   // import {getFirebaseAuth} from '$lib/firebase.js';
   import { getStores, session } from "$app/stores";
-	import { onMount } from 'svelte';
+  import { onMount } from "svelte";
   import { initFirebase } from "$lib/firebase";
-
 
   let firebase;
 
@@ -187,6 +186,14 @@
                       id="user-menu-item-1">Beheer</a
                     >
                   {/if}
+                  <a
+                    href="/curriculum-profiel/mijn-profiel"
+                    on:click={() => (openUserMenu = false)}
+                    class="block px-4 py-2 text-sm text-gray-700"
+                    role="menuitem"
+                    tabindex="-1"
+                    id="user-menu-item-curriculum">Curriculum profiel</a
+                  >
                   <a
                     href="/logout"
                     on:click|preventDefault={logout}

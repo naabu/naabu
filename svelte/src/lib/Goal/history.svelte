@@ -5,10 +5,10 @@
   export let firebase;
   import MainTabs from "$lib/Tabs/goal.svelte";
 
-  $: if (goal.revisionList) {
+  if (goal.revisionList) {
     goal.revisionList = goal.revisionList.reverse();
   }
-  
+
 </script>
 
 <MainTabs bind:goal subSelected="history" />
@@ -56,8 +56,8 @@
                       class="text-indigo-600 hover:text-indigo-900">Bekijken</a
                     >
                     <a
-                      href="/revisie/{revision.id}/revert"
-                      class="text-indigo-600 hover:text-indigo-900">Revert</a
+                      href="/revisie/{revision.id}/wijzigen"
+                      class="text-indigo-600 hover:text-indigo-900">Wijzig</a
                     >
                   </td>
                 </tr>

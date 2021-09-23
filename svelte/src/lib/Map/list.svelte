@@ -35,7 +35,7 @@
 </script>
 
 <ShowBreadcrumb bind:breadcrumbs />
-<ManagementTabs selected="map" />
+<ManagementTabs mainSelected="map" />
 
 <a href="kaart/maken"> Nieuwe kaart maken</a> 
 

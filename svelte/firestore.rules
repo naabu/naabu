@@ -21,6 +21,11 @@ service cloud.firestore {
         allow read, write: if true
       }
     }
+    
+    match /curriculumProfile/{curriculumProfileId} {
+      allow read, create: if true
+    }
+
 
     match /revisions/{revisionId} {
       allow read, create: if true

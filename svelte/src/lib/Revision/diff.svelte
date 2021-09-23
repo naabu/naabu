@@ -122,6 +122,12 @@
     bind:old={revisionOld.taxonomy_solo}
     bind:neww={revisionNew.taxonomy_solo}
   />
+
+  <StringDiff
+  title="Solo's taxonomy"
+  bind:old={revisionOld.goals}
+  bind:neww={revisionNew.goals}
+/>
 {:else}
   Loading...
 {/if}

@@ -15,7 +15,7 @@
 
 
 <ShowBreadcrumb bind:breadcrumbs />
-<ManagementTabs selected="user" />
+<ManagementTabs mainSelected="user" />
 
 <div class="flex flex-col">
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">

@@ -314,41 +314,107 @@ exports.manuallyTrigger = functions.firestore.document('/triggers/{triggerId}')
     return null;
   });
 
-  // maps/OcZm1UN6gxuUiFWTgoyp/players/ZJzqHdwk3Wq5Uv3Ru6RsXCWgjp6V
+// maps/OcZm1UN6gxuUiFWTgoyp/players/ZJzqHdwk3Wq5Uv3Ru6RsXCWgjp6V
 exports.onMapPlayerCreated = functions.firestore.document('maps/{mapId}/players/{playerId}')
-.onCreate((snap, context) => {
-  setMapActivitiesForUid(context.params.playerId);
-});
+  .onCreate((snap, context) => {
+    setMapActivitiesForUid(context.params.playerId);
+  });
 
 exports.deleteFromGoalIndex = functions.firestore.document('goals/{goalId}')
   .onDelete((snap, context) => {
     return goalIndex.deleteObject(snap.id);
   });
 
+function compare(a, b) {
+  if (a.createdAt < b.createdAt) {
+    return 1;
+  }
+  if (a.createdAt > b.createdAt) {
+    return -1;
+  }
+  return 0;
+}
+
+function getNextAndPreviousRevisions(revisionList, revisionId) {
+  revisionList.sort(compare);
+  let nextRevision = null;
+  let previousRevision = null;
+  let previousPreviousRevision = null;
+  for (let i = 0; i < revisionList.length; i++) {
+    if (revisionList[i].id === revisionId) {
+      if (i > 0) {
+        nextRevision = revisionList[i - 1];
+      }
+      if (i < revisionList.length - 1) {
+        previousRevision = revisionList[i + 1];
+      }
+      if (i < revisionList.length - 2) {
+        previousPreviousRevision = revisionList[i + 2];
+      }
+    }
+  }
+
+  return {
+    nextRevision: nextRevision,
+    previousRevision: previousRevision,
+    previousPreviousRevision: previousPreviousRevision
+  }
+}
+
 exports.writeGoalSetTimeRevision = functions.firestore.document('revisions/{revisionId}')
   .onCreate(async (snap, context) => {
     const fb = getFirebaseApp();
     let db = fb.firestore();
     let revisionData = snap.data();
-    snap.ref.update({createdAt: snap['_createTime']._seconds})
+    snap.ref.update({ createdAt: snap['_createTime']._seconds })
 
-    let goalRef =  db.collection("goals").doc(revisionData.goalId);
+    let goalTitle = "";
+
+
+    let goalRef = db.collection("goals").doc(revisionData.goalId);
     let goalSnap = await goalRef.get();
+    let objectReturnRevisions = null;
     if (goalSnap.exists) {
       let goal = goalSnap.data();
-      console.log(goal);
+      goalTitle = goal.title;
       let revisionList = [];
-      if (goal.revisionList)
-      {
+      if (goal.revisionList) {
         revisionList = goal.revisionList;
       }
-      console.log(revisionList);
       revisionList.push({
         id: context.params.revisionId,
-        createdAt: snap['_createTime']._seconds
+        createdAt: snap['_createTime']._seconds,
+        authorId: revisionData.authorId,
+        curriculumProfile: revisionData.curriculumProfile
       })
-      console.log(revisionList);
-      goalRef.update({revisionList: revisionList})
+      objectReturnRevisions = getNextAndPreviousRevisions(revisionList, context.params.revisionId);
+      if (objectReturnRevisions && objectReturnRevisions.previousRevision) {
+        revisionList[0].previousRevisionId = objectReturnRevisions.previousRevision.id
+      }
+      goalRef.update({ revisionList: revisionList })
+    }
+
+    let profileRef = db.collection("curriculumProfile").doc(revisionData.authorId);
+    let profileSnap = await profileRef.get();
+    if (profileSnap.exists) {
+      let profile = profileSnap.data();
+      let revisionList = [];
+      if (profile.revisionList) {
+        revisionList = profile.revisionList;
+      }
+      let revisionToPush = {
+        id: context.params.revisionId,
+        createdAt: snap['_createTime']._seconds,
+        goalId: revisionData.goalId,
+        goalTitle: revisionData.title,
+      }
+
+      if (objectReturnRevisions && objectReturnRevisions.previousRevision) {
+        revisionToPush.previousRevisionId = objectReturnRevisions.previousRevision.id
+      }
+      revisionList.push(revisionToPush)
+      revisionList.sort(compare);
+      profileRef.update({ revisionList: revisionList })
     }
     return null;
   });

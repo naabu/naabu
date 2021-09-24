@@ -4,6 +4,7 @@
   import { getStores, session } from "$app/stores";
   import ManagementTabs from "$lib/Tabs/management.svelte";
   import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
+import { truncate } from '$lib/Misc/helper';
 
   let breadcrumbs = [ 
     {
@@ -29,10 +30,6 @@
     goalIndex = searchClient.initIndex(goalIndexName);   
     await search();
   });
-
-  function truncate(str, n){
-    return (str.length > n) ? str.substr(0, n-1) + '&hellip;' : str;
-  };
   
   async function search() {
       const result = await goalIndex.search(query);

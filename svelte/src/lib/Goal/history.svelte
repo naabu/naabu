@@ -1,14 +1,15 @@
 <script>
   import { getDateString } from "$lib/Misc/helper";
+  import { sortOnCreatedAt } from "$lib/Revision/helper";
 
   export let goal;
   export let firebase;
   import MainTabs from "$lib/Tabs/goal.svelte";
 
-  if (goal.revisionList) {
-    goal.revisionList = goal.revisionList.reverse();
+  $: if (goal.revisionList) {
+    sortOnCreatedAt(goal.revisionList);
   }
-
+  console.log(goal.revisionList);
 </script>
 
 <MainTabs bind:goal subSelected="history" />
@@ -42,11 +43,30 @@
               {#each goal.revisionList as revision}
                 <tr>
                   <td class="px-6 py-4 whitespace-nowrap">
-                    {getDateString(revision.createdAt)}
+                    {#if revision.previousRevisionId}
+                      <a
+                        class="underline"
+                        href="/revisie/{revision.previousRevisionId}/diff/{revision.id}"
+                      >
+                        {getDateString(revision.createdAt)}
+                      </a>
+                    {:else}
+                      {getDateString(revision.createdAt)}
+                    {/if}
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-900">SeriousPapa</div>
-                    <div class="text-sm text-gray-500">Super editor</div>
+                    {#if revision.authorId && revision.curriculumProfile}
+                      <div class="text-sm text-gray-900">
+                        <a
+                          class="underline"
+                          href="/curriculum-profiel/{revision.authorId}"
+                          >{revision.curriculumProfile.fullname}</a
+                        >
+                      </div>
+                      <div class="text-sm text-gray-500">
+                        {revision.curriculumProfile.institution}
+                      </div>
+                    {/if}
                   </td>
                   <td
                     class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"

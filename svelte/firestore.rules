@@ -23,7 +23,7 @@ service cloud.firestore {
     }
     
     match /curriculumProfile/{curriculumProfileId} {
-      allow read, create: if true
+      allow read, write: if true
     }
 
 

@@ -9,6 +9,8 @@
   export let goForwardRevision;
   export let loading = false;
   let battleDiffers = false;
+
+  $: console.log(goBackRevision);
 </script>
 
 <MainTabs bind:revision={revisionNew} subSelected="read" />
@@ -39,12 +41,23 @@
                   >edit</a
                 >)
                 <div>
+                  {#if revisionOld.authorId && revisionOld.curriculumProfile}
+                    <div>
+                      <a
+                        class="underline"
+                        href="/curriculum-profiel/{revisionOld.authorId}"
+                        >{revisionOld.curriculumProfile.fullname}</a
+                      >
+                    </div>
+                  {/if}
                   {#if goBackRevision}
-                    <a
-                      class="underline"
-                      href="/revisie/{revisionOld.id}/diff/{goBackRevision.id}"
-                      >← Oudere bewerking</a
-                    >
+                    <div class="mt-6">
+                      <a
+                        class="underline"
+                        href="/revisie/{revisionOld.id}/diff/{goBackRevision.id}"
+                        >← Oudere bewerking</a
+                      >
+                    </div>
                   {/if}
                 </div>
               {/if}
@@ -59,12 +72,23 @@
                   >edit</a
                 >)
                 <div>
+                  {#if revisionNew.authorId && revisionNew.curriculumProfile}
+                    <div>
+                      <a
+                        class="underline"
+                        href="/curriculum-profiel/{revisionNew.authorId}"
+                        >{revisionNew.curriculumProfile.fullname}</a
+                      >
+                    </div>
+                  {/if}
                   {#if goForwardRevision}
-                    <a
-                      class="underline"
-                      href="/revisie/{goForwardRevision.id}/diff/{revisionNew.id}"
-                      >Nieuwere bewerking →</a
-                    >
+                    <div class="mt-6">
+                      <a
+                        class="underline"
+                        href="/revisie/{goForwardRevision.id}/diff/{revisionNew.id}"
+                        >Nieuwere bewerking →</a
+                      >
+                    </div>
                   {/if}
                 </div>
               {/if}
@@ -124,10 +148,10 @@
   />
 
   <StringDiff
-  title="Solo's taxonomy"
-  bind:old={revisionOld.goals}
-  bind:neww={revisionNew.goals}
-/>
+    title="Solo's taxonomy"
+    bind:old={revisionOld.goals}
+    bind:neww={revisionNew.goals}
+  />
 {:else}
   Loading...
 {/if}

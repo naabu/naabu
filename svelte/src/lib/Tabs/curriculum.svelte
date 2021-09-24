@@ -2,39 +2,57 @@
   import Tabs from "./tabs.svelte";
   export let mainSelected = "curriculum";
   export let subSelected = "read";
-  export let curriculum;
+  export let curriculumProfile;
+  export let isOwnProfile = false;
+  export let isNew = false;
 
-  let mainTabs = [
-    {
-      value: "curriculum",
-      text: "Curriculum profiel",
-      url: "/curriculum-profiel/" + curriculum.id,
-    },
-    {
-      value: "talk",
-      text: "Overleg",
-      url: "/profcurriculum-profiel/" + curriculum.id + "/overleg",
-    },
-  ];
+  $: console.log(isOwnProfile);
 
-  let subTabs = [
-    {
-      value: "read",
-      text: "Lezen",
-      url: "/curriculum-profiel/" + curriculum.id,
-    },
-    {
-      value: "edit",
-      text: "Bewerken",
-      url: "/curriculum-profiel//" + curriculum.id + "/wijzig",
-    },
-    {
-      value: "history",
-      text: "Geschiedenis",
-      url: "/curriculum-profiel//" + curriculum.id + "/geschiedenis",
-    },
-  ];
+  let mainTabs;
+  let subTabs;
+
+  function createSubTabs() {
+    return [
+      {
+        value: "read",
+        text: "Lezen",
+        url: "/curriculum-profiel/" + curriculumProfile.id,
+      },
+    ];
+  }
+
+  $: {
+    if (isNew) {
+      mainTabs = [
+        {
+          value: "create",
+          text: "Profiel aanmaken",
+          url: "/curriculum-profiel/maken",
+        },
+      ];
+    } else {
+      mainTabs = [
+        {
+          value: "curriculum",
+          text: "Curriculum profiel",
+          url: "/curriculum-profiel/" + curriculumProfile.id,
+        },
+        // {
+        //   value: "talk",
+        //   text: "Overleg",
+        //   url: "/profcurriculum-profiel/" + curriculumProfile.id + "/overleg",
+        // },
+      ];
+      subTabs = createSubTabs();
+      if (isOwnProfile) {
+        subTabs.push({
+          value: "edit",
+          text: "Bewerken",
+          url: "/curriculum-profiel/wijzigen",
+        });
+      }
+    }
+  }
 </script>
 
-
-<Tabs bind:mainTabs bind:subTabs bind:mainSelected bind:subSelected/>
+<Tabs bind:mainTabs bind:subTabs bind:mainSelected bind:subSelected />

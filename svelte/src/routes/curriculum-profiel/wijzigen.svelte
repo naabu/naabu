@@ -1,5 +1,5 @@
 <script>
-  import MakeCurriculumProfile from "$lib/Curriculum/create.svelte";
+  import EditCurriculumProfile from "$lib/Curriculum/edit.svelte";
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
   import { initFirebase } from "$lib/firebase";
@@ -29,6 +29,6 @@
   }
 </script>
 
-{#if mounted && !curriculumProfile}
-  <MakeCurriculumProfile bind:firebase />
+{#if mounted}
+  <EditCurriculumProfile bind:firebase bind:curriculumProfile />
 {/if}

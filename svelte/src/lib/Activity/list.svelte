@@ -4,6 +4,7 @@
   import { getStores, session } from "$app/stores"
   import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
   import ManagementTabs from "$lib/Tabs/management.svelte";
+import { truncate } from '$lib/Misc/helper';
 
   let index;
   let indexName = getActivityIndex($session.environment);
@@ -22,15 +23,6 @@
       value: 'Activiteit'
     }
   ];
-
-  function truncate(str, n){
-    if (str) {
-      return (str.length > n) ? str.substr(0, n-1) + '&hellip;' : str;
-    }
-    else {
-      return str;
-    }
-  };
 
   onMount(async() => {
     const searchClient = getAlgoliaSearchClient();

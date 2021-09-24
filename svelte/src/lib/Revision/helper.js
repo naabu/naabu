@@ -10,8 +10,12 @@ function compare(a, b) {
   return 0;
 }
 
+export function sortOnCreatedAt(list) {
+  list.sort(compare);
+}
+
 export function getNextAndPreviousRevisions(revisionList, revisionId) {
-  revisionList.sort(compare);
+  sortOnCreatedAt(revisionList);
   let nextRevision = null;
   let previousRevision = null;
   let previousPreviousRevision = null;
@@ -26,7 +30,7 @@ export function getNextAndPreviousRevisions(revisionList, revisionId) {
       if (i < revisionList.length - 2) {
         previousPreviousRevision = revisionList[i + 2];
       }
-    }
+    }    
   }
 
   return {

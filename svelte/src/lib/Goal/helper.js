@@ -27,6 +27,19 @@ export function getGoalSaveData(goal) {
 }
 
 export async function createRevision(db, goal, data) {
+  data.authorId
+  // Get profile from authorId.
+  let profileRef = db.collection("curriculumProfile").doc(data.authorId);
+
+  let snap = await profileRef.get();
+  if (snap.exists) {
+    let profileData = snap.data();
+    data.curriculumProfile = {
+      fullname: profileData.fullname,
+      institution: profileData.institution
+    }
+  }
+
   let revisionResult = await db.collection("revisions").add(data);
   for (let i = 0; i < goal.battles.length; i++) {
     let battleDocRef = db.doc(

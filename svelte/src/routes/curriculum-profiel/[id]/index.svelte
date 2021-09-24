@@ -8,6 +8,7 @@
 
 	let curriculumProfile;
   let mounted = false;
+  let isOwnProfile = false;
 
   onMount(async() => {
     firebase = await initFirebase($session.environment);
@@ -23,10 +24,13 @@
     if (snap.exists) {
       curriculumProfile = snap.data();
       curriculumProfile.id = ref.id;
+      if ($session.player && $page.params.id === $session.player.id) {
+        isOwnProfile = true;
+      }
     }
 	}
 </script>
 
 {#if mounted}
-  <Show bind:curriculumProfile/> 
+  <CurriculumProfile bind:curriculumProfile bind:isOwnProfile />
 {/if}

@@ -3,6 +3,7 @@
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
   import { initFirebase } from "$lib/firebase";
+  import { goto } from "$app/navigation";
 
   let firebase;
 
@@ -25,10 +26,13 @@
         curriculumProfile = snap.data();
         curriculumProfile.id = ref.id;
       }
+      else {
+        await goto("/curriculum-profiel/maken");
+      }
     }
   }
 </script>
 
 {#if mounted}
-  <CurriculumProfile bind:curriculumProfile />
+  <CurriculumProfile bind:curriculumProfile isOwnProfile="true" />
 {/if}

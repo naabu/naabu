@@ -13,7 +13,7 @@
     {
       value: "talk",
       text: "Overleg",
-      url: "/leerdoel/" + goal.id + "/overleg",
+      url: "/overleg/" + goal.talkId,
     },
     {
       value: "adventures",

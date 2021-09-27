@@ -26,6 +26,17 @@ service cloud.firestore {
       allow read, write: if true
     }
 
+    match /talk/{talkId} {
+      allow read, write: if true
+
+      match /posts/{postId} {
+        allow read, write: if true
+      
+        match /replies/{replyId} {
+          allow read, write: if true
+        }
+      }
+    }
 
     match /revisions/{revisionId} {
       allow read, create: if true

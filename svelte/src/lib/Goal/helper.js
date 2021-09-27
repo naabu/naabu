@@ -27,7 +27,6 @@ export function getGoalSaveData(goal) {
 }
 
 export async function createRevision(db, goal, data) {
-  data.authorId
   // Get profile from authorId.
   let profileRef = db.collection("curriculumProfile").doc(data.authorId);
 

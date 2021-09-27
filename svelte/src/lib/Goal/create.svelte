@@ -63,6 +63,8 @@
       let data = getGoalSaveData(goal);
       alert = getDefaultAlertValues();
       try {
+        let talkResult = await db.collection("talk").add({type: "goal"});
+        data.talkId = talkResult.id;
         let goalResult = await db.collection("goals").add(data);
         for (let i = 0; i < goal.battles.length; i++) {
           let battleDocRef = db.doc(

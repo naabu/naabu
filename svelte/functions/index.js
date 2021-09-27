@@ -361,6 +361,19 @@ function getNextAndPreviousRevisions(revisionList, revisionId) {
   }
 }
 
+
+exports.onCreatePost = functions.firestore.document('talk/{talkId}/posts/{postId}')
+  .onCreate(async (snap, context) => {
+    snap.ref.update({ createdAt: snap['_createTime']._seconds });
+    return null;
+  });
+
+exports.onCreateReply = functions.firestore.document('talk/{talkId}/posts/{postId}/replies/{replyId}')
+  .onCreate(async (snap, context) => {
+    snap.ref.update({ createdAt: snap['_createTime']._seconds });
+    return null;
+  });
+
 exports.writeGoalSetTimeRevision = functions.firestore.document('revisions/{revisionId}')
   .onCreate(async (snap, context) => {
     const fb = getFirebaseApp();

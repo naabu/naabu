@@ -15,8 +15,6 @@
   let mounted = false;
   let loading = false;
 
-  $: console.log(loading);
-
   const update = async () => {
     loading = true;
     goBackRevision = null;
@@ -50,12 +48,34 @@
     if (newSnap.exists) {
       revisionNew = newSnap.data();
       revisionNew.id = newRef.id;
+      let battleCol = db
+        .collection("revisions")
+        .doc(revisionNew.id)
+        .collection("battles");
+      const querySnapshot = await battleCol.get();
+      revisionNew.battles = [];
+      querySnapshot.forEach((doc) => {
+        let battleObject = doc.data();
+        battleObject.name = doc.id;
+        revisionNew.battles = [...revisionNew.battles, battleObject];
+      });
     }
     let oldRef = db.collection("revisions").doc($page.params.oldId);
     let oldSnap = await oldRef.get();
     if (oldSnap.exists) {
       revisionOld = oldSnap.data();
       revisionOld.id = oldRef.id;
+      let battleCol = db
+        .collection("revisions")
+        .doc(revisionOld.id)
+        .collection("battles");
+      const querySnapshot = await battleCol.get();
+      revisionOld.battles = [];
+      querySnapshot.forEach((doc) => {
+        let battleObject = doc.data();
+        battleObject.name = doc.id;
+        revisionOld.battles = [...revisionOld.battles, battleObject];
+      });
     }
 
     let goalSnap = await db.collection("goals").doc(revisionNew.goalId).get();

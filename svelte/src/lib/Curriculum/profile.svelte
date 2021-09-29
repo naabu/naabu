@@ -1,7 +1,9 @@
 <script>
   import { goto } from "$app/navigation";
   import RevisionList from "./revisionList.svelte";
+  import PostList from  "./postList.svelte";
   import CurriculumTabs from "$lib/Tabs/curriculum.svelte";
+
   export let curriculumProfile;
   export let isOwnProfile = false;
 
@@ -26,4 +28,7 @@
   </div>
 
   <RevisionList bind:curriculumProfile />
+
+  <PostList bind:curriculumProfile />
+
 {/if}

@@ -37,5 +37,5 @@
 </script>
 
 {#if mounted}
-  <Talk bind:talk bind:posts bind:firebase/>
+  <Talk bind:talk bind:posts bind:firebase bind:goalId={$page.params.goalId} />
 {/if}

@@ -1,6 +1,6 @@
 
 
-function compare(a, b) {
+function compareCreatedAt(a, b) {
   if (a.createdAt < b.createdAt) {
     return 1;
   }
@@ -11,7 +11,21 @@ function compare(a, b) {
 }
 
 export function sortOnCreatedAt(list) {
-  list.sort(compare);
+  list.sort(compareCreatedAt);
+}
+
+function compareLastReplyAt(a, b) {
+  if (a.lastReplyAt < b.lastReplyAt) {
+    return 1;
+  }
+  if (a.lastReplyAt > b.lastReplyAt) {
+    return -1;
+  }
+  return 0;
+}
+
+export function sortOnLastReplyAt(list) {
+  list.sort(compareLastReplyAt);
 }
 
 export function getNextAndPreviousRevisions(revisionList, revisionId) {

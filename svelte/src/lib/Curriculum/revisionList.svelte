@@ -7,8 +7,6 @@
   $: if (curriculumProfile.revisionList) {
     sortOnCreatedAt(curriculumProfile.revisionList);
   }
-
-  $: console.log(curriculumProfile);
 </script>
 
 {#if curriculumProfile.revisionList}

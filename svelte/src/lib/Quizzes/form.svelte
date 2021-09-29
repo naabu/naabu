@@ -47,6 +47,7 @@
 
   function addQuiz() {
     let quiz = {
+      id: Math.random().toString(36).substring(2, 7),
       answers: [],
     };
     quizzes = [...quizzes, quiz];

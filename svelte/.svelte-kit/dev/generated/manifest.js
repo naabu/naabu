@@ -9,10 +9,12 @@ const c = [
 	() => import("../../../src/routes/leerdoel/[id]/index.svelte"),
 	() => import("../../../src/routes/leerdoel/[id]/geschiedenis.svelte"),
 	() => import("../../../src/routes/leerdoel/[id]/overleg.svelte"),
+	() => import("../../../src/routes/cypress/reset-curriculum-profile.svelte"),
 	() => import("../../../src/routes/cypress/login-normal-user.svelte"),
 	() => import("../../../src/routes/cypress/reset-map.svelte"),
-	() => import("../../../src/routes/overleg/[talkId]/index.svelte"),
-	() => import("../../../src/routes/overleg/[talkId]/[postId]/index.svelte"),
+	() => import("../../../src/routes/overleg/revisie/[goalId]/[revisionId]/aanmaken.svelte"),
+	() => import("../../../src/routes/overleg/[goalId]/[talkId]/index.svelte"),
+	() => import("../../../src/routes/overleg/[goalId]/[talkId]/[postId]/index.svelte"),
 	() => import("../../../src/routes/revisie/[id]/index.svelte"),
 	() => import("../../../src/routes/revisie/[id]/wijzigen.svelte"),
 	() => import("../../../src/routes/revisie/[id]/diff/[oldId]/index.svelte"),
@@ -68,98 +70,104 @@ export const routes = [
 	// src/routes/leerdoel/[id]/overleg.svelte
 	[/^\/leerdoel\/([^/]+?)\/overleg\/?$/, [c[0], c[9]], [c[1]], (m) => ({ id: d(m[1])})],
 
+	// src/routes/cypress/reset-curriculum-profile.svelte
+	[/^\/cypress\/reset-curriculum-profile\/?$/, [c[0], c[10]], [c[1]]],
+
 	// src/routes/cypress/login-normal-user.svelte
-	[/^\/cypress\/login-normal-user\/?$/, [c[0], c[10]], [c[1]]],
+	[/^\/cypress\/login-normal-user\/?$/, [c[0], c[11]], [c[1]]],
 
 	// src/routes/cypress/reset-map.svelte
-	[/^\/cypress\/reset-map\/?$/, [c[0], c[11]], [c[1]]],
+	[/^\/cypress\/reset-map\/?$/, [c[0], c[12]], [c[1]]],
 
-	// src/routes/overleg/[talkId]/index.svelte
-	[/^\/overleg\/([^/]+?)\/?$/, [c[0], c[12]], [c[1]], (m) => ({ talkId: d(m[1])})],
+	// src/routes/overleg/revisie/[goalId]/[revisionId]/aanmaken.svelte
+	[/^\/overleg\/revisie\/([^/]+?)\/([^/]+?)\/aanmaken\/?$/, [c[0], c[13]], [c[1]], (m) => ({ goalId: d(m[1]), revisionId: d(m[2])})],
 
-	// src/routes/overleg/[talkId]/[postId]/index.svelte
-	[/^\/overleg\/([^/]+?)\/([^/]+?)\/?$/, [c[0], c[13]], [c[1]], (m) => ({ talkId: d(m[1]), postId: d(m[2])})],
+	// src/routes/overleg/[goalId]/[talkId]/index.svelte
+	[/^\/overleg\/([^/]+?)\/([^/]+?)\/?$/, [c[0], c[14]], [c[1]], (m) => ({ goalId: d(m[1]), talkId: d(m[2])})],
+
+	// src/routes/overleg/[goalId]/[talkId]/[postId]/index.svelte
+	[/^\/overleg\/([^/]+?)\/([^/]+?)\/([^/]+?)\/?$/, [c[0], c[15]], [c[1]], (m) => ({ goalId: d(m[1]), talkId: d(m[2]), postId: d(m[3])})],
 
 	// src/routes/revisie/[id]/index.svelte
-	[/^\/revisie\/([^/]+?)\/?$/, [c[0], c[14]], [c[1]], (m) => ({ id: d(m[1])})],
+	[/^\/revisie\/([^/]+?)\/?$/, [c[0], c[16]], [c[1]], (m) => ({ id: d(m[1])})],
 
 	// src/routes/revisie/[id]/wijzigen.svelte
-	[/^\/revisie\/([^/]+?)\/wijzigen\/?$/, [c[0], c[15]], [c[1]], (m) => ({ id: d(m[1])})],
+	[/^\/revisie\/([^/]+?)\/wijzigen\/?$/, [c[0], c[17]], [c[1]], (m) => ({ id: d(m[1])})],
 
 	// src/routes/revisie/[id]/diff/[oldId]/index.svelte
-	[/^\/revisie\/([^/]+?)\/diff\/([^/]+?)\/?$/, [c[0], c[16]], [c[1]], (m) => ({ id: d(m[1]), oldId: d(m[2])})],
+	[/^\/revisie\/([^/]+?)\/diff\/([^/]+?)\/?$/, [c[0], c[18]], [c[1]], (m) => ({ id: d(m[1]), oldId: d(m[2])})],
 
 	// src/routes/beheer/index.svelte
-	[/^\/beheer\/?$/, [c[0], c[17], c[18]], [c[1]]],
+	[/^\/beheer\/?$/, [c[0], c[19], c[20]], [c[1]]],
 
 	// src/routes/beheer/activiteit/index.svelte
-	[/^\/beheer\/activiteit\/?$/, [c[0], c[17], c[19]], [c[1]]],
+	[/^\/beheer\/activiteit\/?$/, [c[0], c[19], c[21]], [c[1]]],
 
 	// src/routes/beheer/activiteit/maken.svelte
-	[/^\/beheer\/activiteit\/maken\/?$/, [c[0], c[17], c[20]], [c[1]]],
+	[/^\/beheer\/activiteit\/maken\/?$/, [c[0], c[19], c[22]], [c[1]]],
 
 	// src/routes/beheer/activiteit/[id]/index.svelte
-	[/^\/beheer\/activiteit\/([^/]+?)\/?$/, [c[0], c[17], c[21]], [c[1]], (m) => ({ id: d(m[1])})],
+	[/^\/beheer\/activiteit\/([^/]+?)\/?$/, [c[0], c[19], c[23]], [c[1]], (m) => ({ id: d(m[1])})],
 
 	// src/routes/beheer/activiteit/[id]/dashboard.svelte
-	[/^\/beheer\/activiteit\/([^/]+?)\/dashboard\/?$/, [c[0], c[17], c[22]], [c[1]], (m) => ({ id: d(m[1])})],
+	[/^\/beheer\/activiteit\/([^/]+?)\/dashboard\/?$/, [c[0], c[19], c[24]], [c[1]], (m) => ({ id: d(m[1])})],
 
 	// src/routes/beheer/activiteit/[id]/wijzigen.svelte
-	[/^\/beheer\/activiteit\/([^/]+?)\/wijzigen\/?$/, [c[0], c[17], c[23]], [c[1]], (m) => ({ id: d(m[1])})],
+	[/^\/beheer\/activiteit\/([^/]+?)\/wijzigen\/?$/, [c[0], c[19], c[25]], [c[1]], (m) => ({ id: d(m[1])})],
 
 	// src/routes/beheer/gebruiker/index.svelte
-	[/^\/beheer\/gebruiker\/?$/, [c[0], c[17], c[24]], [c[1]]],
+	[/^\/beheer\/gebruiker\/?$/, [c[0], c[19], c[26]], [c[1]]],
 
 	// src/routes/beheer/leerdoel/index.svelte
-	[/^\/beheer\/leerdoel\/?$/, [c[0], c[17], c[25]], [c[1]]],
+	[/^\/beheer\/leerdoel\/?$/, [c[0], c[19], c[27]], [c[1]]],
 
 	// src/routes/beheer/leerdoel/woorden-bloom.svelte
-	[/^\/beheer\/leerdoel\/woorden-bloom\/?$/, [c[0], c[17], c[26]], [c[1]]],
+	[/^\/beheer\/leerdoel\/woorden-bloom\/?$/, [c[0], c[19], c[28]], [c[1]]],
 
 	// src/routes/beheer/leerdoel/maken.svelte
-	[/^\/beheer\/leerdoel\/maken\/?$/, [c[0], c[17], c[27]], [c[1]]],
+	[/^\/beheer\/leerdoel\/maken\/?$/, [c[0], c[19], c[29]], [c[1]]],
 
 	// src/routes/beheer/leerdoel/[id]/index.svelte
-	[/^\/beheer\/leerdoel\/([^/]+?)\/?$/, [c[0], c[17], c[28]], [c[1]], (m) => ({ id: d(m[1])})],
+	[/^\/beheer\/leerdoel\/([^/]+?)\/?$/, [c[0], c[19], c[30]], [c[1]], (m) => ({ id: d(m[1])})],
 
 	// src/routes/beheer/leerdoel/[id]/wijzigen.svelte
-	[/^\/beheer\/leerdoel\/([^/]+?)\/wijzigen\/?$/, [c[0], c[17], c[29]], [c[1]], (m) => ({ id: d(m[1])})],
+	[/^\/beheer\/leerdoel\/([^/]+?)\/wijzigen\/?$/, [c[0], c[19], c[31]], [c[1]], (m) => ({ id: d(m[1])})],
 
 	// src/routes/beheer/test-ssr.svelte
-	[/^\/beheer\/test-ssr\/?$/, [c[0], c[17], c[30]], [c[1]]],
+	[/^\/beheer\/test-ssr\/?$/, [c[0], c[19], c[32]], [c[1]]],
 
 	// src/routes/beheer/kaart/index.svelte
-	[/^\/beheer\/kaart\/?$/, [c[0], c[17], c[31]], [c[1]]],
+	[/^\/beheer\/kaart\/?$/, [c[0], c[19], c[33]], [c[1]]],
 
 	// src/routes/beheer/kaart/maken.svelte
-	[/^\/beheer\/kaart\/maken\/?$/, [c[0], c[17], c[32]], [c[1]]],
+	[/^\/beheer\/kaart\/maken\/?$/, [c[0], c[19], c[34]], [c[1]]],
 
 	// src/routes/beheer/kaart/[id]/wijzigen.svelte
-	[/^\/beheer\/kaart\/([^/]+?)\/wijzigen\/?$/, [c[0], c[17], c[33]], [c[1]], (m) => ({ id: d(m[1])})],
+	[/^\/beheer\/kaart\/([^/]+?)\/wijzigen\/?$/, [c[0], c[19], c[35]], [c[1]], (m) => ({ id: d(m[1])})],
 
 	// src/routes/beheer/kaart/[id]/paden.svelte
-	[/^\/beheer\/kaart\/([^/]+?)\/paden\/?$/, [c[0], c[17], c[34]], [c[1]], (m) => ({ id: d(m[1])})],
+	[/^\/beheer\/kaart\/([^/]+?)\/paden\/?$/, [c[0], c[19], c[36]], [c[1]], (m) => ({ id: d(m[1])})],
 
 	// src/routes/kaart/[mapId]/locatie/[locationId].svelte
-	[/^\/kaart\/([^/]+?)\/locatie\/([^/]+?)\/?$/, [c[0], c[35]], [c[1]], (m) => ({ mapId: d(m[1]), locationId: d(m[2])})],
+	[/^\/kaart\/([^/]+?)\/locatie\/([^/]+?)\/?$/, [c[0], c[37]], [c[1]], (m) => ({ mapId: d(m[1]), locationId: d(m[2])})],
 
 	// src/routes/kaart/[id].svelte
-	[/^\/kaart\/([^/]+?)\/?$/, [c[0], c[36]], [c[1]], (m) => ({ id: d(m[1])})],
+	[/^\/kaart\/([^/]+?)\/?$/, [c[0], c[38]], [c[1]], (m) => ({ id: d(m[1])})],
 
 	// src/routes/todos/index.json.js
 	[/^\/todos\.json$/],
 
 	// src/routes/todos/index.svelte
-	[/^\/todos\/?$/, [c[0], c[37]], [c[1]]],
+	[/^\/todos\/?$/, [c[0], c[39]], [c[1]]],
 
 	// src/routes/todos/[uid].json.js
 	[/^\/todos\/([^/]+?)\.json$/],
 
 	// src/routes/post/[id]/index.svelte
-	[/^\/post\/([^/]+?)\/?$/, [c[0], c[38]], [c[1]], (m) => ({ id: d(m[1])})],
+	[/^\/post\/([^/]+?)\/?$/, [c[0], c[40]], [c[1]], (m) => ({ id: d(m[1])})],
 
 	// src/routes/[id].svelte
-	[/^\/([^/]+?)\/?$/, [c[0], c[39]], [c[1]], (m) => ({ id: d(m[1])})]
+	[/^\/([^/]+?)\/?$/, [c[0], c[41]], [c[1]], (m) => ({ id: d(m[1])})]
 ];
 
 // we import the root layout/error components eagerly, so that

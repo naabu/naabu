@@ -48,6 +48,9 @@
 
   onMount(async () => {
     goalSnap = await goalRef.get();
+    console.log('here');
+    console.log(goalRef);
+    console.log(goalSnap);
     if (goalSnap.exists) {
       goal = goalSnap.data();
       goal.id = goalRef.id;

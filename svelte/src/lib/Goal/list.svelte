@@ -55,7 +55,7 @@ import { truncate } from '$lib/Misc/helper';
 <ShowBreadcrumb bind:breadcrumbs />
 <ManagementTabs mainSelected="goal" />
 
-<a href="leerdoel/maken"> Nieuw leerdoel maken</a>
+<a class="underline float-right" href="leerdoel/maken"> Nieuw leerdoel maken</a>
 
 <div>
   <input type="text" bind:value={query} on:keyup={search}>
@@ -97,7 +97,7 @@ import { truncate } from '$lib/Misc/helper';
                       <div class="text-sm text-gray-900"> {#if hit.activities}Activiteiten{:else}Geen activititen{/if}</div>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                      <a href="/beheer/leerdoel/{hit.objectID}" class="text-indigo-600 hover:text-indigo-900">Bekijken</a>
+                      <a href="/leerdoel/{hit.objectID}" class="text-indigo-600 hover:text-indigo-900">Bekijken</a>
                       <a href="/beheer/leerdoel/{hit.objectID}/wijzigen" class="text-indigo-600 hover:text-indigo-900">Wijzigen</a>
                   </td>
               </tr>

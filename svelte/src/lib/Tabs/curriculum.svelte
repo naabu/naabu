@@ -6,8 +6,6 @@
   export let isOwnProfile = false;
   export let isNew = false;
 
-  $: console.log(isOwnProfile);
-
   let mainTabs;
   let subTabs;
 

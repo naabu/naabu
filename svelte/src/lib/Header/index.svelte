@@ -176,16 +176,14 @@
                   aria-labelledby="user-menu-button"
                   tabindex="-1"
                 >
-                  {#if $session.user.idTokenResult.claims.canModerate}
-                    <a
-                      href="/beheer"
-                      on:click={() => (openUserMenu = false)}
-                      class="block px-4 py-2 text-sm text-gray-700"
-                      role="menuitem"
-                      tabindex="-1"
-                      id="user-menu-item-1">Beheer</a
-                    >
-                  {/if}
+                  <a
+                    href="/beheer"
+                    on:click={() => (openUserMenu = false)}
+                    class="block px-4 py-2 text-sm text-gray-700"
+                    role="menuitem"
+                    tabindex="-1"
+                    id="user-menu-item-1">Beheer</a
+                  >
                   <a
                     href="/curriculum-profiel/mijn-profiel"
                     on:click={() => (openUserMenu = false)}

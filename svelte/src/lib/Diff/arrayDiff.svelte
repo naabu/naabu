@@ -2,14 +2,21 @@
   export let title = "Verschil";
   export let old;
   export let neww;
+  export let old2 = null;
+  export let neww2 = null;
 
   let differs = false;
 
   $: if (old && neww) {
-    differs = checkArrayIsTheSame(old, neww);
+    differs = checkArrayIsTheSame(old, neww, old2, neww2);
   }
 
-  function checkArrayIsTheSame(arrayToCheckOld, arrayToCheckNew) {
+  function checkArrayIsTheSame(
+    arrayToCheckOld,
+    arrayToCheckNew,
+    arrayToCheckOld2,
+    arrayToCheckNew2
+  ) {
     if (arrayToCheckOld.length !== arrayToCheckNew.length) {
       return true;
     }
@@ -19,6 +26,19 @@
         return true;
       }
     }
+
+    if (old2 && neww2) {
+      if (arrayToCheckOld2.length !== arrayToCheckNew2.length) {
+        return true;
+      }
+
+      for (let i = 0; i < arrayToCheckOld2.length; i++) {
+        if (arrayToCheckOld2[i] !== arrayToCheckNew2[i]) {
+          return true;
+        }
+      }
+    }
+
     return false;
   }
 </script>
@@ -39,21 +59,25 @@
             </div>
           </div>
 
-          <div
-            class="grid gap-4 grid-cols-2 mt-4 px-4 pb-5 sm:p-6 sm:pt-0"
-          >
+          <div class="grid gap-4 grid-cols-2 mt-4 px-4 pb-5 sm:p-6 sm:pt-0">
             <div>
-              {#each old as item}
+              {#each old as item, index}
                 <div>
-                  {item}
+                  {item} - 
+                  {#if old2}
+                    {old2[index]}
+                  {/if}
                 </div>
               {/each}
             </div>
 
             <div>
-              {#each neww as item}
+              {#each neww as item, index}
                 <div>
                   {item}
+                  {#if neww2} -
+                    {neww2[index]}
+                  {/if}
                 </div>
               {/each}
             </div>

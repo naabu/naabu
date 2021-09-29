@@ -23,13 +23,13 @@
     if (snap.exists) {
       goal = snap.data();
       if (goal.talkId) {
-        await goto("/overleg/" + goal.talkId);
+        await goto("/overleg/" + ref.id + "/" + goal.talkId);
       }
       else {
         let talkResult = await db.collection("talk").add({type: "goal"});
         goal.talkId = talkResult.id;
         await ref.set(goal);
-        await goto("/overleg/" + goal.talkId);
+        await goto("/overleg/" + ref.id + "/" + + goal.talkId);
       }
     }
 	}

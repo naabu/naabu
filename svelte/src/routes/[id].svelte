@@ -36,7 +36,7 @@
       // TODO: There can be multiple goals attached to an activity, support this?
       if (activity.goals.length > 0)
       {
-        let battleCol = db.collection('goals/' + activity.goals[0].objectID + "/battles");
+        let battleCol = db.collection('goals/' + activity.goals[0].objectID + '/battles');
         const querySnapshot = await battleCol.get();
         activity.battles = [];
         querySnapshot.forEach((doc) => {

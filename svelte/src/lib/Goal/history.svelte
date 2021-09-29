@@ -9,7 +9,6 @@
   $: if (goal.revisionList) {
     sortOnCreatedAt(goal.revisionList);
   }
-  console.log(goal.revisionList);
 </script>
 
 <MainTabs bind:goal subSelected="history" />
@@ -46,7 +45,7 @@
                     {#if revision.previousRevisionId}
                       <a
                         class="underline"
-                        href="/revisie/{revision.previousRevisionId}/diff/{revision.id}"
+                        href="/revisie/{revision.id}/diff/{revision.previousRevisionId}"
                       >
                         {getDateString(revision.createdAt)}
                       </a>

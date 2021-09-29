@@ -7,42 +7,36 @@ service cloud.firestore {
     match /users/{userId} {
       allow write: if (request.auth.uid == userId)
     }
-
-    match /posts/{postId} {
-      allow read: if true
-      allow update: if (resource.data.authorId == request.auth.uid) ||
-        (request.auth.token.canModerate)
-    }
      
     match /goals/{goalsId} {
-      allow read, write: if true
+      allow read, write, delete: if true
 
       match /battles/{battleId} {
-        allow read, write: if true
+        allow read, write, delete: if true
       }
     }
     
     match /curriculumProfile/{curriculumProfileId} {
-      allow read, write: if true
+      allow read, write, delete: if true
     }
 
     match /talk/{talkId} {
-      allow read, write: if true
+      allow read, write, delete: if true
 
       match /posts/{postId} {
-        allow read, write: if true
+        allow read, write, delete: if true
       
         match /replies/{replyId} {
-          allow read, write: if true
+          allow read, write, delete: if true
         }
       }
     }
 
     match /revisions/{revisionId} {
-      allow read, create: if true
+      allow read, create, delete: if true
 
       match /battles/{battleId} {
-        allow read, create: if true
+        allow read, create, delete: if true
       }
     }
 
@@ -58,9 +52,8 @@ service cloud.firestore {
     }
 
     match /activities/{acitivtyId} {
-      allow read: if (resource.data.visibility == "public") ||
-        (request.auth.token.canModerate)
-      allow write, update: if (request.auth.token.canModerate)
+      allow read: if true
+      allow write, update: if true
     }
 
     match /path/{userId} {

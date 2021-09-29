@@ -69,10 +69,7 @@
   let userHasSpecialClaims = hasSpecialClaims($session.user);
 
   async function endActivity() {
-    console.log('end activity');
-    console.log(activity.type);
     if (activity.type === "Eindbaas") {
-      console.log('unlock locations');
       await unlockLocations();
     }
     if (!userHasSpecialClaims) {
@@ -118,8 +115,6 @@
             .doc(uid);
           userMapRef.get().then(async (userMapSnap) => {
             let userMapData = await userMapSnap.data();
-            console.log(userMapData);
-            console.log(activity.goalIds);
             for (let i2 = 0; i2 < map.locations.length; i2++) {
               let location = map.locations[i2];
               for (let i3 = 0; i3 < location.goals.length; i3++) {
@@ -140,8 +135,6 @@
                 }
               }
             }
-            console.log('userMapData');
-            console.log(userMapData);
             userMapRef.set(userMapData);
           });
         });

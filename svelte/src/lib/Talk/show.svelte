@@ -1,109 +1,23 @@
 <script>
-  import { getStores, session } from "$app/stores";
-  import { onMount } from "svelte";
-  import ResultFeedback from "$lib/Form/resultFeedback.svelte";
   import { getDateString } from "$lib/Misc/helper";
-  import { goto } from "$app/navigation";
-  import { sortOnCreatedAt } from "$lib/Revision/helper";
-
+  import { sortOnLastReplyAt } from "$lib/Revision/helper";
+  import CreatePostForm from "./createPost.svelte";
+  import MainTabs from "$lib/Tabs/talk.svelte";
+  export let firebase;
   export let talk;
   export let posts;
-  sortOnCreatedAt(posts);
-  export let firebase;
+  export let goalId;
 
-  $: console.log(posts);
-
-  let newPostTitle = "";
-  let newPostText = "";
-  let buttonDisabled = false;
-  let db;
-
-  onMount(async () => {
-    db = await firebase.firestore();
-  });
-
-  let alert = getDefaultAlertValues();
-
-  function getDefaultAlertValues() {
-    return {
-      success: false,
-      successMessage: "",
-      error: false,
-      errorCode: "",
-      errorMessage: "",
-    };
-  }
-
-  async function createPost() {
-    if ($session.player && $session.player.id) {
-      let profileRef = db
-        .collection("curriculumProfile")
-        .doc($session.player.id);
-
-      let data = {
-        title: newPostTitle,
-        text: newPostText,
-        authorId: $session.player.id,
-        numberOfReplies: 0,
-      };
-      let snap = await profileRef.get();
-      if (snap.exists) {
-        let profileData = snap.data();
-        data.curriculumProfile = {
-          fullname: profileData.fullname,
-          institution: profileData.institution,
-        };
-      }
-
-      alert = getDefaultAlertValues();
-      try {
-        let postsResult = await db
-          .collection("talk")
-          .doc(talk.id)
-          .collection("posts")
-          .add(data);
-        alert.success = true;
-        alert.successTitle = "Post gemaakt";
-        alert.successMessage = "id: " + postsResult.id;
-        await goto("/overleg/" + talk.id + "/" + postsResult.id);
-      } catch (e) {
-        console.error("Kan post niet maken: ", e);
-        alert.error = true;
-        alert.errorCode = e.code;
-        alert.errorMessage = e.message;
-      }
-    }
-  }
-
-  async function formSubmit(event) {
-    buttonDisabled = true;
-    await createPost();
-    newPostTitle = "";
-    newPostText = "";
-    setTimeout(() => {
-      buttonDisabled = false;
-    }, 5000);
-  }
+  sortOnLastReplyAt(posts);
 </script>
 
-<ResultFeedback bind:alert />
-
 {#if talk}
-  <div class="ml-auto mr-auto max-w-2xl">
-    Talk page type: {talk.type}
+  {#if talk.type === "goal"}
+    <MainTabs bind:objectId={goalId} talkType={talk.type} talkId={talk.id} />
+  {/if}
 
-    <form on:submit|preventDefault={formSubmit}>
-      <input type="text" bind:value={newPostTitle} />
-      <textarea row="6" bind:value={newPostText} />
-      <button
-        disabled={buttonDisabled}
-        type="submit"
-        class="disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >Post</button
-      >
-    </form>
-  </div>
-  <div class="mt-4 ml-auto mr-auto max-w-2xl">
+  <CreatePostForm bind:firebase bind:goalId bind:talk />
+  <div class="mt-4 ml-auto mr-auto max-w-xl">
     <h1 class="sr-only">Recent posts</h1>
     <ul role="list" class="space-y-4">
       {#each posts as post}
@@ -174,7 +88,10 @@
               </div>
             </div>
             <div class="text-sm text-gray-700 space-y-4">
-              <a class="cursor-pointer" href="/overleg/{talk.id}/{post.id}">
+              <a
+                class="cursor-pointer"
+                href="/overleg/{goalId}/{talk.id}/{post.id}"
+              >
                 <h2
                   id="question-title-81614"
                   class="mt-4 mb-2 text-base font-medium text-gray-900"

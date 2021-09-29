@@ -18,13 +18,22 @@
 
   async function retrieveFirestoreData() {
     let db = await firebase.firestore();
-    let ref = db.collection("talk").doc($page.params.talkId).collection("posts").doc($page.params.postId);
+    let ref = db
+      .collection("talk")
+      .doc($page.params.talkId)
+      .collection("posts")
+      .doc($page.params.postId);
     let snap = await ref.get();
     if (snap.exists) {
       post = snap.data();
       post.id = ref.id;
 
-      let repliesRef = db.collection("talk").doc($page.params.talkId).collection("posts").doc($page.params.postId).collection('replies');
+      let repliesRef = db
+        .collection("talk")
+        .doc($page.params.talkId)
+        .collection("posts")
+        .doc($page.params.postId)
+        .collection("replies");
       let repliesSnap = await repliesRef.get();
       repliesSnap.forEach((replyDoc) => {
         let reply = replyDoc.data();
@@ -36,5 +45,11 @@
 </script>
 
 {#if mounted}
-  <Post bind:post bind:replies bind:talkId={$page.params.talkId} bind:firebase/>
+  <Post
+    bind:post
+    bind:replies
+    bind:talkId={$page.params.talkId}
+    bind:goalId={$page.params.goalId}
+    bind:firebase
+  />
 {/if}

@@ -7,6 +7,7 @@
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
   import { createRevision, getGoalSaveData } from "./helper";
   import { getGoalIndex } from "$lib/algolia";
+  import { goto } from "$app/navigation";
 
   export let firebase;
 
@@ -63,7 +64,7 @@
       let data = getGoalSaveData(goal);
       alert = getDefaultAlertValues();
       try {
-        let talkResult = await db.collection("talk").add({type: "goal"});
+        let talkResult = await db.collection("talk").add({ type: "goal" });
         data.talkId = talkResult.id;
         let goalResult = await db.collection("goals").add(data);
         for (let i = 0; i < goal.battles.length; i++) {
@@ -80,10 +81,11 @@
         data.authorId = $session.player.id;
         data.goalId = goalResult.id;
         await createRevision(db, goal, data);
-        
+
         alert.success = true;
         alert.successTitle = "Leerdoel gemaakt";
         alert.successMessage = "id: " + goalResult.id;
+        await goto("/leerdoel/" + goalResult.id);
       } catch (e) {
         console.error("Error adding document: ", e);
         alert.error = true;
@@ -115,8 +117,7 @@
           <h3 class="text-lg leading-6 font-medium text-gray-900">
             Leerdoel maken
           </h3>
-          <p class="mt-1 max-w-2xl text-sm text-gray-500">
-          </p>
+          <p class="mt-1 max-w-2xl text-sm text-gray-500" />
         </div>
       </div>
     </div>
@@ -126,7 +127,6 @@
     on:submit|preventDefault={formSubmit}
   >
     <GoalForm bind:goal />
-
     <div class="pt-5">
       <div class="flex justify-end">
         <button

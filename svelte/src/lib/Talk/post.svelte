@@ -106,13 +106,13 @@
   <div class="ml-auto mr-auto max-w-2xl">
     <form on:submit|preventDefault={formSubmit}>
       <div>
-        <label for="post" class="block text-sm font-medium text-gray-700">
+        <label for="reply" class="block text-sm font-medium text-gray-700">
           Antwoord
         </label>
         <div class="mt-1">
           <textarea
-            id="about"
-            name="post"
+            id="reply"
+            name="reply"
             rows="3"
             bind:value={newReplyText}
             class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
@@ -143,6 +143,7 @@
             <div class="min-w-0 flex-1">
               <p class="text-sm font-medium text-gray-900">
                 <a
+                  data-cy="profile-link"
                   class="hover:underline"
                   href="/curriculum-profiel/{post.authorId}"
                   >{post.curriculumProfile.fullname}</a

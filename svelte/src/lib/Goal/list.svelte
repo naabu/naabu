@@ -55,7 +55,7 @@ import { truncate } from '$lib/Misc/helper';
 <ShowBreadcrumb bind:breadcrumbs />
 <ManagementTabs mainSelected="goal" />
 
-<a class="underline float-right" href="leerdoel/maken"> Nieuw leerdoel maken</a>
+<a data-cy="create-goal-link" class="underline float-right" href="leerdoel/maken"> Nieuw leerdoel maken</a>
 
 <div>
   <input type="text" bind:value={query} on:keyup={search}>

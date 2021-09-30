@@ -9,6 +9,10 @@
   let deleteQuizToggle = false;
   let renderedKatex = "";
 
+  $: if (quizzes.length === 0) {
+    addQuiz();
+  }
+
   function updatePreview(input) {
     renderedKatex = renderKatexOutput(input);
   }
@@ -56,7 +60,7 @@
   function addAnswer(quizIndex) {
     let answer = {
       answer: "",
-      correct: false
+      correct: false,
     };
     quizzes[quizIndex].answers = [...quizzes[quizIndex].answers, answer];
   }
@@ -112,6 +116,7 @@
             {#each quizzes[selectedQuizIndex].answers as answer, i}
               {#if selectedFieldIndex !== i}
                 <button
+                  data-cy="A{i + 1}"
                   on:click|preventDefault={() => setSelectedFieldIndex(i)}
                   class="outline-none active:outline-none focus:outline-none border-transparent  text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
                 >
@@ -134,16 +139,18 @@
             {/each}
           {/if}
           <button
+            data-cy="new-answer-button"
             class="mb-1  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             on:click|preventDefault={() => addAnswer(selectedQuizIndex)}
           >
-            New answer
+            Nieuw antwoord
           </button>
           <button
+            data-cy="remove-quiz-button"
             class="mb-1  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             on:click|preventDefault={() => removeQuizButtonFunction()}
           >
-            Remove Quiz
+            Quiz verwijderen
           </button>
         </nav>
       </div>
@@ -254,6 +261,7 @@
               )}>Update preview</button
           >
           <button
+            data-cy="remove-answer-button"
             type="button"
             on:click|preventDefault={() => deleteQuizAnswer()}
             class="float-right mt-3 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

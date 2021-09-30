@@ -59,6 +59,7 @@
                   >Huidige versie</a
                 >
                 (<a
+                  data-cy="show-diff-link"
                   class="underline"
                   href="/revisie/{revision.id}/diff/{previousRevision.id}"
                   >wijz</a

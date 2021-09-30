@@ -14,7 +14,7 @@
     goal.multitopics = goal.multitopics;
   }
 
-  function onKeyPress(e){
+  function onKeyPress(e) {
     if (e.charCode === 13) {
       e.preventDefault();
       addMultiTopicSubmit();
@@ -26,7 +26,7 @@
   class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
 >
   <label
-    for="uni_topic_name"
+    for="multi_topic_name"
     class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
   >
     Onderwerpen
@@ -46,13 +46,15 @@
         on:keypress={onKeyPress}
         type="text"
         bind:value={newMultitopic}
-        name="uni_topic_name"
-        id="uni_topic_name"
+        name="multi_topic_name"
+        id="multi_topic_name"
         class="mt-2 mb-2 max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
       />
       <button
+        data-cy="add-multi-topic-button"
         class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        on:click|preventDefault={addMultiTopicSubmit}>Onderwerp toevoegen</button
+        on:click|preventDefault={addMultiTopicSubmit}
+        >Onderwerp toevoegen</button
       >
     </div>
   </div>

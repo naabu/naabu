@@ -64,7 +64,11 @@
       <nav class="-mb-px flex" aria-label="Tabs">
         <div class="flex space-x-8">
           {#each mainTabs as tab}
-            <a class:selected={mainSelected === tab.value} href={tab.url}>
+            <a
+              data-cy="maintab-{tab.value}"
+              class:selected={mainSelected === tab.value}
+              href={tab.url}
+            >
               {tab.text}
             </a>
           {/each}
@@ -73,6 +77,7 @@
           <div class="ml-auto flex space-x-8">
             {#each subTabs as tab}
               <a
+                data-cy="subtab-{tab.value}"
                 class=""
                 class:selected={subSelected === tab.value}
                 href={tab.url}

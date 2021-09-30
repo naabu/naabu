@@ -121,7 +121,7 @@
     generateGoalTitle();
   }
 
-  function setSelectedBattleIndex(index){
+  function setSelectedBattleIndex(index) {
     selectedBattleIndex = index;
     selectedQuizIndex = 0;
     selectedFieldIndex = -1;
@@ -344,7 +344,12 @@
 </script>
 
 <svelte:head>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css"
+    integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc"
+    crossorigin="anonymous"
+  />
 </svelte:head>
 
 <div class="space-y-6 sm:space-y-5 divide-y divide-gray-200" />
@@ -588,8 +593,8 @@
           <select
             multiple
             bind:value={goal.selectedVerbs}
-            id="country"
-            name="country"
+            id="selectedVerbs"
+            name="selectedVerbs"
             class="resize-y max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
           >
             {#each verbs as verb}
@@ -603,7 +608,7 @@
       class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
     >
       <label
-        for="title"
+        for="from_text"
         class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
       >
         Extra info
@@ -657,15 +662,15 @@
       class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
     >
       <label
-        for="title"
+        for="description"
         class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
       >
         Description
       </label>
       <div class="mt-1 sm:mt-0 sm:col-span-2">
         <textarea
-          id="title"
-          name="title"
+          id="description"
+          name="description"
           rows="3"
           bind:value={goal.description}
           class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
@@ -714,14 +719,20 @@
       </p>
     </div>
     <div>
-      <BattleListForm bind:battles={goal.battles} bind:index={selectedBattleIndex} />
+      <BattleListForm
+        bind:battles={goal.battles}
+        bind:index={selectedBattleIndex}
+      />
 
       <div class="block tabs">
         <div class="border-b mb-1 border-gray-200">
-          <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+          <nav 
+            data-cy="battle-nav"
+            class="-mb-px flex space-x-8" aria-label="Tabs">
             {#each goal.battles as battle, i}
               {#if selectedBattleIndex !== i}
                 <button
+                  data-cy="click-battle-{i}-button"
                   on:click|preventDefault={() => setSelectedBattleIndex(i)}
                   class="outline-none active:outline-none focus:outline-none border-transparent  text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
                 >
@@ -740,7 +751,11 @@
         </div>
       </div>
       {#if goal.battles.length > 0}
-        <QuizForm bind:quizzes={goal.battles[selectedBattleIndex].quizzes} bind:selectedQuizIndex bind:selectedFieldIndex/> 
+        <QuizForm
+          bind:quizzes={goal.battles[selectedBattleIndex].quizzes}
+          bind:selectedQuizIndex
+          bind:selectedFieldIndex
+        />
       {/if}
       <!-- <label
       for="battleName"

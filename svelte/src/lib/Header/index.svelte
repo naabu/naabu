@@ -151,6 +151,7 @@
                   id="user-menu-button"
                   aria-expanded="false"
                   aria-haspopup="true"
+                  data-cy="user-menu"
                 >
                   <span class="sr-only">Open user menu</span>
                   <img
@@ -182,7 +183,7 @@
                     class="block px-4 py-2 text-sm text-gray-700"
                     role="menuitem"
                     tabindex="-1"
-                    id="user-menu-item-1">Beheer</a
+                    id="user-menu-item-management">Beheer</a
                   >
                   <a
                     href="/curriculum-profiel/mijn-profiel"

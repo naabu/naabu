@@ -48,7 +48,7 @@
 
   onMount(async () => {
     goalSnap = await goalRef.get();
-    console.log('here');
+    console.log("here");
     console.log(goalRef);
     console.log(goalSnap);
     if (goalSnap.exists) {
@@ -133,7 +133,7 @@
 
 {#if goal}
   <div>
-    <MainTabs bind:goal subSelected='edit' />
+    <MainTabs bind:goal subSelected="edit" />
     <ShowBreadcrumb bind:breadcrumbs />
 
     <ResultFeedback bind:alert />
@@ -145,8 +145,7 @@
             <h3 class="text-lg leading-6 font-medium text-gray-900">
               Leerdoel wijzigen
             </h3>
-            <p class="mt-1 max-w-2xl text-sm text-gray-500">
-            </p>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500" />
           </div>
         </div>
       </div>
@@ -160,6 +159,7 @@
       <div class="pt-5">
         <div class="flex justify-end">
           <button
+            data-cy="edit-goal-submit-button"
             type="submit"
             class="float-right ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >

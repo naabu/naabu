@@ -21,66 +21,68 @@
   function compareBattles() {
     battlesDiff = [];
 
-    for (let i = 0; i < revisionNew.battles.length; i++) {
-      let battleOldIndex = revisionOld.battleNames.indexOf(
-        revisionNew.battles[i].name
-      );
+    if (revisionNew.battles) {
+      for (let i = 0; i < revisionNew.battles.length; i++) {
+        let battleOldIndex = revisionOld.battleNames.indexOf(
+          revisionNew.battles[i].name
+        );
 
-      if (battleOldIndex !== -1) {
-        setQuizIds(revisionNew.battles[i]);
-        setQuizIds(revisionOld.battles[battleOldIndex]);
+        if (battleOldIndex !== -1) {
+          setQuizIds(revisionNew.battles[i]);
+          setQuizIds(revisionOld.battles[battleOldIndex]);
 
-        let newBattle = {
-          name: revisionNew.battles[i].name,
-          newQuizIds: revisionNew.battles[i].quizIds,
-          oldQuizIds: revisionOld.battles[battleOldIndex].quizIds,
-        };
+          let newBattle = {
+            name: revisionNew.battles[i].name,
+            newQuizIds: revisionNew.battles[i].quizIds,
+            oldQuizIds: revisionOld.battles[battleOldIndex].quizIds,
+          };
 
-        let quizzesToDiff = [];
-        for (let i2 = 0; i2 < revisionNew.battles[i].quizzes.length; i2++) {
-          let quizOldIndex = newBattle.oldQuizIds.indexOf(
-            revisionNew.battles[i].quizzes[i2].id
-          );
-          if (quizOldIndex !== -1) {
-            let quizNew = revisionNew.battles[i].quizzes[i2];
-            let quizOld =
-              revisionOld.battles[battleOldIndex].quizzes[quizOldIndex];
-            let answerTextNew = [];
-            let answerCorrectNew = [];
-            let answerTextOld = [];
-            let answerCorrectOld = [];
+          let quizzesToDiff = [];
+          for (let i2 = 0; i2 < revisionNew.battles[i].quizzes.length; i2++) {
+            let quizOldIndex = newBattle.oldQuizIds.indexOf(
+              revisionNew.battles[i].quizzes[i2].id
+            );
+            if (quizOldIndex !== -1) {
+              let quizNew = revisionNew.battles[i].quizzes[i2];
+              let quizOld =
+                revisionOld.battles[battleOldIndex].quizzes[quizOldIndex];
+              let answerTextNew = [];
+              let answerCorrectNew = [];
+              let answerTextOld = [];
+              let answerCorrectOld = [];
 
-            for (let i3 = 0; i3 < quizNew.answers.length; i3++) {
-              answerTextNew.push(quizNew.answers[i3].answer);
-              let correct = "Goede antwoord";
-              if (!quizNew.answers[i3].correct) {
-                correct = "Fout antwoord";
+              for (let i3 = 0; i3 < quizNew.answers.length; i3++) {
+                answerTextNew.push(quizNew.answers[i3].answer);
+                let correct = "Goede antwoord";
+                if (!quizNew.answers[i3].correct) {
+                  correct = "Fout antwoord";
+                }
+                answerCorrectNew.push(correct);
               }
-              answerCorrectNew.push(correct);
-            }
 
-            for (let i3 = 0; i3 < quizOld.answers.length; i3++) {
-              answerTextOld.push(quizOld.answers[i3].answer);
-              let correct = "Goede antwoord";
-              if (!quizNew.answers[i3].correct) {
-                correct = "Fout antwoord";
+              for (let i3 = 0; i3 < quizOld.answers.length; i3++) {
+                answerTextOld.push(quizOld.answers[i3].answer);
+                let correct = "Goede antwoord";
+                if (quizNew.answers[i3] && !quizNew.answers[i3].correct) {
+                  correct = "Fout antwoord";
+                }
+                answerCorrectOld.push(correct);
               }
-              answerCorrectOld.push(correct);
+              let quizzesToAdd = {
+                newQuestion: quizNew.question,
+                oldQuestion: quizOld.question,
+                newAnswerText: answerTextNew,
+                oldAnswerText: answerTextOld,
+                newAnswerCorrect: answerCorrectNew,
+                oldAnswerCorrect: answerCorrectOld,
+                quizId: quizNew.id,
+              };
+              quizzesToDiff.push(quizzesToAdd);
             }
-            let quizzesToAdd = {
-              newQuestion: quizNew.question,
-              oldQuestion: quizOld.question,
-              newAnswerText: answerTextNew,
-              oldAnswerText: answerTextOld,
-              newAnswerCorrect: answerCorrectNew,
-              oldAnswerCorrect: answerCorrectOld,
-              quizId: quizNew.id,
-            };
-            quizzesToDiff.push(quizzesToAdd);
           }
+          newBattle.quizzes = quizzesToDiff;
+          battlesDiff = [...battlesDiff, newBattle];
         }
-        newBattle.quizzes = quizzesToDiff;
-        battlesDiff = [...battlesDiff, newBattle];
       }
     }
   }

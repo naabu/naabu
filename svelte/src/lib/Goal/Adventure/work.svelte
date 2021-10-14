@@ -246,7 +246,6 @@
         else if(adventure.status === 'needs-approval') {
           adventureData.inNeedsForApprovalAt = serverTimestamp;
         }
-        console.log(adventureData);
         await adventureRef.update(adventureData);
         alert.success = true;
         alert.successTitle = "Opmerking gemaakt";
@@ -264,7 +263,6 @@
   async function formSubmit(event) {
     buttonDisabled = true;
     await createCommentUpdate();
-    console.log(newCommentText);
     setTimeout(() => {
       buttonDisabled = false;
     }, 5000);

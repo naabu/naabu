@@ -1,7 +1,5 @@
 <script>
   export let adventure;
-
-  $: console.log(adventure);
 </script>
 
 <div class="mt-6 sm:border-t sm:border-gray-200 sm:pt-5">

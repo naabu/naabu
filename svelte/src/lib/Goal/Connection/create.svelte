@@ -27,11 +27,6 @@
     };
   }
 
-  $: {
-    console.log(goal);
-    console.log(connectionGoal);
-  }
-
   onMount(async () => {
     db = await firebase.firestore();
   });

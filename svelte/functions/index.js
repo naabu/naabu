@@ -969,8 +969,8 @@ async function setMapActivitiesForUid(uid) {
             svg: adventureData.svg,
             difficulty: adventureData.difficulty,
           }
-    
-          
+
+
           mapAdventures.push(adventure);
         });
 

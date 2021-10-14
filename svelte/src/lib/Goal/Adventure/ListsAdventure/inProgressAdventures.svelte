@@ -31,7 +31,6 @@
       let adventure = adventureArray[i];
       adventure.timeInFutureToApprove =
         adventure.inProgressAt + daysToSendToApproval;
-      console.log(adventure.timeInFutureToApprove);
     }
   }
 

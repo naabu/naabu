@@ -12,7 +12,7 @@
 
   export let battleCol;
   export let firebase;
-
+  let previousBattles = [];
   let y;
 
   let breadcrumbs = [
@@ -79,6 +79,7 @@
       battleObject.name = doc.id;
       goal.battles = [...goal.battles, battleObject];
     });
+    previousBattles = [...goal.battles];
   });
 
   async function editGoal() {
@@ -101,6 +102,23 @@
           await battleDocRef.update(battleData);
         } else {
           await battleDocRef.set(battleData);
+        }
+      }
+
+      for (let i = 0; i < previousBattles.length; i++) {
+        let previousBattle = previousBattles[i];
+        let deleteBattle = true;
+        for (let i2 = 0; i2 < goal.battles.length; i2++) {
+          let newBattle = goal.battles[i2];
+          if (newBattle.name === previousBattle.name) {
+            deleteBattle = false;
+          }
+        }
+        if (deleteBattle) {
+          let battleDocRef = db.doc(
+            "/goals/" + goalRef.id + "/battles/" + previousBattle.name
+          );
+          await battleDocRef.delete();
         }
       }
 

@@ -1051,11 +1051,71 @@ async function setMapActivitiesForUid(uid) {
   //   });
 }
 
+async function unlockLocations(adventure, uid) {
+  const fb = getFirebaseApp();
+  let db = fb.firestore();
+  let mapColRef = db.collection("maps");
+  let mapQuery = await mapColRef.get();
+  mapQuery.forEach(async (mapSnap) => {
+    let mapId = mapSnap.id;
+    let mapData = mapSnap.data();
+    let userMapRef = db.collection('maps').doc(mapId).collection('players').doc(uid);
+    let userMapSnap = await userMapRef.get();
+    if (userMapSnap.exists) {
+      let userMapData = await userMapSnap.data();
+      for (let i = 0; i < mapData.locations.length; i++) {
+        let location = mapData.locations[i];
+        for (let i2 = 0; i2 < location.goals.length; i2++) {
+          let goal = location.goals[i2];
+          if (goal.id === adventure.goalId) {
+            if (!userMapData.succeededLocations.includes(location.id)) {
+              userMapData.succeededLocations.push(location.id);
+            }
+            for (let i4 = 0; i4 < location.accessLocations.length; i4++) {
+              let accessLocationId = location.accessLocations[i4];
+              if (
+                !userMapData.unlockedLocations.includes(accessLocationId)
+              ) {
+                userMapData.unlockedLocations.push(accessLocationId);
+              }
+            }
+            userMapRef.set(userMapData);
+          }
+        }
+      }
+    }
+  });
+}
+
 exports.writeFeedbackDevelopRandom = functions.firestore.document('feedback/{feedbackId}')
   .onCreate(async (snap, context) => {
+    const feedbackData = snap.data();
+    let uid = feedbackData.uid;
+    let goalId = feedbackData.goalId;
+    let adventureId = feedbackData.adventureId;
+    console.log(feedbackData);
+    const fb = getFirebaseApp();
+    let db = fb.firestore();
+    let adventureRef = db.collection('goals').doc(goalId).collection('adventures').doc(adventureId);
+    let adventureSnap = await adventureRef.get();
+
+    if (adventureSnap.exists) {
+      console.log('adventure exists');
+      let adventure = adventureSnap.data();
+      adventure.id = adventureId;
+      adventure.goalId = goalId;
+      if (adventure.type === 'boss') {
+        console.log('Unlock locations');
+        await unlockLocations(adventure, uid);
+      }
+    }
+    // Get the adventure.
+    // Get the status.
+    // Check if it should be unlocking a location on a map.
+    // Unlock locations.
+
+
     if (ENVIRONMENT === 'development') {
-      const feedbackData = snap.data();
-      let uid = feedbackData.uid;
       await setMapActivitiesForUid(uid);
     }
     return null;

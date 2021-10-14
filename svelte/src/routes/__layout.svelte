@@ -18,7 +18,7 @@
 	import Header from '$lib/Header/index.svelte';
 	import '../app.postcss';
   import { initFirebase } from "$lib/firebase";
-  
+
 	let user = null;
   let player = null;
   let firebase;
@@ -50,6 +50,7 @@
 	}
 
 	onMount(async () => {
+    
     firebase = await initFirebase($session.environment);
     firebase.auth().onAuthStateChanged(async (newUser) => {
       if (newUser) {

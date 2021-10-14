@@ -32,7 +32,7 @@ export async function getUserMap(firebase, mapId, map, player) {
       let userMapData = {
         unlockedLocations: startLocations,
         succeededLocations: [],
-        selectedActivities: [],
+        selectedAdventures: [],
       }
       let mapCollectionRef = db.collection("maps/" + mapId + "/players")
       let result = await mapCollectionRef.doc(player.id).set(userMapData);

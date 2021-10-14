@@ -14,7 +14,7 @@
 <MainTabs bind:goal subSelected="history" />
 
 {#if goal.revisionList}
-  <div class="flex flex-col">
+  <div class="flex flex-col mt-8">
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div
         data-cy="history-table"

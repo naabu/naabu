@@ -27,7 +27,7 @@
 </script>
 
 <div>
-  <div class="sm:hidden mb-8">
+  <div class="sm:hidden">
     <label for="tabs" class="sr-only">Selecteer een tab</label>
     <select
       bind:value={mainSelectedTab}
@@ -59,7 +59,7 @@
       </select>
     {/if}
   </div>
-  <div class="hidden sm:block mb-8">
+  <div class="hidden sm:block">
     <div class="border-b border-gray-200">
       <nav class="-mb-px flex" aria-label="Tabs">
         <div class="flex space-x-8">

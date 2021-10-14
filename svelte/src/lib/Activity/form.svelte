@@ -1,86 +1,14 @@
 <script>
   import { getStores, session, page } from "$app/stores";
   import { onMount } from "svelte";
-  import { getAlgoliaSearchClient, getGoalIndex } from "$lib/algolia";
-  import { autocomplete, getAlgoliaResults } from "@algolia/autocomplete-js";
   import "@algolia/autocomplete-theme-classic";
   import { renderKatexOutput } from "$lib/Misc/helper.js";
   import QuizForm from "$lib/Quizzes/form.svelte";
 
   export let activity;
 
-  let filters = "";
-  let goalIndex = getGoalIndex($session.environment);
-
   function updatePreview() {
     activity.description = renderKatexOutput(activity.descriptionRaw);
-  }
-
-  function resetFilters() {
-    let objectIDsFilter = activity.goals.map(
-      (leerdoel) => "NOT objectID:" + leerdoel.objectID
-    );
-    filters = objectIDsFilter.join(" AND ");
-  }
-
-  function addLeerdoel(leerdoel) {
-    activity.goals = [...activity.goals, leerdoel];
-    resetFilters();
-  }
-
-  function removeLeerdoel(i) {
-    activity.goals.splice(i, 1);
-    activity.goals = activity.goals;
-    resetFilters();
-  }
-
-  onMount(() => {
-    runAutocomplete();
-  });
-
-  function runAutocomplete() {
-    const searchClient = getAlgoliaSearchClient();
-    autocomplete({
-      container: "#autocomplete-leerdoelen",
-      placeholder: "Zoek voor leerdoelen",
-      onSubmit({ state }) {
-        console.log(state);
-      },
-      getSources({ query }) {
-        return [
-          {
-            sourceId: goalIndex,
-            onSelect({ state, item }) {
-              addLeerdoel(item);
-            },
-            getItems() {
-              return getAlgoliaResults({
-                searchClient,
-                queries: [
-                  {
-                    indexName: goalIndex,
-                    query,
-                    params: {
-                      hitsPerPage: 5,
-                    },
-                    filters: filters,
-                  },
-                ],
-              });
-            },
-            templates: {
-              item({ item }) {
-                return item.title;
-              },
-              noResults() {
-                return "Geen leerdoelen gevonden";
-              },
-            },
-            // ...
-          },
-        ];
-      },
-    });
   }
 </script>
 
@@ -135,122 +63,9 @@
           {/if}
         </div>
       </div>
-      <div
-        class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
-      >
-        <label
-          for="type"
-          class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-        >
-          Type
-        </label>
-        <div class="mt-1 sm:mt-0 sm:col-span-2">
-          <textarea
-            id="type"
-            name="type"
-            rows="1"
-            bind:value={activity.type}
-            class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
-          />
-        </div>
-      </div>
-      <div
-        class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
-      >
-        <label
-          for="difficulty"
-          class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-        >
-          Difficulty
-        </label>
-        <div class="mt-1 sm:mt-0 sm:col-span-2">
-          <input
-            id="difficulty"
-            name="difficulty"
-            type="number"
-            min="1"
-            max="5"
-            bind:value={activity.difficulty}
-            class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
-          />
-        </div>
-      </div>
-      <div
-        class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
-      >
-        <label
-          for="svg"
-          class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-        >
-          SVG
-        </label>
-        <div class="mt-1 sm:mt-0 sm:col-span-2">
-          <textarea
-            id="svg"
-            name="svg"
-            rows="5"
-            bind:value={activity.svg}
-            class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
-          />
-        </div>
-      </div>
     </div>
   </div>
 
-  <div class="divide-y divide-gray-200 pt-8 space-y-6 sm:pt-10 sm:space-y-5">
-    <h3 class="text-lg leading-6 font-medium text-gray-900">Leerdoelen</h3>
-    <p class="mt-1 max-w-2xl text-sm text-gray-500">
-      Met welke leerdoelen heeft deze activeit te maken?
-    </p>
-    <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
-      <div
-        class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
-      >
-        <label
-          for="title"
-          class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-        >
-          Gekoppelde leerdoelen
-        </label>
-        <div class="mt-1 sm:mt-0 sm:col-span-2">
-          {#if activity.goals.length === 0}
-            <p class="mt-1 max-w-2xl text-sm text-gray-500">
-              Nog geen leerdoelen aan activiteit toegevoegd
-            </p>
-          {:else}
-            <ul>
-              {#each activity.goals as leerdoel, i}
-                <li>
-                  {leerdoel.title}
-                  <button
-                    class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    on:click|preventDefault={() => removeLeerdoel(i)}
-                    >Weghalen</button
-                  >
-                </li>
-              {/each}
-            </ul>
-          {/if}
-        </div>
-      </div>
-    </div>
-
-    <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
-      <div
-        class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
-      >
-        <label
-          for="autocomplete-leerdoelen"
-          class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-        >
-          Leerdoel toevoegen
-        </label>
-        <div class="mt-1 sm:mt-0 sm:col-span-2">
-          <div id="autocomplete-leerdoelen" class="max-w-lg" />
-        </div>
-      </div>
-    </div>
-  </div>
   <div class="divide-y divide-gray-200 pt-8 space-y-6 sm:pt-10 sm:space-y-5">
     <div>
       <h3 class="text-lg leading-6 font-medium text-gray-900">Video</h3>
@@ -289,7 +104,7 @@
       Specificeer vragen en quizjes
     </p>
   </div>
-  <QuizForm bind:quizzes={activity.quizzes} showTimeInVideo={true}/>
+  <QuizForm bind:quizzes={activity.quizzes} showTimeInVideo={true} />
 </div>
 
 <style>

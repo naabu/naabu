@@ -161,6 +161,13 @@ exports.manuallyTrigger = functions.firestore.document('/triggers/{triggerId}')
     let timestampBeforeExport = Date.now();
 
     switch (triggerId) {
+      case 'run-status-check':
+        let daysInSeconds = 1;
+        // Check if it is not in production!!
+        if (ENVIRONMENT === 'development' || ENVIRONMENT === 'cypress') {
+          await processStatusAutomatically(daysInSeconds, daysInSeconds, daysInSeconds);
+        }
+        break;
       case 'data-export':
         const fb = getFirebaseApp();
         let db = fb.firestore();
@@ -379,7 +386,6 @@ exports.onCreatePost = functions.firestore.document('talk/{talkId}/posts/{postId
       modifiedAt: snap['_createTime']._seconds,
       lastReplyAt: snap['_createTime']._seconds,
     });
-    console.log(snap);
     if (snap.exists) {
       const fb = getFirebaseApp();
       let db = fb.firestore();
@@ -430,11 +436,10 @@ exports.onCreateReply = functions.firestore.document('talk/{talkId}/posts/{postI
 
     let postRef = db.collection('talk').doc(context.params.talkId).collection('posts').doc(context.params.postId);
     await postRef.update({ lastReplyAt: snap['_createTime']._seconds });
-    
+
     if (snap.exists) {
       const fb = getFirebaseApp();
       let db = fb.firestore();
-
       let replyData = snap.data();
       let goal;
 
@@ -471,7 +476,357 @@ exports.onCreateReply = functions.firestore.document('talk/{talkId}/posts/{postI
         profileRef.update({ postList: postList })
       }
     }
-    
+
+    return null;
+  });
+
+function setArrayAdventure(adventuresArray, adventure, isDeleted = false) {
+  if (!adventuresArray) {
+    adventuresArray = [];
+  }
+  let index = adventuresArray.findIndex(a => a.id === adventure.id);
+  if (isDeleted) {
+    if (index !== -1) {
+      adventuresArray.splice(index, 1);
+    }
+  }
+  else {
+    if (!adventure.inNeedsWorkAt) {
+      adventure.inNeedsWorkAt = adventure.lastUpdatesAt;
+    }
+    if (!adventure.inProgressAt) {
+      adventure.inProgressAt = adventure.lastUpdatesAt;
+    }
+    if (!adventure.inNeedsForApprovalAt) {
+      adventure.inNeedsForApprovalAt = adventure.lastUpdatesAt;
+    }
+    let changedAdventure = {
+      id: adventure.id,
+      difficulty: adventure.difficulty,
+      type: adventure.type,
+      svg: adventure.svg,
+      title: adventure.title,
+      status: adventure.status,
+      createdAt: adventure.createdAt,
+      modifiedAt: adventure.modifiedAt,
+      lastUpdatesAt: adventure.lastUpdatesAt,
+      inNeedsWorkAt: adventure.inNeedsWorkAt,
+      inProgressAt: adventure.inProgressAt,
+      inNeedsForApprovalAt: adventure.inNeedsForApprovalAt,
+    }
+    if (index !== -1) {
+      adventuresArray[index] = changedAdventure;
+    }
+    else {
+      adventuresArray.push(changedAdventure);
+    }
+  }
+  return adventuresArray;
+}
+
+async function processStatusAutomatically(secondsToProgressCheck, secondsToApproveCheck, secondsToTrashCheck) {
+  let collectionToCheck = [
+    'adventures',
+    'prerequisites',
+    'specializations',
+    'bigideas',
+    'deeperunderstandings',
+  ]
+  const fb = getFirebaseApp();
+  let db = fb.firestore();
+  let currentServerTime = Date.now() / 1000;
+  let goalsQuery = db.collection("goals");
+  let goalsQuerySnap = await goalsQuery.get();
+  goalsQuerySnap.forEach(async (goalSnap) => {
+    goalSnap.ref.id;
+    for (let i = 0; i < collectionToCheck.length; i++) {
+      let query = goalSnap.ref.collection(collectionToCheck[i]).where("status", "==", "in-progress");
+      let querySnap = await query.get();
+      querySnap.forEach(async (snap) => {
+        let data = snap.data();
+        if (data.inProgressAt && currentServerTime - data.inProgressAt >= secondsToProgressCheck) {
+          await snap.ref.update({ status: 'needs-approval', inNeedsForApprovalAt: currentServerTime });
+        }
+      });
+      query = goalSnap.ref.collection(collectionToCheck[i]).where("status", "==", "needs-approval");
+      querySnap = await query.get();
+      querySnap.forEach(async (snap) => {
+        let data = snap.data();
+        if (data.inNeedsForApprovalAt && currentServerTime - data.inNeedsForApprovalAt >= secondsToApproveCheck) {
+          await snap.ref.update({ status: 'needs-work', inNeedsWorkAt: currentServerTime });
+        }
+      });
+      query = goalSnap.ref.collection(collectionToCheck[i]).where("status", "==", "needs-work");
+      querySnap = await query.get();
+      querySnap.forEach(async (snap) => {
+        let data = snap.data();
+        if (data.inNeedsWorkAt && currentServerTime - data.inNeedsWorkAt >= secondsToTrashCheck) {
+          await snap.ref.update({ status: 'in-trash', inTrashAt: currentServerTime });
+        }
+      });
+    }
+  });
+}
+
+// Check every 6 hours...
+// Check if inProgressAt time is more then X days ago?
+exports.checkInProgressSchedule = functions.pubsub.schedule('0 */6 * * *')
+  .onRun(async (context) => {
+    console.log('Run every 6 hours');
+    let daysToWorkSeconds = 2 * 86400;
+    let daysToApprovalSeconds = 3 * 86400;
+    let daysToSendToTrashSeconds = 100 * 86400;
+    // Get all adventures that are in progress.
+    // We want to check if the inProgressAt time is over X days.
+    // If so we want to set the status to needs-approval
+    await processStatusAutomatically(daysToWorkSeconds, daysToApprovalSeconds, daysToSendToTrashSeconds);
+
+
+    return null;
+  });
+
+function setArrayConnection(connectionArray, connection, isDeleted = false) {
+  if (!connectionArray) {
+    connectionArray = [];
+  }
+  let index = connectionArray.findIndex(a => a.id === connection.id);
+  if (isDeleted) {
+    if (index !== -1) {
+      connectionArray.splice(index, 1);
+    }
+  }
+  else {
+    if (!connection.inNeedsWorkAt) {
+      connection.inNeedsWorkAt = connection.lastUpdatesAt;
+    }
+    if (!connection.inProgressAt) {
+      connection.inProgressAt = connection.lastUpdatesAt;
+    }
+    if (!connection.inNeedsForApprovalAt) {
+      connection.inNeedsForApprovalAt = connection.lastUpdatesAt;
+    }
+    let changedConnection = {
+      id: connection.id,
+      connectionDescription: connection.connectionDescription,
+      description: connection.description,
+      title: connection.title,
+      status: connection.status,
+      createdAt: connection.createdAt,
+      modifiedAt: connection.modifiedAt,
+      lastUpdatesAt: connection.lastUpdatesAt,
+      inNeedsWorkAt: connection.inNeedsWorkAt,
+      inProgressAt: connection.inProgressAt,
+      inNeedsForApprovalAt: connection.inNeedsForApprovalAt,
+    }
+
+    if (index !== -1) {
+      connectionArray[index] = changedConnection;
+    }
+    else {
+      connectionArray.push(changedConnection);
+    }
+  }
+  return connectionArray;
+}
+
+function capitalizeFirstLetter(string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+async function handleConnectionLists(change, context, connectionType) {
+  let isDeleted = false;
+  let connection;
+  if (!change.after.exists) {
+    isDeleted = true;
+    connection = change.before.data();
+    connection.id = change.before.ref.id;
+  }
+  else {
+    connection = change.after.data();
+    connection.id = change.after.ref.id;
+  }
+
+  let arrayNames = [
+    'published' + capitalizeFirstLetter(connectionType),
+    'needsApproval' + capitalizeFirstLetter(connectionType),
+    'inProgress' + capitalizeFirstLetter(connectionType),
+    'needsWork' + capitalizeFirstLetter(connectionType),
+    'trashCan' + capitalizeFirstLetter(connectionType),
+  ]
+
+  const fb = getFirebaseApp();
+  let db = fb.firestore();
+  let goalRef = db.collection("goals").doc(context.params.goalId);
+  let goalSnap = await goalRef.get();
+  if (goalSnap.exists) {
+    let goal = goalSnap.data();
+    for (let i = 0; i < arrayNames.length; i++) {
+      let arrayName = arrayNames[i]
+      if (!goal[arrayName]) {
+        goal[arrayName] = [];
+      }
+    }
+    let allConnections = [...goal[arrayNames[0]], ...goal[arrayNames[1]], ...goal[arrayNames[2]], ...goal[arrayNames[3]], ...goal[arrayNames[4]]];
+
+    allConnections = [...new Map(allConnections.map(item =>
+      [item['id'], item])).values()];
+
+    setArrayConnection(allConnections, connection, isDeleted);
+
+    goal[arrayNames[0]] = [];
+    goal[arrayNames[1]] = [];
+    goal[arrayNames[2]] = [];
+    goal[arrayNames[3]] = [];
+    goal[arrayNames[4]] = [];
+
+    let idsAdded = [];
+    for (let i = 0; i < allConnections.length; i++) {
+      let theConnection = allConnections[i];
+      if (!idsAdded.includes(theConnection.id)) {
+        idsAdded.push(theConnection.id);
+        switch (theConnection.status) {
+          case 'published':
+            goal[arrayNames[0]].push(theConnection);
+            break;
+          case 'needs-approval':
+            goal[arrayNames[1]].push(theConnection);
+            break;
+          case 'in-progress':
+            goal[arrayNames[2]].push(theConnection);
+            break;
+          case 'needs-work':
+            goal[arrayNames[3]].push(theConnection);
+            break;
+          case 'in-trash':
+            goal[arrayNames[4]].push(theConnection);
+            break;
+        }
+      }
+      else {
+        console.log('duplicate id detected');
+      }
+    }
+
+    let updateObject = {};
+    updateObject[arrayNames[0]] = goal[arrayNames[0]];
+    updateObject[arrayNames[1]] = goal[arrayNames[1]];
+    updateObject[arrayNames[2]] = goal[arrayNames[2]];
+    updateObject[arrayNames[3]] = goal[arrayNames[3]];
+    updateObject[arrayNames[4]] = goal[arrayNames[4]];
+    await goalRef.update(updateObject);
+  }
+}
+
+exports.createGoalPrerequisitsLists = functions.firestore.document("goals/{goalId}/prerequisites/{prerequisiteId}")
+  .onWrite(async (change, context) => {
+    await handleConnectionLists(change, context, 'prerequisites');
+  });
+
+exports.createGoaSpecializationLists = functions.firestore.document("goals/{goalId}/specializations/{specializationId}")
+  .onWrite(async (change, context) => {
+    await handleConnectionLists(change, context, 'specializations');
+  });
+
+exports.createGoalBigIdeasLists = functions.firestore.document("goals/{goalId}/bigideas/{bigideaId}")
+  .onWrite(async (change, context) => {
+    await handleConnectionLists(change, context, 'bigideas');
+  });
+
+exports.createGoalDeeperUnderstandingLists = functions.firestore.document("goals/{goalId}/deeperunderstandings/{deeperunderstandingId}")
+  .onWrite(async (change, context) => {
+    await handleConnectionLists(change, context, 'deeperunderstandings');
+  });
+
+exports.createGoalAdventureLists = functions.firestore.document("goals/{goalId}/adventures/{adventureId}")
+  .onWrite(async (change, context) => {
+    let isDeleted = false;
+    let adventure;
+    if (!change.after.exists) {
+      isDeleted = true;
+      adventure = change.before.data();
+      adventure.id = change.before.ref.id;
+    }
+    else {
+      adventure = change.after.data();
+      adventure.id = change.after.ref.id;
+    }
+
+
+    const fb = getFirebaseApp();
+    let db = fb.firestore();
+    let goalRef = db.collection("goals").doc(context.params.goalId);
+    let goalSnap = await goalRef.get();
+    if (goalSnap.exists) {
+      let goal = goalSnap.data();
+
+      if (!goal.publishedAdventures) {
+        goal.publishedAdventures = [];
+      }
+      if (!goal.needsApprovalAdventures) {
+        goal.needsApprovalAdventures = [];
+      }
+      if (!goal.inProgressAdventures) {
+        goal.inProgressAdventures = [];
+      }
+      if (!goal.needsWorkAdventures) {
+        goal.needsWorkAdventures = [];
+      }
+      if (!goal.trashCanAdventures) {
+        goal.trashCanAdventures = [];
+      }
+
+      let allAdventures = [...goal.publishedAdventures, ...goal.needsApprovalAdventures, ...goal.inProgressAdventures, ...goal.needsWorkAdventures, ...goal.trashCanAdventures];
+
+      // allAdventures Make unique distinct on ID
+      // allAdventures.map(a => a.id)
+      //   .filter((value, index, self) => self.indexOf(value) === index);
+      // allAdventures.filter((value, index, self) => self.map(a => a.id).indexOf(value.id) == index)
+
+      allAdventures = [...new Map(allAdventures.map(item =>
+        [item['id'], item])).values()];
+      setArrayAdventure(allAdventures, adventure, isDeleted);
+
+      goal.publishedAdventures = [];
+      goal.needsApprovalAdventures = [];
+      goal.inProgressAdventures = [];
+      goal.needsWorkAdventures = [];
+      goal.trashCanAdventures = [];
+      let idsAdded = [];
+      for (let i = 0; i < allAdventures.length; i++) {
+        let theAdventure = allAdventures[i];
+        if (!idsAdded.includes(theAdventure.id)) {
+          idsAdded.push(theAdventure.id);
+          switch (theAdventure.status) {
+            case 'published':
+              goal.publishedAdventures.push(theAdventure);
+              break;
+            case 'needs-approval':
+              goal.needsApprovalAdventures.push(theAdventure);
+              break;
+            case 'in-progress':
+              goal.inProgressAdventures.push(theAdventure);
+              break;
+            case 'needs-work':
+              goal.needsWorkAdventures.push(theAdventure);
+              break;
+            case 'in-trash':
+              goal.trashCanAdventures.push(theAdventure);
+              break;
+          }
+        }
+        else {
+          console.log('duplicate id detected');
+        }
+      }
+
+      await goalRef.update({
+        publishedAdventures: goal.publishedAdventures,
+        needsApprovalAdventures: goal.needsApprovalAdventures,
+        inProgressAdventures: goal.inProgressAdventures,
+        needsWorkAdventures: goal.needsWorkAdventures,
+        trashCanAdventures: goal.trashCanAdventures
+      });
+    }
     return null;
   });
 
@@ -573,7 +928,6 @@ exports.deleteFromActivityIndex = functions.firestore.document('activities/{acti
     activityIndex.deleteObject(snap.id);
     // Also delete it from all the paths.
     return null;
-
   });
 
 function shuffle(array) {
@@ -586,75 +940,115 @@ function shuffle(array) {
   return array;
 }
 
-function setMapActivitiesForUid(uid) {
+async function setMapActivitiesForUid(uid) {
   const fb = getFirebaseApp();
   let db = fb.firestore();
-  let activities = [];
-  db.collection("activities")
-    .get()
-    .then((activityQuerySnapshot) => {
-      activityQuerySnapshot.forEach((activity_snap) => {
-        activityDict = activity_snap.data();
-        activityChoiceData = {
-          'title': activityDict['title'],
-          'type': activityDict['type'],
-          'svg': activityDict['svg'],
-          'difficulty': activityDict['difficulty'],
-        }
-        if (!activityDict['goalIds']) {
-          activityDict['goalIds'] = []
-        }
-        activity = {
-          'id': activity_snap.id,
-          'data': activityChoiceData,
-          'goalIds': activityDict['goalIds']
-        }
-        activities.push(activity);
-      });
-      shuffle(activities);
-      db.collection("maps")
-        .get()
-        .then((mapsQuerySnapshot) => {
-          mapsQuerySnapshot.forEach(async (map_snap) => {
-            mapId = map_snap.id
-            mapDict = map_snap.data();
-            userMapRef = db.collection('maps').doc(mapId).collection('players').doc(uid);
-            userMapRef.get().then(async (userMapSnap) => {
-              userMapDict = await userMapSnap.data();
-              console.log(userMapDict);
-              let mapActivities = [];
-              for (let i = 0; i < activities.length; i++) {
-                let activity = activities[i];
-                let foundInMap = false;
-                activity.mapLocations = [];
-                for (let i2 = 0; i2 < mapDict.locations.length; i2++) {
-                  let location = mapDict.locations[i2];
-                  for (let i3 = 0; i3 < location.goals.length; i3++) {
-                    let goal = location.goals[i3];
-                    console.log('goal');
-                    console.log(goal);
-                    if (activity.goalIds.includes(goal.id)) {
-                      activity.mapLocations.push(location.id)
-                      foundInMap = true;
-                    }
-                  }
-                }
-                if (foundInMap) {
-                  mapActivities.push(activity);
-                }
-              }
-              if (userMapDict) {
-                userMapDict['selectedActivities'] = mapActivities;
-                userMapRef.set(userMapDict);
-              }
-            });
-          });
+  let mapColRef = db.collection("maps");
+  let mapQuery = await mapColRef.get();
+
+  mapQuery.forEach(async (mapSnap) => {
+    let mapId = mapSnap.id;
+    let mapData = mapSnap.data();
+    let userMapRef = db.collection('maps').doc(mapId).collection('players').doc(uid);
+    let userMapSnap = await userMapRef.get();
+    let userMapData = await userMapSnap.data();
+    let mapAdventures = [];
+    for (let i = 0; i < mapData.locations.length; i++) {
+      let location = mapData.locations[i];
+      for (let i2 = 0; i2 < location.goals.length; i2++) {
+        let goal = location.goals[i2];
+        let adventureQueryRef = db.collection('goals').doc(goal.id).collection('adventures').where('status', '==', 'published');
+        let adventureQuery = await adventureQueryRef.get();
+        adventureQuery.forEach(async (adventureSnap) => {
+          let adventureData = adventureSnap.data();
+          let adventure = {
+            id: adventureSnap.ref.id,
+            goalId: goal.id,
+            title: adventureData.title,
+            type: adventureData.type,
+            svg: adventureData.svg,
+            difficulty: adventureData.difficulty,
+          }
+    
+          
+          mapAdventures.push(adventure);
         });
 
-    })
-    .catch((error) => {
-      console.log("Error getting documents: ", error);
-    });
+      }
+    }
+    shuffle(mapAdventures);
+
+    if (userMapData) {
+      userMapRef.update({ selectedAdventures: mapAdventures });
+    }
+  });
+
+  // let activities = [];
+  // db.collection("activities")
+  //   .get()
+  //   .then((activityQuerySnapshot) => {
+  //     activityQuerySnapshot.forEach((activity_snap) => {
+  //       activityDict = activity_snap.data();
+  //       activityChoiceData = {
+  //         'title': activityDict['title'],
+  //         'type': activityDict['type'],
+  //         'svg': activityDict['svg'],
+  //         'difficulty': activityDict['difficulty'],
+  //       }
+  //       if (!activityDict['goalIds']) {
+  //         activityDict['goalIds'] = []
+  //       }
+  //       activity = {
+  //         'id': activity_snap.id,
+  //         'data': activityChoiceData,
+  //         'goalIds': activityDict['goalIds']
+  //       }
+  //       activities.push(activity);
+  //     });
+  //     shuffle(activities);
+  //     db.collection("maps")
+  //       .get()
+  //       .then((mapsQuerySnapshot) => {
+  //         mapsQuerySnapshot.forEach(async (map_snap) => {
+  //           mapId = map_snap.id
+  //           mapDict = map_snap.data();
+  //           userMapRef = db.collection('maps').doc(mapId).collection('players').doc(uid);
+  //           userMapRef.get().then(async (userMapSnap) => {
+  //             userMapDict = await userMapSnap.data();
+  //             console.log(userMapDict);
+  //             let mapActivities = [];
+  //             for (let i = 0; i < activities.length; i++) {
+  //               let activity = activities[i];
+  //               let foundInMap = false;
+  //               activity.mapLocations = [];
+  //               for (let i2 = 0; i2 < mapDict.locations.length; i2++) {
+  //                 let location = mapDict.locations[i2];
+  //                 for (let i3 = 0; i3 < location.goals.length; i3++) {
+  //                   let goal = location.goals[i3];
+  //                   console.log('goal');
+  //                   console.log(goal);
+  //                   if (activity.goalIds.includes(goal.id)) {
+  //                     activity.mapLocations.push(location.id)
+  //                     foundInMap = true;
+  //                   }
+  //                 }
+  //               }
+  //               if (foundInMap) {
+  //                 mapActivities.push(activity);
+  //               }
+  //             }
+  //             if (userMapDict) {
+  //               userMapDict['selectedActivities'] = mapActivities;
+  //               userMapRef.set(userMapDict);
+  //             }
+  //           });
+  //         });
+  //       });
+
+  //   })
+  //   .catch((error) => {
+  //     console.log("Error getting documents: ", error);
+  //   });
 }
 
 exports.writeFeedbackDevelopRandom = functions.firestore.document('feedback/{feedbackId}')
@@ -662,7 +1056,7 @@ exports.writeFeedbackDevelopRandom = functions.firestore.document('feedback/{fee
     if (ENVIRONMENT === 'development') {
       const feedbackData = snap.data();
       let uid = feedbackData.uid;
-      setMapActivitiesForUid(uid);
+      await setMapActivitiesForUid(uid);
     }
     return null;
 

@@ -10,7 +10,46 @@ service cloud.firestore {
      
     match /goals/{goalsId} {
       allow read, write, delete: if true
+      
+      match /prerequisites/{prerequisiteId} {
+        allow read, write, delete: if true
 
+        match /updates/{updatesId} {
+            allow read, write, delete: if true
+        }
+      }
+
+      match /specializations/{specializationId} {
+        allow read, write, delete: if true
+
+        match /updates/{updatesId} {
+            allow read, write, delete: if true
+        }
+      }
+
+     match /bigideas/{bigideasId} {
+        allow read, write, delete: if true
+
+        match /updates/{updatesId} {
+            allow read, write, delete: if true
+        }
+      }
+
+     match /deeperunderstandings/{deeperunderstandingsId} {
+        allow read, write, delete: if true
+
+        match /updates/{updatesId} {
+            allow read, write, delete: if true
+        }
+      }
+
+      match /adventures/{adventureId} {
+        allow read, write, delete: if true
+
+        match /updates/{updatesId} {
+          allow read, write, delete: if true
+        }
+      }
       match /battles/{battleId} {
         allow read, write, delete: if true
       }

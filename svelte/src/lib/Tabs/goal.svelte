@@ -11,14 +11,19 @@
       url: "/leerdoel/" + goal.id,
     },
     {
-      value: "talk",
-      text: "Overleg",
-      url: "/overleg/" +  goal.id + "/" + goal.talkId,
-    },
-    {
       value: "adventures",
       text: "Avonturen",
       url: "/leerdoel/" + goal.id + "/avonturen",
+    },
+    {
+      value: "connections",
+      text: "Verbindingen",
+      url: "/leerdoel/" + goal.id + "/verbindingen",
+    },
+    {
+      value: "talk",
+      text: "Overleg",
+      url: "/overleg/" +  goal.id + "/" + goal.talkId,
     },
   ];
 

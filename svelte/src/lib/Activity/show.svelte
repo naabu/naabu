@@ -10,6 +10,9 @@
   import { hasSpecialClaims } from "$lib/User/helper.js";
   import { goto } from "$app/navigation";
   export let firebase;
+  export let activity;
+  export let showFeedback = true;
+
   let displayNotification = false;
   let lastQuizShown = null;
   let endVideoInSeconds = null;
@@ -37,7 +40,6 @@
     endActivity();
   }
 
-
   let notificationText = {
     title: "We ondersteunen niet fullscreen modus",
     description:
@@ -58,8 +60,6 @@
   // Refactor the quizzes storage?
   // Sub collection / new collection?
   // Activity Id => Goal Id => Quizz.
-
-  export let activity;
 
   let element;
   let player;
@@ -82,7 +82,6 @@
       }
     }
   }
-
 
   export let breadcrumbs = [];
 
@@ -163,7 +162,7 @@
 
       player.ready().then(function () {
         iframe = document.querySelector("#vimeoVideo iframe");
-        iframe.setAttribute("data-cy", 'vimeo-iframe');
+        iframe.setAttribute("data-cy", "vimeo-iframe");
 
         setInterval(checkTime, 50);
 
@@ -230,10 +229,12 @@
 
   function checkCorrectAnswer(quiz) {
     if (quiz.answers[quiz.selectedAnswer].correct === true) {
-      quiz.feedback = "<div data-cy='correct-feedback' class='text-green-700 font-bold'>Correct</div>";
+      quiz.feedback =
+        "<div data-cy='correct-feedback' class='text-green-700 font-bold'>Correct</div>";
       quiz.correct = true;
     } else {
-      quiz.feedback = "<div data-cy='incorrect-feedback' class='text-red-400 font-bold'>Incorrect</div>";
+      quiz.feedback =
+        "<div data-cy='incorrect-feedback' class='text-red-400 font-bold'>Incorrect</div>";
       quiz.false = true;
     }
     return quiz;
@@ -265,17 +266,18 @@
 
 <div>
   <ShowBreadcrumb bind:breadcrumbs />
-  <DifficultyFeedback
-    bind:toggle={toggleFeedback}
-    bind:feedbackEnded
-    bind:activity
-    bind:firebase
-  />
+  {#if showFeedback}
+    <DifficultyFeedback
+      bind:toggle={toggleFeedback}
+      bind:feedbackEnded
+      bind:activity
+      bind:firebase
+    />
+  {/if}
   <BattleFight bind:toggle={fightToggle} bind:activity bind:firebase />
 
   {#if activity}
     <h1 class="text-lg leading-6 font-medium text-gray-900">
-      Activiteit -
       {#if activity.title}
         {activity.title}
       {/if}
@@ -288,8 +290,7 @@
       class:displaynone={hideVideoIframe || activeQuiz === null}
       on:click={() => (hideVideoIframe = true)}
       class="relative ml-14 mt-11 float-left z-20 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-      data-cy="back-to-quiz-button"
-      >Naar onderbreking</button
+      data-cy="back-to-quiz-button">Naar onderbreking</button
     >
 
     <div class:displaynone={hideVideoIframe} class="video mt-4">
@@ -381,7 +382,7 @@
                           type="button"
                           on:click={closeActiveQuiz}
                           class="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                          data-cy="continue-button"  
+                          data-cy="continue-button"
                         >
                           Doorgaan
                         </button>

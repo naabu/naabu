@@ -132,8 +132,8 @@
 <svelte:window bind:scrollY={y} />
 
 {#if goal}
-  <div>
-    <MainTabs bind:goal subSelected="edit" />
+  <MainTabs bind:goal subSelected="edit" />
+  <div class="mt-8">
     <ShowBreadcrumb bind:breadcrumbs />
 
     <ResultFeedback bind:alert />

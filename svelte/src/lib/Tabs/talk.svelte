@@ -15,15 +15,21 @@
         text: "Leerdoel",
         url: "/leerdoel/" + objectId,
       },
-      {
-        value: "talk",
-        text: "Overleg",
-        url: "/overleg/" + objectId + "/" + talkId,
-      },
+
       {
         value: "adventures",
         text: "Avonturen",
         url: "/leerdoel/" + objectId + "/avonturen",
+      },
+      {
+        value: "connections",
+        text: "Verbindingen",
+        url: "/leerdoel/" + objectId + "/verbindingen",
+      },
+      {
+        value: "talk",
+        text: "Overleg",
+        url: "/overleg/" + objectId + "/" + talkId,
       },
     ];
 
@@ -31,7 +37,7 @@
       {
         value: "read",
         text: "Lezen",
-        url: "/overleg/" + objectId + "/" +talkId,
+        url: "/overleg/" + objectId + "/" + talkId,
       },
       {
         value: "edit",

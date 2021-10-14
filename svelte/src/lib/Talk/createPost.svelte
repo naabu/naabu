@@ -90,7 +90,7 @@
 <ResultFeedback bind:alert />
 
 {#if talk}
-  <div class="ml-auto mr-auto max-w-xl">
+  <div class="ml-auto mr-auto max-w-xl mt-8">
     <form on:submit|preventDefault={formSubmit}>
       <div class="col-span-6 sm:col-span-4">
         <label for="title" class="block text-sm font-medium text-gray-700"

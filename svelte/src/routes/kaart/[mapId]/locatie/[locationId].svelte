@@ -1,5 +1,5 @@
 <script>
-  import ActivityChoiceList from "$lib/ActivityChoice/list.svelte";
+  import AdventureTeaserList from "$lib/Goal/Adventure/Teasers/list.svelte";
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
   import { initFirebase } from "$lib/firebase";
@@ -14,8 +14,7 @@
     retrieveFirestoreData();
   }
 
-  let displayActivities = [];
-
+  let displayAdventures = [];
 
   let mounted = false;
   let breadcrumbs = [
@@ -37,16 +36,16 @@
   });
 
   async function retrieveFirestoreData() {
-    let mapId = $page.params.mapId
+    let mapId = $page.params.mapId;
     let locationId = $page.params.locationId;
     map = await getMap(firebase, mapId);
     userMap = await getUserMap(firebase, mapId, map, $session.player);
-    if (userMap && userMap.selectedActivities) {
-      displayActivities = userMap.selectedActivities;
+    if (userMap && userMap.selectedAdventures) {
+      displayAdventures = userMap.selectedAdventures;
     }
   }
 </script>
 
-{#if mounted}
-  <ActivityChoiceList bind:activities={displayActivities} /> 
+{#if mounted && displayAdventures}
+  <AdventureTeaserList bind:adventures={displayAdventures} />
 {/if}

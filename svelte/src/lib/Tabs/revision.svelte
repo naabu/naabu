@@ -11,15 +11,21 @@
       url: "/revisie/" + revision.id,
     },
     {
-      value: "talk",
-      text: "Overleg",
-      url: "/leerdoel/" + revision.goalId + "/overleg",
-    },
-    {
       value: "adventures",
       text: "Avonturen",
       url: "/leerdoel/" + revision.goalId + "/avonturen",
     },
+    {
+      value: "connections",
+      text: "Verbindingen",
+      url: "/leerdoel/" + revision.goalId + "/verbindingen",
+    },
+    {
+      value: "talk",
+      text: "Overleg",
+      url: "/leerdoel/" + revision.goalId + "/overleg",
+    },
+  
   ];
 
   let subTabs = [

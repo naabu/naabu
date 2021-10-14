@@ -103,7 +103,7 @@
   <MainTabs bind:objectId={goalId} bind:talkId talkType="goal" />
 {/if}
 {#if post}
-  <div class="ml-auto mr-auto max-w-2xl">
+  <div class="ml-auto mr-auto max-w-2xl mt-8">
     <form on:submit|preventDefault={formSubmit}>
       <div>
         <label for="reply" class="block text-sm font-medium text-gray-700">

@@ -69,9 +69,9 @@
   let userHasSpecialClaims = hasSpecialClaims($session.user);
 
   async function endActivity() {
-    if (activity.type === "Eindbaas") {
-      await unlockLocations();
-    }
+    // if (activity.type === "boss") {
+    //   await unlockLocations();
+    // }
     if (!userHasSpecialClaims) {
       await goto("/");
     } else {
@@ -96,55 +96,6 @@
     } else {
       y = 0;
     }
-  }
-
-  async function unlockLocations() {
-    if (activity.maps) {
-      for (let i = 0; i < activity.maps.length; i++) {
-        let mapId = activity.maps[i];
-        let uid = $session.player.id;
-        let db = await firebase.firestore();
-        let mapRef = db.collection("maps").doc(mapId);
-        mapRef.get().then(async (mapSnap) => {
-          let map = await mapSnap.data();
-          let userMapRef = db
-            .collection("maps")
-            .doc(mapId)
-            .collection("players")
-            .doc(uid);
-          userMapRef.get().then(async (userMapSnap) => {
-            let userMapData = await userMapSnap.data();
-            for (let i2 = 0; i2 < map.locations.length; i2++) {
-              let location = map.locations[i2];
-              for (let i3 = 0; i3 < location.goals.length; i3++) {
-                let goal = location.goals[i3];
-                if (activity.goalIds.includes(goal.id)) {
-                  // We are at the current Location!
-                  if (!userMapData.succeededLocations.includes(location.id)) {
-                    userMapData.succeededLocations.push(location.id);
-                  }
-                  for (let i4 = 0; i4 < location.accessLocations.length; i4++) {
-                    let accessLocationId = location.accessLocations[i4];
-                    if (
-                      !userMapData.unlockedLocations.includes(accessLocationId)
-                    ) {
-                      userMapData.unlockedLocations.push(accessLocationId);
-                    }
-                  }
-                }
-              }
-            }
-            userMapRef.set(userMapData);
-          });
-        });
-      }
-    }
-    // getAccess Location from current location
-    //
-
-    // get the Maps of the activity?
-    // Set unlocked locations based on path for the user
-    // By storing it in the UserMap.
   }
 
   onMount(() => {
@@ -270,7 +221,7 @@
     <DifficultyFeedback
       bind:toggle={toggleFeedback}
       bind:feedbackEnded
-      bind:activity
+      bind:adventure={activity}
       bind:firebase
     />
   {/if}

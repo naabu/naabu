@@ -7,7 +7,7 @@
   import { onMount } from "svelte";
   import { hasSpecialClaims} from "$lib/User/helper.js";
 
-  export let activity;
+  export let adventure;
   export let toggle = false;
   export let feedbackEnded = false;
   export let firebase;
@@ -20,7 +20,8 @@
   async function storeFeedback(label) {
     let data = {
       time: Date.now(),
-      activityId: activity.id,
+      adventureId: adventure.id,
+      goalId: adventure.goalId,
       feedbackType: "difficulty",
       feedbackValue: label,
     };
@@ -104,11 +105,11 @@
                 class="text-lg leading-6 font-medium text-gray-900"
                 id="modal-title"
               >
-                Activiteit voltooid!
+                Avontuur voltooid!
               </h3>
               <div class="mt-2">
                 <p class="text-sm text-gray-500">
-                  Wat vond je van deze activiteit?
+                  Wat vond je van dit avontuur?
                 </p>
               </div>
             </div>

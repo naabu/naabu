@@ -138,7 +138,7 @@ describe("Revision flow editing learning goals", () => {
     cy.contains('Je bekijkt een revisie');
     cy.get('[data-cy="show-diff-link"]').click();
     cy.contains('Verschil tussen versies');
-    cy.get('[data-cy=discuss-revision-button]').click();
+    cy.get('[data-cy=discuss-revision-button]').click({force:true});
 
     cy.get('[data-cy=post-title]').should('to.includes.value', 'Overleg revisie');
     cy.get('#post').type('Test post for cypress');
@@ -156,5 +156,6 @@ describe("Revision flow editing learning goals", () => {
     cy.contains('Ik kan subject 1 benoemen en definieren from a work sheet');
     cy.contains('New title');
     cy.contains('Overleg revisie');
+    cy.visit('http://sveltekit:3000/cypress/reset-curriculum-profile').contains('Curriculum features are deleted!', {timeout: 100000});
   });
 });

@@ -15,7 +15,7 @@ describe("Unlock location on map test", () => {
     cy.get('#map').not('.unlocked_marker_1');
     cy.get('.unlocked_marker_0').first().should('be.visible').click({ force: true });   
     // Click adventure link.
-    cy.get('[href="/zszYj2d0NRWbW8d1t5Zi"] > .col-span-1').click();
+    cy.get('[href="/e0gBgbnAtztC78gHjhsb/IoangRp3XdQCGi86C4fz"] > .col-span-1').click();
     getIframeOfVimeo().find('.play').click()
     .get(':nth-child(1) > .text-lg').contains('Can you press the correct answer Cypress?').should('be.visible');
     getIframeOfVimeo().get('[data-cy=watch-image-video-button]').click();
@@ -35,7 +35,7 @@ describe("Unlock location on map test", () => {
     cy.get('#map').not('.unlocked_marker_2');
     cy.get('#map').not('.unlocked_marker_3');
     // Click adventure link.
-    cy.get('[href="/BdYMwoZlVZSfpaPuGYk8"] > .col-span-1').click();
+    cy.get('[href="/YRuPvnC4jJCQisbrgSb6/4EZ3exPKUfyn8SyyejT7"] > .col-span-1').click();
     cy.get('[data-cy=attack_v1]').should('be.visible'). should('be.disabled');
     cy.get('[data-cy=answer_v2_1]').click();
     cy.get('[data-cy=attack_v1]').click();
@@ -43,7 +43,7 @@ describe("Unlock location on map test", () => {
     getIframeOfVimeo().find('.play').click()
     getIframeOfVimeo().get('[data-cy=too-easy]').should('be.visible').click();
     cy.get('[data-cy=attack_v1]').should('be.visible'). should('be.disabled');
-    cy.get('[data-cy=answer_v2_0]').click();
+    cy.get('[data-cy=answer_v2_2]').click();
     cy.get('[data-cy=attack_v1]').click();
     cy.get('[data-cy=won').should('be.visible');
     cy.get('.unlocked_marker_2').first().should('be.visible');

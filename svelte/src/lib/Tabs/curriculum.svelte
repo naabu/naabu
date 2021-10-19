@@ -9,16 +9,6 @@
   let mainTabs;
   let subTabs;
 
-  function createSubTabs() {
-    return [
-      {
-        value: "read",
-        text: "Lezen",
-        url: "/curriculum-profiel/" + curriculumProfile.id,
-      },
-    ];
-  }
-
   $: {
     if (isNew) {
       mainTabs = [
@@ -28,6 +18,14 @@
           url: "/curriculum-profiel/maken",
         },
       ];
+    } else if (isOwnProfile) {
+      mainTabs = [
+        {
+          value: "curriculum",
+          text: "Curriculum profiel",
+          url: "/curriculum-profiel/mijn-profiel",
+        },
+      ];
     } else {
       mainTabs = [
         {
@@ -35,19 +33,36 @@
           text: "Curriculum profiel",
           url: "/curriculum-profiel/" + curriculumProfile.id,
         },
-        // {
-        //   value: "talk",
-        //   text: "Overleg",
-        //   url: "/profcurriculum-profiel/" + curriculumProfile.id + "/overleg",
-        // },
       ];
-      subTabs = createSubTabs();
+    }
+    // {
+    //   value: "talk",
+    //   text: "Overleg",
+    //   url: "/profcurriculum-profiel/" + curriculumProfile.id + "/overleg",
+    // },
+
+    if (!isNew) {
       if (isOwnProfile) {
-        subTabs.push({
-          value: "edit",
-          text: "Bewerken",
-          url: "/curriculum-profiel/wijzigen",
-        });
+        subTabs = [
+          {
+            value: "read",
+            text: "Lezen",
+            url: "/curriculum-profiel/mijn-profiel",
+          },
+          {
+            value: "edit",
+            text: "Bewerken",
+            url: "/curriculum-profiel/wijzigen",
+          },
+        ];
+      } else {
+        subTabs = [
+          {
+            value: "read",
+            text: "Lezen",
+            url: "/curriculum-profiel/" + curriculumProfile.id,
+          },
+        ];
       }
     }
   }

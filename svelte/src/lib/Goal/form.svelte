@@ -1,11 +1,6 @@
 <script>
-  import { getStores, session } from "$app/stores";
-  import { onMount } from "svelte";
-  import { getAlgoliaSearchClient, getGoalIndex } from "$lib/algolia";
-  import { autocomplete, getAlgoliaResults } from "@algolia/autocomplete-js";
   import DisplayMultiTopics from "./displayMultiTopics.svelte";
   import BattleListForm from "./battleListForm.svelte";
-  import "@algolia/autocomplete-theme-classic";
   import QuizForm from "$lib/Quizzes/form.svelte";
 
   export let goal;
@@ -203,81 +198,6 @@
       }
       verbs = [...verbs, ...addVerbs];
     }
-  }
-
-  let filters = "";
-  let goalIndex = getGoalIndex($session.environment);
-
-  onMount(() => {
-    resetFilters();
-    runAutocomplete();
-  });
-
-  function runAutocomplete() {
-    const searchClient = getAlgoliaSearchClient();
-    autocomplete({
-      container: "#autocomplete-leerdoelen",
-      placeholder: "Zoek voor leerdoelen",
-      onSubmit({ state }) {
-        console.log(state);
-      },
-      getSources({ query }) {
-        return [
-          {
-            sourceId: goalIndex,
-            onSelect({ state, item }) {
-              addLeerdoel(item);
-            },
-            getItems() {
-              return getAlgoliaResults({
-                searchClient,
-                queries: [
-                  {
-                    indexName: goalIndex,
-                    query,
-                    params: {
-                      hitsPerPage: 5,
-                    },
-                    filters: filters,
-                  },
-                ],
-              });
-            },
-            templates: {
-              item({ item }) {
-                return item.title;
-              },
-              noResults() {
-                return "Geen leerdoelen gevonden";
-              },
-            },
-            // ...
-          },
-        ];
-      },
-    });
-  }
-
-  function resetFilters() {
-    let objectIDsFilter = goal.goalLinks.map(
-      (leerdoel) => "NOT objectID:" + leerdoel.objectID
-    );
-    if (goal.id) {
-      let ownId = "NOT objectID: " + goal.id;
-      objectIDsFilter = [...objectIDsFilter, ownId];
-    }
-    filters = objectIDsFilter.join(" AND ");
-  }
-
-  function addLeerdoel(leerdoel) {
-    goal.goalLinks = [...goal.goalLinks, leerdoel];
-    resetFilters();
-  }
-
-  function removeLeerdoel(i) {
-    goal.goalLinks.splice(i, 1);
-    goal.goalLinks = goal.goalLinks;
-    resetFilters();
   }
 
   $: {
@@ -775,7 +695,7 @@
     </div>
   </div>
 </div>
-<div class="divide-y divide-gray-200 pt-8 space-y-6 sm:pt-10 sm:space-y-5">
+<!-- <div class="divide-y divide-gray-200 pt-8 space-y-6 sm:pt-10 sm:space-y-5">
   <h3 class="text-lg leading-6 font-medium text-gray-900">Leerdoelen</h3>
   <p class="mt-1 max-w-2xl text-sm text-gray-500">
     Met welke leerdoelen heeft deze leerdoel te maken?
@@ -826,4 +746,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

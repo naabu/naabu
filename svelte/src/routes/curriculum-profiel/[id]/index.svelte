@@ -24,7 +24,8 @@
     if (snap.exists) {
       curriculumProfile = snap.data();
       curriculumProfile.id = ref.id;
-      if ($session.player && $page.params.id === $session.player.id) {
+
+      if ($session.user && curriculumProfile.uid === $session.user.uid) {
         isOwnProfile = true;
       }
     }

@@ -19,8 +19,8 @@
 
   async function retrieveFirestoreData() {
     let db = await firebase.firestore();
-    if ($session.player) {
-      let ref = db.collection("curriculumProfile").doc($session.player.id);
+    if ($session.user && $session.user.idTokenResult.claims.curriculumProfileId) {
+      let ref = db.collection("curriculumProfile").doc($session.user.idTokenResult.claims.curriculumProfileId);
       let snap = await ref.get();
       if (snap.exists) {
         curriculumProfile = snap.data();

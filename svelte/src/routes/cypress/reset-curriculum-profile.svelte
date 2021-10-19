@@ -10,12 +10,12 @@
   async function removeCurriculumFeatures() {
     let curriculumProfileRef = db
       .collection("curriculumProfile")
-      .doc($session.player.id);
+      .doc($session.user.idTokenResult.claims.curriculumProfileId);
     try {
       await curriculumProfileRef.delete();
       let q = db
         .collection("revisions")
-        .where("authorId", "==", $session.player.id);
+        .where("authorId", "==", $session.user.idTokenResult.claims.curriculumProfileId);
       const querySnapshot = await q.get();
       querySnapshot.forEach(async (snap) => {
         let revisionData = snap.data();
@@ -41,7 +41,8 @@
       mounted &&
       ($session.environment === "cypress" ||
         $session.environment === "development") &&
-      $session.player
+      $session.user &&
+      $session.user.idTokenResult.claims.curriculumProfileId
     ) {
       removeCurriculumFeatures();
     }

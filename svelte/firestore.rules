@@ -9,7 +9,8 @@ service cloud.firestore {
     }
      
     match /goals/{goalsId} {
-      allow read, write, delete: if true
+      allow read: if true
+      allow write: if (request.auth.token.curriculumProfileId is string)
       
       match /prerequisites/{prerequisiteId} {
         allow read, write, delete: if true
@@ -56,7 +57,8 @@ service cloud.firestore {
     }
     
     match /curriculumProfile/{curriculumProfileId} {
-      allow read, write, delete: if true
+      allow read: if true
+      allow write: if (request.resource.data.uid == request.auth.token.curriculumProfileId)
     }
 
     match /talk/{talkId} {
@@ -72,7 +74,8 @@ service cloud.firestore {
     }
 
     match /revisions/{revisionId} {
-      allow read, create, delete: if true
+      allow read: if true
+      allow write: if (request.auth.token.curriculumProfileId is string)
 
       match /battles/{battleId} {
         allow read, create, delete: if true

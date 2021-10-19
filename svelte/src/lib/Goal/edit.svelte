@@ -88,42 +88,45 @@
 
     alert = getDefaultAlertValues();
     try {
-      await goalRef.update(data);
-      for (let i = 0; i < goal.battles.length; i++) {
-        let battleDocRef = db.doc(
-          "/goals/" + goalRef.id + "/battles/" + goal.battles[i].name
-        );
-        let battleData = {
-          quizzes: goal.battles[i].quizzes,
-        };
+      if (
+        $session.user &&
+        $session.user.idTokenResult.claims.curriculumProfileId
+      ) {
+        await goalRef.update(data);
+        for (let i = 0; i < goal.battles.length; i++) {
+          let battleDocRef = db.doc(
+            "/goals/" + goalRef.id + "/battles/" + goal.battles[i].name
+          );
+          let battleData = {
+            quizzes: goal.battles[i].quizzes,
+          };
 
-        let snap = await battleDocRef.get();
-        if (snap.exists) {
-          await battleDocRef.update(battleData);
-        } else {
-          await battleDocRef.set(battleData);
-        }
-      }
-
-      for (let i = 0; i < previousBattles.length; i++) {
-        let previousBattle = previousBattles[i];
-        let deleteBattle = true;
-        for (let i2 = 0; i2 < goal.battles.length; i2++) {
-          let newBattle = goal.battles[i2];
-          if (newBattle.name === previousBattle.name) {
-            deleteBattle = false;
+          let snap = await battleDocRef.get();
+          if (snap.exists) {
+            await battleDocRef.update(battleData);
+          } else {
+            await battleDocRef.set(battleData);
           }
         }
-        if (deleteBattle) {
-          let battleDocRef = db.doc(
-            "/goals/" + goalRef.id + "/battles/" + previousBattle.name
-          );
-          await battleDocRef.delete();
-        }
-      }
 
-      if ($session.player && $session.player.id) {
-        data.authorId = $session.player.id;
+        for (let i = 0; i < previousBattles.length; i++) {
+          let previousBattle = previousBattles[i];
+          let deleteBattle = true;
+          for (let i2 = 0; i2 < goal.battles.length; i2++) {
+            let newBattle = goal.battles[i2];
+            if (newBattle.name === previousBattle.name) {
+              deleteBattle = false;
+            }
+          }
+          if (deleteBattle) {
+            let battleDocRef = db.doc(
+              "/goals/" + goalRef.id + "/battles/" + previousBattle.name
+            );
+            await battleDocRef.delete();
+          }
+        }
+
+        data.authorId = $session.user.idTokenResult.claims.curriculumProfileId;
         data.goalId = goalRef.id;
         await createRevision(db, goal, data);
       }

@@ -29,7 +29,7 @@
     let connectionSnap = await connectionRef.get();
     if (connectionSnap.exists) {
       connection = connectionSnap.data();
-      connection.id =connectionRef.id;
+      connection.id = connectionRef.id;
 
       connection.updates = [];
       let updatesCol = connectionRef.collection("updates");
@@ -68,17 +68,20 @@
   }
 
   async function createStatusUpdate() {
-    if ($session.player && $session.player.id) {
+    if (
+      $session.user &&
+      $session.user.idTokenResult.claims.curriculumProfileId
+    ) {
       let data = {
         type: "status-change-by-user",
         content: connection.status,
-        authorId: $session.player.id,
+        authorId: $session.user.idTokenResult.claims.curriculumProfileId,
         createdAt: firebase.firestore.Timestamp.now().seconds,
       };
 
       let profileRef = db
         .collection("curriculumProfile")
-        .doc($session.player.id);
+        .doc($session.user.idTokenResult.claims.curriculumProfileId);
 
       let snap = await profileRef.get();
       if (snap.exists) {
@@ -137,7 +140,7 @@
         status: "needs-work",
         modifiedAt: serverTimestamp,
         lastUpdatesAt: serverTimestamp,
-        inNeedsWorkAt: serverTimestamp, 
+        inNeedsWorkAt: serverTimestamp,
       });
       connection.status = "needs-work";
       await createStatusUpdate();
@@ -193,7 +196,7 @@
         status: "needs-work",
         modifiedAt: serverTimestamp,
         lastUpdatesAt: serverTimestamp,
-        inNeedsWorkAt: serverTimestamp, 
+        inNeedsWorkAt: serverTimestamp,
       });
       connection.status = "needs-work";
       await createStatusUpdate();
@@ -201,16 +204,16 @@
   }
 
   async function createCommentUpdate() {
-    if ($session.player && $session.player.id) {
+    if ($session.user && $session.user.idTokenResult.claims.curriculumProfileId) {
       let data = {
         type: "comment",
         content: newCommentText,
-        authorId: $session.player.id,
+        authorId: $session.user.idTokenResult.claims.curriculumProfileId,
         createdAt: firebase.firestore.Timestamp.now().seconds,
       };
       let profileRef = db
         .collection("curriculumProfile")
-        .doc($session.player.id);
+        .doc($session.user.idTokenResult.claims.curriculumProfileId);
 
       let snap = await profileRef.get();
       if (snap.exists) {
@@ -226,12 +229,11 @@
         let result = await updatesColRef.add(data);
         let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
         let connectionData = {
-          lastUpdatesAt: serverTimestamp
-        }
-        if (connection.status === 'in-progress') {
+          lastUpdatesAt: serverTimestamp,
+        };
+        if (connection.status === "in-progress") {
           connectionData.inProgressAt = serverTimestamp;
-        }
-        else if(connection.status === 'needs-approval') {
+        } else if (connection.status === "needs-approval") {
           connectionData.inNeedsForApprovalAt = serverTimestamp;
         }
         await connectionRef.update(connectionData);
@@ -292,17 +294,21 @@
             </dd>
           </div>
           <div class="sm:col-span-1">
-            <dt class="text-sm font-medium text-gray-500">Leerdoel omschrijving</dt>
-            <dd class="mt-1 text-sm text-gray-900">{connection.description}!</dd>
+            <dt class="text-sm font-medium text-gray-500">
+              Leerdoel omschrijving
+            </dt>
+            <dd class="mt-1 text-sm text-gray-900">
+              {connection.description}!
+            </dd>
           </div>
           <div class="sm:col-span-1">
             <dt class="text-sm font-medium text-gray-500">TODO...</dt>
-            <dd class="mt-1 text-sm text-gray-900">
-              TODO!!
-            </dd>
+            <dd class="mt-1 text-sm text-gray-900">TODO!!</dd>
           </div>
           <div class="sm:col-span-2">
-            <dt class="text-sm font-medium text-gray-500">Omgschrijving verbinding</dt>
+            <dt class="text-sm font-medium text-gray-500">
+              Omgschrijving verbinding
+            </dt>
             <dd class="mt-1 text-sm text-gray-900">
               {@html connection.connectionDescription}
             </dd>

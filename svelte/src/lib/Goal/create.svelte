@@ -60,7 +60,7 @@
   }
 
   async function createGoal() {
-    if ($session.player && $session.player.id) {
+    if ($session.user && $session.user.idTokenResult.claims.curriculumProfileId) {
       let data = getGoalSaveData(goal);
       alert = getDefaultAlertValues();
       try {
@@ -78,7 +78,8 @@
           await battleDocRef.set(battleData);
         }
 
-        data.authorId = $session.player.id;
+        data.authorId = $session.user.idTokenResult.claims.curriculumProfileId;
+        console.log(data);
         data.goalId = goalResult.id;
         await createRevision(db, goal, data);
 

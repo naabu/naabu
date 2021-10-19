@@ -19,7 +19,7 @@ bind:trashCanArray={goal.trashCanPrerequisites}
 />
 
 <div class="mt-8 mb-8 flex">
-  <a class="underline ml-auto" href="verbinding-maken">
+  <a class="underline ml-auto" href="/leerdoel/{goal.id}/verbinding-maken">
     Nieuwe verbinding maken</a
   >
 </div>

@@ -5,6 +5,7 @@
   import CurriculumTabs from "$lib/Tabs/curriculum.svelte";
   import { onMount } from "svelte";
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
+
   export let firebase;
   let curriculumProfile = {
     fullname: "",
@@ -12,6 +13,13 @@
     institutionEmail: "",
     credentials: "",
   };
+
+  $: console.log($session);
+
+  $: if ($session.user) {
+    curriculumProfile.uid = $session.user.uid
+  }
+
   let buttonDisabled = false;
   let y;
   let db;
@@ -33,13 +41,21 @@
     delete data.id;
     alert = getDefaultAlertValues();
     try {
-      let profileRef = db
-        .collection("curriculumProfile")
-        .doc($session.player.id);
-      let result = await profileRef.set(data);
-      alert.success = true;
-      alert.successTitle = "Curriculum profiel gemaakt";
-      alert.successMessage = "id: " + $session.player.id;
+      if (!$session.user.idTokenResult.claims.curriculumProfileId) {
+        let profileRef = db.collection("curriculumProfile");
+        let result = await profileRef.add(data);
+        $session.user.idTokenResult.claims.curriculumProfileId = result.id;
+        console.log($session);
+        alert.success = true;
+        alert.successTitle = "Curriculum profiel gemaakt";
+        alert.successMessage = "id: " + result.id;
+      }
+      else {
+        let profileRef = db.collection("curriculumProfile").doc($session.user.idTokenResult.claims.curriculumProfileId);
+        let result = await profileRef.update(data);
+        alert.success = true;
+        alert.successTitle = "Curriculum profiel gemaakt";
+      }
       await goto("/curriculum-profiel/mijn-profiel");
     } catch (e) {
       alert.error = true;

@@ -25,16 +25,15 @@
   async function updateCurriculumProfile() {
     buttonDisabled = true;
     let data = curriculumProfile;
-    delete data.id;
     alert = getDefaultAlertValues();
     try {
       let profileRef = db
         .collection("curriculumProfile")
-        .doc($session.player.id);
+        .doc(data.id);
       let result = await profileRef.set(data);
       alert.success = true;
       alert.successTitle = "Curriculum profiel gewijzigd";
-      alert.successMessage = "id: " + $session.player.id;
+      alert.successMessage = "id: " + data.id;
     } catch (e) {
       alert.error = true;
       alert.errorCode = e.code;

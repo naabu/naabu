@@ -49,7 +49,7 @@
 
 <!-- <DataTable bind:goalId={goal.id} bind:adventureArray={goal.inProgressAdventures} bind:firebase/> -->
 <div class="mt-8 mb-8 flex">
-  <a class="underline ml-auto" href="avontuur-maken"> Nieuw advontuur maken</a>
+  <a class="underline ml-auto" href="/leerdoel/{goal.id}/avontuur-maken"> Nieuw advontuur maken</a>
 </div>
 
 {#if adventureArray && adventureArray.length > 0}

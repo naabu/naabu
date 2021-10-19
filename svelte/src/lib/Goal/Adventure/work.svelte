@@ -79,17 +79,17 @@
     }
   }
   async function createStatusUpdate() {
-    if ($session.player && $session.player.id) {
+    if ($session.user && $session.user.idTokenResult.claims.curriculumProfileId) {
       let data = {
         type: "status-change-by-user",
         content: adventure.status,
-        authorId: $session.player.id,
+        authorId: $session.user.idTokenResult.claims.curriculumProfileId,
         createdAt: firebase.firestore.Timestamp.now().seconds
       };
 
       let profileRef = db
         .collection("curriculumProfile")
-        .doc($session.player.id);
+        .doc($session.user.idTokenResult.claims.curriculumProfileId);
 
       let snap = await profileRef.get();
       if (snap.exists) {
@@ -212,17 +212,17 @@
   }
 
   async function createCommentUpdate() {
-    if ($session.player && $session.player.id) {
+    if ($session.user && $session.user.idTokenResult.claims.curriculumProfileId) {
       let data = {
         type: "comment",
         content: newCommentText,
-        authorId: $session.player.id,
+        authorId: $session.user.idTokenResult.claims.curriculumProfileId,
         createdAt: firebase.firestore.Timestamp.now().seconds,
       };
 
       let profileRef = db
         .collection("curriculumProfile")
-        .doc($session.player.id);
+        .doc($session.user.idTokenResult.claims.curriculumProfileId);
 
       let snap = await profileRef.get();
       if (snap.exists) {

@@ -3,7 +3,6 @@
   import { sortOnCreatedAt } from "$lib/Revision/helper";
 
   export let goal;
-  export let firebase;
   import MainTabs from "$lib/Tabs/goal.svelte";
 
   $: if (goal.revisionList) {

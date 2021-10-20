@@ -74,6 +74,9 @@
     ) {
       await removeCurriculumFeatures();
     }
+    else {
+      curriculumReset = true;
+    }
     mounted = true;
   });
 </script>

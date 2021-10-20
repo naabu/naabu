@@ -737,8 +737,29 @@ async function setMapActivitiesForUid(uid) {
   mapQuery.forEach(async (mapSnap) => {
     let mapId = mapSnap.id;
     let mapData = mapSnap.data();
+
+    let startLocations = [];
+    for (let i = 0; i < mapData.locations.length; i++) {
+      if (mapData.locations[i].isStartLocation) {
+        startLocations.push(mapData.locations[i].id);
+      }
+    }
+
     let userMapRef = db.collection('maps').doc(mapId).collection('players').doc(uid);
     let userMapSnap = await userMapRef.get();
+    console.log(userMapSnap);
+    console.log(userMapSnap.exists);
+    console.log(helper.defaultMapId);
+    console.log(mapId);
+    if (!userMapSnap.exists && mapId === helper.defaultMapId) {
+      let userMapData = {
+        unlockedLocations: startLocations,
+        succeededLocations: [],
+        selectedAdventures: [],
+      }
+      userMapRef.set({userMapData});
+
+    }
     let userMapData = await userMapSnap.data();
     let mapAdventures = [];
     for (let i = 0; i < mapData.locations.length; i++) {
@@ -812,14 +833,12 @@ exports.writeFeedbackDevelopRandom = functions.firestore.document('feedback/{fee
     let uid = feedbackData.uid;
     let goalId = feedbackData.goalId;
     let adventureId = feedbackData.adventureId;
-    console.log(feedbackData);
     const fb = helper.getFirebaseApp();
     let db = fb.firestore();
     let adventureRef = db.collection('goals').doc(goalId).collection('adventures').doc(adventureId);
     let adventureSnap = await adventureRef.get();
 
     if (adventureSnap.exists) {
-      console.log('adventure exists');
       let adventure = adventureSnap.data();
       adventure.id = adventureId;
       adventure.goalId = goalId;
@@ -837,7 +856,7 @@ exports.writeFeedbackDevelopRandom = functions.firestore.document('feedback/{fee
 // - For every user (maybe even AN)
 // - Make a function that checks all the users
 // - If the user has not 3 activities in a path. Add activities to the path collection from Firebase.
-
 exports.fillPathWithActivitiesForNewUsers = functions.auth.user().onCreate((user, eventContext) => {
   setMapActivitiesForUid(user.uid);
+  return null;
 });

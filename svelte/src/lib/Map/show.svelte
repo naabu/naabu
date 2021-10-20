@@ -62,6 +62,7 @@
       for (let i = 0; i < map.locations.length; i++) {
         let location = map.locations[i];
         let unlockedLocation = false;
+        console.log(userMap);
         if (
           $session.player &&
           userMap &&

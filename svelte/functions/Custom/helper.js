@@ -1,10 +1,8 @@
 const functions = require('firebase-functions');
 const algoliasearch = require('algoliasearch');
-const ENVIRONMENT = functions.config().app.environment;
-const DEFAULT_MAP_ID = functions.config().app.defaultmapid;
+
 
 function getFirebaseApp() {
-  console.log('GetAdmin');
   const admin = require("firebase-admin");
   let firebaseApp;
   try {
@@ -37,16 +35,32 @@ function getIndex(suffix, environment) {
   return index;
 }
 
-let goalIndexName = getIndex('goals', ENVIRONMENT);
-let activityIndexName = getIndex('activities', ENVIRONMENT);
-let mapIndexName = getIndex('maps', ENVIRONMENT);
+
+function shuffle(array) {
+  var currentIndex = array.length, randomIndex;
+  while (currentIndex != 0) {
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [array[currentIndex], array[randomIndex]] = [array[randomIndex], array[currentIndex]];
+  }
+  return array;
+}
+
+const environment = functions.config().app.environment;
+const defaultMapId = functions.config().app.defaultMapId;
+let goalIndexName = getIndex('goals', environment);
+let activityIndexName = getIndex('activities', environment);
+let mapIndexName = getIndex('maps', environment);
 const goalIndex = client.initIndex(goalIndexName);
 const activityIndex = client.initIndex(activityIndexName);
 const mapIndex = client.initIndex(mapIndexName);
+
+
 
 exports.getFirebaseApp = getFirebaseApp;
 exports.goalIndex = goalIndex;
 exports.activityIndex = activityIndex;
 exports.mapIndex = mapIndex;
-exports.ENVIRONMENT = ENVIRONMENT;
-exports.DEFAULT_MAP_ID = DEFAULT_MAP_ID;
+exports.environment = environment;
+exports.defaultMapId = defaultMapId;
+exports.shuffle = shuffle;

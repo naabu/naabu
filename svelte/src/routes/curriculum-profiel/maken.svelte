@@ -5,7 +5,6 @@
   import { initFirebase } from "$lib/firebase";
 
   let firebase;
-
   let curriculumProfile;
   let mounted = false;
 
@@ -18,8 +17,8 @@
 
   async function retrieveFirestoreData() {
     let db = await firebase.firestore();
-    if ($session.player) {
-      let ref = db.collection("curriculumProfile").doc($session.player.id);
+    if ($session.user) {
+      let ref = db.collection("curriculumProfile").doc($session.player.curriculumProfileId);
       let snap = await ref.get();
       if (snap.exists) {
         curriculumProfile = snap.data();

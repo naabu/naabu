@@ -19,14 +19,16 @@
 
   async function retrieveFirestoreData() {
     let db = await firebase.firestore();
-    if ($session.user && $session.user.idTokenResult.claims.curriculumProfileId) {
-      let ref = db.collection("curriculumProfile").doc($session.user.idTokenResult.claims.curriculumProfileId);
+    if ($session.player) {
+      console.log($session.player.curriculumProfileId);
+      let ref = db.collection("curriculumProfile").doc($session.player.curriculumProfileId);
       let snap = await ref.get();
       if (snap.exists) {
         curriculumProfile = snap.data();
         curriculumProfile.id = ref.id;
       }
       else {
+        delete $session.player.curriculumProfileId;
         await goto("/curriculum-profiel/maken");
       }
     }

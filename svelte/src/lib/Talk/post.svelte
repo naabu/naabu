@@ -33,14 +33,14 @@
   }
 
   async function createReply() {
-    if ($session.user &&  $session.user.idTokenResult.claims.curriculumProfileId) {
+    if ($session.user &&  $session.player.curriculumProfileId) {
       let profileRef = db
         .collection("curriculumProfile")
-        .doc($session.user.idTokenResult.claims.curriculumProfileId);
+        .doc($session.player.curriculumProfileId);
 
       let data = {
         text: newReplyText,
-        authorId: $session.user.idTokenResult.claims.curriculumProfileId,
+        authorId: $session.player.curriculumProfileId,
       };
       let snap = await profileRef.get();
       if (snap.exists) {

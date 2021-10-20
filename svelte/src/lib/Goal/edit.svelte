@@ -90,7 +90,7 @@
     try {
       if (
         $session.user &&
-        $session.user.idTokenResult.claims.curriculumProfileId
+        $session.player.curriculumProfileId
       ) {
         await goalRef.update(data);
         for (let i = 0; i < goal.battles.length; i++) {
@@ -126,7 +126,7 @@
           }
         }
 
-        data.authorId = $session.user.idTokenResult.claims.curriculumProfileId;
+        data.authorId = $session.player.curriculumProfileId;
         data.goalId = goalRef.id;
         await createRevision(db, goal, data);
       }

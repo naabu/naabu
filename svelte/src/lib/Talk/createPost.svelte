@@ -36,15 +36,15 @@
   }
 
   async function createPost() {
-    if ($session.user && $session.user.idTokenResult.claims.curriculumProfileIdd) {
+    if ($session.user && $session.player.curriculumProfileIdd) {
       let profileRef = db
         .collection("curriculumProfile")
-        .doc($session.user.idTokenResult.claims.curriculumProfileId);
+        .doc($session.player.curriculumProfileId);
 
       let data = {
         title: newPostTitle,
         text: newPostText,
-        authorId: $session.user.idTokenResult.claims.curriculumProfileId,
+        authorId: $session.player.curriculumProfileId,
         numberOfReplies: 0,
       };
       let snap = await profileRef.get();

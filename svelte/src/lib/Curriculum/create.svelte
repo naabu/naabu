@@ -41,17 +41,20 @@
     delete data.id;
     alert = getDefaultAlertValues();
     try {
-      if (!$session.user.idTokenResult.claims.curriculumProfileId) {
+      if (!$session.player.curriculumProfileId) {
+        console.log('test');
         let profileRef = db.collection("curriculumProfile");
+        console.log(data);
         let result = await profileRef.add(data);
-        $session.user.idTokenResult.claims.curriculumProfileId = result.id;
-        console.log($session);
+        $session.player.curriculumProfileId = result.id;
+        let playerRef = db.collection('players').doc($session.user.uid);
+        await playerRef.update({curriculumProfileId: result.id});
         alert.success = true;
         alert.successTitle = "Curriculum profiel gemaakt";
         alert.successMessage = "id: " + result.id;
       }
       else {
-        let profileRef = db.collection("curriculumProfile").doc($session.user.idTokenResult.claims.curriculumProfileId);
+        let profileRef = db.collection("curriculumProfile").doc($session.player.curriculumProfileId);
         let result = await profileRef.update(data);
         alert.success = true;
         alert.successTitle = "Curriculum profiel gemaakt";

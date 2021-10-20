@@ -88,7 +88,7 @@
     try {
       if (
         $session.user &&
-        $session.user.idTokenResult.claims.curriculumProfileId
+        $session.player.curriculumProfileId
       ) {
         let goalRef = db.collection("goals").doc(revision.goalId);
         await goalRef.update(data);
@@ -108,7 +108,7 @@
           }
         }
 
-        data.authorId = $session.user.idTokenResult.claims.curriculumProfileId;
+        data.authorId = $session.player.curriculumProfileId;
         data.goalId = goalRef.id;
         await createRevision(db, revision, data);
       }

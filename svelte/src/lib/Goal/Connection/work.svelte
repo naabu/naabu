@@ -70,18 +70,18 @@
   async function createStatusUpdate() {
     if (
       $session.user &&
-      $session.user.idTokenResult.claims.curriculumProfileId
+      $session.player.curriculumProfileId
     ) {
       let data = {
         type: "status-change-by-user",
         content: connection.status,
-        authorId: $session.user.idTokenResult.claims.curriculumProfileId,
+        authorId: $session.player.curriculumProfileId,
         createdAt: firebase.firestore.Timestamp.now().seconds,
       };
 
       let profileRef = db
         .collection("curriculumProfile")
-        .doc($session.user.idTokenResult.claims.curriculumProfileId);
+        .doc($session.player.curriculumProfileId);
 
       let snap = await profileRef.get();
       if (snap.exists) {
@@ -204,16 +204,16 @@
   }
 
   async function createCommentUpdate() {
-    if ($session.user && $session.user.idTokenResult.claims.curriculumProfileId) {
+    if ($session.user && $session.player.curriculumProfileId) {
       let data = {
         type: "comment",
         content: newCommentText,
-        authorId: $session.user.idTokenResult.claims.curriculumProfileId,
+        authorId: $session.player.curriculumProfileId,
         createdAt: firebase.firestore.Timestamp.now().seconds,
       };
       let profileRef = db
         .collection("curriculumProfile")
-        .doc($session.user.idTokenResult.claims.curriculumProfileId);
+        .doc($session.player.curriculumProfileId);
 
       let snap = await profileRef.get();
       if (snap.exists) {

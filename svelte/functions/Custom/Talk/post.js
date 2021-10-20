@@ -43,7 +43,7 @@ exports.onCreatePost = functions.firestore.document('talk/{talkId}/posts/{postId
           type: 'post'
         }
         postList.push(postToPush)
-        postList.sort(compareLastReplyAt);
+        postList.sort(helper.compareLastReplyAt);
         profileRef.update({ postList: postList })
       }
     }
@@ -94,7 +94,7 @@ exports.onCreateReply = functions.firestore.document('talk/{talkId}/posts/{postI
         }
         console.log(replyToPush);
         postList.push(replyToPush)
-        postList.sort(compare);
+        postList.sort(helper.compare);
         profileRef.update({ postList: postList })
       }
     }

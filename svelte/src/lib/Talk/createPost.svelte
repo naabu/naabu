@@ -36,7 +36,7 @@
   }
 
   async function createPost() {
-    if ($session.user && $session.player.curriculumProfileIdd) {
+    if ($session.user) {
       let profileRef = db
         .collection("curriculumProfile")
         .doc($session.player.curriculumProfileId);
@@ -44,7 +44,6 @@
       let data = {
         title: newPostTitle,
         text: newPostText,
-        authorId: $session.player.curriculumProfileId,
         numberOfReplies: 0,
       };
       let snap = await profileRef.get();
@@ -54,6 +53,7 @@
           fullname: profileData.fullname,
           institution: profileData.institution,
         };
+        data.authorId = profileRef.id;
       }
 
       alert = getDefaultAlertValues();

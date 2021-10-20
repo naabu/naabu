@@ -33,14 +33,13 @@
   }
 
   async function createReply() {
-    if ($session.user &&  $session.player.curriculumProfileId) {
+    if ($session.user) {
       let profileRef = db
         .collection("curriculumProfile")
         .doc($session.player.curriculumProfileId);
 
       let data = {
         text: newReplyText,
-        authorId: $session.player.curriculumProfileId,
       };
       let snap = await profileRef.get();
       if (snap.exists) {
@@ -49,6 +48,7 @@
           fullname: profileData.fullname,
           institution: profileData.institution,
         };
+        data.authorId = profileRef.id;
       }
 
       alert = getDefaultAlertValues();
@@ -97,11 +97,12 @@
   }
 </script>
 
-<ResultFeedback bind:alert />
+
 
 {#if goalId}
   <MainTabs bind:objectId={goalId} bind:talkId talkType="goal" />
 {/if}
+<ResultFeedback bind:alert />
 {#if post}
   <div class="ml-auto mr-auto max-w-2xl mt-8">
     <form on:submit|preventDefault={formSubmit}>

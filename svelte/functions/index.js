@@ -185,28 +185,8 @@ async function dataExport() {
   // });
 }
 
-function compare(a, b) {
-  if (a.createdAt < b.createdAt) {
-    return 1;
-  }
-  if (a.createdAt > b.createdAt) {
-    return -1;
-  }
-  return 0;
-}
-
-function compareLastReplyAt(a, b) {
-  if (a.lastReplyAt < b.lastReplyAt) {
-    return 1;
-  }
-  if (a.lastReplyAt > b.lastReplyAt) {
-    return -1;
-  }
-  return 0;
-}
-
 function getNextAndPreviousRevisions(revisionList, revisionId) {
-  revisionList.sort(compare);
+  revisionList.sort(helper.compare);
   let nextRevision = null;
   let previousRevision = null;
   let previousPreviousRevision = null;
@@ -635,7 +615,7 @@ exports.writeGoalSetTimeRevision = functions.firestore.document('revisions/{revi
         revisionToPush.previousRevisionId = objectReturnRevisions.previousRevision.id
       }
       revisionList.push(revisionToPush)
-      revisionList.sort(compare);
+      revisionList.sort(helper.compare);
       profileRef.update({ revisionList: revisionList })
     }
     return null;

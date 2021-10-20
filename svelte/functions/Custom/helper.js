@@ -46,6 +46,26 @@ function shuffle(array) {
   return array;
 }
 
+function compare(a, b) {
+  if (a.createdAt < b.createdAt) {
+    return 1;
+  }
+  if (a.createdAt > b.createdAt) {
+    return -1;
+  }
+  return 0;
+}
+
+function compareLastReplyAt(a, b) {
+  if (a.lastReplyAt < b.lastReplyAt) {
+    return 1;
+  }
+  if (a.lastReplyAt > b.lastReplyAt) {
+    return -1;
+  }
+  return 0;
+}
+
 const environment = functions.config().app.environment;
 const defaultMapId = functions.config().app.defaultMapId;
 let goalIndexName = getIndex('goals', environment);
@@ -64,3 +84,5 @@ exports.mapIndex = mapIndex;
 exports.environment = environment;
 exports.defaultMapId = defaultMapId;
 exports.shuffle = shuffle;
+exports.compare = compare;
+exports.compareLastReplyAt = compareLastReplyAt;

@@ -63,13 +63,16 @@ service cloud.firestore {
     }
 
     match /talk/{talkId} {
-      allow read, write, delete: if true
-
-      match /posts/{postId} {
-        allow read, write, delete: if true
+      allow read: if true
+      allow write: if get(/databases/$(database)/documents/players/$(request.auth.uid)).data.curriculumProfileId is string
       
+      match /posts/{postId} {
+        allow read: if true
+        allow write: if get(/databases/$(database)/documents/players/$(request.auth.uid)).data.curriculumProfileId is string
+
         match /replies/{replyId} {
-          allow read, write, delete: if true
+          allow read: if true
+          allow write: if get(/databases/$(database)/documents/players/$(request.auth.uid)).data.curriculumProfileId is string
         }
       }
     }

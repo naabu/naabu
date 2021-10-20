@@ -4,6 +4,8 @@
   import { sortOnCreatedAt } from "$lib/Revision/helper";
   export let curriculumProfile;
 
+  $:console.log(curriculumProfile);
+
   $: if (curriculumProfile.postList) {
     sortOnCreatedAt(curriculumProfile.postList);
   }

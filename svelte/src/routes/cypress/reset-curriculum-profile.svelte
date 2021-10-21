@@ -11,7 +11,7 @@
   async function removeCurriculumFeatures() {
     deleted = true;
     console.log("1");
-    if (!$session.player.curriculumProfileId) {
+    if (!$session.player || !$session.player.curriculumProfileId) {
       console.log("2");
       curriculumReset = true;
       return;
@@ -61,6 +61,7 @@
           await playerRef.set(player);
         }
       });
+      // delete $session.player.curriculumProfileId;
       curriculumReset = true;
     } catch (error) {
       console.log("here?");
@@ -80,22 +81,46 @@
   //     // await removeCurriculumFeatures();
   //   }
   // })();
-
-  onMount(async () => {
-    firebase = await initFirebase($session.environment);
-    db = await firebase.firestore();
-    console.log($session);
+  $: ($session.user && $session.player)
+  {
     if (
       ($session.environment === "cypress" ||
         $session.environment === "development") &&
-      $session.user &&
       !deleted
     ) {
+      console.log('Run the function!');
       deleted = true;
-      await removeCurriculumFeatures();
+      removeCurriculumFeatures();
     } else {
+      console.log($session.environment);
+      console.log( $session.user);
+      console.log(deleted);
       console.log("not set?");
     }
+    console.log('reactive session user');
+    
+  }
+  
+  onMount(async () => {
+    console.log('on_mount_reset');
+    firebase = await initFirebase($session.environment);
+    db = await firebase.firestore();
+    // console.log($session);
+    // if (
+    //   ($session.environment === "cypress" ||
+    //     $session.environment === "development") &&
+    //   $session.user &&
+    //   !deleted
+    // ) {
+    //   console.log('Run the function!');
+    //   deleted = true;
+    //   await removeCurriculumFeatures();
+    // } else {
+    //   console.log($session.environment);
+    //   console.log( $session.user);
+    //   console.log(deleted);
+    //   console.log("not set?");
+    // }
     mounted = true;
   });
 </script>

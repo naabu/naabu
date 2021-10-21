@@ -46,11 +46,9 @@
     return player;
   }
 
-  $:console.log($session);
 
   onMount(async () => {
     firebase = await initFirebase($session.environment);
-
     firebase.auth().onAuthStateChanged(async (newUser) => {
       if (newUser) {
         user = newUser;

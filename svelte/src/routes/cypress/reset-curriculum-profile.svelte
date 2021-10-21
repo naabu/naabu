@@ -22,6 +22,13 @@
       .collection("curriculumProfile")
       .doc($session.player.curriculumProfileId);
     try {
+      let curriculumProfileSnap = await curriculumProfileRef.get();
+      console.log('32');
+      console.log(curriculumProfileSnap.exists);
+      if (!curriculumProfileSnap.exists) {
+        curriculumReset = true;
+        return;
+      }
       console.log("4");
       await curriculumProfileRef.delete();
       console.log("5");
@@ -77,6 +84,7 @@
   onMount(async () => {
     firebase = await initFirebase($session.environment);
     db = await firebase.firestore();
+    console.log($session);
     if (
       ($session.environment === "cypress" ||
         $session.environment === "development") &&
@@ -85,9 +93,8 @@
     ) {
       deleted = true;
       await removeCurriculumFeatures();
-    }
-    else {
-      console.log('not set?');
+    } else {
+      console.log("not set?");
     }
     mounted = true;
   });

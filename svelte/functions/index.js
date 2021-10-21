@@ -47,7 +47,7 @@ exports.manuallyTrigger = functions.firestore.document('/triggers/{triggerId}')
       case 'run-status-check':
         let daysInSeconds = 1;
         // Check if it is not in production!!
-        if (ENVIRONMENT === 'development' || ENVIRONMENT === 'cypress') {
+        if (helper.environment === 'development' || helper.environment === 'cypress') {
           await processStatusAutomatically(daysInSeconds, daysInSeconds, daysInSeconds);
         }
         break;

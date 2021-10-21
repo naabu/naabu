@@ -110,7 +110,7 @@ exports.writeFeedbackDevelopRandom = functions.firestore.document('feedback/{fee
     let db = fb.firestore();
     let adventureRef = db.collection('goals').doc(goalId).collection('adventures').doc(adventureId);
     let adventureSnap = await adventureRef.get();
-
+    
     if (adventureSnap.exists) {
       let adventure = adventureSnap.data();
       adventure.id = adventureId;
@@ -120,7 +120,7 @@ exports.writeFeedbackDevelopRandom = functions.firestore.document('feedback/{fee
         await unlockLocations(adventure, uid);
       }
     }
-    if (ENVIRONMENT === 'development') {
+    if (helper.environment === 'development') {
       await setMapActivitiesForUid(uid);
     }
     return null;

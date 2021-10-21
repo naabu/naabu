@@ -1,7 +1,5 @@
 const functions = require("firebase-functions");
 const helper = require('./helper');
-console.log('test');
-console.log(helper.environment);
 
 exports.ssr = functions.https.onRequest(async (request, response) => {
   process.env.environment = helper.environment;

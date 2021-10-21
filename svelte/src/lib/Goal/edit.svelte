@@ -84,52 +84,51 @@
 
   async function editGoal() {
     const db = await firebase.firestore();
-    let data = getGoalSaveData(goal);
+    console.log($session.serverFirestoreTimeStamp);
 
+    let data = getGoalSaveData(goal, $session.serverFirestoreTimeStamp);
+    console.log(data);
     alert = getDefaultAlertValues();
     try {
-      if (
-        $session.user &&
-        $session.player.curriculumProfileId
-      ) {
-        await goalRef.update(data);
-        for (let i = 0; i < goal.battles.length; i++) {
-          let battleDocRef = db.doc(
-            "/goals/" + goalRef.id + "/battles/" + goal.battles[i].name
-          );
-          let battleData = {
-            quizzes: goal.battles[i].quizzes,
-          };
+      await goalRef.update(data);
+      console.log("here!");
+      for (let i = 0; i < goal.battles.length; i++) {
+        let battleDocRef = db.doc(
+          "/goals/" + goalRef.id + "/battles/" + goal.battles[i].name
+        );
+        let battleData = {
+          quizzes: goal.battles[i].quizzes,
+        };
 
-          let snap = await battleDocRef.get();
-          if (snap.exists) {
-            await battleDocRef.update(battleData);
-          } else {
-            await battleDocRef.set(battleData);
-          }
+        let snap = await battleDocRef.get();
+        if (snap.exists) {
+          await battleDocRef.update(battleData);
+        } else {
+          await battleDocRef.set(battleData);
         }
-
-        for (let i = 0; i < previousBattles.length; i++) {
-          let previousBattle = previousBattles[i];
-          let deleteBattle = true;
-          for (let i2 = 0; i2 < goal.battles.length; i2++) {
-            let newBattle = goal.battles[i2];
-            if (newBattle.name === previousBattle.name) {
-              deleteBattle = false;
-            }
-          }
-          if (deleteBattle) {
-            let battleDocRef = db.doc(
-              "/goals/" + goalRef.id + "/battles/" + previousBattle.name
-            );
-            await battleDocRef.delete();
-          }
-        }
-
-        data.authorId = $session.player.curriculumProfileId;
-        data.goalId = goalRef.id;
-        await createRevision(db, goal, data);
       }
+
+      for (let i = 0; i < previousBattles.length; i++) {
+        let previousBattle = previousBattles[i];
+        let deleteBattle = true;
+        for (let i2 = 0; i2 < goal.battles.length; i2++) {
+          let newBattle = goal.battles[i2];
+          if (newBattle.name === previousBattle.name) {
+            deleteBattle = false;
+          }
+        }
+        if (deleteBattle) {
+          let battleDocRef = db.doc(
+            "/goals/" + goalRef.id + "/battles/" + previousBattle.name
+          );
+          await battleDocRef.delete();
+        }
+      }
+
+      data.authorId = $session.player.curriculumProfileId;
+      data.goalId = goalRef.id;
+      await createRevision(db, goal, data);
+
       alert.success = true;
       alert.successTitle = "Leerdoel gewijzigd";
       alert.successMessage = "id: " + goalRef.id;

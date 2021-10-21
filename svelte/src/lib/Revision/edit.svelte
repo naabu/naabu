@@ -81,7 +81,7 @@
 
   async function editGoal() {
     const db = await firebase.firestore();
-    let data = getGoalSaveData(revision);
+    let data = getGoalSaveData(revision, $session.serverFirestoreTimeStamp);
 
     alert = getDefaultAlertValues();
     // Edit a goal not a revision!

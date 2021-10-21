@@ -61,7 +61,7 @@
 
   async function createGoal() {
     if ($session.user) {
-      let data = getGoalSaveData(goal);
+      let data = getGoalSaveData(goal, $session.serverFirestoreTimeStamp);
       alert = getDefaultAlertValues();
       try {
         let talkResult = await db.collection("talk").add({ type: "goal" });

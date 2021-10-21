@@ -1,4 +1,4 @@
-export function getGoalSaveData(goal) {
+export function getGoalSaveData(goal, timestamp) {
   let addLeerdoelen = [];
 
   for (let i = 0; i < goal.goalLinks.length; i++) {
@@ -21,6 +21,7 @@ export function getGoalSaveData(goal) {
     multitopics: goal.multitopics,
     selectedVerbs: goal.selectedVerbs,
     fromText: goal.fromText,
+    createdAt: timestamp,
   };
 
   return data;

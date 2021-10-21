@@ -49,6 +49,8 @@
 
   onMount(async () => {
     firebase = await initFirebase($session.environment);
+    let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
+    $session.serverFirestoreTimeStamp = serverTimestamp;
     firebase.auth().onAuthStateChanged(async (newUser) => {
       if (newUser) {
         user = newUser;

@@ -76,7 +76,6 @@ const activityIndex = client.initIndex(activityIndexName);
 const mapIndex = client.initIndex(mapIndexName);
 
 
-
 exports.getFirebaseApp = getFirebaseApp;
 exports.goalIndex = goalIndex;
 exports.activityIndex = activityIndex;

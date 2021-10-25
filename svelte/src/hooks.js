@@ -1,7 +1,7 @@
 export function getSession(request) {
 	return {
-		environment: process.env['ENVIRONMENT'],
-    defaultMapId: process.env['DEFAULT_MAP_ID'],
+		environment: process.env['environment'],
+    defaultMapId: process.env['defaultMapId'],
 		fb: process.env['fb']
 	};
 }

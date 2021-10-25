@@ -9,8 +9,8 @@ services:
     #   - ./:/var/www/
     entrypoint: ["npm", "run", "dev"]
     environment:
-      - ENVIRONMENT=cypress
-      - DEFAULT_MAP_ID=OcZm1UN6gxuUiFWTgoyp
+      - environment=cypress
+      - defaultMapId=OcZm1UN6gxuUiFWTgoyp
     ports:
       - 3000:3000
       - 3001:3001

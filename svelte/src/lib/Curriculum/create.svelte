@@ -14,10 +14,8 @@
     credentials: "",
   };
 
-  $: console.log($session);
-
   $: if ($session.user) {
-    curriculumProfile.uid = $session.user.uid
+    curriculumProfile.uid = $session.user.uid;
   }
 
   let buttonDisabled = false;
@@ -42,19 +40,18 @@
     alert = getDefaultAlertValues();
     try {
       if (!$session.player.curriculumProfileId) {
-        console.log('test');
         let profileRef = db.collection("curriculumProfile");
-        console.log(data);
         let result = await profileRef.add(data);
         $session.player.curriculumProfileId = result.id;
-        let playerRef = db.collection('players').doc($session.user.uid);
-        await playerRef.update({curriculumProfileId: result.id});
+        let playerRef = db.collection("players").doc($session.user.uid);
+        await playerRef.update({ curriculumProfileId: result.id });
         alert.success = true;
         alert.successTitle = "Curriculum profiel gemaakt";
         alert.successMessage = "id: " + result.id;
-      }
-      else {
-        let profileRef = db.collection("curriculumProfile").doc($session.player.curriculumProfileId);
+      } else {
+        let profileRef = db
+          .collection("curriculumProfile")
+          .doc($session.player.curriculumProfileId);
         let result = await profileRef.update(data);
         alert.success = true;
         alert.successTitle = "Curriculum profiel gemaakt";
@@ -77,12 +74,11 @@
 </script>
 
 <svelte:window bind:scrollY={y} />
-<CurriculumTabs bind:curriculumProfile mainSelected="create" isNew="true" />
 
 {#if $session.player}
   <ResultFeedback bind:alert />
 
-  <form on:submit|preventDefault={createCurriculumProfile}>
+  <form class="mt-8" on:submit|preventDefault={createCurriculumProfile}>
     <Form bind:curriculumProfile />
     <button
       disabled={buttonDisabled}

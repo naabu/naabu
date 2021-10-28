@@ -1,30 +1,26 @@
 <script>
-	import AdventureSearchActivity from '$lib/Goal/Adventure/searchActivity.svelte';
-  import { onMount } from 'svelte';
-  import { getStores, session, page } from "$app/stores"
-  import { initFirebase } from "$lib/firebase";
+  import AdventureSearchActivity from "$lib/Goal/Adventure/searchActivity.svelte";
+  import ConnectionTemplate from "$lib/Containers/connectionTemplate.svelte";
+  import { getStores, page } from "$app/stores";
+  import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
 
+  let goal;
   let firebase;
-	let goal;
-  let mounted = false;
+  let breadcrumbs;
 
-  onMount(async() => {
-    firebase = await initFirebase($session.environment);
-    await retrieveFirestoreData();
-    mounted = true;
-  });
+  $: if (goal) {
+    breadcrumbs = getDefaultGoalBreadcrumbs(goal);
 
-  async function retrieveFirestoreData() {
-		let db = await firebase.firestore();
-		let ref = db.collection('goals').doc($page.params.id);
-    let snap = await ref.get();
-    if (snap.exists) {
-      goal = snap.data();
-      goal.id = ref.id;
-    }
-	}
+    breadcrumbs = [
+      ...breadcrumbs,
+      {
+        url: $page.path,
+        value: "Adventuur maken, activiteit zoeken",
+      },
+    ];
+  }
 </script>
 
-{#if mounted}
-  <AdventureSearchActivity bind:goal/> 
-{/if}
+<ConnectionTemplate bind:goal bind:firebase bind:breadcrumbs>
+  <AdventureSearchActivity bind:goal />
+</ConnectionTemplate>

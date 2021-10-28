@@ -1,40 +1,58 @@
 <script>
-  import AdventureCreateForm from '$lib/Goal/Adventure/create.svelte';
-  import { onMount } from 'svelte';
-  import { getStores, session, page } from "$app/stores"
+  import AdventureCreateForm from "$lib/Goal/Adventure/create.svelte";
+  import ConnectionTemplate from "$lib/Containers/connectionTemplate.svelte";
+  import { onMount } from "svelte";
+  import { getStores, session, page } from "$app/stores";
   import { initFirebase } from "$lib/firebase";
+  import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
 
   let firebase;
-
-	let goal;
+  let goal;
   let activity;
-  let mounted = false;
+  let breadcrumbs;
 
-  onMount(async() => {
+  onMount(async () => {
     firebase = await initFirebase($session.environment);
     await retrieveFirestoreData();
-    mounted = true;
   });
 
   async function retrieveFirestoreData() {
-		let db = await firebase.firestore();
-		let ref = db.collection('goals').doc($page.params.id);
-    let snap = await ref.get();
-    if (snap.exists) {
-      goal = snap.data();
-      goal.id = ref.id;
-    }
-
-		let activityRef = db.collection('activities').doc($page.params.activityId);
+    let db = await firebase.firestore();
+    let activityRef = db.collection("activities").doc($page.params.activityId);
     let activitySnap = await activityRef.get();
     if (activitySnap.exists) {
       activity = activitySnap.data();
       activity.id = activityRef.id;
     }
+  }
+  $: if (goal) {
+    breadcrumbs = getDefaultGoalBreadcrumbs(goal);
 
-	}
+    breadcrumbs = [
+      ...breadcrumbs,
+      {
+        url: "/leerdoel/" + goal.id + "/avontuur-maken",
+        value: "Avontuur maken, activiteit zoeken",
+      },
+      {
+        url:
+          "/leerdoel/" +
+          goal.id +
+          "/avontuur-maken" +
+          "/" +
+          $page.params.activityId,
+        value: "Activiteit bekijken",
+      },
+      {
+        url: $page.path,
+        value: "Advontuur informatie",
+      },
+    ];
+  }
 </script>
 
-{#if mounted}
-  <AdventureCreateForm bind:firebase bind:goal bind:activity/>
-{/if}
+<ConnectionTemplate bind:goal bind:firebase bind:breadcrumbs>
+  {#if activity}
+    <AdventureCreateForm bind:firebase bind:goal bind:activity />
+  {/if}
+</ConnectionTemplate>

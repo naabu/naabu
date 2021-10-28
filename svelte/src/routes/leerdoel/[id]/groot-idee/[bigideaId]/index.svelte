@@ -1,33 +1,35 @@
 <script>
-  import WorkOnConnection from '$lib/Goal/Connection/work.svelte';
-  import { onMount } from 'svelte';
-  import { getStores, session, page } from "$app/stores"
-  import { initFirebase } from "$lib/firebase";
+  import WorkOnConnection from "$lib/Goal/Connection/work.svelte";
+  import { getStores, page } from "$app/stores";
+  import ConnectionTemplate from "$lib/Containers/connectionTemplate.svelte";
+  import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
 
+  let goal;
   let firebase;
-	let goal;
-  let connectionRef;
-  let mounted = false;
+  let breadcrumbs;
 
-  onMount(async() => {
-    firebase = await initFirebase($session.environment);
-    await retrieveFirestoreData();
-    mounted = true;
-  });
+  $: if (goal) {
+    breadcrumbs = getDefaultGoalBreadcrumbs(goal);
 
-  async function retrieveFirestoreData() {
-		let db = await firebase.firestore();
-		let ref = db.collection('goals').doc($page.params.id);
-    let snap = await ref.get();
-    if (snap.exists) {
-      goal = snap.data();
-      goal.id = ref.id;
-    }
-
-		connectionRef = db.collection('goals').doc($page.params.id).collection('bigideas').doc($page.params.bigideaId);
-	}
+    breadcrumbs = [
+      ...breadcrumbs,
+      {
+        url: "/leerdoel/" + goal.id + "/groot-idee",
+        value: "Grote ideeën",
+      },
+      {
+        url: $page.path,
+        value: "Verbinding pagina",
+      },
+    ];
+  }
 </script>
 
-{#if mounted && goal && connectionRef}
-  <WorkOnConnection bind:firebase bind:goal bind:connectionRef/>
-{/if}
+<ConnectionTemplate bind:goal bind:firebase bind:breadcrumbs>
+  <WorkOnConnection
+    bind:firebase
+    bind:goal
+    bind:connectionId={$page.params.bigideaId}
+    collectionGroup="bigideas"
+  />
+</ConnectionTemplate>

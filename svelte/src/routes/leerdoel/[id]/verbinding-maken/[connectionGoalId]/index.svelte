@@ -1,29 +1,42 @@
 <script>
-  import GetGoalData from "$lib/Goal/getGoalData.svelte";
   import CreateConnection from "$lib/Goal/Connection/create.svelte";
-  import { getStores, page } from "$app/stores"
-  export let goal;
-  export let firebase;
-  export let mounted;
-  export let connectionGoal;
+  import ConnectionTemplate from "$lib/Containers/connectionTemplate.svelte";
+  import { getStores, page } from "$app/stores";
+  import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
+  import GetGoalData from "$lib/Goal/getGoalData.svelte";
 
+  let goal;
+  let connectionGoal;
+  let firebase;
+  let breadcrumbs;
+  let mounted;
 
-  $: if (firebase) {
-    retrieveFirestoreData()
+  $: if (goal) {
+    breadcrumbs = getDefaultGoalBreadcrumbs(goal);
+
+    breadcrumbs = [
+      ...breadcrumbs,
+      {
+        url: "/leerdoel/" + goal.id + "/verbinding-maken",
+        value: "Verbinding maken leerdoel zoeken",
+      },
+      {
+        url: $page.path,
+        value: "Verbinding informatie",
+      },
+    ];
   }
-
-  async function retrieveFirestoreData() {
-		let db = await firebase.firestore();
-		let ref = db.collection('goals').doc($page.params.connectionGoalId);
-    let snap = await ref.get();
-    if (snap.exists) {
-      connectionGoal = snap.data();
-      connectionGoal.id = ref.id;
-    }
-	}
 </script>
 
-<GetGoalData bind:goal bind:firebase bind:mounted/>
-{#if mounted && goal && connectionGoal}
-  <CreateConnection bind:goal bind:connectionGoal bind:firebase />
-{/if}
+<ConnectionTemplate bind:goal bind:firebase bind:breadcrumbs>
+  <GetGoalData
+    bind:goal={connectionGoal}
+    bind:goalId={$page.params.connectionGoalId}
+    bind:firebase
+    bind:mounted
+  />
+
+  {#if mounted && goal && connectionGoal}
+    <CreateConnection bind:goal bind:connectionGoal bind:firebase />
+  {/if}
+</ConnectionTemplate>

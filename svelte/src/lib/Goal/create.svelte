@@ -2,7 +2,6 @@
   // import firebase from "firebase/app";
   import { getStores, session } from "$app/stores";
   import GoalForm from "./form.svelte";
-  import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
   import { onMount } from "svelte";
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
   import { createRevision, getGoalSaveData } from "./helper";
@@ -19,20 +18,6 @@
     db = await firebase.firestore();
   });
 
-  let breadcrumbs = [
-    {
-      url: "/beheer",
-      value: "Beheer",
-    },
-    {
-      url: "/beheer/leerdoel",
-      value: "Leerdoel",
-    },
-    {
-      url: "/beheer/leerdoel/maken",
-      value: "Leerdoel maken",
-    },
-  ];
 
   let goal = {
     title: "",
@@ -79,7 +64,6 @@
         }
 
         data.authorId = $session.player.curriculumProfileId;
-        console.log(data);
         data.goalId = goalResult.id;
         await createRevision(db, goal, data);
 
@@ -109,22 +93,18 @@
 <svelte:window bind:scrollY={y} />
 
 <div>
-  <ShowBreadcrumb bind:breadcrumbs />
   <ResultFeedback bind:alert />
-  <div>
+  <!-- <div>
     <div class="mt-2 md:flex md:items-center md:justify-between">
       <div class="flex-1 min-w-0">
         <div>
-          <h3 class="text-lg leading-6 font-medium text-gray-900">
-            Leerdoel maken
-          </h3>
           <p class="mt-1 max-w-2xl text-sm text-gray-500" />
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
   <form
-    class="space-y-8 divide-y divide-gray-200"
+    class="mt-8 space-y-8 divide-y divide-gray-200"
     on:submit|preventDefault={formSubmit}
   >
     <GoalForm bind:goal />

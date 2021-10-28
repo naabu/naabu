@@ -3,6 +3,7 @@
   import { onMount } from 'svelte';
   import { getStores, session, page } from "$app/stores"
   import { initFirebase } from "$lib/firebase";
+  import ContainerBreadcrumpPageTitle from "$lib/Containers/breadcrumbPageTitle.svelte";
 
   let firebase;
 
@@ -25,8 +26,30 @@
       goal.id = ref.id;
     }
 	}
+  let breadcrumbs;
+  $: if (goal) {
+    breadcrumbs = [
+      {
+        url: "/curriculum",
+        value: "Curriculum",
+      },
+      {
+        url: "/leerdoel/" + goal.id,
+        value: "Leerdoel: " + goal.title,
+      },
+      {
+        url:  $page.path,
+        value: "Geschiedenis",
+      },
+    ];
+  }
 </script>
 
+
+
+
 {#if mounted}
+<ContainerBreadcrumpPageTitle bind:breadcrumbs title="{goal.title}" />
+
   <History bind:goal bind:firebase/> 
 {/if}

@@ -62,7 +62,6 @@
       for (let i = 0; i < map.locations.length; i++) {
         let location = map.locations[i];
         let unlockedLocation = false;
-        console.log(userMap);
         if (
           $session.player &&
           userMap &&
@@ -201,9 +200,12 @@
 <div id="map" />
 
 <style>
+
   #map {
-    width: 1286px;
-    height: 963px;
+    width: 100%;
+    padding-top: 70%;
+    position: relative;
+    top: 0;
   }
 
   .map {

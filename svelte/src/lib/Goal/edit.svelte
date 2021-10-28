@@ -5,34 +5,17 @@
   import { getStores, session, page } from "$app/stores";
   import GoalForm from "./form.svelte";
   import { onMount } from "svelte";
-  import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
   import MainTabs from "$lib/Tabs/goal.svelte";
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
   import { createRevision, getGoalSaveData } from "./helper";
 
   export let battleCol;
   export let firebase;
-  let previousBattles = [];
+  export let previousBattles = [];
   let y;
 
-  let breadcrumbs = [
-    {
-      url: "/beheer",
-      value: "Beheer",
-    },
-    {
-      url: "/beheer/leerdoel",
-      value: "Leerdoel",
-    },
-    {
-      url: "/beheer/leerdoel/" + $page.params.id + "/wijzigen",
-      value: "Leerdoel wijzigen",
-    },
-  ];
-
   export let goalRef;
-  let goalSnap;
-  let goal;
+  export let goal;
 
   let alert = getDefaultAlertValues();
 
@@ -46,52 +29,12 @@
     };
   }
 
-  onMount(async () => {
-    goalSnap = await goalRef.get();
-    if (goalSnap.exists) {
-      goal = goalSnap.data();
-      goal.id = goalRef.id;
-      if (!goal.goalLinks) {
-        goal.goalLinks = [];
-      }
-      if (!goal.unitopic) {
-        goal.unitopic = "";
-      }
-      if (!goal.multitopics) {
-        goal.multitopics = [];
-      }
-      if (!goal.context) {
-        goal.context = "";
-      }
-      if (!goal.selectedVerbs) {
-        goal.selectedVerbs = [];
-      }
-      if (!goal.fromText) {
-        goal.fromText = "";
-      }
-      if (!goal.battles) {
-        goal.battles = [];
-      }
-    }
-    const querySnapshot = await battleCol.get();
-    querySnapshot.forEach((doc) => {
-      let battleObject = doc.data();
-      battleObject.name = doc.id;
-      goal.battles = [...goal.battles, battleObject];
-    });
-    previousBattles = [...goal.battles];
-  });
-
   async function editGoal() {
     const db = await firebase.firestore();
-    console.log($session.serverFirestoreTimeStamp);
-
     let data = getGoalSaveData(goal, $session.serverFirestoreTimeStamp);
-    console.log(data);
     alert = getDefaultAlertValues();
     try {
       await goalRef.update(data);
-      console.log("here!");
       for (let i = 0; i < goal.battles.length; i++) {
         let battleDocRef = db.doc(
           "/goals/" + goalRef.id + "/battles/" + goal.battles[i].name
@@ -151,22 +94,7 @@
 {#if goal}
   <MainTabs bind:goal subSelected="edit" />
   <div class="mt-8">
-    <ShowBreadcrumb bind:breadcrumbs />
-
     <ResultFeedback bind:alert />
-
-    <div>
-      <div class="mt-2 md:flex md:items-center md:justify-between">
-        <div class="flex-1 min-w-0">
-          <div>
-            <h3 class="text-lg leading-6 font-medium text-gray-900">
-              Leerdoel wijzigen
-            </h3>
-            <p class="mt-1 max-w-2xl text-sm text-gray-500" />
-          </div>
-        </div>
-      </div>
-    </div>
     <form
       class="space-y-8 divide-y divide-gray-200"
       on:submit|preventDefault={formSubmit}

@@ -7,6 +7,7 @@
 
   export let goal;
   export let mounted = false;
+  export let goalId = $page.params.id;
 
   onMount(async () => {
     firebase = await initFirebase($session.environment);
@@ -16,7 +17,7 @@
 
   async function retrieveFirestoreData() {
     let db = await firebase.firestore();
-    let ref = db.collection("goals").doc($page.params.id);
+    let ref = db.collection("goals").doc(goalId);
     let snap = await ref.get();
     if (snap.exists) {
       goal = snap.data();

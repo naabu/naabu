@@ -3,23 +3,19 @@
   import { onMount } from "svelte";
   import { initFirebase } from "$lib/firebase";
   import { getStores, session } from "$app/stores";
-  import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
-  let firebase;
 
+  import ContainerBreadcrumpPageTitle from "$lib/Containers/breadcrumbPageTitle.svelte";
   let breadcrumbs = [
     {
-      url: "/beheer",
-      value: "Beheer",
+      url: "/curriculum",
+      value: "Curriculum",
     },
     {
-      url: "/beheer/leerdoel",
-      value: "Leerdoel",
-    },
-    {
-      url: "/beheer/leerdoel/maken",
+      url: "/leerdoel/maken",
       value: "Leerdoel maken",
     },
   ];
+  let firebase;
 
   onMount(async () => {
     firebase = await initFirebase($session.environment);
@@ -27,6 +23,6 @@
 </script>
 
 {#if firebase}
-  <ShowBreadcrumb bind:breadcrumbs />
+  <ContainerBreadcrumpPageTitle bind:breadcrumbs title="Leerdoel maken" />
   <CreateGoal bind:firebase />
 {/if}

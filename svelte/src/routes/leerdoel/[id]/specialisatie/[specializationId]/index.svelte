@@ -1,7 +1,7 @@
 <script>
-  import Connections from "$lib/Goal/Connection/List/bigideasNeedsApproval.svelte";
-  import ConnectionTemplate from "$lib/Containers/connectionTemplate.svelte";
+  import WorkOnConnection from "$lib/Goal/Connection/work.svelte";
   import { getStores, page } from "$app/stores";
+  import ConnectionTemplate from "$lib/Containers/connectionTemplate.svelte";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
 
   let goal;
@@ -14,17 +14,17 @@
     breadcrumbs = [
       ...breadcrumbs,
       {
-        url: "/leerdoel/" + goal.id + "/groot-idee",
-        value: "Grote ideeën",
+        url: "/leerdoel/" + goal.id + "/specialisatie",
+        value: "Specialisatie",
       },
       {
         url: $page.path,
-        value: "Goedkeuring nodig",
+        value: "Verbinding pagina",
       },
     ];
   }
 </script>
 
 <ConnectionTemplate bind:goal bind:firebase bind:breadcrumbs>
-  <Connections bind:goal bind:firebase />
+  <WorkOnConnection bind:firebase bind:goal bind:connectionId={$page.params.specializationId} collectionGroup="specializations"/>
 </ConnectionTemplate>

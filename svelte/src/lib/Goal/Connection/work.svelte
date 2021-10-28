@@ -9,12 +9,15 @@
   import MainTabs from "$lib/Tabs/goal.svelte";
   export let firebase;
   export let goal;
-  export let connectionRef;
+  export let connectionId;
   export let connection;
+  export let collectionGroup;
   let newCommentText;
   let buttonDisabled = false;
   let db;
   let timeAgo;
+  let connectionRef;
+  let mounted = false;
 
   $: if (connection && connection.updates) {
     sortOnCreatedAt(connection.updates);
@@ -26,6 +29,13 @@
     TimeAgo.addLocale(nl);
     timeAgo = new TimeAgo("nl");
     db = await firebase.firestore();
+
+    connectionRef = db
+      .collection("goals")
+      .doc(goal.id)
+      .collection(collectionGroup)
+      .doc(connectionId);
+
     let connectionSnap = await connectionRef.get();
     if (connectionSnap.exists) {
       connection = connectionSnap.data();
@@ -40,6 +50,7 @@
         connection.updates = [...connection.updates, updateObject];
       });
     }
+    mounted = true;
   });
 
   function getDefaultAlertValues() {
@@ -68,10 +79,7 @@
   }
 
   async function createStatusUpdate() {
-    if (
-      $session.user &&
-      $session.player.curriculumProfileId
-    ) {
+    if ($session.user && $session.player.curriculumProfileId) {
       let data = {
         type: "status-change-by-user",
         content: connection.status,
@@ -280,6 +288,14 @@
         <p class="mt-1 max-w-2xl text-sm text-gray-500">
           <!-- {connection.title} -->
         </p>
+        <div class="flex">
+          <a
+            href="/leerdoel/{connection.connectionGoalId}"
+            class="ml-auto font-medium text-indigo-600 hover:text-indigo-500"
+          >
+            Leerdoel bekijken
+          </a>
+        </div>
       </div>
       <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
         <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">

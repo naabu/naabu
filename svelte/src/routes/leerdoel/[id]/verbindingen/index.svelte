@@ -1,12 +1,26 @@
 <script>
-  import GetGoalData from "$lib/Goal/getGoalData.svelte";
-  import OverviewConnection from "$lib/Goal/Connection/overview.svelte";
-  export let goal;
-  export let firebase;
-  export let mounted;
+  import Connections from "$lib/Goal/Connection/overview.svelte";
+  import ConnectionTemplate from "$lib/Containers/connectionTemplate.svelte";
+  import { getStores, page } from "$app/stores";
+  import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
+
+  let goal;
+  let firebase;
+  let breadcrumbs;
+
+  $: if (goal) {
+    breadcrumbs = getDefaultGoalBreadcrumbs(goal);
+
+    breadcrumbs = [
+      ...breadcrumbs,
+      {
+        url: $page.path,
+        value: "Overzicht verbinding",
+      },
+    ];
+  }
 </script>
 
-<GetGoalData bind:goal bind:firebase bind:mounted/>
-{#if mounted && goal}
-  <OverviewConnection bind:goal bind:firebase />
-{/if}
+<ConnectionTemplate bind:goal bind:firebase bind:breadcrumbs>
+  <Connections bind:goal bind:firebase />
+</ConnectionTemplate>

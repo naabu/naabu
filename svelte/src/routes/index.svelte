@@ -10,71 +10,55 @@
     };
   }
 </script> -->
-
 <script>
-  import ActivityChoiceList from "$lib/ActivityChoice/list.svelte";
+  import ShowMap from "$lib/Map/show.svelte";
   import { getStores, session } from "$app/stores";
-	import { onMount } from 'svelte';
- // import firebase from "firebase/app";
- import { initFirebase } from "$lib/firebase";
- import { goto } from '$app/navigation';
+  import { onMount } from "svelte";
+  // import firebase from "firebase/app";
+  import { initFirebase } from "$lib/firebase";
+  import { getMap, getUserMap } from "$lib/Map/helper";
 
   let firebase;
+  let map;
+  let mounted = false;
+  let userMap = null;
+  let mapId = null;
 
-  let path = null;
-  let timeout = null;
-  let timeoutCount = 0;
-
-  async function getPathFromUser() {
-    timeoutCount = timeoutCount + 1;
-    if ($session.user) {
-      let uid = $session.user.uid;
-      let db = await firebase.firestore();
-      let ref = db.collection('path').doc(uid);
-      let snap = await ref.get(ref);
-      if (snap.exists) {
-        path = snap.data();
-        if (timeout !== null) {
-          clearTimeout(timeout);
-          timeout = null;
-        }
-      }
+  $: async () => {
+    if ($session.player) {
+      mapId = $session.player.currentMapId;
+      map = await getMap(firebase, mapId);
+      userMap = await getUserMap(firebase, mapId, map, $session.player);
     }
-    if (timeoutCount >= 15) {
-      clearTimeout(timeout);
-      timeout = null;
-    }
-  }
+  };
 
   onMount(async () => {
     firebase = await initFirebase($session.environment);
-
-    await getPathFromUser();
+    if ($session.player) {
+      mapId = $session.player.currentMapId;
+      map = await getMap(firebase, mapId);
+      userMap = await getUserMap(firebase, mapId, map, $session.player);
+    }
+    mounted = true;
   });
-
-  $: if ($session.player) {
-    goto("/kaart/" + $session.player.currentMapId);
-  }
-
 </script>
 
-
 <svelte:head>
-	<title>Kies je pad</title>
+  <title>Kies je pad</title>
 </svelte:head>
 
 <section>
-  <!-- {#if $session.user && path !== null}
-    <ActivityChoiceList bind:activities={path.activities} /> 
-  {/if} -->
+  {#if mounted && $session.player && map && userMap}
+    <ShowMap bind:map bind:userMap />
+  {/if}
 </section>
 
 <style>
-	section {
-		display: flex;
-		flex-direction: column;
-		justify-content: center;
-		align-items: center;
-		flex: 1;
-	}
+  section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    flex: 1;
+  }
 </style>

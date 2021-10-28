@@ -97,44 +97,11 @@
   }
 </script>
 
-
-
 {#if goalId}
   <MainTabs bind:objectId={goalId} bind:talkId talkType="goal" />
 {/if}
 <ResultFeedback bind:alert />
 {#if post}
-  <div class="ml-auto mr-auto max-w-2xl mt-8">
-    <form on:submit|preventDefault={formSubmit}>
-      <div>
-        <label for="reply" class="block text-sm font-medium text-gray-700">
-          Antwoord
-        </label>
-        <div class="mt-1">
-          <textarea
-            id="reply"
-            name="reply"
-            rows="3"
-            bind:value={newReplyText}
-            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
-          />
-        </div>
-        <div class="mt-4">
-          <span class=" text-sm text-gray-500">
-            Hou het vriendelijk en proffesioneel
-          </span>
-          <button
-            disabled={buttonDisabled}
-            type="submit"
-            class="float-right disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >Antwoorden</button
-          >
-        </div>
-      </div>
-    </form>
-  </div>
-
-  
   <div class="mt-4 ml-auto mr-auto max-w-2xl">
     <!-- <h1 class="sr-only">Recent posts</h1> -->
     <ul role="list" class="space-y-4">
@@ -347,5 +314,34 @@
         </li>
       {/each}
     </ul>
+  </div>
+  <div class="ml-auto mr-auto max-w-2xl mt-8">
+    <form on:submit|preventDefault={formSubmit}>
+      <div>
+        <label for="reply" class="block text-sm font-medium text-gray-700">
+          Antwoord
+        </label>
+        <div class="mt-1">
+          <textarea
+            id="reply"
+            name="reply"
+            rows="3"
+            bind:value={newReplyText}
+            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
+          />
+        </div>
+        <div class="mt-4">
+          <span class=" text-sm text-gray-500">
+            Hou het vriendelijk en proffesioneel
+          </span>
+          <button
+            disabled={buttonDisabled}
+            type="submit"
+            class="float-right disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >Antwoorden</button
+          >
+        </div>
+      </div>
+    </form>
   </div>
 {/if}

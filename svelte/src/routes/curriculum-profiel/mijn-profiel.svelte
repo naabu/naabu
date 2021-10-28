@@ -4,11 +4,16 @@
   import { getStores, session, page } from "$app/stores";
   import { initFirebase } from "$lib/firebase";
   import { goto } from "$app/navigation";
+  import ContainerBreadcrumpPageTitle from "$lib/Containers/breadcrumbPageTitle.svelte";
 
   let firebase;
 
   let curriculumProfile;
   let mounted = false;
+
+  $: if ($session.player && mounted) {
+    retrieveFirestoreData();
+  }
 
   onMount(async () => {
     firebase = await initFirebase($session.environment);
@@ -20,20 +25,36 @@
   async function retrieveFirestoreData() {
     let db = await firebase.firestore();
     if ($session.player) {
-      console.log($session.player.curriculumProfileId);
-      let ref = db.collection("curriculumProfile").doc($session.player.curriculumProfileId);
+      let ref = db
+        .collection("curriculumProfile")
+        .doc($session.player.curriculumProfileId);
       let snap = await ref.get();
       if (snap.exists) {
         curriculumProfile = snap.data();
         curriculumProfile.id = ref.id;
-      }
-      else {
+      } else {
         delete $session.player.curriculumProfileId;
         await goto("/curriculum-profiel/maken");
       }
     }
   }
+
+  let breadcrumbs = [
+    {
+      url: "/curriculum",
+      value: "Curriculum",
+    },
+    {
+      url: "/curriculum-profiel/mijn-profiel",
+      value: "Mijn profiel",
+    },
+  ];
 </script>
+
+<ContainerBreadcrumpPageTitle
+  bind:breadcrumbs
+  title="Mijn curriculum profiel"
+/>
 
 {#if mounted}
   <CurriculumProfile bind:curriculumProfile isOwnProfile="true" />

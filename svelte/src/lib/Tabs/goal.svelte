@@ -7,7 +7,7 @@
   let mainTabs = [
     {
       value: "goal",
-      text: "Leerdoel",
+      text: "Overview",
       url: "/leerdoel/" + goal.id,
     },
     {
@@ -36,7 +36,7 @@
     {
       value: "edit",
       text: "Bewerken",
-      url: "/beheer/leerdoel/" + goal.id + "/wijzigen",
+      url: "/leerdoel/" + goal.id + "/wijzigen",
     },
     {
       value: "history",

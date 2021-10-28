@@ -3,8 +3,11 @@
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
   import { initFirebase } from "$lib/firebase";
+  import ContainerBreadcrumpPageTitle from "$lib/Containers/breadcrumbPageTitle.svelte";
+  import GetGoalData from "$lib/Goal/getGoalData.svelte";
 
   let firebase;
+  let goal;
   let mounted = false;
   let post;
   let replies = [];
@@ -38,13 +41,37 @@
       repliesSnap.forEach((replyDoc) => {
         let reply = replyDoc.data();
         reply.id = replyDoc.id;
-        replies.push(reply);
+        replies = [...replies, reply];
       });
     }
   }
+  let breadcrumbs;
+  $: if (post && goal) {
+    breadcrumbs = [
+      {
+        url: "/curriculum",
+        value: "Curriculum",
+      },
+      {
+        url: "/leerdoel/" + goal.id,
+        value: "Leerdoel: " + goal.title,
+      },
+      {
+        url: "/overleg/" + goal.id + '/' + $page.params.talkId ,
+        value: "Overleg",
+      },
+      {
+        url: $page.path,
+        value: post.title,
+      },
+    ];
+  }
 </script>
 
+<GetGoalData bind:goal bind:goalId={$page.params.goalId} bind:firebase bind:mounted/>
 {#if mounted}
+  <ContainerBreadcrumpPageTitle bind:breadcrumbs title="{goal.title}"/>
+ 
   <Post
     bind:post
     bind:replies

@@ -7,7 +7,7 @@
   let mainTabs = [
     {
       value: "goal",
-      text: "Leerdoel",
+      text: "Overview",
       url: "/revisie/" + revision.id,
     },
     {

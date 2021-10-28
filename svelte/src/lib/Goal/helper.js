@@ -27,6 +27,19 @@ export function getGoalSaveData(goal, timestamp) {
   return data;
 }
 
+export function getDefaultGoalBreadcrumbs(goal) {
+  return [
+      {
+        url: "/curriculum",
+        value: "Curriculum",
+      },
+      {
+        url: "/leerdoel/" + goal.id,
+        value: "Leerdoel: " + goal.title,
+      }
+    ];
+}
+
 export async function createRevision(db, goal, data) {
   // Get profile from authorId.
   let profileRef = db.collection("curriculumProfile").doc(data.authorId);

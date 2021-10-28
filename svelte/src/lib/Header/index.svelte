@@ -5,7 +5,7 @@
   import Transition from "svelte-class-transition";
   // import firebase from "firebase/app";
   // import {getFirebaseAuth} from '$lib/firebase.js';
-  import { getStores, session } from "$app/stores";
+  import { getStores, session, page } from "$app/stores";
   import { onMount } from "svelte";
   import { initFirebase } from "$lib/firebase";
 
@@ -13,6 +13,22 @@
 
   let openMenu = false;
   let openUserMenu = false;
+  let mainMenuLinks;
+
+  $: if ($page.path) {
+    mainMenuLinks = [
+      {
+        url: "/",
+        content: "De reis",
+        isActive: $page.path === "/" ? true : false,
+      },
+      {
+        url: "/curriculum",
+        content: "Curriculum",
+        isActive: $page.path === "/curriculum" ? true : false,
+      },
+    ];
+  }
 
   onMount(async () => {
     firebase = await initFirebase($session.environment);
@@ -101,11 +117,21 @@
           </div>
           <div class="hidden sm:block sm:ml-6">
             <div class="flex space-x-4">
-              <a
-                href="/"
-                class="bg-blue-700 text-white px-3 py-2 rounded-md text-sm font-medium"
-                aria-current="page">De reis</a
-              >
+              {#each mainMenuLinks as mainMenuLink}
+                {#if mainMenuLink.isActive}
+                  <a
+                    href={mainMenuLink.url}
+                    class="bg-blue-700 text-white px-3 py-2 rounded-md text-sm font-medium"
+                    aria-current="page">{mainMenuLink.content}</a
+                  >
+                {:else}
+                  <a
+                    href={mainMenuLink.url}
+                    class="text-blue-300 hover:bg-blue-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
+                    >{mainMenuLink.content}</a
+                  >
+                {/if}
+              {/each}
 
               <!-- <a href="#" class="text-gray-300 hover:bg-blue-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Team</a>
   

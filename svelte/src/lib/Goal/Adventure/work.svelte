@@ -10,7 +10,8 @@
   import MainTabs from "$lib/Tabs/goal.svelte";
   export let firebase;
   export let goal;
-  export let adventureRef;
+  export let adventureId;
+  let adventureRef;
   let adventure;
   let newCommentText;
   let buttonDisabled = false;
@@ -27,6 +28,13 @@
     TimeAgo.addLocale(nl);
     timeAgo = new TimeAgo("nl");
     db = await firebase.firestore();
+
+    adventureRef = db
+      .collection("goals")
+      .doc(goal.id)
+      .collection('adventures')
+      .doc(adventureId);
+
     let adventureSnap = await adventureRef.get();
     if (adventureSnap.exists) {
       adventure = adventureSnap.data();

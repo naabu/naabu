@@ -73,12 +73,16 @@
     //   await unlockLocations();
     // }
     if (!userHasSpecialClaims) {
-      await goto("/");
+      setTimeout(async () => {
+        await goto("/");
+      }, 3000);
     } else {
       if ($page.path.includes("beheer")) {
         await goto("/beheer/activiteit");
       } else {
-        await goto("/");
+        setTimeout(async () => {
+          await goto("/");
+        }, 3000);
       }
     }
   }

@@ -10,7 +10,7 @@
 <MainTabs bind:revision />
 
 {#if !loading}
-  <div class="rounded-md bg-yellow-50 p-4">
+  <div class="mt-3 rounded-md bg-yellow-50 p-4">
     <div class="flex">
       <div class="flex-shrink-0">
         <svg

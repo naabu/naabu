@@ -115,6 +115,7 @@
         revisionNew.goalId +
         "/" +
         revisionNew.id +
+        "/" + revisionOld.id + 
         "/aanmaken"
     );
   }
@@ -126,7 +127,7 @@
   <div class="max-w-7xl flex">
     <button
       data-cy="discuss-revision-button"
-      class="mt-3bg-white py-2 ml-auto px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      class="mt-3 bg-white py-2 ml-auto px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
       on:click|preventDefault={createPostFromRevision}
       >Overleg deze wijzigingen</button
     >

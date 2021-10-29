@@ -4,8 +4,24 @@
   import { getStores, session, page } from "$app/stores";
   import { initFirebase } from "$lib/firebase";
   import { getNextAndPreviousRevisions } from "$lib/Revision/helper";
+  import ContainerBreadcrumpPageTitle from "$lib/Containers/breadcrumbPageTitle.svelte";
+  import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
 
+  let goal;
   let firebase;
+  let breadcrumbs;
+
+  $: if (goal) {
+    breadcrumbs = getDefaultGoalBreadcrumbs(goal);
+
+    breadcrumbs = [
+      ...breadcrumbs,
+      {
+        url: $page.path,
+        value: "Verschil versies",
+      },
+    ];
+  }
 
   let revisionNew;
   let revisionOld;
@@ -80,9 +96,11 @@
 
     let goalSnap = await db.collection("goals").doc(revisionNew.goalId).get();
     if (goalSnap.exists) {
-      let goalData = goalSnap.data();
+      goal = goalSnap.data();
+      goal.id = revisionNew.goalId;
+
       let returnRevisions = getNextAndPreviousRevisions(
-        goalData.revisionList,
+        goal.revisionList,
         revisionNew.id
       );
       goForwardRevision = returnRevisions.nextRevision;
@@ -91,7 +109,9 @@
   }
 </script>
 
-{#if mounted && revisionNew && revisionOld}
+{#if mounted && revisionNew && revisionOld && goal}
+  <ContainerBreadcrumpPageTitle bind:breadcrumbs title={goal.title} />
+
   <Diff
     bind:revisionNew
     bind:revisionOld

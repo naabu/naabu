@@ -12,6 +12,24 @@
   export let connectionId;
   export let connection;
   export let collectionGroup;
+
+  let grouplink;
+  $: if (collectionGroup) {
+    switch(collectionGroup){
+      case 'prerequisites':
+        grouplink = 'voorkennis';
+        break;
+        case 'specializations':
+        grouplink = 'specialisatie';
+        break;
+        case 'bigideas':
+        grouplink = 'groot-idee';
+        break;
+        case 'deeperunderstandings':
+        grouplink = 'dieper-inzicht';
+        break;
+    }
+  }
   let newCommentText;
   let buttonDisabled = false;
   let db;
@@ -323,7 +341,7 @@
           </div>
           <div class="sm:col-span-2">
             <dt class="text-sm font-medium text-gray-500">
-              Omgschrijving verbinding
+              Omschrijving verbinding
             </dt>
             <dd class="mt-1 text-sm text-gray-900">
               {@html connection.connectionDescription}
@@ -495,9 +513,40 @@
                           >{update.curriculumProfile.fullname}</a
                         >
                         heeft de status gewijzigd naar
-                        <span class="font-medium text-gray-900"
-                          >{update.content}</span
-                        >
+                        <span class="font-medium text-gray-900">
+                          {#if update.content === "in-trash"}
+                          <a
+                            href="/leerdoel/{goal.id}/{grouplink}/prullenbak"
+                            class="font-medium text-gray-900">Prullenbak</a
+                          >
+                        {:else if update.content === "needs-work"}
+                          <a
+                            href="/leerdoel/{goal.id}/{grouplink}/werk-nodig"
+                            class="font-medium text-gray-900"
+                            >Heeft werk nodig</a
+                          >
+                        {:else if update.content === "in-progress"}
+                          <a
+                            href="/leerdoel/{goal.id}/{grouplink}/uitvoering"
+                            class="font-medium text-gray-900">In uitvoering</a
+                          >
+                        {:else if update.content === "needs-approval"}
+                          <a
+                            href="/leerdoel/{goal.id}/{grouplink}/goedkeuring"
+                            class="font-medium text-gray-900"
+                            >Goedkeuring nodig</a
+                          >
+                        {:else if update.content === "published"}
+                          <a
+                            href="/leerdoel/{goal.id}/{grouplink}"
+                            class="font-medium text-gray-900">Gepubliceerd</a
+                          >
+                        {:else}
+                          <span class="font-medium text-gray-900">
+                            {update.content}
+                          </span>
+                        {/if}
+                        </span>
                         <span class="whitespace-nowrap"
                           >{formatToTimeAgo(
                             update.createdAt,

@@ -462,7 +462,7 @@
                 Analyseren
               </div>
               <div class="content-center flex h-12 items-end relative -left-7">
-                Evaluaren
+                Evalueren
               </div>
               <div class="content-center flex h-12 relative -left-3">Maken</div>
               {#each bloomCheckValues as knowledgeArray, i}

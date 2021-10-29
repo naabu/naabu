@@ -32,7 +32,7 @@
     adventureRef = db
       .collection("goals")
       .doc(goal.id)
-      .collection('adventures')
+      .collection("adventures")
       .doc(adventureId);
 
     let adventureSnap = await adventureRef.get();
@@ -92,7 +92,7 @@
         type: "status-change-by-user",
         content: adventure.status,
         authorId: $session.player.curriculumProfileId,
-        createdAt: firebase.firestore.Timestamp.now().seconds
+        createdAt: firebase.firestore.Timestamp.now().seconds,
       };
 
       let profileRef = db
@@ -156,7 +156,7 @@
         status: "needs-work",
         modifiedAt: serverTimestamp,
         lastUpdatesAt: serverTimestamp,
-        inNeedsWorkAt: serverTimestamp, 
+        inNeedsWorkAt: serverTimestamp,
       });
       adventure.status = "needs-work";
       await createStatusUpdate();
@@ -212,7 +212,7 @@
         status: "needs-work",
         modifiedAt: serverTimestamp,
         lastUpdatesAt: serverTimestamp,
-        inNeedsWorkAt: serverTimestamp, 
+        inNeedsWorkAt: serverTimestamp,
       });
       adventure.status = "needs-work";
       await createStatusUpdate();
@@ -246,12 +246,11 @@
         let result = await updatesColRef.add(data);
         let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
         let adventureData = {
-          lastUpdatesAt: serverTimestamp
-        }
-        if (adventure.status === 'in-progress') {
+          lastUpdatesAt: serverTimestamp,
+        };
+        if (adventure.status === "in-progress") {
           adventureData.inProgressAt = serverTimestamp;
-        }
-        else if(adventure.status === 'needs-approval') {
+        } else if (adventure.status === "needs-approval") {
           adventureData.inNeedsForApprovalAt = serverTimestamp;
         }
         await adventureRef.update(adventureData);
@@ -501,9 +500,38 @@
                           >{update.curriculumProfile.fullname}</a
                         >
                         heeft de status gewijzigd naar
-                        <span class="font-medium text-gray-900"
-                          >{update.content}</span
-                        >
+                        {#if update.content === "in-trash"}
+                          <a
+                            href="/leerdoel/{goal.id}/avonturen/prullenbak"
+                            class="font-medium text-gray-900">Prullenbak</a
+                          >
+                        {:else if update.content === "needs-work"}
+                          <a
+                            href="/leerdoel/{goal.id}/avonturen/werk-nodig"
+                            class="font-medium text-gray-900"
+                            >Heeft werk nodig</a
+                          >
+                        {:else if update.content === "in-progress"}
+                          <a
+                            href="/leerdoel/{goal.id}/avonturen/uitvoering"
+                            class="font-medium text-gray-900">In uitvoering</a
+                          >
+                        {:else if update.content === "needs-approval"}
+                          <a
+                            href="/leerdoel/{goal.id}/avonturen/goedkeuring"
+                            class="font-medium text-gray-900"
+                            >Goedkeuring nodig</a
+                          >
+                        {:else if update.content === "published"}
+                          <a
+                            href="/leerdoel/{goal.id}/avonturen"
+                            class="font-medium text-gray-900">Gepubliceerd</a
+                          >
+                        {:else}
+                          <span class="font-medium text-gray-900">
+                            {update.content}
+                          </span>
+                        {/if}
                         <span class="whitespace-nowrap"
                           >{formatToTimeAgo(
                             update.createdAt,

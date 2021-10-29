@@ -1,46 +1,20 @@
 <script>
+import { checkArrayIsTheSame } from "$lib/Misc/helper";
+
+
   export let title = "Verschil";
   export let old;
   export let neww;
   export let old2 = null;
   export let neww2 = null;
 
-  let differs = false;
+  export let differs = false;
 
   $: if (old && neww) {
-    differs = checkArrayIsTheSame(old, neww, old2, neww2);
+    differs = !checkArrayIsTheSame(old, neww, old2, neww2);
   }
 
-  function checkArrayIsTheSame(
-    arrayToCheckOld,
-    arrayToCheckNew,
-    arrayToCheckOld2,
-    arrayToCheckNew2
-  ) {
-    if (arrayToCheckOld.length !== arrayToCheckNew.length) {
-      return true;
-    }
 
-    for (let i = 0; i < arrayToCheckOld.length; i++) {
-      if (arrayToCheckOld[i] !== arrayToCheckNew[i]) {
-        return true;
-      }
-    }
-
-    if (old2 && neww2) {
-      if (arrayToCheckOld2.length !== arrayToCheckNew2.length) {
-        return true;
-      }
-
-      for (let i = 0; i < arrayToCheckOld2.length; i++) {
-        if (arrayToCheckOld2[i] !== arrayToCheckNew2[i]) {
-          return true;
-        }
-      }
-    }
-
-    return false;
-  }
 </script>
 
 {#if differs}

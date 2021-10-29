@@ -2,7 +2,7 @@
   export let old = "";
   export let neww = "";
   export let title = "difference";
-  let differs = false;
+  export let differs;
 
   $: {
     differs = false;

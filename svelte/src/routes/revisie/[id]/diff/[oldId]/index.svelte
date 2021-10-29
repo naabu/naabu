@@ -53,8 +53,8 @@
 
   onMount(async () => {
     firebase = await initFirebase($session.environment);
-    mounted = true;
     await retrieveFirestoreData();
+    mounted = true;
   });
 
   async function retrieveFirestoreData() {

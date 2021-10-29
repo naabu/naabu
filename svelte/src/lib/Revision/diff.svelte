@@ -1,7 +1,7 @@
 <script>
   import ArrayDiff from "$lib/Diff/arrayDiff.svelte";
   import StringDiff from "$lib/Diff/stringDiff.svelte";
-  import { getDateString } from "$lib/Misc/helper";
+  import { checkArrayIsTheSame, getDateString } from "$lib/Misc/helper";
   import { goto } from "$app/navigation";
   import MainTabs from "$lib/Tabs/revision.svelte";
   export let revisionOld;
@@ -12,7 +12,7 @@
 
   let battlesDiff = [];
 
-  $: {
+  $: if (revisionOld && revisionNew) {
     setBattleNames(revisionOld);
     setBattleNames(revisionNew);
     compareBattles();
@@ -35,7 +35,14 @@
             name: revisionNew.battles[i].name,
             newQuizIds: revisionNew.battles[i].quizIds,
             oldQuizIds: revisionOld.battles[battleOldIndex].quizIds,
+            differs: false,
           };
+
+          if (
+            !checkArrayIsTheSame(newBattle.newQuizIds, newBattle.oldQuizIds)
+          ) {
+            newBattle.differs = true;
+          }
 
           let quizzesToDiff = [];
           for (let i2 = 0; i2 < revisionNew.battles[i].quizzes.length; i2++) {
@@ -76,11 +83,25 @@
                 newAnswerCorrect: answerCorrectNew,
                 oldAnswerCorrect: answerCorrectOld,
                 quizId: quizNew.id,
+                quizzDiffers: false,
               };
+              if (
+                !checkArrayIsTheSame(
+                  quizzesToAdd.newAnswerText,
+                  quizzesToAdd.oldAnswerText,
+                  quizzesToAdd.newAnswerCorrect,
+                  quizzesToAdd.oldAnswerCorrect
+                ) ||
+                quizzesToAdd.newQuestion !== quizzesToAdd.oldQuestion
+              ) {
+                quizzesToAdd.quizzDiffers = true;
+                newBattle.differs = true;
+              }
               quizzesToDiff.push(quizzesToAdd);
             }
           }
           newBattle.quizzes = quizzesToDiff;
+
           battlesDiff = [...battlesDiff, newBattle];
         }
       }
@@ -115,7 +136,8 @@
         revisionNew.goalId +
         "/" +
         revisionNew.id +
-        "/" + revisionOld.id + 
+        "/" +
+        revisionOld.id +
         "/aanmaken"
     );
   }
@@ -276,21 +298,26 @@
   />
 
   {#each battlesDiff as battle}
-    <b>Veldslag {battle.name}</b>
+    {#if battle.differs}
+      <b>Veldslag {battle.name}</b>
+    {/if}
 
     <ArrayDiff
       title="Quizzes"
       bind:old={battle.oldQuizIds}
       bind:neww={battle.newQuizIds}
     />
-    {#each battle.quizzes as quizz}
-      <b>Quizz {quizz.quizId}</b>
-
+    {#each battle.quizzes as quizz, i}
+      {#if quizz.quizzDiffers}
+        <b>Quizz {quizz.quizId}</b>
+      {/if}
+      <!-- bind:differs={battle.quizzes[i].differsQuestion} -->
       <StringDiff
         title="Vraag"
         bind:old={quizz.oldQuestion}
         bind:neww={quizz.newQuestion}
       />
+      <!--       bind:differs={battle.quizzes[i].differsAnswers} -->
       <ArrayDiff
         title="Antwoorden"
         bind:old={quizz.oldAnswerText}
@@ -301,5 +328,5 @@
     {/each}
   {/each}
 {:else}
-  Loading...
+  <div class="mt-4">Loading...</div>
 {/if}

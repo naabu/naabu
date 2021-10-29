@@ -70,3 +70,34 @@ export function formatToTimeLeft(timestamp, futureTime, firebase, timeAgo) {
   }
   return 'onbekend';
 }
+
+export function checkArrayIsTheSame(
+  arrayToCheckOld,
+  arrayToCheckNew,
+  arrayToCheckOld2,
+  arrayToCheckNew2
+) {
+  if (arrayToCheckOld.length !== arrayToCheckNew.length) {
+    return false;
+  }
+
+  for (let i = 0; i < arrayToCheckOld.length; i++) {
+    if (arrayToCheckOld[i] !== arrayToCheckNew[i]) {
+      return false;
+    }
+  }
+
+  if (arrayToCheckOld2 && arrayToCheckNew2) {
+    if (arrayToCheckOld2.length !== arrayToCheckNew2.length) {
+      return false;
+    }
+
+    for (let i = 0; i < arrayToCheckOld2.length; i++) {
+      if (arrayToCheckOld2[i] !== arrayToCheckNew2[i]) {
+        return false;
+      }
+    }
+  }
+
+  return true;
+}

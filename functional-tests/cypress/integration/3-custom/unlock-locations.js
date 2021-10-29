@@ -32,7 +32,6 @@ describe("Unlock location on map test", () => {
     cy.get('.unlocked_marker_1').first().should('be.visible')
     cy.get('#map').not('.locked_marker_1');
     cy.get('.unlocked_marker_1').first().click({ force: true });
-    cy.get('#map').not('.unlocked_marker_2');
     cy.get('#map').not('.unlocked_marker_3');
     // Click adventure link.
     cy.get('[href="/YRuPvnC4jJCQisbrgSb6/4EZ3exPKUfyn8SyyejT7"] > .col-span-1').click();
@@ -46,9 +45,7 @@ describe("Unlock location on map test", () => {
     cy.get('[data-cy=answer_v2_2]').click();
     cy.get('[data-cy=attack_v1]').click();
     cy.get('[data-cy=won').should('be.visible');
-    cy.get('.unlocked_marker_2').first().should('be.visible');
     cy.get('.unlocked_marker_3').first().should('be.visible');
-    cy.get('#map').not('.locked_marker_2');
     cy.get('#map').not('.locked_marker_3');
     cy.visit('http://sveltekit:3000/cypress/reset-map').contains('Player map is deleted!', {timeout: 100000});
   });

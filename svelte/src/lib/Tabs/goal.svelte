@@ -12,7 +12,7 @@
     },
     {
       value: "adventures",
-      text: "Avonturen",
+      text: "Activiteiten",
       url: "/leerdoel/" + goal.id + "/avonturen",
     },
     {

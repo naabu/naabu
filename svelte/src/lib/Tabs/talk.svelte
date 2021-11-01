@@ -18,7 +18,7 @@
 
       {
         value: "adventures",
-        text: "Avonturen",
+        text: "Activiteiten",
         url: "/leerdoel/" + objectId + "/avonturen",
       },
       {

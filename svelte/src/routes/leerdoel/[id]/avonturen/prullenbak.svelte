@@ -19,7 +19,7 @@
       },
       {
         url: "/leerdoel/" + goal.id + '/avonturen',
-        value: "Adventuren",
+        value: "Activiteiten",
       },     {
         url: $page.path,
         value: "Prullenbak",

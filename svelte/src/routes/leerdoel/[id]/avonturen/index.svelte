@@ -20,7 +20,7 @@
       },
       {
         url: $page.path,
-        value: "Adventuren",
+        value: "Activiteiten",
       },     {
         url: $page.path,
         value: "Gepubliceerd",

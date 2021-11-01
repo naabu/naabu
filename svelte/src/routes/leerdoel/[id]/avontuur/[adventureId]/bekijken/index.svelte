@@ -46,7 +46,7 @@
       ...breadcrumbs,
       {
         url: "/leerdoel/" + goal.id + "/avonturen",
-        value: "Avonturen",
+        value: "Activiteiten",
       },
       {
         url:

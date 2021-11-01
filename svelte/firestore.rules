@@ -58,7 +58,7 @@ service cloud.firestore {
     
     match /curriculumProfile/{curriculumProfileId} {
       allow read: if true
-      allow create: if true
+      allow create: if request.resource.data.fullname.size() > 0;
       allow update, delete:  if resource.data.uid == request.auth.uid
     }
 

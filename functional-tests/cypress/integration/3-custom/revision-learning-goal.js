@@ -42,7 +42,7 @@ describe("Revision flow editing learning goals", () => {
     cy.get('#selectedVerbs').select(['benoemen', 'definieren']);
     cy.get('#from_text').type('from a work sheet');
     cy.get('#description').type('Important learning goal for reasons')
-    cy.get('#battle_name').type('Battle 1');
+    cy.get('#test_name').type('Battle 1');
     cy.get('[data-cy=add-battle-button]').click();
     cy.get('#quiz_question').type('$$1+1=$$..');
     cy.get('[data-cy=new-answer-button]').click();
@@ -76,7 +76,7 @@ describe("Revision flow editing learning goals", () => {
     cy.get('[data-cy=new-answer-button]').click();
     cy.get('[data-cy=A3]').click();
     cy.get('#answeranswer').clear().type('3');
-    cy.get('#battle_name').type('Battle 2');
+    cy.get('#test_name').type('Battle 2');
     cy.get('[data-cy=add-battle-button]').click();
     cy.get('[data-cy=click-battle-1-button]').click();
     cy.get('#quiz_question').type('$$2+2=$$..');

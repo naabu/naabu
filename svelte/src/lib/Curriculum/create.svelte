@@ -8,8 +8,6 @@
 
   export let firebase;
 
-  $: console.log($session);
-
   let curriculumProfile = {
     fullname: "",
     institution: "",
@@ -51,7 +49,6 @@
   }
 
   async function redirect() {
-    console.log(redirectUrl);
     if (redirectUrl) {
       if (redirectUrl === "/leerdoel/maken") {
         await goto("/leerdoel/maken");

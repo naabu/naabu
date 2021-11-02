@@ -22,90 +22,90 @@
     if (snap.exists) {
       goal = snap.data();
       goal.id = ref.id;
-    }
-    if (!goal.publishedAdventures) {
-      goal.publishedAdventures = [];
-    }
-    if (!goal.needsApprovalAdventures) {
-      goal.needsApprovalAdventures = [];
-    }
-    if (!goal.inProgressAdventures) {
-      goal.inProgressAdventures = [];
-    }
-    if (!goal.needsWorkAdventures) {
-      goal.needsWorkAdventures = [];
-    }
 
-    if (!goal.trashCanAdventures) {
-      goal.trashCanAdventures = [];
-    }
+      if (!goal.publishedAdventures) {
+        goal.publishedAdventures = [];
+      }
+      if (!goal.needsApprovalAdventures) {
+        goal.needsApprovalAdventures = [];
+      }
+      if (!goal.inProgressAdventures) {
+        goal.inProgressAdventures = [];
+      }
+      if (!goal.needsWorkAdventures) {
+        goal.needsWorkAdventures = [];
+      }
 
-    if (!goal.publishedPrerequisites) {
-      goal.publishedPrerequisites = [];
-    }
-    if (!goal.needsApprovalPrerequisites) {
-      goal.needsApprovalPrerequisites = [];
-    }
-    if (!goal.inProgressPrerequisites) {
-      goal.inProgressPrerequisites = [];
-    }
-    if (!goal.needsWorkPrerequisites) {
-      goal.needsWorkPrerequisites = [];
-    }
+      if (!goal.trashCanAdventures) {
+        goal.trashCanAdventures = [];
+      }
 
-    if (!goal.trashCanPrerequisites) {
-      goal.trashCanPrerequisites = [];
-    }
+      if (!goal.publishedPrerequisites) {
+        goal.publishedPrerequisites = [];
+      }
+      if (!goal.needsApprovalPrerequisites) {
+        goal.needsApprovalPrerequisites = [];
+      }
+      if (!goal.inProgressPrerequisites) {
+        goal.inProgressPrerequisites = [];
+      }
+      if (!goal.needsWorkPrerequisites) {
+        goal.needsWorkPrerequisites = [];
+      }
 
-    if (!goal.publishedSpecializations) {
-      goal.publishedSpecializations = [];
-    }
-    if (!goal.needsApprovalSpecializations) {
-      goal.needsApprovalSpecializations = [];
-    }
-    if (!goal.inProgressSpecializations) {
-      goal.inProgressSpecializations = [];
-    }
-    if (!goal.needsWorkSpecializations) {
-      goal.needsWorkSpecializations = [];
-    }
+      if (!goal.trashCanPrerequisites) {
+        goal.trashCanPrerequisites = [];
+      }
 
-    if (!goal.trashCanSpecializations) {
-      goal.trashCanSpecializations = [];
-    }
+      if (!goal.publishedSpecializations) {
+        goal.publishedSpecializations = [];
+      }
+      if (!goal.needsApprovalSpecializations) {
+        goal.needsApprovalSpecializations = [];
+      }
+      if (!goal.inProgressSpecializations) {
+        goal.inProgressSpecializations = [];
+      }
+      if (!goal.needsWorkSpecializations) {
+        goal.needsWorkSpecializations = [];
+      }
 
-    if (!goal.publishedDeeperunderstandings) {
-      goal.publishedDeeperunderstandings = [];
-    }
-    if (!goal.needsApprovalDeeperunderstandings) {
-      goal.needsApprovalDeeperunderstandings = [];
-    }
-    if (!goal.inProgressDeeperunderstandings) {
-      goal.inProgressDeeperunderstandings = [];
-    }
-    if (!goal.needsWorkDeeperunderstandings) {
-      goal.needsWorkDeeperunderstandings = [];
-    }
+      if (!goal.trashCanSpecializations) {
+        goal.trashCanSpecializations = [];
+      }
 
-    if (!goal.trashCanDeeperunderstandings) {
-      goal.trashCanDeeperunderstandings = [];
-    }
+      if (!goal.publishedDeeperunderstandings) {
+        goal.publishedDeeperunderstandings = [];
+      }
+      if (!goal.needsApprovalDeeperunderstandings) {
+        goal.needsApprovalDeeperunderstandings = [];
+      }
+      if (!goal.inProgressDeeperunderstandings) {
+        goal.inProgressDeeperunderstandings = [];
+      }
+      if (!goal.needsWorkDeeperunderstandings) {
+        goal.needsWorkDeeperunderstandings = [];
+      }
 
-    if (!goal.publishedBigideas) {
-      goal.publishedBigideas = [];
-    }
-    if (!goal.needsApprovalBigideas) {
-      goal.needsApprovalBigideas = [];
-    }
-    if (!goal.inProgressBigideas) {
-      goal.inProgressBigideas = [];
-    }
-    if (!goal.needsWorkBigideas) {
-      goal.needsWorkBigideas = [];
-    }
-    if (!goal.trashCanBigideas) {
-      goal.trashCanBigideas = [];
+      if (!goal.trashCanDeeperunderstandings) {
+        goal.trashCanDeeperunderstandings = [];
+      }
+
+      if (!goal.publishedBigideas) {
+        goal.publishedBigideas = [];
+      }
+      if (!goal.needsApprovalBigideas) {
+        goal.needsApprovalBigideas = [];
+      }
+      if (!goal.inProgressBigideas) {
+        goal.inProgressBigideas = [];
+      }
+      if (!goal.needsWorkBigideas) {
+        goal.needsWorkBigideas = [];
+      }
+      if (!goal.trashCanBigideas) {
+        goal.trashCanBigideas = [];
+      }
     }
   }
-  
 </script>

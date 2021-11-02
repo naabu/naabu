@@ -13,20 +13,30 @@
   export let connection;
   export let collectionGroup;
 
+  let delayDone = false;
+  let timer;
+
+  $: if (connection) {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      delayDone = true;
+    }, 5000);
+  }
+
   let grouplink;
   $: if (collectionGroup) {
-    switch(collectionGroup){
-      case 'prerequisites':
-        grouplink = 'voorkennis';
+    switch (collectionGroup) {
+      case "prerequisites":
+        grouplink = "voorkennis";
         break;
-        case 'specializations':
-        grouplink = 'specialisatie';
+      case "specializations":
+        grouplink = "specialisatie";
         break;
-        case 'bigideas':
-        grouplink = 'groot-idee';
+      case "bigideas":
+        grouplink = "groot-idee";
         break;
-        case 'deeperunderstandings':
-        grouplink = 'dieper-inzicht';
+      case "deeperunderstandings":
+        grouplink = "dieper-inzicht";
         break;
     }
   }
@@ -136,6 +146,7 @@
   async function setToNeedsApproval() {
     if (connection.status === "in-progress") {
       let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
+      delayDone = false;
       await connectionRef.update({
         status: "needs-approval",
         modifiedAt: serverTimestamp,
@@ -148,6 +159,7 @@
   }
   async function publishConnection() {
     if (connection.status === "needs-approval") {
+      delayDone = false;
       let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
       await connectionRef.update({
         status: "published",
@@ -161,6 +173,7 @@
   }
   async function connectionNeedsWOrk() {
     if (connection.status === "needs-approval") {
+      delayDone = false;
       let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
       await connectionRef.update({
         status: "needs-work",
@@ -175,6 +188,7 @@
 
   async function startWork() {
     if (connection.status === "needs-work") {
+      delayDone = false;
       let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
       await connectionRef.update({
         status: "in-progress",
@@ -189,6 +203,7 @@
 
   async function unpublish() {
     if (connection.status === "published") {
+      delayDone = false;
       let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
       await connectionRef.update({
         status: "needs-work",
@@ -203,6 +218,7 @@
 
   async function deleteConnection() {
     if (connection.status === "needs-work") {
+      delayDone = false;
       let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
       await connectionRef.update({
         status: "in-trash",
@@ -217,6 +233,7 @@
 
   async function putBackOutTrash() {
     if (connection.status === "in-trash") {
+      delayDone = false;
       let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
       await connectionRef.update({
         status: "needs-work",
@@ -355,6 +372,7 @@
       <div class="ml-auto mt-4">
         {#if connection.status === "in-progress"}
           <button
+            disabled={!delayDone}
             on:click={setToNeedsApproval}
             class="disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
@@ -363,13 +381,15 @@
         {/if}
         {#if connection.status === "needs-approval"}
           <button
+            disabled={!delayDone}
             on:click={connectionNeedsWOrk}
-            class="mt-3bg-white py-2 ml-3 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            class="disabled:opacity-50 mt-3 bg-white py-2 ml-3 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             <!-- TODO set reason -->
             Heeft werk nodig
           </button>
           <button
+            disabled={!delayDone}
             on:click={publishConnection}
             class="disabled:opacity-50 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
@@ -378,13 +398,15 @@
         {/if}
         {#if connection.status === "needs-work"}
           <button
+            disabled={!delayDone}
             on:click={deleteConnection}
-            class=" mt-3bg-white py-2 ml-3 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            class="disabled:opacity-50 mt-3bg-white py-2 ml-3 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Verbinding in prullenbak
             <!-- TODO set reason -->
           </button>
           <button
+            disabled={!delayDone}
             on:click={startWork}
             class="disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
@@ -393,8 +415,9 @@
         {/if}
         {#if connection.status === "published"}
           <button
+            disabled={!delayDone}
             on:click={unpublish}
-            class="mt-3bg-white py-2 ml-3 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            class="disabled:opacity-50 mt-3 bg-white py-2 ml-3 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Verbinding publicatie ongedaan maken
             <!-- TODO set reason -->
@@ -402,8 +425,9 @@
         {/if}
         {#if connection.status === "in-trash"}
           <button
+            disabled={!delayDone}
             on:click={putBackOutTrash}
-            class=" mt-3bg-white py-2 ml-3 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            class="disabled:opacity-50 mt-3 bg-white py-2 ml-3 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Verbinding terugzetten
             <!-- TODO set reason -->
@@ -515,37 +539,37 @@
                         heeft de status gewijzigd naar
                         <span class="font-medium text-gray-900">
                           {#if update.content === "in-trash"}
-                          <a
-                            href="/leerdoel/{goal.id}/{grouplink}/prullenbak"
-                            class="font-medium text-gray-900">Prullenbak</a
-                          >
-                        {:else if update.content === "needs-work"}
-                          <a
-                            href="/leerdoel/{goal.id}/{grouplink}/werk-nodig"
-                            class="font-medium text-gray-900"
-                            >Heeft werk nodig</a
-                          >
-                        {:else if update.content === "in-progress"}
-                          <a
-                            href="/leerdoel/{goal.id}/{grouplink}/uitvoering"
-                            class="font-medium text-gray-900">In uitvoering</a
-                          >
-                        {:else if update.content === "needs-approval"}
-                          <a
-                            href="/leerdoel/{goal.id}/{grouplink}/goedkeuring"
-                            class="font-medium text-gray-900"
-                            >Goedkeuring nodig</a
-                          >
-                        {:else if update.content === "published"}
-                          <a
-                            href="/leerdoel/{goal.id}/{grouplink}"
-                            class="font-medium text-gray-900">Gepubliceerd</a
-                          >
-                        {:else}
-                          <span class="font-medium text-gray-900">
-                            {update.content}
-                          </span>
-                        {/if}
+                            <a
+                              href="/leerdoel/{goal.id}/{grouplink}/prullenbak"
+                              class="font-medium text-gray-900">Prullenbak</a
+                            >
+                          {:else if update.content === "needs-work"}
+                            <a
+                              href="/leerdoel/{goal.id}/{grouplink}/werk-nodig"
+                              class="font-medium text-gray-900"
+                              >Heeft werk nodig</a
+                            >
+                          {:else if update.content === "in-progress"}
+                            <a
+                              href="/leerdoel/{goal.id}/{grouplink}/uitvoering"
+                              class="font-medium text-gray-900">In uitvoering</a
+                            >
+                          {:else if update.content === "needs-approval"}
+                            <a
+                              href="/leerdoel/{goal.id}/{grouplink}/goedkeuring"
+                              class="font-medium text-gray-900"
+                              >Goedkeuring nodig</a
+                            >
+                          {:else if update.content === "published"}
+                            <a
+                              href="/leerdoel/{goal.id}/{grouplink}"
+                              class="font-medium text-gray-900">Gepubliceerd</a
+                            >
+                          {:else}
+                            <span class="font-medium text-gray-900">
+                              {update.content}
+                            </span>
+                          {/if}
                         </span>
                         <span class="whitespace-nowrap"
                           >{formatToTimeAgo(

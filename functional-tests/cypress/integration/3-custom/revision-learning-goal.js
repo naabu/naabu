@@ -10,7 +10,7 @@ describe("Revision flow editing learning goals", () => {
     cy.get('#institution').should('be.visible').type('University of Logic')
     cy.get('#email').should('be.visible').type('johndoe@unilogic.org')
     cy.get('#credentials').should('be.visible').type('Proffesor of logic (5 years) Head of department of logic.')
-    cy.get('[data-cy=submit-button]').click();
+    cy.get('[data-cy=submit-button]').scrollIntoView().click({force: true});
     cy.contains('Volledige naam:');
     cy.contains('John Doe');
     cy.contains('University of Logic');

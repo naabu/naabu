@@ -3,9 +3,9 @@ import katex from 'katex';
 export function renderKatexOutput(rawInput) {
   if (rawInput) {
     let output = rawInput;
-    output = output.replace(/(?:\r\n|\r|\n)/g, '<br>');
-    output = output.replace(/\$\$(.+?)\$\$/g, function (match, contents) {
+    output = output.replace(/\$\$((.|\r\n|\r|\n)+?)\$\$/g, function (match, contents) {
       let html = contents;
+      contents = contents.replace(/(\r\n|\r|\n)/g, ' ');
       try {
         html = katex.renderToString(contents);
       } catch (e) {
@@ -19,6 +19,7 @@ export function renderKatexOutput(rawInput) {
       }
       return html;
     });
+    output = output.replace(/(?:\r\n|\r|\n)/g, '<br>');
     return output;
   }
   else {

@@ -1,6 +1,7 @@
 <script>
   import { getStores, session } from "$app/stores";
   import { onMount } from "svelte";
+  import CheckPlayerHasProfile from "$lib/Curriculum/checkPlayerHasProfile.svelte"
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
   import { getDateString } from "$lib/Misc/helper";
   import { goto } from "$app/navigation";
@@ -8,6 +9,7 @@
   export let talk;
   export let goalId;
   export let revision;
+  let hasCurriculumProfile;
 
   let newPostTitle = "";
   let newPostText = "";
@@ -88,6 +90,7 @@
 </script>
 
 <ResultFeedback bind:alert />
+<CheckPlayerHasProfile bind:hasCurriculumProfile/>
 
 {#if talk}
   <div class="ml-auto mr-auto max-w-xl mt-8">
@@ -125,7 +128,7 @@
           </span>
           <button
             data-cy="post-button"
-            disabled={buttonDisabled}
+            disabled={buttonDisabled|| !hasCurriculumProfile}
             type="submit"
             class="float-right disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >Post</button

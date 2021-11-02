@@ -1,4 +1,6 @@
 <script>
+  import { getStores, page } from "$app/stores";
+
   export let alert = {
     success: false,
     successTitle: "",
@@ -7,6 +9,7 @@
     errorCode: "",
     errorMessage: "", 
   }
+
 </script>
 
 {#if alert.success}

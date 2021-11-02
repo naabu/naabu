@@ -1,6 +1,7 @@
 <script>
   // import firebase from "firebase/app";
   import { getStores, session } from "$app/stores";
+  import CheckPlayerHasProfile from "$lib/Curriculum/checkPlayerHasProfile.svelte"
   import GoalForm from "./form.svelte";
   import { onMount } from "svelte";
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
@@ -13,11 +14,13 @@
   let y;
   let db;
   let buttonDisabled = false;
+  let hasCurriculumProfile;
+  let mounted = false;
 
   onMount(async () => {
     db = await firebase.firestore();
+    mounted = true;
   });
-
 
   let goal = {
     title: "",
@@ -43,6 +46,19 @@
       errorMessage: "",
     };
   }
+
+  // $: if (mounted) {
+  //   if ($session.player && $session.player.curriculumProfileId) {
+  //     hasCurriculumProfile = true;
+  //     buttonDisabled = false;
+  //     alert = getDefaultAlertValues();
+  //   } else {
+  //     hasCurriculumProfile = false;
+  //     alert.error = true;
+  //     alert.errorCode = "no-curriculum-profile";
+  //     buttonDisabled = true;
+  //   }
+  // }
 
   async function createGoal() {
     if ($session.user) {
@@ -94,6 +110,8 @@
 
 <div>
   <ResultFeedback bind:alert />
+  <CheckPlayerHasProfile bind:hasCurriculumProfile/>
+
   <!-- <div>
     <div class="mt-2 md:flex md:items-center md:justify-between">
       <div class="flex-1 min-w-0">
@@ -112,7 +130,7 @@
       <div class="flex justify-end">
         <button
           data-cy="create-goal-submit-button"
-          disabled={buttonDisabled}
+          disabled={buttonDisabled|| !hasCurriculumProfile}
           type="submit"
           class="float-right disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         >

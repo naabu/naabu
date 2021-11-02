@@ -1,12 +1,15 @@
 <script>
   import Form from "./form.svelte";
-  import { getStores, session } from "$app/stores";
+  import { getStores, session, page } from "$app/stores";
   import { goto } from "$app/navigation";
   import CurriculumTabs from "$lib/Tabs/curriculum.svelte";
   import { onMount } from "svelte";
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
 
   export let firebase;
+
+  $: console.log($session);
+
   let curriculumProfile = {
     fullname: "",
     institution: "",
@@ -18,10 +21,24 @@
     curriculumProfile.uid = $session.user.uid;
   }
 
-  let buttonDisabled = false;
+  let buttonDisabled;
+
+  $: {
+    if ($session.player) {
+      buttonDisabled = false;
+    } else {
+      buttonDisabled = true;
+    }
+  }
   let y;
   let db;
   let alert = getDefaultAlertValues();
+
+  $: if ($session.player && $session.player.curriculumProfileId) {
+    redirect();
+  }
+
+  let redirectUrl = $page.query.get("redirect");
 
   function getDefaultAlertValues() {
     return {
@@ -31,6 +48,23 @@
       errorCode: "",
       errorMessage: "",
     };
+  }
+
+  async function redirect() {
+    console.log(redirectUrl);
+    if (redirectUrl) {
+      if (redirectUrl === "/leerdoel/maken") {
+        await goto("/leerdoel/maken");
+      } else if (redirectUrl.startsWith("/leerdoel")) {
+        await goto(redirectUrl);
+      } else if (redirectUrl.startsWith("/overleg")) {
+        await goto(redirectUrl);
+      } else {
+        await goto("/curriculum-profiel/mijn-profiel");
+      }
+    } else {
+      await goto("/curriculum-profiel/mijn-profiel");
+    }
   }
 
   async function createCurriculumProfile() {
@@ -56,7 +90,7 @@
         alert.success = true;
         alert.successTitle = "Curriculum profiel gemaakt";
       }
-      await goto("/curriculum-profiel/mijn-profiel");
+      await redirect();
     } catch (e) {
       alert.error = true;
       alert.errorCode = e.code;
@@ -71,20 +105,76 @@
   onMount(async () => {
     db = await firebase.firestore();
   });
+
+  async function signInWithGoogle() {
+    try {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      await firebase.auth().signInWithPopup(provider);
+    } catch (e) {
+      console.log(e);
+    }
+  }
 </script>
 
 <svelte:window bind:scrollY={y} />
 
-{#if $session.player}
-  <ResultFeedback bind:alert />
+<ResultFeedback bind:alert />
 
-  <form class="mt-8" on:submit|preventDefault={createCurriculumProfile}>
-    <Form bind:curriculumProfile />
-    <button
-      disabled={buttonDisabled}
-      data-cy="submit-button"
-      class="mt-4 float-right disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-      >Curriculum profiel aanmaken</button
-    >
-  </form>
-{/if}
+<div
+  class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
+>
+  <p class="text-sm font-medium text-gray-700">Profiel aanmaken met</p>
+  <div class="mt-1 sm:mt-0 sm:col-span-2">
+    {#if !$session.player}
+      <div>
+        <button id="linkGoogleButton" on:click={signInWithGoogle} />
+      </div>
+    {:else}
+      <p>{$session.user.email}</p>
+    {/if}
+  </div>
+</div>
+
+<form class="mt-8" on:submit|preventDefault={createCurriculumProfile}>
+  <Form bind:curriculumProfile />
+  <button
+    disabled={buttonDisabled}
+    data-cy="submit-button"
+    class="mt-4 float-right disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+    >Curriculum profiel aanmaken</button
+  >
+</form>
+
+<style>
+  #linkGoogleButton {
+    width: 240px;
+    height: 44px;
+    background-repeat: no-repeat;
+    background-image: url("/btn_google_signin_dark_normal_web@2x.png");
+  }
+
+  #linkGoogleButton:hover {
+    background-image: url("/btn_google_signin_dark_focus_web@2x.png");
+  }
+
+  #linkGoogleButton:focus {
+    background-image: url("/btn_google_signin_dark_pressed_web@2x.png");
+    outline: none;
+  }
+
+  #linkGoogleButton {
+    width: 240px;
+    height: 44px;
+    background-repeat: no-repeat;
+    background-image: url("/btn-signup-google-dutch-normal.svg");
+  }
+
+  #linkGoogleButton:hover {
+    background-image: url("/btn-signup-google-dutch-hover.svg");
+  }
+
+  #linkGoogleButton:focus {
+    background-image: url("/btn-signup-google-dutch-pressed.svg");
+    outline: none;
+  }
+</style>

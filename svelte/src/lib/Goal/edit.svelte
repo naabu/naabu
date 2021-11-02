@@ -3,6 +3,7 @@
   // import { getFirebaseFirestore } from "$lib/firebase";
   // import { collection, getDoc, updateDoc, query, getDocs, doc } from "firebase/firestore";
   import { getStores, session, page } from "$app/stores";
+  import CheckPlayerHasProfile from "$lib/Curriculum/checkPlayerHasProfile.svelte"
   import GoalForm from "./form.svelte";
   import { onMount } from "svelte";
   import MainTabs from "$lib/Tabs/goal.svelte";
@@ -12,6 +13,7 @@
   export let battleCol;
   export let firebase;
   export let previousBattles = [];
+  let hasCurriculumProfile;
   let y;
 
   export let goalRef;
@@ -95,6 +97,7 @@
   <MainTabs bind:goal subSelected="edit" />
   <div class="mt-8">
     <ResultFeedback bind:alert />
+    <CheckPlayerHasProfile bind:hasCurriculumProfile/>
     <form
       class="space-y-8 divide-y divide-gray-200"
       on:submit|preventDefault={formSubmit}
@@ -104,9 +107,10 @@
       <div class="pt-5">
         <div class="flex justify-end">
           <button
+            disabled={!hasCurriculumProfile}
             data-cy="edit-goal-submit-button"
             type="submit"
-            class="float-right ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            class="float-right disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Leerdoel publiseren
           </button>

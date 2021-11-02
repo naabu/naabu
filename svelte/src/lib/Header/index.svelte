@@ -160,12 +160,12 @@
                 class="inline-block bg-indigo-500 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75"
                 >Sign in</a
               >
-              <a
+              <!-- <a
                 href="#"
                 on:click|preventDefault
                 class="inline-block bg-white py-2 px-4 border border-transparent rounded-md text-base font-medium text-indigo-600 hover:bg-indigo-50"
                 >Sign up</a
-              >
+              > -->
             </div>
           {:else}
             <div class="ml-3 relative">

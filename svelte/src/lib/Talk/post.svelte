@@ -2,6 +2,7 @@
   import { getStores, session } from "$app/stores";
   import { onMount } from "svelte";
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
+  import CheckPlayerHasProfile from "$lib/Curriculum/checkPlayerHasProfile.svelte";
   import { getDateString } from "$lib/Misc/helper";
   import { sortOnCreatedAt, sortOnLastReplyAt } from "$lib/Revision/helper";
   import MainTabs from "$lib/Tabs/talk.svelte";
@@ -15,7 +16,7 @@
   let newReplyText = "";
   let buttonDisabled = false;
   let db;
-
+  let hasCurriculumProfile;
   onMount(async () => {
     db = await firebase.firestore();
   });
@@ -101,6 +102,7 @@
   <MainTabs bind:objectId={goalId} bind:talkId talkType="goal" />
 {/if}
 <ResultFeedback bind:alert />
+<CheckPlayerHasProfile bind:hasCurriculumProfile />
 {#if post}
   <div class="mt-4 ml-auto mr-auto max-w-2xl">
     <!-- <h1 class="sr-only">Recent posts</h1> -->
@@ -335,7 +337,7 @@
             Hou het vriendelijk en proffesioneel
           </span>
           <button
-            disabled={buttonDisabled}
+            disabled={buttonDisabled || !hasCurriculumProfile}
             type="submit"
             class="float-right disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >Antwoorden</button

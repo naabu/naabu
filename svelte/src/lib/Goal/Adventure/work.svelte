@@ -17,6 +17,15 @@
   let buttonDisabled = false;
   let db;
   let timeAgo;
+  let delayDone = false;
+  let timer;
+
+  $: if (adventure) {
+    clearTimeout(timer);
+    timer = setTimeout(() => {
+      delayDone = true;
+    }, 5000);
+  }
 
   $: if (adventure && adventure.updates) {
     sortOnCreatedAt(adventure.updates);
@@ -125,6 +134,7 @@
 
   async function setToNeedsApproval() {
     if (adventure.status === "in-progress") {
+      delayDone = false;
       let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
       await adventureRef.update({
         status: "needs-approval",
@@ -138,6 +148,7 @@
   }
   async function publishAdventure() {
     if (adventure.status === "needs-approval") {
+      delayDone = false;
       let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
       await adventureRef.update({
         status: "published",
@@ -151,6 +162,7 @@
   }
   async function adventureNeedsWOrk() {
     if (adventure.status === "needs-approval") {
+      delayDone = false;
       let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
       await adventureRef.update({
         status: "needs-work",
@@ -165,6 +177,7 @@
 
   async function startWork() {
     if (adventure.status === "needs-work") {
+      delayDone = false;
       let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
       await adventureRef.update({
         status: "in-progress",
@@ -179,6 +192,7 @@
 
   async function unpublish() {
     if (adventure.status === "published") {
+      delayDone = false;
       let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
       await adventureRef.update({
         status: "needs-work",
@@ -193,6 +207,7 @@
 
   async function deleteAdventure() {
     if (adventure.status === "needs-work") {
+      delayDone = false;
       let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
       await adventureRef.update({
         status: "in-trash",
@@ -207,6 +222,7 @@
 
   async function putBackOutTrash() {
     if (adventure.status === "in-trash") {
+      delayDone = false;
       let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
       await adventureRef.update({
         status: "needs-work",
@@ -342,6 +358,7 @@
       <div class="ml-auto mt-4">
         {#if adventure.status === "in-progress"}
           <button
+            disabled={!delayDone}
             on:click={setToNeedsApproval}
             class="disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
@@ -350,13 +367,15 @@
         {/if}
         {#if adventure.status === "needs-approval"}
           <button
+          disabled={!delayDone}
             on:click={adventureNeedsWOrk}
-            class="mt-3bg-white py-2 ml-3 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            class="disabled:opacity-50 mt-3 bg-white py-2 ml-3 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             <!-- TODO set reason -->
             Heeft werk nodig
           </button>
           <button
+          disabled={!delayDone}
             on:click={publishAdventure}
             class="disabled:opacity-50 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
@@ -365,13 +384,15 @@
         {/if}
         {#if adventure.status === "needs-work"}
           <button
+          disabled={!delayDone}
             on:click={deleteAdventure}
-            class=" mt-3bg-white py-2 ml-3 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            class="disabled:opacity-50 mt-3 bg-white py-2 ml-3 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Avontuur in prullenbak
             <!-- TODO set reason -->
           </button>
           <button
+          disabled={!delayDone}
             on:click={startWork}
             class="disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
@@ -380,8 +401,9 @@
         {/if}
         {#if adventure.status === "published"}
           <button
+          disabled={!delayDone}
             on:click={unpublish}
-            class="mt-3bg-white py-2 ml-3 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            class="disabled:opacity-50 mt-3 bg-white py-2 ml-3 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Avontuur publicatie ongedaan maken
             <!-- TODO set reason -->
@@ -389,8 +411,9 @@
         {/if}
         {#if adventure.status === "in-trash"}
           <button
+          disabled={!delayDone}
             on:click={putBackOutTrash}
-            class=" mt-3bg-white py-2 ml-3 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            class="disabled:opacity-50 mt-3 bg-white py-2 ml-3 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             Avontuur terugzetten
             <!-- TODO set reason -->

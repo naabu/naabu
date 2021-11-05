@@ -83,3 +83,4 @@ exports.updateRevisionListsAndSetProfile = functions.firestore.document('revisio
     }
     return null;
   });
+  

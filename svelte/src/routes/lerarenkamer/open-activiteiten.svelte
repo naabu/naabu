@@ -1,0 +1,30 @@
+<script>
+  import ListOpenActivities from "$lib/Teachers/listOpenActivities.svelte";
+  import Sidebar from "$lib/Containers/sidebar.svelte";
+  import { getStores, page } from "$app/stores";
+  import { getLoungeMenuitems } from "$lib/Teachers/helper";
+  let menuitems = getLoungeMenuitems($page.path);
+  import { goto } from "$app/navigation";
+
+  function submitButton() {
+    	goto('/lerarenkamer/activiteit/maken-leerdoel-zoeken')
+  }
+
+</script>
+
+<Sidebar bind:menuitems>
+  <span slot="title"> Open activiteiten </span>
+
+  <span slot="cta-button">
+    <button
+      on:click={submitButton}
+      class="t-4 float-right disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+    >
+      Activiteit aanmaken
+    </button>
+  </span>
+
+  <span slot="content">
+    <ListOpenActivities />
+  </span>
+</Sidebar>

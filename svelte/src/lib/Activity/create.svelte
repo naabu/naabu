@@ -1,32 +1,16 @@
 <script>
   // import { getFirebaseFirestore } from "$lib/firebase.js";
   // import { collection, addDoc, setDoc, doc } from "firebase/firestore";
-  import { getStores, session } from "$app/stores"
+  import { getStores, session } from "$app/stores";
   import ActivityForm from "./form.svelte";
-  import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
-	import { onMount } from 'svelte';
+  import { onMount } from "svelte";
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
   import { renderKatexOutput } from "$lib/Misc/helper.js";
-import { getActivitySaveData } from "./helper";
+  import { getActivitySaveData } from "./helper";
   export let firebase;
- // import firebase from "firebase/app";
+  // import firebase from "firebase/app";
 
   let y;
-
-  let breadcrumbs = [ 
-    {
-      url: '/beheer',
-      value: 'Beheer'
-    },
-    {
-      url: '/beheer/activiteit',
-      value: 'Activiteit'
-    },
-    {
-      url: '/beheer/activiteit/maken',
-      value: 'Activiteit maken'
-    },
-  ];
 
   let activity = {
     title: "",
@@ -40,7 +24,7 @@ import { getActivitySaveData } from "./helper";
     },
     quizzes: [],
     goals: [],
-  }
+  };
 
   let db;
   let buttonDisabled = false;
@@ -52,11 +36,11 @@ import { getActivitySaveData } from "./helper";
       successMessage: "",
       error: false,
       errorCode: "",
-      errorMessage: "", 
-    }
+      errorMessage: "",
+    };
   }
 
-	onMount(async() => {
+  onMount(async () => {
     db = await firebase.firestore();
   });
 
@@ -84,34 +68,39 @@ import { getActivitySaveData } from "./helper";
       buttonDisabled = false;
     }, 5000);
   }
-
 </script>
 
-<svelte:window bind:scrollY={y}/>
+<svelte:window bind:scrollY={y} />
 
 <svelte:head>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.min.css" integrity="sha384-Um5gpz1odJg5Z4HAmzPtgZKdTBHZdw8S29IecapCSB31ligYPhHQZMIlWLYQGVoc" crossorigin="anonymous">
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/katex@0.15.1/dist/katex.min.css"
+    integrity="sha384-R4558gYOUz8mP9YWpZJjofhk+zx0AS11p36HnD2ZKj/6JR5z27gSSULCNHIRReVs"
+    crossorigin="anonymous"
+  />
 </svelte:head>
 
 <div>
-  <ShowBreadcrumb bind:breadcrumbs />
-
-  <ResultFeedback bind:alert /> 
+  <ResultFeedback bind:alert />
 
   <div>
-    <div class="mt-2 md:flex md:items-center md:justify-between">
+    <div class="md:flex md:items-center md:justify-between">
       <div class="flex-1 min-w-0">
         <div>
-          <h3 class="text-lg leading-6 font-medium text-gray-900">Activiteit maken</h3>
-          <p class="mt-1 max-w-2xl text-sm text-gray-500">
-            Maak hier elke soort activiteit, bijvoorbeeld een uitleg video of quiz.
+          <p class="max-w-2xl text-sm text-gray-500">
+            Maak hier elke soort activiteit, bijvoorbeeld een uitleg video of
+            quiz.
           </p>
         </div>
       </div>
     </div>
   </div>
-  <form class="space-y-8 divide-y divide-gray-200" on:submit|preventDefault={formSubmit}>
-    <ActivityForm bind:activity/>
+  <form
+    class="space-y-8 divide-y divide-gray-200"
+    on:submit|preventDefault={formSubmit}
+  >
+    <ActivityForm bind:activity />
 
     <div class="">
       <div class="pt-5">
@@ -127,6 +116,4 @@ import { getActivitySaveData } from "./helper";
       </div>
     </div>
   </form>
-
-  
 </div>

@@ -158,7 +158,7 @@
                 href="#"
                 on:click|preventDefault={login}
                 class="inline-block bg-indigo-500 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75"
-                >Sign in</a
+                >Inloggen</a
               >
               <!-- <a
                 href="#"
@@ -204,12 +204,12 @@
                   tabindex="-1"
                 >
                   <a
-                    href="/beheer"
+                    href="/lerarenkamer"
                     on:click={() => (openUserMenu = false)}
                     class="block px-4 py-2 text-sm text-gray-700"
                     role="menuitem"
                     tabindex="-1"
-                    id="user-menu-item-management">Beheer</a
+                    id="user-menu-item-management">Lerarenkamer</a
                   >
                   <a
                     href="/curriculum-profiel/mijn-profiel"

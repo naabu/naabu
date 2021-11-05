@@ -3,7 +3,15 @@ import katex from 'katex';
 export function renderKatexOutput(rawInput) {
   if (rawInput) {
     let output = rawInput;
+
+    // ((.|\r\n|\r|\n)+?)\$\$  - Before
+
+    // output = output.replace(/\$\$((.|\r\n|\r|\n)+?)\$\$/g, function (match, contents) {
+    //   return contents.replace(/(?:\r\n|\r|\n)/g, '<br>');
+    // });
+    console.log(output);
     output = output.replace(/\$\$((.|\r\n|\r|\n)+?)\$\$/g, function (match, contents) {
+      console.log(match);
       let html = contents;
       contents = contents.replace(/(\r\n|\r|\n)/g, ' ');
       try {
@@ -19,7 +27,7 @@ export function renderKatexOutput(rawInput) {
       }
       return html;
     });
-    output = output.replace(/(?:\r\n|\r|\n)/g, '<br>');
+    output = output.replace(/(\r\n|\r|\n)(?![^<]*>|[^<>]*<\/)/g, '<br>');
     return output;
   }
   else {

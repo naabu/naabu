@@ -4,8 +4,14 @@
   import "@algolia/autocomplete-theme-classic";
   import { renderKatexOutput } from "$lib/Misc/helper.js";
   import QuizForm from "$lib/Quizzes/form.svelte";
+	import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
 
   export let activity;
+
+  function goBackToSearchGoals() {
+    dispatch('toLearningGoals');
+  }
 
   function updatePreview() {
     activity.description = renderKatexOutput(activity.descriptionRaw);
@@ -19,48 +25,21 @@
         class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
       >
         <label
-          for="title"
+          for="goal"
           class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
         >
-          Titel
+          Leerdoel
         </label>
+
         <div class="mt-1 sm:mt-0 sm:col-span-2">
-          <textarea
-            id="title"
-            name="title"
-            rows="1"
-            bind:value={activity.title}
-            class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
-          />
-        </div>
-      </div>
-      <div
-        class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
-      >
-        <label
-          for="description"
-          class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-        >
-          Beschrijving
-        </label>
-        <div class="mt-1 sm:mt-0 sm:col-span-2">
-          <textarea
-            id="description"
-            name="description"
-            rows="3"
-            bind:value={activity.descriptionRaw}
-            class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
-          />
-          <p class="mt-2 text-sm text-gray-500">
-            Beschrijf kort de activiteit of de vraag
-          </p>
-          <button
-            class="preview-button mt-3  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            on:click|preventDefault={updatePreview}>Update preview</button
+          <a href="/leerdoel/{activity.goalId}" class="underline"
+            >{activity.goalTitle}</a
           >
-          {#if activity.description}
-            {@html activity.description}
-          {/if}
+          <button
+            on:click={goBackToSearchGoals}
+            class="mt-3 block mb-1  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            >Wijzigen</button
+          >
         </div>
       </div>
     </div>
@@ -73,7 +52,7 @@
             class="mb-40text-base font-medium text-gray-900 sm:text-sm sm:text-gray-700"
             id="label-type"
           >
-            Type avontuur
+            Type activity
           </div>
         </div>
         <div class="mt-4 sm:mt-0 sm:col-span-2">
@@ -148,6 +127,59 @@
       </div>
     </div>
   </div>
+  <div>
+    <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
+      <div
+        class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5"
+      >
+        <label
+          for="title"
+          class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+        >
+          Titel
+        </label>
+        <div class="mt-1 sm:mt-0 sm:col-span-2">
+          <textarea
+            id="title"
+            name="title"
+            rows="1"
+            bind:value={activity.title}
+            class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+          />
+        </div>
+      </div>
+      <div
+        class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
+      >
+        <label
+          for="description"
+          class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+        >
+          Beschrijving
+        </label>
+        <div class="mt-1 sm:mt-0 sm:col-span-2">
+          <textarea
+            id="description"
+            name="description"
+            rows="3"
+            bind:value={activity.descriptionRaw}
+            class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+          />
+          <p class="mt-2 text-sm text-gray-500">
+            Beschrijf kort de activiteit of de vraag
+          </p>
+          <button
+            class="preview-button mt-3  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            on:click|preventDefault={updatePreview}>Update preview</button
+          >
+          {#if activity.description}
+            {@html activity.description}
+          {/if}
+        </div>
+      </div>
+    </div>
+  </div>
+  
 
   <div
     class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
@@ -156,7 +188,7 @@
       for="difficulty"
       class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
     >
-      Difficulty
+      Moeilijkheid
     </label>
     <div class="mt-1 sm:mt-0 sm:col-span-2">
       <input

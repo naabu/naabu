@@ -4,7 +4,7 @@
 
   export let menuitems = [];
   let openSidebarMenu;
-  $: if(menuitems) {
+  $: if (menuitems) {
     openSidebarMenu = false;
   }
 </script>
@@ -127,17 +127,29 @@
     </div>
     <!-- End of menu items -->
 
-    <div class="pl-4 py-6 w-full">
+    <div class="py-6 w-full">
       <slot name="cta-button" />
 
       <main class="w-full">
         <div class="py-6">
-          <div class="px-4 sm:px-6 md:px-0">
+          <!-- <div class="px-4 sm:px-6 md:px-0">
             <h1 class="text-2xl font-semibold text-gray-900">
               <slot name="title">Dashboard</slot>
             </h1>
+          </div> -->
+          <div class="md:pl-4 sm:flex sm:justify-between sm:items-baseline">
+            <div class="sm:w-0 sm:flex-1">
+              <h1 class="text-2xl font-semibold text-gray-900">
+                <slot name="title">Dashboard</slot>
+              </h1>
+            </div>
+            <div
+              class="mt-4 flex items-center justify-between sm:mt-0 sm:ml-6 sm:flex-shrink-0 sm:justify-start"
+            >
+              <slot name="status" />
+            </div>
           </div>
-          <div class="px-4 sm:px-6 md:px-0">
+          <div class="md:pl-4">
             <div class="py-4">
               <slot name="content">
                 <div

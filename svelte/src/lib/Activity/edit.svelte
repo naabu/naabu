@@ -93,17 +93,20 @@
 
 {#if activity}
   <div>
-    <ShowBreadcrumb bind:breadcrumbs />
+
     <ResultFeedback bind:alert />
     <div>
-      <div class="mt-2 md:flex md:items-center md:justify-between">
+      <p class="ml-2 mt-1 text-sm text-gray-500 truncate">in Engineering</p>
+      <div class="md:flex md:items-center md:justify-between">
         <div class="flex-1 min-w-0">
           <div>
-            <h3 class="text-lg leading-6 font-medium text-gray-900">
-              Activiteit wijzigen
-            </h3>
-            <p class="mt-1 max-w-2xl text-sm text-gray-500">
+            <p class="max-w-2xl text-sm text-gray-500">
+              {#if activity.status === "draft"}
+              Maak hier elke soort activiteit, bijvoorbeeld een uitleg video of
+              quiz.
+              {:else}
               Wijzig hier je activiteit
+              {/if}
             </p>
           </div>
         </div>
@@ -122,7 +125,7 @@
               type="submit"
               class="float-right ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >
-              Activiteit wijzigen
+            Concept opslaan en bekijken
             </button>
           </div>
         </div>

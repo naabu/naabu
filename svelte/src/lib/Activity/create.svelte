@@ -7,14 +7,57 @@
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
   import { renderKatexOutput } from "$lib/Misc/helper.js";
   import { getActivitySaveData } from "./helper";
+  import { goto } from "$app/navigation";
   export let firebase;
-  // import firebase from "firebase/app";
+  export let goal;
+  let draftId;
+
+  async function goBackToSearchGoals() {
+    let changeDetected = activityIsNotDefault();
+    if (changeDetected) {
+      await createActivity();
+    }
+    if (changeDetected && draftId) {
+      goto("/lerarenkamer/activiteit/maken-leerdoel-zoeken?draftId=" + draftId);
+    } else {
+      goto("/lerarenkamer/activiteit/maken-leerdoel-zoeken");
+    }
+  }
+
+  function activityIsNotDefault() {
+    if (activity.title !== "") {
+      return true;
+    }
+    if (activity.descriptionRaw !== "") {
+      return true;
+    }
+    if (activity.description !== "") {
+      return true;
+    }
+    if (activity.type !== "") {
+      return true;
+    }
+    if (activity.difficulty !== 1) {
+      return true;
+    }
+    if (activity.svg !== "") {
+      return true;
+    }
+    if (activity.video.vimeoId !== null) {
+      return true;
+    }
+    if (activity.quizzes.length !== 0) {
+      return true;
+    }
+    return false;
+  }
 
   let y;
 
   let activity = {
     title: "",
     descriptionRaw: "",
+    status: "draft",
     description: "",
     type: "",
     difficulty: 1,
@@ -23,8 +66,12 @@
       vimeoId: null,
     },
     quizzes: [],
-    goals: [],
   };
+
+  $: if (goal) {
+    activity.goalId = goal.id;
+    activity.goalTitle = goal.title;
+  }
 
   let db;
   let buttonDisabled = false;
@@ -53,6 +100,7 @@
       alert.success = true;
       alert.successTitle = "Activiteit gemaakt";
       alert.successMessage = "id: " + result.id;
+      draftId = result.id;
     } catch (e) {
       alert.error = true;
       alert.errorCode = e.code;
@@ -100,7 +148,7 @@
     class="space-y-8 divide-y divide-gray-200"
     on:submit|preventDefault={formSubmit}
   >
-    <ActivityForm bind:activity />
+    <ActivityForm on:toLearningGoals={goBackToSearchGoals} bind:activity />
 
     <div class="">
       <div class="pt-5">
@@ -110,7 +158,7 @@
             type="submit"
             class="float-right disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            Activiteit aanmaken
+            Concept opslaan en bekijken
           </button>
         </div>
       </div>

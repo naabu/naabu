@@ -119,7 +119,7 @@
                     href="/leerdoel/{hit.objectID}"
                     class="text-indigo-600 hover:text-indigo-900">Bekijken</a
                   >
-                  <slot name="cta-learning-goal" goalId={hit.objectID}>
+                  <slot name="cta-learning-goal" goalId={hit.objectID} goalTitle={hit.title}>
                     <a
                       href="/leerdoel/{hit.objectID}/wijzigen"
                       class="text-indigo-600 hover:text-indigo-900">Wijzigen</a

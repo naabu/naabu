@@ -5,8 +5,9 @@
   import { getStores, session } from "$app/stores";
   import { onMount } from "svelte";
   import { sortOnCreatedAt } from "$lib/Revision/helper";
-  import { formatToTimeAgo } from "$lib/Misc/helper";
+  import { formatToTimeAgo, getDefaultAlertValues } from "$lib/Misc/helper";
   import MainTabs from "$lib/Tabs/goal.svelte";
+  import { getStatusText } from "$lib/Connection/helper";
   export let firebase;
   export let goal;
   export let connectionId;
@@ -80,31 +81,6 @@
     }
     mounted = true;
   });
-
-  function getDefaultAlertValues() {
-    return {
-      success: false,
-      successMessage: "",
-      error: false,
-      errorCode: "",
-      errorMessage: "",
-    };
-  }
-
-  function getStatusText(status) {
-    switch (status) {
-      case "published":
-        return "Gepubliceerd";
-      case "needs-approval":
-        return "Goedkeuring nodig";
-      case "in-progress":
-        return "In uitvoering";
-      case "needs-work":
-        return "Heeft werk nodig";
-      case "in-trash":
-        return "In prullenbak";
-    }
-  }
 
   async function createStatusUpdate() {
     if ($session.user && $session.player.curriculumProfileId) {

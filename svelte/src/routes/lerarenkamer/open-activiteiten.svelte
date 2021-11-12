@@ -1,16 +1,19 @@
 <script>
   import ListOpenActivities from "$lib/Teachers/listOpenActivities.svelte";
+  import GetActivityListData from "$lib/Activity/getActivityListData.svelte";
   import Sidebar from "$lib/Containers/sidebar.svelte";
   import { getStores, page } from "$app/stores";
   import { getLoungeMenuitems } from "$lib/Teachers/helper";
   let menuitems = getLoungeMenuitems($page.path);
   import { goto } from "$app/navigation";
+  let activities;
 
   function submitButton() {
-    	goto('/lerarenkamer/activiteit/maken-leerdoel-zoeken')
+    goto("/lerarenkamer/activiteit/maken-leerdoel-zoeken");
   }
-
 </script>
+
+<GetActivityListData bind:activities status="open" />
 
 <Sidebar bind:menuitems>
   <span slot="title"> Open activiteiten </span>
@@ -25,6 +28,10 @@
   </span>
 
   <span slot="content">
-    <ListOpenActivities />
+    {#if activities}
+      <ListOpenActivities bind:activities />
+    {:else}
+      Loading...
+    {/if}
   </span>
 </Sidebar>

@@ -48,6 +48,7 @@
 
   let activityHasEnded = false;
   let videoHasEnded = false;
+  let mounted = false;
   $: activityHasEnded = videoHasEnded;
 
   // Detect if there is a test question attached to the activity.
@@ -102,7 +103,17 @@
     }
   }
 
-  onMount(() => {
+  $: if (mounted && activity.video.vimeoId) {
+    console.log(activity.video.vimeoId);
+    initializeVideoPlayer();
+  }
+
+  onMount(async () => {
+
+    mounted = true;
+  });
+
+  function initializeVideoPlayer() {
     if ((element = document.getElementById("vimeoVideo"))) {
       iframe = document.querySelector("#vimeoVideo iframe");
       if (iframe === null) {
@@ -147,7 +158,7 @@
         });
       });
     }
-  });
+  }
 
   async function checkTime() {
     let seconds = await player.getCurrentTime();

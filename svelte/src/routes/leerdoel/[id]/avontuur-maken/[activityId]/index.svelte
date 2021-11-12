@@ -4,13 +4,12 @@
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
   import { initFirebase } from "$lib/firebase";
-import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
+  import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
 
   let firebase;
   let goal;
   let activity;
   let breadcrumbs;
-
 
   onMount(async () => {
     firebase = await initFirebase($session.environment);
@@ -45,6 +44,6 @@ import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
 
 <ConnectionTemplate bind:goal bind:firebase bind:breadcrumbs>
   {#if activity}
-  <AdventureCreatePreviewActivity bind:firebase bind:goal bind:activity />
+    <AdventureCreatePreviewActivity bind:firebase bind:goal bind:activity />
   {/if}
 </ConnectionTemplate>

@@ -1,11 +1,16 @@
 export function getLoungeMenuitems(pagePath) {
-  console.log(pagePath);
   return [
     {
       name: "Dashboard",
       url: "/lerarenkamer",
       icon: "dashboard",
       selected: (pagePath === "/lerarenkamer"),
+    },
+    {
+      name: "Concept activiteiten",
+      url: "/lerarenkamer/concept-activiteiten",
+      icon: "textdocument",
+      selected: (pagePath === "/lerarenkamer/concept-activiteiten"),
     },
     {
       name: "Open activiteiten",

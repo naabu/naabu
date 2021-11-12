@@ -11,9 +11,9 @@
       url: "/revisie/" + revision.id,
     },
     {
-      value: "adventures",
+      value: "activities",
       text: "Activiteiten",
-      url: "/leerdoel/" + revision.goalId + "/avonturen",
+      url: "/leerdoel/" + revision.goalId + "/activiteiten",
     },
     {
       value: "connections",

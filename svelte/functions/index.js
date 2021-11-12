@@ -10,7 +10,7 @@ exports.map = require('./Custom/Map/map.js');
 exports.trigger = require('./Custom/Trigger/exportData.js');
 exports.talkPost = require('./Custom/Talk/post.js');
 exports.activity = require('./Custom/Activity/searchIndex.js');
-
+exports.connection = require('./Custom/Connection/connection.js');
 
 exports.ssr = functions.https.onRequest(async (request, response) => {
   process.env.environment = helper.environment;

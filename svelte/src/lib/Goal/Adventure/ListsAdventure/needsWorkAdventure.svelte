@@ -1,7 +1,7 @@
 <script>
   export let goal;
   import MainTabs from "$lib/Tabs/goal.svelte";
-  import SecondTabs from "$lib/Tabs/adventureStatus.svelte";
+  import SecondTabs from "$lib/Tabs/activityStatus.svelte";
   import DataTable from "./datatable.svelte";
   export let firebase;
   import { formatToTimeAgo, formatToTimeLeft } from "$lib/Misc/helper";

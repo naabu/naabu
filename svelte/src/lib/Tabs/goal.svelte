@@ -11,9 +11,9 @@
       url: "/leerdoel/" + goal.id,
     },
     {
-      value: "adventures",
+      value: "activities",
       text: "Activiteiten",
-      url: "/leerdoel/" + goal.id + "/avonturen",
+      url: "/leerdoel/" + goal.id + "/activiteiten",
     },
     {
       value: "connections",

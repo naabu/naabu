@@ -18,7 +18,9 @@
       await createActivity();
     }
     if (changeDetected && draftId) {
-      goto("/lerarenkamer/activiteit/maken-leerdoel-zoeken?draftId=" + draftId);
+      goto(
+        "/lerarenkamer/activiteit/maken-leerdoel-zoeken?activityId=" + draftId
+      );
     } else {
       goto("/lerarenkamer/activiteit/maken-leerdoel-zoeken");
     }
@@ -92,26 +94,30 @@
   });
 
   async function createActivity() {
-    let data = getActivitySaveData(activity);
-    alert = getDefaultAlertValues();
-    try {
-      let collectionRef = db.collection("activities");
-      let result = await collectionRef.add(data);
-      alert.success = true;
-      alert.successTitle = "Activiteit gemaakt";
-      alert.successMessage = "id: " + result.id;
-      draftId = result.id;
-    } catch (e) {
-      alert.error = true;
-      alert.errorCode = e.code;
-      alert.errorMessage = e.message;
+    if ($session.user) {
+      let data = getActivitySaveData(activity);
+      data.authorId = $session.user.uid;
+      alert = getDefaultAlertValues();
+      try {
+        let collectionRef = db.collection("activities");
+        let result = await collectionRef.add(data);
+        alert.success = true;
+        alert.successTitle = "Activiteit gemaakt";
+        alert.successMessage = "id: " + result.id;
+        draftId = result.id;
+      } catch (e) {
+        alert.error = true;
+        alert.errorCode = e.code;
+        alert.errorMessage = e.message;
+      }
+      y = 0;
     }
-    y = 0;
   }
 
   async function formSubmit(event) {
     buttonDisabled = true;
     await createActivity();
+    goto("/lerarenkamer/activiteit/" + draftId + "/preview");
     setTimeout(() => {
       buttonDisabled = false;
     }, 5000);

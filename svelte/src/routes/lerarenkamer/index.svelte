@@ -9,8 +9,6 @@
 <Sidebar bind:menuitems>
   <span slot="title"> Dashboard </span>
 
-  <span slot="cta-button" />
-
   <span slot="content">
     <ListOpenActivities />
   </span>

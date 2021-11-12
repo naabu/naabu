@@ -102,6 +102,16 @@ service cloud.firestore {
       allow write, update: if true
     }
 
+   match /connections/{connectionId} {
+      allow read: if true
+      allow write: if true
+    }
+
+   match /updates/{updateId} {
+      allow read: if true
+      allow write: if true
+    }
+
     match /path/{userId} {
       allow read: if (request.auth.uid == userId)
     }

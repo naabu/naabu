@@ -10,6 +10,7 @@
   export let activity;
 
   function goBackToSearchGoals() {
+    
     dispatch('toLearningGoals');
   }
 
@@ -36,7 +37,7 @@
             >{activity.goalTitle}</a
           >
           <button
-            on:click={goBackToSearchGoals}
+            on:click|preventDefault={goBackToSearchGoals}
             class="mt-3 block mb-1  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             >Wijzigen</button
           >
@@ -143,6 +144,7 @@
             id="title"
             name="title"
             rows="1"
+            required
             bind:value={activity.title}
             class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
           />

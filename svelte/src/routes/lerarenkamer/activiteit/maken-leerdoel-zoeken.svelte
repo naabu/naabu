@@ -1,24 +1,58 @@
 <script>
-  // import SearchLearningGoals from "$lib/Teachers/CreateActivitySearchLearningGoal.svelte";
   import Sidebar from "$lib/Containers/sidebar.svelte";
-  import { getStores, page } from "$app/stores";
+  import { getStores, session, page } from "$app/stores";
   import { getLoungeMenuitems } from "$lib/Teachers/helper";
+  import ListGoals from "$lib/Goal/list.svelte";
+  import { goto } from "$app/navigation";
+  import { onMount } from "svelte";
+  import { initFirebase } from "$lib/firebase";
+
+  let activityId = $page.query.get("activityId");
+
   let menuitems = getLoungeMenuitems($page.path);
-  import ListGoals from '$lib/Goal/list.svelte';
+  let firebase;
+  let db;
+
+  onMount(async () => {
+    firebase = await initFirebase($session.environment);
+    db = await firebase.firestore();
+  });
+
+  async function editLearningGoal(goalId, goalTitle) {
+    if (activityId)
+    {
+      let data = {
+        goalId: goalId,
+        goalTitle: goalTitle,
+      }
+
+      let ref = db.collection("activities").doc(activityId);
+      await ref.update(data);
+      goto("/lerarenkamer/activiteit/" + activityId);
+
+    }
+  }
 </script>
 
 <Sidebar bind:menuitems>
   <span slot="title"> Activiteit maken</span>
 
   <span slot="content">
-    <ListGoals let:goalId>
+    <ListGoals let:goalId let:goalTitle>
       <span slot="cta-learning-goal">
-        <a
-        href="/lerarenkamer/activiteit/{goalId}"
-        class="text-indigo-600 hover:text-indigo-900">Selecteren</a
-      >
+        {#if activityId}
+          <a
+            on:click|preventDefault={() => editLearningGoal(goalId, goalTitle)}
+            href="/lerarenkamer/activiteit/{activityId}"
+            class="text-indigo-600 hover:text-indigo-900">Selecteren</a
+          >
+        {:else}
+          <a
+            href="/lerarenkamer/activiteit/maken/{goalId}"
+            class="text-indigo-600 hover:text-indigo-900">Selecteren</a
+          >
+        {/if}
       </span>
-      </ListGoals>
-    <!-- <SearchLearningGoals /> -->
+    </ListGoals>
   </span>
 </Sidebar>

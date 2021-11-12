@@ -3,40 +3,42 @@
   export let mainSelected = "published";
   export let goal;
   export let type;
-  export let publishedArray;
-  export let needsApprovalArray;
-  export let inProgressArray;
-  export let needsWorksArray;
-  export let trashCanArray;
+  export let publishedCount;
 
-  let mainTabs = [
+  export let needsApprovalCount;
+  export let inProgressCount;
+  export let needsWorksCount;
+  export let trashCanCount;
+
+  let mainTabs;
+
+  $: mainTabs = [
     {
       value: "published",
-      text: "Gepubliceerd (" + publishedArray.length  +")",
+      text: "Gepubliceerd (" + publishedCount + ")",
       url: "/leerdoel/" + goal.id + "/" + type,
     },
     {
       value: "needs-approval",
-      text: "Goedkeuring nodig ("+ needsApprovalArray.length +")",
-      url: "/leerdoel/" +  goal.id + "/" + type + "/goedkeuring",
+      text: "Goedkeuring nodig (" + needsApprovalCount + ")",
+      url: "/leerdoel/" + goal.id + "/" + type + "/goedkeuring",
     },
     {
       value: "in-progress",
-      text: "In uitvoering ("+ inProgressArray.length +")",
-      url: "/leerdoel/" +  goal.id + "/" + type + "/uitvoering",
+      text: "In uitvoering (" + inProgressCount + ")",
+      url: "/leerdoel/" + goal.id + "/" + type + "/uitvoering",
     },
     {
       value: "needs-work",
-      text: "Heeft werk nodig ("+ needsWorksArray.length +")",
-      url: "/leerdoel/" +  goal.id + "/" + type + "/werk-nodig",
+      text: "Heeft werk nodig (" + needsWorksCount + ")",
+      url: "/leerdoel/" + goal.id + "/" + type + "/werk-nodig",
     },
     {
       value: "in-trash",
-      text: "Prullenbak ("+ trashCanArray.length +")" ,
-      url: "/leerdoel/" +  goal.id + "/" + type + "/prullenbak",
+      text: "Prullenbak (" + trashCanCount + ")",
+      url: "/leerdoel/" + goal.id + "/" + type + "/prullenbak",
     },
   ];
-
 </script>
 
 <Tabs bind:mainTabs bind:mainSelected />

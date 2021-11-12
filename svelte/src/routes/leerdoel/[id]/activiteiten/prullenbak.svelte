@@ -1,9 +1,16 @@
 <script>
+  import ActivityConnectionListContainer from "$lib/Containers/activityConnectionListContainer.svelte";
+
+</script>
+
+<ActivityConnectionListContainer status="in-trash"/>
+
+
+<!-- <script>
   import GetGoalData from "$lib/Goal/getGoalData.svelte";
-  import AdventureList from '$lib/Goal/Adventure/ListsAdventure/publishedAdventures.svelte';
+  import AdventureList from "$lib/Goal/Adventure/ListsAdventure/inTrashAdventures.svelte";
   import ContainerBreadcrumpPageTitle from "$lib/Containers/breadcrumbPageTitle.svelte";
   import { getStores, page } from "$app/stores";
-
   export let goal;
   export let firebase;
   export let mounted;
@@ -19,20 +26,19 @@
         value: "Leerdoel: " + goal.title,
       },
       {
-        url: $page.path,
+        url: "/leerdoel/" + goal.id + '/avonturen',
         value: "Activiteiten",
       },     {
         url: $page.path,
-        value: "Gepubliceerd",
+        value: "Prullenbak",
       },
     ];
   }
 </script>
 
-
-
 <GetGoalData bind:goal bind:firebase bind:mounted/>
 {#if mounted}  
 <ContainerBreadcrumpPageTitle bind:breadcrumbs title={goal.title} />
+ 
   <AdventureList bind:goal bind:firebase />
-{/if}
+{/if} -->

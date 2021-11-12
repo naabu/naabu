@@ -9,9 +9,7 @@ export function renderKatexOutput(rawInput) {
     // output = output.replace(/\$\$((.|\r\n|\r|\n)+?)\$\$/g, function (match, contents) {
     //   return contents.replace(/(?:\r\n|\r|\n)/g, '<br>');
     // });
-    console.log(output);
     output = output.replace(/\$\$((.|\r\n|\r|\n)+?)\$\$/g, function (match, contents) {
-      console.log(match);
       let html = contents;
       contents = contents.replace(/(\r\n|\r|\n)/g, ' ');
       try {
@@ -109,4 +107,15 @@ export function checkArrayIsTheSame(
   }
 
   return true;
+}
+
+
+export async function getDefaultAlertValues() {
+  return {
+    success: false,
+    successMessage: "",
+    error: false,
+    errorCode: "",
+    errorMessage: "",
+  };
 }

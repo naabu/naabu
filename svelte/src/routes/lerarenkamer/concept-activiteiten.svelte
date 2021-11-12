@@ -1,22 +1,24 @@
 <script>
-  import ListPublishedActivities from "$lib/Teachers/listPublishedActivities.svelte";
+  import ListConceptActivities from "$lib/Teachers/listConceptActivities.svelte";
   import Sidebar from "$lib/Containers/sidebar.svelte";
-  import GetActivityListData from "$lib/Activity/getActivityListData.svelte";
   import { getStores, page } from "$app/stores";
   import { getLoungeMenuitems } from "$lib/Teachers/helper";
+  import GetActivityListData from "$lib/Activity/getActivityListData.svelte";
+
   let menuitems = getLoungeMenuitems($page.path);
   import { goto } from "$app/navigation";
   let activities;
+  let firebase;
 
   function submitButton() {
     goto("/lerarenkamer/activiteit/maken-leerdoel-zoeken");
   }
 </script>
 
-<GetActivityListData bind:activities status="published" />
+<GetActivityListData bind:firebase bind:activities status="draft" />
 
 <Sidebar bind:menuitems>
-  <span slot="title"> Gepubliceerde activiteiten </span>
+  <span slot="title"> Concept activiteiten </span>
 
   <span slot="cta-button">
     <button
@@ -29,7 +31,7 @@
 
   <span slot="content">
     {#if activities}
-      <ListPublishedActivities bind:activities />
+      <ListConceptActivities bind:firebase bind:activities />
     {:else}
       Loading...
     {/if}

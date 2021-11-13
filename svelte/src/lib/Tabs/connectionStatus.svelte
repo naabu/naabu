@@ -2,7 +2,7 @@
   import Tabs from "./tabs.svelte";
   export let mainSelected = "published";
   export let goal;
-  export let type;
+  export let urlType;
   export let publishedCount;
 
   export let needsApprovalCount;
@@ -16,29 +16,30 @@
     {
       value: "published",
       text: "Gepubliceerd (" + publishedCount + ")",
-      url: "/leerdoel/" + goal.id + "/" + type,
+      url: "/leerdoel/" + goal.id + "/" + urlType,
     },
     {
       value: "needs-approval",
       text: "Goedkeuring nodig (" + needsApprovalCount + ")",
-      url: "/leerdoel/" + goal.id + "/" + type + "/goedkeuring",
+      url: "/leerdoel/" + goal.id + "/" + urlType + "/goedkeuring",
     },
     {
       value: "in-progress",
       text: "In uitvoering (" + inProgressCount + ")",
-      url: "/leerdoel/" + goal.id + "/" + type + "/uitvoering",
+      url: "/leerdoel/" + goal.id + "/" + urlType + "/uitvoering",
     },
     {
       value: "needs-work",
       text: "Heeft werk nodig (" + needsWorksCount + ")",
-      url: "/leerdoel/" + goal.id + "/" + type + "/werk-nodig",
+      url: "/leerdoel/" + goal.id + "/" + urlType + "/werk-nodig",
     },
     {
       value: "in-trash",
       text: "Prullenbak (" + trashCanCount + ")",
-      url: "/leerdoel/" + goal.id + "/" + type + "/prullenbak",
+      url: "/leerdoel/" + goal.id + "/" + urlType + "/prullenbak",
     },
   ];
+
 </script>
 
 <Tabs bind:mainTabs bind:mainSelected />

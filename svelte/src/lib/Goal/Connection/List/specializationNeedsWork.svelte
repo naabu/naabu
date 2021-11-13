@@ -11,7 +11,7 @@
 <MainTabs bind:goal mainSelected="connections" />
 <SecondTabs bind:goal mainSelected="specialization" />
 <ThirdTabs bind:goal mainSelected="needs-work"
-type="specialisatie"
+urlType="specialisatie"
 bind:publishedArray={goal.publishedSpecializations}
 bind:needsApprovalArray={goal.needsApprovalSpecializations}
 bind:inProgressArray={goal.inProgressSpecializations}

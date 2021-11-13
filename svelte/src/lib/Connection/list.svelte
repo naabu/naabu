@@ -10,7 +10,7 @@
   } from "./helper";
   export let firebase;
   export let goalId;
-  export let type;
+  export let urlType;
   export let status;
   let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
   let daysToSendToTrash = 100 * 86400;
@@ -182,7 +182,7 @@
                     class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                   >
                     <a
-                      href="/leerdoel/{goalId}/{type}/{connection.id}"
+                      href="/leerdoel/{goalId}/{urlType}/{connection.id}"
                       class="text-indigo-600 hover:text-indigo-900"
                       >Geschiedenis</a
                     >

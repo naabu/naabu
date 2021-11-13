@@ -12,6 +12,7 @@
   export let goal;
   export let connectionId;
   export let connection;
+  export let type;
   export let collectionGroup;
 
   let delayDone = false;

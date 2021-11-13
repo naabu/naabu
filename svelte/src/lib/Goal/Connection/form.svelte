@@ -19,16 +19,16 @@
             <div class="relative flex items-start">
               <div class="flex items-center h-5">
                 <input
-                  id="prerequisites"
-                  name="prerequisites"
-                  value="prerequisites"
+                  id="goal-prerequisites"
+                  name="goal-prerequisites"
+                  value="goal-prerequisites"
                   bind:group={connection.type}
                   type="radio"
                   class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
                 />
               </div>
               <div class="ml-3 text-sm">
-                <label for="prerequisites" class="font-medium text-gray-700"
+                <label for="goal-prerequisites" class="font-medium text-gray-700"
                   >Voorkennis</label
                 >
                 <p class="text-gray-500">
@@ -40,16 +40,16 @@
           <div class="relative flex items-start">
             <div class="flex items-center h-5">
               <input
-                id="specializations"
-                name="specializations"
-                value="specializations"
+                id="goal-specializations"
+                name="goal-specializations"
+                value="goal-specializations"
                 bind:group={connection.type}
                 type="radio"
                 class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
               />
             </div>
             <div class="ml-3 text-sm">
-              <label for="specializations" class="font-medium text-gray-700"
+              <label for="goal-specializations" class="font-medium text-gray-700"
                 >Specializatie</label
               >
               <p class="text-gray-500">
@@ -61,16 +61,16 @@
             <div class="relative flex items-start">
               <div class="flex items-center h-5">
                 <input
-                  id="bigideas"
-                  name="bigideas"
-                  value="bigideas"
+                  id="goal-bigideas"
+                  name="goal-bigideas"
+                  value="goal-bigideas"
                   bind:group={connection.type}
                   type="radio"
                   class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
                 />
               </div>
               <div class="ml-3 text-sm">
-                <label for="bigideas" class="font-medium text-gray-700"
+                <label for="goal-bigideas" class="font-medium text-gray-700"
                   >Grote ideeën</label
                 >
                 <p class="text-gray-500">
@@ -84,15 +84,15 @@
               <div class="flex items-center h-5">
                 <input
                   id="deeperunderstandings"
-                  name="deeperunderstandings"
-                  value="deeperunderstandings"
+                  name="goal-deeperunderstandings"
+                  value="goal-deeperunderstandings"
                   bind:group={connection.type}
                   type="radio"
                   class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
                 />
               </div>
               <div class="ml-3 text-sm">
-                <label for="deeperunderstandings" class="font-medium text-gray-700"
+                <label for="goal-deeperunderstandings" class="font-medium text-gray-700"
                   >Diepere inzichten</label
                 >
                 <p class="text-gray-500">

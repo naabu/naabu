@@ -1,10 +1,14 @@
 <script>
-  import WorkOnConnection from "$lib/Goal/Connection/work.svelte";
   import { getStores, page } from "$app/stores";
+  import ConnectionPage from "$lib/Connection/page.svelte";
   import ConnectionTemplate from "$lib/Containers/connectionTemplate.svelte";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
+  import GetConnectionData from "$lib/Connection/getConnectionData.svelte";
+  import GetGoalData from "$lib/Goal/getGoalData.svelte";
 
   let goal;
+  let connection;
+
   let firebase;
   let breadcrumbs;
 
@@ -14,8 +18,8 @@
     breadcrumbs = [
       ...breadcrumbs,
       {
-        url: "/leerdoel/" + goal.id + "/dieper-inzicht",
-        value: "Diepere inzichten",
+        url: "/leerdoel/" + goal.id + "/specialisatie",
+        value: "Specialisatie",
       },
       {
         url: $page.path,
@@ -25,6 +29,13 @@
   }
 </script>
 
+<GetGoalData bind:firebase bind:goal/>
+<GetConnectionData bind:firebase bind:connection/>
+
 <ConnectionTemplate bind:goal bind:firebase bind:breadcrumbs>
-  <WorkOnConnection bind:firebase bind:goal bind:connectionId={$page.params.deeperunderstandingId} collectionGroup="deeperunderstandings"/>
+  <ConnectionPage
+    bind:goal
+    bind:firebase
+    bind:connection
+  />
 </ConnectionTemplate>

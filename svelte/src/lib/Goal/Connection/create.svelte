@@ -8,6 +8,8 @@
   export let firebase;
   export let goal;
   export let connectionGoal;
+  let hasCurriculumProfile = false;
+  import CheckPlayerHasProfile from "$lib/Curriculum/checkPlayerHasProfile.svelte";
 
   let connection = {
     type: "prerequisit",
@@ -35,11 +37,12 @@
     let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
 
     let data = {
-      connectionDescription: connection.description,
+      sourceId: goal.id,
+      type: connection.type,
+      linkId: connectionGoal.id,
+      authorId: $session.user.uid,
       status: "in-progress",
-      connectionGoalId: connectionGoal.id,
       title: connectionGoal.title,
-      description: connectionGoal.description,
       createdAt: serverTimestamp,
       modifiedAt: serverTimestamp,
       lastUpdatesAt: serverTimestamp,
@@ -48,15 +51,22 @@
       inNeedsForApprovalAt: serverTimestamp,
       inTrashAt: serverTimestamp,
       publishedAt: serverTimestamp,
+      fields: [
+        {
+          title: "Beschrijving",
+          value: connectionGoal.description,
+        },
+        {
+          title: "Reden tot koppeling",
+          value: connection.description,
+        },
+      ],
     };
 
     alert = getDefaultAlertValues();
     try {
-      let collectionRef = db
-        .collection("goals")
-        .doc(goal.id)
-        .collection(connection.type);
-      let result = await collectionRef.add(data);
+      let connectionColRef = db.collection("connections");
+      let result = await connectionColRef.add(data);
       alert.success = true;
       alert.successTitle = "Verbinding gemaakt";
       alert.successMessage = "id: " + result.id;
@@ -64,28 +74,21 @@
         let typeToLink;
 
         switch (connection.type) {
-          case "prerequisites":
+          case "goal-prerequisites":
             typeToLink = "voorkennis";
             break;
-          case "specializations":
+          case "goal-specializations":
             typeToLink = "specialisatie";
             break;
-          case "bigideas":
+          case "goal-bigideas":
             typeToLink = "groot-idee";
             break;
-          case "deeperunderstandings":
+          case "goal-deeperunderstandings":
             typeToLink = "dieper-inzicht";
             break;
         }
 
-        goto(
-          "/leerdoel/" +
-            goal.id +
-            "/" +
-            typeToLink +
-            "/" +
-            result.id
-        );
+        goto("/leerdoel/" + goal.id + "/" + typeToLink + "/" + result.id);
       }, 3000);
     } catch (e) {
       alert.error = true;
@@ -109,6 +112,8 @@
 
 <div>
   <MainTabs bind:goal mainSelected="connections" />
+
+  <CheckPlayerHasProfile bind:hasCurriculumProfile />
 
   <ResultFeedback bind:alert />
 
@@ -148,7 +153,7 @@
         >
         <div class="flex justify-end">
           <button
-            disabled={buttonDisabled}
+            disabled={buttonDisabled || !hasCurriculumProfile}
             type="submit"
             class="float-right disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >

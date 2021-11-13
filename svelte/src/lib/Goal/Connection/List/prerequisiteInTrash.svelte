@@ -10,7 +10,7 @@
 <MainTabs bind:goal mainSelected="connections" />
 <SecondTabs bind:goal mainSelected="prerequist" />
 <ThirdTabs bind:goal mainSelected="in-trash"
-type="voorkennis"
+urlType="voorkennis"
 bind:publishedArray={goal.publishedPrerequisites}
 bind:needsApprovalArray={goal.needsApprovalPrerequisites}
 bind:inProgressArray={goal.inProgressPrerequisites}

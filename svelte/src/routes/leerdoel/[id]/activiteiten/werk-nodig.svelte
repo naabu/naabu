@@ -1,5 +1,5 @@
 <script>
-  import ActivityConnectionListContainer from "$lib/Containers/activityConnectionListContainer.svelte";
+  import ActivityConnectionListContainer from "$lib/Containers/connectionListContainer.svelte";
 
 </script>
 

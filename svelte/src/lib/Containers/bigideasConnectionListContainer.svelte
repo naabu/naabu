@@ -1,41 +1,52 @@
 <script>
-  import ConnectionListContainer from "$lib/Containers/connectionListContainer.svelte";
-  import GoalActivityList from "$lib/Connection/goalActivityList.svelte";
-</script>
-
-<ConnectionListContainer
-  connectionType="goal-activity"
-  status="published"
-  let:urlType
-  let:goal
-  let:connections
-  let:firebase
-  let:status
->
-  <GoalActivityList
-    {urlType}
-    goalId={goal.id}
-    {connections}
-    {firebase}
-    {status}
-  />
-</ConnectionListContainer>
-
-<!-- <script>
   import GetGoalData from "$lib/Goal/getGoalData.svelte";
   import GetConnectionListsData from "$lib/Connection/getConnectionListsData.svelte";
   import ContainerBreadcrumpPageTitle from "$lib/Containers/breadcrumbPageTitle.svelte";
-  import { getStores, page } from "$app/stores";
+  import { getStores, page, session } from "$app/stores";
   import ConnectionList from "$lib/Connection/list.svelte";
   import MainTabs from "$lib/Tabs/goal.svelte";
   import SecondTabs from "$lib/Tabs/connectionStatus.svelte";
-import { getDifficultyToString } from "$lib/Activity/helper";
+  import { onMount } from "svelte";
+  import { initFirebase } from "$lib/firebase";
 
   let goal;
   let firebase;
   let mounted;
   let connections;
   let type = "activiteiten";
+  let db;
+  let publishedCount = "...";
+  let needsApprovalCount = "...";
+  let inProgressCount = "...";
+  let needsWorksCount = "...";
+  let trashCanCount = "...";
+  export let status;
+
+  onMount(async () => {
+    firebase = await initFirebase($session.environment);
+    db = await firebase.firestore();
+    mounted = true;
+  });
+
+  async function getCountStatus(queryStatus) {
+    let ref = db
+      .collection("connections")
+      .where("sourceId", "==", goal.id)
+      .where("type", "==", "goal-activity")
+      .where("status", "==", queryStatus);
+    let snap = await ref.get();
+    return snap.size;
+  }
+
+  $: (async () => {
+    if (goal) {
+      publishedCount = await getCountStatus("published");
+      needsApprovalCount = await getCountStatus("needs-approval");
+      inProgressCount = await getCountStatus("in-progress");
+      needsWorksCount = await getCountStatus("needs-work");
+      trashCanCount = await getCountStatus("in-trash");
+    }
+  })();
 
   let breadcrumbs;
   $: if (goal) {
@@ -60,7 +71,7 @@ import { getDifficultyToString } from "$lib/Activity/helper";
   }
 
   function getDifficulty(connection) {
-    for (let i =0; i< connection.fields.length; i++) {
+    for (let i = 0; i < connection.fields.length; i++) {
       if (connection.fields[i].title === "Moeilijkheid") {
         return connection.fields[i].value;
       }
@@ -73,7 +84,7 @@ import { getDifficultyToString } from "$lib/Activity/helper";
 <GetConnectionListsData
   bind:goalId={$page.params.id}
   type="goal-activity"
-  status="published"
+  bind:status
   bind:firebase
   bind:mounted
   bind:connections
@@ -81,13 +92,23 @@ import { getDifficultyToString } from "$lib/Activity/helper";
 {#if mounted && goal}
   <ContainerBreadcrumpPageTitle bind:breadcrumbs title={goal.title} />
   <MainTabs bind:goal mainSelected="activities" />
-  <SecondTabs bind:goal bind:type mainSelected="published" />
+  <SecondTabs
+    bind:goal
+   urlTypebind:type
+    bind:mainSelected={status}
+    bind:publishedCount
+    bind:needsApprovalCount
+    bind:inProgressCount
+    bind:needsWorksCount
+    bind:trashCanCount
+  />
   {#if connections}
     <ConnectionList
-      bind:type
+     urlTypebind:type
       bind:goalId={goal.id}
       bind:connections
       bind:firebase
+      bind:status
       let:connection
     >
       <a
@@ -116,4 +137,4 @@ import { getDifficultyToString } from "$lib/Activity/helper";
   {:else}
     Loading...
   {/if}
-{/if} -->
+{/if}

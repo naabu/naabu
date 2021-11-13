@@ -13,7 +13,7 @@
 <ThirdTabs
   bind:goal
   mainSelected="published"
-  type="dieper-inzicht"
+  urlType="dieper-inzicht"
   bind:publishedArray={goal.publishedDeeperunderstandings}
   bind:needsApprovalArray={goal.needsApprovalDeeperunderstandings}
   bind:inProgressArray={goal.inProgressDeeperunderstandings}

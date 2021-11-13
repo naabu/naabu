@@ -7,13 +7,13 @@
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
 
   import CheckPlayerHasProfile from "$lib/Curriculum/checkPlayerHasProfile.svelte";
-  import { formatToTimeAgo } from "$lib/Misc/helper";
+  import { formatToTimeAgo, getDefaultAlertValues } from "$lib/Misc/helper";
   import { getCurriculumProfile } from "$lib/Curriculum/helper";
-  // import MainTabs from "$lib/Tabs/goal.svelte";
+
   export let firebase;
   export let goal;
   export let connection;
-  let adventure;
+
   let newCommentText;
   let buttonDisabled = true;
   let db;
@@ -38,10 +38,6 @@
     }
   }
 
-  // IF you are not the teacher and do not have the profile.
-  // Create a profile.
-  $: console.log("inu the right component");
-
   $: (async () => {
     if (connection && db) {
       if (connection.id !== updatesReceived) {
@@ -59,7 +55,6 @@
         updates = updates.reverse();
         updatesReceived = connection.id;
       }
-      // updates = updates;
     }
   })();
 
@@ -72,27 +67,12 @@
     }, 5000);
   }
 
-  // $: if (adventure && adventure.updates) {
-  //   sortOnCreatedAt(adventure.updates);
-  //   adventure.updates.reverse();
-  // }
-
   let alert = getDefaultAlertValues();
   onMount(async () => {
     TimeAgo.addLocale(nl);
     timeAgo = new TimeAgo("nl");
     db = await firebase.firestore();
   });
-
-  function getDefaultAlertValues() {
-    return {
-      success: false,
-      successMessage: "",
-      error: false,
-      errorCode: "",
-      errorMessage: "",
-    };
-  }
 
   async function changeStatus(checkStatus, changeStatus) {
     if (connection.status === checkStatus) {
@@ -212,50 +192,6 @@
         }
       }
     }
-
-    // if ($session.user && $session.player.curriculumProfileId) {
-    //   let data = {
-    //     type: "comment",
-    //     content: newCommentText,
-    //     authorId: $session.player.curriculumProfileId,
-    //     createdAt: firebase.firestore.Timestamp.now().seconds,
-    //   };
-    //   let profileRef = db
-    //     .collection("curriculumProfile")
-    //     .doc($session.player.curriculumProfileId);
-    //   let snap = await profileRef.get();
-    //   if (snap.exists) {
-    //     let profileData = snap.data();
-    //     data.curriculumProfile = {
-    //       fullname: profileData.fullname,
-    //       institution: profileData.institution,
-    //     };
-    //   }
-    //   alert = getDefaultAlertValues();
-    //   try {
-    //     let updatesColRef = adventureRef.collection("updates");
-    //     let result = await updatesColRef.add(data);
-    //     let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
-    //     let adventureData = {
-    //       lastUpdatesAt: serverTimestamp,
-    //     };
-    //     if (adventure.status === "in-progress") {
-    //       adventureData.inProgressAt = serverTimestamp;
-    //     } else if (adventure.status === "needs-approval") {
-    //       adventureData.inNeedsForApprovalAt = serverTimestamp;
-    //     }
-    //     await adventureRef.update(adventureData);
-    //     alert.success = true;
-    //     alert.successTitle = "Opmerking gemaakt";
-    //     alert.successMessage = "id: " + result.id;
-    //     data.createdAt = firebase.firestore.Timestamp.now().seconds;
-    //     adventure.updates = [...adventure.updates, data];
-    //   } catch (e) {
-    //     alert.error = true;
-    //     alert.errorCode = e.code;
-    //     alert.errorMessage = e.message;
-    //   }
-    // }
   }
 
   async function formSubmit(event) {
@@ -313,15 +249,17 @@
       <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
         <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
           <div class="sm:col-span-1">
-            <dt class="text-sm font-medium text-gray-500">Titel (test)</dt>
+            <dt class="text-sm font-medium text-gray-500">Titel</dt>
             <dd class="mt-1 text-sm text-gray-900">{connection.title}</dd>
           </div>
-          {#each connection.fields as field}
-            <div class="sm:col-span-1">
-              <dt class="text-sm font-medium text-gray-500">{field.title}</dt>
-              <dd class="mt-1 text-sm text-gray-900">{@html field.value}</dd>
-            </div>
-          {/each}
+          {#if connection.fields}
+            {#each connection.fields as field}
+              <div class="sm:col-span-1">
+                <dt class="text-sm font-medium text-gray-500">{field.title}</dt>
+                <dd class="mt-1 text-sm text-gray-900">{@html field.value}</dd>
+              </div>
+            {/each}
+          {/if}
         </dl>
       </div>
     </div>
@@ -592,7 +530,7 @@
                         >
                       </div>
                     </div>
-                  {:else if update.type === "created-teacher" ||  update.type === "activity-updated-teacher"}
+                  {:else if update.type === "created-teacher" || update.type === "activity-updated-teacher"}
                     <div>
                       <div class="relative px-1">
                         <div

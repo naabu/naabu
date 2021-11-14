@@ -1,6 +1,22 @@
 <script>
-  import ActivityConnectionListContainer from "$lib/Containers/connectionListContainer.svelte";
-
+  import ConnectionListContainer from "$lib/Containers/connectionListContainer.svelte";
+  import GoalActivityList from "$lib/Connection/goalActivityList.svelte";
 </script>
 
-<ActivityConnectionListContainer status="in-progress"/>
+<ConnectionListContainer
+  connectionType="goal-activity"
+  status="in-progress"
+  let:urlType
+  let:goal
+  let:connections
+  let:firebase
+  let:status
+>
+  <GoalActivityList
+    {urlType}
+    goalId={goal.id}
+    {connections}
+    {firebase}
+    {status}
+  />
+</ConnectionListContainer>

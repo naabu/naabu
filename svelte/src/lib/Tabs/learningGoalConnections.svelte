@@ -10,22 +10,22 @@
       url: "/leerdoel/" + goal.id + "/verbindingen",
     },
     {
-      value: "prerequist",
+      value: "goal-prerequisites",
       text: "Voorkennis",
       url: "/leerdoel/" +  goal.id + "/voorkennis",
     },
     {
-      value: "specialization",
+      value: "goal-specializations",
       text: "Specialisatie",
       url: "/leerdoel/" +  goal.id + "/specialisatie",
     },
     {
-      value: "big-ideas",
+      value: "goal-bigideas",
       text: "Grote ideeën",
       url: "/leerdoel/" +  goal.id + "/groot-idee",
     },
     {
-      value: "deeper-understandings",
+      value: "goal-deeperunderstandings",
       text: "Diepere inzichten" ,
       url: "/leerdoel/" +  goal.id + "/dieper-inzicht",
     },

@@ -4,7 +4,8 @@
   import ContainerBreadcrumpPageTitle from "$lib/Containers/breadcrumbPageTitle.svelte";
   import { getStores, page, session } from "$app/stores";
   import MainTabs from "$lib/Tabs/goal.svelte";
-  import SecondTabs from "$lib/Tabs/connectionStatus.svelte";
+  import LearningGoalConnectionsTabs from "$lib/Tabs/learningGoalConnections.svelte";
+  import ConnectionStatusTabs from "$lib/Tabs/connectionStatus.svelte";
   import { onMount } from "svelte";
   import { initFirebase } from "$lib/firebase";
   import { getStatusText } from "$lib/Connection/helper";
@@ -114,7 +115,11 @@
 {#if mounted && goal}
   <ContainerBreadcrumpPageTitle bind:breadcrumbs title={goal.title} />
   <MainTabs bind:goal mainSelected={selectedTab} />
-  <SecondTabs
+  {#if connectionType !== "goal-activity"}
+    <LearningGoalConnectionsTabs bind:goal mainSelected={connectionType} />
+  {/if}
+
+  <ConnectionStatusTabs
     bind:goal
     bind:urlType
     bind:mainSelected={status}

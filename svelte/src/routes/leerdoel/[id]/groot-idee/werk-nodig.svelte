@@ -1,30 +1,22 @@
 <script>
-  import Connections from "$lib/Goal/Connection/List/bigideasNeedsWork.svelte";
-  import ConnectionTemplate from "$lib/Containers/connectionTemplate.svelte";
-  import { getStores, page } from "$app/stores";
-  import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
-
-  let goal;
-  let firebase;
-  let breadcrumbs;
-
-  $: if (goal) {
-    breadcrumbs = getDefaultGoalBreadcrumbs(goal);
-
-    breadcrumbs = [
-      ...breadcrumbs,
-      {
-        url: "/leerdoel/" + goal.id + "/groot-idee",
-        value: "Grote ideeën",
-      },
-      {
-        url: $page.path,
-        value: "Heeft werk nodig",
-      },
-    ];
-  }
+  import ConnectionListContainer from "$lib/Containers/connectionListContainer.svelte";
+  import ConnectionLinkList from "$lib/Connection/connectionLinkList.svelte";
 </script>
 
-<ConnectionTemplate bind:goal bind:firebase bind:breadcrumbs>
-  <Connections bind:goal bind:firebase />
-</ConnectionTemplate>
+<ConnectionListContainer
+  connectionType="goal-bigideas"
+  status="needs-work"
+  let:urlType
+  let:goal
+  let:connections
+  let:firebase
+  let:status
+>
+  <ConnectionLinkList
+    {urlType}
+    goalId={goal.id}
+    {connections}
+    {firebase}
+    {status}
+  />
+</ConnectionListContainer>

@@ -29,8 +29,6 @@ describe("Revision flow editing learning goals", () => {
     cy.contains('University of Education');
     cy.contains('johndoe@uniedu.org');
     cy.contains('The top Proffesor of logic (5 years) Head of department of logic.');
-    cy.get('[data-cy=user-menu]').click();
-    cy.get('#user-menu-item-management').click();
     cy.get('[data-cy=curriculum-menu]').click();
     cy.get('[data-cy=create-goal-link]').click();
 

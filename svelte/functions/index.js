@@ -1,6 +1,9 @@
 const functions = require('firebase-functions');
 const helper = require('./Custom/helper');
 
+console.log('hi');
+console.log(functions.config());
+
 exports.goalSearch = require('./Custom/Goal/searchIndex.js');
 exports.revision = require('./Custom/Goal/revisions.js');
 exports.adventure = require('./Custom/Goal/adventures.js');

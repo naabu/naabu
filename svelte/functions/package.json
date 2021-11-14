@@ -13,18 +13,18 @@
   },
   "main": "index.js",
   "dependencies": {
-    "@algolia/autocomplete-js": "^1.0.1",
-    "@algolia/autocomplete-theme-classic": "^1.0.1",
+    "@algolia/autocomplete-js": "^1.5.0",
+    "@algolia/autocomplete-theme-classic": "^1.5.0",
     "@fontsource/fira-mono": "^4.2.2",
     "@lukeed/uuid": "^2.0.0",
-    "@sveltejs/kit": "next",
-    "algoliasearch": "^4.9.1",
+    "@sveltejs/kit": "^1.0.0-next.196",
+    "algoliasearch": "^4.11.0",
     "cookie": "^0.4.1",
-    "firebase": "^8.0.0",
-    "firebase-admin": "^9.2.0",
-    "firebase-functions": "^3.11.0",
+    "firebase": "^8.10.0",
+    "firebase-admin": "^9.12.0",
+    "firebase-functions": "^3.16.0",
     "leaflet": "^1.7.1",
-    "svelte": "^3.29.0"
+    "svelte": "^3.44.1"
   },
   "devDependencies": {
     "firebase-functions-test": "^0.2.0"

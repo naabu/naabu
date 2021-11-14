@@ -94,7 +94,7 @@
   <MainTabs bind:goal mainSelected="activities" />
   <SecondTabs
     bind:goal
-   urlTypebind:type
+    urlTypebind:type
     bind:mainSelected={status}
     bind:publishedCount
     bind:needsApprovalCount
@@ -104,20 +104,21 @@
   />
   {#if connections}
     <ConnectionList
-     urlTypebind:type
+      urlTypebind:type
       bind:goalId={goal.id}
       bind:connections
       bind:firebase
       bind:status
       let:connection
     >
-      <a
-        slot="createButton"
-        class="underline ml-auto"
-        href="/lerarenkamer/activiteit/maken/{goal.id}"
-      >
-        Nieuwe activiteit maken</a
-      >
+      <div slot="createButton" class="mt-8 mb-8 flex">
+        <a
+          class="underline ml-auto"
+          href="/lerarenkamer/activiteit/maken/{goal.id}"
+        >
+          Nieuwe activiteit maken</a
+        >
+      </div>
 
       <th
         slot="tableHeader"

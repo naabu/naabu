@@ -54,9 +54,7 @@
   const timeAgo = new TimeAgo("nl");
 </script>
 
-<div class="mt-8 mb-8 flex">
-  <slot name="createButton" />
-</div>
+<slot name="createButton" />
 
 {#if connections && connections.length > 0}
   <div class="flex flex-col">
@@ -196,5 +194,5 @@
     </div>
   </div>
 {:else}
-  Geen activiteiten gevonden
+  Geen verbindingen gevonden
 {/if}

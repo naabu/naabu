@@ -1,5 +1,5 @@
 <script>
-  import Connections from "$lib/Goal/Connection/overview.svelte";
+  import OverviewPage from "$lib/Goal/Connection/overview.svelte";
   import ConnectionTemplate from "$lib/Containers/connectionTemplate.svelte";
   import { getStores, page } from "$app/stores";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
@@ -22,5 +22,5 @@
 </script>
 
 <ConnectionTemplate bind:goal bind:firebase bind:breadcrumbs>
-  <Connections bind:goal bind:firebase />
+  <OverviewPage bind:goal bind:firebase />
 </ConnectionTemplate>

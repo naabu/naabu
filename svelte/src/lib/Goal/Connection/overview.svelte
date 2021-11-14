@@ -1,10 +1,52 @@
 <script>
   import MainTabs from "$lib/Tabs/goal.svelte";
   import SecondTabs from "$lib/Tabs/learningGoalConnections.svelte";
-  import PublishedLists from "$lib/Goal/Connection/List/published.svelte";
+  import ConnectionList from "$lib/Connection/list.svelte";
+  import GetConnectionListsData from "$lib/Connection/getConnectionListsData.svelte";
   export let goal;
   export let firebase;
+  let mounted;
+  let prerequisitesConnections;
+  let specializationConnections;
+  let bigideasConnections;
+  let deeperunderstandingConnections;
 </script>
+
+<GetConnectionListsData
+  bind:goalId={goal.id}
+  type="goal-prerequisites"
+  status="published"
+  bind:firebase
+  bind:mounted
+  bind:connections={prerequisitesConnections}
+/>
+
+<GetConnectionListsData
+  bind:goalId={goal.id}
+  type="goal-specializations"
+  status="published"
+  bind:firebase
+  bind:mounted
+  bind:connections={bigideasConnections}
+/>
+
+<GetConnectionListsData
+  bind:goalId={goal.id}
+  type="goal-deeperunderstandings"
+  status="published"
+  bind:firebase
+  bind:mounted
+  bind:connections={deeperunderstandingConnections}
+/>
+
+<GetConnectionListsData
+  bind:goalId={goal.id}
+  type="goal-bigideas"
+  status="published"
+  bind:firebase
+  bind:mounted
+  bind:connections={deeperunderstandingConnections}
+/>
 
 <MainTabs bind:goal mainSelected="connections" />
 <SecondTabs bind:goal mainSelected="overview" />
@@ -15,52 +57,44 @@
   >
 </div>
 
-<h3 class="text-lg leading-6 font-medium text-gray-900">
-  Gepubliceerde voorkennis
-</h3>
 <div>
-  <PublishedLists
-    bind:goal
+  <h3 class="text-lg leading-6 font-medium text-gray-900">Voorkennis</h3>
+  <ConnectionList
+    urlType="voorkennis"
+    bind:goalId={goal.id}
     bind:firebase
-    bind:connectionArray={goal.publishedPrerequisites}
-    linkType="voorkennis"
+    bind:connections={prerequisitesConnections}
   />
 </div>
 
 <div class="mt-4 mb-4">
-  <h3 class="text-lg leading-6 font-medium text-gray-900">
-    Gepubliceerde specialisatie
-  </h3>
-  <PublishedLists
-    bind:goal
+  <h3 class="text-lg leading-6 font-medium text-gray-900">Specialisatie</h3>
+  <ConnectionList
+    urlType="specialisatie"
+    bind:goalId={goal.id}
     bind:firebase
-    bind:connectionArray={goal.publishedSpecializations}
-    linkType="specialisatie"
+    bind:connections={specializationConnections}
   />
 </div>
 
 <div class="mt-4 mb-4">
-  <h3 class="text-lg leading-6 font-medium text-gray-900">
-    Gepubliceerde grote ideeën
-  </h3>
+  <h3 class="text-lg leading-6 font-medium text-gray-900">Grote ideeën</h3>
 
-  <PublishedLists
-    bind:goal
+  <ConnectionList
+    urlType="groot-idee"
+    bind:goalId={goal.id}
     bind:firebase
-    bind:connectionArray={goal.publishedBigideas}
-    linkType="groot-idee"
+    bind:connections={bigideasConnections}
   />
 </div>
 
 <div class="mt-4 mb-4">
-  <h3 class="text-lg leading-6 font-medium text-gray-900">
-    Gepubliceerde diepere inzichten
-  </h3>
+  <h3 class="text-lg leading-6 font-medium text-gray-900">Diepere inzichten</h3>
 
-  <PublishedLists
-    bind:goal
+  <ConnectionList
+    urlType="dieper-inzicht"
+    bind:goalId={goal.id}
     bind:firebase
-    bind:connectionArray={goal.publishedDeeperunderstandings}
-    linkType="dieper-inzicht"
+    bind:connections={deeperunderstandingConnections}
   />
 </div>

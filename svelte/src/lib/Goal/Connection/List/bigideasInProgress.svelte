@@ -2,7 +2,7 @@
   import MainTabs from "$lib/Tabs/goal.svelte";
   import SecondTabs from "$lib/Tabs/learningGoalConnections.svelte";
   import ThirdTabs from "$lib/Tabs/connectionStatus.svelte";
-  
+
   import InProgressLists from "$lib/Goal/Connection/List/inProgress.svelte";
   export let goal;
   export let firebase;
@@ -10,13 +10,15 @@
 
 <MainTabs bind:goal mainSelected="connections" />
 <SecondTabs bind:goal mainSelected="big-ideas" />
-<ThirdTabs bind:goal mainSelected="in-progress"
-urlType="groot-idee"
-bind:publishedArray={goal.publishedBigideas}
-bind:needsApprovalArray={goal.needsApprovalBigideas}
-bind:inProgressArray={goal.inProgressBigideas}
-bind:needsWorksArray={goal.needsWorkBigideas}
-bind:trashCanArray={goal.trashCanBigideas}
+<ThirdTabs
+  bind:goal
+  mainSelected="in-progress"
+  urlType="groot-idee"
+  bind:publishedArray={goal.publishedBigideas}
+  bind:needsApprovalArray={goal.needsApprovalBigideas}
+  bind:inProgressArray={goal.inProgressBigideas}
+  bind:needsWorksArray={goal.needsWorkBigideas}
+  bind:trashCanArray={goal.trashCanBigideas}
 />
 
 <div class="mt-8 mb-8 flex">

@@ -10,6 +10,7 @@
   import { initFirebase } from "$lib/firebase";
   import { getStatusText } from "$lib/Connection/helper";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
+  import ConnectionLinkList from "$lib/Connection/connectionLinkList.svelte";
 
   export let connectionType = "goal-activity";
   export let status;
@@ -130,7 +131,15 @@
     bind:trashCanCount
   />
   {#if connections}
-    <slot {urlType} {connections} {firebase} {status} {goal} />
+    <slot {urlType} {connections} {firebase} {status} {goal}>
+      <ConnectionLinkList
+        {urlType}
+        goalId={goal.id}
+        {connections}
+        {firebase}
+        {status}
+      />
+    </slot>
   {:else}
     Loading...
   {/if}

@@ -111,13 +111,14 @@
       bind:status
       let:connection
     >
+    <div slot="createButton" class="mt-8 mb-8 flex">
       <a
-        slot="createButton"
         class="underline ml-auto"
         href="/lerarenkamer/activiteit/maken/{goal.id}"
       >
         Nieuwe activiteit maken</a
       >
+    </div>
 
       <th
         slot="tableHeader"

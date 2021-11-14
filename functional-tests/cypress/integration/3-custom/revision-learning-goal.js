@@ -137,7 +137,7 @@ describe("Revision flow editing learning goals", () => {
     cy.get('[data-cy="maintab-goal"]').click({force:true});
     cy.contains('Je bekijkt een revisie');
     cy.get('[data-cy="show-diff-link"]').click();
-    cy.contains('Verschil tussen versies');
+    cy.contains('Verschil tussen versies', {timeout: 100000});
     cy.get('[data-cy=discuss-revision-button]').click({force:true});
 
     cy.get('[data-cy=post-title]').should('to.includes.value', 'Overleg revisie');

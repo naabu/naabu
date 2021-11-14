@@ -42,6 +42,7 @@ describe("Revision flow editing learning goals", () => {
     cy.get('#description').type('Important learning goal for reasons')
     cy.get('#test_name').type('Battle 1');
     cy.get('[data-cy=add-battle-button]').click();
+    cy.get('[data-cy=add-question-button]').click();
     cy.get('#quiz_question').type('$$1+1=$$..');
     cy.get('[data-cy=new-answer-button]').click();
     cy.get('[data-cy=A1]').click();

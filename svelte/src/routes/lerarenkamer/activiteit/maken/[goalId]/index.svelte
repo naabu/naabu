@@ -4,9 +4,9 @@
   import { initFirebase } from "$lib/firebase";
   import { getStores, session, page } from "$app/stores";
   import Sidebar from "$lib/Containers/sidebar.svelte";
-  import { getLoungeMenuitems } from "$lib/Teachers/helper";
+  import { getTeacherMenuitems } from "$lib/Teachers/helper";
   import GetGoalData from "$lib/Goal/getGoalData.svelte";
-  let menuitems = getLoungeMenuitems($page.path);
+  let menuitems = getTeacherMenuitems($page.path);
   let firebase;
   let goal;
 

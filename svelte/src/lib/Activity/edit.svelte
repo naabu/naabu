@@ -5,7 +5,8 @@
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
   import { getActivitySaveData } from "./helper";
   import { goto } from "$app/navigation";
-import { getDefaultAlertValues } from "$lib/Misc/helper";
+  import { getDefaultAlertValues } from "$lib/Misc/helper";
+  import { createRevision } from "$lib/Revision/helper";
 
   let y;
   export let activity;
@@ -30,14 +31,28 @@ import { getDefaultAlertValues } from "$lib/Misc/helper";
 
   async function edit() {
     if ($session.user) {
-      let data = getActivitySaveData(activity);
-      data.authorId = $session.user.uid;
+      let activityData = getActivitySaveData(activity);
+      let resultRevision = await createRevision(
+        firebase,
+        activity,
+        activityData,
+        $session.user.uid
+      );
+
+      activityData.latestRevisionId = resultRevision.id;
+      activityData.latestRevisionCreatedAt = firebase.firestore.Timestamp.now().seconds;
+
+      if (activity.latestRevisionId) {
+        activityData.previousRevisionId = activity.latestRevisionId;
+      }
+
+      activityData.authorId = $session.user.uid;
       alert = getDefaultAlertValues();
       let db = firebase.firestore();
 
       let ref = db.collection("activities").doc(activity.id);
       try {
-        await ref.update(data);
+        await ref.update(activityData);
         alert.success = true;
         alert.successTitle = "Activiteit gewijzigd";
         alert.successMessage = "id: " + ref.id;

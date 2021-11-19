@@ -1,5 +1,21 @@
 import { renderKatexOutput } from "$lib/Misc/helper.js";
 
+export function getDefaultEmptyActivity() {
+  return {
+    title: "",
+    descriptionRaw: "",
+    status: "draft",
+    description: "",
+    type: "",
+    difficulty: 1,
+    svg: "",
+    video: {
+      vimeoId: null,
+    },
+    quizzes: [],
+  };
+}
+
 export function getActivitySaveData(activity) {
   activity.description = renderKatexOutput(activity.descriptionRaw);
   const data = {
@@ -13,7 +29,6 @@ export function getActivitySaveData(activity) {
     svg: activity.svg,
     quizzes: activity.quizzes,
     status: activity.status,
-    visibility: 'public',
     video: {
       vimeoId: activity.video.vimeoId
     }
@@ -48,10 +63,19 @@ export function getDifficultyToString(difficulty) {
   }
 }
 
-export async function retrieveActivityListFB(db, status, authorId) {
-  console.log(status);
-  console.log(authorId);
+export function getStatusTranslation(status) {
+  switch (status) {
+    case "draft":
+      return "Concept";
+    case "open":
+      return "Open";
+    case "published":
+      return "Gepubliceerd";
+  }
+  return "Geen status";
+}
 
+export async function retrieveActivityListFB(db, status, authorId) {
   let ref;
   if (status && authorId) {
     ref = db.collection("activities").where("status", "==", status).where("authorId", "==", authorId);;

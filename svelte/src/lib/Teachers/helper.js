@@ -1,4 +1,4 @@
-export function getLoungeMenuitems(pagePath) {
+export function getTeacherMenuitems(pagePath, activityStatus = "") {
   return [
     {
       name: "Dashboard",
@@ -10,19 +10,19 @@ export function getLoungeMenuitems(pagePath) {
       name: "Concept activiteiten",
       url: "/lerarenkamer/concept-activiteiten",
       icon: "textdocument",
-      selected: (pagePath === "/lerarenkamer/concept-activiteiten"),
+      selected: (pagePath === "/lerarenkamer/concept-activiteiten" || activityStatus === "draft"),
     },
     {
       name: "Open activiteiten",
       url: "/lerarenkamer/open-activiteiten",
       icon: "progress",
-      selected: (pagePath === "/lerarenkamer/open-activiteiten" || pagePath.startsWith("/lerarenkamer/activiteit/")),
+      selected: (pagePath === "/lerarenkamer/open-activiteiten" || activityStatus === "open"),
     },
     {
       name: "Gepubliceerde activiteiten",
       url: "/lerarenkamer/gepubliceerde-activiteiten",
       icon: "document",
-      selected: (pagePath === "/lerarenkamer/gepubliceerde-activiteiten"),
+      selected: (pagePath === "/lerarenkamer/gepubliceerde-activiteiten" || activityStatus === "published"),
     },
     {
       name: "Modules",

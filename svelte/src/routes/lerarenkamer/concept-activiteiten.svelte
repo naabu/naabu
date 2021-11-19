@@ -2,10 +2,10 @@
   import ListConceptActivities from "$lib/Teachers/listConceptActivities.svelte";
   import Sidebar from "$lib/Containers/sidebar.svelte";
   import { getStores, page } from "$app/stores";
-  import { getLoungeMenuitems } from "$lib/Teachers/helper";
+  import { getTeacherMenuitems } from "$lib/Teachers/helper";
   import GetActivityListData from "$lib/Activity/getActivityListData.svelte";
 
-  let menuitems = getLoungeMenuitems($page.path);
+  let menuitems = getTeacherMenuitems($page.path);
   import { goto } from "$app/navigation";
   let activities;
   let firebase;

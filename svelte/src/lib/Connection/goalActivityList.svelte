@@ -24,14 +24,12 @@
   bind:status
   let:connection
 >
-  <a
-    slot="createButton"
-    class="underline ml-auto"
-    href="/lerarenkamer/activiteit/maken/{goalId}"
-  >
-    Nieuwe activiteit maken</a
-  >
-
+  <div slot="createButton" class="mt-8 mb-8 flex">
+    <a class="underline ml-auto" href="/lerarenkamer/activiteit/maken/{goalId}">
+      Nieuwe activiteit maken</a
+    >
+  </div>
+  
   <th
     slot="tableHeader"
     scope="col"

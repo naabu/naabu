@@ -11,6 +11,7 @@
   import ShowRevisionHistory from "$lib/Revision/history.svelte";
   import { getTeacherMenuitems } from "$lib/Teachers/helper";
   import Sidebar from "$lib/Containers/sidebar.svelte";
+  import { getDefaultEmptyActivity } from "$lib/Activity/helper";
   import { goto } from "$app/navigation";
   import SaveActivityRevision from "$lib/Revision/saveActivityRevision.svelte";
 
@@ -42,7 +43,6 @@
   }
 
   let revisionNew;
-  let revisionOld;
   let goBackRevision;
   let goForwardRevision;
 
@@ -61,9 +61,21 @@
     update();
   }
 
+  // let compareActivityEmpty;
+
   $: if (revisionNew && revisionNew.revisionType === "activity") {
     menuitems = getTeacherMenuitems($page.path, revisionNew.status);
+    // compareActivityEmpty = getDefaultEmptyActivity();
+    // compareActivityEmpty.difficulty = "";
   }
+
+  // $: if ($page.params.id && $page.params.oldId && mounted) {
+  //   loading = true;
+  //   goBackRevision = null;
+  //   goForwardRevision = null;
+  //   retrieveFirestoreData();
+  //   loading = false;
+  // }
 
   onMount(async () => {
     firebase = await initFirebase($session.environment);
@@ -82,7 +94,7 @@
       if (!revisionNew.revisionType) {
         let battleCol = db
           .collection("revisions")
-          .doc(revisionNew.revisionId)
+          .doc(revisionNew.id)
           .collection("battles");
         const querySnapshot = await battleCol.get();
         revisionNew.battles = [];
@@ -90,25 +102,6 @@
           let battleObject = doc.data();
           battleObject.name = doc.id;
           revisionNew.battles = [...revisionNew.battles, battleObject];
-        });
-      }
-    }
-    let oldRef = db.collection("revisions").doc($page.params.oldId);
-    let oldSnap = await oldRef.get();
-    if (oldSnap.exists) {
-      revisionOld = oldSnap.data();
-      revisionOld.revisionId = oldRef.id;
-      if (!revisionNew.revisionType) {
-        let battleCol = db
-          .collection("revisions")
-          .doc(revisionOld.revisionId)
-          .collection("battles");
-        const querySnapshot = await battleCol.get();
-        revisionOld.battles = [];
-        querySnapshot.forEach((doc) => {
-          let battleObject = doc.data();
-          battleObject.name = doc.id;
-          revisionOld.battles = [...revisionOld.battles, battleObject];
         });
       }
     }
@@ -120,7 +113,7 @@
 
         let returnRevisions = getNextAndPreviousRevisions(
           goal.revisionList,
-          revisionNew.revisionId
+          revisionNew.id
         );
         goForwardRevision = returnRevisions.nextRevision;
         goBackRevision = returnRevisions.previousPreviousRevision;
@@ -131,13 +124,13 @@
   }
 </script>
 
-{#if mounted && revisionNew && revisionOld}
+{#if mounted && revisionNew}
   {#if !revisionNew.revisionType}
     {#if goal}
       <ContainerBreadcrumpPageTitle bind:breadcrumbs title={goal.title} />
       <GoalDiff
         bind:revisionNew
-        bind:revisionOld
+        revisionOld={{}}
         bind:goForwardRevision
         bind:goBackRevision
         bind:loading
@@ -171,6 +164,21 @@
             Bekijk hele geschiedenis
           </button>
         </div>
+        <!-- <div class="w-full flex">
+          <button
+            class="z-10 mr-auto ml-4 pl-2 pr-2 bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            on:click={() =>
+              goto("/lerarenkamer/activiteit/" + revisionNew.revisionSourceId)}
+          >
+            Terug naar activiteit
+          </button>
+          <button
+            class="z-10 ml-auto mr-4 pl-2 pr-2 bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            on:click={() => (toggleShowAllHistory = !toggleShowAllHistory)}
+          >
+            Bekijk hele geschiedenis
+          </button>
+        </div> -->
       </span>
 
       <span slot="content">
@@ -184,7 +192,7 @@
         <!-- </div> -->
         <ActivityDiff
           bind:revisionNew
-          bind:revisionOld
+          revisionOld={{}}
           bind:goForwardRevision
           bind:goBackRevision
           bind:loading

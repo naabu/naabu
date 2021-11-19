@@ -5,7 +5,7 @@
   import GoalForm from "./form.svelte";
   import { onMount } from "svelte";
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
-  import { createRevision, getGoalSaveData } from "./helper";
+  import { createGoalRevision, getGoalSaveData } from "./helper";
   import { getGoalIndex } from "$lib/algolia";
   import { goto } from "$app/navigation";
 
@@ -81,7 +81,7 @@
 
         data.authorId = $session.player.curriculumProfileId;
         data.goalId = goalResult.id;
-        await createRevision(db, goal, data);
+        await createGoalRevision(db, goal, data);
 
         alert.success = true;
         alert.successTitle = "Leerdoel gemaakt";

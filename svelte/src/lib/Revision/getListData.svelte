@@ -1,15 +1,14 @@
 <script>
+  export let revisions = [];
   import { onMount } from "svelte";
   import { getStores, session } from "$app/stores";
   import { initFirebase } from "$lib/firebase";
-  import { queryConnections } from "$lib/Connection/helper";
+  import { queryRevisions } from "$lib/Revision/helper";
 
   export let firebase;
-  export let connections;
   export let mounted = false;
-  export let type;
-  export let status;
-  export let goalId;
+  export let revisionType;
+  export let sourceId;
 
   onMount(async () => {
     firebase = await initFirebase($session.environment);
@@ -19,8 +18,6 @@
 
   async function retrieveFirestoreData() {
     let db = await firebase.firestore();
-    console.log(type);
-    console.log(status);
-    connections = await queryConnections(db, type, status, goalId);
+    revisions = await queryRevisions(db, revisionType, sourceId);
   }
 </script>

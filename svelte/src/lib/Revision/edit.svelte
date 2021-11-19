@@ -5,7 +5,7 @@
   import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
   import MainTabs from "$lib/Tabs/revision.svelte";
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
-  import { createRevision, getGoalSaveData } from "$lib/Goal/helper";
+  import { createGoalRevision, getGoalSaveData } from "$lib/Goal/helper";
 
   export let battleCol;
   export let firebase;
@@ -83,6 +83,7 @@
     const db = await firebase.firestore();
     let data = getGoalSaveData(revision, $session.serverFirestoreTimeStamp);
 
+
     alert = getDefaultAlertValues();
     // Edit a goal not a revision!
     try {
@@ -110,7 +111,7 @@
 
         data.authorId = $session.player.curriculumProfileId;
         data.goalId = goalRef.id;
-        await createRevision(db, revision, data);
+        await createGoalRevision(db, revision, data);
       }
       alert.success = true;
       alert.successTitle = "Leerdoel gewijzigd";

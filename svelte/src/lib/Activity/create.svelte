@@ -6,8 +6,9 @@
   import { onMount } from "svelte";
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
   import { renderKatexOutput } from "$lib/Misc/helper.js";
-  import { getActivitySaveData } from "./helper";
+  import { getActivitySaveData, getDefaultEmptyActivity } from "./helper";
   import { goto } from "$app/navigation";
+  import { createRevision } from "$lib/Revision/helper";
   export let firebase;
   export let goal;
   let draftId;
@@ -56,19 +57,7 @@
 
   let y;
 
-  let activity = {
-    title: "",
-    descriptionRaw: "",
-    status: "draft",
-    description: "",
-    type: "",
-    difficulty: 1,
-    svg: "",
-    video: {
-      vimeoId: null,
-    },
-    quizzes: [],
-  };
+  let activity = getDefaultEmptyActivity();
 
   $: if (goal) {
     activity.goalId = goal.id;
@@ -95,12 +84,27 @@
 
   async function createActivity() {
     if ($session.user) {
-      let data = getActivitySaveData(activity);
-      data.authorId = $session.user.uid;
+      let activityData = getActivitySaveData(activity);
+
+      activityData.authorId = $session.user.uid;
       alert = getDefaultAlertValues();
       try {
         let collectionRef = db.collection("activities");
-        let result = await collectionRef.add(data);
+        let result = await collectionRef.add(activityData);
+        activity.id = result.id;
+        let resultRevision = await createRevision(
+          firebase,
+          activity,
+          activityData,
+          $session.user.uid
+        );
+
+        activityData = {
+          latestRevisionId: resultRevision.id,
+          latestRevisionCreatedAt: firebase.firestore.Timestamp.now().seconds,
+        };
+        await collectionRef.doc(activity.id).update(activityData);
+        goto("/lerarenkamer/activiteit/" + activity.id + "/preview");
         alert.success = true;
         alert.successTitle = "Activiteit gemaakt";
         alert.successMessage = "id: " + result.id;
@@ -117,7 +121,6 @@
   async function formSubmit(event) {
     buttonDisabled = true;
     await createActivity();
-    goto("/lerarenkamer/activiteit/" + draftId + "/preview");
     setTimeout(() => {
       buttonDisabled = false;
     }, 5000);

@@ -15,4 +15,12 @@
   bind:status
   let:connection
 >
+
+<div slot="createButton" class="mt-8 mb-8 flex">
+  <a class="underline ml-auto" href="/leerdoel/{goalId}/verbinding-maken">
+    Nieuwe verbinding maken</a
+  >
+</div>
+
+
 </ConnectionList>

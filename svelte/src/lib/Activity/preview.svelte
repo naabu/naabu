@@ -5,10 +5,17 @@
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
   import { getCurriculumProfile } from "$lib/Curriculum/helper";
-  import { getDifficultyToString, getTypeText } from "./helper";
+  import {
+    getActivitySaveData,
+    getDifficultyToString,
+    getTypeText,
+  } from "./helper";
+  import { createRevision } from "$lib/Revision/helper";
   export let firebase;
   export let activity;
-  $: console.log(activity);
+
+  let buttonDisabled = false;
+
   let db;
 
   let connectionData;
@@ -47,7 +54,27 @@
     goto("/lerarenkamer/activiteit/" + activity.id);
   }
 
+  // async function createRevision() {
+  //   console.log("Create revision!!");
+  //   let revisionData = {
+  //     revisionType: "activity",
+  //     revisionCreatedAt: firebase.firestore.Timestamp.now().seconds,
+  //     revisionSourceId: activity.id,
+  //     revisionAuthorId: $session.user.uid,
+  //   };
+
+  //   if (activity.latestRevisionId) {
+  //     revisionData.previousRevisionId = activity.latestRevisionId;
+  //   }
+
+  //   revisionData = { ...revisionData, ...getActivitySaveData(activity) };
+
+  //   let resultRevision = await db.collection("revisions").add(revisionData);
+  //   return resultRevision;
+  // }
+
   async function updateConnection() {
+    buttonDisabled = true;
     if ($session.user.uid) {
       let connectionCollRef = db.collection("connections");
       try {
@@ -60,8 +87,38 @@
           createdAt: firebase.firestore.Timestamp.now().seconds,
           connectionId: activity.connectionId,
         };
+
+        // Do not create a revision!
+        // Create an update with diff for latest revisions.
+        // Connection should remember its latest revision
+        // Then compare that revision witht he latest revision of the activity.
+
+        let resultRevision = await createRevision(
+          firebase,
+          activity,
+          getActivitySaveData(activity),
+          $session.user.uid
+        );
+
+        let activityData = {
+          latestRevisionId: resultRevision.id,
+          latestRevisionCreatedAt: firebase.firestore.Timestamp.now().seconds,
+        };
+
+        if (activity.latestRevisionId) {
+          activityData.previousRevisionId = activity.latestRevisionId;
+        }
+
+        let activityRef = db.collection("activities").doc(activity.id);
+        activityRef.update(activityData);
+
         await createUpdate(updateData);
-        goto("/leerdoel/" + activity.goalId + "/activiteiten/" + activity.connectionId);
+        goto(
+          "/leerdoel/" +
+            activity.goalId +
+            "/activiteiten/" +
+            activity.connectionId
+        );
       } catch (e) {
         console.log(e);
       }
@@ -77,9 +134,10 @@
     }
     let updatesColRef = db.collection("updates");
     await updatesColRef.add(updateData);
-  } 
+  }
 
   async function openActivity() {
+    buttonDisabled = true;
     if ($session.user.uid) {
       let connectionCollRef = db.collection("connections");
       try {
@@ -87,11 +145,21 @@
         connectionData.status = "in-progress";
         let result = await connectionCollRef.add(connectionData);
 
+        let resultRevision = await createRevision(
+          firebase,
+          activity,
+          getActivitySaveData(activity),
+          $session.user.uid
+        );
+
         let activityData = {
           status: "open",
           connectionId: result.id,
           connectionStatus: "in-progress",
+          latestRevisionId: resultRevision.id,
+          latestRevisionCreatedAt: firebase.firestore.Timestamp.now().seconds,
         };
+
         let activityRef = db.collection("activities").doc(activity.id);
         activityRef.update(activityData);
 
@@ -123,12 +191,14 @@
 
     {#if activity.connectionId}
       <button
+        disabled={buttonDisabled}
         class="float-right disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         on:click|preventDefault={updateConnection}
         >Koppeling met leerdoel updaten</button
       >
     {:else}
       <button
+        disabled={buttonDisabled}
         class="float-right disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         on:click|preventDefault={openActivity}
         >Deze activiteit koppelen met leerdoel</button

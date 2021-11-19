@@ -1,19 +1,16 @@
 const functions = require('firebase-functions');
 const helper = require('./Custom/helper');
 
-console.log('hi');
-console.log(functions.config());
-
 exports.goalSearch = require('./Custom/Goal/searchIndex.js');
 exports.revision = require('./Custom/Goal/revisions.js');
-exports.adventure = require('./Custom/Goal/adventures.js');
-exports.connection = require('./Custom/Goal/connections.js');
 exports.mapSearch = require('./Custom/Map/searchIndex.js');
 exports.map = require('./Custom/Map/map.js');
 exports.trigger = require('./Custom/Trigger/exportData.js');
+exports.manualTrigger = require('./Custom/Trigger/manualTrigger.js');
 exports.talkPost = require('./Custom/Talk/post.js');
 exports.activity = require('./Custom/Activity/searchIndex.js');
 exports.connection = require('./Custom/Connection/connection.js');
+exports.connectionUpdate = require('./Custom/Connection/connectionUpdate.js');
 
 exports.ssr = functions.https.onRequest(async (request, response) => {
   process.env.environment = helper.environment;

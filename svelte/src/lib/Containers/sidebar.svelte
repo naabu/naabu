@@ -11,7 +11,7 @@
 
 <div>
   <!-- Off-canvas menu for mobile, show/hide based on off-canvas menu state. -->
-  <div class="h-10">
+  <div class="">
     <div
       class="absolute inset-x-0 z-10 md:hidden pl-1 pt-1 sm:pl-3 sm:pt-3 bg-white"
     >
@@ -131,6 +131,7 @@
       <slot name="cta-button" />
 
       <main class="w-full">
+        <slot name="abovetitle" />
         <div class="py-6">
           <!-- <div class="px-4 sm:px-6 md:px-0">
             <h1 class="text-2xl font-semibold text-gray-900">

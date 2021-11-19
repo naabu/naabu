@@ -8,7 +8,7 @@
   import { onMount } from "svelte";
   import MainTabs from "$lib/Tabs/goal.svelte";
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
-  import { createRevision, getGoalSaveData } from "./helper";
+  import { createGoalRevision, getGoalSaveData } from "./helper";
 
   export let battleCol;
   export let firebase;
@@ -72,7 +72,7 @@
 
       data.authorId = $session.player.curriculumProfileId;
       data.goalId = goalRef.id;
-      await createRevision(db, goal, data);
+      await createGoalRevision(db, goal, data);
 
       alert.success = true;
       alert.successTitle = "Leerdoel gewijzigd";

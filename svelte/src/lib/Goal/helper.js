@@ -40,7 +40,7 @@ export function getDefaultGoalBreadcrumbs(goal) {
     ];
 }
 
-export async function createRevision(db, goal, data) {
+export async function createGoalRevision(db, goal, data) {
   // Get profile from authorId.
   let profileRef = db.collection("curriculumProfile").doc(data.authorId);
 

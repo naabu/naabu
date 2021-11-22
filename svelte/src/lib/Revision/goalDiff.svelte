@@ -172,10 +172,10 @@
           <div class="grid gap-4 mt-2 grid-cols-2 px-4 pb-5 sm:p-6 sm:pt-0">
             <div>
               {#if revisionOld}
-                <a class="underline" href="/revisie/{revisionOld.id}">
+                <a class="underline" href="/revisie/{revisionOld.revisionId}">
                   {getDateString(revisionOld.createdAt)}
                 </a>
-                (<a class="underline" href="/revisie/{revisionOld.id}/wijzigen"
+                (<a class="underline" href="/revisie/{revisionOld.revisionId}/wijzigen"
                   >edit</a
                 >)
                 <div>
@@ -203,10 +203,10 @@
 
             <div>
               {#if revisionNew}
-                <a class="underline" href="/revisie/{revisionNew.id}">
+                <a class="underline" href="/revisie/{revisionNew.revisionId}">
                   {getDateString(revisionNew.createdAt)}</a
                 >
-                (<a class="underline" href="/revisie/{revisionNew.id}/wijzigen"
+                (<a class="underline" href="/revisie/{revisionNew.revisionId}/wijzigen"
                   >edit</a
                 >)
                 <div>

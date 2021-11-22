@@ -5,7 +5,6 @@
 
   let firebase;
   let revisions;
-  $:console.log(revisions);
 </script>
 
 <GetRevisionListData bind:firebase bind:revisions revisionType="activity" bind:sourceId={$page.params.activityId}  />

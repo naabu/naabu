@@ -33,7 +33,6 @@
   let isTeacher;
   let hasCurriculumProfile;
   let updates = [];
-  $: console.log(updates);
   let updatesReceived;
 
   $: {

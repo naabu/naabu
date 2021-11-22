@@ -112,7 +112,7 @@
         });
       }
     }
-    console.log(revisionNew);
+
     if (revisionNew && !revisionNew.revisionType) {
       let goalSnap = await db.collection("goals").doc(revisionNew.goalId).get();
       if (goalSnap.exists) {

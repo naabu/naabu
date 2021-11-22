@@ -12,7 +12,6 @@
 
   $: if (revisionOld && revisionNew) {
     orderedDifference = getDifferencesBetweenRevisions(revisionOld, revisionNew, sortListOrder);
-    console.log(differences);
   }
 </script>
 

@@ -11,6 +11,7 @@
   export let firebase;
   export let toggle = true;
   export let activeRevisionId;
+
 </script>
 
 <div class="fixed inset-y-16 right-0 pl-10 max-w-full flex z-20">

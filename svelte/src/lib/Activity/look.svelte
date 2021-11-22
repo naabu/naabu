@@ -9,7 +9,6 @@
 
   $: {
     redirect = $page.query.get("redirect");
-    console.log(redirect);
   }
 
   function goBack() {

@@ -106,7 +106,6 @@
   }
 
   $: if (mounted && activity.video.vimeoId) {
-    console.log(activity.video.vimeoId);
     initializeVideoPlayer();
   }
 

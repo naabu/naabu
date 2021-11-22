@@ -19,8 +19,6 @@
 
   async function retrieveFirestoreData() {
     let db = await firebase.firestore();
-    console.log(type);
-    console.log(status);
     connections = await queryConnections(db, type, status, goalId);
   }
 </script>

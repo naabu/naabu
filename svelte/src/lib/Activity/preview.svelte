@@ -19,9 +19,6 @@
   export let showActivity;
   export let activity;
 
-  $: console.log(showActivity);
-  $: console.log(activity);
-
   let buttonDisabled = false;
 
   let db;
@@ -71,7 +68,6 @@
         let connectionSnap = await connectionRef.get();
         if (connectionSnap.exists) {
           let connection = connectionSnap.data();
-          console.log(connection);
           let previousRevisionId = connection.lastRevisionId;
           connectionData.lastRevisionId = activity.latestRevisionId;
           await connectionRef.update(connectionData);
@@ -80,13 +76,9 @@
           let previousRevisionRef = db
             .collection("revisions")
             .doc(previousRevisionId);
-          console.log("hjere??");
-          console.log(previousRevisionId);
           let previousRevisionSnap = await previousRevisionRef.get();
-          console.log("notherer?");
           if (previousRevisionSnap.exists) {
             let previousRevision = previousRevisionSnap.data();
-            console.log(previousRevision);
             let sortListOrder = getActivitySort();
 
             let differences = getDifferencesBetweenRevisions(
@@ -94,7 +86,6 @@
               activity,
               sortListOrder
             );
-            console.log(differences);
 
             let updateData = {
               type: "activity-updated-teacher",

@@ -6,6 +6,9 @@
   import MainTabs from "$lib/Tabs/goal.svelte";
 
   $: if (goal.revisionList) {
+    for (let revision of goal.revisionList) {
+      revision.revisionId = revision.id;
+    }
     sortOnCreatedAt(goal.revisionList);
   }
 </script>
@@ -42,14 +45,13 @@
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
               {#each goal.revisionList as revision, i}
-                {console.log(revision)}
                 <tr data-cy="revision{i}">
                   <td class="px-6 py-4 whitespace-nowrap">
                     {#if revision.previousRevisionId}
                       <a
                         data-cy="revision-index-{i}"
                         class="underline"
-                        href="/revisie/{revision.id}/diff/{revision.previousRevisionId}"
+                        href="/revisie/{revision.revisionId}/diff/{revision.previousRevisionId}"
                       >
                         {getDateString(revision.createdAt)}
                       </a>
@@ -75,11 +77,11 @@
                     class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                   >
                     <a
-                      href="/revisie/{revision.id}"
+                      href="/revisie/{revision.revisionId}"
                       class="text-indigo-600 hover:text-indigo-900">Bekijken</a
                     >
                     <a
-                      href="/revisie/{revision.id}/wijzigen"
+                      href="/revisie/{revision.revisionId}/wijzigen"
                       class="text-indigo-600 hover:text-indigo-900">Wijzig</a
                     >
                   </td>

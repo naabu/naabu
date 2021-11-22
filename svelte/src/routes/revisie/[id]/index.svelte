@@ -64,8 +64,18 @@
           revision.revisionId
         );
         nextRevision = returnRevisions.nextRevision;
+        if (nextRevision !== null) {
+          nextRevision.revisionId = nextRevision.id;
+        }
         previousRevision = returnRevisions.previousRevision;
+        if (previousRevision !== null) {
+          previousRevision.revisionId = previousRevision.id;
+        }
+
         previousPreviousRevision = returnRevisions.previousPreviousRevision;
+        if (previousPreviousRevision !== null) {
+          previousPreviousRevision.revisionId = previousPreviousRevision.id;
+        }
       }
     }
   }

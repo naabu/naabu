@@ -29,7 +29,7 @@
                       {#if revision.previousRevisionId}
                         <a
                           class="underline"
-                          href="/revisie/{revision.previousRevisionId}/diff/{revision.id}"
+                          href="/revisie/{revision.previousRevisionId}/diff/{revision.revisionId}"
                         >
                           {getDateString(revision.createdAt)}
                         </a>
@@ -38,9 +38,9 @@
                       {/if}
                     </td>
                     <td class="px-6 py-4">
-                      {#if revision.id && revision.goalTitle}
+                      {#if revision.revisionId && revision.goalTitle}
                         <div class="text-sm text-gray-900">
-                          <a class="underline" href="/revisie/{revision.id}"
+                          <a class="underline" href="/revisie/{revision.revisionId}"
                             >{@html truncate(revision.goalTitle, 70)}</a
                           >
                         </div>
@@ -50,12 +50,12 @@
                       class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                     >
                       <a
-                        href="/revisie/{revision.id}"
+                        href="/revisie/{revision.revisionId}"
                         class="text-indigo-600 hover:text-indigo-900"
                         >Bekijken</a
                       >
                       <a
-                        href="/revisie/{revision.id}/wijzigen"
+                        href="/revisie/{revision.revisionId}/wijzigen"
                         class="text-indigo-600 hover:text-indigo-900">Wijzig</a
                       >
                     </td>

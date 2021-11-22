@@ -98,7 +98,7 @@
     if (oldSnap.exists) {
       revisionOld = oldSnap.data();
       revisionOld.revisionId = oldRef.id;
-      if (!revisionNew.revisionType) {
+      if (!revisionOld.revisionType) {
         let battleCol = db
           .collection("revisions")
           .doc(revisionOld.revisionId)
@@ -112,6 +112,7 @@
         });
       }
     }
+    console.log(revisionNew);
     if (revisionNew && !revisionNew.revisionType) {
       let goalSnap = await db.collection("goals").doc(revisionNew.goalId).get();
       if (goalSnap.exists) {

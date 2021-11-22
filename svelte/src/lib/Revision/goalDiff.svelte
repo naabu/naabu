@@ -135,9 +135,9 @@
       "/overleg/revisie/" +
         revisionNew.goalId +
         "/" +
-        revisionNew.id +
+        revisionNew.revisionId +
         "/" +
-        revisionOld.id +
+        revisionOld.revisionId +
         "/aanmaken"
     );
   }
@@ -192,7 +192,7 @@
                     <div class="mt-6">
                       <a
                         class="underline"
-                        href="/revisie/{revisionOld.id}/diff/{goBackRevision.id}"
+                        href="/revisie/{revisionOld.revisionId}/diff/{goBackRevision.revisionId}"
                         >← Oudere bewerking</a
                       >
                     </div>
@@ -223,7 +223,7 @@
                     <div class="mt-6">
                       <a
                         class="underline"
-                        href="/revisie/{goForwardRevision.id}/diff/{revisionNew.id}"
+                        href="/revisie/{goForwardRevision.revisionId}/diff/{revisionNew.revisionId}"
                         >Nieuwere bewerking →</a
                       >
                     </div>

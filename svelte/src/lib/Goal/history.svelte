@@ -42,6 +42,7 @@
             </thead>
             <tbody class="bg-white divide-y divide-gray-200">
               {#each goal.revisionList as revision, i}
+                {console.log(revision)}
                 <tr data-cy="revision{i}">
                   <td class="px-6 py-4 whitespace-nowrap">
                     {#if revision.previousRevisionId}

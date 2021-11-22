@@ -47,7 +47,6 @@
     revisionSnap = await revisionRef.get();
     if (revisionSnap.exists) {
       revision = revisionSnap.data();
-      revision.id = revisionRef.id;
       revision.revisionId = revisionRef.id;
       if (!revision.goalLinks) {
         revision.goalLinks = [];

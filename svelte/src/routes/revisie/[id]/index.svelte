@@ -54,14 +54,14 @@
     let snap = await ref.get();
     if (snap.exists) {
       revision = snap.data();
-      revision.id = ref.id;
+      revision.revisionId = ref.id;
       let goalSnap = await db.collection("goals").doc(revision.goalId).get();
       if (goalSnap.exists) {
         goal = goalSnap.data();
         goal.id = revision.goalId;
         let returnRevisions = getNextAndPreviousRevisions(
           goal.revisionList,
-          revision.id
+          revision.revisionId
         );
         nextRevision = returnRevisions.nextRevision;
         previousRevision = returnRevisions.previousRevision;

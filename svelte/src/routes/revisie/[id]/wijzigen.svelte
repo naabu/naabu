@@ -34,7 +34,7 @@ import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
     let snap = await ref.get();
     if (snap.exists) {
       let revision = snap.data();
-      revision.id = ref.id;
+      revision.revisionId = ref.id;
       let goalSnap = await db.collection("goals").doc(revision.goalId).get();
       if (goalSnap.exists) {
         goal = goalSnap.data();

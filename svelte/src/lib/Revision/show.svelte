@@ -42,26 +42,26 @@
           <p class="space-x-4 mt-4">
             {#if previousRevision !== null}
               <span>
-                <a class="underline" href="/revisie/{previousRevision.id}"
+                <a class="underline" href="/revisie/{previousRevision.revisionId}"
                   >← Oudere versie</a
                 >
                 {#if previousPreviousRevision !== null}
                   (<a
                     class="underline"
-                    href="/revisie/{previousRevision.id}/diff/{previousPreviousRevision.id}"
+                    href="/revisie/{previousRevision.revisionId}/diff/{previousPreviousRevision.revisionId}"
                     >wijz</a
                   >)
                 {/if}
               </span>
 
               <span>
-                <a class="underline" href="/revisie/{revision.id}"
+                <a class="underline" href="/revisie/{revision.revisionId}"
                   >Huidige versie</a
                 >
                 (<a
                   data-cy="show-diff-link"
                   class="underline"
-                  href="/revisie/{revision.id}/diff/{previousRevision.id}"
+                  href="/revisie/{revision.revisionId}/diff/{previousRevision.revisionId}"
                   >wijz</a
                 >)
               </span>
@@ -69,12 +69,12 @@
 
             {#if nextRevision !== null}
               <span>
-                <a class="underline" href="/revisie/{nextRevision.id}"
+                <a class="underline" href="/revisie/{nextRevision.revisionId}"
                   >Nieuwe versie →</a
                 >
                 (<a
                   class="underline"
-                  href="/revisie/{nextRevision.id}/diff/{revision.id}">wijz</a
+                  href="/revisie/{nextRevision.revisionId}/diff/{revision.revisionId}">wijz</a
                 >)</span
               >
             {/if}

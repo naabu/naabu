@@ -1,6 +1,5 @@
 <script>
-import { checkArrayIsTheSame } from "$lib/Misc/helper";
-
+  import { checkArrayIsTheSame } from "$lib/Misc/helper";
 
   export let title = "Verschil";
   export let old;
@@ -13,8 +12,6 @@ import { checkArrayIsTheSame } from "$lib/Misc/helper";
   $: if (old && neww) {
     differs = !checkArrayIsTheSame(old, neww, old2, neww2);
   }
-
-
 </script>
 
 {#if differs}
@@ -37,7 +34,7 @@ import { checkArrayIsTheSame } from "$lib/Misc/helper";
             <div data-cy="{title}-old">
               {#each old as item, index}
                 <div data-cy="old-index{index}">
-                  {item} - 
+                  {item} -
                   {#if old2}
                     {old2[index]}
                   {/if}
@@ -49,7 +46,8 @@ import { checkArrayIsTheSame } from "$lib/Misc/helper";
               {#each neww as item, index}
                 <div data-cy="new-index{index}">
                   {item}
-                  {#if neww2} -
+                  {#if neww2}
+                    -
                     {neww2[index]}
                   {/if}
                 </div>

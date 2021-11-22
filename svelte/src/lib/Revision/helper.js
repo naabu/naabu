@@ -1,4 +1,4 @@
-
+import { getTypeText, getDifficultyToString, getStatusTranslation } from "$lib/Activity/helper.js";
 
 function compareCreatedAt(a, b) {
   if (a.createdAt < b.createdAt) {
@@ -40,7 +40,20 @@ export async function queryRevisions(db, type, sourceId) {
   return revisions;
 }
 
-export function getDifferencesBetweenRevisions(revision1, revision2) {
+export function getActivitySort() {
+  return [
+    "status",
+    "type",
+    "goalTitle",
+    "title",
+    "descriptionRaw",
+    "difficulty",
+    "video",
+    "quizzes",
+  ];
+}
+
+export function getDifferencesBetweenRevisions(revision1, revision2, sortListOrder = []) {
   let diff = [];
   diff = getDifferencesBetweenRevisionsRecursive(diff, revision1, revision2);
   let ignoreList = [
@@ -55,6 +68,11 @@ export function getDifferencesBetweenRevisions(revision1, revision2) {
     "id",
     "authorId",
     "status",
+    "latestRevisionId",
+    "latestRevisionCreatedAt",
+    "svg",
+    "connectionStatus",
+    "connectionId",
   ]
   for (let i = 0; i < diff.length; i++) {
     let ignore = false;
@@ -70,7 +88,125 @@ export function getDifferencesBetweenRevisions(revision1, revision2) {
     }
   }
 
-  return diff;
+  if (sortListOrder.length === 0) {
+    return diff;
+  }
+
+  let orderedDifference = [];
+  let foundIndexes = [];
+  for (let i = 0; i < sortListOrder.length; i++) {
+    let key = sortListOrder[i];
+    for (let i2 = 0; i2 < diff.length; i2++) {
+      let difference = diff[i2];
+      if (difference.keys[0] === key) {
+        orderedDifference.push(difference);
+        foundIndexes.push(i2);
+      }
+    }
+  }
+
+  // Include the rest that is not in the ordering.
+  for (let i = 0; i < diff.length; i++) {
+    if (!foundIndexes.includes(i)) {
+      orderedDifference.push(diff[i]);
+    }
+  }
+
+  return orderedDifference;
+}
+
+
+export function formatActivityValue(difference, value) {
+  if (value === "") {
+    return value;
+  }
+  if (difference.keys[difference.keys.length - 1] === "type") {
+    return getTypeText(value);
+  }
+  if (difference.keys[difference.keys.length - 1] === "difficulty") {
+    return getDifficultyToString(value);
+  }
+  if (difference.keys[difference.keys.length - 1] === "status") {
+    return getStatusTranslation(value);
+  }
+  if (value === false) {
+    return "Nee";
+  }
+  if (value === true) {
+    return "Ja";
+  }
+  if (!value) {
+    return "";
+  }
+  return value;
+}
+
+export function formatActivityKeys(keys) {
+  let formatKeys = [];
+  for (let i = 0; i < keys.length; i++) {
+    switch (keys[i]) {
+      case "descriptionRaw":
+        formatKeys.push("Beschrijving");
+        break;
+      case "title":
+        formatKeys.push("Titel");
+        break;
+      case "quizzes":
+        formatKeys.push("Quiz");
+        break;
+      case "0":
+      case "1":
+      case "2":
+      case "3":
+      case "4":
+      case "5":
+      case "6":
+      case "7":
+      case "8":
+      case "9":
+        if (keys[i - 1] === "quizzes") {
+          formatKeys.push("vraag " + (parseInt(keys[i]) + 1));
+        }
+        if (keys[i - 1] === "answers") {
+          formatKeys.push("antwoord " + (parseInt(keys[i]) + 1));
+        }
+        break;
+      case "question":
+        formatKeys.push("vraag");
+        break;
+      case "video":
+        formatKeys.push("Video");
+        break;
+      case "vimeoId":
+        formatKeys.push("vimeo id");
+        break;
+      case "type":
+        formatKeys.push("Type");
+        break;
+      case "difficulty":
+        formatKeys.push("Moeilijkheid");
+        break;
+      case "answers":
+      case "answer":
+        break;
+      default:
+        formatKeys.push(keys[i]);
+        break;
+      case "timeInVideo":
+        formatKeys.push("tijd in video");
+        break;
+      case "status":
+        formatKeys.push("Status");
+        break;
+      case "correct":
+        formatKeys.push("goed antwoord");
+        break;
+      case "goalTitle":
+        formatKeys.push("Leerdoel");
+        break;
+    }
+  }
+  return formatKeys.join(" - ") + ":";
 }
 
 function getDifferencesBetweenRevisionsRecursive(diff, value1, value2, keys = []) {

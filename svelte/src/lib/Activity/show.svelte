@@ -24,7 +24,7 @@
   let feedbackEnded = false;
   let hasBattles = false;
 
-  $: if (activity.battles && activity.battles.length > 0) {
+  $: if (activity && activity.battles && activity.battles.length > 0) {
     hasBattles = true;
   }
 
@@ -90,9 +90,11 @@
 
   export let breadcrumbs = [];
 
-  for (let i = 0; i < activity.quizzes.length; i++) {
-    activity.quizzes[i].selectedAnswer = null;
-    activity.quizzes[i].correct = false;
+  $: if (activity) {
+    for (let i = 0; i < activity.quizzes.length; i++) {
+      activity.quizzes[i].selectedAnswer = null;
+      activity.quizzes[i].correct = false;
+    }
   }
 
   function scrollABitToTheTop(scroll = 200) {
@@ -109,7 +111,6 @@
   }
 
   onMount(async () => {
-
     mounted = true;
   });
 

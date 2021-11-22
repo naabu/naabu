@@ -1,4 +1,12 @@
 import katex from 'katex';
+import DiffMatchPatch from "diff-match-patch";
+
+export function getDiffStrings(string1, string2) {
+  const dmp = new DiffMatchPatch();
+  const diff = dmp.diff_main(string1, string2);
+  dmp.diff_cleanupSemantic(diff);
+  return dmp.diff_prettyHtml(diff);
+}
 
 export function renderKatexOutput(rawInput) {
   if (rawInput) {

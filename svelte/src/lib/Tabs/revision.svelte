@@ -8,7 +8,7 @@
     {
       value: "goal",
       text: "Overview",
-      url: "/revisie/" + revision.id,
+      url: "/revisie/" + revision.revisionId,
     },
     {
       value: "activities",
@@ -32,12 +32,12 @@
     {
       value: "read",
       text: "Lezen",
-      url: "/revisie/" + revision.id,
+      url: "/revisie/" + revision.revisionId,
     },
     {
       value: "edit",
       text: "Bewerken",
-      url: "/revisie/" + revision.id + "/wijzigen",
+      url: "/revisie/" + revision.revisionId + "/wijzigen",
     },
     {
       value: "history",

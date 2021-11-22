@@ -30,6 +30,7 @@
 
   function retrieveQuizFromBattles() {
     if (
+      activity &&
       activity.battles &&
       activity.battles.length > 0 &&
       activity.battles[0].quizzes.length > 0

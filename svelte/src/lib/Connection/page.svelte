@@ -3,11 +3,21 @@
   import nl from "javascript-time-ago/locale/nl.json";
   import { getStores, session, page } from "$app/stores";
   import { onMount } from "svelte";
-  import { sortOnCreatedAt } from "$lib/Revision/helper";
+  import {
+    formatActivityKeys,
+    formatActivityValue,
+    sortOnCreatedAt,
+  } from "$lib/Revision/helper";
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
+  import ArrayDiff from "$lib/Diff/arrayDiff.svelte";
+  import StringDiff from "$lib/Diff/stringDiff.svelte";
 
   import CheckPlayerHasProfile from "$lib/Curriculum/checkPlayerHasProfile.svelte";
-  import { formatToTimeAgo, getDefaultAlertValues } from "$lib/Misc/helper";
+  import {
+    formatToTimeAgo,
+    getDefaultAlertValues,
+    getDiffStrings,
+  } from "$lib/Misc/helper";
   import { getCurriculumProfile } from "$lib/Curriculum/helper";
 
   export let firebase;
@@ -23,6 +33,7 @@
   let isTeacher;
   let hasCurriculumProfile;
   let updates = [];
+  $: console.log(updates);
   let updatesReceived;
 
   $: {
@@ -564,7 +575,12 @@
                         {:else}
                           <span class="font-medium text-gray-900">Docent</span>
                         {/if}
-                        {update.content}
+                        {#if update.type === "created-teacher"}
+                          Activiteit gekoppeld met leerdoel
+                        {:else}
+                          Activiteit is geupdate
+                        {/if}
+
                         <span class="whitespace-nowrap"
                           >{formatToTimeAgo(
                             update.createdAt,
@@ -572,6 +588,31 @@
                             timeAgo
                           )}</span
                         >
+                        <div>
+                          {#if update.differences}
+                            {#each update.differences as difference}
+                              {#if difference.type === "string"}
+                                <div class="text-gray-900">
+                                  <div>
+                                    {formatActivityKeys(difference.keys)}
+                                    {@html getDiffStrings(
+                                      "" +
+                                        formatActivityValue(
+                                          difference,
+                                          difference.oldValue
+                                        ),
+                                      "" +
+                                        formatActivityValue(
+                                          difference,
+                                          difference.newValue
+                                        )
+                                    )}
+                                  </div>
+                                </div>
+                              {/if}
+                            {/each}
+                          {/if}
+                        </div>
                       </div>
                     </div>
                   {/if}

@@ -10,9 +10,17 @@
     getDifficultyToString,
     getTypeText,
   } from "./helper";
-  import { createRevision } from "$lib/Revision/helper";
+  import {
+    createRevision,
+    getActivitySort,
+    getDifferencesBetweenRevisions,
+  } from "$lib/Revision/helper";
   export let firebase;
+  export let showActivity;
   export let activity;
+
+  $: console.log(showActivity);
+  $: console.log(activity);
 
   let buttonDisabled = false;
 
@@ -54,71 +62,57 @@
     goto("/lerarenkamer/activiteit/" + activity.id);
   }
 
-  // async function createRevision() {
-  //   console.log("Create revision!!");
-  //   let revisionData = {
-  //     revisionType: "activity",
-  //     revisionCreatedAt: firebase.firestore.Timestamp.now().seconds,
-  //     revisionSourceId: activity.id,
-  //     revisionAuthorId: $session.user.uid,
-  //   };
-
-  //   if (activity.latestRevisionId) {
-  //     revisionData.previousRevisionId = activity.latestRevisionId;
-  //   }
-
-  //   revisionData = { ...revisionData, ...getActivitySaveData(activity) };
-
-  //   let resultRevision = await db.collection("revisions").add(revisionData);
-  //   return resultRevision;
-  // }
-
   async function updateConnection() {
     buttonDisabled = true;
     if ($session.user.uid) {
       let connectionCollRef = db.collection("connections");
       try {
-        let connectionRef = await connectionCollRef.doc(activity.connectionId);
-        await connectionRef.update(connectionData);
-        let updateData = {
-          type: "activity-updated-teacher",
-          content: "Activiteit is geupdate",
-          authorId: $session.user.uid,
-          createdAt: firebase.firestore.Timestamp.now().seconds,
-          connectionId: activity.connectionId,
-        };
+        let connectionRef = connectionCollRef.doc(activity.connectionId);
+        let connectionSnap = await connectionRef.get();
+        if (connectionSnap.exists) {
+          let connection = connectionSnap.data();
+          console.log(connection);
+          let previousRevisionId = connection.lastRevisionId;
+          connectionData.lastRevisionId = activity.latestRevisionId;
+          await connectionRef.update(connectionData);
 
-        // Do not create a revision!
-        // Create an update with diff for latest revisions.
-        // Connection should remember its latest revision
-        // Then compare that revision witht he latest revision of the activity.
+          // Get the previousRevision;
+          let previousRevisionRef = db
+            .collection("revisions")
+            .doc(previousRevisionId);
+          console.log("hjere??");
+          console.log(previousRevisionId);
+          let previousRevisionSnap = await previousRevisionRef.get();
+          console.log("notherer?");
+          if (previousRevisionSnap.exists) {
+            let previousRevision = previousRevisionSnap.data();
+            console.log(previousRevision);
+            let sortListOrder = getActivitySort();
 
-        let resultRevision = await createRevision(
-          firebase,
-          activity,
-          getActivitySaveData(activity),
-          $session.user.uid
-        );
+            let differences = getDifferencesBetweenRevisions(
+              previousRevision,
+              activity,
+              sortListOrder
+            );
+            console.log(differences);
 
-        let activityData = {
-          latestRevisionId: resultRevision.id,
-          latestRevisionCreatedAt: firebase.firestore.Timestamp.now().seconds,
-        };
+            let updateData = {
+              type: "activity-updated-teacher",
+              differences: differences,
+              authorId: $session.user.uid,
+              createdAt: firebase.firestore.Timestamp.now().seconds,
+              connectionId: activity.connectionId,
+            };
 
-        if (activity.latestRevisionId) {
-          activityData.previousRevisionId = activity.latestRevisionId;
+            await createUpdate(updateData);
+            goto(
+              "/leerdoel/" +
+                activity.goalId +
+                "/activiteiten/" +
+                activity.connectionId
+            );
+          }
         }
-
-        let activityRef = db.collection("activities").doc(activity.id);
-        activityRef.update(activityData);
-
-        await createUpdate(updateData);
-        goto(
-          "/leerdoel/" +
-            activity.goalId +
-            "/activiteiten/" +
-            activity.connectionId
-        );
       } catch (e) {
         console.log(e);
       }
@@ -143,29 +137,28 @@
       try {
         connectionData.createdAt = firebase.firestore.Timestamp.now().seconds;
         connectionData.status = "in-progress";
+        connectionData.lastRevisionId = activity.latestRevisionId;
         let result = await connectionCollRef.add(connectionData);
-
-        let resultRevision = await createRevision(
-          firebase,
-          activity,
-          getActivitySaveData(activity),
-          $session.user.uid
-        );
 
         let activityData = {
           status: "open",
           connectionId: result.id,
           connectionStatus: "in-progress",
-          latestRevisionId: resultRevision.id,
-          latestRevisionCreatedAt: firebase.firestore.Timestamp.now().seconds,
         };
 
         let activityRef = db.collection("activities").doc(activity.id);
         activityRef.update(activityData);
 
+        let sortListOrder = getActivitySort();
+        let differences = getDifferencesBetweenRevisions(
+          {},
+          activity,
+          sortListOrder
+        );
+
         let updateData = {
           type: "created-teacher",
-          content: "Activiteit gekoppeld met leerdoel",
+          differences: differences,
           authorId: $session.user.uid,
           createdAt: firebase.firestore.Timestamp.now().seconds,
           connectionId: result.id,
@@ -180,7 +173,13 @@
   }
 </script>
 
-<ShowActivity bind:firebase bind:activity showFeedback={false} />
+{#if showActivity}
+  <ShowActivity
+    bind:firebase
+    bind:activity={showActivity}
+    showFeedback={false}
+  />
+{/if}
 
 {#if $session.user}
   <div class="mt-8 mb-32">

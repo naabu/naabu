@@ -54,6 +54,7 @@ export function getDifferencesBetweenRevisions(revision1, revision2) {
     "goalId",
     "id",
     "authorId",
+    "status",
   ]
   for (let i = 0; i < diff.length; i++) {
     let ignore = false;

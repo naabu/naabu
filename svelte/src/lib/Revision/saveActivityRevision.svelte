@@ -28,6 +28,7 @@
       }
 
       activityData.authorId = $session.user.uid;
+      delete activityData.status;
       let db = firebase.firestore();
 
       let ref = db.collection("activities").doc(activity.id);

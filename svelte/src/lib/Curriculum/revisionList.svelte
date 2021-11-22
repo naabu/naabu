@@ -5,6 +5,9 @@
   export let curriculumProfile;
 
   $: if (curriculumProfile.revisionList) {
+    for (let revision of curriculumProfile.revisionList) {
+      revision.revisionId = revision.id;
+    }
     sortOnCreatedAt(curriculumProfile.revisionList);
   }
 </script>

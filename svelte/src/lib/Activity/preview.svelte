@@ -86,16 +86,17 @@
               activity,
               sortListOrder
             );
+            if (differences.length > 0) {
+              let updateData = {
+                type: "activity-updated-teacher",
+                differences: differences,
+                authorId: $session.user.uid,
+                createdAt: firebase.firestore.Timestamp.now().seconds,
+                connectionId: activity.connectionId,
+              };
 
-            let updateData = {
-              type: "activity-updated-teacher",
-              differences: differences,
-              authorId: $session.user.uid,
-              createdAt: firebase.firestore.Timestamp.now().seconds,
-              connectionId: activity.connectionId,
-            };
-
-            await createUpdate(updateData);
+              await createUpdate(updateData);
+            }
             goto(
               "/leerdoel/" +
                 activity.goalId +

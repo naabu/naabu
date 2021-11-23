@@ -17,6 +17,7 @@
     quizzes.splice(selectedQuizIndex, 1);
     quizzes = quizzes;
     selectedQuizIndex = 0;
+    selectedFieldIndex = -1;
   }
 
   function deleteQuizAnswer() {

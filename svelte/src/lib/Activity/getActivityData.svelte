@@ -6,8 +6,10 @@
   export let firebase;
 
   export let activity;
+  export let cloneActivity;
   export let mounted = false;
   export let activityId = $page.params.activityId;
+
 
   onMount(async () => {
     firebase = await initFirebase($session.environment);
@@ -22,6 +24,7 @@
     if (snap.exists) {
       activity = snap.data();
       activity.id = ref.id;
+      cloneActivity = JSON.parse(JSON.stringify(activity));
     }
   }
 </script>

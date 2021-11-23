@@ -92,6 +92,7 @@
         let collectionRef = db.collection("activities");
         let result = await collectionRef.add(activityData);
         activity.id = result.id;
+        
         let resultRevision = await createRevision(
           firebase,
           activity,

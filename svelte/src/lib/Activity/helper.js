@@ -78,13 +78,13 @@ export function getStatusTranslation(status) {
 export async function retrieveActivityListFB(db, status, authorId) {
   let ref;
   if (status && authorId) {
-    ref = db.collection("activities").where("status", "==", status).where("authorId", "==", authorId);;
+    ref = db.collection("activities").where("status", "==", status).where("authorId", "==", authorId).orderBy("latestRevisionCreatedAt", "desc");
   }
   else if (status) {
-    ref = db.collection("activities").where("status", "==", status);
+    ref = db.collection("activities").where("status", "==", status).orderBy("latestRevisionCreatedAt", "desc");
   }
   else if (authorId) {
-    ref = db.collection("activities").where("authorId", "==", authorId);
+    ref = db.collection("activities").where("authorId", "==", authorId).orderBy("latestRevisionCreatedAt", "desc");
   }
   else {
     return [];

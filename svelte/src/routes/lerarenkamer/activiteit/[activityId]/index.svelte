@@ -15,6 +15,7 @@
   let menuitems;
   let firebase;
   let activity;
+  let previousActivity;
   TimeAgo.addLocale(nl);
   const timeAgo = new TimeAgo("nl");
 
@@ -27,7 +28,9 @@
   });
 </script>
 
-<GetActivityData bind:firebase bind:activity />
+<GetActivityData bind:firebase bind:activity bind:cloneActivity={previousActivity} />
+
+
 <Sidebar bind:menuitems>
   <div slot="abovetitle" class="ml-auto w-max">
     {#if activity && activity.latestRevisionCreatedAt && activity.previousRevisionId}
@@ -61,7 +64,7 @@
 
   <span slot="content">
     {#if firebase && activity}
-      <EditActivity bind:firebase bind:activity />
+      <EditActivity bind:firebase bind:activity bind:previousActivity />
     {/if}
   </span>
 </Sidebar>

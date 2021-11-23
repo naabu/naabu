@@ -6,11 +6,16 @@
   import { getActivitySaveData } from "./helper";
   import { goto } from "$app/navigation";
   import { getDefaultAlertValues } from "$lib/Misc/helper";
-  import { createRevision } from "$lib/Revision/helper";
+  import {
+    createRevision,
+    getDifferencesBetweenRevisions,
+  } from "$lib/Revision/helper";
 
   let y;
+  export let previousActivity;
   export let activity;
   export let firebase;
+
   let db;
 
   onMount(async () => {
@@ -32,18 +37,24 @@
   async function edit() {
     if ($session.user) {
       let activityData = getActivitySaveData(activity);
-      let resultRevision = await createRevision(
-        firebase,
-        activity,
-        activityData,
-        $session.user.uid
+
+      let differences = getDifferencesBetweenRevisions(
+        previousActivity,
+        activityData
       );
+      if (differences.length > 0) {
+        let resultRevision = await createRevision(
+          firebase,
+          activity,
+          activityData,
+          $session.user.uid
+        );
+        activityData.latestRevisionId = resultRevision.id;
+        activityData.latestRevisionCreatedAt = firebase.firestore.Timestamp.now().seconds;
 
-      activityData.latestRevisionId = resultRevision.id;
-      activityData.latestRevisionCreatedAt = firebase.firestore.Timestamp.now().seconds;
-
-      if (activity.latestRevisionId) {
-        activityData.previousRevisionId = activity.latestRevisionId;
+        if (activity.latestRevisionId) {
+          activityData.previousRevisionId = activity.latestRevisionId;
+        }
       }
 
       activityData.authorId = $session.user.uid;

@@ -22,10 +22,12 @@
   let revisions;
   let toggleShowAllHistory = false;
   let latestRevisionId;
+  let latestRevisionStatus;
 
   $: if (revisions) {
     if (revisions.length > 0) {
       latestRevisionId = revisions[0].revisionId;
+      latestRevisionStatus = revisions[0].status;
     }
   }
 
@@ -62,7 +64,7 @@
   }
 
   $: if (revisionNew && revisionNew.revisionType === "activity") {
-    menuitems = getTeacherMenuitems($page.path, revisionNew.status);
+    menuitems = getTeacherMenuitems($page.path, latestRevisionStatus);
   }
 
   onMount(async () => {

@@ -102,7 +102,7 @@
           <div class="flex-shrink-0 flex items-center">
             <a href="/"
               ><img
-                class="block lg:hidden h-6 w-auto"
+                class="block lg:hidden h-10 w-auto"
                 src={logosmall}
                 alt="Wisvids"
                 data-cy="logo"
@@ -110,7 +110,7 @@
             >
             <a href="/"
               ><img
-                class="hidden lg:block  h-6 w-auto"
+                class="hidden lg:block  h-10 w-auto"
                 src={logo}
                 alt="Wisvids"
                 data-cy="logo"
@@ -213,7 +213,7 @@
                     class="block px-4 py-2 text-sm text-gray-700"
                     role="menuitem"
                     tabindex="-1"
-                    id="user-menu-item-management">Lerarenkamer</a
+                    id="user-menu-item-teacher-room">Lerarenkamer</a
                   >
                   <a
                     href="/curriculum-profiel/mijn-profiel"

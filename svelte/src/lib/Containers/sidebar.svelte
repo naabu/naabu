@@ -122,7 +122,7 @@
         class="border-r border-gray-200 pt-5 flex flex-col flex-grow bg-white overflow-y-auto"
       >
         <div class="flex-grow mt-5 flex flex-col">
-          <nav class="flex-1 px-2 pb-4 space-y-1">
+          <nav data-cy="desktop-sidebar-menu" class="flex-1 px-2 pb-4 space-y-1">
             <ShowMenuItems bind:menuitems />
           </nav>
         </div>

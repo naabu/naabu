@@ -20,6 +20,7 @@
   <span slot="title"> Activiteit maken</span>
 
   <span
+    data-cy="concept-status"
     slot="status"
     class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800"
   >

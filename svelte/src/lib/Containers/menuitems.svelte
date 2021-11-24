@@ -11,6 +11,7 @@
     class:text-gray-600={!menuitem.selected}
     class:hover:bg-gray-50={!menuitem.selected}
     class:hover:text-gray-900={!menuitem.selected}
+    data-cy={menuitem.datacy}
   >
     {#if menuitem.icon === "dashboard"}
       <svg

@@ -4,36 +4,42 @@ export function getTeacherMenuitems(pagePath, activityStatus = "") {
       name: "Dashboard",
       url: "/lerarenkamer",
       icon: "dashboard",
+      datacy: "teacher-menu-dashboard",
       selected: (pagePath === "/lerarenkamer"),
     },
     {
       name: "Concept activiteiten",
       url: "/lerarenkamer/concept-activiteiten",
       icon: "textdocument",
+      datacy: "teacher-menu-concept-activity",
       selected: (pagePath === "/lerarenkamer/concept-activiteiten" || activityStatus === "draft"),
     },
     {
       name: "Open activiteiten",
       url: "/lerarenkamer/open-activiteiten",
       icon: "progress",
+      datacy: "teacher-menu-open-activity",
       selected: (pagePath === "/lerarenkamer/open-activiteiten" || activityStatus === "open"),
     },
     {
       name: "Gepubliceerde activiteiten",
       url: "/lerarenkamer/gepubliceerde-activiteiten",
       icon: "document",
+      datacy: "teacher-menu-published-activity",
       selected: (pagePath === "/lerarenkamer/gepubliceerde-activiteiten" || activityStatus === "published"),
     },
     {
       name: "Modules",
       url: "/lerarenkamer/modules",
       icon: "calendar",
+      datacy: "teacher-menu-modules",
       selected: (pagePath === "/lerarenkamer/modules"),
     },
     {
       name: "Leslokaal",
       url: "/lerarenkamer/leslokaal",
       icon: "people",
+      datacy: "teacher-menu-classroom",
       selected: (pagePath === "/lerarenkamer/leslokaal"),
     }
   ];

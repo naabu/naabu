@@ -6,14 +6,13 @@
   let curriculumReset = false;
   let mounted = false;
   let db;
-  let deleted = false;
 
   async function removeCurriculumFeatures() {
-    deleted = true;
     if (!$session.player || !$session.player.curriculumProfileId) {
       curriculumReset = true;
       return;
     }
+    console.log($session.player.curriculumProfileId);
 
     let curriculumProfileRef = db
       .collection("curriculumProfile")
@@ -24,6 +23,8 @@
         curriculumReset = true;
         return;
       }
+      console.log("deleting it?");
+      console.log(curriculumProfileSnap.data());
       await curriculumProfileRef.delete();
       let q = db
         .collection("revisions")
@@ -41,14 +42,14 @@
         }
         await goalRef.delete();
         await snap.ref.delete();
-        let playerRef = db.collection("players").doc($session.user.uid);
-        let playerSnap = await playerRef.get();
-        if (playerSnap.exists) {
-          let player = playerSnap.data();
-          delete player.curriculumProfileId;
-          await playerRef.set(player);
-        }
       });
+      let playerRef = db.collection("players").doc($session.user.uid);
+      let playerSnap = await playerRef.get();
+      if (playerSnap.exists) {
+        let player = playerSnap.data();
+        delete player.curriculumProfileId;
+        await playerRef.set(player);
+      }
       curriculumReset = true;
     } catch (error) {
       console.error(error);
@@ -67,18 +68,19 @@
   //     // await removeCurriculumFeatures();
   //   }
   // })();
-  $: ($session.user && $session.player)
-  {
+
+  $: (async () => {
     if (
       ($session.environment === "cypress" ||
         $session.environment === "development") &&
-      !deleted
+      db &&
+      $session.user &&
+      $session.player
     ) {
-      deleted = true;
-      removeCurriculumFeatures();
+      await removeCurriculumFeatures();
     }
-  }
-  
+  })();
+
   onMount(async () => {
     firebase = await initFirebase($session.environment);
     db = await firebase.firestore();

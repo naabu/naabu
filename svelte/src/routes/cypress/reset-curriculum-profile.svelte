@@ -12,7 +12,6 @@
       curriculumReset = true;
       return;
     }
-    console.log($session.player.curriculumProfileId);
 
     let curriculumProfileRef = db
       .collection("curriculumProfile")
@@ -23,8 +22,6 @@
         curriculumReset = true;
         return;
       }
-      console.log("deleting it?");
-      console.log(curriculumProfileSnap.data());
       await curriculumProfileRef.delete();
       let q = db
         .collection("revisions")
@@ -55,19 +52,6 @@
       console.error(error);
     }
   }
-
-  // $: (async () => {
-  //   if (
-  //     mounted &&
-  //     ($session.environment === "cypress" ||
-  //       $session.environment === "development") &&
-  //     $session.user &&
-  //     !deleted
-  //   ) {
-  //     deleted = true;
-  //     // await removeCurriculumFeatures();
-  //   }
-  // })();
 
   $: (async () => {
     if (

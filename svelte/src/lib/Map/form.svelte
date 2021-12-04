@@ -39,6 +39,7 @@
         }
       }
     }
+    map.paths = newPaths;
   }
 
   let mapImageOptions = [
@@ -81,13 +82,13 @@
         class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
       >
         <label
-          for="title"
+          for="mapimage"
           class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
         >
           Kaart afbeelding
         </label>
         <div class="mt-1 sm:mt-0 sm:col-span-2">
-          <select bind:value={map.image}>
+          <select id="mapimage" bind:value={map.image}>
             {#each mapImageOptions as mapImageOption}
               <option value={mapImageOption.url}>{mapImageOption.name}</option>
             {/each}

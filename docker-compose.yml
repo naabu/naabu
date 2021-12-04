@@ -10,6 +10,13 @@ services:
     environment:
       - environment=development
       - defaultMapId=OcZm1UN6gxuUiFWTgoyp
+      - fbApiKey="AIzaSyDTQTwe21wwYm2TsMBwH8m1lSHWMEK4KmQ"
+      - fbAuthDomain="expwis.firebaseapp.com"
+      - fbProjectId="expwis"
+      - fbStorageBucket="expwis.appspot.com"
+      - fbMessagingSenderId="950890412912"
+      - fbAppI="1:950890412912:web:a248488bf4e6eb2bc3adb5"
+      - fbMeasurementId="G-8ZT9LCY8BY"
     ports:
       - 3000:3000
       - 3001:3001

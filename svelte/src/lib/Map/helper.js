@@ -42,7 +42,7 @@ export async function getUserMap(firebase, mapId, map, player) {
   return userMap;
 }
 
-export function getMapSaveData(map) {
+export function getMapSaveData(map, formatPoints = true) {
   let saveLocations = [];
   for (let i = 0; i < map.locations.length; i++) {
     let newLocation = {
@@ -76,7 +76,12 @@ export function getMapSaveData(map) {
     let newPath = {};
     newPath.startLocation = map.paths[i].startLocation;
     newPath.endLocation = map.paths[i].endLocation;
-    newPath.points = JSON.stringify(map.paths[i].points);
+    if (formatPoints) {
+      newPath.points = JSON.stringify(map.paths[i].points);
+    }
+    else {
+      newPath.points = map.paths[i].points;
+    }
     newPath.startLocationName = map.paths[i].startLocationName;
     newPath.endLocationName = map.paths[i].endLocationName;
     newPath.endLocationIndex = map.paths[i].endLocationIndex;
@@ -110,7 +115,7 @@ export async function updateActivities(firebase, map) {
           if (!data.maps) {
             data.maps = [];
           }
-          if(!data.maps.includes(map.id)) {
+          if (!data.maps.includes(map.id)) {
             data.maps.push(map.id);
           }
           let docRef = doc.ref;
@@ -120,4 +125,41 @@ export async function updateActivities(firebase, map) {
 
     }
   }
+}
+
+function getPath(map, startLocation, endLocation) {
+  for (let i = 0; i < map.paths.length; i++) {
+    if (map.paths[i].startLocation === startLocation && map.paths[i].endLocation === endLocation) {
+      return map.paths[i];
+    }
+  }
+  return false;
+}
+
+export function generatePathsForMap(map) {
+  let newPaths = [];
+  for (let i = 0; i < map.locations.length; i++) {
+    let location = map.locations[i];
+    let startPointX = location.markerPositionX;
+    let startPointY = location.markerPositionY;
+    for (let i2 = 0; i2 < location.accessLocations.length; i2++) {
+      for (let i3 = 0; i3 < map.locations.length; i3++) {
+        if (map.locations[i3].id === location.accessLocations[i2]) {
+          let endPointX = map.locations[i3].markerPositionX;
+          let endPointY = map.locations[i3].markerPositionY;
+
+          // Check if there is an existing path for these locations.
+          let pointsArray = [[startPointY, startPointX], [endPointY, endPointX]];
+          let path = getPath(map, location.id, map.locations[i3].id);
+          if (path) {
+            path.points[0] = [startPointY, startPointX];
+            path.points[path.points.length - 1] = [endPointY, endPointX]
+            pointsArray = path.points;
+          }
+          newPaths.push({ startLocation: location.id, startLocationName: location.name, endLocation: map.locations[i3].id, endLocationName: map.locations[i3].name, endLocationIndex: i3, points: pointsArray });
+        }
+      }
+    }
+  }
+  map.paths = newPaths;
 }

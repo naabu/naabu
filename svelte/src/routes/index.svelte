@@ -1,19 +1,8 @@
-<!-- <script context="module" >
-  import { initFirebase } from "$lib/firebase";
-
-  export async function load({session}) {
-    let firebase = await initFirebase(session.environment);
-    return {
-      props: {
-        firebase: firebase
-      },
-    };
-  }
-</script> -->
 <script>
   import ShowMap from "$lib/Map/show.svelte";
   import { getStores, session } from "$app/stores";
   import { onMount } from "svelte";
+  import ModuleTeaserList from "$lib/Module/teaserList.svelte";
   // import firebase from "firebase/app";
   import { initFirebase } from "$lib/firebase";
   import { getMap, getUserMap } from "$lib/Map/helper";
@@ -21,44 +10,60 @@
   let firebase;
   let map;
   let mounted = false;
-  let userMap = null;
+  let modules = null;
   let mapId = null;
 
-  $: async () => {
-    if ($session.player) {
-      mapId = $session.player.currentMapId;
-      map = await getMap(firebase, mapId);
-      userMap = await getUserMap(firebase, mapId, map, $session.player);
-    }
-  };
+  // $: async () => {
+  //   if ($session.player) {
+  //     mapId = $session.player.currentMapId;
+  //     map = await getMap(firebase, mapId);
+  //     userMap = await getUserMap(firebase, mapId, map, $session.player);
+  //   }
+  // };
 
   onMount(async () => {
     firebase = await initFirebase($session.environment);
-    if ($session.player) {
-      mapId = $session.player.currentMapId;
-      map = await getMap(firebase, mapId);
-      userMap = await getUserMap(firebase, mapId, map, $session.player);
-    }
+    await retrieveAllModules();
+    // if ($session.player) {
+    //   mapId = $session.player.currentMapId;
+    //   map = await getMap(firebase, mapId);
+    //   userMap = await getUserMap(firebase, mapId, map, $session.player);
+    // }
     mounted = true;
   });
+
+  async function retrieveAllModules() {
+    let db = firebase.firestore();
+    let collectionRef = db.collection("modules");
+    let querySnapshot = await collectionRef.get();
+    modules = [];
+    querySnapshot.docs.map((doc) => {
+      let module = doc.data();
+      module.moduleId = doc.id;
+      modules = [...modules, module];
+    });
+  }
 </script>
 
 <svelte:head>
-  <title>Kies je pad</title>
+  <title>Naabu</title>
 </svelte:head>
 
-<section>
-  {#if mounted && $session.player && map && userMap}
-    <ShowMap bind:map bind:userMap />
-  {/if}
-</section>
+{#if mounted}
+  <ModuleTeaserList bind:modules />
+{:else}
+  loading...
+{/if}
 
+<!-- {#if mounted && $session.player && map && userMap}
+    <ShowMap bind:map bind:userMap />
+  {/if} -->
 <style>
-  section {
+  /* section {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     flex: 1;
-  }
+  } */
 </style>

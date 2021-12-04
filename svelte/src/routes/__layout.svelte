@@ -71,7 +71,7 @@
 
 <Header bind:firebase />
 
-<main class="mx-auto mb-5py-6 px-4 sm:p-6 lg:pb-8 max-w-7xl">
+<main class="mx-auto mb-5 py-6 px-4 sm:p-6 lg:pb-8 max-w-7xl">
   <section />
   <slot />
 </main>

@@ -80,9 +80,13 @@ service cloud.firestore {
     match /revisions/{revisionId} {
       allow read: if true
       // allow write: if (request.auth.token.curriculumProfileId is string)
-      allow write: if get(/databases/$(database)/documents/players/$(request.auth.uid)).data.curriculumProfileId is string
+      // Goals should have this check
+      // Activities should not have this check. revisionType  "activity"
+      allow create: if request.resource.data.revisionType == "activity"
+      // allow update: if (resource.data.revisionType == "activity" || get(/databases/$(database)/documents/players/$(request.auth.uid)).data.curriculumProfileId is string)
+      // allow write: if (resource.data.revisionType == "activity" || get(/databases/$(database)/documents/players/$(request.auth.uid)).data.curriculumProfileId is string)
       match /battles/{battleId} {
-        allow read, create, delete: if true
+        allow read, create: if true
       }
     }
 
@@ -102,14 +106,20 @@ service cloud.firestore {
       allow write, update: if true
     }
 
-   match /connections/{connectionId} {
+    match /connections/{connectionId} {
       allow read: if true
       allow write: if true
     }
 
-   match /updates/{updateId} {
+    match /updates/{updateId} {
       allow read: if true
       allow write: if true
+    }
+
+    match /modules/{moduleId} {
+      allow read: if true
+      allow create: if debug(debug(request.auth.uid) == debug(request.resource.data.authorId));
+      allow update, delete: if request.auth.uid == resource.data.authorId
     }
 
     match /path/{userId} {

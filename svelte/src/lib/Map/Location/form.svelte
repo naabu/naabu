@@ -6,9 +6,6 @@
   import "@algolia/autocomplete-theme-classic";
   import VerwijderDialog from "$lib/Misc/dialog.svelte";
 
-  let filters = "";
-  let goalIndex = getGoalIndex($session.environment);
-
   export let locations = [];
   export let selectedIndex = 0;
   let deleteLocationToggle = false;
@@ -38,12 +35,6 @@
       if (i !== selectedIndex) {
         locationOptions.push({ id: locations[i].id, index: i + 1 });
       }
-    }
-  }
-
-  $: {
-    if (selectedIndex >= 0 && locations.length > 0) {
-      resetFilters();
     }
   }
 
@@ -95,76 +86,10 @@
       goals: [],
     };
     locations = [...locations, location];
-    resetFilters();
   }
-
-  function resetFilters() {
-    let objectIDsFilter = locations[selectedIndex].goals.map(
-      (leerdoel) => "NOT objectID:" + leerdoel.objectID
-    );
-    filters = objectIDsFilter.join(" AND ");
-  }
-
-  function addGoal(goal) {
-    locations[selectedIndex].goals = [...locations[selectedIndex].goals, goal];
-    resetFilters();
-  }
-
-  function removeGoal(i) {
-    locations[selectedIndex].goals.splice(i, 1);
-    locations[selectedIndex].goals = locations[selectedIndex].goals;
-    resetFilters();
-  }
-
   onMount(() => {
-    runAutocomplete();
   });
 
-  function runAutocomplete() {
-    if (locations.length > 0) {
-      const searchClient = getAlgoliaSearchClient();
-      autocomplete({
-        container: "#autocomplete-leerdoelen",
-        placeholder: "Zoek voor leerdoelen",
-        onSubmit({ state }) {
-          console.log(state);
-        },
-        getSources({ query }) {
-          return [
-            {
-              sourceId: goalIndex,
-              onSelect({ state, item }) {
-                addGoal(item);
-              },
-              getItems() {
-                return getAlgoliaResults({
-                  searchClient,
-                  queries: [
-                    {
-                      indexName: goalIndex,
-                      query,
-                      params: {
-                        hitsPerPage: 5,
-                      },
-                      filters: filters,
-                    },
-                  ],
-                });
-              },
-              templates: {
-                item({ item }) {
-                  return item.title;
-                },
-                noResults() {
-                  return "Geen leerdoelen gevonden";
-                },
-              },
-            },
-          ];
-        },
-      });
-    }
-  }
 </script>
 
 <VerwijderDialog bind:toggle={deleteLocationToggle} on:ok={deleteLocation} />
@@ -309,55 +234,6 @@
               L{locationOption.index}
             </label>
           {/each}
-        </div>
-
-        <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
-          <div
-            class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
-          >
-            <label
-              for="title"
-              class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-            >
-              Gekoppelde leerdoelen
-            </label>
-            <div class="mt-1 sm:mt-0 sm:col-span-2">
-              {#if locations[selectedIndex].goals.length === 0}
-                <p class="mt-1 max-w-2xl text-sm text-gray-500">
-                  Nog geen leerdoelen aan activiteit toegevoegd
-                </p>
-              {:else}
-                <ul>
-                  {#each locations[selectedIndex].goals as goal, i}
-                    <li>
-                      {goal.title}
-                      <button
-                        class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        on:click|preventDefault={() => removeGoal(i)}
-                        >Weghalen</button
-                      >
-                    </li>
-                  {/each}
-                </ul>
-              {/if}
-            </div>
-          </div>
-        </div>
-
-        <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
-          <div
-            class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
-          >
-            <label
-              for="autocomplete-leerdoelen"
-              class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-            >
-              Leerdoel toevoegen
-            </label>
-            <div class="mt-1 sm:mt-0 sm:col-span-2">
-              <div id="autocomplete-leerdoelen" class="max-w-lg" />
-            </div>
-          </div>
         </div>
       </div>
     </div>

@@ -12,7 +12,7 @@ export function getTeacherMenuitems(pagePath, activityStatus = "") {
       url: "/lerarenkamer/concept-activiteiten",
       icon: "textdocument",
       datacy: "teacher-menu-concept-activity",
-      selected: (pagePath === "/lerarenkamer/concept-activiteiten" || activityStatus === "draft"),
+      selected: (pagePath === "/lerarenkamer/concept-activiteiten" || pagePath === "/lerarenkamer/activiteit/maken-leerdoel-zoeken" || activityStatus === "draft"),
     },
     {
       name: "Open activiteiten",
@@ -29,11 +29,11 @@ export function getTeacherMenuitems(pagePath, activityStatus = "") {
       selected: (pagePath === "/lerarenkamer/gepubliceerde-activiteiten" || activityStatus === "published"),
     },
     {
-      name: "Modules",
+      name: "Lesmodules",
       url: "/lerarenkamer/modules",
       icon: "calendar",
       datacy: "teacher-menu-modules",
-      selected: (pagePath === "/lerarenkamer/modules"),
+      selected: (pagePath === "/lerarenkamer/modules" || pagePath === "/lerarenkamer/module/maken"),
     },
     {
       name: "Leslokaal",

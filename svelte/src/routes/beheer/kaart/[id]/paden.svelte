@@ -1,5 +1,5 @@
 <script>
-	import Paden from '$lib/Map/Path/edit.svelte';
+	import Paths from '$lib/Map/Path/edit.svelte';
 	import { onMount } from 'svelte';
   import { getStores, session, page } from "$app/stores"
   import { initFirebase } from "$lib/firebase";
@@ -18,5 +18,5 @@
 </script>
 
 {#if firebase && ref}
-	<Paden bind:ref/>
+	<Paths bind:ref/>
 {/if}

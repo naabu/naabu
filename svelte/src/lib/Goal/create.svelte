@@ -83,7 +83,7 @@
 
         data.authorId = $session.player.curriculumProfileId;
         data.goalId = goalResult.id;
-        await createGoalRevision(db, goal, data, firebase);
+        await createGoalRevision(db, goal, data, $session.user.uid, firebase);
 
         alert.success = true;
         alert.successTitle = "Leerdoel gemaakt";

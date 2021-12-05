@@ -82,8 +82,11 @@
     if (newSnap.exists) {
       revisionNew = newSnap.data();
       revisionNew.revisionId = newRef.id;
+      console.log(revisionNew);
       // TODO change to learning goal revision type.
-      if (!revisionNew.revisionType) {
+      if (!revisionNew.revisionType || revisionNew.revisionType === "goal") {
+        console.log(revisionNew);
+        console.log("Battles revision");
         let battleCol = db
           .collection("revisions")
           .doc(revisionNew.revisionId)
@@ -102,7 +105,7 @@
     if (oldSnap.exists) {
       revisionOld = oldSnap.data();
       revisionOld.revisionId = oldRef.id;
-      if (!revisionOld.revisionType) {
+      if (!revisionOld.revisionType || revisionNew.revisionType === "goal") {
         let battleCol = db
           .collection("revisions")
           .doc(revisionOld.revisionId)
@@ -117,7 +120,7 @@
       }
     }
 
-    if (revisionNew && !revisionNew.revisionType) {
+    if (revisionNew && (!revisionNew.revisionType || revisionNew.revisionType === "goal")) {
       let goalSnap = await db.collection("goals").doc(revisionNew.goalId).get();
       if (goalSnap.exists) {
         goal = goalSnap.data();
@@ -137,8 +140,12 @@
 </script>
 
 {#if mounted && revisionNew && revisionOld}
-  {#if !revisionNew.revisionType}
+Test
+{revisionNew.revisionType}
+  {#if !revisionNew.revisionType || revisionNew.revisionType == "goal"}
+    goal here
     {#if goal}
+      GOAL DIFF!
       <ContainerBreadcrumpPageTitle bind:breadcrumbs title={goal.title} />
       <GoalDiff
         bind:revisionNew
@@ -148,7 +155,7 @@
         bind:loading
       />
     {/if}
-  {:else}
+  {:else if revisionNew.revisionType == "activity"}
     <GetRevisionListData
       bind:firebase
       bind:revisions

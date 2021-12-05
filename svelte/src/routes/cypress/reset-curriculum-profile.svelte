@@ -22,12 +22,18 @@
         curriculumReset = true;
         return;
       }
-      await curriculumProfileRef.delete();
+
       let q = db
         .collection("revisions")
-        .where("authorId", "==", $session.player.curriculumProfileId);
+        .where("authorId", "==", $session.user.uid);
       const querySnapshot = await q.get();
-      querySnapshot.forEach(async (snap) => {
+      console.log("Found revisions for user");
+      let goalsSnapToDelete = [];
+      querySnapshot.forEach((snap) => {
+        goalsSnapToDelete.push(snap);
+      });
+      for (let i = 0; i < goalsSnapToDelete.length; i++) {
+        let snap = goalsSnapToDelete[i];
         let revisionData = snap.data();
         let goalRef = db.collection("goals").doc(revisionData.goalId);
         let goalSnap = goalRef.get();
@@ -38,8 +44,13 @@
           }
         }
         await goalRef.delete();
+        console.log("deleted goal");	
         await snap.ref.delete();
-      });
+        console.log("deleted revision");	
+      }
+
+      await curriculumProfileRef.delete();
+      console.log("deleted curriculum profile");
       let playerRef = db.collection("players").doc($session.user.uid);
       let playerSnap = await playerRef.get();
       if (playerSnap.exists) {

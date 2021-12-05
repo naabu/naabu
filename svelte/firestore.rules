@@ -11,6 +11,7 @@ service cloud.firestore {
     match /goals/{goalsId} {
       allow read: if true
       // allow write: if (request.auth.token.curriculumProfileId is string)
+      allow delete: if true
       allow write: if get(/databases/$(database)/documents/players/$(request.auth.uid)).data.curriculumProfileId is string
       match /prerequisites/{prerequisiteId} {
         allow read, write, delete: if true
@@ -59,7 +60,7 @@ service cloud.firestore {
     match /curriculumProfile/{curriculumProfileId} {
       allow read: if true
       allow create: if request.resource.data.fullname.size() > 0;
-      allow update, delete:  if resource.data.uid == request.auth.uid
+      allow update, delete:  if debug(resource.data.uid) == debug(request.auth.uid)
     }
 
     match /talk/{talkId} {
@@ -83,6 +84,8 @@ service cloud.firestore {
       // Goals should have this check
       // Activities should not have this check. revisionType  "activity"
       allow create: if (request.resource.data.revisionType == "activity" || request.resource.data.revisionType == "goal")
+  
+      allow delete: if request.auth.uid == revision.authorId
       // allow update: if (resource.data.revisionType == "activity" || get(/databases/$(database)/documents/players/$(request.auth.uid)).data.curriculumProfileId is string)
       // allow write: if (resource.data.revisionType == "activity" || get(/databases/$(database)/documents/players/$(request.auth.uid)).data.curriculumProfileId is string)
       match /battles/{battleId} {

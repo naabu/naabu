@@ -40,7 +40,7 @@ export function getDefaultGoalBreadcrumbs(goal) {
   ];
 }
 
-export async function createGoalRevision(db, goal, data, firebase) {
+export async function createGoalRevision(db, goal, data, uid, firebase) {
   // Get profile from authorId.
   let profileRef = db.collection("curriculumProfile").doc(data.authorId);
 
@@ -56,7 +56,7 @@ export async function createGoalRevision(db, goal, data, firebase) {
   data.revisionType = "goal";
   data.revisionCreatedAt = firebase.firestore.Timestamp.now().seconds;
   data.revisionSourceId = data.goalId;
-  data.revisionAuthorId = data.authorId;
+  data.revisionAuthorId = uid;
 
 
   console.log(data);

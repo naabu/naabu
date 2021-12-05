@@ -14,7 +14,7 @@
 
   let breadcrumbs;
 
-  $: if (goal) {
+  function setBreadcrumbs() {
     breadcrumbs = getDefaultGoalBreadcrumbs(goal);
 
     breadcrumbs = [
@@ -27,7 +27,9 @@
   }
 
   $: (async () => {
-    if ($firebaseStore) {
+    if ($firebaseStore && !mounted) {
+      console.log("tst12123");
+      mounted = true;
       firebase = $firebaseStore;
       let db = await firebase.firestore();
       ref = db.collection("revisions").doc($page.params.id);
@@ -42,7 +44,6 @@
           goal.id = revision.goalId;
         }
       }
-      mounted = true;
     }
   })();
 </script>

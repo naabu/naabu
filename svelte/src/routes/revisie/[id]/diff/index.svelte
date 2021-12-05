@@ -95,7 +95,7 @@
       revisionNew = newSnap.data();
       revisionNew.revisionId = newRef.id;
       // TODO change to learning goal revision type.
-      if (!revisionNew.revisionType) {
+      if (!revisionNew.revisionType || revisionNew.revisionType === "goal") {
         let battleCol = db
           .collection("revisions")
           .doc(revisionNew.id)
@@ -109,7 +109,7 @@
         });
       }
     }
-    if (revisionNew && !revisionNew.revisionType) {
+    if (revisionNew && (!revisionNew.revisionType || revisionNew.revisionType === "goal")) {
       let goalSnap = await db.collection("goals").doc(revisionNew.goalId).get();
       if (goalSnap.exists) {
         goal = goalSnap.data();
@@ -129,7 +129,7 @@
 </script>
 
 {#if mounted && revisionNew}
-  {#if !revisionNew.revisionType}
+  {#if !revisionNew.revisionType || revisionNew.revisionType === "goal"}
     {#if goal}
       <ContainerBreadcrumpPageTitle bind:breadcrumbs title={goal.title} />
       <GoalDiff

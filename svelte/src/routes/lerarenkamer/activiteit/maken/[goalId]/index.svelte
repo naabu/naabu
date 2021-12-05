@@ -13,7 +13,8 @@
   $: (async () => {
     if ($firebaseStore) {
       firebase = $firebaseStore;
-  });
+    }
+  })();
 </script>
 
 <GetGoalData bind:firebase bind:goal bind:goalId={$page.params.goalId} />

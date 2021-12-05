@@ -5,7 +5,7 @@
   import ListGoals from "$lib/Goal/list.svelte";
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
-  import { initFirebase } from "$lib/firebase";
+  import { firebaseStore } from "$lib/Firebase/store";
 
   let activityId = $page.query.get("activityId");
 
@@ -13,23 +13,23 @@
   let firebase;
   let db;
 
-  onMount(async () => {
-    firebase = await initFirebase($session.environment);
-    db = await firebase.firestore();
-  });
+  $: (async () => {
+    if ($firebaseStore) {
+      firebase = $firebaseStore;
+      db = await firebase.firestore();
+    }
+  })();
 
   async function editLearningGoal(goalId, goalTitle) {
-    if (activityId)
-    {
+    if (activityId) {
       let data = {
         goalId: goalId,
         goalTitle: goalTitle,
-      }
+      };
 
       let ref = db.collection("activities").doc(activityId);
       await ref.update(data);
       goto("/lerarenkamer/activiteit/" + activityId);
-
     }
   }
 </script>

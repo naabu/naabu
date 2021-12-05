@@ -2,7 +2,7 @@
   import AdventureTeaserList from "$lib/Goal/Adventure/Teasers/list.svelte";
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
-  import { initFirebase } from "$lib/firebase";
+  import { firebaseStore } from "$lib/Firebase/store";
   import { getMap, getUserMap } from "$lib/Map/helper";
 
   let firebase;
@@ -29,11 +29,13 @@
     },
   ];
 
-  onMount(async () => {
-    firebase = await initFirebase($session.environment);
-    await retrieveFirestoreData();
-    mounted = true;
-  });
+  $: (async () => {
+    if ($firebaseStore) {
+      firebase = $firebaseStore;
+      await retrieveFirestoreData();
+      mounted = true;
+    }
+  })();
 
   async function retrieveFirestoreData() {
     let mapId = $page.params.mapId;

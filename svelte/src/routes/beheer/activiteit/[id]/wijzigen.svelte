@@ -10,30 +10,26 @@
     };
   }
 </script> -->
-
 <script>
-	import Edit from '$lib/Activity/edit.svelte';
-	import { onMount } from 'svelte';
-  import { getStores, session, page } from "$app/stores"
-  import { initFirebase } from "$lib/firebase";
+  import Edit from "$lib/Activity/edit.svelte";
+  import { onMount } from "svelte";
+  import { getStores, session, page } from "$app/stores";
+  import { firebaseStore } from "$lib/Firebase/store";
 
- // import firebase from "firebase/app";
+  // import firebase from "firebase/app";
   let firebase;
-  
-	let ref;
 
+  let ref;
 
-	onMount(async() => {
-		//TODO try to get firestore to work with SSR.
-		//https://www.google.com/search?q=ssr+firestore+auth
-    firebase = await initFirebase($session.environment);
-		const db = await firebase.firestore();
-		ref = db.collection('activities').doc($page.params.id);
-	});
-
-
+  $: (async () => {
+    if ($firebaseStore) {
+      firebase = $firebaseStore;
+      const db = await firebase.firestore();
+      ref = db.collection("activities").doc($page.params.id);
+    }
+  })();
 </script>
 
 {#if firebase && ref}
-	<Edit bind:ref/>
+  <Edit bind:ref />
 {/if}

@@ -3,7 +3,7 @@
   import GoalDiff from "$lib/Revision/goalDiff.svelte";
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
-  import { initFirebase } from "$lib/firebase";
+  import { firebaseStore } from "$lib/Firebase/store";
   import { getNextAndPreviousRevisions } from "$lib/Revision/helper";
   import ContainerBreadcrumpPageTitle from "$lib/Containers/breadcrumbPageTitle.svelte";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
@@ -79,11 +79,13 @@
   //   loading = false;
   // }
 
-  onMount(async () => {
-    firebase = await initFirebase($session.environment);
-    await retrieveFirestoreData();
-    mounted = true;
-  });
+  $: (async () => {
+    if ($firebaseStore) {
+      firebase = $firebaseStore;
+      await retrieveFirestoreData();
+      mounted = true;
+    }
+  })();
 
   async function retrieveFirestoreData() {
     let db = await firebase.firestore();

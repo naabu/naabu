@@ -110,7 +110,7 @@
 
         data.authorId = $session.player.curriculumProfileId;
         data.goalId = goalRef.id;
-        await createGoalRevision(db, revision, data);
+        await createGoalRevision(db, revision, data, firebase);
       }
       alert.success = true;
       alert.successTitle = "Leerdoel gewijzigd";

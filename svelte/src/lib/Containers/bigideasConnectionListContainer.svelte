@@ -7,7 +7,7 @@
   import MainTabs from "$lib/Tabs/goal.svelte";
   import SecondTabs from "$lib/Tabs/connectionStatus.svelte";
   import { onMount } from "svelte";
-  import { initFirebase } from "$lib/firebase";
+  import { firebaseStore } from "$lib/Firebase/store";
 
   let goal;
   let firebase;
@@ -22,11 +22,13 @@
   let trashCanCount = "...";
   export let status;
 
-  onMount(async () => {
-    firebase = await initFirebase($session.environment);
+  $: (async () => {
+    if ($firebaseStore) {
+      firebase = $firebaseStore;
     db = await firebase.firestore();
     mounted = true;
-  });
+  }
+  })();
 
   async function getCountStatus(queryStatus) {
     let ref = db

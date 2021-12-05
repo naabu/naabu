@@ -29,18 +29,18 @@ export function getGoalSaveData(goal, timestamp) {
 
 export function getDefaultGoalBreadcrumbs(goal) {
   return [
-      {
-        url: "/curriculum",
-        value: "Curriculum",
-      },
-      {
-        url: "/leerdoel/" + goal.id,
-        value: "Leerdoel: " + goal.title,
-      }
-    ];
+    {
+      url: "/curriculum",
+      value: "Curriculum",
+    },
+    {
+      url: "/leerdoel/" + goal.id,
+      value: "Leerdoel: " + goal.title,
+    }
+  ];
 }
 
-export async function createGoalRevision(db, goal, data) {
+export async function createGoalRevision(db, goal, data, firebase) {
   // Get profile from authorId.
   let profileRef = db.collection("curriculumProfile").doc(data.authorId);
 
@@ -53,6 +53,13 @@ export async function createGoalRevision(db, goal, data) {
     }
   }
 
+  data.revisionType = "goal";
+  data.revisionCreatedAt = firebase.firestore.Timestamp.now().seconds;
+  data.revisionSourceId = data.goalId;
+  data.revisionAuthorId = data.authorId;
+
+
+  console.log(data);
   let revisionResult = await db.collection("revisions").add(data);
   for (let i = 0; i < goal.battles.length; i++) {
     let battleDocRef = db.doc(

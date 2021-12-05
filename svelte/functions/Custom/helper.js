@@ -1,7 +1,6 @@
 const functions = require('firebase-functions');
 const algoliasearch = require('algoliasearch');
 
-
 function getFirebaseApp() {
   const admin = require("firebase-admin");
   let firebaseApp;
@@ -74,7 +73,6 @@ let mapIndexName = getIndex('maps', environment);
 const goalIndex = client.initIndex(goalIndexName);
 const activityIndex = client.initIndex(activityIndexName);
 const mapIndex = client.initIndex(mapIndexName);
-
 
 exports.getFirebaseApp = getFirebaseApp;
 exports.goalIndex = goalIndex;

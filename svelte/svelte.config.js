@@ -10,6 +10,7 @@ const config = {
 	}),
 
 	kit: {
+    ssr: false,
 		// hydrate the <div id="svelte"> element in src/app.html
 		adapter: firebaseAdapter(),
 		target: '#svelte',

@@ -1,7 +1,7 @@
 <script>
   import EditModule from "$lib/Module/edit.svelte";
   import { onMount } from "svelte";
-  import { initFirebase } from "$lib/firebase";
+  import { firebaseStore } from "$lib/Firebase/store";
   import { getStores, session, page } from "$app/stores";
   import Sidebar from "$lib/Containers/sidebar.svelte";
   import { getTeacherMenuitems } from "$lib/Teachers/helper";
@@ -22,20 +22,21 @@
     menuitems = getTeacherMenuitems($page.path);
   }
 
-  onMount(async () => {
-    firebase = await initFirebase($session.environment);
-  });
+  $: (async () => {
+    if ($firebaseStore) {
+      firebase = $firebaseStore;
+    }
+  })();
 </script>
 
-<GetModuleData bind:firebase bind:module/>
-
+<GetModuleData bind:firebase bind:module />
 
 <Sidebar bind:menuitems>
   <span slot="title"> Module wijzigen</span>
 
   <span slot="content">
     {#if firebase && module}
-      <EditModule bind:firebase bind:module/>
+      <EditModule bind:firebase bind:module />
     {/if}
   </span>
 </Sidebar>

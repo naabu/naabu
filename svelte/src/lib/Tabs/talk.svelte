@@ -42,7 +42,7 @@
       {
         value: "edit",
         text: "Bewerken",
-        url: "/beheer/leerdoel/" + objectId + "/wijzigen",
+        url: "/leerdoel/" + objectId + "/wijzigen",
       },
       {
         value: "history",

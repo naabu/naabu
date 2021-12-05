@@ -82,7 +82,7 @@ service cloud.firestore {
       // allow write: if (request.auth.token.curriculumProfileId is string)
       // Goals should have this check
       // Activities should not have this check. revisionType  "activity"
-      allow create: if request.resource.data.revisionType == "activity"
+      allow create: if (request.resource.data.revisionType == "activity" || request.resource.data.revisionType == "goal")
       // allow update: if (resource.data.revisionType == "activity" || get(/databases/$(database)/documents/players/$(request.auth.uid)).data.curriculumProfileId is string)
       // allow write: if (resource.data.revisionType == "activity" || get(/databases/$(database)/documents/players/$(request.auth.uid)).data.curriculumProfileId is string)
       match /battles/{battleId} {

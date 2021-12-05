@@ -2,7 +2,7 @@
   import ShowAdventure from "$lib/Goal/Adventure/show.svelte";
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
-  import { initFirebase } from "$lib/firebase";
+  import { firebaseStore } from "$lib/Firebase/store";
   import ConnectionTemplate from "$lib/Containers/connectionTemplate.svelte";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
 
@@ -13,10 +13,13 @@
   let activity;
   let breadcrumbs;
 
-  onMount(async () => {
-    firebase = await initFirebase($session.environment);
+  $: (async () => {
+    if ($firebaseStore) {
+      firebase = $firebaseStore;
     await retrieveFirestoreData();
-  });
+
+  }
+  })();
 
   async function retrieveFirestoreData() {
     let db = await firebase.firestore();

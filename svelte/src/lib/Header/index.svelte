@@ -3,13 +3,13 @@
   import logosmall from "./logo-small.svg";
   import personIcon from "./person-icon.svg";
   import Transition from "svelte-class-transition";
-  // import firebase from "firebase/app";
-  // import {getFirebaseAuth} from '$lib/firebase.js';
   import { getStores, session, page } from "$app/stores";
-  import { onMount } from "svelte";
-  import { initFirebase } from "$lib/firebase";
+  import { onMount, getContext } from "svelte";
+  import { firebaseStore } from "$lib/Firebase/store";
 
-  let firebase;
+  $: firebase = $firebaseStore;
+
+  console.log(firebase);
 
   let openMenu = false;
   let openUserMenu = false;
@@ -32,12 +32,9 @@
     ];
   }
 
-  onMount(async () => {
-    firebase = await initFirebase($session.environment);
-  });
-
   async function login() {
     try {
+      console.log(firebase);
       const provider = new firebase.auth.GoogleAuthProvider();
       await firebase.auth().signInWithPopup(provider);
     } catch (e) {

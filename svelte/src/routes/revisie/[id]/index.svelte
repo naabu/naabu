@@ -2,7 +2,7 @@
   import Show from "$lib/Revision/show.svelte";
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
-  import { initFirebase } from "$lib/firebase";
+  import { firebaseStore } from "$lib/Firebase/store";
   import { getNextAndPreviousRevisions } from "$lib/Revision/helper";
   import ContainerBreadcrumpPageTitle from "$lib/Containers/breadcrumbPageTitle.svelte";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
@@ -42,12 +42,14 @@
     update();
   }
 
-  onMount(async () => {
-    firebase = await initFirebase($session.environment);
-    db = await firebase.firestore();
-    mounted = true;
-    await retrieveFirestoreData();
-  });
+  $: (async () => {
+    if ($firebaseStore) {
+      firebase = $firebaseStore;
+      db = await firebase.firestore();
+      mounted = true;
+      await retrieveFirestoreData();
+    }
+  })();
 
   async function retrieveFirestoreData() {
     let ref = db.collection("revisions").doc($page.params.id);

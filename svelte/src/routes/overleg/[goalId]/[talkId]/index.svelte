@@ -2,7 +2,7 @@
   import Talk from "$lib/Talk/show.svelte";
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
-  import { initFirebase } from "$lib/firebase";
+  import { firebaseStore } from "$lib/Firebase/store";
   import ContainerBreadcrumpPageTitle from "$lib/Containers/breadcrumbPageTitle.svelte";
   import GetGoalData from "$lib/Goal/getGoalData.svelte";
 
@@ -13,12 +13,13 @@
   let mounted = false;
   let posts = [];
 
-  onMount(async () => {
-    firebase = await initFirebase($session.environment);
-
-    await retrieveFirestoreData();
-    mounted = true;
-  });
+  $: (async () => {
+    if ($firebaseStore) {
+      firebase = $firebaseStore;
+      await retrieveFirestoreData();
+      mounted = true;
+    }
+  })();
 
   async function retrieveFirestoreData() {
     let db = await firebase.firestore();
@@ -56,8 +57,15 @@
   }
 </script>
 
-<GetGoalData bind:goal bind:goalId={$page.params.goalId} bind:firebase bind:mounted/>
+<GetGoalData
+  bind:goal
+  bind:goalId={$page.params.goalId}
+  bind:firebase
+  bind:mounted
+/>
 {#if mounted}
-  <ContainerBreadcrumpPageTitle bind:breadcrumbs title="{goal.title}"/>
+  {#if goal}
+    <ContainerBreadcrumpPageTitle bind:breadcrumbs title={goal.title} />
+  {/if}
   <Talk bind:talk bind:posts bind:firebase bind:goalId={$page.params.goalId} />
 {/if}

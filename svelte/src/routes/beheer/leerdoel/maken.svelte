@@ -1,7 +1,7 @@
 <script>
   import CreateGoal from "$lib/Goal/create.svelte";
   import { onMount } from "svelte";
-  import { initFirebase } from "$lib/firebase";
+  import { firebaseStore } from "$lib/Firebase/store";
   import { getStores, session } from "$app/stores";
   import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
   let firebase;
@@ -21,9 +21,11 @@
     },
   ];
 
-  onMount(async () => {
-    firebase = await initFirebase($session.environment);
-  });
+  $: (async () => {
+    if ($firebaseStore) {
+      firebase = $firebaseStore;
+    }
+  })();
 </script>
 
 {#if firebase}

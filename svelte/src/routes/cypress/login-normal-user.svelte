@@ -1,18 +1,23 @@
 <script>
   import { getStores, session, page } from "$app/stores";
   import { onMount } from "svelte";
-  import { initFirebase } from "$lib/firebase";
+  import { firebaseStore } from "$lib/Firebase/store";
   let firebase;
 
-  onMount(async () => {
-    firebase = await initFirebase($session.environment);
-    if ($session.environment === "cypress" || $session.environment === "development") {
-      let email = "cypress@example.com";
-      let password = "cypress";
+  $: (async () => {
+    if ($firebaseStore) {
+      firebase = $firebaseStore;
+      if (
+        $session.environment === "cypress" ||
+        $session.environment === "development"
+      ) {
+        let email = "cypress@example.com";
+        let password = "cypress";
 
-      firebase.auth().signInWithEmailAndPassword(email, password);
+        firebase.auth().signInWithEmailAndPassword(email, password);
+      }
     }
-  });
+  })();
 </script>
 
 {#if $session.environment === "cypress" || $session.environment === "development"}

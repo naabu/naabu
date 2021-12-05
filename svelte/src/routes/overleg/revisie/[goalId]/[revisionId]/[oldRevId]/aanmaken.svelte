@@ -2,7 +2,7 @@
   import CreatePostForm from "$lib/Talk/createPost.svelte";
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
-  import { initFirebase } from "$lib/firebase";
+  import { firebaseStore } from "$lib/Firebase/store";
   import MainTabs from "$lib/Tabs/talk.svelte";
   import GetGoalData from "$lib/Goal/getGoalData.svelte";
   import ContainerBreadcrumpPageTitle from "$lib/Containers/breadcrumbPageTitle.svelte";
@@ -21,7 +21,11 @@
     breadcrumbs = [
       ...breadcrumbs,
       {
-        url: "/revisie/" + $page.params.revisionId + "/diff/" + $page.params.oldRevId,
+        url:
+          "/revisie/" +
+          $page.params.revisionId +
+          "/diff/" +
+          $page.params.oldRevId,
         value: "Verschil versies",
       },
       {
@@ -31,12 +35,13 @@
     ];
   }
 
-  onMount(async () => {
-    firebase = await initFirebase($session.environment);
-
-    await retrieveFirestoreData();
-    mounted = true;
-  });
+  $: (async () => {
+    if ($firebaseStore) {
+      firebase = $firebaseStore;
+      await retrieveFirestoreData();
+      mounted = true;
+    }
+  })();
 
   async function retrieveFirestoreData() {
     let db = await firebase.firestore();

@@ -2,9 +2,9 @@
   import EditRevision from "$lib/Revision/edit.svelte";
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
-  import { initFirebase } from "$lib/firebase";
+  import { firebaseStore } from "$lib/Firebase/store";
   import ContainerBreadcrumpPageTitle from "$lib/Containers/breadcrumbPageTitle.svelte";
-import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
+  import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
 
   let firebase;
   let ref;
@@ -26,23 +26,25 @@ import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
     ];
   }
 
-  onMount(async () => {
-    firebase = await initFirebase($session.environment);
-    let db = await firebase.firestore();
-    ref = db.collection("revisions").doc($page.params.id);
-    battleCol = db.collection("revisions/" + $page.params.id + "/battles");
-    let snap = await ref.get();
-    if (snap.exists) {
-      let revision = snap.data();
-      revision.revisionId = ref.id;
-      let goalSnap = await db.collection("goals").doc(revision.goalId).get();
-      if (goalSnap.exists) {
-        goal = goalSnap.data();
-        goal.id = revision.goalId;
+  $: (async () => {
+    if ($firebaseStore) {
+      firebase = $firebaseStore;
+      let db = await firebase.firestore();
+      ref = db.collection("revisions").doc($page.params.id);
+      battleCol = db.collection("revisions/" + $page.params.id + "/battles");
+      let snap = await ref.get();
+      if (snap.exists) {
+        let revision = snap.data();
+        revision.revisionId = ref.id;
+        let goalSnap = await db.collection("goals").doc(revision.goalId).get();
+        if (goalSnap.exists) {
+          goal = goalSnap.data();
+          goal.id = revision.goalId;
+        }
       }
+      mounted = true;
     }
-    mounted = true;
-  });
+  })();
 </script>
 
 {#if firebase && ref && goal}

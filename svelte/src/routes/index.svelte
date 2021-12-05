@@ -4,7 +4,7 @@
   import { onMount } from "svelte";
   import ModuleTeaserList from "$lib/Module/teaserList.svelte";
   // import firebase from "firebase/app";
-  import { initFirebase } from "$lib/firebase";
+  import { firebaseStore } from "$lib/Firebase/store";
   import { getMap, getUserMap } from "$lib/Map/helper";
 
   let firebase;
@@ -21,16 +21,19 @@
   //   }
   // };
 
-  onMount(async () => {
-    firebase = await initFirebase($session.environment);
-    await retrieveAllModules();
+  $: (async () => {
+    if ($firebaseStore) {
+      firebase = $firebaseStore;
+      await retrieveAllModules();
     // if ($session.player) {
     //   mapId = $session.player.currentMapId;
     //   map = await getMap(firebase, mapId);
     //   userMap = await getUserMap(firebase, mapId, map, $session.player);
     // }
     mounted = true;
-  });
+
+    }
+  })();
 
   async function retrieveAllModules() {
     let db = firebase.firestore();

@@ -5,8 +5,6 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/sveltekit/dev/Dockerfile
-    # volumes:
-    #   - ./:/var/www/
     entrypoint: ["npm", "run", "dev"]
     environment:
       - environment=cypress
@@ -42,8 +40,6 @@ services:
       dockerfile: dockerfiles/cypress/Dockerfile
     env_file:
       - functional-tests/.env
-    # volumes:
-    #   - ./functional-tests:/tests
     networks:
       - internal_network
   

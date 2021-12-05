@@ -1,14 +1,16 @@
 <script>
 	import CreateMap from '$lib/Map/create.svelte';
-  import { initFirebase } from "$lib/firebase";
+  import { firebaseStore } from "$lib/Firebase/store";
   import { getStores, session} from "$app/stores"
   import { onMount } from 'svelte';
   
   let firebase;
 
-  onMount(async() => {
-    firebase = await initFirebase($session.environment);
-  });
+  $: (async () => {
+    if ($firebaseStore) {
+      firebase = $firebaseStore;
+    }
+  })();
 </script>
 
 {#if firebase}

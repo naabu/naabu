@@ -1,26 +1,23 @@
 <script>
   import { getStores, session } from "$app/stores";
-  import { initFirebase } from "$lib/firebase";
-  import { onMount } from "svelte";
+  import { firebaseStore } from "$lib/Firebase/store";
   let firebase;
 
-
-  onMount(async () => {
-    firebase = await initFirebase($session.environment);
-  });
-
   async function login() {
-    try {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      await firebase.auth().signInWithPopup(provider);
-    } catch (e) {
-      console.log(e);
+    let firebase = $firebaseStore;
+    if (firebase) {
+      try {
+        const provider = new firebase.auth.GoogleAuthProvider();
+        await firebase.auth().signInWithPopup(provider);
+      } catch (e) {
+        console.log(e);
+      }
     }
   }
 </script>
 
 {#if $session.user}
-  <slot/>
+  <slot />
 {:else}
   <p>Je moet eerst inloggen om naar de lerarenkamer te gaan</p>
   <a

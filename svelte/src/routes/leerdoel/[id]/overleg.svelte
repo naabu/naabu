@@ -2,7 +2,7 @@
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
-  import { initFirebase } from "$lib/firebase";
+  import { firebaseStore } from "$lib/Firebase/store";
   import ContainerBreadcrumpPageTitle from "$lib/Containers/breadcrumbPageTitle.svelte";
 
   let firebase;
@@ -10,12 +10,13 @@
   let goal;
   let mounted = false;
 
-  onMount(async () => {
-    firebase = await initFirebase($session.environment);
-
-    await retrieveFirestoreData();
-    mounted = true;
-  });
+  $: (async () => {
+    if ($firebaseStore) {
+      firebase = $firebaseStore;
+      await retrieveFirestoreData();
+      mounted = true;
+    }
+  })();
 
   async function retrieveFirestoreData() {
     let db = await firebase.firestore();

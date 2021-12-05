@@ -2,7 +2,7 @@
   import Show from "$lib/Map/show.svelte";
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
-  import { initFirebase } from "$lib/firebase";
+  import { firebaseStore } from "$lib/Firebase/store";
   import { getMap, getUserMap } from "$lib/Map/helper";
 
   let firebase;
@@ -10,13 +10,11 @@
   let userMap = null;
   let mapId = $page.params.id;
 
-  $: (async () => {
+  $: async () => {
     if ($session.player) {
       userMap = await getUserMap(firebase, mapId, map, $session.player);
     }
-  });
-
-
+  };
 
   let mounted = false;
   let breadcrumbs = [
@@ -36,14 +34,15 @@
 
   const asynGetUserMap = async () => {
     userMap = await getUserMap(firebase, mapId, map, $session.player);
-  }
+  };
 
-  onMount(async () => {
-    firebase = await initFirebase($session.environment);
-    await retrieveFirestoreData();
-    await asynGetUserMap();
-    mounted = true;
-  });
+  $: (async () => {
+    if ($firebaseStore) {
+      firebase = $firebaseStore;
+      await asynGetUserMap();
+      mounted = true;
+    }
+  })();
 
   async function retrieveFirestoreData() {
     let mapId = $page.params.id;

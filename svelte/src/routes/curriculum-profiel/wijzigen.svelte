@@ -2,7 +2,7 @@
   import EditCurriculumProfile from "$lib/Curriculum/edit.svelte";
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
-  import { initFirebase } from "$lib/firebase";
+  import { firebaseStore } from "$lib/Firebase/store";
   import ContainerBreadcrumpPageTitle from "$lib/Containers/breadcrumbPageTitle.svelte";
 
   let firebase;
@@ -10,17 +10,20 @@
   let curriculumProfile;
   let mounted = false;
 
-  onMount(async () => {
-    firebase = await initFirebase($session.environment);
-
-    await retrieveFirestoreData();
-    mounted = true;
-  });
-
+  $: (async () => {
+    if ($firebaseStore) {
+      firebase = $firebaseStore;
+      await retrieveFirestoreData();
+      mounted = true;
+    }
+  })();
+  
   async function retrieveFirestoreData() {
     let db = await firebase.firestore();
     if ($session.user && $session.player.curriculumProfileId) {
-      let ref = db.collection("curriculumProfile").doc($session.player.curriculumProfileId);
+      let ref = db
+        .collection("curriculumProfile")
+        .doc($session.player.curriculumProfileId);
       let snap = await ref.get();
       if (snap.exists) {
         curriculumProfile = snap.data();

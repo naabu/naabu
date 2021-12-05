@@ -3,7 +3,7 @@
   import ConnectionTemplate from "$lib/Containers/connectionTemplate.svelte";
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
-  import { initFirebase } from "$lib/firebase";
+  import { firebaseStore } from "$lib/Firebase/store";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
 
   let firebase;
@@ -11,10 +11,12 @@
   let activity;
   let breadcrumbs;
 
-  onMount(async () => {
-    firebase = await initFirebase($session.environment);
-    await retrieveFirestoreData();
-  });
+  $: (async () => {
+    if ($firebaseStore) {
+      firebase = $firebaseStore;
+      await retrieveFirestoreData();
+    }
+  })();
 
   async function retrieveFirestoreData() {
     let db = await firebase.firestore();

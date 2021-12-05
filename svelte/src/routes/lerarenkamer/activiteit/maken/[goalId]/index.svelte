@@ -1,7 +1,7 @@
 <script>
   import CreateActivity from "$lib/Activity/create.svelte";
   import { onMount } from "svelte";
-  import { initFirebase } from "$lib/firebase";
+  import { firebaseStore } from "$lib/Firebase/store";
   import { getStores, session, page } from "$app/stores";
   import Sidebar from "$lib/Containers/sidebar.svelte";
   import { getTeacherMenuitems } from "$lib/Teachers/helper";
@@ -10,8 +10,9 @@
   let firebase;
   let goal;
 
-  onMount(async () => {
-    firebase = await initFirebase($session.environment);
+  $: (async () => {
+    if ($firebaseStore) {
+      firebase = $firebaseStore;
   });
 </script>
 

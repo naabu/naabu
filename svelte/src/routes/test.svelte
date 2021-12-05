@@ -1,23 +1,18 @@
-<script>
-  import { getDiffStrings } from "$lib/Misc/helper";
-  import { getDifferencesBetweenRevisions } from "$lib/Revision/helper";
+<!-- <script>
+  import { onMount } from "svelte";
+  import { getStores, session, page } from "$app/stores";
+  import Firebase from "$lib/Firebase/loadFirebase.svelte";
 
-  // import { getDifferencesBetweenRevisions } from "$lib/Revision/helper";
+  export let firebase;
 
-  // let diff1 = getDifferencesBetweenRevisions({}, { field1: "test", field2: "test123132" });
-  // console.log(diff1);
-  // let diff2 = getDifferencesBetweenRevisions([], [{ field1: "test" }]);
-  // console.log(diff2);
-  // let diff3 = getDifferencesBetweenRevisions({ field1: "test" }, {});
-  // console.log(diff3);
-  // let diff4 = getDifferencesBetweenRevisions([{ field1: "test" }], []);
-  // console.log(diff4);
-  // import DiffMatchPatch from "diff-match-patch";
-  let diff5 = getDifferencesBetweenRevisions({ field1: false }, {});
+  onMount(async () => {
+    await retrieveFirestoreData();
+  });
 
-  let diff = getDiffStrings("dogs bark", "cats bark");
-  let nullFalse = null === false;
+  async function retrieveFirestoreData() {
+    console.log('test');
+    let db = await firebase.firestore();
+  }
 </script>
 
-{@html diff}
-{nullFalse}
+<Firebase /> -->

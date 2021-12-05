@@ -1,7 +1,7 @@
 <script>
   import { getStores, session, page } from "$app/stores";
   import { onMount } from "svelte";
-  import { initFirebase } from "$lib/firebase";
+  import { firebaseStore } from "$lib/Firebase/store";
   let firebase;
   let curriculumReset = false;
   let mounted = false;
@@ -65,11 +65,13 @@
     }
   })();
 
-  onMount(async () => {
-    firebase = await initFirebase($session.environment);
-    db = await firebase.firestore();
-    mounted = true;
-  });
+  $: (async () => {
+    if ($firebaseStore) {
+      firebase = $firebaseStore;
+      db = await firebase.firestore();
+      mounted = true;
+    }
+  })();
 </script>
 
 {#if $session.environment === "cypress" || $session.environment === "development"}

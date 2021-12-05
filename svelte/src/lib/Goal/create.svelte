@@ -10,6 +10,8 @@
   import { goto } from "$app/navigation";
 
   export let firebase;
+  console.log('teasdfasdf');
+  $: console.log(firebase);
 
   let y;
   let db;
@@ -81,7 +83,7 @@
 
         data.authorId = $session.player.curriculumProfileId;
         data.goalId = goalResult.id;
-        await createGoalRevision(db, goal, data);
+        await createGoalRevision(db, goal, data, firebase);
 
         alert.success = true;
         alert.successTitle = "Leerdoel gemaakt";

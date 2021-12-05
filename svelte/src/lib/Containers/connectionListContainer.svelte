@@ -7,7 +7,7 @@
   import LearningGoalConnectionsTabs from "$lib/Tabs/learningGoalConnections.svelte";
   import ConnectionStatusTabs from "$lib/Tabs/connectionStatus.svelte";
   import { onMount } from "svelte";
-  import { initFirebase } from "$lib/firebase";
+  import { firebaseStore } from "$lib/Firebase/store";
   import { getStatusText } from "$lib/Connection/helper";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
   import ConnectionLinkList from "$lib/Connection/connectionLinkList.svelte";
@@ -71,11 +71,13 @@
     };
   }
 
-  onMount(async () => {
-    firebase = await initFirebase($session.environment);
-    db = await firebase.firestore();
-    mounted = true;
-  });
+  $: (async () => {
+    if ($firebaseStore) {
+      firebase = $firebaseStore;
+      db = await firebase.firestore();
+      mounted = true;
+    }
+  })();
 
   async function getCountStatus(queryStatus) {
     let ref = db

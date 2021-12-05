@@ -1,7 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import { getStores, session } from "$app/stores";
-  import { initFirebase } from "$lib/firebase";
+  import { firebaseStore } from "$lib/Firebase/store";
   import { queryConnections } from "$lib/Connection/helper";
 
   export let firebase;
@@ -11,11 +11,13 @@
   export let status;
   export let goalId;
 
-  onMount(async () => {
-    firebase = await initFirebase($session.environment);
-    await retrieveFirestoreData();
-    mounted = true;
-  });
+  $: (async () => {
+    if ($firebaseStore) {
+      firebase = $firebaseStore;
+      await retrieveFirestoreData();
+      mounted = true;
+    }
+  })();
 
   async function retrieveFirestoreData() {
     let db = await firebase.firestore();

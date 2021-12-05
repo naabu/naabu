@@ -1,21 +1,14 @@
 <script>
   import { getStores, session } from "$app/stores";
+  import { getFirebaseConfig } from "$lib/config";
   import { firebaseStore } from "$lib/Firebase/store";
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
 
-  const firebaseConfig = {
-    apiKey: $session.fbApiKey,
-    authDomain: "expwis.firebaseapp.com",
-    projectId: "expwis",
-    storageBucket: "expwis.appspot.com",
-    messagingSenderId: "950890412912",
-    appId: "1:950890412912:web:a248488bf4e6eb2bc3adb5",
-    measurementId: "G-8ZT9LCY8BY",
-  };
+  const firebaseConfig = getFirebaseConfig();
 
   initFirebase().then((fb) => {
-    console.log('here')
+    console.log("here");
     $firebaseStore = fb;
     dispatch("firebaseInitialized", {
       firebase: fb,

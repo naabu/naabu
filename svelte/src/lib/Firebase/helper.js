@@ -7,7 +7,6 @@ export async function login(firebase) {
     if (anonymousUser) {
       anonymousUser.linkWithPopup(provider).then(function (result) {
         console.log(result);
-        // Sign in with credential from the Google user.
         firebase.auth().signInWithCredential(result.credential).catch((error) => {
           console.error("could not login");
         });

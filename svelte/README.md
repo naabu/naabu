@@ -24,3 +24,7 @@ Convert tailwind to this component
 ## Some handy things to know about non-obvious things
 - If deploying on firebase functions. Do not supply default config. 
 It is loaded automatically. Even the admin keys!
+
+
+## Updated indexes from Firebase UI
+`firebase firestore:indexes > firestore.indexes.json`

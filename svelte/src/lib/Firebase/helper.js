@@ -5,11 +5,20 @@ export async function login(firebase) {
     let anonymousUser = firebase.auth().currentUser;
     console.log(anonymousUser);
     if (anonymousUser) {
-      console.log("LINK IN WITH POPUP THINGY!");
       anonymousUser.linkWithPopup(provider).then(function (result) {
         console.log(result);
+        // Sign in with credential from the Google user.
+        firebase.auth().signInWithCredential(result.credential).catch((error) => {
+          console.error("could not login");
+        });
       }).catch(function (error) {
         console.log(error);
+        if (error.code === "auth/credential-already-in-use") {
+          console.log("already linked");
+          firebase.auth().signInWithCredential(error.credential).catch((error) => {
+            console.error("could not login");
+          });
+        }
       }
       );
     }

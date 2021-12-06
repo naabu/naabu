@@ -48,6 +48,7 @@
       id: "3",
       verbs: [
         "berekenen",
+        "opstellen",
         "omzetten",
         "toepassen",
         "tonen",
@@ -231,6 +232,7 @@
   }
 
   function setDisabledBloom(bloomValue) {
+    return false;
     let bloomColumn = bloomValue.substr(bloomValue.length - 1);
     if (
       goal.taxonomy_solo.includes("solo-1") &&

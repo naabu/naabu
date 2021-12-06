@@ -1,4 +1,4 @@
-<script context="module" >
+<!-- <script context="module" >
     import { initFirebase } from "$lib/Firebase/loadFirebase.svelte";
   
     export async function load({session}) {
@@ -18,4 +18,4 @@ import { login } from "$lib/Firebase/helper";
     login(firebase);
 </script>
 
-SSR test page
+SSR test page -->

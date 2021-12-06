@@ -28,7 +28,6 @@
 
   $: (async () => {
     if ($firebaseStore && !mounted) {
-      console.log("tst12123");
       mounted = true;
       firebase = $firebaseStore;
       let db = await firebase.firestore();

@@ -1,0 +1,49 @@
+export async function login(firebase) {
+  try {
+    let auth = firebase.auth();
+    const provider = new firebase.auth.GoogleAuthProvider();
+    let anonymousUser = firebase.auth().currentUser;
+    console.log(anonymousUser);
+    if (anonymousUser) {
+      console.log("LINK IN WITH POPUP THINGY!");
+      anonymousUser.linkWithPopup(provider).then(function (result) {
+        console.log(result);
+      }).catch(function (error) {
+        console.log(error);
+      }
+      );
+    }
+    else {
+      auth.signInWithPopup(provider).then(function (result) {
+        console.log("Ready with sign in!");
+        if (anonymousUser) {
+          let googleAuthCredential = result.credential;
+          anonymousUser.delete().then(function () {
+
+
+          }).then(function () {
+            console.log("Link succeeded");
+          }).catch(function (error) {
+            console.error("Something went wrong", error);
+          });
+
+          // 
+          // anonymousUser.linkWithCredential(authCredential)
+          // .then((usercred) => {
+          //   var user = usercred.user;
+          //   console.log("Anonymous account successfully upgraded", user);
+          // }).catch((error) => {
+          //   console.log("Error upgrading anonymous account", error);
+          // });
+        }
+      }).catch(function (error) {
+        console.error("Google sign in failed", error);
+      })
+    }
+
+
+
+  } catch (e) {
+    console.log(e);
+  }
+}

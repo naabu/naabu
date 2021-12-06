@@ -354,7 +354,6 @@ export async function createRevision(firebase, activity, activitySaveData, userI
   }
 
   revisionData = { ...revisionData, ...activitySaveData };
-  console.log(revisionData);
   let resultRevision = await db.collection("revisions").add(revisionData);
   return resultRevision;
 }

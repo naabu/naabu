@@ -1,13 +1,8 @@
 <script>
   export let map;
 
-  // $: console.log(map);
   export let selectedIndex;
-
-  // $:console.log(selectedIndex);
   let paths = [];
-
-  $:console.log(paths);
 
   let selectedPathIndex;
   let selectedPath = null;
@@ -43,11 +38,7 @@
   }
 
   $: if (selectedIndex >= 0) {
-    console.log("Triggers!");
-    // console.log(map.locations[selectedIndex]);
     paths = [];
-    console.log(map.paths);
-    console.log(map.locations[selectedIndex].id);
     for (let i = 0; i < map.paths.length; i++) {
       if (map.paths[i].startLocation === map.locations[selectedIndex].id) {
         paths.push(map.paths[i]);

@@ -62,7 +62,7 @@
 
                   <div class="mt-6 sm:mt-0 sm:ml-6">
                     <h3 class="text-base font-medium text-gray-900">
-                      <a href="#">{module.moduleName}</a>
+                      <a href="/module/{module.id}">{module.moduleName}</a>
                     </h3>
                     <!-- <p class="mt-2 text-sm font-medium text-gray-900">$35.00</p> -->
                     <p

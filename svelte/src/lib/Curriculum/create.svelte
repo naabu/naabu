@@ -5,6 +5,7 @@
   import CurriculumTabs from "$lib/Tabs/curriculum.svelte";
   import { onMount } from "svelte";
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
+import { login } from "$lib/Firebase/helper";
 
   export let firebase;
 
@@ -104,12 +105,7 @@
   });
 
   async function signInWithGoogle() {
-    try {
-      const provider = new firebase.auth.GoogleAuthProvider();
-      await firebase.auth().signInWithPopup(provider);
-    } catch (e) {
-      console.log(e);
-    }
+    login(firebase);
   }
 </script>
 

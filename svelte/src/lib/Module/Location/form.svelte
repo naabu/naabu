@@ -13,8 +13,6 @@ import { generatePathsForMap } from "$lib/Map/helper";
 
   export let map;
 
-  $:console.log(map);
-
   $: if (map) {
     generatePathsForMap(map);
   }
@@ -134,17 +132,14 @@ import { generatePathsForMap } from "$lib/Map/helper";
 
   $: if (selectedLocationTab === "content") {
     autoCompleteTimer = setInterval(() => {
-      // console.log("timer running");
       autoCompleteElementExists = document.getElementById(
         "autocomplete-leerdoelen"
       );
-      // console.log(autoCompleteElementExists);
     }, 100);
   }
 
   $: if (autoCompleteElementExists !== null && autoCompleteTimer) {
     clearInterval(autoCompleteTimer);
-    console.log(autoCompleteTimer);
     runAutocomplete();
   }
 

@@ -59,7 +59,6 @@ export async function createGoalRevision(db, goal, data, uid, firebase) {
   data.revisionAuthorId = uid;
 
 
-  console.log(data);
   let revisionResult = await db.collection("revisions").add(data);
   for (let i = 0; i < goal.battles.length; i++) {
     let battleDocRef = db.doc(

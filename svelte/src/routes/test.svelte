@@ -10,7 +10,6 @@
   });
 
   async function retrieveFirestoreData() {
-    console.log('test');
     let db = await firebase.firestore();
   }
 </script>

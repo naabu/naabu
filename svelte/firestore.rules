@@ -123,6 +123,9 @@ service cloud.firestore {
       allow read: if true
       allow create: if debug(debug(request.auth.uid) == debug(request.resource.data.authorId));
       allow update, delete: if request.auth.uid == resource.data.authorId
+      match /players/{playerId} {
+         allow read, write, update: if true
+      }
     }
 
     match /path/{userId} {

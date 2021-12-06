@@ -2,16 +2,25 @@
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
   import { firebaseStore } from "$lib/Firebase/store";
+  import { getUserModule } from "./helper";
   export let firebase;
   export let module;
   export let mounted = false;
   export let moduleId = $page.params.moduleId;
+  export let userModule;
+  export let loadUserModule = true;
 
   $: (async () => {
     if ($firebaseStore) {
       firebase = $firebaseStore;
       await retrieveFirestoreData();
       mounted = true;
+    }
+  })();
+
+  $: (async () => {
+    if (loadUserModule && mounted && module && $session.player && $session.player.id) {
+      userModule = await getUserModule(firebase, module.id, module, $session.player);
     }
   })();
 

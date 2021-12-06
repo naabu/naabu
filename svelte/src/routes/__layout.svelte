@@ -35,20 +35,32 @@
   }
 
   function handleLoginEvent(event) {
-    console.log('handleLoginEvent');
-    console.log($firebaseStore);
     firebase = $firebaseStore;
     if (firebase) {
       let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
       $session.serverFirestoreTimeStamp = serverTimestamp;
       firebase.auth().onAuthStateChanged(async (newUser) => {
-        console.log('onAuthStateChanged');
+        console.log("onAuthStateChanged");
         console.log(newUser);
         if (newUser) {
           user = newUser;
           user.idTokenResult = await user.getIdTokenResult();
           player = await getPlayer(user);
         } else {
+          console.log("firebase found");
+          console.log("attempt to log in anonymously");
+          firebase
+            .auth()
+            .signInAnonymously()
+            .then(() => {
+              console.log("Yeah signed in anonymously");
+            })
+            .catch((error) => {
+              var errorCode = error.code;
+              var errorMessage = error.message;
+              // ...
+            });
+
           user = null;
           player = null;
         }

@@ -82,11 +82,7 @@
     if (newSnap.exists) {
       revisionNew = newSnap.data();
       revisionNew.revisionId = newRef.id;
-      console.log(revisionNew);
-      // TODO change to learning goal revision type.
       if (!revisionNew.revisionType || revisionNew.revisionType === "goal") {
-        console.log(revisionNew);
-        console.log("Battles revision");
         let battleCol = db
           .collection("revisions")
           .doc(revisionNew.revisionId)
@@ -140,12 +136,9 @@
 </script>
 
 {#if mounted && revisionNew && revisionOld}
-Test
 {revisionNew.revisionType}
   {#if !revisionNew.revisionType || revisionNew.revisionType == "goal"}
-    goal here
     {#if goal}
-      GOAL DIFF!
       <ContainerBreadcrumpPageTitle bind:breadcrumbs title={goal.title} />
       <GoalDiff
         bind:revisionNew

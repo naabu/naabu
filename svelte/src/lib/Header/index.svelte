@@ -6,10 +6,9 @@
   import { getStores, session, page } from "$app/stores";
   import { onMount, getContext } from "svelte";
   import { firebaseStore } from "$lib/Firebase/store";
+  import { login } from "$lib/Firebase/helper";
 
   $: firebase = $firebaseStore;
-
-  console.log(firebase);
 
   let openMenu = false;
   let openUserMenu = false;
@@ -31,17 +30,6 @@
       },
     ];
   }
-
-  async function login() {
-    try {
-      console.log(firebase);
-      const provider = new firebase.auth.GoogleAuthProvider();
-      await firebase.auth().signInWithPopup(provider);
-    } catch (e) {
-      console.log(e);
-    }
-  }
-
   async function logout() {
     await firebase.auth().signOut();
     openUserMenu = false;
@@ -153,11 +141,11 @@
 		  </button> -->
 
           <!-- Profile dropdown -->
-          {#if !$session.user}
+          {#if (!$session.user || $session.user.isAnonymous)}
             <div class="ml-10 space-x-4">
               <a
                 href="#"
-                on:click|preventDefault={login}
+                on:click|preventDefault={() => login(firebase)}
                 class="inline-block bg-indigo-500 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75"
                 >Inloggen</a
               >

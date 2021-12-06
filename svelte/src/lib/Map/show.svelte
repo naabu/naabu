@@ -11,9 +11,18 @@
   let image;
   let L;
   let mounted = false;
+  export let isModule = false;
 
   $: if (userMap && mounted) {
     putLocationDataOnmap();
+  }
+
+  function goToLocation(location) {
+    if (isModule) {
+      goto("/module/" + map.id + "/locatie/" + location.id);
+    } else {
+      goto("/kaart/" + map.id + "/locatie/" + location.id);
+    }
   }
 
   onMount(async () => {
@@ -89,7 +98,7 @@
         if (unlockedLocation) {
           let el = tooltip3.getElement();
           el.addEventListener("click", function () {
-            goto("/kaart/" + map.id + "/locatie/" + location.id);
+            goToLocation(location);
           });
           el.style.pointerEvents = "auto";
           el.style.cursor = "pointer";
@@ -110,7 +119,9 @@
               weight: 5,
               lineCap: "round",
               lineJoin: "round",
-            }).addTo(leafletMap).bringToBack();
+            })
+              .addTo(leafletMap)
+              .bringToBack();
           }
         }
 
@@ -126,7 +137,7 @@
             opacity: 1,
             fillColor: "#9ECBFF",
             fillOpacity: 1,
-            className: 'unlocked_marker_' + i
+            className: "unlocked_marker_" + i,
           });
           let innerCircle = L.circle([marketLocationY, markerLocationX], 5, {
             color: "#707070",
@@ -136,11 +147,11 @@
             fillOpacity: 1,
           });
           outerCircle.on("click", function () {
-            goto("/kaart/" + map.id + "/locatie/" + location.id);
+            goToLocation(location);
           });
-      
+
           innerCircle.on("click", function () {
-            goto("/kaart/" + map.id + "/locatie/" + location.id);
+            goToLocation(location);
           });
 
           outerCircle.addTo(leafletMap);
@@ -154,7 +165,7 @@
             // fillColor: "#ABF6B2",
             fillColor: "#4A495E",
             fillOpacity: 1,
-            className: 'locked_marker_' + i
+            className: "locked_marker_" + i,
           });
           let innerCircle = L.circle([marketLocationY, markerLocationX], 5, {
             color: "#707070",
@@ -172,14 +183,8 @@
           el = innerCircle.getElement();
           el.style.pointerEvents = "auto";
           el.style.cursor = "grab";
-
-          // L.marker([marketLocationY, markerLocationX], {
-          //   icon: icon,
-          // }).addTo(leafletMap);
         }
       }
-
-     
     }
   }
 </script>
@@ -200,7 +205,6 @@
 <div id="map" />
 
 <style>
-
   #map {
     width: 100%;
     padding-top: 70%;

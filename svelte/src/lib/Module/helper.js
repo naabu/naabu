@@ -28,7 +28,6 @@ export function formatMapObject(module, keepMap = false, formatPoints = true, mo
       saveData.map = module.map;
     }
   }
-  console.log(saveData);
 
   return saveData;
 }
@@ -48,3 +47,39 @@ export async function retrieveMapsListFB(db, authorId) {
   });
   return modules;
 }
+
+export async function getUserModule(firebase, moduleId, module, player) {
+  let db = await firebase.firestore();
+  let userModule = null;
+  if (player && module) {
+    let userModuleRef = db
+      .collection("modules/" + moduleId + "/players")
+      .doc(player.id);
+    const userModuleSnap = await userModuleRef.get();
+    if (userModuleSnap.exists) {
+      userModule = userModuleSnap.data();
+      userModule.id = player.id;
+    }
+    else {
+      // Create a new user module.
+      let startLocations = [];
+      for (let i = 0; i < module.locations.length; i++) {
+        if (module.locations[i].isStartLocation) {
+          startLocations.push(module.locations[i].id);
+        }
+      }
+
+      let userModuleData = {
+        unlockedLocations: startLocations,
+        succeededLocations: [],
+        selectedAdventures: [],
+        selectedActivities: [],
+      }
+      let moduleCollectionRef = db.collection("modules/" + moduleId + "/players")
+      let result = await moduleCollectionRef.doc(player.id).set(userModuleData);
+      userModule = userModuleData;
+    }
+  }
+  return userModule;
+}
+

@@ -7,8 +7,7 @@
     let firebase = $firebaseStore;
     if (firebase) {
       try {
-        const provider = new firebase.auth.GoogleAuthProvider();
-        await firebase.auth().signInWithPopup(provider);
+        login(firebase);
       } catch (e) {
         console.log(e);
       }

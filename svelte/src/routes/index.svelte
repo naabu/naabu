@@ -42,7 +42,7 @@
     modules = [];
     querySnapshot.docs.map((doc) => {
       let module = doc.data();
-      module.moduleId = doc.id;
+      module.id = doc.id;
       modules = [...modules, module];
     });
   }

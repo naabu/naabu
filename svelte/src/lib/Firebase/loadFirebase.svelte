@@ -8,7 +8,6 @@
   const firebaseConfig = getFirebaseConfig();
 
   initFirebase().then((fb) => {
-    console.log("here");
     $firebaseStore = fb;
     dispatch("firebaseInitialized", {
       firebase: fb,

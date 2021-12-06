@@ -65,6 +65,20 @@ function compareLastReplyAt(a, b) {
   return 0;
 }
 
+async function getActivitiesForGoal(goalId) {
+  const fb = getFirebaseApp();
+  let db = fb.firestore();
+  let activitiesQuery = db.collection('activities').where('goalId', '==', goalId).where('status', '==', 'published');
+  let activitiesQuerySnap = await activitiesQuery.get();
+  let activities = [];
+  activitiesQuerySnap.forEach((activitySnap) => {
+    let activity = activitySnap.data();
+    activity.id = activitySnap.id;
+    activities.push(activity);
+  });
+  return activities;
+}
+
 const environment = functions.config().app.environment;
 const defaultMapId = functions.config().app.defaultMapId;
 let goalIndexName = getIndex('goals', environment);
@@ -83,3 +97,4 @@ exports.defaultMapId = defaultMapId;
 exports.shuffle = shuffle;
 exports.compare = compare;
 exports.compareLastReplyAt = compareLastReplyAt;
+exports.getActivitiesForGoal = getActivitiesForGoal;

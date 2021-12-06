@@ -10,8 +10,6 @@
   import { goto } from "$app/navigation";
 
   export let firebase;
-  console.log('teasdfasdf');
-  $: console.log(firebase);
 
   let y;
   let db;

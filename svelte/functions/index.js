@@ -11,6 +11,7 @@ exports.talkPost = require('./Custom/Talk/post.js');
 exports.activity = require('./Custom/Activity/searchIndex.js');
 exports.connection = require('./Custom/Connection/connection.js');
 exports.connectionUpdate = require('./Custom/Connection/connectionUpdate.js');
+exports.module = require('./Custom/Module/module.js');
 
 exports.ssr = functions.https.onRequest(async (request, response) => {
   process.env.environment = helper.environment;

@@ -20,8 +20,6 @@
   $: (async () => {
     if ($firebaseStore) {
       firebase = $firebaseStore;
-      console.log('test');
-      console.log(firebase);
     }
   })();
 </script>

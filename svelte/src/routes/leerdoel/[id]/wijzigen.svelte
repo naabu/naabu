@@ -25,12 +25,10 @@
   $: (async () => {
     if (firebaseInitialized && !mounted) {
       mounted = true;
-      console.log("ahsdfasdfasdf");
       let db = await firebase.firestore();
       goalRef = db.collection("goals").doc($page.params.id);
       let goalSnap = await goalRef.get();
       if (goalSnap.exists) {
-        console.log('GoalSnap exists');
         goal = goalSnap.data();
         goal.id = goalRef.id;
         if (!goal.goalLinks) {

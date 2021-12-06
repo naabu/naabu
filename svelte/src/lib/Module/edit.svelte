@@ -24,17 +24,15 @@
       map.paths.forEach((path) => {
         path.points = JSON.parse(path.points);
       });
-
       map.mapId = doc.id;
       allMaps.push(map);
     });
     if (module.mapId) {
-      module.map = allMaps.find((map) => map.id === module.mapId);
+      module.map = allMaps.find((map) => map.mapId === module.mapId);
     }
   });
 
   async function createModule() {
-    console.log(module);
     let data = formatMapObject(module, false, true, false);
     alert = getDefaultAlertValues();
     data.authorId = $session.user.uid;

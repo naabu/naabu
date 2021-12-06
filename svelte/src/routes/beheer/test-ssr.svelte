@@ -12,9 +12,10 @@
 </script>
 
 <script>
+import { login } from "$lib/Firebase/helper";
+
     export let firebase;
-    const provider = new firebase.auth.GoogleAuthProvider();
-    firebase.auth().signInWithPopup(provider);
+    login(firebase);
 </script>
 
 SSR test page

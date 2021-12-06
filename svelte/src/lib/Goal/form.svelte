@@ -201,17 +201,17 @@
     }
   }
 
-  $: {
-    if (goal.taxonomy_solo.includes("solo-1")) {
-      removeBloomSelectedItems("1", "2");
-    } else if (goal.taxonomy_solo.includes("solo-2")) {
-      removeBloomSelectedItems("2", "3");
-    } else if (goal.taxonomy_solo.includes("solo-3")) {
-      removeBloomSelectedItems("3", "4");
-    } else if (goal.taxonomy_solo.includes("solo-4")) {
-      removeBloomSelectedItems("3", "4", "5", "6");
-    }
-  }
+  // $: {
+  //   if (goal.taxonomy_solo.includes("solo-1")) {
+  //     removeBloomSelectedItems("1", "2");
+  //   } else if (goal.taxonomy_solo.includes("solo-2")) {
+  //     removeBloomSelectedItems("2", "3");
+  //   } else if (goal.taxonomy_solo.includes("solo-3")) {
+  //     removeBloomSelectedItems("3", "4");
+  //   } else if (goal.taxonomy_solo.includes("solo-4")) {
+  //     removeBloomSelectedItems("3", "4", "5", "6");
+  //   }
+  // }
 
   function removeBloomSelectedItems(column1, column2, column3, column4) {
     let newArray = [];
@@ -648,9 +648,11 @@
 
       <div class="block tabs">
         <div class="border-b mb-1 border-gray-200">
-          <nav 
+          <nav
             data-cy="battle-nav"
-            class="-mb-px flex space-x-8" aria-label="Tabs">
+            class="-mb-px flex space-x-8"
+            aria-label="Tabs"
+          >
             {#each goal.battles as battle, i}
               {#if selectedBattleIndex !== i}
                 <button

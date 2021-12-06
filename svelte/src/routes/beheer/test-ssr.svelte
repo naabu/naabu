@@ -1,5 +1,5 @@
 <script context="module" >
-    import { initFirebase } from "$lib/firebase";
+    import { initFirebase } from "$lib/Firebase/loadFirebase.svelte";
   
     export async function load({session}) {
       let firebase = await initFirebase(session.environment, session.fb);

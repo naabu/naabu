@@ -25,9 +25,9 @@
   $: (async () => {
     if ($firebaseStore) {
       firebase = $firebaseStore;
-    db = await firebase.firestore();
-    mounted = true;
-  }
+      db = await firebase.firestore();
+      mounted = true;
+    }
   })();
 
   async function getCountStatus(queryStatus) {

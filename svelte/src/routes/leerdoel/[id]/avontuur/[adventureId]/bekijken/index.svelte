@@ -16,9 +16,8 @@
   $: (async () => {
     if ($firebaseStore) {
       firebase = $firebaseStore;
-    await retrieveFirestoreData();
-
-  }
+      await retrieveFirestoreData();
+    }
   })();
 
   async function retrieveFirestoreData() {

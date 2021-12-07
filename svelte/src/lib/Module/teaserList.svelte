@@ -48,7 +48,7 @@
               <div
                 class="py-6 px-4 sm:px-6 lg:grid lg:grid-cols-12 lg:gap-x-8 lg:p-8"
               >
-                <div class="sm:flex lg:col-span-7">
+                <div class="sm:flex lg:col-span-12">
                   <div
                     class="flex-shrink-0 w-full aspect-w-1 aspect-h-1 rounded-lg overflow-hidden sm:aspect-none sm:w-40 sm:h-40"
                   >
@@ -73,7 +73,7 @@
                   </div>
                 </div>
 
-                <div class="mt-6 lg:mt-0 lg:col-span-5">
+                <!-- <div class="mt-6 lg:mt-0 lg:col-span-5">
                   <dl class="grid grid-cols-2 gap-x-6 text-sm">
                     <div>
                       <dt class="font-medium text-gray-900">
@@ -100,7 +100,7 @@
                       </dd>
                     </div>
                   </dl>
-                </div>
+                </div> -->
               </div>
             </div>
           {/each}

@@ -7,7 +7,18 @@
   import { onMount } from "svelte";
   import { hasSpecialClaims} from "$lib/User/helper.js";
 
-  export let adventure;
+  export let activity;
+  export let moduleId = null;
+  export let locationId = null;
+
+  $: if ( $page.params.moduleId) {
+    moduleId = $page.params.moduleId;
+  }
+
+  $: if ($page.params.locationId) {
+    locationId = $page.params.locationId;
+  }
+
   export let toggle = false;
   export let feedbackEnded = false;
   export let firebase;
@@ -20,8 +31,10 @@
   async function storeFeedback(label) {
     let data = {
       time: Date.now(),
-      adventureId: adventure.id,
-      goalId: adventure.goalId,
+      activityId: activity.id,
+      goalId: activity.goalId,
+      moduleId: moduleId,
+      locationId: locationId,
       feedbackType: "difficulty",
       feedbackValue: label,
     };

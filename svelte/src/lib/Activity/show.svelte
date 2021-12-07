@@ -75,14 +75,16 @@
     // }
     if (!userHasSpecialClaims) {
       setTimeout(async () => {
-        await goto("/");
+        await goto("/module/" + $page.params.moduleId + "/locatie/" + $page.params.locationId);
       }, 3000);
     } else {
       if ($page.path.includes("beheer")) {
         await goto("/beheer/activiteit");
       } else {
         setTimeout(async () => {
-          await goto("/");
+          await goto(
+            "/module/" + $page.params.moduleId + "/locatie/" + $page.params.locationId
+          );
         }, 3000);
       }
     }
@@ -236,7 +238,7 @@
     <DifficultyFeedback
       bind:toggle={toggleFeedback}
       bind:feedbackEnded
-      bind:adventure={activity}
+      bind:activity
       bind:firebase
     />
   {/if}

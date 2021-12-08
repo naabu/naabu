@@ -21,8 +21,16 @@ export function filterSelectedActivities(module, currentLocationId, userModule) 
   let filteredActivities = [];
   let finished = false;
   let i = 0;
+  console.log("BEFORE");
+  console.log(filteredActivities.length);
+  console.log(filteredLocationActivities.length);
+
   while (!finished) {
-    if (filteredActivites.length >= 6) {
+    console.log(i);
+    console.log("ITERATION");
+    console.log(filteredActivities.length);
+    console.log(filteredLocationActivities.length);
+    if (filteredActivities.length == 5) {
       finished = true;
     }
     if (filteredLocationActivities.length === 0) {
@@ -30,23 +38,25 @@ export function filterSelectedActivities(module, currentLocationId, userModule) 
     }
 
     let goalIdToSelectActivityFrom = locationGoalIds[i];
-    for (let i = 0; i < filteredLocationActivities.length; i++) {
-      if (filteredLocationActivities.goalId === goalIdToSelectActivityFrom) {
-        filteredActivities.push(filteredLocationActivities[i]);
-        filteredLocationActivities.splice(i, 1);
+    console.log(goalIdToSelectActivityFrom);
+    console.log(locationGoalIds.length);
+    
+    for (let i2 = 0; i2 < filteredLocationActivities.length; i2++) {
+      if (filteredLocationActivities[i2].goalId === goalIdToSelectActivityFrom) {
+        filteredActivities.push(filteredLocationActivities[i2]);
+        filteredLocationActivities.splice(i2, 1);
         break;
       }
     }
     i++;
-    if (i > locationGoalIds.length) {
+    if (i == locationGoalIds.length) {
+      console.log("reset I");
       i = 0;
     }
   }
-  
-  // Sort using the difficulty distance.
-  // Prefer activities that are have a lower userGoalScore.
-  userModule.filteredActivities = filteredActivities;
-  return userModule;
+  console.log(filteredActivities.length);
+
+  return filteredActivities;
 }
 
 

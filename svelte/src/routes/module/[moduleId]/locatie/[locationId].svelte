@@ -10,24 +10,23 @@ import { filterSelectedActivities } from "$lib/Module/helper";
   $:console.log($page.params.locationId);
 
   let userModule = null;
+  let filteredActivities;
 
   $: if (module && userModule && $page.params.locationId) {
-    userModule = filterSelectedActivities(module, $page.params.locationId, userModule);
+    filteredActivities = filterSelectedActivities(module, $page.params.locationId, userModule);
   }
 
   // $: if (userModule && userModule.selectedActivities) {
   //   displayAdventures = userModule.selectedActivities;
   // }
 
-  $: console.log(userModule);
-
   // $: console.log(displayedAdventures);
 </script>
 
 <GetModuleData bind:module bind:userModule loadUserModule={true} />
-{#if userModule && userModule.filteredActivities}
+{#if userModule && filteredActivities}
   <ActivitiesTeaserList
-    bind:activities={userModule.filteredActivities}
+    bind:activities={filteredActivities}
     bind:moduleId={module.id}
     bind:locationId={$page.params.locationId}
   />

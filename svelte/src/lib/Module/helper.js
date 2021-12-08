@@ -5,7 +5,6 @@ export function filterSelectedActivities(module, currentLocationId, userModule) 
 
   let locationGoals = getGoalsFromLocationId(module, currentLocationId);
   let locationGoalIds = locationGoals.map(goal => goal.id);
-  console.log(locationGoalIds);
 
   for (let i = 0; i < userModule.selectedActivities.length; i++) {
     let activity = userModule.selectedActivities[i];
@@ -13,23 +12,12 @@ export function filterSelectedActivities(module, currentLocationId, userModule) 
       filteredLocationActivities.push(activity);
     }
   }
-  // Round robin.
-  // while you don't have 6 activities selected?
-  // loop trhough location goals.
-  // pick top activity from filteredActivities.
 
   let filteredActivities = [];
   let finished = false;
   let i = 0;
-  console.log("BEFORE");
-  console.log(filteredActivities.length);
-  console.log(filteredLocationActivities.length);
 
   while (!finished) {
-    console.log(i);
-    console.log("ITERATION");
-    console.log(filteredActivities.length);
-    console.log(filteredLocationActivities.length);
     if (filteredActivities.length == 5) {
       finished = true;
     }
@@ -38,8 +26,6 @@ export function filterSelectedActivities(module, currentLocationId, userModule) 
     }
 
     let goalIdToSelectActivityFrom = locationGoalIds[i];
-    console.log(goalIdToSelectActivityFrom);
-    console.log(locationGoalIds.length);
     
     for (let i2 = 0; i2 < filteredLocationActivities.length; i2++) {
       if (filteredLocationActivities[i2].goalId === goalIdToSelectActivityFrom) {
@@ -50,11 +36,9 @@ export function filterSelectedActivities(module, currentLocationId, userModule) 
     }
     i++;
     if (i == locationGoalIds.length) {
-      console.log("reset I");
       i = 0;
     }
   }
-  console.log(filteredActivities.length);
 
   return filteredActivities;
 }

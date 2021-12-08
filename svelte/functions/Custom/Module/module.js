@@ -1,6 +1,29 @@
 const functions = require('firebase-functions');
 const helper = require('../helper');
 
+exports.updateUserModuleWhenModuleChanges = functions.firestore.document('modules/{moduleId}')
+  .onUpdate(async (change, context) => {
+    const fb = helper.getFirebaseApp();
+    let db = fb.firestore();
+    let moduleId = context.params.moduleId;
+    let userModuleColQueryRef = db.collection("modules").doc(moduleId).collection("players");
+    let userModuleColQuery = await userModuleColQueryRef.get();
+
+    let allPlayersIds = [];
+    userModuleColQuery.forEach((userModuleSnap) => {
+      allPlayersIds.push(userModuleSnap.id);
+    });
+
+    console.log(allPlayersIds);
+
+    for (let i = 0; i < allPlayersIds.length; i++) {
+      let playerId = allPlayersIds[i];
+      await setModuleActivitiesForUid(playerId);
+    }
+    return null;
+  });
+
+
 exports.onModulePlayerCreated = functions.firestore.document('modules/{moduleId}/players/{playerId}')
   .onCreate((snap, context) => {
     setModuleActivitiesForUid(context.params.playerId);
@@ -64,19 +87,13 @@ async function setModuleActivitiesForUid(uid) {
           await db.collection("userGoalScore").add(userGoalScoreData);
         }
         else {
-          console.log("print the data");
-          console.log(userGoalScoreQuerySnap.docs[0].data());
-
-          console.log(userGoalScoreQuerySnap.docs[0].data());
           userGoalScoreData = userGoalScoreQuerySnap.docs[0].data();
         }
 
         // Get scored for each goal?
         let activitiesForGoal = await helper.getActivitiesForGoal(goal.id);
         for (let i4 = 0; i4 < activitiesForGoal.length; i4++) {
-          console.log(userGoalScoreData.score);
-          console.log( Math.abs(userGoalScoreData.score - activitiesForGoal[i4].difficulty));
-
+          activitiesForGoal[i4].userGoalScore = userGoalScoreData.score;
           activitiesForGoal[i4].scoreDistance = Math.abs(userGoalScoreData.score - activitiesForGoal[i4].difficulty);
         }
         moduleActivities = [...moduleActivities, ...activitiesForGoal];
@@ -85,7 +102,6 @@ async function setModuleActivitiesForUid(uid) {
     moduleActivities.sort((a, b) => {
       return a.scoreDistance - b.scoreDistance;
     });
-    // console.log(moduleActivities);
 
     if (userModule) {
       userModuleRef.update({ selectedActivities: moduleActivities });

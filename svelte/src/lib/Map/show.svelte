@@ -112,7 +112,9 @@
         for (let i2 = 0; i2 < map.paths.length; i2++) {
           let path = map.paths[i2];
           if (userMap && userMap.unlockedLocations.includes(path.endLocation)) {
-            let parsedPoints = JSON.parse(path.points);
+            console.log(path.points);
+            // let parsedPoints = JSON.parse(path.points);
+            let parsedPoints = path.points;
             let polyline = L.polyline(parsedPoints, {
               color: "#EB7B02",
               dashArray: "7 12",

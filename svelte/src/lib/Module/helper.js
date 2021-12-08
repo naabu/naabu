@@ -1,10 +1,15 @@
 import { getMapSaveData } from "$lib/Map/helper.js";
 
 export function filterSelectedActivities(module, currentLocationId, userModule) {
+  let numberOfActivitiesToShow = 6;
   let filteredLocationActivities = [];
 
   let locationGoals = getGoalsFromLocationId(module, currentLocationId);
   let locationGoalIds = locationGoals.map(goal => goal.id);
+
+  if (locationGoalIds.length > numberOfActivitiesToShow) {
+    numberOfActivitiesToShow = locationGoalIds.length;
+  }
 
   for (let i = 0; i < userModule.selectedActivities.length; i++) {
     let activity = userModule.selectedActivities[i];
@@ -18,7 +23,7 @@ export function filterSelectedActivities(module, currentLocationId, userModule) 
   let i = 0;
 
   while (!finished) {
-    if (filteredActivities.length == 5) {
+    if (filteredActivities.length == numberOfActivitiesToShow-1) {
       finished = true;
     }
     if (filteredLocationActivities.length === 0) {

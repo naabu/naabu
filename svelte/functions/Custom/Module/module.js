@@ -92,11 +92,22 @@ async function setModuleActivitiesForUid(uid) {
 
         // Get scored for each goal?
         let activitiesForGoal = await helper.getActivitiesForGoal(goal.id);
+        let teaserActivities = [];
         for (let i4 = 0; i4 < activitiesForGoal.length; i4++) {
-          activitiesForGoal[i4].userGoalScore = userGoalScoreData.score;
-          activitiesForGoal[i4].scoreDistance = Math.abs(userGoalScoreData.score - activitiesForGoal[i4].difficulty);
+          let activity = activitiesForGoal[i4];
+          let teaserActivity = {
+            difficult: activity.difficulty,
+            id: activity.id,
+            title: activity.title,
+            type: activity.type,
+            svg: activity.svg,
+            goalId: activity.goalId,
+          }
+          teaserActivity.userGoalScore = userGoalScoreData.score;
+          teaserActivity.scoreDistance = Math.abs(userGoalScoreData.score - activitiesForGoal[i4].difficulty);
+          teaserActivities.push(teaserActivity);
         }
-        moduleActivities = [...moduleActivities, ...activitiesForGoal];
+        moduleActivities = [...moduleActivities, ...teaserActivities];
       }
     }
     moduleActivities.sort((a, b) => {
@@ -145,12 +156,70 @@ async function unlockLocations(adventure, uid) {
   });
 }
 
+function getAccessLocationsFromLocationId(module, locationId) {
+  if (module.locations) {
+    for (let i = 0; i < module.locations.length; i++) {
+      let location = module.locations[i];
+      if (location.id === locationId) {
+        return location.accessLocations;
+      }
+    }
+  }
+  return [];
+}
+
+async function unlockLocationsBasedOnNumberOfActivities(moduleId, locationId, uid) {
+  console.log(moduleId);
+  console.log(locationId);
+  console.log(uid);
+  const fb = helper.getFirebaseApp();
+  let db = fb.firestore();
+
+  let moduleRef = db.collection("modules").doc(moduleId);
+  let moduleSnap = await moduleRef.get();
+
+  if (moduleSnap.exists) {
+    let module = moduleSnap.data();
+    module.id = moduleSnap.id;
+
+
+
+
+
+    let userModuleRef = db.collection('modules').doc(moduleId).collection('players').doc(uid);
+    let userModuleSnap = await userModuleRef.get();
+    if (userModuleSnap.exists) {
+      let userModule = userModuleSnap.data();
+      userModule.id = userModuleSnap.id;
+
+      let queryRef = db.collection("feedback").where("uid", "==", uid).where("moduleId", "==", moduleId).where("locationId", "==", locationId);
+      let querySnap = await queryRef.get();
+      let size = querySnap.size;
+      console.log("size: " + size);
+      if (size >= 3) {
+        let accessLocations = getAccessLocationsFromLocationId(module, locationId);
+        for (let i = 0; i < accessLocations.length; i++) {
+          let accessLocationId = accessLocations[i];
+          if (
+            !userModule.unlockedLocations.includes(accessLocationId)
+          ) {
+            userModule.unlockedLocations.push(accessLocationId);
+            userModule.newUnlockedLocation = true;
+          }
+        }  
+      }
+    
+      userModuleRef.set(userModule);
+    }
+  }
+
+}
+
 exports.writeFeedbackDevelopRandom = functions.firestore.document('feedback/{feedbackId}')
   .onCreate(async (snap, context) => {
     const fb = helper.getFirebaseApp();
     let db = fb.firestore();
     const feedbackData = snap.data();
-    console.log(feedbackData);
 
     // >  {
     // >    feedbackValue: 1, (-0.5, -1)
@@ -200,13 +269,12 @@ exports.writeFeedbackDevelopRandom = functions.firestore.document('feedback/{fee
       }
     }
 
-    // Reorder the selected activities in the UserModule
-    // Based on the difficulty score for the user.
-
-
-
-
     await setModuleActivitiesForUid(feedbackData.uid);
+
+    await unlockLocationsBasedOnNumberOfActivities(feedbackData.moduleId, feedbackData.locationId, feedbackData.uid);
+    // Do a query.
+
+
     // let uid = feedbackData.uid;
     // let goalId = feedbackData.goalId;
 

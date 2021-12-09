@@ -96,7 +96,7 @@ async function setModuleActivitiesForUid(uid) {
         for (let i4 = 0; i4 < activitiesForGoal.length; i4++) {
           let activity = activitiesForGoal[i4];
           let teaserActivity = {
-            difficult: activity.difficulty,
+            difficulty: activity.difficulty,
             id: activity.id,
             title: activity.title,
             type: activity.type,
@@ -181,10 +181,6 @@ async function unlockLocationsBasedOnNumberOfActivities(moduleId, locationId, ui
   if (moduleSnap.exists) {
     let module = moduleSnap.data();
     module.id = moduleSnap.id;
-
-
-
-
 
     let userModuleRef = db.collection('modules').doc(moduleId).collection('players').doc(uid);
     let userModuleSnap = await userModuleRef.get();

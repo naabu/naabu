@@ -1,7 +1,11 @@
 const functions = require('firebase-functions');
 const helper = require('../helper');
 
-exports.updateUserModuleWhenModuleChanges = functions.firestore.document('modules/{moduleId}')
+exports.updateUserModuleWhenModuleChanges = functions
+  .runWith({
+    minInstances: 1,
+  })
+  .firestore.document('modules/{moduleId}')
   .onUpdate(async (change, context) => {
     const fb = helper.getFirebaseApp();
     let db = fb.firestore();
@@ -24,7 +28,11 @@ exports.updateUserModuleWhenModuleChanges = functions.firestore.document('module
   });
 
 
-exports.onModulePlayerCreated = functions.firestore.document('modules/{moduleId}/players/{playerId}')
+exports.onModulePlayerCreated = functions
+  .runWith({
+    minInstances: 1,
+  })
+  .firestore.document('modules/{moduleId}/players/{playerId}')
   .onCreate((snap, context) => {
     setModuleActivitiesForUid(context.params.playerId);
     return null;
@@ -202,9 +210,9 @@ async function unlockLocationsBasedOnNumberOfActivities(moduleId, locationId, ui
             userModule.unlockedLocations.push(accessLocationId);
             userModule.newUnlockedLocation = true;
           }
-        }  
+        }
       }
-    
+
       userModuleRef.set(userModule);
     }
   }
@@ -212,6 +220,9 @@ async function unlockLocationsBasedOnNumberOfActivities(moduleId, locationId, ui
 }
 
 exports.writeFeedbackDevelopRandom = functions.firestore.document('feedback/{feedbackId}')
+  .runWith({
+    minInstances: 1,
+  })
   .onCreate(async (snap, context) => {
     const fb = helper.getFirebaseApp();
     let db = fb.firestore();
@@ -299,7 +310,11 @@ exports.writeFeedbackDevelopRandom = functions.firestore.document('feedback/{fee
 // - For every user (maybe even AN)
 // - Make a function that checks all the users
 // - If the user has not 3 activities in a path. Add activities to the path collection from Firebase.
-exports.fillPathWithActivitiesForNewUsers = functions.auth.user().onCreate((user, eventContext) => {
-  setModuleActivitiesForUid(user.uid);
-  return null;
-});
+exports.fillPathWithActivitiesForNewUsers = functions
+  .runWith({
+    minInstances: 1,
+  })
+  .auth.user().onCreate((user, eventContext) => {
+    setModuleActivitiesForUid(user.uid);
+    return null;
+  });

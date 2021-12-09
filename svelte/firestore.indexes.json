@@ -37,6 +37,20 @@
       "queryScope": "COLLECTION",
       "fields": [
         {
+          "fieldPath": "activityId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "time",
+          "order": "ASCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "feedback",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
           "fieldPath": "uid",
           "order": "ASCENDING"
         },
@@ -56,6 +70,24 @@
         },
         {
           "fieldPath": "modifiedAt",
+          "order": "DESCENDING"
+        }
+      ]
+    },
+    {
+      "collectionGroup": "revisions",
+      "queryScope": "COLLECTION",
+      "fields": [
+        {
+          "fieldPath": "revisionSourceId",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "revisionType",
+          "order": "ASCENDING"
+        },
+        {
+          "fieldPath": "revisionCreatedAt",
           "order": "DESCENDING"
         }
       ]

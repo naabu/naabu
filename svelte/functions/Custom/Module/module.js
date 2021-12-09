@@ -33,12 +33,106 @@ exports.onModulePlayerCreated = functions
     minInstances: 1,
   })
   .firestore.document('modules/{moduleId}/players/{playerId}')
-  .onCreate((snap, context) => {
-    setModuleActivitiesForUid(context.params.playerId);
+  .onWrite(async (change, context) => {
+    functions.logger.log("onModulePlayerCreated");
+    const fb = helper.getFirebaseApp();
+    let db = fb.firestore();
+    let moduleRef = db.collection("modules").doc(context.params.moduleId);
+    let moduleSnap = await moduleRef.get();
+    functions.logger.log("Module exists?", moduleSnap.exists);
+    if (moduleSnap.exists) {
+      let module = moduleSnap.data();
+      module.id = context.params.moduleId;
+      functions.logger.log("Module", module);
+      await updateUserActivitiesForModule(module, context.params.playerId);
+    }
     return null;
   });
 
+async function updateUserActivitiesForModule(module, uid) {
+  const fb = helper.getFirebaseApp();
+  let db = fb.firestore();
+  let startLocations = [];
+  for (let i2 = 0; i2 < module.locations.length; i2++) {
+    if (module.locations[i2].isStartLocation) {
+      startLocations.push(module.locations[i2].id);
+    }
+  }
+
+  let userModuleRef = db.collection('modules').doc(module.id).collection('players').doc(uid);
+  let userModuleSnap = await userModuleRef.get();
+
+  // Default user module data.
+  let userModule = {
+    unlockedLocations: startLocations,
+    succeededLocations: [],
+    selectedAdventures: [],
+    selectedActivities: [],
+  }
+  if (!userModuleSnap.exists) {
+    await userModuleRef.set(userModule);
+  }
+  else {
+    userModule = userModuleSnap.data();
+  }
+
+  functions.logger.log("Calculating score, initial value:", userModule);
+
+  let moduleActivities = [];
+  for (let i2 = 0; i2 < module.locations.length; i2++) {
+    let location = module.locations[i2];
+    for (let i3 = 0; i3 < location.goals.length; i3++) {
+      let goal = location.goals[i3];
+      let userGoalScoreRef = db.collection("userGoalScore").where("uid", "==", uid).where("goalId", "==", goal.id);
+      let userGoalScoreQuerySnap = await userGoalScoreRef.get();
+      let userGoalScoreData = {
+        uid: uid,
+        goalId: goal.id,
+        score: 1,
+      };
+      if (userGoalScoreQuerySnap.empty) {
+        // Create a new score object with default score.
+        await db.collection("userGoalScore").add(userGoalScoreData);
+      }
+      else {
+        userGoalScoreData = userGoalScoreQuerySnap.docs[0].data();
+      }
+
+      // Get scored for each goal?
+      let activitiesForGoal = await helper.getActivitiesForGoal(goal.id);
+      functions.logger.log("ActivitiesForGoals:", activitiesForGoal);
+      let teaserActivities = [];
+      for (let i4 = 0; i4 < activitiesForGoal.length; i4++) {
+        let activity = activitiesForGoal[i4];
+        let teaserActivity = {
+          difficulty: activity.difficulty,
+          id: activity.id,
+          title: activity.title,
+          type: activity.type,
+          svg: activity.svg,
+          goalId: activity.goalId,
+        }
+        teaserActivity.userGoalScore = userGoalScoreData.score;
+        teaserActivity.scoreDistance = Math.abs(userGoalScoreData.score - activitiesForGoal[i4].difficulty);
+        teaserActivities.push(teaserActivity);
+      }
+      moduleActivities = [...moduleActivities, ...teaserActivities];
+      functions.logger.log("moduleActivities:", moduleActivities);
+    }
+  }
+  moduleActivities.sort((a, b) => {
+    return a.scoreDistance - b.scoreDistance;
+  });
+
+  functions.logger.log("UserModule set?:", userModule);
+  if (userModule) {
+    await userModuleRef.update({ selectedActivities: moduleActivities });
+    functions.logger.log("Usermodule updated with activities", moduleActivities);
+  }
+}
+
 async function setModuleActivitiesForUid(uid) {
+  functions.logger.log("setModuleActivitiesForUid", uid);
   const fb = helper.getFirebaseApp();
   let db = fb.firestore();
   let moduleColRef = db.collection("modules");
@@ -53,78 +147,7 @@ async function setModuleActivitiesForUid(uid) {
   });
 
   for (let i = 0; i < modulesToProcessForUser.length; i++) {
-    let module = modulesToProcessForUser[i];
-    let startLocations = [];
-    for (let i2 = 0; i2 < module.locations.length; i2++) {
-      if (module.locations[i2].isStartLocation) {
-        startLocations.push(module.locations[i2].id);
-      }
-    }
-
-    let userModuleRef = db.collection('modules').doc(module.id).collection('players').doc(uid);
-    let userModuleSnap = await userModuleRef.get();
-
-    // Default user module data.
-    let userModule = {
-      unlockedLocations: startLocations,
-      succeededLocations: [],
-      selectedAdventures: [],
-      selectedActivities: [],
-    }
-    if (!userModuleSnap.exists) {
-      await userModuleRef.set(userModule);
-    }
-    else {
-      userModule = userModuleSnap.data();
-    }
-
-    let moduleActivities = [];
-    for (let i2 = 0; i2 < module.locations.length; i2++) {
-      let location = module.locations[i2];
-      for (let i3 = 0; i3 < location.goals.length; i3++) {
-        let goal = location.goals[i3];
-        let userGoalScoreRef = db.collection("userGoalScore").where("uid", "==", uid).where("goalId", "==", goal.id);
-        let userGoalScoreQuerySnap = await userGoalScoreRef.get();
-        let userGoalScoreData = {
-          uid: uid,
-          goalId: goal.id,
-          score: 1,
-        };
-        if (userGoalScoreQuerySnap.empty) {
-          // Create a new score object with default score.
-          await db.collection("userGoalScore").add(userGoalScoreData);
-        }
-        else {
-          userGoalScoreData = userGoalScoreQuerySnap.docs[0].data();
-        }
-
-        // Get scored for each goal?
-        let activitiesForGoal = await helper.getActivitiesForGoal(goal.id);
-        let teaserActivities = [];
-        for (let i4 = 0; i4 < activitiesForGoal.length; i4++) {
-          let activity = activitiesForGoal[i4];
-          let teaserActivity = {
-            difficulty: activity.difficulty,
-            id: activity.id,
-            title: activity.title,
-            type: activity.type,
-            svg: activity.svg,
-            goalId: activity.goalId,
-          }
-          teaserActivity.userGoalScore = userGoalScoreData.score;
-          teaserActivity.scoreDistance = Math.abs(userGoalScoreData.score - activitiesForGoal[i4].difficulty);
-          teaserActivities.push(teaserActivity);
-        }
-        moduleActivities = [...moduleActivities, ...teaserActivities];
-      }
-    }
-    moduleActivities.sort((a, b) => {
-      return a.scoreDistance - b.scoreDistance;
-    });
-
-    if (userModule) {
-      userModuleRef.update({ selectedActivities: moduleActivities });
-    }
+    await updateUserActivitiesForModule(modulesToProcessForUser[i], uid)
   }
 }
 
@@ -219,10 +242,11 @@ async function unlockLocationsBasedOnNumberOfActivities(moduleId, locationId, ui
 
 }
 
-exports.writeFeedbackDevelopRandom = functions.firestore.document('feedback/{feedbackId}')
+exports.writeFeedbackDevelopRandom = functions
   .runWith({
     minInstances: 1,
   })
+  .firestore.document('feedback/{feedbackId}')
   .onCreate(async (snap, context) => {
     const fb = helper.getFirebaseApp();
     let db = fb.firestore();

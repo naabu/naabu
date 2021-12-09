@@ -119,7 +119,7 @@ export async function getUserModule(firebase, moduleId, module, player) {
     let userModuleRef = db
       .collection("modules/" + moduleId + "/players")
       .doc(player.id);
-    const userModuleSnap = await userModuleRef.get();
+    const userModuleSnap = await userModuleRef.get({ source: 'server' });
     if (userModuleSnap.exists) {
       userModule = userModuleSnap.data();
       userModule.id = player.id;

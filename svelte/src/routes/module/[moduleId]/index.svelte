@@ -72,6 +72,15 @@
   $: if (module) {
     module.title = module.moduleName;
   }
+
+  $: if (userModule) {
+    userModule.newUnlockedLocation = false;
+    let db = firebase.firestore();
+    let userModuleRef = db
+      .collection("modules/" + $page.params.moduleId + "/players")
+      .doc(userModule.id);
+    userModuleRef.update({newUnlockedLocation: false});
+  }
 </script>
 
 <GetModuleData bind:firebase bind:module bind:userModule />

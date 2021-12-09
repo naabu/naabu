@@ -10,7 +10,6 @@ exports.processStatusConnection = async function processStatusAutomatically(seco
   let connectionsColInProgressAtSnap = await connectionsColInProgressAt.get();
 
   connectionsColInProgressAtSnap.forEach(async (connectionSnap) => {
-    console.log("test123");
     await connectionSnap.ref.update({ status: 'needs-approval', inNeedsForApprovalAt: currentServerTime });
   });
 

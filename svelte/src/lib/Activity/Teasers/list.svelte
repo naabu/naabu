@@ -14,8 +14,7 @@
   {/each}
   {#if activities.length === 0}
     <div class="flex flex-col mt-5">
-      Activiteiten aan het laden... even geduld aub.
-      De eerste keer laden kan een aantal seconden duren. 
+      We zoeken de beste activiteiten voor jou...
     </div>
   {/if}
 </ul>

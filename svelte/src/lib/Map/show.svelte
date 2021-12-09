@@ -11,9 +11,11 @@
   let image;
   let L;
   let mounted = false;
+  let pointsOnMap = false;
   export let isModule = false;
 
-  $: if (userMap && mounted) {
+  $: if (userMap && mounted && !pointsOnMap) {
+    pointsOnMap = true;
     putLocationDataOnmap();
   }
 

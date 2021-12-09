@@ -73,7 +73,9 @@
     module.title = module.moduleName;
   }
 
-  $: if (userModule) {
+  let done = false;
+  $: if (userModule && !done) {
+    done = true;
     userModule.newUnlockedLocation = false;
     let db = firebase.firestore();
     let userModuleRef = db

@@ -27,7 +27,6 @@
         .collection("revisions")
         .where("authorId", "==", $session.user.uid);
       const querySnapshot = await q.get();
-      console.log("Found revisions for user");
       let goalsSnapToDelete = [];
       querySnapshot.forEach((snap) => {
         goalsSnapToDelete.push(snap);
@@ -44,13 +43,10 @@
           }
         }
         await goalRef.delete();
-        console.log("deleted goal");	
         await snap.ref.delete();
-        console.log("deleted revision");	
       }
 
       await curriculumProfileRef.delete();
-      console.log("deleted curriculum profile");
       let playerRef = db.collection("players").doc($session.user.uid);
       let playerSnap = await playerRef.get();
       if (playerSnap.exists) {

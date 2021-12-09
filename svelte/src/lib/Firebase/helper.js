@@ -3,17 +3,13 @@ export async function login(firebase) {
     let auth = firebase.auth();
     const provider = new firebase.auth.GoogleAuthProvider();
     let anonymousUser = firebase.auth().currentUser;
-    console.log(anonymousUser);
     if (anonymousUser) {
       anonymousUser.linkWithPopup(provider).then(function (result) {
-        console.log(result);
         firebase.auth().signInWithCredential(result.credential).catch((error) => {
           console.error("could not login");
         });
       }).catch(function (error) {
-        console.log(error);
         if (error.code === "auth/credential-already-in-use") {
-          console.log("already linked");
           firebase.auth().signInWithCredential(error.credential).catch((error) => {
             console.error("could not login");
           });

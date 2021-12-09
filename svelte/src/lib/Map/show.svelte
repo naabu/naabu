@@ -114,7 +114,6 @@
         for (let i2 = 0; i2 < map.paths.length; i2++) {
           let path = map.paths[i2];
           if (userMap && userMap.unlockedLocations.includes(path.endLocation)) {
-            console.log(path.points);
             // let parsedPoints = JSON.parse(path.points);
             let parsedPoints = path.points;
             let polyline = L.polyline(parsedPoints, {

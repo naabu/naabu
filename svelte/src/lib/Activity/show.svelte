@@ -76,7 +76,7 @@
     if (!userHasSpecialClaims) {
       setTimeout(async () => {
         await goto("/module/" + $page.params.moduleId + "/locatie/" + $page.params.locationId);
-      }, 5000);
+      }, 2000);
     } else {
       if ($page.path.includes("beheer")) {
         await goto("/beheer/activiteit");
@@ -85,7 +85,7 @@
           await goto(
             "/module/" + $page.params.moduleId + "/locatie/" + $page.params.locationId
           );
-        }, 5000);
+        }, 2000);
       }
     }
   }

@@ -7,14 +7,15 @@
   let module;
   let firebase;
 
-  $: console.log(module);
-  $: console.log($page.params.locationId);
-
   let userModule = null;
   let filteredActivities;
 
-  $: if (module && userModule && $page.params.locationId) {
-    console.log("reactive");
+  $: if (
+    module &&
+    userModule &&
+    $page.params.locationId &&
+    (!filteredActivities || filteredActivities.length === 0)
+  ) {
     filteredActivities = filterSelectedActivities(
       module,
       $page.params.locationId,
@@ -28,7 +29,6 @@
           module,
           $session.player
         );
-        console.log(userModule);
       }, 500);
     }
   }

@@ -46,6 +46,10 @@
         data.uid = $session.user.uid;
         let collectionRef = db.collection("feedback");
         let result = collectionRef.add(data);
+
+        // Clear existing selectedActivities so we can generate new onces.
+        let userModuleRef = db.collection("modules").doc(moduleId).collection("players").doc($session.user.uid);
+        userModuleRef.update({"selectedActivities" : []});
       } catch (e) {
         console.log(e);
       }

@@ -15,7 +15,7 @@
   let mainMenuLinks;
 
   async function loginWithHeader() {
-    let result = await login(firebase)
+    let result = await login(firebase);
     if (result !== null) {
       $session.user = result.user;
       $session.player = result.player;
@@ -149,7 +149,7 @@
 		  </button> -->
 
           <!-- Profile dropdown -->
-          {#if (!$session.user || $session.user.isAnonymous)}
+          {#if !$session.user || $session.user.isAnonymous}
             <div class="ml-10 space-x-4">
               <a
                 href="#"
@@ -236,28 +236,30 @@
     <div class:hidden={!openMenu} class="sm:hidden" id="mobile-menu">
       <div class="px-2 pt-2 pb-3 space-y-1 highz">
         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-        <a
-          href="#"
-          class="bg-blue-700 text-white block px-3 py-2 rounded-md text-base font-medium"
-          aria-current="page">Dashboard</a
-        >
 
         <a
-          href="#"
+          href="/lerarenkamer"
+          on:click={() => (openUserMenu = false)}
           class="text-gray-300 hover:bg-blue-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-          >Team</a
+          role="menuitem"
+          tabindex="-1"
+          id="user-menu-item-teacher-room">Lerarenkamer</a
         >
-
         <a
-          href="#"
+          href="/curriculum-profiel/mijn-profiel"
+          on:click={() => (openUserMenu = false)}
           class="text-gray-300 hover:bg-blue-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-          >Projects</a
+          role="menuitem"
+          tabindex="-1"
+          id="user-menu-item-curriculum">Curriculum profiel</a
         >
-
         <a
-          href="#"
+          href="/logout"
+          on:click|preventDefault={logout}
           class="text-gray-300 hover:bg-blue-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-          >Calendar</a
+          role="menuitem"
+          tabindex="-1"
+          id="user-menu-item-2">Sign out</a
         >
       </div>
     </div>

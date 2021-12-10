@@ -45,11 +45,11 @@
       try {
         data.uid = $session.user.uid;
         let collectionRef = db.collection("feedback");
-        let result = collectionRef.add(data);
+        let result = await collectionRef.add(data);
 
         // Clear existing selectedActivities so we can generate new onces.
         let userModuleRef = db.collection("modules").doc(moduleId).collection("players").doc($session.user.uid);
-        userModuleRef.update({"selectedActivities" : []});
+        await userModuleRef.update({"selectedActivities" : []});
       } catch (e) {
         console.log(e);
       }

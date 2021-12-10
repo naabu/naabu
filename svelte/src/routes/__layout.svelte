@@ -5,34 +5,11 @@
   import Header from "$lib/Header/index.svelte";
   import "../app.postcss";
   import LoadFirebase from "$lib/Firebase/loadFirebase.svelte";
+  import { loginUser } from "$lib/User/helper";
 
   let user = null;
   let player = null;
   let firebase;
-
-  async function getPlayer(user) {
-    let db = await firebase.firestore();
-    let ref = db.collection("players").doc(user.uid);
-    let snap = await ref.get();
-    if (snap.exists) {
-      player = snap.data();
-    } else {
-      const data = {
-        currentMapId: $session.defaultMapId,
-      };
-      try {
-        let collectionRef = db.collection("players");
-        let result = await collectionRef.doc(user.uid).set(data);
-        player = data;
-      } catch (e) {
-        console.log(e);
-      }
-    }
-    if (player !== null) {
-      player.id = user.uid;
-    }
-    return player;
-  }
 
   function handleLoginEvent(event) {
     firebase = $firebaseStore;
@@ -40,28 +17,11 @@
       let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
       $session.serverFirestoreTimeStamp = serverTimestamp;
       firebase.auth().onAuthStateChanged(async (newUser) => {
-        if (newUser) {
-          user = newUser;
-          user.idTokenResult = await user.getIdTokenResult();
-          player = await getPlayer(user);
-        } else {
-          firebase
-            .auth()
-            .signInAnonymously()
-            .then(() => {})
-            .catch((error) => {
-              var errorCode = error.code;
-              var errorMessage = error.message;
-              // ...
-            });
-
-          user = null;
-          player = null;
-        }
-        $session.user = user;
-        $session.player = player;
-        if (player && player.currentMapId) {
-          $session.defaultMapId = player.currentMapId;
+        let userPlayer = await loginUser(firebase, newUser);
+        $session.user = userPlayer.user;
+        $session.player = userPlayer.player;
+        if (userPlayer.player && userPlayer.player.currentMapId) {
+          $session.defaultMapId = userPlayer.player.currentMapId;
         }
       });
     }

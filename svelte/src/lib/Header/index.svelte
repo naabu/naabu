@@ -14,6 +14,14 @@
   let openUserMenu = false;
   let mainMenuLinks;
 
+  async function loginWithHeader() {
+    let result = await login(firebase)
+    if (result !== null) {
+      $session.user = result.user;
+      $session.player = result.player;
+    }
+  }
+
   $: if ($page.path) {
     mainMenuLinks = [
       {
@@ -145,7 +153,7 @@
             <div class="ml-10 space-x-4">
               <a
                 href="#"
-                on:click|preventDefault={() => login(firebase)}
+                on:click|preventDefault={() => loginWithHeader(firebase)}
                 class="inline-block bg-indigo-500 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75"
                 >Inloggen</a
               >

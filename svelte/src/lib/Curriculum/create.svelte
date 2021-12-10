@@ -5,7 +5,7 @@
   import CurriculumTabs from "$lib/Tabs/curriculum.svelte";
   import { onMount } from "svelte";
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
-import { login } from "$lib/Firebase/helper";
+  import { login } from "$lib/Firebase/helper";
 
   export let firebase;
 
@@ -23,10 +23,10 @@ import { login } from "$lib/Firebase/helper";
   let buttonDisabled;
 
   $: {
-    if ($session.player) {
-      buttonDisabled = false;
-    } else {
+    if (!$session.user || $session.user.isAnonymous) {
       buttonDisabled = true;
+    } else {
+      buttonDisabled = false;
     }
   }
   let y;
@@ -105,8 +105,13 @@ import { login } from "$lib/Firebase/helper";
   });
 
   async function signInWithGoogle() {
-    login(firebase);
+    let result = await login(firebase);
+    if (result !== null) {
+      $session.user = result.user;
+      $session.player = result.player;
+    }
   }
+
 </script>
 
 <svelte:window bind:scrollY={y} />
@@ -118,7 +123,7 @@ import { login } from "$lib/Firebase/helper";
 >
   <p class="text-sm font-medium text-gray-700">Profiel aanmaken met</p>
   <div class="mt-1 sm:mt-0 sm:col-span-2">
-    {#if !$session.player}
+    {#if !$session.user || $session.user.isAnonymous}
       <div>
         <button id="linkGoogleButton" on:click={signInWithGoogle} />
       </div>

@@ -23,3 +23,14 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+Cypress.Commands.add(
+  'clearFirebaseAuth',
+  () =>
+    new Cypress.Promise(async resolve => {
+      const req = indexedDB.deleteDatabase('firebaseLocalStorageDb');
+      req.onsuccess = function() {          
+        resolve();
+      };
+    })
+)

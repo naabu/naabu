@@ -9,7 +9,7 @@
 
   let userModule = null;
   let filteredActivities;
-
+  let timer = null;
   $: if (
     module &&
     userModule &&
@@ -22,14 +22,21 @@
       userModule
     );
     if (filteredActivities.length === 0) {
-      setTimeout(async () => {
-        userModule = await getUserModule(
-          firebase,
-          module.id,
-          module,
-          $session.player
-        );
-      }, 500);
+      if (timer == null) {
+        timer = setTimeout(async () => {
+          console.log("Refreshing userModule");
+          userModule = await getUserModule(
+            firebase,
+            module.id,
+            module,
+            $session.player
+          );
+        }, 500);
+      }
+    } else if (timer !== null) {
+      console.log("clearTimeout");
+      clearTimeout(timer);
+      timer = null;
     }
   }
 
@@ -66,12 +73,14 @@
 />
 <div>
   <a
+    data-cy="back-to-course-button"
     href="/module/{$page.params.moduleId}"
     class="font-medium hover:underline text-indigo-600 hover:text-indigo-500"
     ><span aria-hidden="true">&#8592;</span> Ga terug naar leskaart</a
   >
   {#if userModule && userModule.newUnlockedLocation}
     <span
+      data-cy="new-location-unlocked"
       class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800"
     >
       Nieuwe locatie ontgrendeld!

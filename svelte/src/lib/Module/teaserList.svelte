@@ -37,11 +37,11 @@
 
     <!-- Products -->
     <section aria-labelledby="products-heading" class="mt-6">
-      <h2 id="products-heading" class="sr-only">Products purchased</h2>
+      <h2 id="products-heading" class="sr-only">Lesmodules</h2>
 
       {#if modules}
         <div class="space-y-8">
-          {#each modules as module}
+          {#each modules as module, i}
             <div
               class="bg-white border-t border-b border-gray-200 shadow-sm sm:border sm:rounded-lg"
             >
@@ -62,7 +62,9 @@
 
                   <div class="mt-6 sm:mt-0 sm:ml-6">
                     <h3 class="text-base font-medium text-gray-900">
-                      <a href="/module/{module.id}">{module.moduleName}</a>
+                      <a 
+                      data-cy="module-{i}-title-link"
+                      href="/module/{module.id}">{module.moduleName}</a>
                     </h3>
                     <!-- <p class="mt-2 text-sm font-medium text-gray-900">$35.00</p> -->
                     <p

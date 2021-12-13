@@ -1,12 +1,19 @@
 const functions = require('firebase-functions');
 const helper = require('../helper');
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 exports.updateUserModuleWhenModuleChanges = functions
   .runWith({
     minInstances: 1,
   })
   .firestore.document('modules/{moduleId}')
   .onUpdate(async (change, context) => {
+    if (helper.environment === 'development' || helper.environment === 'cypress') {
+      await sleep(5000);
+    }
     const fb = helper.getFirebaseApp();
     let db = fb.firestore();
     let moduleId = context.params.moduleId;
@@ -34,6 +41,9 @@ exports.onModulePlayerCreated = functions
   })
   .firestore.document('modules/{moduleId}/players/{playerId}')
   .onWrite(async (change, context) => {
+    if (helper.environment === 'development' || helper.environment === 'cypress') {
+      await sleep(5000);
+    }
     functions.logger.log("onModulePlayerCreated");
     const fb = helper.getFirebaseApp();
     let db = fb.firestore();
@@ -248,6 +258,9 @@ exports.writeFeedbackDevelopRandom = functions
   })
   .firestore.document('feedback/{feedbackId}')
   .onCreate(async (snap, context) => {
+    if (helper.environment === 'development' || helper.environment === 'cypress') {
+      await sleep(5000);
+    }
     const fb = helper.getFirebaseApp();
     let db = fb.firestore();
     const feedbackData = snap.data();
@@ -338,7 +351,10 @@ exports.fillPathWithActivitiesForNewUsers = functions
   .runWith({
     minInstances: 1,
   })
-  .auth.user().onCreate((user, eventContext) => {
-    setModuleActivitiesForUid(user.uid);
+  .auth.user().onCreate(async (user, eventContext) => {
+    if (helper.environment === 'development' || helper.environment === 'cypress') {
+      await sleep(5000);
+    }
+    await setModuleActivitiesForUid(user.uid);
     return null;
   });

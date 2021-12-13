@@ -23,7 +23,7 @@ export function filterSelectedActivities(module, currentLocationId, userModule) 
   let i = 0;
 
   while (!finished) {
-    if (filteredActivities.length == numberOfActivitiesToShow-1) {
+    if (filteredActivities.length == numberOfActivitiesToShow - 1) {
       finished = true;
     }
     if (filteredLocationActivities.length === 0) {
@@ -31,7 +31,7 @@ export function filterSelectedActivities(module, currentLocationId, userModule) 
     }
 
     let goalIdToSelectActivityFrom = locationGoalIds[i];
-    
+
     for (let i2 = 0; i2 < filteredLocationActivities.length; i2++) {
       if (filteredLocationActivities[i2].goalId === goalIdToSelectActivityFrom) {
         filteredActivities.push(filteredLocationActivities[i2]);
@@ -116,31 +116,36 @@ export async function getUserModule(firebase, moduleId, module, player) {
   let db = await firebase.firestore();
   let userModule = null;
   if (player && module) {
-    let userModuleRef = db
-      .collection("modules/" + moduleId + "/players")
-      .doc(player.id);
-    const userModuleSnap = await userModuleRef.get({ source: 'server' });
-    if (userModuleSnap.exists) {
-      userModule = userModuleSnap.data();
-      userModule.id = player.id;
-    }
-    else {
-      let startLocations = [];
-      for (let i = 0; i < module.locations.length; i++) {
-        if (module.locations[i].isStartLocation) {
-          startLocations.push(module.locations[i].id);
+    try {
+      let userModuleRef = db
+        .collection("modules/" + moduleId + "/players")
+        .doc(player.id);
+      const userModuleSnap = await userModuleRef.get({ source: 'server' });
+      if (userModuleSnap.exists) {
+        userModule = userModuleSnap.data();
+        userModule.id = player.id;
+      }
+      else {
+        let startLocations = [];
+        for (let i = 0; i < module.locations.length; i++) {
+          if (module.locations[i].isStartLocation) {
+            startLocations.push(module.locations[i].id);
+          }
         }
-      }
 
-      let userModuleData = {
-        unlockedLocations: startLocations,
-        succeededLocations: [],
-        selectedAdventures: [],
-        selectedActivities: [],
+        let userModuleData = {
+          unlockedLocations: startLocations,
+          succeededLocations: [],
+          selectedAdventures: [],
+          selectedActivities: [],
+        }
+        let moduleCollectionRef = db.collection("modules/" + moduleId + "/players")
+        let result = await moduleCollectionRef.doc(player.id).set(userModuleData);
+        userModule = userModuleData;
       }
-      let moduleCollectionRef = db.collection("modules/" + moduleId + "/players")
-      let result = await moduleCollectionRef.doc(player.id).set(userModuleData);
-      userModule = userModuleData;
+    }
+    catch (error) {
+      console.log(error);
     }
   }
   return userModule;

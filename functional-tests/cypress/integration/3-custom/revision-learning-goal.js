@@ -115,9 +115,9 @@ describe("Revision flow editing learning goals", () => {
     cy.get('[data-cy=Werkwoorden-new] > [data-cy=new-index1]').contains('omzetten');
     cy.get('[data-cy="Bloom\'s taxonomy-old"] > [data-cy=old-index0]').contains('bloom1-1');
     cy.get('[data-cy="Bloom\'s taxonomy-old"] > [data-cy=old-index1]').contains('bloom2-2');
-    cy.get('[data-cy="Bloom\'s taxonomy-new"] > [data-cy=new-index0]').contains('bloom1-3');
-    cy.get('[data-cy="Bloom\'s taxonomy-new"] > [data-cy=new-index1]').contains('bloom2-2');
-    cy.get('[data-cy="Bloom\'s taxonomy-new"] > [data-cy=new-index2]').contains('bloom2-3');
+    cy.get('[data-cy="Bloom\'s taxonomy-new"] > [data-cy=new-index1]').contains('bloom1-3');
+    cy.get('[data-cy="Bloom\'s taxonomy-new"] > [data-cy=new-index2]').contains('bloom2-2');
+    cy.get('[data-cy="Bloom\'s taxonomy-new"] > [data-cy=new-index3]').contains('bloom2-3');
     cy.get('[data-cy="Solo\'s taxonomy-old"]').contains('solo-1');
     cy.get('[data-cy="Solo\'s taxonomy-new"]').contains('solo-2');
     cy.get('[data-cy="Battles-old"] > [data-cy=old-index0]').contains('Battle 1')

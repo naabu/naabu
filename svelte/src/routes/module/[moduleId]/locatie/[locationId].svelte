@@ -24,7 +24,6 @@
     if (filteredActivities.length === 0) {
       if (timer == null) {
         timer = setTimeout(async () => {
-          console.log("Refreshing userModule");
           userModule = await getUserModule(
             firebase,
             module.id,
@@ -34,7 +33,6 @@
         }, 500);
       }
     } else if (timer !== null) {
-      console.log("clearTimeout");
       clearTimeout(timer);
       timer = null;
     }

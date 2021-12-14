@@ -138,6 +138,7 @@ export async function getUserModule(firebase, moduleId, module, player) {
           succeededLocations: [],
           selectedAdventures: [],
           selectedActivities: [],
+          id: player.id,
         }
         let moduleCollectionRef = db.collection("modules/" + moduleId + "/players")
         let result = await moduleCollectionRef.doc(player.id).set(userModuleData);

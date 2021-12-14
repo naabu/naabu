@@ -5,7 +5,7 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/sveltekit/dev/Dockerfile
-    entrypoint: ["npm", "run", "dev"]
+    # entrypoint: ["npm", "run", "dev"]
     environment:
       - environment=cypress
       - defaultMapId=OcZm1UN6gxuUiFWTgoyp
@@ -16,6 +16,8 @@ services:
       - fbMessagingSenderId="950890412912"
       - fbAppI="1:950890412912:web:a248488bf4e6eb2bc3adb5"
       - fbMeasurementId="G-8ZT9LCY8BY"
+    volumes:
+      - ./:/var/www/
     ports:
       - 3000:3000
       - 3001:3001

@@ -99,7 +99,7 @@
             </tr>
           </thead>
           <tbody class="bg-white divide-y divide-gray-200">
-            {#each hits as hit}
+            {#each hits as hit, i}
               <tr>
                 <td class="px-6 py-4">
                   <div class="text-sm font-medium text-gray-900">
@@ -119,7 +119,7 @@
                     href="/leerdoel/{hit.objectID}"
                     class="text-indigo-600 hover:text-indigo-900">Bekijken</a
                   >
-                  <slot name="cta-learning-goal" goalId={hit.objectID} goalTitle={hit.title}>
+                  <slot name="cta-learning-goal" goalId={hit.objectID} goalTitle={hit.title} index={i}>
                     <a
                       href="/leerdoel/{hit.objectID}/wijzigen"
                       class="text-indigo-600 hover:text-indigo-900">Wijzigen</a

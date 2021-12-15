@@ -4,14 +4,13 @@
   import "@algolia/autocomplete-theme-classic";
   import { renderKatexOutput } from "$lib/Misc/helper.js";
   import QuizForm from "$lib/Quizzes/form.svelte";
-	import { createEventDispatcher } from 'svelte';
-	const dispatch = createEventDispatcher();
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
 
   export let activity;
 
   function goBackToSearchGoals() {
-    
-    dispatch('toLearningGoals');
+    dispatch("toLearningGoals");
   }
 
   function updatePreview() {
@@ -130,9 +129,7 @@
   </div>
   <div>
     <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
-      <div
-        class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5"
-      >
+      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5">
         <label
           for="title"
           class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
@@ -171,6 +168,7 @@
             Beschrijf kort de activiteit of de vraag
           </p>
           <button
+            data-cy="preview-description"
             class="preview-button mt-3  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             on:click|preventDefault={updatePreview}>Update preview</button
           >
@@ -181,7 +179,6 @@
       </div>
     </div>
   </div>
-  
 
   <div
     class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"

@@ -40,6 +40,7 @@
     {#if activity && activity.latestRevisionCreatedAt && activity.previousRevisionId}
       <p class="pt-2 text-sm text-gray-500">
         <a
+          data-cy="last-change-link"
           href="/revisie/{activity.latestRevisionId}/diff/{activity.previousRevisionId}"
           class="hover:underline"
         >
@@ -59,6 +60,7 @@
 
   <span
     slot="status"
+    data-cy="concept-status"
     class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800"
   >
     {#if firebase && activity}

@@ -109,7 +109,10 @@
         });
       }
     }
-    if (revisionNew && (!revisionNew.revisionType || revisionNew.revisionType === "goal")) {
+    if (
+      revisionNew &&
+      (!revisionNew.revisionType || revisionNew.revisionType === "goal")
+    ) {
       let goalSnap = await db.collection("goals").doc(revisionNew.goalId).get();
       if (goalSnap.exists) {
         goal = goalSnap.data();
@@ -162,6 +165,7 @@
             </a>
           </p>
           <button
+            data-cy="show-all-activity-revisions-button"
             class="z-10 ml-auto mr-4 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             on:click={() => (toggleShowAllHistory = !toggleShowAllHistory)}
           >

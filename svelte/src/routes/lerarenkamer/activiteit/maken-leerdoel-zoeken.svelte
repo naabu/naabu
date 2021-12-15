@@ -38,7 +38,7 @@
   <span slot="title"> Activiteit maken</span>
 
   <span slot="content">
-    <ListGoals let:goalId let:goalTitle>
+    <ListGoals let:goalId let:goalTitle let:index>
       <span slot="cta-learning-goal">
         {#if activityId}
           <a
@@ -48,6 +48,7 @@
           >
         {:else}
           <a
+            data-cy="select-learning-goal-{index}"
             href="/lerarenkamer/activiteit/maken/{goalId}"
             class="text-indigo-600 hover:text-indigo-900">Selecteren</a
           >

@@ -64,6 +64,7 @@
           {#each revisions as revision, i}
             {#if revision.previousRevisionId}
               <a
+                data-cy="revision-link-{i}"
                 href="/revisie/{revision.revisionId}/diff/{revision.previousRevisionId}"
                 class="-m-3 p-3 block rounded-md hover:bg-gray-50 transition ease-in-out duration-150"
                 class:bg-gray-50={revision.revisionId === activeRevisionId}
@@ -84,6 +85,7 @@
               </a>
             {:else}
               <a
+                data-cy="revision-link-{i}"
                 href="/revisie/{revision.revisionId}/diff"
                 class="-m-3 p-3 block rounded-md hover:bg-gray-50 transition ease-in-out duration-150"
                 class:bg-gray-50={revision.revisionId === activeRevisionId}

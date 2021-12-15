@@ -10,7 +10,7 @@ describe("Create activities", () => {
   it("All things related to activities and connecting them with learning goals", () => {
     cy.visit('http://sveltekit:3000/cypress/login-normal-user').contains('Login complete');
     // cy.visit('http://sveltekit:3000/cypress/reset-learning-goals').contains('learning goal ready for testing')
-    cy.get('[data-cy=user-menu]').click({timeout: 100000});
+    cy.get('[data-cy=user-menu]', {timeout: 100000}).click();
     cy.get('#user-menu-item-teacher-room').click();
     cy.get('[data-cy=desktop-sidebar-menu] > [data-cy=teacher-menu-concept-activity]').click();
     cy.get('[data-cy=create-activity-button]').should('be.visible').click({ force: true });

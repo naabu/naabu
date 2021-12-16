@@ -8,8 +8,10 @@
     if ($firebaseStore) {
       firebase = $firebaseStore;
       if (
-        $session.environment === "cypress" ||
-        $session.environment === "development"
+        ($session.environment === "cypress" ||
+          $session.environment === "development") &&
+        $session.user &&
+        $session.user.isAnonymous
       ) {
         let email = "cypress@example.com";
         let password = "cypress";
@@ -22,7 +24,7 @@
 
 {#if $session.environment === "cypress" || $session.environment === "development"}
   Great success! Now login!
-  {#if $session.user}
+  {#if $session.user && !$session.user.isAnonymous}
     Login complete
   {/if}
 {/if}

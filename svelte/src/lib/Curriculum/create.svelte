@@ -33,9 +33,9 @@
   let db;
   let alert = getDefaultAlertValues();
 
-  $: if ($session.player && $session.player.curriculumProfileId) {
-    redirect();
-  }
+  // $: if ($session.player && $session.player.curriculumProfileId) {
+  //   redirect();
+  // }
 
   let redirectUrl = $page.query.get("redirect");
 

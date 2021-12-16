@@ -51,11 +51,9 @@ exports.updateRevisionListsAndSetProfile = functions.firestore.document('revisio
         curriculumProfile: revisionData.curriculumProfile
       })
       objectReturnRevisions = getNextAndPreviousRevisions(revisionList, context.params.revisionId);
-      console.log(revisionList);
       if (objectReturnRevisions && objectReturnRevisions.previousRevision) {
         revisionList[0].previousRevisionId = objectReturnRevisions.previousRevision.id
       }
-      console.log(revisionList);
       goalRef.update({ revisionList: revisionList })
     }
 

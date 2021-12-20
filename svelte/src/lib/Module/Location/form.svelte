@@ -330,7 +330,7 @@
                 {:else}
                   <ul>
                     {#each map.locations[selectedIndex].goals as goal, i}
-                      <li>
+                      <li data-cy="added-learning-goal-{i}">
                         {goal.title}
                         <button
                           data-cy="remove-goal-button-{i}"

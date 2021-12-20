@@ -8,9 +8,12 @@ describe("Create course modules", () => {
   it("Creating the map, attaching learning goals and saving and editing them", () => {
     cy.visit('http://sveltekit:3000/cypress/login-normal-user').contains('Login complete');
     cy.visit('http://sveltekit:3000/cypress/reset-learning-goals').contains('learning goal ready for testing');
+    cy.visit('http://sveltekit:3000/cypress/cleanup-modules').contains('learning goal ready for testing');
+    cy.wait(5000);
     cy.get('[data-cy=user-menu]').click();
     cy.get('#user-menu-item-teacher-room').click();
     cy.get('[data-cy=desktop-sidebar-menu] > [data-cy=teacher-menu-modules]').click();
+    cy.get('[data-cy=module-name-0]').should('not.exist');
     cy.get('[data-cy=create-module-button]').click({ force: true });
     cy.get('#name').type('Test module');
     cy.get('#description').type('Test description');
@@ -69,5 +72,10 @@ describe("Create course modules", () => {
     cy.get(".aa-Panel").find(".aa-List").first().contains("Cypress Test Goal 1").click();
     cy.get('[data-cy=added-learning-goal-0]').contains("Cypress Test Goal 1");
     cy.get("[data-cy=create-module-button]").click();
+    cy.get('[data-cy=alert-success-title]').contains('Module succesvol aangemaakt');
+    cy.get('[data-cy=desktop-sidebar-menu] > [data-cy=teacher-menu-modules]').click();
+    cy.get('[data-cy=module-name-0]').contains('Test module');
+    cy.get('[data-cy=module-edit-button-0]').click();
+
   });
 });

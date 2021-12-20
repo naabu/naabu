@@ -42,7 +42,10 @@
             {#each modules as module, index}
               <tr>
                 <td class="px-6 py-4">
-                  <div class="text-sm font-medium text-gray-900">
+                  <div
+                    data-cy="module-name-{index}"
+                    class="text-sm font-medium text-gray-900"
+                  >
                     {module.moduleName}
                   </div>
                 </td>
@@ -55,6 +58,7 @@
                   class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                 >
                   <a
+                    data-cy="module-edit-button-{index}"
                     href="/lerarenkamer/module/{module.id}"
                     class="mr-1 underline text-indigo-600 hover:text-indigo-900"
                     >Wijzigen</a

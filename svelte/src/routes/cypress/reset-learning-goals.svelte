@@ -83,7 +83,9 @@
       ($session.environment === "cypress" ||
         $session.environment === "development") &&
       db &&
-      $session.player
+      $session.player &&
+      $session.user &&
+      !$session.user.isAnonymous
     ) {
       await setupLearningGoals();
     }

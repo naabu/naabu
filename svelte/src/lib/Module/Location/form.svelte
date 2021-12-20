@@ -6,7 +6,7 @@
   import { autocomplete, getAlgoliaResults } from "@algolia/autocomplete-js";
   import "@algolia/autocomplete-theme-classic";
   import VerwijderDialog from "$lib/Misc/dialog.svelte";
-import { generatePathsForMap } from "$lib/Map/helper";
+  import { generatePathsForMap } from "$lib/Map/helper";
 
   let filters = "";
   let goalIndex = getGoalIndex($session.environment);
@@ -116,7 +116,10 @@ import { generatePathsForMap } from "$lib/Map/helper";
   }
 
   function addGoal(goal) {
-    map.locations[selectedIndex].goals = [...map.locations[selectedIndex].goals, goal];
+    map.locations[selectedIndex].goals = [
+      ...map.locations[selectedIndex].goals,
+      goal,
+    ];
     resetFilters();
   }
 
@@ -204,6 +207,7 @@ import { generatePathsForMap } from "$lib/Map/helper";
           {#each map.locations as location, i}
             {#if selectedIndex !== i}
               <button
+                data-cy="location-tab-l{i + 1}"
                 on:click|preventDefault={() => setselectedIndex(i)}
                 class="outline-none active:outline-none focus:outline-none border-transparent  text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
               >
@@ -211,6 +215,7 @@ import { generatePathsForMap } from "$lib/Map/helper";
               </button>
             {:else}
               <button
+                data-cy="location-tab-l{i + 1}"
                 on:click|preventDefault={() => setselectedIndex(i)}
                 class="outline-none active:outline-none focus:outline-none border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
               >
@@ -219,6 +224,7 @@ import { generatePathsForMap } from "$lib/Map/helper";
             {/if}
           {/each}
           <button
+            data-cy="new-location-button"
             class="mb-1  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             on:click|preventDefault={addLocation}
           >
@@ -232,6 +238,7 @@ import { generatePathsForMap } from "$lib/Map/helper";
         <nav class="-mb-px flex space-x-8" aria-label="Tabs">
           {#if selectedLocationTab !== "content"}
             <button
+              data-cy="inhoud-button"
               on:click|preventDefault={() => setSelectedLocationTab("content")}
               class="outline-none active:outline-none focus:outline-none border-transparent  text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
             >
@@ -239,6 +246,7 @@ import { generatePathsForMap } from "$lib/Map/helper";
             </button>
           {:else}
             <button
+              data-cy="inhoud-button"
               on:click|preventDefault={() => setSelectedLocationTab("content")}
               class="outline-none active:outline-none focus:outline-none border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
             >
@@ -247,6 +255,7 @@ import { generatePathsForMap } from "$lib/Map/helper";
           {/if}
           {#if selectedLocationTab !== "waypoints"}
             <button
+              data-cy="waypoints-button"
               on:click|preventDefault={() =>
                 setSelectedLocationTab("waypoints")}
               class="outline-none active:outline-none focus:outline-none border-transparent  text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
@@ -255,6 +264,7 @@ import { generatePathsForMap } from "$lib/Map/helper";
             </button>
           {:else}
             <button
+              data-cy="waypoints-button"
               on:click|preventDefault={() =>
                 setSelectedLocationTab("waypoints")}
               class="outline-none active:outline-none focus:outline-none border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
@@ -264,6 +274,7 @@ import { generatePathsForMap } from "$lib/Map/helper";
           {/if}
           {#if selectedLocationTab !== "paths"}
             <button
+              data-cy="paths-button"
               on:click|preventDefault={() => setSelectedLocationTab("paths")}
               class="outline-none active:outline-none focus:outline-none border-transparent  text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
             >
@@ -271,6 +282,7 @@ import { generatePathsForMap } from "$lib/Map/helper";
             </button>
           {:else}
             <button
+              data-cy="paths-button"
               on:click|preventDefault={() => setSelectedLocationTab("paths")}
               class="outline-none active:outline-none focus:outline-none border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
             >
@@ -285,15 +297,15 @@ import { generatePathsForMap } from "$lib/Map/helper";
       {#if selectedLocationTab === "content"}
         <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
           <label
-            for="title"
+            for="location_name"
             class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
           >
             Name
           </label>
           <div class="mt-1 sm:mt-0 sm:col-span-2">
             <textarea
-              id="title"
-              name="title"
+              id="location_name"
+              name="location_name"
               rows="1"
               bind:value={map.locations[selectedIndex].name}
               class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
@@ -305,12 +317,12 @@ import { generatePathsForMap } from "$lib/Map/helper";
               class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
             >
               <label
-                for="title"
+                for="learning-goals"
                 class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
               >
                 Gekoppelde leerdoelen
               </label>
-              <div class="mt-1 sm:mt-0 sm:col-span-2">
+              <div id="learning-goals" class="mt-1 sm:mt-0 sm:col-span-2">
                 {#if map.locations[selectedIndex].goals.length === 0}
                   <p class="mt-1 max-w-2xl text-sm text-gray-500">
                     Nog geen leerdoelen aan activiteit toegevoegd
@@ -321,6 +333,7 @@ import { generatePathsForMap } from "$lib/Map/helper";
                       <li>
                         {goal.title}
                         <button
+                          data-cy="remove-goal-button-{i}"
                           class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                           on:click|preventDefault={() => removeGoal(i)}
                           >Weghalen</button
@@ -352,14 +365,14 @@ import { generatePathsForMap } from "$lib/Map/helper";
       {:else if selectedLocationTab === "waypoints"}
         <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
           <label
-            for="positionX"
+            for="text_position_x"
             class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
           >
             tekst position X
           </label>
           <div class="mt-1 sm:mt-0 sm:col-span-2">
             <textarea
-              id="positionX"
+              id="text_position_x"
               name="title"
               rows="1"
               bind:value={map.locations[selectedIndex].textPositionX}
@@ -367,7 +380,7 @@ import { generatePathsForMap } from "$lib/Map/helper";
             />
           </div>
           <label
-            for="positionX"
+            for="text_position_y"
             class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
           >
             tekst position Y
@@ -375,7 +388,7 @@ import { generatePathsForMap } from "$lib/Map/helper";
 
           <div class="mt-1 sm:mt-0 sm:col-span-2">
             <textarea
-              id="positionX"
+              id="text_position_y"
               name="title"
               rows="1"
               bind:value={map.locations[selectedIndex].textPositionY}
@@ -383,14 +396,14 @@ import { generatePathsForMap } from "$lib/Map/helper";
             />
           </div>
           <label
-            for="positionX"
+            for="marker_position_x"
             class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
           >
             marker position X
           </label>
           <div class="mt-1 sm:mt-0 sm:col-span-2">
             <textarea
-              id="positionX"
+              id="marker_position_x"
               name="title"
               rows="1"
               bind:value={map.locations[selectedIndex].markerPositionX}
@@ -398,7 +411,7 @@ import { generatePathsForMap } from "$lib/Map/helper";
             />
           </div>
           <label
-            for="positionX"
+            for="marker_position_y"
             class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
           >
             marker position Y
@@ -406,7 +419,7 @@ import { generatePathsForMap } from "$lib/Map/helper";
 
           <div class="mt-1 sm:mt-0 sm:col-span-2">
             <textarea
-              id="positionX"
+              id="marker_position_y"
               name="title"
               rows="1"
               bind:value={map.locations[selectedIndex].markerPositionY}
@@ -435,6 +448,7 @@ import { generatePathsForMap } from "$lib/Map/helper";
             {#each locationOptions as locationOption}
               <label>
                 <input
+                  data-cy="access-location-{locationOption.index}"
                   type="checkbox"
                   bind:group={map.locations[selectedIndex].accessLocations}
                   name="accessLocations"
@@ -450,6 +464,7 @@ import { generatePathsForMap } from "$lib/Map/helper";
       {/if}
     </div>
     <button
+      data-cy="remove-location-button"
       type="button"
       on:click|preventDefault={() => removeLocationButtonFunction()}
       class="float-right mt-3 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"

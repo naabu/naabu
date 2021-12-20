@@ -46,7 +46,7 @@
       let collectionRef = db.collection("modules");
       let result = await collectionRef.add(data);
       alert.success = true;
-      alert.successTitle = "Module gemaakt";
+      alert.successTitle = "Module succesvol aangemaakt";
       alert.successMessage = "id: " + result.id;
     } catch (e) {
       alert.error = true;

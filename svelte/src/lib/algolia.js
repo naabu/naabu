@@ -6,7 +6,7 @@ function getIndex(suffix, environment) {
     index = "dev_" + suffix;
   }
   else if (environment === 'cypress') {
-    index = "cypress_" + suffix;
+    index = "dev_" + suffix;
   }
   else if (environment === 'acceptance') {
     index = "acc_" + suffix;

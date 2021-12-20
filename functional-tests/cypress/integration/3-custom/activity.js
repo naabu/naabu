@@ -6,11 +6,27 @@ const getIframeOfVimeo = () => {
     .then(cy.wrap)
 }
 
+beforeEach(() => {
+  cy.clearLocalStorage();
+  cy.clearCookies();
+  cy.clearFirebaseAuth();
+});
+
 describe("Create activities", () => {
   it("All things related to activities and connecting them with learning goals", () => {
     cy.visit('http://sveltekit:3000/cypress/login-normal-user').contains('Login complete');
+    cy.visit('http://sveltekit:3000/cypress/reset-curriculum-profile').contains('Curriculum features are deleted!', {timeout: 100000});
     // cy.visit('http://sveltekit:3000/cypress/reset-learning-goals').contains('learning goal ready for testing')
-    cy.get('[data-cy=user-menu]', {timeout: 100000}).click();
+    cy.get('[data-cy=user-menu]').click();
+    cy.get('#user-menu-item-curriculum').click();
+
+    // Create curriculum page.
+    cy.get('#fullname').should('be.visible').type('John Doe')
+    cy.get('#institution').should('be.visible').type('University of Logic')
+    cy.get('#email').should('be.visible').type('johndoe@unilogic.org')
+    cy.get('#credentials').should('be.visible').type('Proffesor of logic (5 years) Head of department of logic.')
+    cy.get('[data-cy=submit-button]').scrollIntoView().click({force: true});
+    cy.get('[data-cy=user-menu]').click();
     cy.get('#user-menu-item-teacher-room').click();
     cy.get('[data-cy=desktop-sidebar-menu] > [data-cy=teacher-menu-concept-activity]').click();
     cy.get('[data-cy=create-activity-button]').should('be.visible').click({ force: true });

@@ -79,18 +79,24 @@
 
 {#if selectedPath}
   {#each selectedPath.points as point, i}
-    {#if i !== 0 && i !== selectedPath.points.length - 1}
+    {#if i == 0}
+      <div data-cy="start-location-point">
+        Start locatie: {point[1]} - {point[0]}
+      </div>
+    {:else if i == selectedPath.points.length - 1}
+      <div data-cy="end-location-point">
+        Eind locatie: {point[1]} - {point[0]}
+      </div>
+    {:else}
       <div>
-        <input type="text" bind:value={point[1]} />
-        <input type="text" bind:value={point[0]} />
+        <input data-cy="path-input-x-{i}" type="text" bind:value={point[1]} />
+        <input data-cy="path-input-y-{i}" type="text" bind:value={point[0]} />
         <button
           data-cy="remove-path-point-button-{i}"
           class="mb-1  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           on:click|preventDefault={() => removePoint(i)}>Remove</button
         >
       </div>
-    {:else}
-      {point[1]} - {point[0]} <br />
     {/if}
   {/each}
 

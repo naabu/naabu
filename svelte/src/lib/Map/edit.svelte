@@ -58,7 +58,7 @@
 
   async function edit() {
     let data = getMapSaveData(map);
-    updateActivities(firebase, map);
+    data.authorId = $session.user.uid;
     alert = getDefaultAlertValues();
     try {
       await ref.update(data);

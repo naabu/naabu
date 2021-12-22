@@ -10,8 +10,8 @@
     "testvar": "echo $FIREBASE_TOKEN",
     "addUserClaims": "export GOOGLE_APPLICATION_CREDENTIALS=/var/www/svelte/adminkey.json; node scripts/addUserClaims.js",
     "deploy": "bash scripts/deploy.sh",
-    "emulate": "firebase emulators:start  --import=./data/.devdata --export-on-exit --only auth,functions,firestore,pubsub",
-    "emulateCypress": "firebase emulators:start  --import=./data/.cypressdata --export-on-exit --only auth,functions,firestore,pubsub",
+    "emulate": "node scripts/generateConfig.js; firebase emulators:start  --import=./data/.devdata --export-on-exit --only auth,functions,firestore,pubsub",
+    "emulateCypress": "node scripts/generateConfig.js; firebase emulators:start  --import=./data/.cypressdata --export-on-exit --only auth,functions,firestore,pubsub",
     "test-setup": "export GOOGLE_APPLICATION_CREDENTIALS=/var/www/svelte/adminkey.json; firebase emulators:start --config=\"./firebase.test.json\""
   },
   "devDependencies": {

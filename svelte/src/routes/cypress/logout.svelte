@@ -1,0 +1,27 @@
+<script>
+  import { getStores, session, page } from "$app/stores";
+  import { onMount } from "svelte";
+  import { firebaseStore } from "$lib/Firebase/store";
+  let firebase;
+
+  $: (async () => {
+    if ($firebaseStore) {
+      firebase = $firebaseStore;
+      if (
+        ($session.environment === "cypress" ||
+          $session.environment === "development") &&
+        $session.user &&
+        !$session.user.isAnonymous
+      ) {
+        firebase.auth().signOut();
+      }
+    }
+  })();
+</script>
+
+{#if $session.environment === "cypress" || $session.environment === "development"}
+  Logging out current user <br />
+  {#if $session.user && $session.user.isAnonymous}
+    Logout complete
+  {/if}
+{/if}

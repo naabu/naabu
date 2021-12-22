@@ -8,14 +8,7 @@ services:
     entrypoint: ["npm", "run", "dev"]
     environment:
       - environment=cypress
-      - defaultMapId=OcZm1UN6gxuUiFWTgoyp
-      - fbApiKey="AIzaSyDTQTwe21wwYm2TsMBwH8m1lSHWMEK4KmQ"
-      - fbAuthDomain="expwis.firebaseapp.com"
-      - fbProjectId="expwis"
-      - fbStorageBucket="expwis.appspot.com"
-      - fbMessagingSenderId="950890412912"
-      - fbAppI="1:950890412912:web:a248488bf4e6eb2bc3adb5"
-      - fbMeasurementId="G-8ZT9LCY8BY"
+      - algoliaApp=6868GHOPYM
     ports:
       - 3000:3000
       - 3001:3001
@@ -30,7 +23,7 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/sveltekit/dev/Dockerfile
-    entrypoint: ["npm", "run", "emulate"]
+    entrypoint: ["npm", "run", "emulateCypress"]
     ports:
       - 5001:5001
       - 5010:5010
@@ -38,6 +31,8 @@ services:
       - 5014:5014
       - 4500:4500
       - 4400:4400
+    secrets:
+      - algolia-private-api-key
     networks:
       - internal_network
 
@@ -49,6 +44,8 @@ services:
       - functional-tests/.env
     networks:
       - internal_network
-  
+secrets:
+  algolia-private-api-key:
+    file: ./config/secret-algolia-key.txt  
 networks:
   internal_network:

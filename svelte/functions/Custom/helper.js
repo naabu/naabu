@@ -80,7 +80,6 @@ async function getActivitiesForGoal(goalId) {
 }
 
 const environment = functions.config().app.environment;
-const defaultMapId = functions.config().app.defaultMapId;
 let goalIndexName = getIndex('goals', environment);
 let activityIndexName = getIndex('activities', environment);
 let mapIndexName = getIndex('maps', environment);
@@ -93,7 +92,6 @@ exports.goalIndex = goalIndex;
 exports.activityIndex = activityIndex;
 exports.mapIndex = mapIndex;
 exports.environment = environment;
-exports.defaultMapId = defaultMapId;
 exports.shuffle = shuffle;
 exports.compare = compare;
 exports.compareLastReplyAt = compareLastReplyAt;

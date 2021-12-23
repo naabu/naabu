@@ -5,6 +5,8 @@ pipeline {
     }
     environment {
         APP_VERSION = '1'
+        ENVIRONMENT = "Cypress"
+        ALGOLIA_KEY = credentials('algolia-private-api-key')
     }
     stages {
         stage('Build') {
@@ -13,6 +15,7 @@ pipeline {
                 sh 'echo $GIT_COMMIT'
                 sh 'printenv'
                 sh 'rm -rf svelte/node_modules'
+                sh 'echo $ALGOLIA_KEY >> config/secret-algolia-key.txt'
                 sh 'docker-compose -f cypress-docker-compose.yml build'
                 sh 'docker-compose -f cypress-docker-compose.yml up -d'
                 // sh 'docker-compose -f cypress-docker-compose.yml exec -T -u node sveltekit printenv'

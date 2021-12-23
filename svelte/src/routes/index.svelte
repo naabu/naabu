@@ -31,7 +31,6 @@
     //   userMap = await getUserMap(firebase, mapId, map, $session.player);
     // }
     mounted = true;
-
     }
   })();
 

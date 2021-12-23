@@ -4,7 +4,6 @@
     "key": "f99761587d2a5e0f1f655d604560fe30"
   },
   "app": {
-    "environment": "development",
-    "defaultMapId": "OcZm1UN6gxuUiFWTgoyp" 
+    "environment": "cypress"
   }
 }

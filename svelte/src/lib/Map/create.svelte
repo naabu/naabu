@@ -4,6 +4,8 @@
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
   import { onMount } from "svelte";
   import { getMapSaveData } from "$lib/Map/helper";
+import { getStores, session } from "$app/stores";
+
   export let firebase;
 
   let breadcrumbs = [
@@ -50,6 +52,7 @@
 
   async function createMap() {
     let data = getMapSaveData(map);
+    data.authorId = $session.user.uid;
     alert = getDefaultAlertValues();
     try {
       let collectionRef = db.collection("maps");

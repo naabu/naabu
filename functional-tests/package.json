@@ -10,7 +10,7 @@
   },
   "devDependencies": {},
   "scripts": {
-    "test": " ./node_modules/.bin/cypress run --record"
+    "test": " ./node_modules/.bin/cypress run --record --spec ./cypress/integration/3-custom/unlock-locations.js"
   },
   "author": "",
   "license": "ISC"

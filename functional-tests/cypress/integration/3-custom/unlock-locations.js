@@ -19,7 +19,9 @@ describe("Unlock location on map test", () => {
     // cy.visit('http://sveltekit:3000/cypress/login-normal-user').contains('Login complete');
     // cy.visit('http://sveltekit:3000/cypress/reset-map').contains('Player map is deleted!', {timeout: 100000});
     // cy.get(':nth-child(1) > [data-cy=logo]').click();
-    cy.visit('http://sveltekit:3000');
+    cy.visit('http://sveltekit:3000/cypress/content@example.com/password/login').contains('Login complete');
+    cy.visit('http://sveltekit:3000/cypress/reset-learning-goals').contains('learning goal ready for testing');
+    cy.visit('http://sveltekit:3000/cypress/setup-module-map').contains('Module map complete');
     cy.get("[data-cy=module-0-title-link]").click();
     cy.get('.locked_marker_1').first().should('be.visible')
     cy.get('#map').not('.unlocked_marker_1');

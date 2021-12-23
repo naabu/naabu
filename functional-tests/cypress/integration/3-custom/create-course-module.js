@@ -60,7 +60,6 @@ describe("Create course modules", () => {
     cy.get('[data-cy=path-input-y-4]').should('have.value', '550');
     cy.get('[data-cy=path-input-x-1]').clear().type('200');
     cy.get('[data-cy=path-input-y-1]').clear().type('430');
-    // path-input-x-4
     
     cy.get('[data-cy=location-tab-l2]').click();
     cy.get('[data-cy=inhoud-button]').click();
@@ -76,6 +75,5 @@ describe("Create course modules", () => {
     cy.get('[data-cy=desktop-sidebar-menu] > [data-cy=teacher-menu-modules]').click();
     cy.get('[data-cy=module-name-0]').contains('Test module');
     cy.get('[data-cy=module-edit-button-0]').click();
-
   });
 });

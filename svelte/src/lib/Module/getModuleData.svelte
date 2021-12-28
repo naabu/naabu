@@ -19,8 +19,22 @@
   })();
 
   $: (async () => {
-    if (loadUserModule && mounted && module && $session.player && $session.player.id) {
-      userModule = await getUserModule(firebase, module.id, module, $session.player);
+    if (
+      loadUserModule &&
+      mounted &&
+      module &&
+      $session.player &&
+      $session.player.id
+    ) {
+      console.log("loading user module");
+      userModule = await getUserModule(
+        firebase,
+        module.id,
+        module,
+        $session.player
+      );
+      console.log(userModule);
+      loadUserModule = false;
     }
   })();
 

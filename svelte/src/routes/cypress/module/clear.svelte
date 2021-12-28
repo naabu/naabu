@@ -15,7 +15,8 @@
           .where("authorId", "==", $session.user.uid);
         let querySnapshot = await modulesCollection.get();
         querySnapshot.forEach((doc) => async () => {
-          feedbackstring = feedbackstring + "deleting module " + doc.id + "<br>";
+          feedbackstring =
+            feedbackstring + "deleting module " + doc.id + "<br>";
           await doc.ref.delete();
         });
       }
@@ -65,6 +66,6 @@
   {@html feedbackstring}
 
   {#if resetDone}
-    <div>Modules cleaned</div>
+    <div data-test="complete">Modules cleaned</div>
   {/if}
 {/if}

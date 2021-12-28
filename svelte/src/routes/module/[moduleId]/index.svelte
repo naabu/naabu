@@ -9,34 +9,6 @@
   let module;
   let userModule;
 
-  // let userMap = null;
-  // let mapId = $page.params.id;
-
-  // $: async () => {
-  //   if ($session.player) {
-  //     userMap = await getUserMap(firebase, mapId, map, $session.player);
-  //   }
-  // };
-
-  $: if (firebase) {
-    // console.log("firebase found");
-    // let anonymousUser = firebase.auth().currentUser;
-    // if (anonymousUser === null) {
-    //   console.log("attempt to log in anonymously");
-    //   firebase
-    //     .auth()
-    //     .signInAnonymously()
-    //     .then(() => {
-    //       console.log("Yeah signed in anonymously");
-    //     })
-    //     .catch((error) => {
-    //       var errorCode = error.code;
-    //       var errorMessage = error.message;
-    //       // ...
-    //     });
-    // }
-  }
-
   let breadcrumbs = [
     {
       url: "/",
@@ -48,28 +20,7 @@
     },
   ];
 
-  // $: if ($session.player && firebase) {
-  //   asynGetUserMap();
-  // }
-
-  // const asynGetUserMap = async () => {
-  //   userMap = await getUserMap(firebase, mapId, map, $session.player);
-  // };
-
-  // $: (async () => {
-  //   if ($firebaseStore) {
-  //     firebase = $firebaseStore;
-  //     await asynGetUserMap();
-  //     mounted = true;
-  //   }
-  // })();
-
-  // async function retrieveFirestoreData() {
-  //   let mapId = $page.params.id;
-  //   map = await getMap(firebase, mapId);
-  // }
-
-  $: if (module) {
+  $: if (module && module.title !== module.moduleName) {
     module.title = module.moduleName;
   }
 
@@ -81,13 +32,13 @@
     let userModuleRef = db
       .collection("modules/" + $page.params.moduleId + "/players")
       .doc(userModule.id);
-    userModuleRef.update({newUnlockedLocation: false});
+    userModuleRef.update({ newUnlockedLocation: false });
   }
 </script>
 
 <GetModuleData bind:firebase bind:module bind:userModule />
 {#if module && module.mapId}
-  <Show bind:map={module} bind:userMap={userModule} isModule=true />
+  <Show bind:map={module} bind:userMap={userModule} isModule="true" />
 {:else}
   Loading...
 {/if}

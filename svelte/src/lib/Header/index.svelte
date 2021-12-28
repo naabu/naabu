@@ -98,7 +98,7 @@
                 class="block lg:hidden h-10 w-auto"
                 src={logosmall}
                 alt="Wisvids"
-                data-cy="logo"
+                data-cy="mobile-logo"
               /></a
             >
             <a href="/"
@@ -106,7 +106,7 @@
                 class="hidden lg:block  h-10 w-auto"
                 src={logo}
                 alt="Wisvids"
-                data-cy="logo"
+                data-cy="desktop-logo"
               /></a
             >
           </div>

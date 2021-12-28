@@ -3,7 +3,7 @@
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
   import { onMount } from "svelte";
   import { getDefaultAlertValues } from "$lib/Misc/helper";
-  import { getModuleSaveData } from "$lib/Module/helper";
+  import { formatMapObject } from "$lib/Module/helper";
   import { getStores, session } from "$app/stores";
   export let firebase;
 
@@ -30,14 +30,14 @@
       map.paths.forEach((path) => {
         path.points = JSON.parse(path.points);
       });
-    
+
       map.mapId = doc.id;
       allMaps.push(map);
     });
   });
 
   async function createModule() {
-    let data = getModuleSaveData(module);
+    let data = formatMapObject(module, false, true, false);
     alert = getDefaultAlertValues();
     data.authorId = $session.user.uid;
     data.createdAt = firebase.firestore.Timestamp.now().seconds;

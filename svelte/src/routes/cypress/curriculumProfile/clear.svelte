@@ -84,6 +84,6 @@
 {#if $session.environment === "cypress" || $session.environment === "development"}
   Now deleting the curriculum profile + revisions!
   {#if curriculumReset}
-    <div>Curriculum features are deleted!</div>
+    <div data-test="complete">Curriculum features are deleted!</div>
   {/if}
 {/if}

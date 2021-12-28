@@ -44,6 +44,6 @@
 {#if $session.environment === "cypress" || $session.environment === "development"}
   Now deleting the user map!
   {#if playerMapDeleted}
-    <div>Player map is deleted!</div>
+    <div data-test="complete">Player map is deleted!</div>
   {/if}
 {/if}

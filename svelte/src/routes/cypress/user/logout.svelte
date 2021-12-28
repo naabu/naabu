@@ -22,6 +22,6 @@
 {#if $session.environment === "cypress" || $session.environment === "development"}
   Logging out current user <br />
   {#if $session.user && $session.user.isAnonymous}
-    Logout complete
+  <div data-test="complete">Logout complete</div> 
   {/if}
 {/if}

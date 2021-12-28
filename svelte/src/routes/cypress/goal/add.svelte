@@ -20,7 +20,7 @@
       $session.player.curriculumProfileId = result.id;
       let playerRef = db.collection("players").doc($session.user.uid);
       await playerRef.update({ curriculumProfileId: result.id });
-      feedbackstring += "profile created " +  result.id + "<br>";
+      feedbackstring += "profile created " + result.id + "<br>";
     }
 
     let goalRef1 = db.collection("goals").doc("cypress-test-goal-1");
@@ -43,8 +43,8 @@
       }
 
       let goalData1 = {
-        title: "Cypress Test Goal 1 <br>",
-        description: "This is a test goal for Cypress <br>",
+        title: "Cypress Test Goal 1",
+        description: "This is a test goal for Cypress",
         createdAt: firebase.firestore.FieldValue.serverTimestamp(),
       };
       feedbackstring += "Set goal 1 <br>";
@@ -95,10 +95,9 @@
     if ($firebaseStore) {
       firebase = $firebaseStore;
       db = await firebase.firestore();
-    mounted = true;
+      mounted = true;
     }
   })();
-
 </script>
 
 {#if $session.environment === "cypress" || $session.environment === "development"}
@@ -106,6 +105,6 @@
   {@html feedbackstring}
 
   {#if resetDone}
-    <div>learning goal ready for testing</div>
+    <div data-test="complete">learning goal ready for testing</div>
   {/if}
 {/if}

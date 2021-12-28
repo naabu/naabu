@@ -25,8 +25,6 @@ exports.updateUserModuleWhenModuleChanges = functions
       allPlayersIds.push(userModuleSnap.id);
     });
 
-    console.log(allPlayersIds);
-
     for (let i = 0; i < allPlayersIds.length; i++) {
       let playerId = allPlayersIds[i];
       await setModuleActivitiesForUid(playerId);
@@ -40,29 +38,51 @@ exports.onModulePlayerCreated = functions
     minInstances: 1,
   })
   .firestore.document('modules/{moduleId}/players/{playerId}')
-  .onWrite(async (change, context) => {
+  .onCreate(async (snapshot, context) => {
+
     if (helper.environment === 'development' || helper.environment === 'cypress') {
       await sleep(5000);
     }
-    functions.logger.log("onModulePlayerCreated");
     const fb = helper.getFirebaseApp();
     let db = fb.firestore();
     let moduleRef = db.collection("modules").doc(context.params.moduleId);
     let moduleSnap = await moduleRef.get();
-    functions.logger.log("Module exists?", moduleSnap.exists);
     if (moduleSnap.exists) {
       let module = moduleSnap.data();
       module.id = context.params.moduleId;
-      functions.logger.log("Module", module);
       await updateUserActivitiesForModule(module, context.params.playerId);
     }
+
     return null;
   });
 
-async function updateUserActivitiesForModule(module, uid) {
+
+async function setModuleActivitiesForUid(uid, unlock = false, locationId = null) {
+  // functions.logger.log("setModuleActivitiesForUid", uid);
+  const fb = helper.getFirebaseApp();
+  let db = fb.firestore();
+  let moduleColRef = db.collection("modules");
+  let moduleQuery = await moduleColRef.get();
+
+  // Get all modules for the user.
+  let modulesToProcessForUser = [];
+  moduleQuery.forEach((moduleSnap) => {
+    let module = moduleSnap.data();
+    module.id = moduleSnap.id;
+    modulesToProcessForUser.push(module);
+  });
+
+  for (let i = 0; i < modulesToProcessForUser.length; i++) {
+    await updateUserActivitiesForModule(modulesToProcessForUser[i], uid, unlock, locationId);
+  }
+}
+
+
+async function updateUserActivitiesForModule(module, uid, unlock = false, locationId = null) {
   const fb = helper.getFirebaseApp();
   let db = fb.firestore();
   let startLocations = [];
+  // console.log(module);
   for (let i2 = 0; i2 < module.locations.length; i2++) {
     if (module.locations[i2].isStartLocation) {
       startLocations.push(module.locations[i2].id);
@@ -79,18 +99,17 @@ async function updateUserActivitiesForModule(module, uid) {
     selectedAdventures: [],
     selectedActivities: [],
   }
-  if (!userModuleSnap.exists) {
-    await userModuleRef.set(userModule);
-  }
-  else {
+  if (userModuleSnap.exists) {
     userModule = userModuleSnap.data();
   }
-
-  functions.logger.log("Calculating score, initial value:", userModule);
 
   let moduleActivities = [];
   for (let i2 = 0; i2 < module.locations.length; i2++) {
     let location = module.locations[i2];
+    if (unlock && location.id === locationId) {
+      console.log("unlock location", location.id);
+      userModule = await unlockLocationsBasedOnNumberOfActivities(userModule, module, location.id, uid);
+    }
     for (let i3 = 0; i3 < location.goals.length; i3++) {
       let goal = location.goals[i3];
       let userGoalScoreRef = db.collection("userGoalScore").where("uid", "==", uid).where("goalId", "==", goal.id);
@@ -108,9 +127,10 @@ async function updateUserActivitiesForModule(module, uid) {
         userGoalScoreData = userGoalScoreQuerySnap.docs[0].data();
       }
 
+
       // Get scored for each goal?
       let activitiesForGoal = await helper.getActivitiesForGoal(goal.id);
-      functions.logger.log("ActivitiesForGoals:", activitiesForGoal);
+      // functions.logger.log("ActivitiesForGoals:", activitiesForGoal);
       let teaserActivities = [];
       for (let i4 = 0; i4 < activitiesForGoal.length; i4++) {
         let activity = activitiesForGoal[i4];
@@ -127,74 +147,18 @@ async function updateUserActivitiesForModule(module, uid) {
         teaserActivities.push(teaserActivity);
       }
       moduleActivities = [...moduleActivities, ...teaserActivities];
-      functions.logger.log("moduleActivities:", moduleActivities);
     }
   }
   moduleActivities.sort((a, b) => {
     return a.scoreDistance - b.scoreDistance;
   });
 
-  functions.logger.log("UserModule set?:", userModule);
+  // functions.logger.log("UserModule set?:", userModule);
   if (userModule) {
-    await userModuleRef.update({ selectedActivities: moduleActivities });
-    functions.logger.log("Usermodule updated with activities", moduleActivities);
+    userModule.selectedActivities = moduleActivities;
+    await userModuleRef.set(userModule);
+    // functions.logger.log("Usermodule updated with activities", moduleActivities);
   }
-}
-
-async function setModuleActivitiesForUid(uid) {
-  functions.logger.log("setModuleActivitiesForUid", uid);
-  const fb = helper.getFirebaseApp();
-  let db = fb.firestore();
-  let moduleColRef = db.collection("modules");
-  let moduleQuery = await moduleColRef.get();
-
-  // Get all modules for the user.
-  let modulesToProcessForUser = [];
-  moduleQuery.forEach((moduleSnap) => {
-    let module = moduleSnap.data();
-    module.id = moduleSnap.id;
-    modulesToProcessForUser.push(module);
-  });
-
-  for (let i = 0; i < modulesToProcessForUser.length; i++) {
-    await updateUserActivitiesForModule(modulesToProcessForUser[i], uid)
-  }
-}
-
-async function unlockLocations(adventure, uid) {
-  const fb = helper.getFirebaseApp();
-  let db = fb.firestore();
-  let moduleColRef = db.collection("modules");
-  let moduleQuery = await moduleColRef.get();
-  moduleQuery.forEach(async (moduleSnap) => {
-    let moduleId = moduleSnap.id;
-    let moduleData = moduleSnap.data();
-    let userModuleRef = db.collection('modules').doc(moduleId).collection('players').doc(uid);
-    let userModuleSnap = await userModuleRef.get();
-    if (userModuleSnap.exists) {
-      let userModuleData = await userModuleSnap.data();
-      for (let i = 0; i < moduleData.locations.length; i++) {
-        let location = moduleData.locations[i];
-        for (let i2 = 0; i2 < location.goals.length; i2++) {
-          let goal = location.goals[i2];
-          if (goal.id === adventure.goalId) {
-            if (!userModuleData.succeededLocations.includes(location.id)) {
-              userModuleData.succeededLocations.push(location.id);
-            }
-            for (let i4 = 0; i4 < location.accessLocations.length; i4++) {
-              let accessLocationId = location.accessLocations[i4];
-              if (
-                !userModuleData.unlockedLocations.includes(accessLocationId)
-              ) {
-                userModuleData.unlockedLocations.push(accessLocationId);
-              }
-            }
-            userModuleRef.set(userModuleData);
-          }
-        }
-      }
-    }
-  });
 }
 
 function getAccessLocationsFromLocationId(module, locationId) {
@@ -209,48 +173,28 @@ function getAccessLocationsFromLocationId(module, locationId) {
   return [];
 }
 
-async function unlockLocationsBasedOnNumberOfActivities(moduleId, locationId, uid) {
-  console.log(moduleId);
-  console.log(locationId);
-  console.log(uid);
+async function unlockLocationsBasedOnNumberOfActivities(userModule, module, locationId, uid) {
   const fb = helper.getFirebaseApp();
   let db = fb.firestore();
 
-  let moduleRef = db.collection("modules").doc(moduleId);
-  let moduleSnap = await moduleRef.get();
-
-  if (moduleSnap.exists) {
-    let module = moduleSnap.data();
-    module.id = moduleSnap.id;
-
-    let userModuleRef = db.collection('modules').doc(moduleId).collection('players').doc(uid);
-    let userModuleSnap = await userModuleRef.get();
-    if (userModuleSnap.exists) {
-      let userModule = userModuleSnap.data();
-      userModule.id = userModuleSnap.id;
-
-      let queryRef = db.collection("feedback").where("uid", "==", uid).where("moduleId", "==", moduleId).where("locationId", "==", locationId);
-      let querySnap = await queryRef.get();
-      let size = querySnap.size;
-      console.log("size: " + size);
-      if (size >= 3) {
-        let accessLocations = getAccessLocationsFromLocationId(module, locationId);
-        for (let i = 0; i < accessLocations.length; i++) {
-          let accessLocationId = accessLocations[i];
-          if (
-            !userModule.unlockedLocations.includes(accessLocationId)
-          ) {
-            userModule.unlockedLocations.push(accessLocationId);
-            userModule.newUnlockedLocation = true;
-          }
-        }
+  let queryRef = db.collection("feedback").where("uid", "==", uid).where("moduleId", "==", module.id).where("locationId", "==", locationId).limit(3);
+  let querySnap = await queryRef.get();
+  let size = querySnap.size;
+  if (size >= 3) {
+    let accessLocations = getAccessLocationsFromLocationId(module, locationId);
+    for (let i = 0; i < accessLocations.length; i++) {
+      let accessLocationId = accessLocations[i];
+      if (
+        !userModule.unlockedLocations.includes(accessLocationId)
+      ) {
+        userModule.unlockedLocations.push(accessLocationId);
+        userModule.newUnlockedLocation = true;
       }
-
-      userModuleRef.set(userModule);
     }
   }
-
+  return userModule;
 }
+
 
 exports.writeFeedbackDevelopRandom = functions
   .runWith({
@@ -261,9 +205,11 @@ exports.writeFeedbackDevelopRandom = functions
     if (helper.environment === 'development' || helper.environment === 'cypress') {
       await sleep(5000);
     }
+
     const fb = helper.getFirebaseApp();
     let db = fb.firestore();
     const feedbackData = snap.data();
+
 
     // >  {
     // >    feedbackValue: 1, (-0.5, -1)
@@ -286,7 +232,6 @@ exports.writeFeedbackDevelopRandom = functions
         let score = userGoalScoreData.score
         let newScore = score;
         if (feedbackData.feedbackValue === -0.5) {
-          console.log("Too easy");
           // Too easy.
           newScore = score + 1;
           if (newScore > 5) {
@@ -294,7 +239,6 @@ exports.writeFeedbackDevelopRandom = functions
           }
         }
         else if (feedbackData.feedbackValue === 1) {
-          console.log("Just right");
           // Just right.
           newScore = score + 0.2;
           if (newScore > 5) {
@@ -302,7 +246,6 @@ exports.writeFeedbackDevelopRandom = functions
           }
         }
         else if (feedbackData.feedbackValue === -1) {
-          console.log("Too difficult");
           // Too difficult.
           newScore = score - 1;
           if (newScore < 1) {
@@ -312,12 +255,7 @@ exports.writeFeedbackDevelopRandom = functions
         await userGoalScoreSnap.ref.update({ score: newScore });
       }
     }
-
-    await setModuleActivitiesForUid(feedbackData.uid);
-
-    await unlockLocationsBasedOnNumberOfActivities(feedbackData.moduleId, feedbackData.locationId, feedbackData.uid);
-    // Do a query.
-
+    await setModuleActivitiesForUid(feedbackData.uid, true, feedbackData.locationId);
 
     // let uid = feedbackData.uid;
     // let goalId = feedbackData.goalId;
@@ -347,14 +285,14 @@ exports.writeFeedbackDevelopRandom = functions
 // - For every user (maybe even AN)
 // - Make a function that checks all the users
 // - If the user has not 3 activities in a path. Add activities to the path collection from Firebase.
-exports.fillPathWithActivitiesForNewUsers = functions
-  .runWith({
-    minInstances: 1,
-  })
-  .auth.user().onCreate(async (user, eventContext) => {
-    if (helper.environment === 'development' || helper.environment === 'cypress') {
-      await sleep(5000);
-    }
-    await setModuleActivitiesForUid(user.uid);
-    return null;
-  });
+// exports.fillPathWithActivitiesForNewUsers = functions
+//   .runWith({
+//     minInstances: 1,
+//   })
+//   .auth.user().onCreate(async (user, eventContext) => {
+//     if (helper.environment === 'development' || helper.environment === 'cypress') {
+//       await sleep(5000);
+//     }
+//     await setModuleActivitiesForUid(user.uid);
+//     return null;
+//   });

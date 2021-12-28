@@ -1,9 +1,9 @@
-<!-- Create a map -->
 <script>
   import { getStores, session } from "$app/stores";
   import { firebaseStore } from "$lib/Firebase/store";
   let firebase;
   let mapCreated = false;
+  let ready = false;
 
   function getMapData() {
     let mapData = {
@@ -17,22 +17,22 @@
           goals: [],
           id: "z0ub6",
           isStartLocation: true,
-          markerPositionX: "200",
-          markerPositionY: "200",
+          markerPositionX: "400",
+          markerPositionY: "400",
           name: "Start",
-          textPositionX: "100",
-          textPositionY: "100",
+          textPositionX: "400",
+          textPositionY: "450",
         },
         {
           id: "1cjn3",
           accessLocations: [],
           goals: [],
           isStartLocation: false,
-          markerPositionX: "300",
-          markerPositionY: "300",
+          markerPositionX: "500",
+          markerPositionY: "650",
           name: "Location 1",
-          textPositionX: "400",
-          textPositionY: "400",
+          textPositionX: "500",
+          textPositionY: "700",
         },
       ],
       paths: [
@@ -40,7 +40,8 @@
           endLocation: "1cjn3",
           endLocationIndex: 1,
           endLocationName: "Location1",
-          points: '[["200","200"],["300","300"]]',
+          // Be carefull with X and Y it should be stored as [y, x]!
+          points: '[["400","400"],["650", "500"]]',
           startLocation: "z0ub6",
           startLocationName: "Start",
         },
@@ -59,12 +60,12 @@
         !$session.user.isAnonymous &&
         !mapCreated
       ) {
-        console.log("only once?");
         mapCreated = true;
         let db = await firebase.firestore();
 
         try {
           await db.collection("maps").doc("map1").set(getMapData());
+          ready = true;
         } catch (e) {
           console.log(e);
         }
@@ -73,4 +74,9 @@
   })();
 </script>
 
-Hello world!
+Creating a new map <br />
+
+{#if ready}
+<div data-test="complete">
+  Map successfully created!</div>
+{/if}

@@ -22,8 +22,9 @@
       userModule
     );
     if (filteredActivities.length === 0) {
+      console.log(timer);
       if (timer == null) {
-        timer = setTimeout(async () => {
+        timer = setInterval(async () => {
           userModule = await getUserModule(
             firebase,
             module.id,

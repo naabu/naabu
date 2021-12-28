@@ -71,6 +71,7 @@
       tooltip.addTo(leafletMap);
 
       for (let i = 0; i < map.locations.length; i++) {
+        console.log(map.locations[i]); 
         let location = map.locations[i];
         let unlockedLocation = false;
         if (
@@ -83,7 +84,10 @@
         let textLocationX = location.textPositionX;
         let textLocationY = location.textPositionY;
         let markerLocationX = location.markerPositionX;
-        let marketLocationY = location.markerPositionY;
+        let markerLocationY = location.markerPositionY;
+        console.log(markerLocationX);
+        console.log(markerLocationY);
+        
 
         let tooltip3 = L.tooltip({
           direction: "center",
@@ -115,6 +119,8 @@
           let path = map.paths[i2];
           if (userMap && userMap.unlockedLocations.includes(path.endLocation)) {
             // let parsedPoints = JSON.parse(path.points);
+            console.log(path);
+            path.points[1] = [650, 500];
             let parsedPoints = path.points;
             let polyline = L.polyline(parsedPoints, {
               color: "#EB7B02",
@@ -134,7 +140,7 @@
             // iconAnchor: [12, 12],
             iconSize: [36, 36],
           });
-          let outerCircle = L.circle([marketLocationY, markerLocationX], 18, {
+          let outerCircle = L.circle([markerLocationY, markerLocationX], 18, {
             color: "#707070",
             weight: 1,
             opacity: 1,
@@ -142,7 +148,7 @@
             fillOpacity: 1,
             className: "unlocked_marker_" + i,
           });
-          let innerCircle = L.circle([marketLocationY, markerLocationX], 5, {
+          let innerCircle = L.circle([markerLocationY, markerLocationX], 5, {
             color: "#707070",
             weight: 1,
             opacity: 1,
@@ -161,7 +167,7 @@
           innerCircle.addTo(leafletMap);
           // outerCircle._icon.classList.add("className");
         } else {
-          let outerCircle = L.circle([marketLocationY, markerLocationX], 18, {
+          let outerCircle = L.circle([markerLocationY, markerLocationX], 18, {
             color: "#707070",
             weight: 1,
             opacity: 1,
@@ -170,7 +176,7 @@
             fillOpacity: 1,
             className: "locked_marker_" + i,
           });
-          let innerCircle = L.circle([marketLocationY, markerLocationX], 5, {
+          let innerCircle = L.circle([markerLocationY, markerLocationX], 5, {
             color: "#707070",
             weight: 1,
             opacity: 1,

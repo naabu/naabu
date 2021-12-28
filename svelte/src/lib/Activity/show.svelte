@@ -132,7 +132,7 @@
         iframe = document.querySelector("#vimeoVideo iframe");
         iframe.setAttribute("data-cy", "vimeo-iframe");
 
-        setInterval(checkTime, 50);
+        setInterval(checkTime, 10);
 
         player.on("play", function (data) {
           endVideoInSeconds = data.duration - 7;
@@ -323,7 +323,8 @@
                     class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap"
                   >
                     <div class="ml-4 mt-4">
-                      <h3 class="text-lg leading-6 font-medium text-gray-900">
+                      <h3 data-test="quiz-question"
+                      class="text-lg leading-6 font-medium text-gray-900">
                         {@html renderKatexOutput(activeQuiz.question)}
                       </h3>
                       <p class="mt-1 text-sm ">

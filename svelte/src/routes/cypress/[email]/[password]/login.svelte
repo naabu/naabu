@@ -30,6 +30,6 @@
 {#if $session.environment === "cypress" || $session.environment === "development"}
   Great success! Now login!
   {#if $session.user && !$session.user.isAnonymous}
-    Login complete
+    <div data-test="complete">Login complete</div>
   {/if}
 {/if}

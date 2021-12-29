@@ -9,6 +9,7 @@
       firebase = $firebaseStore;
       if (
         ($session.environment === "cypress" ||
+        $session.environment === "test"||
           $session.environment === "development") &&
         $session.user &&
         !$session.user.isAnonymous
@@ -19,7 +20,7 @@
   })();
 </script>
 
-{#if $session.environment === "cypress" || $session.environment === "development"}
+{#if $session.environment === "cypress" || $session.environment === "test" || $session.environment === "development"}
   Logging out current user <br />
   {#if $session.user && $session.user.isAnonymous}
   <div data-test="complete">Logout complete</div> 

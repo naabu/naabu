@@ -1,5 +1,5 @@
 <script>
-  import { getStores, session } from "$app/stores";
+  import { getStores, session, page } from "$app/stores";
   import { firebaseStore } from "$lib/Firebase/store";
   import { onMount, getContext } from "svelte";
   import Header from "$lib/Header/index.svelte";
@@ -10,6 +10,8 @@
   let user = null;
   let player = null;
   let firebase;
+
+  $: console.log($page.path);
 
   function handleLoginEvent(event) {
     firebase = $firebaseStore;

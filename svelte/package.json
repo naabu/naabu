@@ -12,7 +12,8 @@
     "deploy": "bash scripts/deploy.sh",
     "emulate": "node scripts/generateConfig.js; firebase emulators:start  --import=./data/.devdata --export-on-exit --only auth,functions,firestore,pubsub",
     "emulateCypress": "node scripts/generateConfig.js; firebase emulators:start --only auth,functions,firestore,pubsub",
-    "test-setup": "export GOOGLE_APPLICATION_CREDENTIALS=/var/www/svelte/adminkey.json; firebase emulators:start --config=\"./firebase.test.json\""
+    "test-setup": "export GOOGLE_APPLICATION_CREDENTIALS=/var/www/svelte/adminkey.json; firebase emulators:start --config=\"./firebase.test.json\"",
+    "playwright": "npx playwright test playwright"
   },
   "devDependencies": {
     "@playwright/test": "^1.17.1",

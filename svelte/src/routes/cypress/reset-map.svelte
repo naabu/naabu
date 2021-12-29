@@ -25,6 +25,7 @@
     if (
       mounted &&
       ($session.environment === "cypress" ||
+      $session.environment === "test" ||
         $session.environment === "development") &&
       $session.player
     ) {
@@ -41,7 +42,7 @@
   })();
 </script>
 
-{#if $session.environment === "cypress" || $session.environment === "development"}
+{#if $session.environment === "cypress" || $session.environment === "test" || $session.environment === "development"}
   Now deleting the user map!
   {#if playerMapDeleted}
     <div data-test="complete">Player map is deleted!</div>

@@ -7,7 +7,7 @@ services:
       dockerfile: dockerfiles/sveltekit/dev/Dockerfile
     entrypoint: ["npm", "run", "dev"]
     environment:
-      - environment=cypress
+      - environment=test
       - algoliaApp=6868GHOPYM
     ports:
       - 3000:3000
@@ -23,6 +23,8 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/sveltekit/dev/Dockerfile
+    environment:
+      - algoliaApp=6868GHOPYM
     entrypoint: ["npm", "run", "emulateCypress"]
     ports:
       - 5001:5001
@@ -36,14 +38,13 @@ services:
     networks:
       - internal_network
 
-  cypress:
+  playwright:
     build:
       context: .
-      dockerfile: dockerfiles/cypress/Dockerfile
-    env_file:
-      - functional-tests/.env
+      dockerfile: dockerfiles/sveltekit/dev/Dockerfile
     networks:
       - internal_network
+
 secrets:
   algolia-private-api-key:
     file: ./config/secret-algolia-key.txt  

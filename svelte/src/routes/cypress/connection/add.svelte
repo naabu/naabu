@@ -45,6 +45,7 @@
       firebase = $firebaseStore;
       if (
         ($session.environment === "cypress" ||
+        $session.environment === "test" ||
           $session.environment === "development") &&
         $session.user &&
         !$session.user.isAnonymous &&

@@ -8,7 +8,10 @@ WORKDIR /var/www/svelte/functions
 USER node
 RUN npm ci
 WORKDIR /var/www/svelte/
-RUN npm ci
+RUN npm ci;
+USER root
+RUN npx playwright install;\
+  npx playwright install chrome;
 EXPOSE 3000
 ENV PATH /var/www/svelte/node_modules/.bin:$PATH
 CMD ["tail", "-f", "/dev/null"]

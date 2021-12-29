@@ -49,7 +49,8 @@
         await fb.firestore().useEmulator("localhost", 5012);
       }
     }
-    if ($session.environment === "cypress") {
+
+    if ($session.environment === "jenkins" || $session.environment === "test") {
       if (!fb.auth().emulatorConfig) {
         await fb.auth().useEmulator("http://firebase:5010");
       }

@@ -11,9 +11,6 @@ exports.updateUserModuleWhenModuleChanges = functions
   })
   .firestore.document('modules/{moduleId}')
   .onUpdate(async (change, context) => {
-    if (helper.environment === 'development' || helper.environment === 'cypress') {
-      await sleep(5000);
-    }
     const fb = helper.getFirebaseApp();
     let db = fb.firestore();
     let moduleId = context.params.moduleId;
@@ -40,7 +37,7 @@ exports.onModulePlayerCreated = functions
   .firestore.document('modules/{moduleId}/players/{playerId}')
   .onCreate(async (snapshot, context) => {
 
-    if (helper.environment === 'development' || helper.environment === 'cypress') {
+    if (helper.environment === 'development' || helper.environment === 'cypress' ||  helper.environment === 'test') {
       await sleep(5000);
     }
     const fb = helper.getFirebaseApp();
@@ -202,7 +199,7 @@ exports.writeFeedbackDevelopRandom = functions
   })
   .firestore.document('feedback/{feedbackId}')
   .onCreate(async (snap, context) => {
-    if (helper.environment === 'development' || helper.environment === 'cypress') {
+    if (helper.environment === 'development' || helper.environment === 'cypress' || helper.environment === 'test') {
       await sleep(5000);
     }
 

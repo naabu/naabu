@@ -8,14 +8,6 @@
   let resetFeedback = false;
   let resetUserGoalScore = false;
 
-  $: if (oldUser) {
-    console.log(oldUser.uid);
-  }
-
-  $: if ($session.user) {
-    console.log($session.user.uid);
-  }
-
   $: if ($session.user && $session.user.uid && oldUser == null && auth) {
     oldUser = $session.user;
     let email = $page.params.email;

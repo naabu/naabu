@@ -81,6 +81,7 @@
   $: (async () => {
     if (
       ($session.environment === "cypress" ||
+      $session.environment === "test" ||
         $session.environment === "development") &&
       db &&
       $session.player &&
@@ -100,7 +101,7 @@
   })();
 </script>
 
-{#if $session.environment === "cypress" || $session.environment === "development"}
+{#if $session.environment === "cypress" || $session.environment === "test" || $session.environment === "development"}
   Now setting up the learning goals
   {@html feedbackstring}
 

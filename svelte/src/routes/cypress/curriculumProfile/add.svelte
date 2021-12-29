@@ -40,6 +40,7 @@
   $: (async () => {
     if (
       ($session.environment === "cypress" ||
+      $session.environment === "test" ||
         $session.environment === "development") &&
       db &&
       $session.player &&
@@ -61,8 +62,8 @@
   })();
 </script>
 
-{#if $session.environment === "cypress" || $session.environment === "development"}
-  Now setting up the curriciulmProfile
+{#if $session.environment === "cypress" || $session.environment === "test" || $session.environment === "development"}
+  Now setting up the curriculumProfile
   {@html feedbackstring}
 
   {#if ready}

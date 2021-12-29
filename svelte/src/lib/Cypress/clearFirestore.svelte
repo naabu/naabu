@@ -94,6 +94,7 @@
   $: (async () => {
     if (
       ($session.environment === "cypress" ||
+        $session.environment === "test" ||
         $session.environment === "development") &&
       db &&
       $session.player &&
@@ -117,7 +118,7 @@
   })();
 </script>
 
-{#if $session.environment === "cypress" || $session.environment === "development"}
+{#if $session.environment === "cypress" || $session.environment === "test" || $session.environment === "development"}
   Now cleaning up the {collection}.
   {@html feedbackstring}
 

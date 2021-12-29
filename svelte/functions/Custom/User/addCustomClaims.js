@@ -1,13 +1,13 @@
 const functions = require('firebase-functions');
 const helper = require('../helper');
 
-if (helper.environment === 'development' || helper.environment === 'cypress') {
+if (helper.environment === 'development' || helper.environment === 'cypress' || helper.environment === 'test') {
   exports.addClaimsBasedOnUsername = functions
     .runWith({
       minInstances: 1,
     })
     .auth.user().onCreate(async (user, eventContext) => {
-      if (helper.environment === 'development' || helper.environment === 'cypress') {
+      if (helper.environment === 'development' || helper.environment === 'cypress' || helper.environment === 'test') {
         console.log(user);
         const fb = helper.getFirebaseApp();
         const auth = fb.auth();

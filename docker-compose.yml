@@ -8,10 +8,8 @@ services:
     volumes:
       - ./:/var/www/
     environment:
-      - environment=cypress
+      - environment=development
       - algoliaApp=6868GHOPYM
-    secrets:
-      - algolia-private-api-key
     ports:
       - 3000:3000
       - 3001:3001
@@ -19,10 +17,55 @@ services:
       - 9229:9229
       - 24678:24678
       - 9005:9005
-      - 5000-5030:5000-5030
-      - 4500:4500
     networks:
       - internal_network
+
+  firebase:
+    build:
+      context: .
+      dockerfile: dockerfiles/sveltekit/dev/Dockerfile
+    volumes:
+      - ./:/var/www/
+    environment:
+      - algoliaApp=6868GHOPYM
+    # entrypoint: ["npm", "run", "emulateCypress"]
+    ports:
+      - 5001:5001
+      - 5010:5010
+      - 5012:5012
+      - 5014:5014
+      - 4500:4500
+      - 4400:4400
+    secrets:
+      - algolia-private-api-key
+    networks:
+      - internal_network
+
+  sveltekit-test:
+    build:
+      context: .
+      dockerfile: dockerfiles/sveltekit/dev/Dockerfile
+    entrypoint: ["npm", "run", "dev"]
+    volumes:
+      - ./:/var/www/
+    environment:
+      - environment=test
+      - algoliaApp=6868GHOPYM
+    ports:
+      - 3009:3000
+    networks:
+      - internal_network
+
+  playwright:
+    build:
+      context: .
+      dockerfile: dockerfiles/sveltekit/dev/Dockerfile
+    volumes:
+      - ./:/var/www/
+    networks:
+      - internal_network
+  
+
 secrets:
   algolia-private-api-key:
     file: ./config/secret-algolia-key.txt

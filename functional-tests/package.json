@@ -4,11 +4,13 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "cypress": "^8.3.1",
-    "cypress-cucumber-preprocessor": "^4.2.0",
+    "cypress": "^8.7.0",
+    "cypress-cucumber-preprocessor": "^4.3.1",
     "url": "^0.11.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@playwright/test": "^1.17.1"
+  },
   "scripts": {
     "test": " ./node_modules/.bin/cypress run --record --spec ./cypress/integration/3-custom/unlock-locations.js"
   },

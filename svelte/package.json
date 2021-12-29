@@ -11,10 +11,11 @@
     "addUserClaims": "export GOOGLE_APPLICATION_CREDENTIALS=/var/www/svelte/adminkey.json; node scripts/addUserClaims.js",
     "deploy": "bash scripts/deploy.sh",
     "emulate": "node scripts/generateConfig.js; firebase emulators:start  --import=./data/.devdata --export-on-exit --only auth,functions,firestore,pubsub",
-    "emulateCypress": "node scripts/generateConfig.js; firebase emulators:start  --import=./data/.cypressdata --export-on-exit --only auth,functions,firestore,pubsub",
+    "emulateCypress": "node scripts/generateConfig.js; firebase emulators:start --only auth,functions,firestore,pubsub",
     "test-setup": "export GOOGLE_APPLICATION_CREDENTIALS=/var/www/svelte/adminkey.json; firebase emulators:start --config=\"./firebase.test.json\""
   },
   "devDependencies": {
+    "@playwright/test": "^1.17.1",
     "@sveltejs/kit": "1.0.0-next.180",
     "autoprefixer": "^10.4.0",
     "cssnano": "^5.0.10",

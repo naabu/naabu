@@ -11,7 +11,7 @@ service cloud.firestore {
     match /goals/{goalsId} {
       allow read: if true
       // allow write: if (request.auth.token.curriculumProfileId is string)
-      allow delete: if true
+      // allow delete: if true
       allow write: if get(/databases/$(database)/documents/players/$(request.auth.uid)).data.curriculumProfileId is string
       match /prerequisites/{prerequisiteId} {
         allow read, write, delete: if true
@@ -139,8 +139,13 @@ service cloud.firestore {
 
     match /feedback/{feedbackId} {
       allow create: if (!("canDebugDevelopment" in request.resource.data) || !("canModerate" in request.resource.data))
-      allow read: if (request.auth.token.canModerate)
+      allow read, delete: if (request.auth.token.canModerate)
     }
+
+    match /userGoalScore/{userGoalScoreId} {
+      allow read, delete: if (request.auth.token.canModerate)
+    }
+
     match /battleResult/{battleResultId} {
       allow create: if (!("canDebugDevelopment" in request.resource.data) || !("canModerate" in request.resource.data))
       allow read: if (request.auth.token.canModerate)

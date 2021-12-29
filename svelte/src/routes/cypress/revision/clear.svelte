@@ -2,4 +2,4 @@
   import ClearHelper from "$lib/Cypress/clearFirestore.svelte";
 </script>
 
-<ClearHelper collection="maps" />
+<ClearHelper collection="revisions" />

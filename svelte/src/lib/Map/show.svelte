@@ -71,7 +71,6 @@
       tooltip.addTo(leafletMap);
 
       for (let i = 0; i < map.locations.length; i++) {
-        console.log(map.locations[i]); 
         let location = map.locations[i];
         let unlockedLocation = false;
         if (
@@ -84,10 +83,7 @@
         let textLocationX = location.textPositionX;
         let textLocationY = location.textPositionY;
         let markerLocationX = location.markerPositionX;
-        let markerLocationY = location.markerPositionY;
-        console.log(markerLocationX);
-        console.log(markerLocationY);
-        
+        let markerLocationY = location.markerPositionY;        
 
         let tooltip3 = L.tooltip({
           direction: "center",
@@ -118,9 +114,6 @@
         for (let i2 = 0; i2 < map.paths.length; i2++) {
           let path = map.paths[i2];
           if (userMap && userMap.unlockedLocations.includes(path.endLocation)) {
-            // let parsedPoints = JSON.parse(path.points);
-            console.log(path);
-            path.points[1] = [650, 500];
             let parsedPoints = path.points;
             let polyline = L.polyline(parsedPoints, {
               color: "#EB7B02",
@@ -154,6 +147,7 @@
             opacity: 1,
             fillColor: "#7D92FF",
             fillOpacity: 1,
+            className: "unlocked_marker_"+ i +"-inner",
           });
           outerCircle.on("click", function () {
             goToLocation(location);

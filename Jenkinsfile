@@ -16,14 +16,14 @@ pipeline {
                 sh 'printenv'
                 sh 'rm -rf svelte/node_modules'
                 sh 'echo $ALGOLIA_KEY >> config/secret-algolia-key.txt'
-                sh 'docker-compose -f cypress-docker-compose.yml build'
-                sh 'docker-compose -f cypress-docker-compose.yml up -d'
+                sh 'docker-compose -f jenkins-docker-compose.yml build'
+                sh 'docker-compose -f jenkins-docker-compose.yml up -d'
                 // sh 'docker-compose -f cypress-docker-compose.yml exec -T -u node sveltekit printenv'
                 // sh 'docker-compose -f cypress-docker-compose.yml exec -T -d -u node sveltekit npm run dev'
                 // sh 'docker-compose -f cypress-docker-compose.yml exec -T -d -u node sveltekit npm run emulate'
                 sleep 60 
-                sh 'docker-compose -f cypress-docker-compose.yml logs sveltekit'
-                sh 'docker-compose -f cypress-docker-compose.yml logs firebase'
+                sh 'docker-compose -f jenkins-docker-compose.yml logs sveltekit'
+                sh 'docker-compose -f jenkins-docker-compose.yml logs firebase'
             }
         }
         stage('Test') {
@@ -38,7 +38,7 @@ pipeline {
             steps {
               echo 'Cypress tests'
               // sh 'docker-compose -f cypress-docker-compose.yml exec -T cypress npm ci'
-              sh "docker-compose -f cypress-docker-compose.yml exec -T cypress npm run test"
+              sh "docker-compose -f jenkins-docker-compose.yml exec -T cypress npm run test"
             }
         }
         stage('Push') {

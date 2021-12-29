@@ -22,7 +22,7 @@ pipeline {
                 // sh 'docker-compose -f cypress-docker-compose.yml exec -T -d -u node sveltekit npm run dev'
                 // sh 'docker-compose -f cypress-docker-compose.yml exec -T -d -u node sveltekit npm run emulate'
                 sleep 60 
-                sh 'docker-compose -f jenkins-docker-compose.yml logs sveltekit-kit'
+                sh 'docker-compose -f jenkins-docker-compose.yml logs sveltekit-test'
                 sh 'docker-compose -f jenkins-docker-compose.yml logs firebase'
             }
         }

@@ -1,7 +1,7 @@
 version: "3"
 
 services:
-  sveltekit:
+  sveltekit-test:
     build:
       context: .
       dockerfile: dockerfiles/sveltekit/dev/Dockerfile

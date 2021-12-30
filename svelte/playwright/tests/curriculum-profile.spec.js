@@ -40,7 +40,7 @@ test('Test flow for creating and editing learning goals', async ({ page, domain,
   ]);
   await popup.waitForLoadState();
   console.log(await popup.title());
-  await expect(page.locator('#linkGoogleButton')).not.toBeVisible();
+ 
   console.log("continue!");
 
   // page.click('#linkGoogleButton')
@@ -48,8 +48,7 @@ test('Test flow for creating and editing learning goals', async ({ page, domain,
   await popup.click('#add-account-button');
   await popup.click('#autogen-button');
   await popup.click('#sign-in');
-  await popup.close();
-
+  await expect(page.locator('#linkGoogleButton')).not.toBeVisible();
   // Fil in curriculum profile.
   await page.fill('#fullname', 'John Doe');
   await page.fill('#institution', 'University of Logic');

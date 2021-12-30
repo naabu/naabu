@@ -1,54 +1,66 @@
-import { test, expect } from '@playwright/test';
+import base from '@playwright/test';
 
-test.afterEach(async ({ page }, testInfo) => {
-  await page.goto('http://sveltekit-test:3000/cypress/usermodule/clear');
+export const test = base.extend({
+  domain: 'http://localhost:3000',
+  showAllConsole: false
+});
+
+const expect = base.expect;
+
+test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {
+  page.on("console", (message) => {
+    if (message.type() === "error" || showAllConsole) {
+      console.log(message.text());
+    }
+  })
+  await page.goto(domain + '/cypress/usermodule/clear');
   await page.waitForSelector('[data-test=complete]');
-  await page.goto('http://sveltekit-test:3000/cypress/feedbackAndScores/deletegoalscanmoderate@example.com/password/clear');
+  await page.goto(domain + '/cypress/feedbackAndScores/deletegoalscanmoderate@example.com/password/clear');
   await page.waitForSelector('[data-test=complete]');
-  await page.goto('http://sveltekit-test:3000/cypress/usermodule/clear');
+  await page.goto(domain + '/cypress/usermodule/clear');
   await page.waitForSelector('[data-test=complete]');
-  await page.goto('http://sveltekit-test:3000/cypress/module/clear');
+  await page.goto(domain + '/cypress/module/clear');
   await page.waitForSelector('[data-test=complete]');
-  await page.goto('http://sveltekit-test:3000/cypress/map/clear');
+  await page.goto(domain + '/cypress/map/clear');
   await page.waitForSelector('[data-test=complete]');
-  await page.goto('http://sveltekit-test:3000/cypress/connection/clear');
+  await page.goto(domain + '/cypress/connection/clear');
   await page.waitForSelector('[data-test=complete]');
-  await page.goto('http://sveltekit-test:3000/cypress/activity/clear');
+  await page.goto(domain + '/cypress/activity/clear');
   await page.waitForSelector('[data-test=complete]');
-  await page.goto('http://sveltekit-test:3000/cypress/revision/clear');
+  await page.goto(domain + '/cypress/revision/clear');
   await page.waitForSelector('[data-test=complete]');
-  await page.goto('http://sveltekit-test:3000/cypress/goal/clear');
+  await page.goto(domain + '/cypress/goal/clear');
   await page.waitForSelector('[data-test=complete]');
-  await page.goto('http://sveltekit-test:3000/cypress/player/clear');
+  await page.goto(domain + '/cypress/player/clear');
   await page.waitForSelector('[data-test=complete]');
-  await page.goto('http://sveltekit-test:3000/cypress/curriculumProfile/clear');
+  await page.goto(domain + '/cypress/curriculumProfile/clear');
   await page.waitForSelector('[data-test=complete]');
-  await page.goto('http://sveltekit-test:3000/cypress/user/deletegoalscanmoderate@example.com/clear');
+  await page.goto(domain + '/cypress/user/deletegoalscanmoderate@example.com/clear');
   await page.waitForSelector('[data-test=complete]');
 });
 
-test('Unlock location on map test', async ({ page }) => {
+test('Unlock location on map test', async ({ page, domain, showAllConsole }) => {
   page.on("console", (message) => {
-    // if (message.type() === "error") {
+    if (message.type() === "error" || showAllConsole) {
       console.log(message.text());
-    // }
+    }
   })
 
-  await page.goto('http://sveltekit-test:3000/cypress/user/deletegoalscanmoderate@example.com/password/login');
+  await page.goto(domain + '/cypress/user/deletegoalscanmoderate@example.com/password/login');
   await page.waitForSelector('[data-test=complete]');
-  await page.goto('http://sveltekit-test:3000/cypress/curriculumProfile/add');
+  await page.goto(domain + '/cypress/curriculumProfile/add');
   await page.waitForSelector('[data-test=complete]');
-  await page.goto('http://sveltekit-test:3000/cypress/goal/add');
+  await page.goto(domain + '/cypress/goal/add');
   await page.waitForSelector('[data-test=complete]');
-  await page.goto('http://sveltekit-test:3000/cypress/activity/add');
+  await page.goto(domain + '/cypress/activity/add');
   await page.waitForSelector('[data-test=complete]');
-  await page.goto('http://sveltekit-test:3000/cypress/connection/add');
+  await page.goto(domain + '/cypress/connection/add');
   await page.waitForSelector('[data-test=complete]');
-  await page.goto('http://sveltekit-test:3000/cypress/map/add');
+  await page.goto(domain + '/cypress/map/add');
   await page.waitForSelector('[data-test=complete]');
-  await page.goto('http://sveltekit-test:3000/cypress/module/add');
+  await page.goto(domain + '/cypress/module/add');
   await page.waitForSelector('[data-test=complete]');
-  await page.goto('http://sveltekit-test:3000/cypress/user/logout');
+  await page.goto(domain + '/cypress/user/logout');
   await page.waitForSelector('[data-test=complete]');
   await page.locator('[data-cy=desktop-logo]').click();
   await page.locator('[data-cy=module-0-title-link]').click();

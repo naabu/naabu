@@ -2,20 +2,58 @@
 // @ts-check
 import { devices } from '@playwright/test';
 
-/** @type {import('@playwright/test').PlaywrightTestConfig} */
+/** @type {import('@playwright/test').PlaywrightTestConfig<{ domain: string, showAllConsole: boolean }>} */
 const config = {
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   timeout: 180000,
   use: {
     // video: 'on',
-    trace: 'on-first-retry',
-    channel: 'chrome',
-    launchOptions: {
-      // slowMo: 4000,
-      // args: ["--disable-gpu"]
-    }
+    trace: 'on-first-retry'
   },
+  projects: [
+    {
+      name: 'localhost',
+      use: {
+         channel: 'chrome',
+         domain: "http://localhost:3000",
+         showAllConsole: false,
+         launchOptions: {
+            headless: false,
+            devtools: true,
+         }
+      },
+    },
+    {
+      name: 'docker',
+      use: {
+         channel: 'chrome',
+         domain: 'http://sveltekit-test:3000',
+         showAllConsole: true,
+         launchOptions: {
+          headless: true
+         }
+      },
+    }
+    // {
+    //   name: 'firefox',
+    //   use: { ...devices['Desktop Firefox'] },
+    // },
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] },
+    // },
+  ],
+
+  // use: {
+  //   // video: 'on',
+  //   trace: 'on-first-retry',
+  //   channel: 'chrome',
+  //   launchOptions: {
+  //     // slowMo: 4000,
+  //     // args: ["--disable-gpu"]
+  //   }
+  // },
 };
   // projects: [
   //   {

@@ -20,9 +20,13 @@ const expect = base.expect;
 test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {
   printMessages(page, showAllConsole);
   console.log("trying to delete the user");
+  await page.goto(domain + '/cypress/user/logout');
+  await page.waitForSelector('[data-test=complete]');
+  await page.goto(domain + '/cypress/user/deletegoalsnoprofile@example.com/password/login');
+  await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/revision/clear');
   await page.waitForSelector('[data-test=complete]');
-  await page.goto(domain + '/cypress/goal/clear');
+  await page.goto(domain + '/cypress/goal/Ik kan subject 1 benoemen en definieren from a work sheet/clear');
   await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/player/clear');
   await page.waitForSelector('[data-test=complete]');

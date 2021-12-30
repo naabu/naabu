@@ -20,7 +20,7 @@ const config = {
          showAllConsole: false,
          launchOptions: {
             headless: false,
-            devtools: true,
+            devtools: false,
          }
       },
     },

@@ -40,6 +40,8 @@ test('Test flow for creating and editing learning goals', async ({ page, domain,
   ]);
   await popup.waitForLoadState();
   console.log(await popup.title());
+  await expect(page.locator('#linkGoogleButton')).not.toBeVisible();
+  console.log("continue!");
 
   // page.click('#linkGoogleButton')
   // let page1 = await page.waitForEvent('popup');

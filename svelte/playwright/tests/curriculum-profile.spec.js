@@ -34,20 +34,19 @@ test('Test flow for creating and editing learning goals', async ({ page, domain,
   await page.click('[data-test=create-curriculum-profile-message]');
   
   // Login with Google firebase emulator.
-  const [popup] = await Promise.all([
-    page.waitForEvent('popup'),
-    page.click('#linkGoogleButton')
-  ]);
-  await popup.waitForLoadState();
-  console.log(await popup.title());
- 
-  console.log("continue!");
-
-  // page.click('#linkGoogleButton')
-  // let page1 = await page.waitForEvent('popup');
-  await popup.click('#add-account-button');
-  await popup.click('#autogen-button');
-  await popup.click('#sign-in');
+  await page.goto(domain + '/cypress/user/deletegoalsnoprofile2@example.com/password/login');
+  await page.waitForSelector('[data-test=complete]');
+  await page.click('[data-cy=curriculum-menu]');
+  await page.click('[data-cy=create-goal-link]');
+  await page.click('[data-test=create-curriculum-profile-message]');
+  // const [popup] = await Promise.all([
+  //   page.waitForEvent('popup'),
+  //   page.click('#linkGoogleButton')
+  // ]);
+  // await popup.waitForLoadState();
+  // await popup.click('#add-account-button');
+  // await popup.click('#autogen-button');
+  // await popup.click('#sign-in');
   await expect(page.locator('#linkGoogleButton')).not.toBeVisible();
   // Fil in curriculum profile.
   await page.fill('#fullname', 'John Doe');

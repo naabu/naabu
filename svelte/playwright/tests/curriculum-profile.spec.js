@@ -34,12 +34,19 @@ test('Test flow for creating and editing learning goals', async ({ page, domain,
   await page.click('[data-test=create-curriculum-profile-message]');
   
   // Login with Google firebase emulator.
-  page.click('#linkGoogleButton')
-  let page1 = await page.waitForEvent('popup');
-  await page1.click('#add-account-button');
-  await page1.click('#autogen-button');
-  await page1.click('#sign-in');
-  await page1.close();
+  const [popup] = await Promise.all([
+    page.waitForEvent('popup'),
+    page.click('#linkGoogleButton')
+  ]);
+  await popup.waitForLoadState();
+  console.log(await popup.title());
+
+  // page.click('#linkGoogleButton')
+  // let page1 = await page.waitForEvent('popup');
+  await popup.click('#add-account-button');
+  await popup.click('#autogen-button');
+  await popup.click('#sign-in');
+  await popup.close();
 
   // Fil in curriculum profile.
   await page.fill('#fullname', 'John Doe');

@@ -52,7 +52,7 @@ pipeline {
     }
     post {
         always {
-            sh 'docker-compose -f cypress-docker-compose.yml down'
+            sh 'docker-compose -f jenkins-docker-compose.yml down'
         }
     }
 }

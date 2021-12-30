@@ -4,6 +4,7 @@ public
 
 #keys
 adminkey.json
+functions/.runtimeconfig.json
 
 # Logs
 logs

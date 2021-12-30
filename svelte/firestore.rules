@@ -12,7 +12,8 @@ service cloud.firestore {
       allow read: if true
       // allow write: if (request.auth.token.curriculumProfileId is string)
       // allow delete: if true
-      allow write: if get(/databases/$(database)/documents/players/$(request.auth.uid)).data.curriculumProfileId is string
+      allow create, update: if get(/databases/$(database)/documents/players/$(request.auth.uid)).data.curriculumProfileId is string
+      allow delete: if (request.auth.token.canDeleteGoals)
       match /prerequisites/{prerequisiteId} {
         allow read, write, delete: if true
 

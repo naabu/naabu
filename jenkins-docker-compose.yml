@@ -25,6 +25,7 @@ services:
       dockerfile: dockerfiles/sveltekit/dev/Dockerfile
     environment:
       - algoliaApp=6868GHOPYM
+      - environment=test
     entrypoint: ["npm", "run", "emulateCypress"]
     ports:
       - 5001:5001

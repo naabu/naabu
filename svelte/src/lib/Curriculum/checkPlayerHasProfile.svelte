@@ -44,6 +44,7 @@
         <p class="text-sm text-yellow-700">
           Geen curriculum profiel gevonden
           <a
+            data-test="create-curriculum-profile-message"
             href="/curriculum-profiel/maken?redirect={$page.path}"
             class="font-medium underline text-yellow-700 hover:text-yellow-600"
           >

@@ -10,8 +10,12 @@
   export let ids;
   export let checkAnon = true;
   export let uid = null;
+  export let titleCheck = false;
+  export let title = null;
   let firebase;
   export let resetDone = false;
+
+  $: console.log(resetDone);
   export let showComplete = true;
   let mounted = false;
   let db;
@@ -33,6 +37,11 @@
           clearCollection = db
             .collection(collection)
             .where(firebase.firestore.FieldPath.documentId(), "in", ids);
+        }
+        if (titleCheck && title !== null) {
+          clearCollection = db
+            .collection(collection)
+            .where("title", "==", title);
         }
 
         // clearCollection = db.collection("modules").where("authorId", "==", $session.user.uid);

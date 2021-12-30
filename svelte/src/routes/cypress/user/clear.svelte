@@ -14,16 +14,7 @@
         $session.user &&
         !$session.user.isAnonymous
       ) {
-        let email = $page.params.email;
-        console.log(email);
-        console.log($session.user.email);
-        if ($session.user.email === email) {
-          await firebase.auth().currentUser.delete();
-        }
-        else {
-          console.error("trying to delete a wrong user");
-          console.error("to fix: log in as the correct user");
-        }
+        await firebase.auth().currentUser.delete();
       }
     }
   })();

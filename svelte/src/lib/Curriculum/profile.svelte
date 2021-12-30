@@ -1,7 +1,7 @@
 <script>
   import { goto } from "$app/navigation";
   import RevisionList from "./revisionList.svelte";
-  import PostList from  "./postList.svelte";
+  import PostList from "./postList.svelte";
   import CurriculumTabs from "$lib/Tabs/curriculum.svelte";
 
   export let curriculumProfile;
@@ -18,7 +18,7 @@
 
 {#if curriculumProfile}
   <CurriculumTabs bind:curriculumProfile bind:isOwnProfile />
-  <div class="flex justify-between items-start">
+  <div data-test="profile-view" class="flex justify-between items-start">
     <div class="mt-3">
       <div>Volledige naam: {curriculumProfile.fullname}</div>
       <div>Instutie: {curriculumProfile.institution}</div>
@@ -30,5 +30,4 @@
   <RevisionList bind:curriculumProfile />
 
   <PostList bind:curriculumProfile />
-
 {/if}

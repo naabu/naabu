@@ -43,6 +43,8 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/sveltekit/dev/Dockerfile
+    volumes:
+      - ./test-results/:/var/www/svelte/test-results
     environment:
       - CI=true
     networks:

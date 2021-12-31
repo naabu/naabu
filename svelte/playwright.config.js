@@ -10,7 +10,7 @@ const config = {
   workers: 1,
   use: {
     // video: 'on',
-    trace: 'on-first-retry'
+    trace: 'on'
   },
   projects: [
     {

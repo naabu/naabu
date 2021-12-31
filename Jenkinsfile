@@ -52,9 +52,7 @@ pipeline {
     }
     post {
         always {
-            sh 'mv svelte/test-results/* svelte/test-results/pw';
-            sh 'ls -lah svelte/';
-            sh 'ls -lah svelte/test-results';
+            sh 'ls -lah test-results';
             archiveArtifacts artifacts: 'svelte/test-results/**/*.zip', fingerprint: true
             sh 'docker-compose -f jenkins-docker-compose.yml down'
         }

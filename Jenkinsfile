@@ -52,6 +52,7 @@ pipeline {
     }
     post {
         always {
+            archiveArtifacts artifacts: 'svelte/test-results/**/*.zip', fingerprint: true
             sh 'docker-compose -f jenkins-docker-compose.yml down'
         }
     }

@@ -60,6 +60,8 @@ services:
     build:
       context: .
       dockerfile: dockerfiles/sveltekit/dev/Dockerfile
+    environment:
+      - CI=true
     volumes:
       - ./:/var/www/
     networks:

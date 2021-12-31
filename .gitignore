@@ -2,3 +2,4 @@
 functional-tests/cypress/videos/**
 functional-tests/cypress/screenshots/**
 svelte/.svelte/
+svelte/test-results/

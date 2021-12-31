@@ -39,6 +39,7 @@ pipeline {
               echo 'Playwright tests'
               // sh 'docker-compose -f cypress-docker-compose.yml exec -T cypress npm ci'
               sh "docker-compose -f jenkins-docker-compose.yml exec -T playwright npm run playwright-docker"
+              sh 'echo "hello world" >> test-results/helloworld.txt'
             }
         }
         stage('Push') {
@@ -53,7 +54,8 @@ pipeline {
     post {
         always {
             sh 'ls -lah test-results';
-            archiveArtifacts artifacts: 'svelte/test-results/**/*.zip'
+            archiveArtifacts artifacts: 'test-results/**/*.zip'
+            archiveArtifacts artifacts: 'test-results/*.txt'
             sh 'docker-compose -f jenkins-docker-compose.yml down'
         }
     }

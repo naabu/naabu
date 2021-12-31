@@ -58,6 +58,7 @@ test('Test flow for learning goals.', async ({ page, domain, showAllConsole }) =
   await expect(profileView).toContainText('johndoe@unilogic.org');
   await expect(profileView).toContainText('Proffesor of logic (5 years) Head of department of logic.');
   await page.click('[data-cy=subtab-edit]');
+  await expect(page.locator('#institution')).toBeVisible();
   await expect(page.locator("#fullname")).not.toBeVisible();
   await page.fill('#institution', 'University of Education');
   await page.fill('#email', 'johndoe@uniedu.org');

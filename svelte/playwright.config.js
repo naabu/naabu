@@ -9,8 +9,7 @@ const config = {
   timeout: 180000,
   workers: 1,
   use: {
-    // video: 'on',
-    trace: 'on'
+    trace: 'on-first-retry'
   },
   projects: [
     {

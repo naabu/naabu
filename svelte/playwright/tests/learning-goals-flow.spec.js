@@ -53,7 +53,7 @@ test('Test flow for learning goals.', async ({ page, domain, showAllConsole }) =
 
   let profileView = await page.locator('[data-test=profile-view]');
   await expect(profileView).toContainText('Volledige naam:');
-  await expect(profileView).toContainText('John Doe12312312');
+  await expect(profileView).toContainText('John Doe');
   await expect(profileView).toContainText('University of Logic');
   await expect(profileView).toContainText('johndoe@unilogic.org');
   await expect(profileView).toContainText('Proffesor of logic (5 years) Head of department of logic.');

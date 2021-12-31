@@ -53,7 +53,7 @@ pipeline {
     }
     post {
         always {
-            archiveArtifacts artifacts: 'test-results/**/*.zip'
+            archiveArtifacts artifacts: 'test-results/**/*.zip', allowEmptyArchive: true
             sh 'docker-compose -f jenkins-docker-compose.yml down'
         }
     }

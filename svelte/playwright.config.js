@@ -30,7 +30,7 @@ const config = {
       use: {
          channel: 'chrome',
          domain: 'http://sveltekit-test:3000',
-         showAllConsole: true,
+         showAllConsole: false,
          launchOptions: {
           headless: true
          }

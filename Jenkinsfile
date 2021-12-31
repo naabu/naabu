@@ -15,6 +15,7 @@ pipeline {
                 sh 'echo $GIT_COMMIT'
                 sh 'printenv'
                 sh 'rm -rf svelte/node_modules'
+                sh 'rm -rf test-results'
                 sh 'echo $ALGOLIA_KEY >> config/secret-algolia-key.txt'
                 sh 'docker-compose -f jenkins-docker-compose.yml build'
                 sh 'docker-compose -f jenkins-docker-compose.yml up -d --remove-orphans'
@@ -39,7 +40,6 @@ pipeline {
               echo 'Playwright tests'
               // sh 'docker-compose -f cypress-docker-compose.yml exec -T cypress npm ci'
               sh "docker-compose -f jenkins-docker-compose.yml exec -T playwright npm run playwright-docker"
-              sh 'echo "hello world" >> test-results/helloworld.txt'
             }
         }
         stage('Push') {
@@ -53,9 +53,7 @@ pipeline {
     }
     post {
         always {
-            sh 'ls -lah test-results';
             archiveArtifacts artifacts: 'test-results/**/*.zip'
-            archiveArtifacts artifacts: 'test-results/*.txt'
             sh 'docker-compose -f jenkins-docker-compose.yml down'
         }
     }

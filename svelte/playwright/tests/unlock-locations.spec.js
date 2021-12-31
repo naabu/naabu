@@ -90,6 +90,7 @@ test('Unlock location on map test', async ({ page, domain, showAllConsole }) => 
   await expect(teaser).toBeVisible({ timeout: 100000 });
   await expect(teaser).toContainText('activity 12');
   await teaser.click();
+  await page.frameLocator('[data-cy=vimeo-iframe]').locator(".play").scrollIntoViewIfNeeded();
   await page.frameLocator('[data-cy=vimeo-iframe]').locator(".play").click();
   await expect(page.locator('[data-cy=too-easy]')).toBeVisible({ timeout: 100000 });
   await page.click('[data-cy=too-easy]');
@@ -97,6 +98,7 @@ test('Unlock location on map test', async ({ page, domain, showAllConsole }) => 
   await expect(teaser).toBeVisible({ timeout: 100000 });
   await expect(teaser).toContainText('activity 13');
   await teaser.click();
+  await page.frameLocator('[data-cy=vimeo-iframe]').locator(".play").scrollIntoViewIfNeeded();
   await page.frameLocator('[data-cy=vimeo-iframe]').locator(".play").click();
   await expect(page.locator('[data-cy=too-easy]')).toBeVisible({ timeout: 100000 });
   await page.click('[data-cy=too-easy]');

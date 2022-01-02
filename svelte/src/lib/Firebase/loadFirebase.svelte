@@ -52,7 +52,7 @@
 
     if ($session.environment === "jenkins" || $session.environment === "test") {
       if (!fb.auth().emulatorConfig) {
-        await fb.auth().useEmulator("http://firebase:5010");
+        await fb.auth().useEmulator("http://firebase:5010", { disableWarnings: true });
       }
       if (fb.firestore()._delegate._settings.host !== "firebase:5012") {
         fb.firestore().settings({ experimentalAutoDetectLongPolling: true });

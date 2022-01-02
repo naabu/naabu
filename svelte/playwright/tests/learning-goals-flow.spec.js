@@ -20,6 +20,9 @@ const expect = base.expect;
 test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {
   printMessages(page, showAllConsole);
   console.log("trying to delete the user");
+  // await expect(page.locator()).toContainText();
+  // await page.click();
+  // await page.fill('', '');
   await page.goto(domain + '/cypress/user/logout');
   await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/user/deletegoalsnoprofile@example.com/password/login');
@@ -71,6 +74,7 @@ test('Test flow for learning goals.', async ({ page, domain, showAllConsole }) =
   await page.click('[data-cy=curriculum-menu]');
   await page.click('[data-cy=create-goal-link]');
 
+  // Create goal page.
   await page.click('#unistructureel');
   await page.fill('#uni_topic_name', 'subject 1');
   await page.click('#bloom1-1');
@@ -81,51 +85,118 @@ test('Test flow for learning goals.', async ({ page, domain, showAllConsole }) =
   await page.fill('#test_name', 'Battle 1');
   await page.click('[data-cy=add-battle-button]');
   await page.click('[data-cy=add-question-button]');
-  await page.fill('#quiz_question','$$1+1=$$..');
+  await page.fill('#quiz_question', '$$1+1=$$..');
   await page.click('[data-cy=new-answer-button]');
   await page.click('[data-cy=A1]');
-  await page.fill('#answeranswer','5');
+  await page.fill('#answeranswer', '5');
   await page.click('[data-cy=new-answer-button]');
   await page.click('[data-cy=A2]');
-  await page.fill('#answeranswer','1');
+  await page.fill('#answeranswer', '1');
   await page.check('#answers_check');
   await page.click('[data-cy=create-goal-submit-button]');
   await expect(page.locator('div#svelte')).toContainText('Ik kan subject 1 benoemen en definieren from a work sheet');
+
+  // Edit goal page.
   await page.click('[data-cy=subtab-edit]');
   await page.click('#multistructureel');
-  await page.fill('#multi_topic_name','subject 1');
+  await page.fill('#multi_topic_name', 'subject 1');
   await page.click('[data-cy=add-multi-topic-button]');
-  await page.fill('#multi_topic_name','subject 2');
+  await page.fill('#multi_topic_name', 'subject 2');
+  await page.click('[data-cy=add-multi-topic-button]');
   await page.click('#bloom1-3');
   await page.click('#bloom2-3');
   await page.selectOption('select#selectedVerbs', ['berekenen', 'omzetten']);
   await page.fill('#from_text', 'from your head without a calculator');
+  await page.fill('#description', 'Vital to learn this early');
+  await page.fill('#quiz_question', 'Weet jij het antwoord? $$1+1=$$..');
+  await page.click('[data-cy=A1]');
+  await page.fill('#answeranswer', '1');
+  await page.click('[data-cy=A2]');
+  await page.fill('#answeranswer', '2');
+  await page.check('#answers_check');
+  await page.click('[data-cy=new-answer-button]');
+  await page.click('[data-cy=A3]');
+  await page.fill('#answeranswer', '3');
+  await page.fill('#test_name', 'Battle 2');
+  await page.click('[data-cy=add-battle-button]');
+  await page.click('[data-cy=click-battle-1-button]');
+  await page.click('[data-cy=add-question-button]');
+  await page.fill('#quiz_question', '$$2+2=$$..');
+  await page.click('[data-cy=new-answer-button]');
+  await page.click('[data-cy=A1]');
+  await page.fill('#answeranswer', '4');
+  await page.check('#answers_check');
+  await page.click('[data-cy=new-answer-button]');
+  await page.click('[data-cy=A2]');
+  await page.fill('#answeranswer', '1');
+  await page.click('[data-cy=edit-goal-submit-button]');
+  await expect(page.locator('div#svelte')).toContainText('Leerdoel gewijzigd');
+  await page.click('[data-cy=subtab-history]');
+
+  // Revision page.
+  await expect(page.locator('div#svelte')).toContainText('John Doe')
+  await expect(page.locator('div#svelte')).toContainText('University of Education')
+  await expect(page.locator('[data-cy=revision0]')).toBeVisible();
+  await expect(page.locator('[data-cy=revision1]')).toBeVisible();
+  await expect(page.locator('[data-cy=revision2]')).not.toBeVisible();
+
+  await page.click('[data-cy=revision-index-0]');
+  await expect(page.locator('[data-cy=Titel-old]')).toContainText("Ik kan subject 1 benoemen en definieren from a work sheet");
+  await expect(page.locator('[data-cy=Titel-new]')).toContainText("Ik kan subject 1 en subject 2 berekenen en omzetten from your head without a calculator");
+  await expect(page.locator('[data-cy=Omschrijving-old]')).toContainText("Important learning goal for reasons");
+  await expect(page.locator('[data-cy=Omschrijving-new]')).toContainText("Vital to learn this early");
+
+  await expect(page.locator('[data-cy="from Text-old"]')).toContainText("from a work sheet");
+  await expect(page.locator('[data-cy="from Text-new"]')).toContainText("from your head without a calculator");
+  await expect(page.locator('[data-cy=Onderwerpen-new] > [data-cy=new-index0]')).toContainText('subject 1');
+
+  await expect(page.locator('[data-cy=Onderwerpen-new] > [data-cy=new-index1]')).toContainText('subject 2');
+  await expect(page.locator('[data-cy=Werkwoorden-old] > [data-cy=old-index0]')).toContainText('benoemen');
+  await expect(page.locator('[data-cy=Werkwoorden-old] > [data-cy=old-index1]')).toContainText('definieren');
+  await expect(page.locator('[data-cy=Werkwoorden-new] > [data-cy=new-index0]')).toContainText('berekenen');
+  await expect(page.locator('[data-cy=Werkwoorden-new] > [data-cy=new-index1]')).toContainText('omzetten');
+  await expect(page.locator('[data-cy="Bloom\'s taxonomy-old"] > [data-cy=old-index0]')).toContainText('bloom1-1');
+  await expect(page.locator('[data-cy="Bloom\'s taxonomy-old"] > [data-cy=old-index1]')).toContainText('bloom2-2');
+
+  await expect(page.locator('[data-cy="Bloom\'s taxonomy-new"] > [data-cy=new-index1]')).toContainText('bloom1-3');
+  await expect(page.locator('[data-cy="Bloom\'s taxonomy-new"] > [data-cy=new-index2]')).toContainText('bloom2-2');
+  await expect(page.locator('[data-cy="Bloom\'s taxonomy-new"] > [data-cy=new-index3]')).toContainText('bloom2-3');
+  await expect(page.locator('[data-cy="Solo\'s taxonomy-old"]')).toContainText('solo-1');
+  await expect(page.locator('[data-cy="Solo\'s taxonomy-new"]')).toContainText('solo-2');
+  await expect(page.locator('[data-cy="Battles-old"] > [data-cy=old-index0]')).toContainText('Battle 1');
+  await expect(page.locator('[data-cy="Battles-new"] > [data-cy=new-index0]')).toContainText('Battle 1');
+  await expect(page.locator('[data-cy="Battles-new"] > [data-cy=new-index1]')).toContainText('Battle 2');
+  await expect(page.locator('[data-cy="Vraag-old"]')).toContainText('$$1+1=$$..');
+  await expect(page.locator('[data-cy="Vraag-new"]')).toContainText('Weet jij het antwoord? $$1+1=$$..');
+  await expect(page.locator('[data-cy="Antwoorden-old"] > [data-cy=old-index0]')).toContainText('5 - Fout antwoord');
+  await expect(page.locator('[data-cy="Antwoorden-old"] > [data-cy=old-index1]')).toContainText('1 - Goede antwoord');
+  await expect(page.locator('[data-cy="Antwoorden-new"] > [data-cy=new-index0]')).toContainText('1 - Fout antwoord');
+  await expect(page.locator('[data-cy="Antwoorden-new"] > [data-cy=new-index1]')).toContainText('2 - Goede antwoord');
+  await expect(page.locator('[data-cy="Antwoorden-new"] > [data-cy=new-index2]')).toContainText('3 - Fout antwoord');
+
+  await page.click('[data-cy=subtab-edit]');
+  await expect(page.locator('div#svelte')).toContainText('Waarschuwing: u bewerkt een oude versie van deze pagina.');
+  await expect(page.locator('div#svelte')).toContainText('Als u uw bewerking opslaat, gaan alle wijzigingen verloren die na deze versie zijn gemaakt.');
+  await page.click('[data-cy="maintab-goal"]');
+  await expect(page.locator('div#svelte')).toContainText('Je bekijkt een revisie');
+  await page.click('[data-cy="show-diff-link"]');
+  await expect(page.locator('div#svelte')).toContainText('Verschil tussen versies');
+  await page.click('[data-cy=discuss-revision-button]');
   
-  // cy.get('#from_text').clear().type('from your head without a calculator');
-  // cy.get('#description').clear().type('Vital to learn this early');
-  // cy.get('#quiz_question').clear().type('Weet jij het antwoord? $$1+1=$$..');
-  // cy.get('[data-cy=A1]').click();
-  // cy.get('#answeranswer').clear().type('1');
-  // cy.get('[data-cy=A2]').click();
-  // cy.get('#answeranswer').clear().type('2');
-  // cy.get('#answers_check').check();
-  // cy.get('[data-cy=new-answer-button]').click();
-  // cy.get('[data-cy=A3]').click();
-  // cy.get('#answeranswer').clear().type('3');
-  // cy.get('#test_name').type('Battle 2');
-  // cy.get('[data-cy=add-battle-button]').click();
-  // cy.get('[data-cy=click-battle-1-button]').click();
-  // cy.get('[data-cy=add-question-button]').click();
-  // cy.get('#quiz_question').type('$$2+2=$$..');
-  // cy.get('[data-cy=new-answer-button]').click();
-  // cy.get('[data-cy=A1]').click();
-  // cy.get('#answeranswer').type('4');
-  // cy.get('#answers_check').check();
-  // cy.get('[data-cy=new-answer-button]').click();
-  // cy.get('[data-cy=A2]').click();
-  // cy.get('#answeranswer').type('1');
-  // cy.get('[data-cy=edit-goal-submit-button]').click();
-  // cy.contains('Leerdoel gewijzigd');
-  // cy.get('[data-cy=subtab-history]').click({force: true});
-  // await page.pause();
+  await expect(page.locator('[data-cy=post-title]')).toHaveValue(/Overleg revisie.*/);
+  await page.fill('#post', 'Test post for cypress');
+  await page.click('[data-cy="post-button"]');
+  await expect(page.locator('div#svelte')).toContainText('Antwoord');
+  await page.fill('#reply', 'Answer on post');
+  await page.click('[data-cy="maintab-talk"]')
+  await expect(page.locator('div#svelte')).toContainText('Titel');
+  await page.fill('#title', 'New title');
+  await page.fill('#post', 'New post');
+  await page.click('[data-cy="post-button"]');
+  await expect(page.locator('div#svelte')).toContainText('Antwoord');
+  await page.click('[data-cy="profile-link"]');
+  await expect(page.locator('div#svelte')).toContainText('Ik kan subject 1 en subject 2 berekenen en omzetten from your head wi…');
+  await expect(page.locator('div#svelte')).toContainText('Ik kan subject 1 benoemen en definieren from a work sheet');
+  await expect(page.locator('div#svelte')).toContainText('New title');
+  await expect(page.locator('div#svelte')).toContainText('Overleg revisie');
 });

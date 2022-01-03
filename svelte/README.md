@@ -20,6 +20,18 @@ Convert tailwind to this component
 - Leaving from = Not there and not needed
 - Leaving To = outState
 
+Playwright cheatsheet:
+```
+// await expect(page.locator()).toContainText();
+// await page.click();
+// await page.fill('', '');
+// await page.pause();
+// await expect(page.locator()).toBeVisible();
+// await expect(page.locator()).not.toBeVisible();
+// await page.selectOption('select#', '');
+// await expect(page.locator('')).toHaveValue('');
+```
+
 
 ## Some handy things to know about non-obvious things
 - If deploying on firebase functions. Do not supply default config. 

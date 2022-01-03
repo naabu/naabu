@@ -88,7 +88,7 @@
         >
           <option value={undefined}>Geen kaart</option>
           {#each allMaps as map}
-            <option value={map}>{map.title}</option>
+            <option class:selected={module.map === map} value={map}>{map.title}</option>
           {/each}
         </select>
       </div>

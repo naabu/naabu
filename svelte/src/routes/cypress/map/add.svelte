@@ -30,7 +30,7 @@
           isStartLocation: false,
           markerPositionX: "500",
           markerPositionY: "650",
-          name: "Location 1",
+          name: "Location 2",
           textPositionX: "500",
           textPositionY: "700",
         },

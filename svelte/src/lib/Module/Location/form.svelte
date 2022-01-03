@@ -110,7 +110,8 @@
 
   function resetFilters() {
     let objectIDsFilter = map.locations[selectedIndex].goals.map(
-      (leerdoel) => "NOT objectID:" + leerdoel.objectID
+      (leerdoel) =>
+        "NOT objectID:" + (leerdoel.objectID ? leerdoel.objectID : leerdoel.id)
     );
     filters = objectIDsFilter.join(" AND ");
   }
@@ -429,11 +430,11 @@
           <div class="mt-3">
             <input
               bind:checked={map.locations[selectedIndex].isStartLocation}
-              id="answers_check"
+              id="start_locations_check"
               type="checkbox"
               class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
             />
-            <label class="font-medium text-gray-700" for="answers_check"
+            <label class="font-medium text-gray-700" for="start_locations_check"
               >Start locatie op kaart</label
             >
           </div>

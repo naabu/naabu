@@ -31,6 +31,8 @@ test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {
   await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/goal/Ik kan subject 1 benoemen en definieren from a work sheet/clear');
   await page.waitForSelector('[data-test=complete]');
+  await page.goto(domain + '/cypress/goal/Ik kan subject 1 en subject 2 berekenen en omzetten from your head without a calculator/clear');
+  await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/player/clear');
   await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/curriculumProfile/clear');

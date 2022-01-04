@@ -27,6 +27,10 @@ test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {
   await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/user/deletegoalsnoprofile@example.com/password/login');
   await page.waitForSelector('[data-test=complete]');
+  await page.goto(domain + '/cypress/user/logout');
+  await page.waitForSelector('[data-test=complete]');
+  await page.goto(domain + '/cypress/user/deletegoalsnoprofile@example.com/password/login');
+  await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/revision/clear');
   await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/goal/Ik kan subject 1 benoemen en definieren from a work sheet/clear');

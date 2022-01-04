@@ -24,8 +24,6 @@ test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {
   await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/goal/clear');
   await page.waitForSelector('[data-test=complete]');
-  await page.goto(domain + '/cypress/player/clear');
-  await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/curriculumProfile/clear');
   await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/user/deletegoalscoursemodule@example.com/clear');
@@ -46,7 +44,7 @@ test('Create course modules', async ({ page, domain, showAllConsole }) => {
   await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/goal/add');
   await page.waitForSelector('[data-test=complete]');
-  await page.goto(domain + '/cypress/map/add');
+  await page.goto(domain + '/cypress/map/course-test-map/add');
   await page.waitForSelector('[data-test=complete]');
 
   // Go to course module create form.

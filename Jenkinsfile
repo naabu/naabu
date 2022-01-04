@@ -17,7 +17,7 @@ pipeline {
                 sh 'rm -rf svelte/node_modules'
                 sh 'rm -rf test-results'
                 sh 'rm -rf config/secret-algolia-key.txt'
-                sh 'echo $ALGOLIA_KEY >> config/secret-algolia-key.txt'
+                sh 'echo -n $ALGOLIA_KEY >> config/secret-algolia-key.txt'
                 sh 'docker-compose -f jenkins-docker-compose.yml build'
                 sh 'docker-compose -f jenkins-docker-compose.yml up -d --remove-orphans'
                 // sh 'docker-compose -f cypress-docker-compose.yml exec -T -u node sveltekit printenv'

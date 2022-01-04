@@ -54,7 +54,7 @@ test('Create course modules', async ({ page, domain, showAllConsole }) => {
   await page.click('[data-cy=desktop-sidebar-menu] > [data-cy=teacher-menu-modules]');
   await expect(page.locator('[data-cy=module-name-0]')).not.toBeVisible();
   await expect(page.locator('[data-cy=create-module-button-link]')).toBeVisible();
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(5000);
   await page.click('[data-cy=create-module-button-link]', { force: true });
   await page.fill('#name', 'Test module');
   await page.fill('#description', 'Test description');

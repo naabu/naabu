@@ -8,6 +8,7 @@ export const test = base.extend({
 const expect = base.expect;
 
 test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {
+  test.slow();
   page.on("console", (message) => {
     if (message.type() === "error" || showAllConsole) {
       console.log(message.text());

@@ -1,6 +1,7 @@
 #build directory
 .svelte-kit/
 public
+traces/
 
 #keys
 adminkey.json

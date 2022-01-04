@@ -7,16 +7,20 @@ export const test = base.extend({
 
 const expect = base.expect;
 
-test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {
-  test.slow();
+function printMessages(page, showAllConsole) {
   page.on("console", (message) => {
     if (message.type() === "error" || showAllConsole) {
       console.log(message.text());
     }
   })
+}
+
+test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {
+  test.slow();
+  printMessages(page, showAllConsole);
   await page.goto(domain + '/cypress/usermodule/clear');
   await page.waitForSelector('[data-test=complete]');
-  await page.goto(domain + '/cypress/feedbackAndScores/deletegoalscanmoderate@example.com/password/clear');
+  await page.goto(domain + '/cypress/feedbackAndScores/deletegoalscanmoderateunlocklocationonmap@example.com/password/clear');
   await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/usermodule/clear');
   await page.waitForSelector('[data-test=complete]');
@@ -36,19 +40,20 @@ test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {
   await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/curriculumProfile/clear');
   await page.waitForSelector('[data-test=complete]');
-  await page.goto(domain + '/cypress/user/deletegoalscanmoderate@example.com/clear');
+  await page.goto(domain + '/cypress/user/deletegoalscanmoderateunlocklocationonmap@example.com/clear');
   await page.waitForSelector('[data-test=complete]');
 });
 
 test('Unlock location on map test', async ({ page, domain, showAllConsole }) => {
-  page.on("console", (message) => {
-    if (message.type() === "error" || showAllConsole) {
-      console.log(message.text());
-    }
-  })
+  printMessages(page, showAllConsole);
 
-  await page.goto(domain + '/cypress/user/deletegoalscanmoderate@example.com/password/login');
+  await page.goto(domain + '/cypress/user/deletegoalscanmoderateunlocklocationonmap@example.com/password/login');
   await page.waitForSelector('[data-test=complete]');
+  await page.goto(domain + '/cypress/user/logout');
+  await page.waitForSelector('[data-test=complete]');
+  await page.goto(domain + '/cypress/user/deletegoalscanmoderateunlocklocationonmap@example.com/password/login');
+  await page.waitForSelector('[data-test=complete]');
+
   await page.goto(domain + '/cypress/curriculumProfile/add');
   await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/goal/add');

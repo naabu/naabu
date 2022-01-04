@@ -64,7 +64,7 @@ test('Unlock location on map test', async ({ page, domain, showAllConsole }) => 
   await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/map/unlock-locations-map/add');
   await page.waitForSelector('[data-test=complete]');
-  await page.goto(domain + '/cypress/module/add');
+  await page.goto(domain + '/cypress/module/unlock-locations-map/module-unlock-test/add');
   await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/user/logout');
   await page.waitForSelector('[data-test=complete]');

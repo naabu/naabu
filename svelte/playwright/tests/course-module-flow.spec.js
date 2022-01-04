@@ -53,8 +53,8 @@ test('Create course modules', async ({ page, domain, showAllConsole }) => {
   await page.click('#user-menu-item-teacher-room');
   await page.click('[data-cy=desktop-sidebar-menu] > [data-cy=teacher-menu-modules]');
   await expect(page.locator('[data-cy=module-name-0]')).not.toBeVisible();
-  await expect(page.locator('[data-cy=create-module-button]')).toBeVisible();
-  await page.click('[data-cy=create-module-button]', { force: true });
+  await expect(page.locator('[data-cy=create-module-button-link]')).toBeVisible();
+  await page.click('[data-cy=create-module-button-link]', { force: true });
   await page.fill('#name', 'Test module');
   await page.fill('#description', 'Test description');
   await page.selectOption('select#maps', { label: 'Map1' });

@@ -94,8 +94,6 @@ test('Create activities and attach them', async ({ page, domain, showAllConsole 
   await expect(page.locator('[data-cy=correct-feedback]')).toBeVisible();
   await page.click('[data-cy=continue-button]');
   await page.locator('[data-cy=back-to-form-button]').scrollIntoViewIfNeeded();
-  // await page.waitForTimeout(1000);
-  // await page.pause();
   await page.click('[data-cy=back-to-form-button]');
 
   // Edit form.

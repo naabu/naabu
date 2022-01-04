@@ -67,6 +67,8 @@ test('Test flow for learning goals.', async ({ page, domain, showAllConsole }) =
   await expect(profileView).toContainText('johndoe@unilogic.org');
   await expect(profileView).toContainText('Proffesor of logic (5 years) Head of department of logic.');
   await page.click('[data-cy=subtab-edit]');
+  await page.waitForTimeout(1000);
+  await page.waitForSelector('#institution');
   await expect(page.locator('#institution')).toBeVisible();
   await expect(page.locator("#fullname")).not.toBeVisible();
   await page.fill('#institution', 'University of Education');
@@ -147,6 +149,8 @@ test('Test flow for learning goals.', async ({ page, domain, showAllConsole }) =
   await expect(page.locator('[data-cy=revision2]')).not.toBeVisible();
 
   await page.click('[data-cy=revision-index-0]');
+  // await page.pause();
+  await page.waitForSelector('[data-cy=Titel-old]');
   await expect(page.locator('[data-cy=Titel-old]')).toContainText("Ik kan subject 1 benoemen en definieren from a work sheet");
   await expect(page.locator('[data-cy=Titel-new]')).toContainText("Ik kan subject 1 en subject 2 berekenen en omzetten from your head without a calculator");
   await expect(page.locator('[data-cy=Omschrijving-old]')).toContainText("Important learning goal for reasons");
@@ -186,6 +190,8 @@ test('Test flow for learning goals.', async ({ page, domain, showAllConsole }) =
   await page.click('[data-cy="maintab-goal"]');
   await expect(page.locator('div#svelte')).toContainText('Je bekijkt een revisie');
   await page.click('[data-cy="show-diff-link"]');
+  await page.waitForSelector('[data-cy=discuss-revision-button]');
+  // await page.waitForTimeout(5000);
   await expect(page.locator('div#svelte')).toContainText('Verschil tussen versies');
   await page.click('[data-cy=discuss-revision-button]');
   

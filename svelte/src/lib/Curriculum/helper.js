@@ -10,8 +10,10 @@ export async function getCurriculumProfile(db, curriculumProfileId) {
     let curriculumProfile = {
       id: curriculumProfileId,
       fullname: profileData.fullname,
-      institution: profileData.institution,
     };
+    if (profileData.institution) {
+      curriculumProfile.institution = profileData.institution
+    }
     return curriculumProfile;
   }
   return null;

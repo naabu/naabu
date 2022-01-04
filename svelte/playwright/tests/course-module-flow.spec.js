@@ -64,7 +64,7 @@ test('Create course modules', async ({ page, domain, showAllConsole }) => {
   await expect(page.locator('[data-cy=inhoud-button]')).toBeVisible();
   await expect(page.locator('[data-cy=paths-button]')).toBeVisible();
   await expect(page.locator('[data-cy=remove-location-button]')).toBeVisible();
-  await expect(page.locator('[data-cy=create-module-button]')).toBeVisible();
+  await expect(page.locator('[data-cy=create-module-submit-button]')).toBeVisible();
 
   // Add learning goals to location.
   await page.fill('#location_name', 'Test start location 1');
@@ -110,7 +110,7 @@ test('Create course modules', async ({ page, domain, showAllConsole }) => {
   await page.click('[data-cy=waypoints-button]');
   await expect(page.locator('#start_locations_check')).not.toBeChecked();
 
-  await page.click("[data-cy=create-module-button]");
+  await page.click("[data-cy=create-module-submit-button]");
   await expect(page.locator('[data-cy=alert-success-title]')).toContainText('Module succesvol aangemaakt');
   await page.click('[data-cy=desktop-sidebar-menu] > [data-cy=teacher-menu-modules]');
   await expect(page.locator('[data-cy=module-name-0]')).toContainText('Test module');

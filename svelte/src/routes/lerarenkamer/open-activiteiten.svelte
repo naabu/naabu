@@ -7,10 +7,6 @@
   let menuitems = getTeacherMenuitems($page.path);
   import { goto } from "$app/navigation";
   let activities;
-
-  function submitButton() {
-    goto("/lerarenkamer/activiteit/maken-leerdoel-zoeken");
-  }
 </script>
 
 <GetActivityListData bind:activities status="open" />
@@ -19,13 +15,13 @@
   <span slot="title"> Open activiteiten </span>
 
   <span slot="cta-button">
-    <button
-      on:click={submitButton}
+    <a
+      href="/lerarenkamer/activiteit/maken-leerdoel-zoeken"
       data-cy="create-activity-button"
-      class="t-4 float-right disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+      class="t-4 float-right ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
     >
       Activiteit aanmaken
-    </button>
+    </a>
   </span>
 
   <span slot="content">

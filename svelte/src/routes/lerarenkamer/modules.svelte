@@ -9,10 +9,6 @@
   let modules = [];
   let ready = false;
   let firebase; 
-
-  function submitButton() {
-    goto("/lerarenkamer/module/maken");
-  }
 </script>
 
 <GetMapsListData bind:modules bind:mounted={ready} bind:firebase />
@@ -20,13 +16,12 @@
 <Sidebar bind:menuitems>
 
   <span slot="cta-button">
-    <button
-      on:click={submitButton}
-      data-cy="create-module-button"
-      class="t-4 float-right disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+    <a href="/lerarenkamer/module/maken"
+      data-cy="create-module-button-link"
+      class="t-4 float-right ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
     >
       Module aanmaken
-    </button>
+    </a>
   </span>
   <span slot="title"> Modules </span>
 

@@ -1,13 +1,13 @@
 <!-- Create a map -->
 <script>
-  import { getStores, session } from "$app/stores";
+  import { getStores, session, page } from "$app/stores";
   import { firebaseStore } from "$lib/Firebase/store";
   let firebase;
-  let mapCreated = false;
+  let moduleCreated = false;
   let ready = false;
 
   async function getMapData(db) {
-    let snapshot = await db.collection("maps").doc("map1").get();
+    let snapshot = await db.collection("maps").doc($page.params.mapId).get();
     if (snapshot.exists) {
       return snapshot.data();
     }
@@ -22,12 +22,14 @@
           $session.environment === "development") &&
         $session.user &&
         !$session.user.isAnonymous &&
-        !mapCreated
+        !moduleCreated
       ) {
-        mapCreated = true;
+        console.log("hiasdfasdf");
+        moduleCreated = true;
         let db = await firebase.firestore();
         try {
           let module = await getMapData(db);
+          console.log(module);
           if (module) {
             module.moduleDescription = "test";
             module.moduleName = "Test";
@@ -47,8 +49,11 @@
               },
             ];
             module.mapId = "map1";
-            await db.collection("modules").doc("module1").set(module);
+            await db.collection("modules").doc($page.params.moduleId).set(module);
             ready = true;
+          }
+          else {
+            console.error("map not found to create module for!");
           }
         } catch (e) {
           console.log(e);

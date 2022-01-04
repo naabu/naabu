@@ -161,6 +161,8 @@ test('Create activities and attach them', async ({ page, domain, showAllConsole 
   await expect(page.locator('[data-cy="Quiz - vraag 1 - tijd in video:-new"]')).toContainText("2");
   await expect(page.locator('[data-cy="Quiz - vraag 1 - Type:-new"]')).toContainText("Geen type");
   await page.click('[data-cy=reset-activity-to-revision-button]');
+  await page.waitForTimeout(1000);
+  await page.waitForTimeout('#difficulty');
   await expect(page.locator('#difficulty')).toHaveValue('2');
   await page.click('[data-cy=edit-activity-submit-button]');
   await page.click('[data-cy=connect-activity-learning-goal-button]');

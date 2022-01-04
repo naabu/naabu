@@ -53,6 +53,8 @@ pipeline {
     }
     post {
         always {
+            sh 'docker-compose -f jenkins-docker-compose.yml logs sveltekit-test'
+            sh 'docker-compose -f jenkins-docker-compose.yml logs firebase'
             archiveArtifacts artifacts: 'test-results/**/*.zip', allowEmptyArchive: true
             sh 'docker-compose -f jenkins-docker-compose.yml down'
         }

@@ -1,5 +1,5 @@
 <script>
-  import { getStores, session } from "$app/stores";
+  import { getStores, session, page } from "$app/stores";
   import { firebaseStore } from "$lib/Firebase/store";
   let firebase;
   let mapCreated = false;
@@ -65,7 +65,7 @@
         let db = await firebase.firestore();
 
         try {
-          await db.collection("maps").doc("map1").set(getMapData());
+          await db.collection("maps").doc($page.params.mapId).set(getMapData());
           ready = true;
         } catch (e) {
           console.log(e);

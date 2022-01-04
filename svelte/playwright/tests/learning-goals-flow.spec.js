@@ -185,7 +185,7 @@ test('Test flow for learning goals.', async ({ page, domain, showAllConsole }) =
   await expect(page.locator('[data-cy="Antwoorden-new"] > [data-cy=new-index2]')).toContainText('3 - Fout antwoord');
 
   await page.click('[data-cy=subtab-edit]');
-  await expect(page.locator('div#svelte')).toContainText('Waarschuwing: u bewerkt een oude versie van deze pagina.');
+  await expect(page.locator('[data-test=alert-old-version]')).toContainText('Waarschuwing: u bewerkt een oude versie van deze pagina.');
   await expect(page.locator('div#svelte')).toContainText('Als u uw bewerking opslaat, gaan alle wijzigingen verloren die na deze versie zijn gemaakt.');
   await page.click('[data-cy="maintab-goal"]');
   await expect(page.locator('div#svelte')).toContainText('Je bekijkt een revisie');

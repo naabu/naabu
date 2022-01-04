@@ -51,6 +51,7 @@ test('Create activities and attach them', async ({ page, domain, showAllConsole 
   await page.click('#user-menu-item-teacher-room');
   await page.click('[data-cy=desktop-sidebar-menu] > [data-cy=teacher-menu-concept-activity]');
   await expect(page.locator('[data-cy=create-activity-button]')).toBeVisible();
+  await page.waitForTimeout(500);
   await page.click('[data-cy=create-activity-button]', { force: true });
 
   // Select learning goal.

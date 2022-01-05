@@ -8,7 +8,6 @@ if (helper.environment === 'development' || helper.environment === 'cypress' || 
     })
     .auth.user().onCreate(async (user, eventContext) => {
       if (helper.environment === 'development' || helper.environment === 'cypress' || helper.environment === 'test') {
-        console.log(user);
         const fb = helper.getFirebaseApp();
         const auth = fb.auth();
         if (user.email !== null) {

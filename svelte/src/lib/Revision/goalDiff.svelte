@@ -179,11 +179,11 @@
                   >edit</a
                 >)
                 <div>
-                  {#if revisionOld.authorId && revisionOld.curriculumProfile}
+                  {#if revisionOld.revisionAuthorId && revisionOld.curriculumProfile}
                     <div>
                       <a
                         class="underline"
-                        href="/curriculum-profiel/{revisionOld.authorId}"
+                        href="/curriculum-profiel/{revisionOld.revisionAuthorId}"
                         >{revisionOld.curriculumProfile.fullname}</a
                       >
                     </div>
@@ -210,11 +210,11 @@
                   >edit</a
                 >)
                 <div>
-                  {#if revisionNew.authorId && revisionNew.curriculumProfile}
+                  {#if revisionNew.revisionAuthorId && revisionNew.curriculumProfile}
                     <div>
                       <a
                         class="underline"
-                        href="/curriculum-profiel/{revisionNew.authorId}"
+                        href="/curriculum-profiel/{revisionNew.revisionAuthorId}"
                         >{revisionNew.curriculumProfile.fullname}</a
                       >
                     </div>

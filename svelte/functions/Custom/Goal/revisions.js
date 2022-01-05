@@ -32,53 +32,57 @@ exports.updateRevisionListsAndSetProfile = functions.firestore.document('revisio
     const fb = helper.getFirebaseApp();
     let db = fb.firestore();
     let revisionData = snap.data();
-    // snap.ref.update({ createdAt: snap['_createTime']._seconds })
-    let goalTitle = "";
-    let goalRef = db.collection("goals").doc(revisionData.goalId);
-    let goalSnap = await goalRef.get();
-    let objectReturnRevisions = null;
-    if (goalSnap.exists) {
-      let goal = goalSnap.data();
-      goalTitle = goal.title;
-      let revisionList = [];
-      if (goal.revisionList) {
-        revisionList = goal.revisionList;
-      }
-      revisionList.push({
-        id: context.params.revisionId,
-        createdAt: snap['_createTime']._seconds,
-        authorId: revisionData.authorId,
-        curriculumProfile: revisionData.curriculumProfile
-      })
-      objectReturnRevisions = getNextAndPreviousRevisions(revisionList, context.params.revisionId);
-      if (objectReturnRevisions && objectReturnRevisions.previousRevision) {
-        revisionList[0].previousRevisionId = objectReturnRevisions.previousRevision.id
-      }
-      goalRef.update({ revisionList: revisionList })
-    }
-
-    let profileRef = db.collection("curriculumProfile").doc(revisionData.authorId);
-    let profileSnap = await profileRef.get();
-    if (profileSnap.exists) {
-      let profile = profileSnap.data();
-      let revisionList = [];
-      if (profile.revisionList) {
-        revisionList = profile.revisionList;
-      }
-      let revisionToPush = {
-        id: context.params.revisionId,
-        createdAt: snap['_createTime']._seconds,
-        goalId: revisionData.goalId,
-        goalTitle: revisionData.title,
+    if (revisionData.revisionType === "goal") {
+      let goalTitle = "";
+      let goalRef = db.collection("goals").doc(revisionData.goalId);
+      let goalSnap = await goalRef.get();
+      let objectReturnRevisions = null;
+      if (goalSnap.exists) {
+        let goal = goalSnap.data();
+        goalTitle = goal.title;
+        let revisionList = [];
+        if (goal.revisionList) {
+          revisionList = goal.revisionList;
+        }
+        let revisionUpdateObject = {
+          id: context.params.revisionId,
+          createdAt: snap['_createTime']._seconds,
+          revisionAuthorId: revisionData.revisionAuthorId,
+        }
+        if (revisionData.curriculumProfile) {
+          revisionUpdateObject.curriculumProfile = revisionData.curriculumProfile
+        }
+        revisionList.push(revisionUpdateObject);
+        objectReturnRevisions = getNextAndPreviousRevisions(revisionList, context.params.revisionId);
+        if (objectReturnRevisions && objectReturnRevisions.previousRevision) {
+          revisionList[0].previousRevisionId = objectReturnRevisions.previousRevision.id
+        }
+        goalRef.update({ revisionList: revisionList })
       }
 
-      if (objectReturnRevisions && objectReturnRevisions.previousRevision) {
-        revisionToPush.previousRevisionId = objectReturnRevisions.previousRevision.id
+
+      let profileRef = db.collection("curriculumProfile").doc(revisionData.authorId);
+      let profileSnap = await profileRef.get();
+      if (profileSnap.exists) {
+        let profile = profileSnap.data();
+        let revisionList = [];
+        if (profile.revisionList) {
+          revisionList = profile.revisionList;
+        }
+        let revisionToPush = {
+          id: context.params.revisionId,
+          createdAt: snap['_createTime']._seconds,
+          goalId: revisionData.goalId,
+          goalTitle: revisionData.title,
+        }
+
+        if (objectReturnRevisions && objectReturnRevisions.previousRevision) {
+          revisionToPush.previousRevisionId = objectReturnRevisions.previousRevision.id
+        }
+        revisionList.push(revisionToPush)
+        revisionList.sort(helper.compare);
+        profileRef.update({ revisionList: revisionList })
       }
-      revisionList.push(revisionToPush)
-      revisionList.sort(helper.compare);
-      profileRef.update({ revisionList: revisionList })
     }
     return null;
   });
-  

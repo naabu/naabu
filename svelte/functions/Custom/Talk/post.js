@@ -92,7 +92,6 @@ exports.onCreateReply = functions.firestore.document('talk/{talkId}/posts/{postI
           goalTitle: goal.title,
           type: 'reply'
         }
-        console.log(replyToPush);
         postList.push(replyToPush)
         postList.sort(helper.compare);
         profileRef.update({ postList: postList })

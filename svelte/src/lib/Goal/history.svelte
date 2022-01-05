@@ -60,11 +60,11 @@
                     {/if}
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap">
-                    {#if revision.authorId && revision.curriculumProfile}
+                    {#if revision.revisionAuthorId && revision.curriculumProfile}
                       <div class="text-sm text-gray-900">
                         <a
                           class="underline"
-                          href="/curriculum-profiel/{revision.authorId}"
+                          href="/curriculum-profiel/{revision.revisionAuthorId}"
                           >{revision.curriculumProfile.fullname}</a
                         >
                       </div>

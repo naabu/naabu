@@ -191,7 +191,7 @@
                 inState="transform opacity-0 scale-95"
                 onState="transform opacity-100 scale-100"
                 outTransition="transition ease-in duration-75"
-                outState="transform opacity-0 scale-95"
+                outState="transform hidden opacity-0 scale-95"
               >
                 <div
                   class="highz origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"

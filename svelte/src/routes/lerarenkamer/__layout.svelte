@@ -20,14 +20,16 @@
   }
 </script>
 
-{#if $session.user}
-  <slot />
-{:else}
-  <p>Je moet eerst inloggen om naar de lerarenkamer te gaan</p>
-  <a
-    href="#"
-    on:click|preventDefault={loginTeacher}
-    class="inline-block mt-4 bg-indigo-500 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75"
-    >Inloggen</a
-  >
+{#if $firebaseStore}
+  {#if $session.user}
+    <slot />
+  {:else}
+    <p>Je moet eerst inloggen om naar de lerarenkamer te gaan</p>
+    <a
+      href="#"
+      on:click|preventDefault={loginTeacher}
+      class="inline-block mt-4 bg-indigo-500 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75"
+      >Inloggen</a
+    >
+  {/if}
 {/if}

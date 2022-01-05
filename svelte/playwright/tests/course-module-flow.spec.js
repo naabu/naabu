@@ -49,8 +49,9 @@ test('Create course modules', async ({ page, domain, showAllConsole }) => {
 
   // Go to course module create form.
   await page.click('[data-cy=user-menu]');
-  await page.waitForTimeout(300);
+  await page.waitForTimeout(500);
   await page.click('#user-menu-item-teacher-room');
+  await page.waitForTimeout(500);
   await page.click('[data-cy=desktop-sidebar-menu] > [data-cy=teacher-menu-modules]');
   await expect(page.locator('[data-cy=module-name-0]')).not.toBeVisible();
   await expect(page.locator('[data-cy=create-module-button-link]')).toBeVisible();

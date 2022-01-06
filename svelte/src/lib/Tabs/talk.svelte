@@ -1,5 +1,5 @@
 <script>
-  import Tabs from "./tabs.svelte";
+  import Tabs from "$lib/Tabs/tabs.svelte";
   export let mainSelected = "talk";
   export let subSelected = "read";
   export let objectId;

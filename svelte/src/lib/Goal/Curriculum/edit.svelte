@@ -1,5 +1,5 @@
 <script>
-  import Form from "./form.svelte";
+  import Form from "$lib/Goal/Curriculum/form.svelte";
   import { getStores, session } from "$app/stores";
   import CurriculumTabs from "$lib/Tabs/curriculum.svelte";
   import { onMount } from "svelte";

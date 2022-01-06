@@ -1,11 +1,11 @@
 <script>
   // import firebase from "firebase/app";
   import { getStores, session } from "$app/stores";
-  import CheckPlayerHasProfile from "$lib/Curriculum/checkPlayerHasProfile.svelte"
-  import GoalForm from "./form.svelte";
+  import CheckPlayerHasProfile from "$lib/Goal/Curriculum/checkPlayerHasProfile.svelte"
+  import GoalForm from "$lib/Goal/form.svelte";
   import { onMount } from "svelte";
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
-  import { createGoalRevision, getGoalSaveData } from "./helper";
+  import { createGoalRevision, getGoalSaveData } from "$lib/Goal/helper";
   import { getGoalIndex } from "$lib/algolia";
   import { goto } from "$app/navigation";
 

@@ -1,7 +1,7 @@
 <script>
-  import logo from "./logo.svg";
-  import logosmall from "./logo-small.svg";
-  import personIcon from "./person-icon.svg";
+  import logo from "$lib/Header/logo.svg";
+  import logosmall from "$lib/Header/logo-small.svg";
+  import personIcon from "$lib/Header/person-icon.svg";
   import Transition from "svelte-class-transition";
   import { getStores, session, page } from "$app/stores";
   import { onMount, getContext } from "svelte";

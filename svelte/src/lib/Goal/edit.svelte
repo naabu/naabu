@@ -3,12 +3,12 @@
   // import { getFirebaseFirestore } from "$lib/firebase";
   // import { collection, getDoc, updateDoc, query, getDocs, doc } from "firebase/firestore";
   import { getStores, session, page } from "$app/stores";
-  import CheckPlayerHasProfile from "$lib/Curriculum/checkPlayerHasProfile.svelte"
-  import GoalForm from "./form.svelte";
+  import CheckPlayerHasProfile from "$lib/Goal/Curriculum/checkPlayerHasProfile.svelte"
+  import GoalForm from "$lib/Goal/form.svelte";
   import { onMount } from "svelte";
   import MainTabs from "$lib/Tabs/goal.svelte";
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
-  import { createGoalRevision, getGoalSaveData } from "./helper";
+  import { createGoalRevision, getGoalSaveData } from "$lib/Goal/helper";
 
   export let battleCol;
   export let firebase;

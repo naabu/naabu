@@ -1,7 +1,7 @@
 <script>
   import { goto } from "$app/navigation";
-  import RevisionList from "./revisionList.svelte";
-  import PostList from "./postList.svelte";
+  import RevisionList from "$lib/Goal/Curriculum/revisionList.svelte";
+  import PostList from "$lib/Goal/Curriculum/postList.svelte";
   import CurriculumTabs from "$lib/Tabs/curriculum.svelte";
 
   export let curriculumProfile;

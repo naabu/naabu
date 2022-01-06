@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
   import { firebaseStore } from "$lib/Firebase/store";
-  import { getUserModule } from "./helper";
+  import { getUserModule } from "$lib/Module/helper";
   export let firebase;
   export let module;
   export let mounted = false;

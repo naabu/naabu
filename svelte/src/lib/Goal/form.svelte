@@ -1,6 +1,6 @@
 <script>
-  import DisplayMultiTopics from "./displayMultiTopics.svelte";
-  import BattleListForm from "./battleListForm.svelte";
+  import DisplayMultiTopics from "$lib/Goal/displayMultiTopics.svelte";
+  import BattleListForm from "$lib/Goal/battleListForm.svelte";
   import QuizForm from "$lib/Quizzes/form.svelte";
 
   export let goal;

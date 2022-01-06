@@ -2,7 +2,7 @@
   import ArrayDiff from "$lib/Diff/arrayDiff.svelte";
   import StringDiff from "$lib/Diff/stringDiff.svelte";
   import { goto } from "$app/navigation";
-  import { formatActivityKeys, formatActivityValue, getActivitySort, getDifferencesBetweenRevisions } from "./helper";
+  import { formatActivityKeys, formatActivityValue, getActivitySort, getDifferencesBetweenRevisions } from "$lib/Revision/helper";
   export let revisionOld;
   export let revisionNew;
   export let loading = false;

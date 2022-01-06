@@ -1,5 +1,5 @@
 <script>
-  import MakeCurriculumProfile from "$lib/Curriculum/create.svelte";
+  import MakeCurriculumProfile from "$lib/Goal/Curriculum/create.svelte";
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
   import { firebaseStore } from "$lib/Firebase/store";

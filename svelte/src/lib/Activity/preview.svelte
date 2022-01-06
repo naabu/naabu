@@ -4,12 +4,12 @@
   import MainTabs from "$lib/Tabs/goal.svelte";
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
-  import { getCurriculumProfile } from "$lib/Curriculum/helper";
+  import { getCurriculumProfile } from "$lib/Goal/Curriculum/helper";
   import {
     getActivitySaveData,
     getDifficultyToString,
     getTypeText,
-  } from "./helper";
+  } from "$lib/Activity/helper";
   import {
     createRevision,
     getActivitySort,

@@ -2,11 +2,11 @@
   // import { getFirebaseFirestore } from "$lib/firebase.js";
   // import { collection, addDoc, setDoc, doc } from "firebase/firestore";
   import { getStores, session } from "$app/stores";
-  import ActivityForm from "./form.svelte";
+  import ActivityForm from "$lib/Activity/form.svelte";
   import { onMount } from "svelte";
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
   import { renderKatexOutput } from "$lib/Misc/helper.js";
-  import { getActivitySaveData, getDefaultEmptyActivity } from "./helper";
+  import { getActivitySaveData, getDefaultEmptyActivity } from "$lib/Activity/helper";
   import { goto } from "$app/navigation";
   import { createRevision } from "$lib/Revision/helper";
   export let firebase;

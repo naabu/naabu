@@ -1,6 +1,6 @@
 <script>
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
-  import ConnectionForm from "./form.svelte";
+  import ConnectionForm from "$lib/Goal/Connection/form.svelte";
   import { getStores, session } from "$app/stores";
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";

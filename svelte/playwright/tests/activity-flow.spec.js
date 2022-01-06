@@ -180,6 +180,5 @@ test('Create activities and attach them', async ({ page, domain, showAllConsole 
   await page.fill('#title', 'CHECKCHECKCHECK');
   await page.click('[data-cy=edit-activity-submit-button]');
   await page.click('[data-cy=update-activity-learning-goal-button]');
-  await expect(page.locator('[data-cy="connection-write-by-teacher-update-content-3"]')).toContainText("Activiteit is geupdate");
   await expect(page.locator('[data-cy="connection-write-by-teacher-update-content-3"]')).toContainText("CHECKCHECKCHECK");
 });

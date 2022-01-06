@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import { getStores, session } from "$app/stores";
   import { firebaseStore } from "$lib/Firebase/store";
-  import { queryConnections } from "$lib/Connection/helper";
+  import { queryConnections } from "$lib/Goal/Connection/helper";
 
   export let firebase;
   export let connections;

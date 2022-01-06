@@ -1,6 +1,6 @@
 <script>
   import GetGoalData from "$lib/Goal/getGoalData.svelte";
-  import GetConnectionListsData from "$lib/Connection/getConnectionListsData.svelte";
+  import GetConnectionListsData from "$lib/Goal/Connection/getConnectionListsData.svelte";
   import ContainerBreadcrumpPageTitle from "$lib/Containers/breadcrumbPageTitle.svelte";
   import { getStores, page, session } from "$app/stores";
   import MainTabs from "$lib/Tabs/goal.svelte";
@@ -8,9 +8,9 @@
   import ConnectionStatusTabs from "$lib/Tabs/connectionStatus.svelte";
   import { onMount } from "svelte";
   import { firebaseStore } from "$lib/Firebase/store";
-  import { getStatusText } from "$lib/Connection/helper";
+  import { getStatusText } from "$lib/Goal/Connection/helper";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
-  import ConnectionLinkList from "$lib/Connection/connectionLinkList.svelte";
+  import ConnectionLinkList from "$lib/Goal/Connection/connectionLinkList.svelte";
 
   export let connectionType = "goal-activity";
   export let status;

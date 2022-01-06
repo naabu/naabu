@@ -1,8 +1,8 @@
 <script>
   import MainTabs from "$lib/Tabs/goal.svelte";
   import SecondTabs from "$lib/Tabs/learningGoalConnections.svelte";
-  import ConnectionList from "$lib/Connection/list.svelte";
-  import GetConnectionListsData from "$lib/Connection/getConnectionListsData.svelte";
+  import ConnectionList from "$lib/Goal/Connection/list.svelte";
+  import GetConnectionListsData from "$lib/Goal/Connection/getConnectionListsData.svelte";
   export let goal;
   export let firebase;
   let mounted;

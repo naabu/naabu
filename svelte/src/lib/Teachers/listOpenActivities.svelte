@@ -1,6 +1,6 @@
 <script>
   import DataTableActivities from "$lib/Teachers/dataTableActivities.svelte";
-  import { getStatusText } from "$lib/Connection/helper";
+  import { getStatusText } from "$lib/Goal/Connection/helper";
   export let activities = [];
 </script> 
 

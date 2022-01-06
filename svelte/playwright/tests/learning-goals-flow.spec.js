@@ -139,6 +139,7 @@ test('Test flow for learning goals.', async ({ page, domain, showAllConsole }) =
   await page.fill('#answeranswer', '1');
   await page.click('[data-cy=edit-goal-submit-button]');
   await expect(page.locator('div#svelte')).toContainText('Leerdoel gewijzigd');
+  await page.waitForTimeout(1000);
   await page.click('[data-cy=subtab-history]');
 
   // Revision page.

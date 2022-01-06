@@ -1,7 +1,7 @@
 <script>
   import DataTableActivities from "$lib/Teachers/dataTableActivities.svelte";
   import { getDefaultAlertValues, truncate } from "$lib/Misc/helper";
-  import ResultFeedback from "$lib/Form/resultFeedback.svelte";
+  import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   export let firebase;
 
   export let activities = [];

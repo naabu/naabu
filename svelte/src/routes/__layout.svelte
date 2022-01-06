@@ -1,10 +1,10 @@
 <script>
   import { getStores, session, page } from "$app/stores";
-  import { firebaseStore } from "$lib/Firebase/store";
+  import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { onMount, getContext } from "svelte";
   import Header from "$lib/Header/index.svelte";
   import "$lib/../app.postcss";
-  import LoadFirebase from "$lib/Firebase/loadFirebase.svelte";
+  import LoadFirebase from "$lib/Internals/Firebase/loadFirebase.svelte";
   import { loginUser } from "$lib/User/helper";
 
   let user = null;

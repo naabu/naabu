@@ -2,9 +2,9 @@
   import Show from "$lib/Revision/show.svelte";
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
-  import { firebaseStore } from "$lib/Firebase/store";
+  import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { getNextAndPreviousRevisions } from "$lib/Revision/helper";
-  import ContainerBreadcrumpPageTitle from "$lib/Interals/Containers/breadcrumbPageTitle.svelte";
+  import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
 
   let firebase;

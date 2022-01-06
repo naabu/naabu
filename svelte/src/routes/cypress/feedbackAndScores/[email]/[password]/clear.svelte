@@ -1,7 +1,7 @@
 <script>
-  import ClearHelper from "$lib/Cypress/clearFirestore.svelte";
+  import ClearHelper from "$lib/Internals/Cypress/clearFirestore.svelte";
   import { getStores, session, page } from "$app/stores";
-  import { firebaseStore } from "$lib/Firebase/store";
+  import { firebaseStore } from "$lib/Internals/Firebase/store";
   let oldUser = null;
   let firebase;
   let auth;

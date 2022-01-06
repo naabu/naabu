@@ -8,9 +8,9 @@
     formatActivityValue,
     sortOnCreatedAt,
   } from "$lib/Revision/helper";
-  import ResultFeedback from "$lib/Form/resultFeedback.svelte";
-  import ArrayDiff from "$lib/Diff/arrayDiff.svelte";
-  import StringDiff from "$lib/Diff/stringDiff.svelte";
+  import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
+  import ArrayDiff from "$lib/Internals/Diff/arrayDiff.svelte";
+  import StringDiff from "$lib/Internals/Diff/stringDiff.svelte";
 
   import CheckPlayerHasProfile from "$lib/Goal/Curriculum/checkPlayerHasProfile.svelte";
   import {

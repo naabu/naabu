@@ -1,6 +1,6 @@
 <script>
   import GetGoalData from "$lib/Goal/getGoalData.svelte";
-  import ContainerBreadcrumpPageTitle from "$lib/Interals/Containers/breadcrumbPageTitle.svelte";
+  import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
 
   export let goal;
   export let firebase;

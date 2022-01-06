@@ -1,6 +1,6 @@
 <script>
-  import ArrayDiff from "$lib/Diff/arrayDiff.svelte";
-  import StringDiff from "$lib/Diff/stringDiff.svelte";
+  import ArrayDiff from "$lib/Internals/Diff/arrayDiff.svelte";
+  import StringDiff from "$lib/Internals/Diff/stringDiff.svelte";
   import { checkArrayIsTheSame, getDateString } from "$lib/Misc/helper";
   import { goto } from "$app/navigation";
   import MainTabs from "$lib/Tabs/revision.svelte";

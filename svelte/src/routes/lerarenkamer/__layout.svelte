@@ -1,7 +1,7 @@
 <script>
   import { getStores, session } from "$app/stores";
-  import { firebaseStore } from "$lib/Firebase/store";
-  import { login } from "$lib/Firebase/helper";
+  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { login } from "$lib/Internals/Firebase/helper";
   let firebase;
 
   async function loginTeacher() {

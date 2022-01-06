@@ -1,5 +1,5 @@
 <script>
-  import ClearHelper from "$lib/Cypress/clearFirestore.svelte";
+  import ClearHelper from "$lib/Internals/Cypress/clearFirestore.svelte";
   import { getStores, session } from "$app/stores";
 </script>
 

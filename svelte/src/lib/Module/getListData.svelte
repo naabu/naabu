@@ -1,7 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
-  import { firebaseStore } from "$lib/Firebase/store";
+  import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { retrieveMapsListFB } from "$lib/Module/helper";
 
   export let firebase;

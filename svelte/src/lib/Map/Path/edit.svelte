@@ -3,7 +3,7 @@
 	import { onMount } from 'svelte';
   import Form from '$lib/Map/Path/form.svelte';
   import ShowBreadcrumb from "$lib/Goal/Breadcrumb/show.svelte";
-  import ResultFeedback from "$lib/Form/resultFeedback.svelte";
+  import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
 import { getMapSaveData } from "$lib/Map/helper";
 
   let y;

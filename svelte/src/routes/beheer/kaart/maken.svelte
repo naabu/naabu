@@ -1,6 +1,6 @@
 <script>
 	import CreateMap from '$lib/Map/create.svelte';
-  import { firebaseStore } from "$lib/Firebase/store";
+  import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { getStores, session} from "$app/stores"
   import { onMount } from 'svelte';
   

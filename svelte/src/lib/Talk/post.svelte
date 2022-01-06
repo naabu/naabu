@@ -1,7 +1,7 @@
 <script>
   import { getStores, session } from "$app/stores";
   import { onMount } from "svelte";
-  import ResultFeedback from "$lib/Form/resultFeedback.svelte";
+  import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import CheckPlayerHasProfile from "$lib/Goal/Curriculum/checkPlayerHasProfile.svelte";
   import { getDateString } from "$lib/Misc/helper";
   import { sortOnCreatedAt, sortOnLastReplyAt } from "$lib/Revision/helper";

@@ -3,7 +3,7 @@
   import { getStores, session } from "$app/stores";
   import CurriculumTabs from "$lib/Tabs/curriculum.svelte";
   import { onMount } from "svelte";
-  import ResultFeedback from "$lib/Form/resultFeedback.svelte";
+  import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   export let firebase;
   export let curriculumProfile;
 

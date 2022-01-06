@@ -4,7 +4,7 @@
   import { getStores, page, session } from "$app/stores"
 	import { onMount } from 'svelte';
   import Notification from "$lib/Misc/notification.svelte";
-  import { firebaseStore } from "$lib/Firebase/store";
+  import { firebaseStore } from "$lib/Internals/Firebase/store";
 
   let firebase;
   

@@ -1,7 +1,7 @@
 <script>
   import { getStores, session } from "$app/stores";
   import { getFirebaseConfig } from "$lib/config";
-  import { firebaseStore } from "$lib/Firebase/store";
+  import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
 

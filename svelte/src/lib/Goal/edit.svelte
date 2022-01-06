@@ -7,7 +7,7 @@
   import GoalForm from "$lib/Goal/form.svelte";
   import { onMount } from "svelte";
   import MainTabs from "$lib/Tabs/goal.svelte";
-  import ResultFeedback from "$lib/Form/resultFeedback.svelte";
+  import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import { createGoalRevision, getGoalSaveData } from "$lib/Goal/helper";
 
   export let battleCol;

@@ -1,7 +1,7 @@
 <script>
   import MapForm from "$lib/Map/form.svelte";
   import ShowBreadcrumb from "$lib/Goal/Breadcrumb/show.svelte";
-  import ResultFeedback from "$lib/Form/resultFeedback.svelte";
+  import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import { onMount } from "svelte";
   import { getMapSaveData } from "$lib/Map/helper";
 import { getStores, session } from "$app/stores";

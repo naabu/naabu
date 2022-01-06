@@ -1,6 +1,6 @@
 <script>
   import { getStores, session, page } from "$app/stores";
-  import { firebaseStore } from "$lib/Firebase/store";
+  import { firebaseStore } from "$lib/Internals/Firebase/store";
   let firebase;
   let mapCreated = false;
   let ready = false;

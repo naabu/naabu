@@ -1,10 +1,10 @@
 <script>
   import CreateGoal from "$lib/Goal/create.svelte";
   import { onMount } from "svelte";
-  import { firebaseStore } from "$lib/Firebase/store";
+  import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { getStores, session } from "$app/stores";
 
-  import ContainerBreadcrumpPageTitle from "$lib/Interals/Containers/breadcrumbPageTitle.svelte";
+  import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
   let breadcrumbs = [
     {
       url: "/curriculum",

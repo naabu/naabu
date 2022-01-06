@@ -5,7 +5,7 @@
   import Player from "@vimeo/player";
   import { onMount } from "svelte";
   import Notification from "$lib/Misc/notification.svelte";
-  import DifficultyFeedback from "$lib/Feedback/difficulty.svelte";
+  import DifficultyFeedback from "$lib/Activity/Feedback/difficulty.svelte";
   import BattleFight from "$lib/Goal/Battle/fight.svelte";
   import { hasSpecialClaims } from "$lib/User/helper.js";
   import { goto } from "$app/navigation";

@@ -1,5 +1,5 @@
 <!-- <script context="module" >
-    import { initFirebase } from "$lib/Firebase/loadFirebase.svelte";
+    import { initFirebase } from "$lib/Internals/Firebase/loadFirebase.svelte";
   
     export async function load({session}) {
       let firebase = await initFirebase(session.environment, session.fb);
@@ -12,7 +12,7 @@
 </script>
 
 <script>
-import { login } from "$lib/Firebase/helper";
+import { login } from "$lib/Internals/Firebase/helper";
 
     export let firebase;
     login(firebase);

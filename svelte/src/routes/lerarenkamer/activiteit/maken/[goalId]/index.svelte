@@ -1,9 +1,9 @@
 <script>
   import CreateActivity from "$lib/Activity/create.svelte";
   import { onMount } from "svelte";
-  import { firebaseStore } from "$lib/Firebase/store";
+  import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { getStores, session, page } from "$app/stores";
-  import Sidebar from "$lib/Interals/Containers/sidebar.svelte";
+  import Sidebar from "$lib/Internals/Containers/sidebar.svelte";
   import { getTeacherMenuitems } from "$lib/Teachers/helper";
   import GetGoalData from "$lib/Goal/getGoalData.svelte";
   let menuitems = getTeacherMenuitems($page.path, "draft");

@@ -1,9 +1,9 @@
 <script>
   import EditActivity from "$lib/Activity/edit.svelte";
   import { onMount } from "svelte";
-  import { firebaseStore } from "$lib/Firebase/store";
+  import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { getStores, session, page } from "$app/stores";
-  import Sidebar from "$lib/Interals/Containers/sidebar.svelte";
+  import Sidebar from "$lib/Internals/Containers/sidebar.svelte";
   import { getTeacherMenuitems } from "$lib/Teachers/helper";
   import GetActivityData from "$lib/Activity/getActivityData.svelte";
 

@@ -2,10 +2,10 @@
   import CreatePostForm from "$lib/Talk/createPost.svelte";
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
-  import { firebaseStore } from "$lib/Firebase/store";
+  import { firebaseStore } from "$lib/Internals/Firebase/store";
   import MainTabs from "$lib/Tabs/talk.svelte";
   import GetGoalData from "$lib/Goal/getGoalData.svelte";
-  import ContainerBreadcrumpPageTitle from "$lib/Interals/Containers/breadcrumbPageTitle.svelte";
+  import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
 
   let firebase;

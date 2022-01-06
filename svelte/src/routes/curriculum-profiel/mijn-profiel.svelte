@@ -2,9 +2,9 @@
   import CurriculumProfile from "$lib/Goal/Curriculum/profile.svelte";
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
-  import { firebaseStore } from "$lib/Firebase/store";
+  import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { goto } from "$app/navigation";
-  import ContainerBreadcrumpPageTitle from "$lib/Interals/Containers/breadcrumbPageTitle.svelte";
+  import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
 
   let firebase;
 

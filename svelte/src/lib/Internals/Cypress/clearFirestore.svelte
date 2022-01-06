@@ -1,6 +1,6 @@
 <script>
   import { getStores, session } from "$app/stores";
-  import { firebaseStore } from "$lib/Firebase/store";
+  import { firebaseStore } from "$lib/Internals/Firebase/store";
   export let collection;
   export let userCheck = true;
   export let fieldUserId = "authorId";

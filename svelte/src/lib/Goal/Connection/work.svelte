@@ -1,5 +1,5 @@
 <script>
-  import ResultFeedback from "$lib/Form/resultFeedback.svelte";
+  import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import TimeAgo from "javascript-time-ago";
   import nl from "javascript-time-ago/locale/nl.json";
   import { getStores, session } from "$app/stores";

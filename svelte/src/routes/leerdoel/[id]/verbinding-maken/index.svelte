@@ -1,10 +1,10 @@
 <script>
   import SearchGoalForConnection from "$lib/Goal/Connection/search.svelte";
-  import ConnectionTemplate from "$lib/Interals/Containers/connectionTemplate.svelte";
+  import ConnectionTemplate from "$lib/Internals/Containers/connectionTemplate.svelte";
   import { getStores, session, page } from "$app/stores";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
   import { onMount } from "svelte";
-  import { firebaseStore } from "$lib/Firebase/store";
+  import { firebaseStore } from "$lib/Internals/Firebase/store";
 
   let goal;
   let firebase;

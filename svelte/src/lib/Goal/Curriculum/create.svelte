@@ -4,8 +4,8 @@
   import { goto } from "$app/navigation";
   import CurriculumTabs from "$lib/Tabs/curriculum.svelte";
   import { onMount } from "svelte";
-  import ResultFeedback from "$lib/Form/resultFeedback.svelte";
-  import { login } from "$lib/Firebase/helper";
+  import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
+  import { login } from "$lib/Internals/Firebase/helper";
 
   export let firebase;
 

@@ -4,7 +4,7 @@
   import { getStores, session } from "$app/stores";
   import ActivityForm from "$lib/Activity/form.svelte";
   import { onMount } from "svelte";
-  import ResultFeedback from "$lib/Form/resultFeedback.svelte";
+  import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import { renderKatexOutput } from "$lib/Misc/helper.js";
   import { getActivitySaveData, getDefaultEmptyActivity } from "$lib/Activity/helper";
   import { goto } from "$app/navigation";

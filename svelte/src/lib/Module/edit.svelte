@@ -1,6 +1,6 @@
 <script>
   import ModuleForm from "$lib/Module/form.svelte";
-  import ResultFeedback from "$lib/Form/resultFeedback.svelte";
+  import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import { onMount } from "svelte";
   import { getDefaultAlertValues } from "$lib/Misc/helper";
   import { formatMapObject } from "$lib/Module/helper";

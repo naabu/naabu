@@ -4,7 +4,7 @@
   import { onMount } from "svelte";
   import ModuleTeaserList from "$lib/Module/teaserList.svelte";
   // import firebase from "firebase/app";
-  import { firebaseStore } from "$lib/Firebase/store";
+  import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { getMap, getUserMap } from "$lib/Map/helper";
 
   let firebase;

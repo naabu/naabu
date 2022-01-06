@@ -1,4 +1,4 @@
-import { renderKatexOutput } from "$lib/Internals/Misc/helper.js/helper.js";
+import { renderKatexOutput } from "$lib/Internals/Misc/helper.js";
 
 export function getDefaultEmptyActivity() {
   return {

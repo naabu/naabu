@@ -34,13 +34,6 @@ export function getTeacherMenuitems(pagePath, activityStatus = "") {
       icon: "calendar",
       datacy: "teacher-menu-modules",
       selected: (pagePath === "/lerarenkamer/modules" || pagePath === "/lerarenkamer/module/maken"),
-    },
-    {
-      name: "Leslokaal",
-      url: "/lerarenkamer/leslokaal",
-      icon: "people",
-      datacy: "teacher-menu-classroom",
-      selected: (pagePath === "/lerarenkamer/leslokaal"),
     }
   ];
 }

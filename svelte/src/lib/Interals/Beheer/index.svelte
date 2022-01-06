@@ -1,9 +1,9 @@
 <script>
   import ManagementTabs from "$lib/Tabs/management.svelte";
-  import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
+  import ShowBreadcrumb from "$lib/Goal/Breadcrumb/show.svelte";
   import { getStores, page, session } from "$app/stores"
 	import { onMount } from 'svelte';
-  import Notification from "../Misc/notification.svelte";
+  import Notification from "$lib/Misc/notification.svelte";
   import { firebaseStore } from "$lib/Firebase/store";
 
   let firebase;

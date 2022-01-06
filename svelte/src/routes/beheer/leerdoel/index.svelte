@@ -1,7 +1,7 @@
 <script>
   import ListGoals from "$lib/Goal/list.svelte";
   import ManagementTabs from "$lib/Tabs/management.svelte";
-  import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
+  import ShowBreadcrumb from "$lib/Goal/Breadcrumb/show.svelte";
   let breadcrumbs = [
     {
       url: "/beheer",

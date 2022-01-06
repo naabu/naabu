@@ -1,12 +1,12 @@
 <script>
   import { getStores, session, page } from "$app/stores";
-  import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
+  import ShowBreadcrumb from "$lib/Goal/Breadcrumb/show.svelte";
   import { renderKatexOutput } from "$lib/Misc/helper.js";
   import Player from "@vimeo/player";
   import { onMount } from "svelte";
   import Notification from "$lib/Misc/notification.svelte";
   import DifficultyFeedback from "$lib/Feedback/difficulty.svelte";
-  import BattleFight from "$lib/Battle/fight.svelte";
+  import BattleFight from "$lib/Goal/Battle/fight.svelte";
   import { hasSpecialClaims } from "$lib/User/helper.js";
   import { goto } from "$app/navigation";
   export let firebase;

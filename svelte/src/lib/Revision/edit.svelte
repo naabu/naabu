@@ -2,7 +2,7 @@
   import { getStores, session, page } from "$app/stores";
   import GoalForm from "$lib/Goal/form.svelte";
   import { onMount } from "svelte";
-  import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
+  import ShowBreadcrumb from "$lib/Goal/Breadcrumb/show.svelte";
   import MainTabs from "$lib/Tabs/revision.svelte";
   import ResultFeedback from "$lib/Form/resultFeedback.svelte";
   import { createGoalRevision, getGoalSaveData } from "$lib/Goal/helper";

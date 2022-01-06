@@ -1,6 +1,6 @@
 <script>
   import { getStores, session } from "$app/stores"
-  import Notification from "../Misc/notification.svelte";
+  import Notification from "$lib/Misc/notification.svelte";
 
   export let breadcrumbs = [];
   let displayNotification = false;

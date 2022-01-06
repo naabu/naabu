@@ -13,7 +13,7 @@
 
 
 <script>
-	import Beheer from '$lib/Beheer/index.svelte';
+	import Beheer from '$lib/Interals/Beheer/index.svelte';
   
 </script>
 

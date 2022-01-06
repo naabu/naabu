@@ -9,7 +9,7 @@
   export let goal;
   export let connectionGoal;
   let hasCurriculumProfile = false;
-  import CheckPlayerHasProfile from "$lib/Curriculum/checkPlayerHasProfile.svelte";
+  import CheckPlayerHasProfile from "$lib/Goal/Curriculum/checkPlayerHasProfile.svelte";
 
   let connection = {
     type: "prerequisit",

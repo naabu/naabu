@@ -207,6 +207,7 @@ test('Test flow for learning goals.', async ({ page, domain, showAllConsole }) =
   await page.fill('#post', 'New post');
   await page.click('[data-cy="post-button"]');
   await expect(page.locator('div#svelte')).toContainText('Antwoord');
+  await page.waitForTimeout(1000);
   await page.click('[data-cy="profile-link"]');
   await expect(page.locator('div#svelte')).toContainText('Ik kan subject 1 en subject 2 berekenen en omzetten from your head wi…');
   await expect(page.locator('div#svelte')).toContainText('Ik kan subject 1 benoemen en definieren from a work sheet');

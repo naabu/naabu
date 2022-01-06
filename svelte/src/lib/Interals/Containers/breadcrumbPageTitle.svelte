@@ -1,5 +1,5 @@
 <script>
-  import ShowBreadcrumb from "$lib/Breadcrumb/show.svelte";
+  import ShowBreadcrumb from "$lib/Goal/Breadcrumb/show.svelte";
 
   export let breadcrumbs = [];
   export let title = "";

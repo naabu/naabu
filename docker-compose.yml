@@ -27,6 +27,7 @@ services:
     volumes:
       - ./:/var/www/
     environment:
+      - environment=development
       - algoliaApp=6868GHOPYM
     # entrypoint: ["npm", "run", "emulateCypress"]
     ports:
@@ -49,7 +50,7 @@ services:
     volumes:
       - ./:/var/www/
     environment:
-      - environment=test
+      - environment=development
       - algoliaApp=6868GHOPYM
     ports:
       - 3009:3000

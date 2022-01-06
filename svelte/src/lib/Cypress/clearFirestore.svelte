@@ -14,8 +14,7 @@
   export let title = null;
   let firebase;
   export let resetDone = false;
-
-  $: console.log(resetDone);
+  
   export let showComplete = true;
   let mounted = false;
   let db;

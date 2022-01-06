@@ -1,7 +1,7 @@
 <script>
   import Sidebar from "$lib/Internals/Containers/sidebar.svelte";
   import { getStores, session, page } from "$app/stores";
-  import { getTeacherMenuitems } from "$lib/Teachers/helper";
+  import { getTeacherMenuitems } from "$lib/Internals/Teachers/helper";
   import ListGoals from "$lib/Goal/list.svelte";
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";

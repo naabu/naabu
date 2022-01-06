@@ -4,7 +4,7 @@
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { getStores, session, page } from "$app/stores";
   import Sidebar from "$lib/Internals/Containers/sidebar.svelte";
-  import { getTeacherMenuitems } from "$lib/Teachers/helper";
+  import { getTeacherMenuitems } from "$lib/Internals/Teachers/helper";
   let menuitems = getTeacherMenuitems($page.path);
   let firebase;
 

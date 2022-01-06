@@ -1,9 +1,9 @@
 <script>
   import { onMount } from "svelte";
-  import { getAlgoliaSearchClient, getGoalIndex } from "$lib/algolia";
+  import { getAlgoliaSearchClient, getGoalIndex } from "$lib/Internals/algolia";
   import { getStores, session } from "$app/stores";
 
-  import { truncate } from "$lib/Misc/helper";
+  import { truncate } from "$lib/Internals/Misc/helper";
 
   let truncateDescription = 600;
 

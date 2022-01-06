@@ -4,7 +4,7 @@
   import { getStores, session } from "$app/stores";
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
-  import MainTabs from "$lib/Tabs/goal.svelte";
+  import MainTabs from "$lib/Internals/Tabs/goal.svelte";
   export let firebase;
   export let goal;
   export let connectionGoal;

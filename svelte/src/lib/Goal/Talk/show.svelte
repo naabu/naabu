@@ -1,8 +1,8 @@
 <script>
-  import { getDateString } from "$lib/Misc/helper";
+  import { getDateString } from "$lib/Internals/Misc/helper";
   import { sortOnLastReplyAt } from "$lib/Revision/helper";
-  import CreatePostForm from "$lib/Talk/createPost.svelte";
-  import MainTabs from "$lib/Tabs/talk.svelte";
+  import CreatePostForm from "$lib/Goal/Talk/createPost.svelte";
+  import MainTabs from "$lib/Internals/Tabs/talk.svelte";
   export let firebase;
   export let talk;
   export let posts;

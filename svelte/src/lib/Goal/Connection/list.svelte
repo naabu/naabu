@@ -1,6 +1,6 @@
 <script>
   export let connections;
-  import { formatToTimeAgo, formatToTimeLeft } from "$lib/Misc/helper";
+  import { formatToTimeAgo, formatToTimeLeft } from "$lib/Internals/Misc/helper";
   import TimeAgo from "javascript-time-ago";
   import nl from "javascript-time-ago/locale/nl.json";
   import {

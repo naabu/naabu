@@ -1,6 +1,6 @@
 <script>
   import { getDifficultyToString, getTypeText } from "$lib/Activity/helper";
-  import { truncate } from "$lib/Misc/helper";
+  import { truncate } from "$lib/Internals/Misc/helper";
   import { getStores, page } from "$app/stores";
 
   export let activities;

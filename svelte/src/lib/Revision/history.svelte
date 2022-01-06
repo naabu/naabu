@@ -1,7 +1,7 @@
 <script>
-  import { getDateString } from "$lib/Misc/helper";
+  import { getDateString } from "$lib/Internals/Misc/helper";
   export let revisions;
-  import { formatToTimeAgo } from "$lib/Misc/helper";
+  import { formatToTimeAgo } from "$lib/Internals/Misc/helper";
   import TimeAgo from "javascript-time-ago";
   import nl from "javascript-time-ago/locale/nl.json";
   import Transition from "svelte-class-transition";

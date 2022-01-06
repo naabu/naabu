@@ -1,4 +1,4 @@
-import { getMapSaveData } from "$lib/Map/helper.js";
+import { getMapSaveData } from "$lib/Module/Map/helper.js";
 
 export function filterSelectedActivities(module, currentLocationId, userModule) {
   let numberOfActivitiesToShow = 6;

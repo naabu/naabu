@@ -1,8 +1,8 @@
 <script>
-  import Show from "$lib/Map/show.svelte";
+  import Show from "$lib/Module/Map/show.svelte";
   import { getStores, session, page } from "$app/stores";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
-  // import { getMap, getUserMap } from "$lib/Map/helper";
+  // import { getMap, getUserMap } from "$lib/Module/Map/helper";
   import GetModuleData from "$lib/Module/getModuleData.svelte";
 
   let firebase;

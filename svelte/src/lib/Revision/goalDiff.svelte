@@ -1,9 +1,9 @@
 <script>
   import ArrayDiff from "$lib/Internals/Diff/arrayDiff.svelte";
   import StringDiff from "$lib/Internals/Diff/stringDiff.svelte";
-  import { checkArrayIsTheSame, getDateString } from "$lib/Misc/helper";
+  import { checkArrayIsTheSame, getDateString } from "$lib/Internals/Misc/helper";
   import { goto } from "$app/navigation";
-  import MainTabs from "$lib/Tabs/revision.svelte";
+  import MainTabs from "$lib/Internals/Tabs/revision.svelte";
   export let revisionOld;
   export let revisionNew;
   export let goBackRevision;

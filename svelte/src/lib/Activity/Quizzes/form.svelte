@@ -1,6 +1,6 @@
 <script>
-  import VerwijderDialog from "$lib/Misc/dialog.svelte";
-  import { renderKatexOutput } from "$lib/Misc/helper.js";
+  import VerwijderDialog from "$lib/Internals/Misc/dialog.svelte";
+  import { renderKatexOutput } from "$lib/Internals/Misc/helper.js";
 
   export let quizzes = [];
   export let showTimeInVideo = false;

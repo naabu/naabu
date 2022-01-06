@@ -1,9 +1,9 @@
 <script>
-  import { getDateString } from "$lib/Misc/helper";
+  import { getDateString } from "$lib/Internals/Misc/helper";
   import { sortOnCreatedAt } from "$lib/Revision/helper";
 
   export let goal;
-  import MainTabs from "$lib/Tabs/goal.svelte";
+  import MainTabs from "$lib/Internals/Tabs/goal.svelte";
 
   $: if (goal.revisionList) {
     for (let revision of goal.revisionList) {

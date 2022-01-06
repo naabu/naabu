@@ -2,8 +2,8 @@
   import { getStores, session, page } from "$app/stores";
   import { onMount } from "svelte";
   import "@algolia/autocomplete-theme-classic";
-  import { renderKatexOutput } from "$lib/Misc/helper.js";
-  import QuizForm from "$lib/Quizzes/form.svelte";
+  import { renderKatexOutput } from "$lib/Internals/Misc/helper.js";
+  import QuizForm from "$lib/Activity/Quizzes/form.svelte";
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
 

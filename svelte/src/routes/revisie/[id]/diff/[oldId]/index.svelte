@@ -9,7 +9,7 @@
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
   import GetRevisionListData from "$lib/Revision/getListData.svelte";
   import ShowRevisionHistory from "$lib/Revision/history.svelte";
-  import { getTeacherMenuitems } from "$lib/Teachers/helper";
+  import { getTeacherMenuitems } from "$lib/Internals/Teachers/helper";
   import Sidebar from "$lib/Internals/Containers/sidebar.svelte";
   import { goto } from "$app/navigation";
   import SaveActivityRevision from "$lib/Revision/saveActivityRevision.svelte";

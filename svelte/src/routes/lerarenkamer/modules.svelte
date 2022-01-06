@@ -1,9 +1,9 @@
 <script>
-  import ListModules from "$lib/Teachers/dataTableModules.svelte";
+  import ListModules from "$lib/Internals/Teachers/dataTableModules.svelte";
   import Sidebar from "$lib/Internals/Containers/sidebar.svelte";
   import GetMapsListData from "$lib/Module/getListData.svelte";
   import { getStores, page } from "$app/stores";
-  import { getTeacherMenuitems } from "$lib/Teachers/helper";
+  import { getTeacherMenuitems } from "$lib/Internals/Teachers/helper";
   import { goto } from "$app/navigation";
   let menuitems = getTeacherMenuitems($page.path);
   let modules = [];

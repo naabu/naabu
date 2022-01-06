@@ -3,9 +3,9 @@
   import { onMount } from "svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import CheckPlayerHasProfile from "$lib/Goal/Curriculum/checkPlayerHasProfile.svelte";
-  import { getDateString } from "$lib/Misc/helper";
+  import { getDateString } from "$lib/Internals/Misc/helper";
   import { sortOnCreatedAt, sortOnLastReplyAt } from "$lib/Revision/helper";
-  import MainTabs from "$lib/Tabs/talk.svelte";
+  import MainTabs from "$lib/Internals/Tabs/talk.svelte";
   export let talkId;
   export let post;
   export let replies;

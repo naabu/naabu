@@ -3,9 +3,9 @@
   import GetConnectionListsData from "$lib/Goal/Connection/getConnectionListsData.svelte";
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
   import { getStores, page, session } from "$app/stores";
-  import MainTabs from "$lib/Tabs/goal.svelte";
-  import LearningGoalConnectionsTabs from "$lib/Tabs/learningGoalConnections.svelte";
-  import ConnectionStatusTabs from "$lib/Tabs/connectionStatus.svelte";
+  import MainTabs from "$lib/Internals/Tabs/goal.svelte";
+  import LearningGoalConnectionsTabs from "$lib/Internals/Tabs/learningGoalConnections.svelte";
+  import ConnectionStatusTabs from "$lib/Internals/Tabs/connectionStatus.svelte";
   import { onMount } from "svelte";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { getStatusText } from "$lib/Goal/Connection/helper";

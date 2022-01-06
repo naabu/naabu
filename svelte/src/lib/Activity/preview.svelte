@@ -1,7 +1,7 @@
 <script>
   import ShowActivity from "$lib/Activity/show.svelte";
   import { getStores, session } from "$app/stores";
-  import MainTabs from "$lib/Tabs/goal.svelte";
+  import MainTabs from "$lib/Internals/Tabs/goal.svelte";
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
   import { getCurriculumProfile } from "$lib/Goal/Curriculum/helper";

@@ -6,7 +6,7 @@
   import CheckPlayerHasProfile from "$lib/Goal/Curriculum/checkPlayerHasProfile.svelte"
   import GoalForm from "$lib/Goal/form.svelte";
   import { onMount } from "svelte";
-  import MainTabs from "$lib/Tabs/goal.svelte";
+  import MainTabs from "$lib/Internals/Tabs/goal.svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import { createGoalRevision, getGoalSaveData } from "$lib/Goal/helper";
 

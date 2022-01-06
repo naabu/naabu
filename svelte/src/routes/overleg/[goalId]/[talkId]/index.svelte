@@ -1,5 +1,5 @@
 <script>
-  import Talk from "$lib/Talk/show.svelte";
+  import Talk from "$lib/Goal/Talk/show.svelte";
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
   import { firebaseStore } from "$lib/Internals/Firebase/store";

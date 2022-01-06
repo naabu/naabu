@@ -2,7 +2,7 @@
   import Form from "$lib/Goal/Curriculum/form.svelte";
   import { getStores, session, page } from "$app/stores";
   import { goto } from "$app/navigation";
-  import CurriculumTabs from "$lib/Tabs/curriculum.svelte";
+  import CurriculumTabs from "$lib/Internals/Tabs/curriculum.svelte";
   import { onMount } from "svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import { login } from "$lib/Internals/Firebase/helper";

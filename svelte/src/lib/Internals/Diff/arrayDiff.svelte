@@ -1,5 +1,5 @@
 <script>
-  import { checkArrayIsTheSame } from "$lib/Misc/helper";
+  import { checkArrayIsTheSame } from "$lib/Internals/Misc/helper";
 
   export let title = "Verschil";
   export let old;

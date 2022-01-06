@@ -1,4 +1,4 @@
-import { loginUser } from "$lib/User/helper.js";
+import { loginUser } from "$lib/Internals/User/helper.js";
 
 
 export async function login(firebase) {

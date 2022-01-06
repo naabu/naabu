@@ -1,5 +1,5 @@
 <script>
-  import Tabs from "$lib/Tabs/tabs.svelte";
+  import Tabs from "$lib/Internals/Tabs/tabs.svelte";
   export let mainSelected = "overview";
   export let goal;
 

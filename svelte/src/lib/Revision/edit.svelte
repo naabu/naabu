@@ -3,7 +3,7 @@
   import GoalForm from "$lib/Goal/form.svelte";
   import { onMount } from "svelte";
   import ShowBreadcrumb from "$lib/Goal/Breadcrumb/show.svelte";
-  import MainTabs from "$lib/Tabs/revision.svelte";
+  import MainTabs from "$lib/Internals/Tabs/revision.svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import { createGoalRevision, getGoalSaveData } from "$lib/Goal/helper";
 

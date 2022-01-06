@@ -5,7 +5,7 @@
   import { getStores, session, page } from "$app/stores";
   import Transition from "svelte-class-transition";
   import { onMount } from "svelte";
-  import { hasSpecialClaims} from "$lib/User/helper.js";
+  import { hasSpecialClaims} from "$lib/Internals/User/helper.js";
 
   export let activity;
   export let moduleId = null;

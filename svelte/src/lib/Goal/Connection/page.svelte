@@ -17,7 +17,7 @@
     formatToTimeAgo,
     getDefaultAlertValues,
     getDiffStrings,
-  } from "$lib/Misc/helper";
+  } from "$lib/Internals/Misc/helper";
   import { getCurriculumProfile } from "$lib/Goal/Curriculum/helper";
 
   export let firebase;

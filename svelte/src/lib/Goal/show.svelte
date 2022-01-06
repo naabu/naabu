@@ -1,6 +1,6 @@
 <script>
   export let goal;
-  import MainTabs from "$lib/Tabs/goal.svelte";
+  import MainTabs from "$lib/Internals/Tabs/goal.svelte";
 </script>
 
 <MainTabs bind:goal />

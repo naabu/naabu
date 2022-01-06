@@ -1,8 +1,8 @@
 <script>
-  import ListConceptActivities from "$lib/Teachers/listConceptActivities.svelte";
+  import ListConceptActivities from "$lib/Internals/Teachers/listConceptActivities.svelte";
   import Sidebar from "$lib/Internals/Containers/sidebar.svelte";
   import { getStores, page } from "$app/stores";
-  import { getTeacherMenuitems } from "$lib/Teachers/helper";
+  import { getTeacherMenuitems } from "$lib/Internals/Teachers/helper";
   import GetActivityListData from "$lib/Activity/getActivityListData.svelte";
 
   let menuitems = getTeacherMenuitems($page.path);

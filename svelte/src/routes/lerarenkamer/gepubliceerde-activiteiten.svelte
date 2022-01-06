@@ -1,9 +1,9 @@
 <script>
-  import ListPublishedActivities from "$lib/Teachers/listPublishedActivities.svelte";
+  import ListPublishedActivities from "$lib/Internals/Teachers/listPublishedActivities.svelte";
   import Sidebar from "$lib/Internals/Containers/sidebar.svelte";
   import GetActivityListData from "$lib/Activity/getActivityListData.svelte";
   import { getStores, page } from "$app/stores";
-  import { getTeacherMenuitems } from "$lib/Teachers/helper";
+  import { getTeacherMenuitems } from "$lib/Internals/Teachers/helper";
   let menuitems = getTeacherMenuitems($page.path);
   import { goto } from "$app/navigation";
   let activities;

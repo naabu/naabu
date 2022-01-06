@@ -1,5 +1,5 @@
 <script>
-  import Stars from "$lib/Misc/stars.svelte";
+  import Stars from "$lib/Internals/Misc/stars.svelte";
   export let activity;
   export let moduleId;
   export let locationId;

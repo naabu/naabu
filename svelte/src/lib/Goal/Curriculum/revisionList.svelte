@@ -1,6 +1,6 @@
 <script>
   import { goto } from "$app/navigation";
-  import { getDateString, truncate } from "$lib/Misc/helper";
+  import { getDateString, truncate } from "$lib/Internals/Misc/helper";
   import { sortOnCreatedAt } from "$lib/Revision/helper";
   export let curriculumProfile;
 

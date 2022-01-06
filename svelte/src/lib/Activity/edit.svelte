@@ -5,7 +5,7 @@
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import { getActivitySaveData } from "$lib/Activity/helper";
   import { goto } from "$app/navigation";
-  import { getDefaultAlertValues } from "$lib/Misc/helper";
+  import { getDefaultAlertValues } from "$lib/Internals/Misc/helper";
   import {
     createRevision,
     getDifferencesBetweenRevisions,

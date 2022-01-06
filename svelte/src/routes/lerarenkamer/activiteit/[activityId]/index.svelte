@@ -4,10 +4,10 @@
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { getStores, session, page } from "$app/stores";
   import Sidebar from "$lib/Internals/Containers/sidebar.svelte";
-  import { getTeacherMenuitems } from "$lib/Teachers/helper";
+  import { getTeacherMenuitems } from "$lib/Internals/Teachers/helper";
   import GetActivityData from "$lib/Activity/getActivityData.svelte";
 
-  import { formatToTimeAgo } from "$lib/Misc/helper";
+  import { formatToTimeAgo } from "$lib/Internals/Misc/helper";
   import TimeAgo from "javascript-time-ago";
   import nl from "javascript-time-ago/locale/nl.json";
   import { getStatusTranslation } from "$lib/Activity/helper";

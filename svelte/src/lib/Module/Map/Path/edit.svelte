@@ -1,10 +1,10 @@
 <script>
   import { getStores, session, page } from "$app/stores"
 	import { onMount } from 'svelte';
-  import Form from '$lib/Map/Path/form.svelte';
+  import Form from '$lib/Module/Map/Path/form.svelte';
   import ShowBreadcrumb from "$lib/Goal/Breadcrumb/show.svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
-import { getMapSaveData } from "$lib/Map/helper";
+import { getMapSaveData } from "$lib/Module/Map/helper";
 
   let y;
   export let ref;

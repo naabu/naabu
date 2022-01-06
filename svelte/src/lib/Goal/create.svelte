@@ -6,7 +6,7 @@
   import { onMount } from "svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import { createGoalRevision, getGoalSaveData } from "$lib/Goal/helper";
-  import { getGoalIndex } from "$lib/algolia";
+  import { getGoalIndex } from "$lib/Internals/algolia";
   import { goto } from "$app/navigation";
 
   export let firebase;

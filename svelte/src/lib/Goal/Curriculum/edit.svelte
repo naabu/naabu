@@ -1,7 +1,7 @@
 <script>
   import Form from "$lib/Goal/Curriculum/form.svelte";
   import { getStores, session } from "$app/stores";
-  import CurriculumTabs from "$lib/Tabs/curriculum.svelte";
+  import CurriculumTabs from "$lib/Internals/Tabs/curriculum.svelte";
   import { onMount } from "svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   export let firebase;

@@ -4,7 +4,7 @@
   export let previousRevision;
   export let nextRevision;
   export let loading;
-  import MainTabs from "$lib/Tabs/revision.svelte";
+  import MainTabs from "$lib/Internals/Tabs/revision.svelte";
 </script>
 
 <MainTabs bind:revision />

@@ -1,7 +1,7 @@
 <script>
   import { getStores, page } from "$app/stores";
   import ConnectionPage from "$lib/Goal/Connection/page.svelte";
-  import ConnectionTemplate from "$lib/Containers/connectionTemplate.svelte";
+  import ConnectionTemplate from "$lib/Interals/Containers/connectionTemplate.svelte";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
   import GetConnectionData from "$lib/Goal/Connection/getConnectionData.svelte";
   import GetGoalData from "$lib/Goal/getGoalData.svelte";

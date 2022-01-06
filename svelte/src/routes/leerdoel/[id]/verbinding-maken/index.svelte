@@ -1,6 +1,6 @@
 <script>
   import SearchGoalForConnection from "$lib/Goal/Connection/search.svelte";
-  import ConnectionTemplate from "$lib/Containers/connectionTemplate.svelte";
+  import ConnectionTemplate from "$lib/Interals/Containers/connectionTemplate.svelte";
   import { getStores, session, page } from "$app/stores";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
   import { onMount } from "svelte";

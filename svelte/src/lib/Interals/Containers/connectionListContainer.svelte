@@ -1,7 +1,7 @@
 <script>
   import GetGoalData from "$lib/Goal/getGoalData.svelte";
   import GetConnectionListsData from "$lib/Goal/Connection/getConnectionListsData.svelte";
-  import ContainerBreadcrumpPageTitle from "$lib/Containers/breadcrumbPageTitle.svelte";
+  import ContainerBreadcrumpPageTitle from "$lib/Interals/Containers/breadcrumbPageTitle.svelte";
   import { getStores, page, session } from "$app/stores";
   import MainTabs from "$lib/Tabs/goal.svelte";
   import LearningGoalConnectionsTabs from "$lib/Tabs/learningGoalConnections.svelte";

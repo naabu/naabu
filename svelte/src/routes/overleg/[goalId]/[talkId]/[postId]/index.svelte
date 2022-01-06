@@ -3,7 +3,7 @@
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
   import { firebaseStore } from "$lib/Firebase/store";
-  import ContainerBreadcrumpPageTitle from "$lib/Containers/breadcrumbPageTitle.svelte";
+  import ContainerBreadcrumpPageTitle from "$lib/Interals/Containers/breadcrumbPageTitle.svelte";
   import GetGoalData from "$lib/Goal/getGoalData.svelte";
 
   let firebase;

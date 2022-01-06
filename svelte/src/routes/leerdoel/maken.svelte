@@ -4,7 +4,7 @@
   import { firebaseStore } from "$lib/Firebase/store";
   import { getStores, session } from "$app/stores";
 
-  import ContainerBreadcrumpPageTitle from "$lib/Containers/breadcrumbPageTitle.svelte";
+  import ContainerBreadcrumpPageTitle from "$lib/Interals/Containers/breadcrumbPageTitle.svelte";
   let breadcrumbs = [
     {
       url: "/curriculum",

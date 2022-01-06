@@ -1,5 +1,5 @@
 <script>
-  import BreadcrumbPageTitle from "$lib/Containers/breadcrumbPageTitle.svelte";
+  import BreadcrumbPageTitle from "$lib/Interals/Containers/breadcrumbPageTitle.svelte";
 
   export let breadcrumbs = [];
   export let title = "";

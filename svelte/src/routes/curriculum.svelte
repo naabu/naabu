@@ -1,6 +1,6 @@
 <script>
   import ListGoals from "$lib/Goal/list.svelte";
-  import ContainerBreadcrumpPageTitle from "$lib/Containers/breadcrumbPageTitle.svelte";
+  import ContainerBreadcrumpPageTitle from "$lib/Interals/Containers/breadcrumbPageTitle.svelte";
   let breadcrumbs = [
     {
       url: "/curriculum",

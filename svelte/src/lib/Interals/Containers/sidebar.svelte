@@ -1,5 +1,5 @@
 <script>
-  import ShowMenuItems from "$lib/Containers/menuitems.svelte";
+  import ShowMenuItems from "$lib/Interals/Containers/menuitems.svelte";
   import Transition from "svelte-class-transition";
 
   export let menuitems = [];

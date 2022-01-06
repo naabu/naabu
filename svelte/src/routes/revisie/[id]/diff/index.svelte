@@ -5,12 +5,12 @@
   import { getStores, session, page } from "$app/stores";
   import { firebaseStore } from "$lib/Firebase/store";
   import { getNextAndPreviousRevisions } from "$lib/Revision/helper";
-  import ContainerBreadcrumpPageTitle from "$lib/Containers/breadcrumbPageTitle.svelte";
+  import ContainerBreadcrumpPageTitle from "$lib/Interals/Containers/breadcrumbPageTitle.svelte";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
   import GetRevisionListData from "$lib/Revision/getListData.svelte";
   import ShowRevisionHistory from "$lib/Revision/history.svelte";
   import { getTeacherMenuitems } from "$lib/Teachers/helper";
-  import Sidebar from "$lib/Containers/sidebar.svelte";
+  import Sidebar from "$lib/Interals/Containers/sidebar.svelte";
   import { getDefaultEmptyActivity } from "$lib/Activity/helper";
   import { goto } from "$app/navigation";
   import SaveActivityRevision from "$lib/Revision/saveActivityRevision.svelte";

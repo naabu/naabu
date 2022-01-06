@@ -5,7 +5,7 @@
   import { firebaseStore } from "$lib/Firebase/store";
   import MainTabs from "$lib/Tabs/talk.svelte";
   import GetGoalData from "$lib/Goal/getGoalData.svelte";
-  import ContainerBreadcrumpPageTitle from "$lib/Containers/breadcrumbPageTitle.svelte";
+  import ContainerBreadcrumpPageTitle from "$lib/Interals/Containers/breadcrumbPageTitle.svelte";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
 
   let firebase;

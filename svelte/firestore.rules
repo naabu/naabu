@@ -96,7 +96,7 @@ service cloud.firestore {
 
     match /maps/{mapId} {
       allow read, create: if true
-       allow update, delete: if request.auth.uid == resource.data.authorId
+      allow update, delete: if request.auth.uid == resource.data.authorId
       match /players/{playerId} {
          allow read, write, update: if true
       }

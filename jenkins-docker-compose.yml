@@ -9,13 +9,6 @@ services:
     environment:
       - environment=test
       - algoliaApp=6868GHOPYM
-    # ports:
-    #   - 3000:3000
-    #   - 3001:3001
-    #   - 9222:9222
-    #   - 9229:9229
-    #   - 24678:24678
-    #   - 9005:9005
     networks:
       - internal_network
 
@@ -27,13 +20,6 @@ services:
       - algoliaApp=6868GHOPYM
       - environment=test
     entrypoint: ["npm", "run", "emulateCypress"]
-    # ports:
-    #   - 5001:5001
-    #   - 5010:5010
-    #   - 5012:5012
-    #   - 5014:5014
-    #   - 4500:4500
-    #   - 4400:4400
     secrets:
       - algolia-private-api-key
     networks:

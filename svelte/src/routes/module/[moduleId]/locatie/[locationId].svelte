@@ -22,7 +22,6 @@
       userModule
     );
     if (filteredActivities.length === 0) {
-      console.log(timer);
       if (timer == null) {
         timer = setInterval(async () => {
           userModule = await getUserModule(

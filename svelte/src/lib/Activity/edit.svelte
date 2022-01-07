@@ -9,7 +9,7 @@
   import {
     createRevision,
     getDifferencesBetweenRevisions,
-  } from "$lib/Revision/helper";
+  } from "$lib/Internals/Revision/helper";
 
   let y;
   export let previousActivity;

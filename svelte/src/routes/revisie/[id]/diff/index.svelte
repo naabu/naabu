@@ -1,19 +1,19 @@
 <script>
-  import ActivityDiff from "$lib/Revision/activityDiff.svelte";
-  import GoalDiff from "$lib/Revision/goalDiff.svelte";
+  import ActivityDiff from "$lib/Internals/Revision/activityDiff.svelte";
+  import GoalDiff from "$lib/Internals/Revision/goalDiff.svelte";
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
-  import { getNextAndPreviousRevisions } from "$lib/Revision/helper";
+  import { getNextAndPreviousRevisions } from "$lib/Internals/Revision/helper";
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
-  import GetRevisionListData from "$lib/Revision/getListData.svelte";
-  import ShowRevisionHistory from "$lib/Revision/history.svelte";
+  import GetRevisionListData from "$lib/Internals/Revision/getListData.svelte";
+  import ShowRevisionHistory from "$lib/Internals/Revision/history.svelte";
   import { getTeacherMenuitems } from "$lib/Internals/Teachers/helper";
   import Sidebar from "$lib/Internals/Containers/sidebar.svelte";
   import { getDefaultEmptyActivity } from "$lib/Activity/helper";
   import { goto } from "$app/navigation";
-  import SaveActivityRevision from "$lib/Revision/saveActivityRevision.svelte";
+  import SaveActivityRevision from "$lib/Internals/Revision/saveActivityRevision.svelte";
 
   let menuitems;
 

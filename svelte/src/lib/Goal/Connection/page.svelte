@@ -7,7 +7,7 @@
     formatActivityKeys,
     formatActivityValue,
     sortOnCreatedAt,
-  } from "$lib/Revision/helper";
+  } from "$lib/Internals/Revision/helper";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import ArrayDiff from "$lib/Internals/Diff/arrayDiff.svelte";
   import StringDiff from "$lib/Internals/Diff/stringDiff.svelte";

@@ -1,6 +1,6 @@
 <script>
   import { getDateString } from "$lib/Internals/Misc/helper";
-  import { sortOnCreatedAt } from "$lib/Revision/helper";
+  import { sortOnCreatedAt } from "$lib/Internals/Revision/helper";
 
   export let goal;
   import MainTabs from "$lib/Internals/Tabs/goal.svelte";

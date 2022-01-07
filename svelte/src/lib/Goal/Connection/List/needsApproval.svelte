@@ -1,6 +1,6 @@
 <script>
   import { formatToTimeAgo, formatToTimeLeft } from "$lib/Internals/Misc/helper";
-  import { sortOnCreatedAt } from "$lib/Revision/helper";
+  import { sortOnCreatedAt } from "$lib/Internals/Revision/helper";
   import TimeAgo from "javascript-time-ago";
   import nl from "javascript-time-ago/locale/nl.json";
   export let firebase;

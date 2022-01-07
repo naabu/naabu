@@ -1,6 +1,6 @@
 <script>
-  import ShowRevisionHistory from "$lib/Revision/history.svelte";
-  import GetRevisionListData from "$lib/Revision/getListData.svelte";
+  import ShowRevisionHistory from "$lib/Internals/Revision/history.svelte";
+  import GetRevisionListData from "$lib/Internals/Revision/getListData.svelte";
   import { getStores, page } from "$app/stores";
 
   let firebase;

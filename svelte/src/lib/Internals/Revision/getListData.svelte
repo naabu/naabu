@@ -3,7 +3,7 @@
   import { onMount } from "svelte";
   import { getStores, session } from "$app/stores";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
-  import { queryRevisions } from "$lib/Revision/helper";
+  import { queryRevisions } from "$lib/Internals/Revision/helper";
 
   export let firebase;
   export let mounted = false;

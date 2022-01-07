@@ -2,7 +2,7 @@
   import { goto } from "$app/navigation";
   import { getStores, session } from "$app/stores";
   import { getActivitySaveData } from "$lib/Activity/helper";
-  import { createRevision } from "$lib/Revision/helper";
+  import { createRevision } from "$lib/Internals/Revision/helper";
 
   export let revision;
   export let firebase;

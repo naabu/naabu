@@ -1,7 +1,7 @@
 <script>
   import { goto } from "$app/navigation";
   import { getDateString, truncate } from "$lib/Internals/Misc/helper";
-  import { sortOnCreatedAt } from "$lib/Revision/helper";
+  import { sortOnCreatedAt } from "$lib/Internals/Revision/helper";
   export let curriculumProfile;
 
   $: if (curriculumProfile.postList) {

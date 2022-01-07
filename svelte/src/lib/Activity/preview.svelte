@@ -14,7 +14,7 @@
     createRevision,
     getActivitySort,
     getDifferencesBetweenRevisions,
-  } from "$lib/Revision/helper";
+  } from "$lib/Internals/Revision/helper";
   export let firebase;
   export let showActivity;
   export let activity;

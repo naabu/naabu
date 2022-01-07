@@ -1,5 +1,5 @@
 <script>
-  import EditRevision from "$lib/Revision/edit.svelte";
+  import EditRevision from "$lib/Internals/Revision/edit.svelte";
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
   import { firebaseStore } from "$lib/Internals/Firebase/store";

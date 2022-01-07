@@ -8,7 +8,7 @@
   import { renderKatexOutput } from "$lib/Internals/Misc/helper.js";
   import { getActivitySaveData, getDefaultEmptyActivity } from "$lib/Activity/helper";
   import { goto } from "$app/navigation";
-  import { createRevision } from "$lib/Revision/helper";
+  import { createRevision } from "$lib/Internals/Revision/helper";
   export let firebase;
   export let goal;
   let draftId;

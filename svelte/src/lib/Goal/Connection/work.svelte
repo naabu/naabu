@@ -4,7 +4,7 @@
   import nl from "javascript-time-ago/locale/nl.json";
   import { getStores, session } from "$app/stores";
   import { onMount } from "svelte";
-  import { sortOnCreatedAt } from "$lib/Revision/helper";
+  import { sortOnCreatedAt } from "$lib/Internals/Revision/helper";
   import { formatToTimeAgo, getDefaultAlertValues } from "$lib/Internals/Misc/helper";
   import MainTabs from "$lib/Internals/Tabs/goal.svelte";
   import { getStatusText } from "$lib/Goal/Connection/helper";

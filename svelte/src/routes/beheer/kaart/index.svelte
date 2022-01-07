@@ -1,5 +1,5 @@
 <script>
-	import ListMaps from '$lib/Module/Map/list.svelte';
+	import ListMaps from '$lib/Module/Map/Components/list.svelte';
 </script>
 
 <ListMaps/>

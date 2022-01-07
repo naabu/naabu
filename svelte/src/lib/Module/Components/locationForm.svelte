@@ -1,12 +1,12 @@
 <script>
   import { getStores, session, page } from "$app/stores";
-  import PathsForm from "$lib/Module/Location/pathsForm.svelte";
+  import PathsForm from "$lib/Module/Components/pathsForm.svelte";
   import { onMount } from "svelte";
   import { getAlgoliaSearchClient, getGoalIndex } from "$lib/Internals/algolia";
   import { autocomplete, getAlgoliaResults } from "@algolia/autocomplete-js";
   import "@algolia/autocomplete-theme-classic";
   import VerwijderDialog from "$lib/Internals/Misc/dialog.svelte";
-  import { generatePathsForMap } from "$lib/Module/Map/helper";
+  import { generatePathsForMap } from "$lib/Module/Map/Components/helper";
 
   let filters = "";
   let goalIndex = getGoalIndex($session.environment);

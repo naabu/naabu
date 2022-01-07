@@ -1,9 +1,9 @@
 <script>
-  import ModuleForm from "$lib/Module/form.svelte";
+  import ModuleForm from "$lib/Module/Components/form.svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
-  import { onMount } from "svelte";
+  import { onMount } from "svelte";getModuleData
   import { getDefaultAlertValues } from "$lib/Internals/Misc/helper";
-  import { formatMapObject } from "$lib/Module/helper";
+  import { formatMapObject } from "$lib/Module/Components/helper";
   import { getStores, session } from "$app/stores";
   export let firebase;
 

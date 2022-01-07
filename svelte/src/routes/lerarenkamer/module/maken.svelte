@@ -1,5 +1,5 @@
 <script>
-  import CreateModule from "$lib/Module/create.svelte";
+  import CreateModule from "$lib/Module/Components/create.svelte";
   import { onMount } from "svelte";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { getStores, session, page } from "$app/stores";

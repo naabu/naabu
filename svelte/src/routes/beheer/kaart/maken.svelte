@@ -1,5 +1,5 @@
 <script>
-	import CreateMap from '$lib/Module/Map/create.svelte';
+	import CreateMap from '$lib/Module/Map/Components/create.svelte';
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { getStores, session} from "$app/stores"
   import { onMount } from 'svelte';

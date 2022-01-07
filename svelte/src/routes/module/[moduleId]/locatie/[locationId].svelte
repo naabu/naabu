@@ -1,8 +1,8 @@
 <script>
   import ActivitiesTeaserList from "$lib/Activity/Teasers/list.svelte";
-  import GetModuleData from "$lib/Module/getModuleData.svelte";
+  import GetModuleData from "$lib/Module/Data/getModuleData.svelte";
   import { getStores, session, page } from "$app/stores";
-  import { filterSelectedActivities, getUserModule } from "$lib/Module/helper";
+  import { filterSelectedActivities, getUserModule } from "$lib/Module/Components/helper";
 
   let module;
   let firebase;

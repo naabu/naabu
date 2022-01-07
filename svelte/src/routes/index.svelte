@@ -1,11 +1,11 @@
 <script>
-  import ShowMap from "$lib/Module/Map/show.svelte";
+  import ShowMap from "$lib/Module/Map/Components/show.svelte";
   import { getStores, session } from "$app/stores";
   import { onMount } from "svelte";
-  import ModuleTeaserList from "$lib/Module/teaserList.svelte";
+  import ModuleTeaserList from "$lib/Module/Components/teaserList.svelte";
   // import firebase from "firebase/app";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
-  import { getMap, getUserMap } from "$lib/Module/Map/helper";
+  import { getMap, getUserMap } from "$lib/Module/Map/Components/helper";
 
   let firebase;
   let map;

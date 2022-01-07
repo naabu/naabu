@@ -1,11 +1,11 @@
 <script>
-  import EditModule from "$lib/Module/edit.svelte";
+  import EditModule from "$lib/Module/Components/edit.svelte";
   import { onMount } from "svelte";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { getStores, session, page } from "$app/stores";
   import Sidebar from "$lib/Internals/Containers/sidebar.svelte";
   import { getTeacherMenuitems } from "$lib/Internals/Teachers/helper";
-  import GetModuleData from "$lib/Module/getModuleData.svelte";
+  import GetModuleData from "$lib/Module/Data/getModuleData.svelte";
 
   import { formatToTimeAgo } from "$lib/Internals/Misc/helper";
   import TimeAgo from "javascript-time-ago";

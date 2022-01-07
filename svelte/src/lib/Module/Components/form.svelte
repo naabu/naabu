@@ -1,7 +1,7 @@
 <script>
   import "@algolia/autocomplete-theme-classic";
-  import LocationForm from "$lib/Module/Location/form.svelte";
-  import { formatMapObject } from "$lib/Module/helper";
+  import LocationForm from "$lib/Module/Components/locationForm.svelte";
+  import { formatMapObject } from "$lib/Module/Components/helper";
   export let module;
   export let allMaps;
 

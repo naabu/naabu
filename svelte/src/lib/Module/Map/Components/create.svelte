@@ -1,53 +1,67 @@
 <script>
-  import ModuleForm from "$lib/Module/form.svelte";
+  import MapForm from "$lib/Module/Map/Components/form.svelte";
+  import ShowBreadcrumb from "$lib/Goal/Breadcrumb/show.svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import { onMount } from "svelte";
-  import { getDefaultAlertValues } from "$lib/Internals/Misc/helper";
-  import { formatMapObject } from "$lib/Module/helper";
-  import { getStores, session } from "$app/stores";
+  import { getMapSaveData } from "$lib/Module/Map/Components/helper";
+import { getStores, session } from "$app/stores";
+
   export let firebase;
+
+  let breadcrumbs = [
+    {
+      url: "/beheer",
+      value: "Beheer",
+    },
+    {
+      url: "/beheer/kaart",
+      value: "Kaarten",
+    },
+    {
+      url: "/beheer/kaarten/maken",
+      value: "Kaarten maken",
+    },
+  ];
 
   let y;
   let db;
+  let map = {
+    title: "",
+    image:
+      "https://firebasestorage.googleapis.com/v0/b/expwis.appspot.com/o/map1.png?alt=media&token=12e1ee07-a782-40c1-addc-e2179fc89d95",
+    locations: [],
+    paths: [],
+  };
   let buttonDisabled = false;
+
+  function getDefaultAlertValues() {
+    return {
+      success: false,
+      successMessage: "",
+      error: false,
+      errorCode: "",
+      errorMessage: "",
+    };
+  }
 
   let alert = getDefaultAlertValues();
 
-  let module = {
-    moduleName: "",
-    moduleDescription: "",
-    moduleSvg: "",
-  };
-  let allMaps = [];
-
   onMount(async () => {
     db = await firebase.firestore();
-    let querySnapshot = await db.collection("maps").get();
-    allMaps = [];
-    querySnapshot.forEach((doc) => {
-      let map = doc.data();
-      // for each path
-      map.paths.forEach((path) => {
-        path.points = JSON.parse(path.points);
-      });
-
-      map.mapId = doc.id;
-      allMaps.push(map);
-    });
   });
 
-  async function createModule() {
-    let data = formatMapObject(module, false, true, false);
-    alert = getDefaultAlertValues();
+  async function createMap() {
+    let data = getMapSaveData(map);
     data.authorId = $session.user.uid;
-    data.createdAt = firebase.firestore.Timestamp.now().seconds;
-    data.modifiedAt = firebase.firestore.Timestamp.now().seconds;
+    alert = getDefaultAlertValues();
     try {
-      let collectionRef = db.collection("modules");
+      let collectionRef = db.collection("maps");
       let result = await collectionRef.add(data);
       alert.success = true;
-      alert.successTitle = "Module succesvol aangemaakt";
+      alert.successTitle = "Kaart gemaakt";
       alert.successMessage = "id: " + result.id;
+      map.id = result.id;
+      updateActivities(firebase, map);
     } catch (e) {
       alert.error = true;
       alert.errorCode = e.code;
@@ -58,7 +72,7 @@
 
   async function formSubmit() {
     buttonDisabled = true;
-    await createModule();
+    await createMap();
     setTimeout(() => {
       buttonDisabled = false;
     }, 5000);
@@ -66,14 +80,17 @@
 </script>
 
 <svelte:window bind:scrollY={y} />
+
+<ShowBreadcrumb bind:breadcrumbs />
 <ResultFeedback bind:alert />
 
 <div>
   <div class="mt-2 md:flex md:items-center md:justify-between">
     <div class="flex-1 min-w-0">
       <div>
+        <h3 class="text-lg leading-6 font-medium text-gray-900">Kaart maken</h3>
         <p class="mt-1 max-w-2xl text-sm text-gray-500">
-          Maak een nieuwe module aan met een kaart
+          Maak een nieuwe kaart aan met leerdoelen
         </p>
       </div>
     </div>
@@ -83,17 +100,16 @@
   class="space-y-8 divide-y divide-gray-200"
   on:submit|preventDefault={formSubmit}
 >
-  <ModuleForm bind:module bind:allMaps />
+  <MapForm bind:map />
 
   <div class="pt-5">
     <div class="flex justify-end">
       <button
-        data-cy="create-module-submit-button"
         disabled={buttonDisabled}
         type="submit"
         class="float-right disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
       >
-        Module aanmaken
+        Kaart aanmaken
       </button>
     </div>
   </div>

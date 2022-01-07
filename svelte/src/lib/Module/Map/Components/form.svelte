@@ -1,6 +1,6 @@
 <script>
   import "@algolia/autocomplete-theme-classic";
-  import LocationForm from "$lib/Module/Map/Location/form.svelte";
+  import LocationForm from "$lib/Module/Map/Components/locationForm.svelte";
   export let map;
 
   function getPath(startLocation, endLocation) {

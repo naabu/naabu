@@ -1,5 +1,5 @@
 <script>
-  import History from "$lib/Goal/history.svelte";
+  import History from "$lib/Goal/Components/history.svelte";
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
   import { firebaseStore } from "$lib/Internals/Firebase/store";

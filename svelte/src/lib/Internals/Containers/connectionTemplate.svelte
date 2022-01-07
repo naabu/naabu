@@ -1,5 +1,5 @@
 <script>
-  import GetGoalData from "$lib/Goal/getGoalData.svelte";
+  import GetGoalData from "$lib/Goal/Data/getGoalData.svelte";
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
 
   export let goal;

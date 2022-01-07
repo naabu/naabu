@@ -1,5 +1,5 @@
 <script>
-  import ListGoals from "$lib/Goal/list.svelte";
+  import ListGoals from "$lib/Goal/Components/list.svelte";
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
   let breadcrumbs = [
     {

@@ -2,7 +2,7 @@
   import { getStores, session } from "$app/stores";
   import { onMount } from "svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
-  import CheckPlayerHasProfile from "$lib/Goal/Curriculum/checkPlayerHasProfile.svelte";
+  import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
   import { getDateString } from "$lib/Internals/Misc/helper";
   import { sortOnCreatedAt, sortOnLastReplyAt } from "$lib/Internals/Revision/helper";
   import MainTabs from "$lib/Internals/Tabs/talk.svelte";

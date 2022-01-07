@@ -1,6 +1,6 @@
 <script>
   import ManagementTabs from "$lib/Internals/Tabs/management.svelte";
-  import ShowBreadcrumb from "$lib/Goal/Breadcrumb/show.svelte";
+  import ShowBreadcrumb from "$lib/Internals/Breadcrumb/show.svelte";
   import { getStores, page, session } from "$app/stores"
 	import { onMount } from 'svelte';
   import Notification from "$lib/Internals/Misc/notification.svelte";

@@ -1,6 +1,6 @@
 <script>
   import MapForm from "$lib/Module/Map/Components/form.svelte";
-  import ShowBreadcrumb from "$lib/Goal/Breadcrumb/show.svelte";
+  import ShowBreadcrumb from "$lib/Internals/Breadcrumb/show.svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import { onMount } from "svelte";
   import { getMapSaveData } from "$lib/Module/Map/Components/helper";

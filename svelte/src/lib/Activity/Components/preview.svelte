@@ -4,7 +4,7 @@
   import MainTabs from "$lib/Internals/Tabs/goal.svelte";
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
-  import { getCurriculumProfile } from "$lib/Goal/Curriculum/helper";
+  import { getCurriculumProfile } from "$lib/Goal/Curriculum/Components/helper";
   import {
     getActivitySaveData,
     getDifficultyToString,

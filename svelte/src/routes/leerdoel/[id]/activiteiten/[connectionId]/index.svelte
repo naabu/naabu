@@ -1,10 +1,10 @@
 <script>
   import { getStores, page } from "$app/stores";
-  import ConnectionPage from "$lib/Goal/Connection/page.svelte";
+  import ConnectionPage from "$lib/Goal/Connection/Components/page.svelte";
   import ConnectionTemplate from "$lib/Internals/Containers/connectionTemplate.svelte";
-  import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
-  import GetConnectionData from "$lib/Goal/Connection/getConnectionData.svelte";
-  import GetGoalData from "$lib/Goal/getGoalData.svelte";
+  import { getDefaultGoalBreadcrumbs } from "$lib/Goal/Components/helper";
+  import GetConnectionData from "$lib/Goal/Connection/Data/getConnectionData.svelte";
+  import GetGoalData from "$lib/Goal/Data/getGoalData.svelte";
 
   let goal;
   let connection;

@@ -1,5 +1,5 @@
 <script>
-  import CreateGoal from "$lib/Goal/create.svelte";
+  import CreateGoal from "$lib/Goal/Components/create.svelte";
   import { onMount } from "svelte";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { getStores, session } from "$app/stores";

@@ -6,7 +6,7 @@
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { getNextAndPreviousRevisions } from "$lib/Internals/Revision/helper";
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
-  import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
+  import { getDefaultGoalBreadcrumbs } from "$lib/Goal/Components/helper";
   import GetRevisionListData from "$lib/Internals/Revision/getListData.svelte";
   import ShowRevisionHistory from "$lib/Internals/Revision/history.svelte";
   import { getTeacherMenuitems } from "$lib/Internals/Teachers/helper";

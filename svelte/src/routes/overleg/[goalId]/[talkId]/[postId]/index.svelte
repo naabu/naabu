@@ -1,10 +1,10 @@
 <script>
-  import Post from "$lib/Goal/Talk/post.svelte";
+  import Post from "$lib/Goal/Talk/Components/post.svelte";
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
-  import GetGoalData from "$lib/Goal/getGoalData.svelte";
+  import GetGoalData from "$lib/Goal/Data/getGoalData.svelte";
 
   let firebase;
   let goal;

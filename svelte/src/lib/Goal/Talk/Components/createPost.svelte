@@ -1,7 +1,7 @@
 <script>
   import { getStores, session } from "$app/stores";
   import { onMount } from "svelte";
-  import CheckPlayerHasProfile from "$lib/Goal/Curriculum/checkPlayerHasProfile.svelte"
+  import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte"
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import { getDateString } from "$lib/Internals/Misc/helper";
   import { goto } from "$app/navigation";

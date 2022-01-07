@@ -1,8 +1,8 @@
 <script>
-  import OverviewPage from "$lib/Goal/Connection/overview.svelte";
+  import OverviewPage from "$lib/Goal/Connection/Components/overview.svelte";
   import ConnectionTemplate from "$lib/Internals/Containers/connectionTemplate.svelte";
   import { getStores, page } from "$app/stores";
-  import { getDefaultGoalBreadcrumbs } from "$lib/Goal/helper";
+  import { getDefaultGoalBreadcrumbs } from "$lib/Goal/Components/helper";
 
   let goal;
   let firebase;

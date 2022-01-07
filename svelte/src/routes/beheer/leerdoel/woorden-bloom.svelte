@@ -1,6 +1,6 @@
 
 <script>
-	import BloomsWords from '$lib/Goal/Bloom/words.svelte';
+	import BloomsWords from '$lib/Goal/Components/bloomWords.svelte';
 </script>
 
 <BloomsWords />

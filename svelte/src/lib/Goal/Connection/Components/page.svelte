@@ -12,13 +12,13 @@
   import ArrayDiff from "$lib/Internals/Diff/arrayDiff.svelte";
   import StringDiff from "$lib/Internals/Diff/stringDiff.svelte";
 
-  import CheckPlayerHasProfile from "$lib/Goal/Curriculum/checkPlayerHasProfile.svelte";
+  import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
   import {
     formatToTimeAgo,
     getDefaultAlertValues,
     getDiffStrings,
   } from "$lib/Internals/Misc/helper";
-  import { getCurriculumProfile } from "$lib/Goal/Curriculum/helper";
+  import { getCurriculumProfile } from "$lib/Goal/Curriculum/Components/helper";
 
   export let firebase;
   export let goal;

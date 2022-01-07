@@ -7,7 +7,7 @@
   import { sortOnCreatedAt } from "$lib/Internals/Revision/helper";
   import { formatToTimeAgo, getDefaultAlertValues } from "$lib/Internals/Misc/helper";
   import MainTabs from "$lib/Internals/Tabs/goal.svelte";
-  import { getStatusText } from "$lib/Goal/Connection/helper";
+  import { getStatusText } from "$lib/Goal/Connection/Components/helper";
   export let firebase;
   export let goal;
   export let connectionId;

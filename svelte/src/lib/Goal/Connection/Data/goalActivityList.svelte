@@ -1,5 +1,5 @@
 <script>
-  import ConnectionList from "$lib/Goal/Connection/list.svelte";
+  import ConnectionList from "$lib/Goal/Connection/Components/list.svelte";
   export let urlType;
   export let goalId;
   export let connections;

@@ -1,11 +1,11 @@
 <script>
   import { getStores, session, page } from "$app/stores";
-  import GoalForm from "$lib/Goal/form.svelte";
+  import GoalForm from "$lib/Goal/Components/form.svelte";
   import { onMount } from "svelte";
-  import ShowBreadcrumb from "$lib/Goal/Breadcrumb/show.svelte";
+  import ShowBreadcrumb from "$lib/Internals/Breadcrumb/show.svelte";
   import MainTabs from "$lib/Internals/Tabs/revision.svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
-  import { createGoalRevision, getGoalSaveData } from "$lib/Goal/helper";
+  import { createGoalRevision, getGoalSaveData } from "$lib/Goal/Components/helper";
 
   export let battleCol;
   export let firebase;

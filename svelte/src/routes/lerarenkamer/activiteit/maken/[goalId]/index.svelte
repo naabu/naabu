@@ -5,7 +5,7 @@
   import { getStores, session, page } from "$app/stores";
   import Sidebar from "$lib/Internals/Containers/sidebar.svelte";
   import { getTeacherMenuitems } from "$lib/Internals/Teachers/helper";
-  import GetGoalData from "$lib/Goal/getGoalData.svelte";
+  import GetGoalData from "$lib/Goal/Data/getGoalData.svelte";
   let menuitems = getTeacherMenuitems($page.path, "draft");
   let firebase;
   let goal;

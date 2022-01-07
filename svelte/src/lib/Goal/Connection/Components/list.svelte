@@ -7,7 +7,7 @@
     compareTimeLeftToApprove,
     compareTimeLeftToNeedsWork,
     compareTimeLeftToTrash,
-  } from "$lib/Goal/Connection/helper";
+  } from "$lib/Goal/Connection/Components/helper";
   export let firebase;
   export let goalId;
   export let urlType;

@@ -1,6 +1,6 @@
 <script>
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
-  import ConnectionForm from "$lib/Goal/Connection/form.svelte";
+  import ConnectionForm from "$lib/Goal/Connection/Components/form.svelte";
   import { getStores, session } from "$app/stores";
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
@@ -9,7 +9,7 @@
   export let goal;
   export let connectionGoal;
   let hasCurriculumProfile = false;
-  import CheckPlayerHasProfile from "$lib/Goal/Curriculum/checkPlayerHasProfile.svelte";
+  import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
 
   let connection = {
     type: "prerequisit",

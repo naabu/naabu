@@ -1,7 +1,7 @@
 <script>
-  import LookAtActivity from "$lib/Activity/look.svelte";
+  import LookAtActivity from "$lib/Activity/Components/look.svelte";
 
-  import GetActivityData from "$lib/Activity/getActivityData.svelte";
+  import GetActivityData from "$lib/Activity/Data/getActivityData.svelte";
 
   let firebase;
   let activity;

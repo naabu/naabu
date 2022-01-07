@@ -1,5 +1,5 @@
 <script>
-  import ActivitiesTeaserList from "$lib/Activity/Teasers/list.svelte";
+  import ActivitiesTeaserList from "$lib/Activity/Components/teaserList.svelte";
   import GetModuleData from "$lib/Module/Data/getModuleData.svelte";
   import { getStores, session, page } from "$app/stores";
   import { filterSelectedActivities, getUserModule } from "$lib/Module/Components/helper";

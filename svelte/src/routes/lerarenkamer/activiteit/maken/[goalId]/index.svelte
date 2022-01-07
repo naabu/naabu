@@ -1,5 +1,5 @@
 <script>
-  import CreateActivity from "$lib/Activity/create.svelte";
+  import CreateActivity from "$lib/Activity/Components/create.svelte";
   import { onMount } from "svelte";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { getStores, session, page } from "$app/stores";

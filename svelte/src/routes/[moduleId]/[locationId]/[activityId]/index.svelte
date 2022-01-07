@@ -1,6 +1,6 @@
 <script>
-  import ShowActivity from "$lib/Activity/show.svelte";
-  import GetActivityData from "$lib/Activity/getActivityData.svelte";
+  import ShowActivity from "$lib/Activity/Components/show.svelte";
+  import GetActivityData from "$lib/Activity/Data/getActivityData.svelte";
 
   export let activity;
 

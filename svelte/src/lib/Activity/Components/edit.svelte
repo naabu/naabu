@@ -1,9 +1,9 @@
 <script>
   import { getStores, session, page } from "$app/stores";
   import { onMount } from "svelte";
-  import ActivityForm from "$lib/Activity/form.svelte";
+  import ActivityForm from "$lib/Activity/Components/form.svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
-  import { getActivitySaveData } from "$lib/Activity/helper";
+  import { getActivitySaveData } from "$lib/Activity/Components/helper";
   import { goto } from "$app/navigation";
   import { getDefaultAlertValues } from "$lib/Internals/Misc/helper";
   import {

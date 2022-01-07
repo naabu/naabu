@@ -1,5 +1,5 @@
 <script>
-  import Show from "$lib/Activity/show.svelte";
+  import Show from "$lib/Activity/Components/show.svelte";
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
   import { firebaseStore } from "$lib/Internals/Firebase/store";

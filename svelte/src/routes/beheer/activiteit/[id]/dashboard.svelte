@@ -15,7 +15,7 @@
  // import firebase from "firebase/app";
 	// import { getFirebaseFirestore } from "$lib/firebase.js";	
 	// import {doc, getDoc, collection, query, where, getDocs, orderBy, limit} from "firebase/firestore";
-	import Dashboard from '$lib/Activity/dashboard.svelte';
+	import Dashboard from '$lib/Activity/Components/dashboard.svelte';
   import { onMount } from 'svelte';
   import { getStores, session, page } from "$app/stores"
   import { firebaseStore } from "$lib/Internals/Firebase/store";

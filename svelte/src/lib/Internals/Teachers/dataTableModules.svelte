@@ -1,5 +1,5 @@
 <script>
-  import { getDifficultyToString, getTypeText } from "$lib/Activity/helper";
+  import { getDifficultyToString, getTypeText } from "$lib/Activity/Components/helper";
   import { formatToTimeAgo } from "$lib/Internals/Misc/helper";
   import nl from "javascript-time-ago/locale/nl.json";
   import { getStores, page } from "$app/stores";

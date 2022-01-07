@@ -1,4 +1,4 @@
-import { getTypeText, getDifficultyToString, getStatusTranslation } from "$lib/Activity/helper.js";
+import { getTypeText, getDifficultyToString, getStatusTranslation } from "$lib/Activity/Components/helper.js";
 
 function compareCreatedAt(a, b) {
   if (a.createdAt < b.createdAt) {

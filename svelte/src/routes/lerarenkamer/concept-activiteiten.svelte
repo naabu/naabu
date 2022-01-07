@@ -3,7 +3,7 @@
   import Sidebar from "$lib/Internals/Containers/sidebar.svelte";
   import { getStores, page } from "$app/stores";
   import { getTeacherMenuitems } from "$lib/Internals/Teachers/helper";
-  import GetActivityListData from "$lib/Activity/getActivityListData.svelte";
+  import GetActivityListData from "$lib/Activity/Data/getActivityListData.svelte";
 
   let menuitems = getTeacherMenuitems($page.path);
   import { goto } from "$app/navigation";

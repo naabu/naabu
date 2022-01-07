@@ -1,5 +1,5 @@
 <script>
-  import ShowActivity from "$lib/Activity/show.svelte";
+  import ShowActivity from "$lib/Activity/Components/show.svelte";
   import { getStores, session } from "$app/stores";
   import MainTabs from "$lib/Internals/Tabs/goal.svelte";
   import { goto } from "$app/navigation";
@@ -9,7 +9,7 @@
     getActivitySaveData,
     getDifficultyToString,
     getTypeText,
-  } from "$lib/Activity/helper";
+  } from "$lib/Activity/Components/helper";
   import {
     createRevision,
     getActivitySort,

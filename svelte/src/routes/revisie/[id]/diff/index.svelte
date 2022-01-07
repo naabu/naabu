@@ -11,7 +11,7 @@
   import ShowRevisionHistory from "$lib/Internals/Revision/history.svelte";
   import { getTeacherMenuitems } from "$lib/Internals/Teachers/helper";
   import Sidebar from "$lib/Internals/Containers/sidebar.svelte";
-  import { getDefaultEmptyActivity } from "$lib/Activity/helper";
+  import { getDefaultEmptyActivity } from "$lib/Activity/Components/helper";
   import { goto } from "$app/navigation";
   import SaveActivityRevision from "$lib/Internals/Revision/saveActivityRevision.svelte";
 

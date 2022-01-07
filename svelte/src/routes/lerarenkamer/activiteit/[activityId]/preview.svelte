@@ -1,6 +1,6 @@
 <script>
-  import Preview from "$lib/Activity/preview.svelte";
-  import GetActivityData from "$lib/Activity/getActivityData.svelte";
+  import Preview from "$lib/Activity/Components/preview.svelte";
+  import GetActivityData from "$lib/Activity/Data/getActivityData.svelte";
 
   let firebase;
   let activity;

@@ -1,7 +1,7 @@
 <script>
   import DisplayMultiTopics from "$lib/Goal/displayMultiTopics.svelte";
   import BattleListForm from "$lib/Goal/battleListForm.svelte";
-  import QuizForm from "$lib/Activity/Quizzes/form.svelte";
+  import QuizForm from "$lib/Activity/Components/quizzesForm.svelte";
 
   export let goal;
   let selectedQuizIndex = 0;

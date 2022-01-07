@@ -1,5 +1,5 @@
 <script>
-  import Teaser from "$lib/Activity/Teasers/teaser.svelte";
+  import Teaser from "$lib/Activity/Components/teaser.svelte";
 
   export let activities = [];
   export let moduleId;

@@ -10,7 +10,7 @@
   import { formatToTimeAgo } from "$lib/Internals/Misc/helper";
   import TimeAgo from "javascript-time-ago";
   import nl from "javascript-time-ago/locale/nl.json";
-  import { getStatusTranslation } from "$lib/Activity/helper";
+  import { getStatusTranslation } from "$lib/Activity/Components/helper";
 
   let menuitems;
   let firebase;

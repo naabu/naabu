@@ -1,5 +1,5 @@
 <script>
-  import ShowActivity from "$lib/Activity/show.svelte";
+  import ShowActivity from "$lib/Activity/Components/show.svelte";
   import { goto } from "$app/navigation";
   import { getStores, page } from "$app/stores";
   export let activity;

@@ -1,5 +1,5 @@
 <script>
-  import { getDifficultyToString, getTypeText } from "$lib/Activity/helper";
+  import { getDifficultyToString, getTypeText } from "$lib/Activity/Components/helper";
   import { truncate } from "$lib/Internals/Misc/helper";
   import { getStores, page } from "$app/stores";
 

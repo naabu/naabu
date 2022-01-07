@@ -1,7 +1,7 @@
 <script>
   import { goto } from "$app/navigation";
   import { getStores, session } from "$app/stores";
-  import { getActivitySaveData } from "$lib/Activity/helper";
+  import { getActivitySaveData } from "$lib/Activity/Components/helper";
   import { createRevision } from "$lib/Internals/Revision/helper";
 
   export let revision;

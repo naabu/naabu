@@ -1,7 +1,7 @@
 <script>
   import ModuleForm from "$lib/Module/Components/form.svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
-  import { onMount } from "svelte";getModuleData
+  import { onMount } from "svelte";
   import { getDefaultAlertValues } from "$lib/Internals/Misc/helper";
   import { formatMapObject } from "$lib/Module/Components/helper";
   import { getStores, session } from "$app/stores";

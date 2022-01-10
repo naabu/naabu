@@ -1,1 +1,3 @@
-secret-algolia-key.txt
+algolia-secret-admin-api-key.txt
+config-firebase.js
+config-algolia.js

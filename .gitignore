@@ -10,6 +10,7 @@ traces/
 #keys
 adminkey.json
 functions/.runtimeconfig.json
+src/lib/Firebase/config.js
 
 # Logs
 logs

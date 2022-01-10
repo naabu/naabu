@@ -9,7 +9,6 @@ services:
       - ./:/var/www/
     environment:
       - environment=development
-      - algoliaApp=6868GHOPYM
     ports:
       - 3000:3000
       - 3001:3001
@@ -28,7 +27,6 @@ services:
       - ./:/var/www/
     environment:
       - environment=development
-      - algoliaApp=6868GHOPYM
     # entrypoint: ["npm", "run", "emulateCypress"]
     ports:
       - 5001:5001
@@ -51,7 +49,6 @@ services:
       - ./:/var/www/
     environment:
       - environment=development
-      - algoliaApp=6868GHOPYM
     ports:
       - 3009:3000
     networks:
@@ -71,6 +68,6 @@ services:
 
 secrets:
   algolia-private-api-key:
-    file: ./config/secret-algolia-key.txt
+    file: ./config/algolia-secret-admin-api-key.txt
 networks:
   internal_network:

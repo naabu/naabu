@@ -38,6 +38,6 @@ services:
 
 secrets:
   algolia-private-api-key:
-    file: ./config/secret-algolia-key.txt  
+    file: ./config/algolia-secret-admin-api-key.txt
 networks:
   internal_network:

@@ -5,14 +5,11 @@ Naabu wants to become the tool teachers, curriculum designers, and researchers u
 
 The project is build in  [SvelteKit](https://kit.svelte.dev/), [Firebase](https://firebase.google.com/), [Algolia Search](https://www.algolia.com) and [Tailwind CSS](https://tailwindcss.com/).
 
-Still in active development and it should not be used for production environments! Help wanted! We stream development live every workday on Twitch and you cna watch the streams back on YouTube.
+Still in active development and it should not be used for production environments! Help wanted! Feel free to use the issue queue or reach out by [Discord](https://discord.gg/tz2CSSrBgt)
 
-Links:
-[Discord](https://discord.gg/tz2CSSrBgt)
-[Twitch](https://www.twitch.tv/seriouspapa)
-[YouTube](https://www.youtube.com/channel/UC9M52Jh9fKPGNF8HGBAbsqw)
+We stream development live every workday on [Twitch](https://www.twitch.tv/seriouspapa) and you can watch the streams back on [YouTube](https://www.youtube.com/channel/UC9M52Jh9fKPGNF8HGBAbsqw).
 
-This project is still in the [Futures Forum on Learning](https://futuresforumonlearning.org/) learning engineering competition.
+This project is an active contender in the [Futures Forum on Learning 2021](https://futuresforumonlearning.org/) learning engineering competition.
 
 ## Local installation
 Requirements:

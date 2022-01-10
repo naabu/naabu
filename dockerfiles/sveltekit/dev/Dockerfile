@@ -15,5 +15,3 @@ RUN npx playwright install;\
 EXPOSE 3000
 ENV PATH /var/www/node_modules/.bin:$PATH
 CMD ["tail", "-f", "/dev/null"]
-
-# CMD ["tail", "-f", "/dev/null"]

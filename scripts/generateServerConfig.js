@@ -10,7 +10,7 @@ if (process.env.environment) {
 // config-algolia.js
 // config-firebase.js
 
-algoliaFile = fs.readFileSync('/var/www/config/config-algolia.js', 'utf8' , (err, data) => {
+let algoliaConfigFile = fs.readFileSync('/var/www/config/config-algolia.js', 'utf8' , (err, data) => {
   if (err) {
     console.error(err);
     return
@@ -18,7 +18,7 @@ algoliaFile = fs.readFileSync('/var/www/config/config-algolia.js', 'utf8' , (err
   console.log(data);
   return data;
 });
-
+console.log(algoliaConfigFile);
 
 if (process.env.algoliaApp) {
   let algoliaApp = process.env.algoliaApp;

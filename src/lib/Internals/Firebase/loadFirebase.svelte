@@ -1,11 +1,12 @@
 <script>
   import { getStores, session } from "$app/stores";
-  import { getFirebaseConfig } from "$lib/Internals/config";
+  // import { getFirebaseConfig } from "$lib/Internals/Firebase/config";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { createEventDispatcher } from "svelte";
+  import { firebaseConfig } from "$lib/Internals/Firebase/config";
   const dispatch = createEventDispatcher();
 
-  const firebaseConfig = getFirebaseConfig();
+  $: console.log(firebaseConfig);
 
   initFirebase().then((fb) => {
     $firebaseStore = fb;
@@ -52,7 +53,9 @@
 
     if ($session.environment === "jenkins" || $session.environment === "test") {
       if (!fb.auth().emulatorConfig) {
-        await fb.auth().useEmulator("http://firebase:5010", { disableWarnings: true });
+        await fb
+          .auth()
+          .useEmulator("http://firebase:5010", { disableWarnings: true });
       }
       if (fb.firestore()._delegate._settings.host !== "firebase:5012") {
         fb.firestore().settings({ experimentalAutoDetectLongPolling: true });

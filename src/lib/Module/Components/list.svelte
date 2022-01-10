@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import ManagementTabs from "$lib/Internals/Tabs/management.svelte";
   import ShowBreadcrumb from "$lib/Internals/Breadcrumb/show.svelte";
-  import { getAlgoliaSearchClient, getMapIndex } from "$lib/Internals/algolia";
+  import { getAlgoliaSearchClient, getMapIndex } from "$lib/Internals/Algolia/algolia";
   import { getStores, session } from "$app/stores";
 
   let index;

@@ -15,7 +15,17 @@ Links:
 ## Local installation
 Requirements:
 - Create a Firebase app
-- Algolia search keys
+- Store the config of Firebase in config/firebaseConfig.js
+  - ProjectID
+- Create an algolia account.
+  - Algoila App
+  - Algolia Private key
+  - Algolia public key.
+- All config should be in the config/ folder
+- Probably best to create a simple installation script to set up all correct files (.firebaserc)
+
+
+
 
 1. Run with Docker:
 docker-compose up -d

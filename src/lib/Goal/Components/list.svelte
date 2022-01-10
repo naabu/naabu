@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { getAlgoliaSearchClient, getGoalIndex } from "$lib/Internals/algolia";
+  import { getAlgoliaSearchClient, getGoalIndex } from "$lib/Internals/Algolia/algolia";
   import { getStores, session } from "$app/stores";
 
   import { truncate } from "$lib/Internals/Misc/helper";

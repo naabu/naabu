@@ -1,6 +1,8 @@
 */node_modules/
 git .svelte/
 test-results/
+src/lib/Internals/Firebase/config.js
+src/lib/Internals/Algolia/config.js
 
 #build directory
 .svelte-kit/
@@ -10,7 +12,7 @@ traces/
 #keys
 adminkey.json
 functions/.runtimeconfig.json
-src/lib/Firebase/config.js
+
 
 # Logs
 logs

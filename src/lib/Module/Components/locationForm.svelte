@@ -2,7 +2,7 @@
   import { getStores, session, page } from "$app/stores";
   import PathsForm from "$lib/Module/Components/pathsForm.svelte";
   import { onMount } from "svelte";
-  import { getAlgoliaSearchClient, getGoalIndex } from "$lib/Internals/algolia";
+  import { getAlgoliaSearchClient, getGoalIndex } from "$lib/Internals/Algolia/algolia";
   import { autocomplete, getAlgoliaResults } from "@algolia/autocomplete-js";
   import "@algolia/autocomplete-theme-classic";
   import VerwijderDialog from "$lib/Internals/Misc/dialog.svelte";

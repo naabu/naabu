@@ -2,7 +2,7 @@
   "name": "exp-wisvids",
   "version": "0.0.1",
   "scripts": {
-    "dev": "node scripts/generateConfig.js; svelte-kit dev --host",
+    "dev": "node scripts/generateClientConfig.js; svelte-kit dev --host",
     "build": "svelte-kit build",
     "preview": "svelte-kit preview",
     "lint": "prettier --check . && eslint --ignore-path .gitignore .",
@@ -10,8 +10,8 @@
     "testvar": "echo $FIREBASE_TOKEN",
     "addUserClaims": "export GOOGLE_APPLICATION_CREDENTIALS=/var/www/adminkey.json; node scripts/addUserClaims.js",
     "deploy": "bash scripts/deploy.sh",
-    "emulate": "node scripts/generateConfig.js; firebase emulators:start  --import=./data/.devdata --export-on-exit --only auth,functions,firestore,pubsub",
-    "emulateCypress": "node scripts/generateConfig.js; firebase emulators:start --only auth,functions,firestore,pubsub",
+    "emulate": "node scripts/generateServerConfig.js; firebase emulators:start  --import=./data/.devdata --export-on-exit --only auth,functions,firestore,pubsub",
+    "emulateCypress": "node scripts/generateServerConfig.js; firebase emulators:start --only auth,functions,firestore,pubsub",
     "test-setup": "export GOOGLE_APPLICATION_CREDENTIALS=/var/www/adminkey.json; firebase emulators:start --config=\"./firebase.test.json\"",
     "playwright": "npx playwright test --project=localhost src",
     "playwright-docker": "npx playwright test --project=docker src"

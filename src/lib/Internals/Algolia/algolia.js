@@ -1,4 +1,5 @@
 import algoliasearch from 'algoliasearch';
+import { algoliaConfig } from "$lib/Internals/Algolia/config";
 
 function getIndex(suffix, environment) {
   let index = suffix;
@@ -18,9 +19,10 @@ function getIndex(suffix, environment) {
 }
 
 export function getAlgoliaSearchClient() {
+  console.log(algoliaConfig);
   return algoliasearch(
-    '6868GHOPYM',
-    '91b10504939fb851e4fab041ddd92618'
+    algoliaConfig.applicationID,
+    algoliaConfig.searchOnlyApiKey
   );
 }
 

@@ -3,6 +3,7 @@ git .svelte/
 test-results/
 src/lib/Internals/Firebase/config.js
 src/lib/Internals/Algolia/config.js
+.firebaserc
 
 #build directory
 .svelte-kit/

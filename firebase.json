@@ -27,9 +27,6 @@
       }
     ]
   },
-  "storage": {
-    "rules": "storage.rules"
-  },
   "emulators": {
     "auth": {
       "port": 5010,
@@ -42,10 +39,6 @@
     },
     "firestore": {
       "port": 5012,
-      "host": "0.0.0.0"
-    },
-    "database": {
-      "port": 5013,
       "host": "0.0.0.0"
     },
     "hosting": {
@@ -61,8 +54,5 @@
       "port": 5001,
       "host": "0.0.0.0"
     }
-  },
-  "remoteconfig": {
-    "template": "remoteconfig.template.json"
   }
 }

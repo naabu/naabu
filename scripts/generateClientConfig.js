@@ -21,7 +21,7 @@ let firebaseRCFileObject = {
   }
 }
 
-let jsonFirebaseRCFileObject = JSON.stringify(firebaseRCFileObject, null, 2);
+let jsonFirebaseRCFile = JSON.stringify(firebaseRCFileObject, null, 2);
 
 firebaseConfigFile = "export " + firebaseConfigFile;
 algoliaConfigFile = "export " + algoliaConfigFile;
@@ -41,5 +41,14 @@ fs.writeFile('/var/www/src/lib/Internals/Algolia/config.js', algoliaConfigFile, 
   // success case, the file was saved
   console.log('Algolia config file saved!');
 });
+
+fs.writeFile('/var/www/.firebaserc', jsonFirebaseRCFile, (err) => {
+  // throws an error, you could also catch it here
+  if (err) throw err;
+
+  // success case, the file was saved
+  console.log('Firebaserc project file saved!');
+});
+
 
 

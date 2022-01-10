@@ -8,7 +8,6 @@ services:
     entrypoint: ["npm", "run", "dev"]
     environment:
       - environment=test
-      - algoliaApp=6868GHOPYM
     networks:
       - internal_network
 
@@ -17,7 +16,6 @@ services:
       context: .
       dockerfile: dockerfiles/sveltekit/dev/Dockerfile
     environment:
-      - algoliaApp=6868GHOPYM
       - environment=test
     entrypoint: ["npm", "run", "emulateCypress"]
     secrets:

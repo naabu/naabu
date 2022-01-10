@@ -35,7 +35,7 @@ if (process.env.algoliaApp) {
   }
 
   let json = JSON.stringify(objectToJson, null, 2);
-  fs.writeFileSync("/var/www/svelte/functions/.runtimeconfig.json", json);
+  fs.writeFileSync("/var/www/functions/.runtimeconfig.json", json);
 
 }
 else {

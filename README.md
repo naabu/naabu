@@ -5,12 +5,14 @@ Naabu wants to become the tool teachers, curriculum designers, and researchers u
 
 The project is build in  [SvelteKit](https://kit.svelte.dev/), [Firebase](https://firebase.google.com/), [Algolia Search](https://www.algolia.com) and [Tailwind CSS](https://tailwindcss.com/).
 
-Still in active development and it should not be used for production environments! Help wanted!
+Still in active development and it should not be used for production environments! Help wanted! We stream development live every workday on Twitch and you cna watch the streams back on YouTube.
 
 Links:
 [Discord](https://discord.gg/tz2CSSrBgt)
 [Twitch](https://www.twitch.tv/seriouspapa)
 [YouTube](https://www.youtube.com/channel/UC9M52Jh9fKPGNF8HGBAbsqw)
+
+This project is still in the [Futures Forum on Learning](https://futuresforumonlearning.org/) learning engineering competition.
 
 ## Local installation
 Requirements:
@@ -20,10 +22,10 @@ Requirements:
   - Algolia Admin API Key
   - Algolia Private key
   - Algolia public key.
-- Algolia Application Id and Algoliase search client should be in config/config-algolia.js
-- Algolia Admin key should be in algolia-secret-admin-api-key.txt
-- Algolia indexes should be created: ``dev_goals``, ``dev_activities``, and ``dev_maps`
-- Install Docker and docker-compose
+- Algolia Application Id and Algoliase search client should be in ``config/config-algolia.js``
+- Algolia Admin key should be in ``algolia-secret-admin-api-key.txt``
+- Algolia indexes should be created: ``dev_goals``, ``dev_activities``, and ``dev_maps``
+- Install [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/)
 
 Installation steps:
 
@@ -46,7 +48,19 @@ Installation steps:
 
 6. Go to localhost:3000 and you should see the project and localhost:5001 to see the emulator UI of Firebase.
 
-7. Errors? Reach out on [Discord](https://discord.gg/tz2CSSrBgt) for support
+7. Errors? Reach out on [Discord](https://discord.gg/tz2CSSrBgt) for support.
+
+## Roadmap
+This roadmap can still be changed based on stakeholder input but it gives an idea about the direction where we expect the project will be going.
+
+2022:
+- Q1: Open source support and create more interactive learning activities.
+- Q2: Implement [moment-to-moment learning curves](https://www.upenn.edu/learninganalytics/ryanbaker/GraphReplayBakerEtAlJLS08132013.pdf) dashboards.
+- Q3: More features for teachers to better control the teaching of course modules.
+- Q4: Features to build datasets for learning engineering and to do data science.
+
+2023:
+- Q1: Gamification features for students for the course modules. For example, competitivie or cooperative activities and fun activities related to the course modules.
 
 ## How to make transitions with tailwind and Svelte.
 Use the Svelte Class Transition component:
@@ -76,12 +90,10 @@ Convert tailwind to this component:
 ```
 
 ## Firebase production
-- The Firebase production environment does not need admin keys or Firebase config settings. It is loaded and applied automatically.
+The Firebase production environment does not need admin keys or Firebase config settings. It is loaded and applied automatically.
 
 ## Updated indexes from Firebase UI
 `firebase firestore:indexes > firestore.indexes.json`
 
 ## Embrace serverless paradigm
-We made the decision to not support SSR for authenticated users. See part 3 of the twitch stream.
-
-For SEO purposes public information should work with SSR.
+We made the decision to [not support SSR](https://youtu.be/HMF1IorpKmk) for authenticated users for now. SSR is disabled until we have a good method to use SSR with SvelteKIt with Firebase.

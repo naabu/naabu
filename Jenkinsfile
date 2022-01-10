@@ -7,6 +7,8 @@ pipeline {
         APP_VERSION = '1'
         ENVIRONMENT = "Cypress"
         ALGOLIA_KEY = credentials('algolia-private-api-key')
+        ALGOLIA_CONFIG_FILE = credentials('algolia-config-file')
+        FIREBASE_CONFIG_FILE = credentials('firebase-config-file')
     }
     stages {
         stage('Build') {
@@ -18,6 +20,10 @@ pipeline {
                 sh 'rm -rf test-results'
                 sh 'rm -rf config/algolia-secret-admin-api-key.txt'
                 sh 'echo -n $ALGOLIA_KEY >> config/algolia-secret-admin-api-key.txt'
+                sh 'rm -rf config/config-algolia.js'
+                sh 'echo -n $ALGOLIA_CONFIG_FILE >> config/config/config-algolia.js'
+                sh 'rm -rf config/config-firebase.js'
+                sh 'echo -n $FIREBASE_CONFIG_FILE >> config/config-firebase.js'
                 sh 'docker-compose -f jenkins-docker-compose.yml build'
                 sh 'docker-compose -f jenkins-docker-compose.yml up -d --remove-orphans'
                 // sh 'docker-compose -f cypress-docker-compose.yml exec -T -u node sveltekit printenv'

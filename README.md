@@ -14,23 +14,35 @@ Links:
 
 ## Local installation
 Requirements:
-- Create a Firebase app
-- Store the config of Firebase in config/firebaseConfig.js
+- Create a Firebase app (link?)
+- Store the config of Firebase in config/config-firebase.js
   - ProjectID
 - Create an algolia account.
-  - Algoila App
+  - Algolia Admin API Key
   - Algolia Private key
   - Algolia public key.
-- All config should be in the config/ folder
-- Probably best to create a simple installation script to set up all correct files (.firebaserc)
-
-
+- Algolia Application Id and Algoliase search client should be in config/config-algolia.js
+- Algolia Admin key should be in algolia-secret-admin-api-key.txt
 
 
 1. Run with Docker:
 docker-compose up -d
 
-2. 
+2. In one terminal, go inside the svelte kit container: 
+
+- ``docker ps``
+- ``docker exec -it naabu_sveltekit_1 bash``
+
+3. Run the install script (one time only)
+``bash scripts/install.sh``
+
+4. Run the Svelte Kit dev server in this container:
+``npm run dev``
+
+5. Open a new terminal and go inside the firebase emulator container
+``docker exec -it naabu_firebase_1 bash``
+
+6. Go to localhost:3000 and you should see the project and localhost:5001 to see the emulator UI of Firebase.
 
 ## Deployments
 

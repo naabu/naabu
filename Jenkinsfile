@@ -21,7 +21,7 @@ pipeline {
                 sh 'rm -rf config/algolia-secret-admin-api-key.txt'
                 sh 'echo -n $ALGOLIA_KEY >> config/algolia-secret-admin-api-key.txt'
                 sh 'rm -rf config/config-algolia.js'
-                sh 'echo -n $ALGOLIA_CONFIG_FILE >> config/config/config-algolia.js'
+                sh 'echo -n $ALGOLIA_CONFIG_FILE >> config/config-algolia.js'
                 sh 'rm -rf config/config-firebase.js'
                 sh 'echo -n $FIREBASE_CONFIG_FILE >> config/config-firebase.js'
                 sh 'docker-compose -f jenkins-docker-compose.yml build'

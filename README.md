@@ -14,19 +14,21 @@ Links:
 
 ## Local installation
 Requirements:
-- Create a Firebase app (link?)
-- Store the config of Firebase in config/config-firebase.js
-  - ProjectID
-- Create an algolia account.
+- Create a [Firebase App](https://firebase.google.com/)
+- Store the config of Firebase in config/config-firebase.js (project settings => config)
+- Create an [Algolia](https://www.algolia.com/) account and get the API configuration.
   - Algolia Admin API Key
   - Algolia Private key
   - Algolia public key.
 - Algolia Application Id and Algoliase search client should be in config/config-algolia.js
 - Algolia Admin key should be in algolia-secret-admin-api-key.txt
+- Algolia indexes should be created: ``dev_goals``, ``dev_activities``, and ``dev_maps`
+- Install Docker and docker-compose
 
+Installation steps:
 
-1. Run with Docker:
-docker-compose up -d
+1. Run with Docker (first time it will take a while):
+``docker-compose up -d``
 
 2. In one terminal, go inside the svelte kit container: 
 
@@ -44,8 +46,7 @@ docker-compose up -d
 
 6. Go to localhost:3000 and you should see the project and localhost:5001 to see the emulator UI of Firebase.
 
-## Deployments
-
+7. Errors? Reach out on [Discord](https://discord.gg/tz2CSSrBgt) for support
 
 ## How to make transitions with tailwind and Svelte.
 Use the Svelte Class Transition component:

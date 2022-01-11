@@ -42,6 +42,9 @@ Installation steps:
 
 5. Open a new terminal and go inside the firebase emulator container
 ``docker exec -it naabu_firebase_1 bash``
+and start the Firebase emulators:
+
+``npm run emulate``
 
 6. Go to localhost:3000 and you should see the project and localhost:5001 to see the emulator UI of Firebase.
 

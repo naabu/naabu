@@ -101,7 +101,7 @@ test('Test flow for learning goals.', async ({ page, domain, showAllConsole }) =
   await page.click('[data-cy=A2]');
   await page.fill('#answeranswer', '1');
   await page.check('#answers_check');
-  await page.click('[data-cy=create-goal-submit-button]');
+  await page.click('[data-test=create-goal-submit-button]');
   await expect(page.locator('div#svelte')).toContainText('Ik kan subject 1 benoemen en definieren from a work sheet');
 
   // Edit goal page.

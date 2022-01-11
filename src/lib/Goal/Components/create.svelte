@@ -1,13 +1,17 @@
 <script>
   // import firebase from "firebase/app";
   import { getStores, session } from "$app/stores";
-  import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte"
+  import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
   import GoalForm from "$lib/Goal/Components/form.svelte";
   import { onMount } from "svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
-  import { createGoalRevision, getGoalSaveData } from "$lib/Goal/Components/helper";
+  import {
+    createGoalRevision,
+    getGoalSaveData,
+  } from "$lib/Goal/Components/helper";
   import { getGoalIndex } from "$lib/Internals/Algolia/algolia";
   import { goto } from "$app/navigation";
+  import Button from "$lib/Stories/Button.svelte";
 
   export let firebase;
 
@@ -110,7 +114,7 @@
 
 <div>
   <ResultFeedback bind:alert />
-  <CheckPlayerHasProfile bind:hasCurriculumProfile/>
+  <CheckPlayerHasProfile bind:hasCurriculumProfile />
 
   <!-- <div>
     <div class="mt-2 md:flex md:items-center md:justify-between">
@@ -128,14 +132,10 @@
     <GoalForm bind:goal />
     <div class="pt-5">
       <div class="flex justify-end">
-        <button
-          data-cy="create-goal-submit-button"
-          disabled={buttonDisabled|| !hasCurriculumProfile}
-          type="submit"
-          class="float-right disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        >
-          Leerdoel publiseren
-        </button>
+        <Button content="Leerdoel publiseren" 
+          isDisabled={buttonDisabled || !hasCurriculumProfile}
+          isSubmit={true}
+          data-test="create-goal-submit-button"/>
       </div>
     </div>
   </form>

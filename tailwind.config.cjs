@@ -1,4 +1,4 @@
-const { tailwindExtractor } =require("tailwindcss/lib/lib/purgeUnusedStyles");
+const { tailwindExtractor } = require("tailwindcss/lib/lib/purgeUnusedStyles");
 
 module.exports = {
 	mode: "aot",

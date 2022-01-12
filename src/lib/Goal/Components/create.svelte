@@ -11,7 +11,7 @@
   } from "$lib/Goal/Components/helper";
   import { getGoalIndex } from "$lib/Internals/Algolia/algolia";
   import { goto } from "$app/navigation";
-  import Button from "$lib/Stories/Button.svelte";
+  import Button from "$lib/Internals/Button/Button.svelte";
 
   export let firebase;
 
@@ -135,6 +135,7 @@
         <Button content="Leerdoel publiseren" 
           isDisabled={buttonDisabled || !hasCurriculumProfile}
           isSubmit={true}
+          isPrimary={true}
           data-test="create-goal-submit-button"/>
       </div>
     </div>

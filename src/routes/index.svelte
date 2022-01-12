@@ -6,7 +6,7 @@
   // import firebase from "firebase/app";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { getMap, getUserMap } from "$lib/Module/Map/Components/helper";
-  import Button from "$lib/Stories/Button.svelte";
+  import Button from "$lib/Internals/Button/Button.svelte";
 
   let firebase;
   let map;
@@ -53,7 +53,6 @@
 </svelte:head>
 
 {#if mounted}
-  <Button on:click={()=> alert('hi')} label="Button new on homepage" />
   <ModuleTeaserList bind:modules />
 {:else}
   loading...

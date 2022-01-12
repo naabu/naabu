@@ -32,7 +32,6 @@ module.exports = {
     config.resolve.alias = {
       ...config.resolve.alias,
       $lib: path.resolve(__dirname, '../src/lib'),
-      $components: path.resolve(__dirname, '../src/lib/components')
     };
     return config;
   },

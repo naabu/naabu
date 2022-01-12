@@ -23,7 +23,7 @@
 
   let verySmall = ["px-2.5", "py-1.5", "text-xs"];
 
-  let small = ["px-3", "py-2", "text-sm"];
+  let small = ["px-3", "py-2", "text-sm", "leading-4"];
 
   let medium = [
     "px-4",
@@ -52,7 +52,6 @@
     "border-transparent",
     "justify-center",
     "inline-flex",
-    "ml-3",
     "text-white",
     "bg-indigo-600",
     "hover:bg-indigo-700",

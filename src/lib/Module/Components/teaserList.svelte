@@ -63,7 +63,7 @@
                   <div class="mt-6 sm:mt-0 sm:ml-6">
                     <h3 class="text-base font-medium text-gray-900">
                       <a 
-                      data-cy="module-{i}-title-link"
+                      data-test="module-{i}-title-link"
                       href="/module/{module.id}">{module.moduleName}</a>
                     </h3>
                     <!-- <p class="mt-2 text-sm font-medium text-gray-900">$35.00</p> -->

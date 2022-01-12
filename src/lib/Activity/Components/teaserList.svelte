@@ -10,7 +10,7 @@
 
 <ul class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
   {#each activities as activity, i}
-    <span data-cy="activity-teaser-{i}">
+    <span data-test="activity-teaser-{i}">
       <Teaser bind:activity bind:moduleId bind:locationId />
     </span>
   {/each}

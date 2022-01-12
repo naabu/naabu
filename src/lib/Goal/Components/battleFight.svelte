@@ -2092,7 +2092,7 @@
                               type="radio"
                               bind:group={quiz.selectedAnswer}
                               value={i}
-                              data-cy="answer_v1_{i}"
+                              data-test="answer_v1_{i}"
                             />
                             {@html "<span class='pl-3'>" +
                               renderKatexOutput(answer.answer) +
@@ -2105,7 +2105,7 @@
                         disabled={quiz.selectedAnswer === null}
                         on:click={() => (quiz = checkCorrectAnswer(quiz))}
                         class="mr-2 mb-2 float-right disabled:opacity-50 relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        data-cy="attack_v2"
+                        data-test="attack_v2"
                       >
                         Aanvallen
                       </button>
@@ -2201,7 +2201,7 @@
                                 type="radio"
                                 bind:group={quiz.selectedAnswer}
                                 value={i}
-                                data-cy="answer_v2_{i}"
+                                data-test="answer_v2_{i}"
                               />
                               {@html "<span class='pl-3'>" +
                                 renderKatexOutput(answer.answer) +
@@ -2214,7 +2214,7 @@
                           disabled={quiz.selectedAnswer === null}
                           on:click={() => (quiz = checkCorrectAnswer(quiz))}
                           class="mr-2 mb-2 float-right disabled:opacity-50 relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                          data-cy="attack_v1"
+                          data-test="attack_v1"
                         >
                           Aanvallen
                         </button>
@@ -2233,7 +2233,7 @@
               >
                 <div class="absolute inset-0">
                   {#if quiz.correct == true}
-                    <div class="text-5xl" data-cy="won">Enemy defeated!</div>
+                    <div class="text-5xl" data-test="won">Enemy defeated!</div>
                     <svg
                       class="mx-auto max-w-xl"
                       xmlns="http://www.w3.org/2000/svg"
@@ -2866,7 +2866,7 @@
                       </g>
                     </svg>
                   {:else}
-                    <div class="text-5xl" data-cy="defeated">You are defeated!</div>
+                    <div class="text-5xl" data-test="defeated">You are defeated!</div>
                     <svg
                       class="mx-auto max-w-xl"
                       xmlns="http://www.w3.org/2000/svg"

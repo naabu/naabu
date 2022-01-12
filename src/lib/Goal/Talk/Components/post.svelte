@@ -113,7 +113,7 @@
             <div class="min-w-0 flex-1">
               <p class="text-sm font-medium text-gray-900">
                 <a
-                  data-cy="profile-link"
+                  data-test="profile-link"
                   class="hover:underline"
                   href="/curriculum-profiel/{post.authorId}"
                   >{post.curriculumProfile.fullname}</a

@@ -54,7 +54,7 @@
       {#each paths as path, i}
         {#if selectedPathIndex !== i}
           <button
-            data-cy="path-to-location-button-{path.endLocationIndex + 1}"
+            data-test="path-to-location-button-{path.endLocationIndex + 1}"
             on:click|preventDefault={() => setselectedPathIndex(i)}
             class="outline-none active:outline-none focus:outline-none border-transparent  text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
           >
@@ -62,7 +62,7 @@
           </button>
         {:else}
           <button
-            data-cy="path-to-location-button-{path.endLocationIndex + 1}"
+            data-test="path-to-location-button-{path.endLocationIndex + 1}"
             on:click|preventDefault={() => setselectedPathIndex(i)}
             class="outline-none active:outline-none focus:outline-none border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
           >
@@ -80,19 +80,19 @@
 {#if selectedPath}
   {#each selectedPath.points as point, i}
     {#if i == 0}
-      <div data-cy="start-location-point">
+      <div data-test="start-location-point">
         Start locatie: {point[1]} - {point[0]}
       </div>
     {:else if i == selectedPath.points.length - 1}
-      <div data-cy="end-location-point">
+      <div data-test="end-location-point">
         Eind locatie: {point[1]} - {point[0]}
       </div>
     {:else}
       <div>
-        <input data-cy="path-input-x-{i}" type="text" bind:value={point[1]} />
-        <input data-cy="path-input-y-{i}" type="text" bind:value={point[0]} />
+        <input data-test="path-input-x-{i}" type="text" bind:value={point[1]} />
+        <input data-test="path-input-y-{i}" type="text" bind:value={point[0]} />
         <button
-          data-cy="remove-path-point-button-{i}"
+          data-test="remove-path-point-button-{i}"
           class="mb-1  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           on:click|preventDefault={() => removePoint(i)}>Remove</button
         >
@@ -132,7 +132,7 @@
       />
     </div>
     <button
-      data-cy="add-path-point-button"
+      data-test="add-path-point-button"
       class="mb-1  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
       on:click|preventDefault={addPoint}
     >

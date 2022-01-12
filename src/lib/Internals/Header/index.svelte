@@ -98,7 +98,7 @@
                 class="block lg:hidden h-10 w-auto"
                 src={logosmall}
                 alt="Wisvids"
-                data-cy="mobile-logo"
+                data-test="mobile-logo"
               /></a
             >
             <a href="/"
@@ -106,7 +106,7 @@
                 class="hidden lg:block  h-10 w-auto"
                 src={logo}
                 alt="Wisvids"
-                data-cy="desktop-logo"
+                data-test="desktop-logo"
               /></a
             >
           </div>
@@ -116,14 +116,14 @@
                 {#if mainMenuLink.isActive}
                   <a
                     href={mainMenuLink.url}
-                    data-cy={mainMenuLink.datacy}
+                    data-test={mainMenuLink.datacy}
                     class="bg-blue-700 text-white px-3 py-2 rounded-md text-sm font-medium"
                     aria-current="page">{mainMenuLink.content}</a
                   >
                 {:else}
                   <a
                     href={mainMenuLink.url}
-                    data-cy={mainMenuLink.datacy}
+                    data-test={mainMenuLink.datacy}
                     class="text-blue-300 hover:bg-blue-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                     >{mainMenuLink.content}</a
                   >
@@ -174,7 +174,7 @@
                   id="user-menu-button"
                   aria-expanded="false"
                   aria-haspopup="true"
-                  data-cy="user-menu"
+                  data-test="user-menu"
                 >
                   <span class="sr-only">Open user menu</span>
                   <img

@@ -13,7 +13,7 @@
 <ListGoals>
   <a
     slot="link"
-    data-cy="create-goal-link"
+    data-test="create-goal-link"
     class="ml-4 underline float-right mt-4 mb-4"
     href="/leerdoel/maken"
   >

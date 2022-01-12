@@ -9,6 +9,7 @@
   import { getActivitySaveData, getDefaultEmptyActivity } from "$lib/Activity/Components/helper";
   import { goto } from "$app/navigation";
   import { createRevision } from "$lib/Internals/Revision/helper";
+import Button from "$lib/Internals/Button/Button.svelte";
   export let firebase;
   export let goal;
   let draftId;
@@ -163,14 +164,13 @@
     <div class="">
       <div class="pt-5">
         <div class="flex justify-end">
-          <button
-            disabled={buttonDisabled}
-            data-cy="submit-activity-create-button"
-            type="submit"
-            class="float-right disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Concept opslaan en bekijken
-          </button>
+          <Button
+            isPrimary={true}
+            isSubmit={true}
+            isDisabled={buttonDisabled}
+            dataTest="submit-activity-create-button"
+            content="Concept opslaan en bekijken"
+          />
         </div>
       </div>
     </div>

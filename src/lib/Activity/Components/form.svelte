@@ -168,7 +168,7 @@
             Beschrijf kort de activiteit of de vraag
           </p>
           <button
-            data-cy="preview-description"
+            data-test="preview-description"
             class="preview-button mt-3  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
             on:click|preventDefault={updatePreview}>Update preview</button
           >

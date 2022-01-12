@@ -48,7 +48,7 @@
           >
         {:else}
           <a
-            data-cy="select-learning-goal-{index}"
+            data-test="select-learning-goal-{index}"
             href="/lerarenkamer/activiteit/maken/{goalId}"
             class="text-indigo-600 hover:text-indigo-900">Selecteren</a
           >

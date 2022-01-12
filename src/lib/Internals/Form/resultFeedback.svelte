@@ -31,7 +31,7 @@
       </div>
       <div class="ml-3">
         <h3
-          data-cy="alert-success-title"
+          data-test="alert-success-title"
           class="text-sm font-medium text-green-800"
         >
           {alert.successTitle}

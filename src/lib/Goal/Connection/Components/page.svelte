@@ -19,6 +19,7 @@
     getDiffStrings,
   } from "$lib/Internals/Misc/helper";
   import { getCurriculumProfile } from "$lib/Goal/Curriculum/Components/helper";
+  import Button from "$lib/Internals/Button/Button.svelte";
 
   export let firebase;
   export let goal;
@@ -299,64 +300,54 @@
     <div class="flex">
       <div class="ml-auto mt-4">
         {#if connection.status === "in-progress"}
-          <button
-            data-test="ready-to-publish-button"
-            disabled={!delayDone}
+          <Button
+            isPrimary={true}
+            isDisabled={!delayDone}
             on:click={() => changeStatus("in-progress", "needs-approval")}
-            class="disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Activiteit klaar om te publiceren
-          </button>
+            dataTest="ready-to-publish-button"
+            content="Activiteit klaar om te publiceren"
+          />
         {/if}
         {#if connection.status === "needs-approval"}
-          <button
-            disabled={!delayDone}
+          <Button
+            isDisabled={!delayDone}
             on:click={() => changeStatus("needs-approval", "needs-work")}
-            class="disabled:opacity-50 mt-3 bg-white py-2 ml-3 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Heeft werk nodig
-          </button>
-          <button
-            disabled={!delayDone}
+            content="Heeft werk nodig"
+          />
+          <Button
+            isPrimary={true}
+            isDisabled={!delayDone}
             on:click={() => changeStatus("needs-approval", "published")}
-            class="disabled:opacity-50 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Avontuur publiceren
-          </button>
+            content="Activiteit publiceren"
+          />
         {/if}
         {#if connection.status === "needs-work"}
-          <button
-            disabled={!delayDone}
+          <Button
+            isDisabled={!delayDone}
             on:click={() => changeStatus("needs-work", "in-trash")}
-            class="disabled:opacity-50 mt-3 bg-white py-2 ml-3 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Avontuur in prullenbak
-          </button>
-          <button
-            disabled={!delayDone}
+            content="Activiteit in prullenbak"
+          />
+          <Button
+            isPrimary={true}
+            isDisabled={!delayDone}
             on:click={() => changeStatus("needs-work", "in-progress")}
-            class="disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Aan avontuur werken
-          </button>
+            content="Aan activiteit werken"
+          />
         {/if}
         {#if connection.status === "published"}
-          <button
-            disabled={!delayDone}
+          <Button
+            isDisabled={!delayDone}
             on:click={() => changeStatus("published", "needs-work")}
-            class="disabled:opacity-50 mt-3 bg-white py-2 ml-3 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Avontuur publicatie ongedaan maken
-          </button>
+            content="Activiteit publicatie ongedaan maken"
+          />
         {/if}
         {#if connection.status === "in-trash"}
-          <button
-            disabled={!delayDone}
+          <Button
+            isPrimary={true}
+            isDisabled={!delayDone}
             on:click={() => changeStatus("in-trash", "needs-work")}
-            class="disabled:opacity-50 mt-3 bg-white py-2 ml-3 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Avontuur terugzetten
-          </button>
+            content="Activiteit terugzetten"
+          />
         {/if}
       </div>
     </div>
@@ -669,17 +660,16 @@
           />
         </div>
         <div class="mt-3">
-          <div class="mt-4">
+          <div class="flex justify-between mt-4">
             <span class=" text-sm text-gray-500">
               Hou het vriendelijk en proffesioneel
             </span>
-            <button
-              data-test="post-reaction-button"
-              disabled={buttonDisabled}
-              type="submit"
-              class="float-right disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >Plaats reactie</button
-            >
+            <Button
+              isDisabled={buttonDisabled}
+              isSubmit={true}
+              content="Plaats reactie"
+              dataTest="post-reaction-button"
+            />
           </div>
         </div>
       </div>

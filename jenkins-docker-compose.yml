@@ -28,7 +28,7 @@ services:
       context: .
       dockerfile: dockerfiles/sveltekit/dev/Dockerfile
     volumes:
-      - ./test-results/:/var/www/svelte/test-results
+      - ./test-results/:/var/www/test-results
     environment:
       - CI=true
     networks:

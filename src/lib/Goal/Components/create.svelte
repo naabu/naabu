@@ -136,7 +136,7 @@
           isDisabled={buttonDisabled || !hasCurriculumProfile}
           isSubmit={true}
           isPrimary={true}
-          data-test="create-goal-submit-button"/>
+          dataTest="create-goal-submit-button"/>
       </div>
     </div>
   </form>

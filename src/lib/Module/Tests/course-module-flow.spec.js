@@ -14,24 +14,10 @@ function printMessages(page, showAllConsole) {
 }
 
 const expect = base.expect;
-test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {
-  printMessages(page, showAllConsole);
-  await page.goto(domain + '/cypress/module/clear');
-  await page.waitForSelector('[data-test=complete]');
-  await page.goto(domain + '/cypress/map/clear');
-  await page.waitForSelector('[data-test=complete]');
-  await page.goto(domain + '/cypress/revision/clear');
-  await page.waitForSelector('[data-test=complete]');
-  await page.goto(domain + '/cypress/goal/clear');
-  await page.waitForSelector('[data-test=complete]');
-  await page.goto(domain + '/cypress/curriculumProfile/clear');
-  await page.waitForSelector('[data-test=complete]');
-  await page.goto(domain + '/cypress/user/deletegoalscoursemodule@example.com/clear');
-  await page.waitForSelector('[data-test=complete]');
-});
+
 
 test('Create course modules', async ({ page, domain, showAllConsole }) => {
-
+  test.slow();
   printMessages(page, showAllConsole);;
   // Load content needed for test.
   await page.goto(domain + '/cypress/user/deletegoalscoursemodule@example.com/password/login');
@@ -53,14 +39,17 @@ test('Create course modules', async ({ page, domain, showAllConsole }) => {
   await page.click('#user-menu-item-teacher-room');
   await page.waitForTimeout(500);
   await page.click('[data-test=desktop-sidebar-menu] > [data-test=teacher-menu-modules]');
-  await expect(page.locator('[data-test=module-name-0]')).not.toBeVisible();
+  await page.waitForSelector('[data-test=create-module-button-link]');
   await expect(page.locator('[data-test=create-module-button-link]')).toBeVisible();
+  await expect(page.locator('[data-test=module-name-0]')).not.toBeVisible();
+
   // await page.waitForTimeout(5000);
   // await page.goto(domain + '/lerarenkamer/module/maken');
   await page.click('[data-test=create-module-button-link]');
   await page.fill('#name', 'Test module');
   await page.fill('#description', 'Test description');
   await page.selectOption('select#maps', { label: 'Map1' });
+  await page.waitForSelector('[data-test=location-tab-l1]');
   await expect(page.locator('[data-test=location-tab-l1]')).toBeVisible();
   await expect(page.locator('[data-test=location-tab-l2]')).toBeVisible();
   await expect(page.locator('[data-test=new-location-button]')).toBeVisible();
@@ -72,9 +61,13 @@ test('Create course modules', async ({ page, domain, showAllConsole }) => {
   // Add learning goals to location.
   await page.fill('#location_name', 'Test start location 1');
   await page.fill('[placeholder="Zoek voor leerdoelen"]', 'Cypress');
+
+  // Algolia autocomplete.
+  await page.waitForSelector(".aa-Panel >> .aa-List >> li >> nth=0");
   await expect(page.locator(".aa-Panel >> .aa-List >> li >> nth=0")).toContainText("Cypress Test Goal 1");
   await expect(page.locator(".aa-Panel >> .aa-List >> li >> nth=1")).toContainText("Cypress Test Goal 2");
   await page.click(".aa-Panel >> .aa-List >> li >> nth=1");
+  await page.waitForSelector('[data-test=added-learning-goal-0]');
   await expect(page.locator('[data-test=added-learning-goal-0]')).toContainText("Cypress Test Goal 2");
 
   // Change the waypoints.
@@ -88,12 +81,14 @@ test('Create course modules', async ({ page, domain, showAllConsole }) => {
 
   // Change the paths.
   await page.click('[data-test=paths-button]');
+  await page.waitForSelector('[data-test=path-to-location-button-2]');
   await expect(page.locator('[data-test=path-to-location-button-2]')).toContainText("L2");
   await expect(page.locator('[data-test=start-location-point]')).toContainText("Start locatie: 400 - 500");
   await expect(page.locator('[data-test=end-location-point]')).toContainText("Eind locatie: 500 - 650");
   await page.fill('#pointX', '450');
   await page.fill('#pointY', '550');
   await page.click('[data-test=add-path-point-button]');
+  await page.waitForSelector('[data-test=path-input-x-1]');
   await expect(page.locator('[data-test=path-input-x-1]')).toHaveValue('450');
   await expect(page.locator('[data-test=path-input-y-1]')).toHaveValue('550');
   await page.fill('[data-test=path-input-x-1]', '200');
@@ -102,24 +97,33 @@ test('Create course modules', async ({ page, domain, showAllConsole }) => {
   // Location 2.
   await page.click('[data-test=location-tab-l2]');
   await page.click('[data-test=inhoud-button]');
+  await page.waitForSelector('#learning-goals');
   await expect(page.locator('#learning-goals')).toContainText('Nog geen leerdoelen aan activiteit toegevoegd');
   await page.fill('#location_name', 'Test start location 2');
+
+  // Autocomplete Algolia widget.
   await page.fill('[placeholder="Zoek voor leerdoelen"]', 'Cypress');
+  await page.waitForSelector(".aa-Panel >> .aa-List >> li >> nth=0");
   await expect(page.locator(".aa-Panel >> .aa-List >> li >> nth=0")).toContainText("Cypress Test Goal 1");
   await expect(page.locator(".aa-Panel >> .aa-List >> li >> nth=1")).toContainText("Cypress Test Goal 2");
   await page.click(".aa-Panel >> .aa-List >> li >> nth=0");
+  await page.waitForSelector('[data-test=added-learning-goal-0]');
   await expect(page.locator('[data-test=added-learning-goal-0]')).toContainText("Cypress Test Goal 1");
 
   await page.click('[data-test=waypoints-button]');
+  await page.waitForSelector('#start_locations_check');
   await expect(page.locator('#start_locations_check')).not.toBeChecked();
 
   await page.click("[data-test=create-module-submit-button]");
+  await page.waitForSelector('[data-test=alert-success-title]');
   await expect(page.locator('[data-test=alert-success-title]')).toContainText('Module succesvol aangemaakt');
   await page.click('[data-test=desktop-sidebar-menu] > [data-test=teacher-menu-modules]');
+  await page.waitForSelector('[data-test=module-name-0]');
   await expect(page.locator('[data-test=module-name-0]')).toContainText('Test module');
-  // Edit form.
+
   await page.click('[data-test=module-edit-button-0]');
 
+  await page.waitForSelector('#name');
   // Assert correct save of create form.
   await expect(page.locator('#name')).toHaveValue('Test module');
   await expect(page.locator('#description')).toHaveValue('Test description');
@@ -129,6 +133,7 @@ test('Create course modules', async ({ page, domain, showAllConsole }) => {
 
   // Check waypoints.  
   await page.click('[data-test=waypoints-button]');
+  await page.waitForSelector('#text_position_x');
   await expect(page.locator('#text_position_x')).toHaveValue('300');
   await expect(page.locator('#text_position_y')).toHaveValue('500');
   await expect(page.locator('#marker_position_x')).toHaveValue('400');
@@ -138,6 +143,7 @@ test('Create course modules', async ({ page, domain, showAllConsole }) => {
 
   // Check paths.
   await page.click('[data-test=paths-button]');
+  await page.waitForSelector('[data-test=start-location-point]');
   await expect(page.locator('[data-test=start-location-point]')).toContainText("Start locatie: 400 - 500");
   await expect(page.locator('[data-test=end-location-point]')).toContainText("Eind locatie: 500 - 650");
   await expect(page.locator('[data-test=path-input-x-1]')).toHaveValue('200');
@@ -146,6 +152,7 @@ test('Create course modules', async ({ page, domain, showAllConsole }) => {
   // Check location 2.
   await page.click('[data-test=location-tab-l2]');
   await page.click('[data-test=inhoud-button]');
+  await page.waitForSelector('#location_name');
   await expect(page.locator('#location_name')).toHaveValue('Test start location 2');
   await expect(page.locator('[data-test=added-learning-goal-0]')).toContainText("Cypress Test Goal 1");
 
@@ -155,12 +162,15 @@ test('Create course modules', async ({ page, domain, showAllConsole }) => {
   await page.fill('#description', 'Test description edited');
   await page.fill('#location_name', 'Test start location 1 edited');
   await page.click("[data-test=remove-goal-button-0]");
+  await page.waitForSelector('#learning-goals');
   await expect(page.locator('#learning-goals')).toContainText('Nog geen leerdoelen aan activiteit toegevoegd');
 
   await page.fill('[placeholder="Zoek voor leerdoelen"]', 'Cypress');
+  await page.waitForSelector(".aa-Panel >> .aa-List >> li >> nth=0");
   await expect(page.locator(".aa-Panel >> .aa-List >> li >> nth=0")).toContainText("Cypress Test Goal 1");
   await expect(page.locator(".aa-Panel >> .aa-List >> li >> nth=1")).toContainText("Cypress Test Goal 2");
   await page.click(".aa-Panel >> .aa-List >> li >> nth=0");
+  await page.waitForSelector('[data-test=added-learning-goal-0]');
   await expect(page.locator('[data-test=added-learning-goal-0]')).toContainText("Cypress Test Goal 1");
 
   // Edit waypoints location 1.
@@ -171,6 +181,7 @@ test('Create course modules', async ({ page, domain, showAllConsole }) => {
   await page.fill('#marker_position_y', '550');
 
   await page.click('[data-test=paths-button]');
+  await page.waitForSelector('[data-test=path-to-location-button-2]');
   await expect(page.locator('[data-test=path-to-location-button-2]')).toContainText("L2");
   await expect(page.locator('[data-test=start-location-point]')).toContainText("Start locatie: 450 - 550");
   await expect(page.locator('[data-test=end-location-point]')).toContainText("Eind locatie: 500 - 650");
@@ -179,6 +190,7 @@ test('Create course modules', async ({ page, domain, showAllConsole }) => {
   await page.fill('#pointX', '250');
   await page.fill('#pointY', '450');
   await page.click('[data-test=add-path-point-button]');
+  await page.waitForSelector('[data-test=path-input-x-1]');
   await expect(page.locator('[data-test=path-input-x-1]')).toHaveValue('260');
   await expect(page.locator('[data-test=path-input-y-1]')).toHaveValue('460');
   await expect(page.locator('[data-test=path-input-x-2]')).toHaveValue('250');
@@ -186,25 +198,31 @@ test('Create course modules', async ({ page, domain, showAllConsole }) => {
 
   await page.click('[data-test=location-tab-l2]');
   await page.click('[data-test=inhoud-button]');
+  await page.waitForSelector('#learning-goals');
   await expect(page.locator('#learning-goals')).toContainText('Cypress Test Goal 1');
   await page.fill('#location_name', 'Test start location 2 edited');
   await page.fill('[placeholder="Zoek voor leerdoelen"]', 'Cypress');
+  await page.waitForSelector(".aa-Panel >> .aa-List >> li >> nth=0");
   await expect(page.locator(".aa-Panel >> .aa-List >> li >> nth=0")).toContainText("Cypress Test Goal 2");
   await page.click(".aa-Panel >> .aa-List >> li >> nth=0");
+  await page.waitForSelector('[data-test=added-learning-goal-0]');
   await expect(page.locator('[data-test=added-learning-goal-0]')).toContainText("Cypress Test Goal 1");
   await expect(page.locator('[data-test=added-learning-goal-1]')).toContainText("Cypress Test Goal 2");
   await page.click("[data-test=remove-goal-button-0]");
+  await page.waitForSelector('#learning-goals');
   await expect(page.locator('#learning-goals')).toContainText('Cypress Test Goal 2');
   await page.click("[data-test=edit-module-button]");
 
 
   // Check the results of the edit form.
   await page.click('[data-test=user-menu]');
-  await page.waitForTimeout(300);
+  await page.waitForTimeout(500);
   await page.click('#user-menu-item-teacher-room');
+  await page.waitForTimeout(500);
   await page.click('[data-test=desktop-sidebar-menu] > [data-test=teacher-menu-modules]');
   await expect(page.locator('[data-test=module-name-0]')).toContainText('Test module edited');
   await page.click('[data-test=module-edit-button-0]');
+  await page.waitForSelector('#name');
   await expect(page.locator('#name')).toHaveValue('Test module edited');
   await expect(page.locator('#description')).toHaveValue('Test description edited');
   await expect(page.locator('select#maps >> option.selected')).toContainText('Map1');
@@ -213,6 +231,7 @@ test('Create course modules', async ({ page, domain, showAllConsole }) => {
 
   // Check waypoints.  
   await page.click('[data-test=waypoints-button]');
+  await page.waitForSelector('#text_position_x');
   await expect(page.locator('#text_position_x')).toHaveValue('350');
   await expect(page.locator('#text_position_y')).toHaveValue('550');
   await expect(page.locator('#marker_position_x')).toHaveValue('450');
@@ -222,6 +241,7 @@ test('Create course modules', async ({ page, domain, showAllConsole }) => {
 
   // Check paths.
   await page.click('[data-test=paths-button]');
+  await page.waitForSelector('[data-test=start-location-point]');
   await expect(page.locator('[data-test=start-location-point]')).toContainText("Start locatie: 450 - 550");
   await expect(page.locator('[data-test=end-location-point]')).toContainText("Eind locatie: 500 - 650");
   await expect(page.locator('[data-test=path-input-x-1]')).toHaveValue('260');
@@ -232,9 +252,27 @@ test('Create course modules', async ({ page, domain, showAllConsole }) => {
   // Check location 2.
   await page.click('[data-test=location-tab-l2]');
   await page.click('[data-test=inhoud-button]');
+  await page.waitForSelector('#location_name');
   await expect(page.locator('#location_name')).toHaveValue('Test start location 2 edited');
   await expect(page.locator('[data-test=added-learning-goal-0]')).toContainText("Cypress Test Goal 2");
 
   await page.click('[data-test=desktop-logo]');
+  await page.waitForSelector('[data-test=module-0-title-link]');
   await expect(page.locator('[data-test=module-0-title-link]')).toContainText('Test module edited');
+});
+
+test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {
+  printMessages(page, showAllConsole);
+  await page.goto(domain + '/cypress/module/clear');
+  await page.waitForSelector('[data-test=complete]');
+  await page.goto(domain + '/cypress/map/clear');
+  await page.waitForSelector('[data-test=complete]');
+  await page.goto(domain + '/cypress/revision/clear');
+  await page.waitForSelector('[data-test=complete]');
+  await page.goto(domain + '/cypress/goal/clear');
+  await page.waitForSelector('[data-test=complete]');
+  await page.goto(domain + '/cypress/curriculumProfile/clear');
+  await page.waitForSelector('[data-test=complete]');
+  await page.goto(domain + '/cypress/user/deletegoalscoursemodule@example.com/clear');
+  await page.waitForSelector('[data-test=complete]');
 });

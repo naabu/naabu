@@ -14,24 +14,9 @@ function printMessages(page, showAllConsole) {
 }
 
 const expect = base.expect;
-test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {
-  printMessages(page, showAllConsole);
-  test.slow();
-  // await page.goto(domain + '/cypress/module/clear');
-  // await page.waitForSelector('[data-test=complete]');
-  // await page.goto(domain + '/cypress/map/clear');
-  // await page.waitForSelector('[data-test=complete]');
-  await page.goto(domain + '/cypress/revision/clear');
-  await page.waitForSelector('[data-test=complete]');
-  await page.goto(domain + '/cypress/goal/clear');
-  await page.waitForSelector('[data-test=complete]');
-  await page.goto(domain + '/cypress/curriculumProfile/clear');
-  await page.waitForSelector('[data-test=complete]');
-  await page.goto(domain + '/cypress/user/deletegoalsactivityflow@example.com/clear');
-  await page.waitForSelector('[data-test=complete]');
-});
 
 test('Create activities and attach them', async ({ page, domain, showAllConsole }) => {
+  test.slow();
   printMessages(page, showAllConsole);;
   // Load content needed for test.
   await page.goto(domain + '/cypress/user/deletegoalsactivityflow@example.com/password/login');
@@ -47,8 +32,9 @@ test('Create activities and attach them', async ({ page, domain, showAllConsole 
   await page.waitForSelector('[data-test=complete]');
 
   await page.click('[data-test=user-menu]');
-  await page.waitForTimeout(300);
+  await page.waitForTimeout(500);
   await page.click('#user-menu-item-teacher-room');
+  await page.waitForTimeout(500);
   await page.click('[data-test=desktop-sidebar-menu] > [data-test=teacher-menu-concept-activity]');
   await expect(page.locator('[data-test=create-activity-button]')).toBeVisible();
   await page.waitForTimeout(2000);
@@ -119,6 +105,7 @@ test('Create activities and attach them', async ({ page, domain, showAllConsole 
   await page.click('[data-test=back-to-form-button]');
   // Click revisions - changes with Force?
   await page.click('[data-test=last-change-link]');
+  await page.waitForSelector('[data-test="Titel:-old"]');
   await expect(page.locator('[data-test="Titel:-old"]')).toContainText('Test activity title');
   await expect(page.locator('[data-test="Titel:-new"]')).toContainText('Test activity title changed');
   await expect(page.locator('[data-test="Beschrijving:-old"]')).toContainText('Test description $$\\cfrac{5}{4}$$');
@@ -143,10 +130,11 @@ test('Create activities and attach them', async ({ page, domain, showAllConsole 
   await expect(page.locator('[data-test="Quiz - vraag 1 - tijd in video:-new"]')).toContainText("3");
 
   await page.click('[data-test="show-all-activity-revisions-button"]');
+  await page.waitForSelector('[data-test="revision-link-0"]');
   await expect(page.locator('[data-test="revision-link-0"]')).toBeVisible();
   await expect(page.locator('[data-test="revision-link-2"]')).not.toBeVisible();
   await page.click('[data-test="revision-link-1"]');
-
+  await page.waitForSelector('[data-test="Type:-new"]');
   await expect(page.locator('[data-test="Type:-new"]')).toContainText('Uitleg');
   await expect(page.locator('[data-test="Titel:-new"]')).toContainText("Test activity title");
   await expect(page.locator('[data-test="Beschrijving:-new"]')).toContainText("Test description $$\\cfrac{5}{4}$$");
@@ -165,6 +153,8 @@ test('Create activities and attach them', async ({ page, domain, showAllConsole 
   await expect(page.locator('#difficulty')).toHaveValue('2');
   await page.click('[data-test=edit-activity-submit-button]');
   await page.click('[data-test=connect-activity-learning-goal-button]');
+  await page.waitForSelector('[data-test=title-learning-goal-connection-page]');
+
   await expect(page.locator('[data-test=title-learning-goal-connection-page]')).toContainText("Koppeling leerdoel activiteit informatie");
   await expect(page.locator('[data-test=field-Titel]')).toContainText("Test activity title");
   await expect(page.locator('[data-test=field-Moeilijkheid]')).toContainText("Makkelijk");
@@ -172,13 +162,33 @@ test('Create activities and attach them', async ({ page, domain, showAllConsole 
   await expect(page.locator('[data-test="connection-write-by-teacher-update-content-0"]')).toContainText("Activiteit gekoppeld met leerdoel");
   await page.fill('#comment', "Hey this is a comment on a learning goal activity connection page");
   await page.click('[data-test=post-reaction-button]');
+  await page.waitForSelector('[data-test="comment-teacher-content-1"]');
   await expect(page.locator('[data-test="comment-teacher-content-1"]')).toContainText("Hey this is a comment on a learning goal activity connection page");
   await page.click('[data-test=ready-to-publish-button]');
+  await page.waitForSelector('[data-test="status-changed-content-2"]');
   await expect(page.locator('[data-test="status-changed-content-2"]')).toContainText("heeft de status gewijzigd naar Goedkeuring nodig zojuist");
   await page.click('[data-test=edit-activity-page-link]');
+  await page.waitForSelector('[data-test=concept-status]');
   await expect(page.locator('[data-test=concept-status]')).toContainText("Open");
   await page.fill('#title', 'CHECKCHECKCHECK');
   await page.click('[data-test=edit-activity-submit-button]');
   await page.click('[data-test=update-activity-learning-goal-button]');
+  await page.waitForSelector('[data-test="connection-write-by-teacher-update-content-3"]');
   await expect(page.locator('[data-test="connection-write-by-teacher-update-content-3"]')).toContainText("CHECKCHECKCHECK");
+});
+
+test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {
+  printMessages(page, showAllConsole);
+  // await page.goto(domain + '/cypress/module/clear');
+  // await page.waitForSelector('[data-test=complete]');
+  // await page.goto(domain + '/cypress/map/clear');
+  // await page.waitForSelector('[data-test=complete]');
+  await page.goto(domain + '/cypress/revision/clear');
+  await page.waitForSelector('[data-test=complete]');
+  await page.goto(domain + '/cypress/goal/clear');
+  await page.waitForSelector('[data-test=complete]');
+  await page.goto(domain + '/cypress/curriculumProfile/clear');
+  await page.waitForSelector('[data-test=complete]');
+  await page.goto(domain + '/cypress/user/deletegoalsactivityflow@example.com/clear');
+  await page.waitForSelector('[data-test=complete]');
 });

@@ -16,14 +16,7 @@ function printMessages(page, showAllConsole) {
 }
 
 const expect = base.expect;
-test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {
-  printMessages(page, showAllConsole);
-  console.log("trying to delete the user");
-  await page.goto(domain + '/cypress/curriculumProfile/clear');
-  await page.waitForSelector('[data-test=complete]');
-  await page.goto(domain + '/cypress/user/clear');
-  await page.waitForSelector('[data-test=complete]');
-});
+
 
 test('Test flow for creating and editing learning goals', async ({ page, domain, showAllConsole }) => {
   printMessages(page, showAllConsole);
@@ -54,4 +47,13 @@ test('Test flow for creating and editing learning goals', async ({ page, domain,
   await page.fill('#email', 'johndoe@unilogic.org');
   await page.fill('#credentials', 'Proffesor of logic (5 years) Head of department of logic.');
   await page.click('[data-test=submit-button]');
+});
+
+test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {
+  printMessages(page, showAllConsole);
+  console.log("trying to delete the user");
+  await page.goto(domain + '/cypress/curriculumProfile/clear');
+  await page.waitForSelector('[data-test=complete]');
+  await page.goto(domain + '/cypress/user/clear');
+  await page.waitForSelector('[data-test=complete]');
 });

@@ -17,43 +17,17 @@ function printMessages(page, showAllConsole) {
 
 const expect = base.expect;
 
-test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {
-  printMessages(page, showAllConsole);
-  console.log("trying to delete the user");
-  // await expect(page.locator()).toContainText();
-  // await page.click();
-  // await page.fill('', '');
-  await page.goto(domain + '/cypress/user/logout');
-  await page.waitForSelector('[data-test=complete]');
-  await page.goto(domain + '/cypress/user/deletegoalsnoprofile@example.com/password/login');
-  await page.waitForSelector('[data-test=complete]');
-  await page.goto(domain + '/cypress/user/logout');
-  await page.waitForSelector('[data-test=complete]');
-  await page.goto(domain + '/cypress/user/deletegoalsnoprofile@example.com/password/login');
-  await page.waitForSelector('[data-test=complete]');
-  await page.goto(domain + '/cypress/revision/clear');
-  await page.waitForSelector('[data-test=complete]');
-  await page.goto(domain + '/cypress/goal/Ik kan subject 1 benoemen en definieren from a work sheet/clear');
-  await page.waitForSelector('[data-test=complete]');
-  await page.goto(domain + '/cypress/goal/Ik kan subject 1 en subject 2 berekenen en omzetten from your head without a calculator/clear');
-  await page.waitForSelector('[data-test=complete]');
-  await page.goto(domain + '/cypress/player/clear');
-  await page.waitForSelector('[data-test=complete]');
-  await page.goto(domain + '/cypress/curriculumProfile/clear');
-  await page.waitForSelector('[data-test=complete]');
-  await page.goto(domain + '/cypress/user/clear');
-  await page.waitForSelector('[data-test=complete]');
-});
-
 test('Test flow for learning goals.', async ({ page, domain, showAllConsole }) => {
+  test.slow();
   printMessages(page, showAllConsole);;
   await page.goto(domain + '/cypress/user/deletegoalsnoprofile@example.com/password/login');
   await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/curriculumProfile/clear');
   await page.waitForSelector('[data-test=complete]');
   await page.click('[data-test=user-menu]');
+  await page.waitForTimeout(500);
   await page.click('#user-menu-item-curriculum');
-
+  await page.waitForTimeout(500);
   await page.fill('#fullname', 'John Doe');
   await page.fill('#institution', 'University of Logic');
   await page.fill('#email', 'johndoe@unilogic.org');
@@ -139,7 +113,6 @@ test('Test flow for learning goals.', async ({ page, domain, showAllConsole }) =
   await page.fill('#answeranswer', '1');
   await page.click('[data-test=edit-goal-submit-button]');
   await expect(page.locator('div#svelte')).toContainText('Leerdoel gewijzigd');
-  await page.waitForTimeout(1000);
   await page.click('[data-test=subtab-history]');
 
   // Revision page.
@@ -150,7 +123,6 @@ test('Test flow for learning goals.', async ({ page, domain, showAllConsole }) =
   await expect(page.locator('[data-test=revision2]')).not.toBeVisible();
 
   await page.click('[data-test=revision-index-0]');
-  // await page.pause();
   await page.waitForSelector('[data-test=Titel-old]');
   await expect(page.locator('[data-test=Titel-old]')).toContainText("Ik kan subject 1 benoemen en definieren from a work sheet");
   await expect(page.locator('[data-test=Titel-new]')).toContainText("Ik kan subject 1 en subject 2 berekenen en omzetten from your head without a calculator");
@@ -195,7 +167,8 @@ test('Test flow for learning goals.', async ({ page, domain, showAllConsole }) =
   // await page.waitForTimeout(5000);
   await expect(page.locator('div#svelte')).toContainText('Verschil tussen versies');
   await page.click('[data-test=discuss-revision-button]');
-  
+
+  await page.waitForSelector('[data-test=post-title]');
   await expect(page.locator('[data-test=post-title]')).toHaveValue(/Overleg revisie.*/);
   await page.fill('#post', 'Test post for cypress');
   await page.click('[data-test="post-button"]');
@@ -213,4 +186,32 @@ test('Test flow for learning goals.', async ({ page, domain, showAllConsole }) =
   await expect(page.locator('div#svelte')).toContainText('Ik kan subject 1 benoemen en definieren from a work sheet');
   await expect(page.locator('div#svelte')).toContainText('New title');
   await expect(page.locator('div#svelte')).toContainText('Overleg revisie');
+});
+
+test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {
+  printMessages(page, showAllConsole);
+  console.log("trying to delete the user");
+  // await expect(page.locator()).toContainText();
+  // await page.click();
+  // await page.fill('', '');
+  await page.goto(domain + '/cypress/user/logout');
+  await page.waitForSelector('[data-test=complete]');
+  await page.goto(domain + '/cypress/user/deletegoalsnoprofile@example.com/password/login');
+  await page.waitForSelector('[data-test=complete]');
+  await page.goto(domain + '/cypress/user/logout');
+  await page.waitForSelector('[data-test=complete]');
+  await page.goto(domain + '/cypress/user/deletegoalsnoprofile@example.com/password/login');
+  await page.waitForSelector('[data-test=complete]');
+  await page.goto(domain + '/cypress/revision/clear');
+  await page.waitForSelector('[data-test=complete]');
+  await page.goto(domain + '/cypress/goal/Ik kan subject 1 benoemen en definieren from a work sheet/clear');
+  await page.waitForSelector('[data-test=complete]');
+  await page.goto(domain + '/cypress/goal/Ik kan subject 1 en subject 2 berekenen en omzetten from your head without a calculator/clear');
+  await page.waitForSelector('[data-test=complete]');
+  await page.goto(domain + '/cypress/player/clear');
+  await page.waitForSelector('[data-test=complete]');
+  await page.goto(domain + '/cypress/curriculumProfile/clear');
+  await page.waitForSelector('[data-test=complete]');
+  await page.goto(domain + '/cypress/user/clear');
+  await page.waitForSelector('[data-test=complete]');
 });

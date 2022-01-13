@@ -13,7 +13,7 @@
     "emulate": "node scripts/generateServerConfig.js; firebase emulators:start  --import=./data/.devdata --export-on-exit --only auth,functions,firestore,pubsub",
     "emulateCypress": "node scripts/generateServerConfig.js; firebase emulators:start --only auth,functions,firestore,pubsub",
     "playwright": "npx playwright test --project=localhost src",
-    "playwright-docker": "npx playwright test --project=docker src",
+    "playwright-docker": "npx playwright test --project=docker curriculum-profile.spec.js",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },

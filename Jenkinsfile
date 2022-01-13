@@ -45,7 +45,7 @@ pipeline {
             steps {
               echo 'Playwright tests'
               // sh 'docker-compose -f cypress-docker-compose.yml exec -T cypress npm ci'
-              sh "docker-compose -f jenkins-docker-compose.yml exec -T playwright npx playwright test --grep @ping"
+              // sh "docker-compose -f jenkins-docker-compose.yml exec -T playwright npx playwright test --grep @ping"
               sh "docker-compose -f jenkins-docker-compose.yml exec -T playwright npx playwright test --grep @goal"
               sh "docker-compose -f jenkins-docker-compose.yml exec -T playwright npx playwright test --grep @activity"
               sh "docker-compose -f jenkins-docker-compose.yml exec -T playwright npx playwright test --grep @module"

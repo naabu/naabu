@@ -16,7 +16,7 @@ function printMessages(page, showAllConsole) {
 const expect = base.expect;
 
 
-test('Create course modules', async ({ page, domain, showAllConsole }) => {
+test('Create course modules @module', async ({ page, domain, showAllConsole }) => {
   test.slow();
   printMessages(page, showAllConsole);;
   // Load content needed for test.

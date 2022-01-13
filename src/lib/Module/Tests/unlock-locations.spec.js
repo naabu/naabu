@@ -15,7 +15,7 @@ function printMessages(page, showAllConsole) {
   })
 }
 
-test('Unlock location on map test', async ({ page, domain, showAllConsole }) => {
+test('Unlock location on map test @module', async ({ page, domain, showAllConsole }) => {
   printMessages(page, showAllConsole);
   test.slow();
   await page.goto(domain + '/cypress/user/deletegoalscanmoderateunlocklocationonmap@example.com/password/login');

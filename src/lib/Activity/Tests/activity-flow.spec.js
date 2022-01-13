@@ -15,7 +15,7 @@ function printMessages(page, showAllConsole) {
 
 const expect = base.expect;
 
-test('Create activities and attach them', async ({ page, domain, showAllConsole }) => {
+test('Create activities and attach them @activity', async ({ page, domain, showAllConsole }) => {
   test.slow();
   printMessages(page, showAllConsole);;
   // Load content needed for test.

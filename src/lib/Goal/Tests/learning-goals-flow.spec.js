@@ -17,7 +17,7 @@ function printMessages(page, showAllConsole) {
 
 const expect = base.expect;
 
-test('Test flow for learning goals.', async ({ page, domain, showAllConsole }) => {
+test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole }) => {
   test.slow();
   printMessages(page, showAllConsole);;
   await page.goto(domain + '/cypress/user/deletegoalsnoprofile@example.com/password/login');

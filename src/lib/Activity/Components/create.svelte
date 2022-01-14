@@ -167,7 +167,7 @@ import Button from "$lib/Internals/Button/Button.svelte";
           <Button
             isPrimary={true}
             isSubmit={true}
-            isDisabled={buttonDisabled}
+            bind:isDisabled={buttonDisabled}
             dataTest="submit-activity-create-button"
             content="Concept opslaan en bekijken"
           />

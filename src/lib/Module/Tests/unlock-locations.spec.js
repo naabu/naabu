@@ -67,6 +67,7 @@ test('Unlock location on map test @module', async ({ page, domain, showAllConsol
   await expect(page.locator('[data-test=incorrect-feedback]')).not.toBeVisible();
   await page.waitForSelector('[data-test=continue-button]');
   await page.click('[data-test=continue-button]');
+  await page.waitForSelector('[data-test=too-easy]');
   await page.click('[data-test=too-easy]', { timeout: 30000 });
   teaser = await page.locator('[data-test=activity-teaser-0]');
   await teaser.waitFor();
@@ -75,9 +76,11 @@ test('Unlock location on map test @module', async ({ page, domain, showAllConsol
   await teaser.click();
   await page.frameLocator('[data-test=vimeo-iframe]').locator(".play").scrollIntoViewIfNeeded();
   await page.frameLocator('[data-test=vimeo-iframe]').locator(".play").click();
+  console.log("played video");
   await page.waitForSelector('[data-test=too-easy]');
-  await expect(page.locator('[data-test=too-easy]')).toBeVisible({ timeout: 100000 });
-  await page.click('[data-test=too-easy]');
+  console.log("data-test=too-easy");
+  await page.waitForTimeout(1000);
+  await page.click('[data-test=too-easy]', { timeout: 30000 });
   teaser = await page.locator('[data-test=activity-teaser-0]');
   await teaser.waitFor();
   await expect(teaser).toBeVisible({ timeout: 100000 });
@@ -86,8 +89,8 @@ test('Unlock location on map test @module', async ({ page, domain, showAllConsol
   await page.frameLocator('[data-test=vimeo-iframe]').locator(".play").scrollIntoViewIfNeeded();
   await page.frameLocator('[data-test=vimeo-iframe]').locator(".play").click();
   await page.waitForSelector('[data-test=too-easy]');
-  await expect(page.locator('[data-test=too-easy]')).toBeVisible({ timeout: 100000 });
-  await page.click('[data-test=too-easy]');
+  await page.waitForTimeout(1000);
+  await page.click('[data-test=too-easy]', { timeout: 30000 });
   await page.waitForSelector('[data-test=new-location-unlocked]');
   await expect(page.locator('[data-test=new-location-unlocked]')).toBeVisible({ timeout: 100000 });
   await page.click('[data-test=back-to-course-button]');

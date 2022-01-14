@@ -301,7 +301,7 @@
       <div class="ml-auto mt-4">
         {#if connection.status === "in-progress"}
           <Button
-            isPrimary={true}
+            color="primary"
             isDisabled={!delayDone}
             on:click={() => changeStatus("in-progress", "needs-approval")}
             dataTest="ready-to-publish-button"
@@ -315,7 +315,7 @@
             content="Heeft werk nodig"
           />
           <Button
-            isPrimary={true}
+            color="primary"
             isDisabled={!delayDone}
             on:click={() => changeStatus("needs-approval", "published")}
             content="Activiteit publiceren"
@@ -328,7 +328,7 @@
             content="Activiteit in prullenbak"
           />
           <Button
-            isPrimary={true}
+            color="primary"
             isDisabled={!delayDone}
             on:click={() => changeStatus("needs-work", "in-progress")}
             content="Aan activiteit werken"
@@ -343,7 +343,7 @@
         {/if}
         {#if connection.status === "in-trash"}
           <Button
-            isPrimary={true}
+            color="primary"
             isDisabled={!delayDone}
             on:click={() => changeStatus("in-trash", "needs-work")}
             content="Activiteit terugzetten"

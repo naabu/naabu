@@ -135,7 +135,7 @@
         <Button content="Leerdoel publiseren" 
           isDisabled={buttonDisabled || !hasCurriculumProfile}
           isSubmit={true}
-          isPrimary={true}
+          color="primary"
           dataTest="create-goal-submit-button"/>
       </div>
     </div>

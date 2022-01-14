@@ -184,7 +184,7 @@
 
     {#if activity.connectionId}
       <Button
-        isPrimary={true}
+        color="primary"
         isDisabled={buttonDisabled}
         dataTest="update-activity-learning-goal-button"
         content="Koppeling met leerdoel updaten"
@@ -192,7 +192,7 @@
       />
     {:else}
       <Button
-        isPrimary={true}
+        color="primary"
         isDisabled={buttonDisabled}
         dataTest="connect-activity-learning-goal-button"
         content="Deze activiteit koppelen met leerdoel"

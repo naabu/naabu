@@ -6,6 +6,7 @@
   import { onMount } from "svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import { login } from "$lib/Internals/Firebase/helper";
+  import Button from "$lib/Internals/Button/Button.svelte";
 
   export let firebase;
 
@@ -111,7 +112,6 @@
       $session.player = result.player;
     }
   }
-
 </script>
 
 <svelte:window bind:scrollY={y} />
@@ -125,7 +125,7 @@
   <div class="mt-1 sm:mt-0 sm:col-span-2">
     {#if !$session.user || $session.user.isAnonymous}
       <div>
-        <button id="linkGoogleButton" on:click={signInWithGoogle} />
+        <Button on:click={signInWithGoogle} isLinkToGoogle={true} />
       </div>
     {:else}
       <p>{$session.user.email}</p>
@@ -135,44 +135,14 @@
 
 <form class="mt-8" on:submit|preventDefault={createCurriculumProfile}>
   <Form bind:curriculumProfile />
-  <button
-    disabled={buttonDisabled}
-    data-test="submit-button"
-    class="mt-4 float-right disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-    >Curriculum profiel aanmaken</button
-  >
+
+  <div class="mt-4 flex justify-end">
+    <Button
+      isDisabled={buttonDisabled}
+      dataTest="submit-button"
+      isSubmit={true}
+      color="primary"
+      content="Curriculum profiel aanmaken"
+    />
+  </div>
 </form>
-
-<style>
-  #linkGoogleButton {
-    width: 240px;
-    height: 44px;
-    background-repeat: no-repeat;
-    background-image: url("/btn_google_signin_dark_normal_web@2x.png");
-  }
-
-  #linkGoogleButton:hover {
-    background-image: url("/btn_google_signin_dark_focus_web@2x.png");
-  }
-
-  #linkGoogleButton:focus {
-    background-image: url("/btn_google_signin_dark_pressed_web@2x.png");
-    outline: none;
-  }
-
-  #linkGoogleButton {
-    width: 240px;
-    height: 44px;
-    background-repeat: no-repeat;
-    background-image: url("/btn-signup-google-dutch-normal.svg");
-  }
-
-  #linkGoogleButton:hover {
-    background-image: url("/btn-signup-google-dutch-hover.svg");
-  }
-
-  #linkGoogleButton:focus {
-    background-image: url("/btn-signup-google-dutch-pressed.svg");
-    outline: none;
-  }
-</style>

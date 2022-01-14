@@ -4,6 +4,7 @@
   import { getStores, session, page } from "$app/stores";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
+  import GetGoalData from "$lib/Goal/Data/getGoalData.svelte";
 
   let firebase;
 
@@ -23,36 +24,9 @@
   })();
 
   $: (async () => {
-    if (firebaseInitialized && !mounted) {
+    if (firebaseInitialized && goal && !mounted) {
       mounted = true;
       let db = await firebase.firestore();
-      goalRef = db.collection("goals").doc($page.params.id);
-      let goalSnap = await goalRef.get();
-      if (goalSnap.exists) {
-        goal = goalSnap.data();
-        goal.id = goalRef.id;
-        if (!goal.goalLinks) {
-          goal.goalLinks = [];
-        }
-        if (!goal.unitopic) {
-          goal.unitopic = "";
-        }
-        if (!goal.multitopics) {
-          goal.multitopics = [];
-        }
-        if (!goal.context) {
-          goal.context = "";
-        }
-        if (!goal.selectedVerbs) {
-          goal.selectedVerbs = [];
-        }
-        if (!goal.fromText) {
-          goal.fromText = "";
-        }
-        if (!goal.battles) {
-          goal.battles = [];
-        }
-      }
       battleCol = db.collection("goals/" + $page.params.id + "/battles");
       const querySnapshot = await battleCol.get();
       querySnapshot.forEach((doc) => {
@@ -60,6 +34,11 @@
         battleObject.name = doc.id;
         goal.battles = [...goal.battles, battleObject];
       });
+      console.log(goal.battles);
+      if (!goal.battles) {
+        goal.battles = [];
+      }
+      console.log(goal.battles);
       previousBattles = [...goal.battles];
     }
   })();
@@ -83,6 +62,8 @@
     ];
   }
 </script>
+
+<GetGoalData bind:firebase bind:goal />
 
 {#if goal && mounted}
   <ContainerBreadcrumpPageTitle bind:breadcrumbs title={goal.title} />

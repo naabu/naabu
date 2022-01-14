@@ -1,4 +1,6 @@
 <script>
+  import Button from "$lib/Internals/Button/Button.svelte";
+
   export let battles;
   export let index;
   let newBattleName = "";
@@ -12,7 +14,6 @@
       battles = [...battles, newBattleObject];
     }
     newBattleName = "";
-
   }
 
   function removeBattle(battleToRemoveIndex) {
@@ -42,11 +43,12 @@
     {#each battles as battle, i}
       <div class="mt-1 mb-1">
         {battle.name}
-        <button
-          data-test="battle-{i}-button"
-          class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          on:click|preventDefault={() => removeBattle(i)}>Weghalen</button
-        >
+        <Button
+          dataTest="battle-{i}-button"
+          size="very-small"
+          on:click={() => removeBattle(i)}
+          content="Weghalen"
+        />
       </div>
     {/each}
     <div>
@@ -58,11 +60,12 @@
         id="test_name"
         class="mt-2 mb-2 max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
       />
-      <button
-      data-test="add-battle-button"
-        class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        on:click|preventDefault={addBattleSubmit}>Test toevoegen</button
-      >
+      <Button
+        on:click={addBattleSubmit}
+        size="small"
+        dataTest="add-battle-button"
+        content="Test toevoegen"
+      />
     </div>
   </div>
 </div>

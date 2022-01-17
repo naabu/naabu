@@ -48,7 +48,7 @@ test('Create activities and attach them @activity', async ({ page, domain, showA
   await page.click("#explanation");
   await page.fill('#title', 'Test activity title');
   await page.fill('#description', "Test description $$\\cfrac{5}{4}$$");
-  await page.click('.preview-button');
+  await page.click('[data-test=preview-description]');
   await page.fill('#difficulty', '2');
   await page.fill('#vimeo_id', '604675909');
   await page.click('[data-test=add-question-button]');

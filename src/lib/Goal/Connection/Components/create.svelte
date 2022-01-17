@@ -10,6 +10,7 @@
   export let connectionGoal;
   let hasCurriculumProfile = false;
   import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
+  import Button from "$lib/Internals/Button/Button.svelte";
 
   let connection = {
     type: "prerequisit",
@@ -124,7 +125,6 @@
           <h3 class="text-lg leading-6 font-medium text-gray-900">
             Verbinding maken
           </h3>
-
           <p>
             Leerdoel 1:
             <a class="underline" href="/leerdoel/{goal.id}">{goal.title}</a>
@@ -145,21 +145,18 @@
     <ConnectionForm bind:connection />
 
     <div class="">
-      <div class="pt-5">
-        <button
-          class="float-left mt-3bg-white py-2 ml-auto px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          on:click|preventDefault={goBackToSearchLearningGoal}
-          >Terug naar verbinding zoeken</button
-        >
-        <div class="flex justify-end">
-          <button
-            disabled={buttonDisabled || !hasCurriculumProfile}
-            type="submit"
-            class="float-right disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Verbinding aanmaken
-          </button>
-        </div>
+      <div class="pt-5 flex justify-between">
+        <Button
+          on:click={goBackToSearchLearningGoal}
+          content="Terug naar verbinding zoeken"
+        />
+
+        <Button
+          isDisabled={buttonDisabled || !hasCurriculumProfile}
+          isSubmit={true}
+          content="Verbinding aanmaken"
+          color="primary"
+        />
       </div>
     </div>
   </form>

@@ -18,6 +18,7 @@ module.exports = {
       }
     }
   ],
+  staticDirs: ['../static'],
   framework: '@storybook/svelte',
   svelteOptions: {
     preprocess: import('../svelte.config.js').preprocess,

@@ -5,6 +5,7 @@
   import { onMount } from "svelte";
   import { renderKatexOutput } from "$lib/Internals/Misc/helper.js";
   import { hasSpecialClaims } from "$lib/Internals/User/helper.js";
+  import Button from "$lib/Internals/Button/Button.svelte";
 
   export let activity;
   export let toggle = false;
@@ -2100,15 +2101,15 @@
                           </label>
                         {/each}
                       </div>
-                      <button
-                        type="button"
-                        disabled={quiz.selectedAnswer === null}
-                        on:click={() => (quiz = checkCorrectAnswer(quiz))}
-                        class="mr-2 mb-2 float-right disabled:opacity-50 relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        data-test="attack_v2"
-                      >
-                        Aanvallen
-                      </button>
+                      <div class="mr-2 mb-2 float-right">
+                        <Button
+                          on:click={() => (quiz = checkCorrectAnswer(quiz))}
+                          disabled={quiz.selectedAnswer === null}
+                          dataTest="attack_v2"
+                          color="primary"
+                          content="Aanvallen"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -2209,15 +2210,16 @@
                             </label>
                           {/each}
                         </div>
-                        <button
-                          type="button"
-                          disabled={quiz.selectedAnswer === null}
-                          on:click={() => (quiz = checkCorrectAnswer(quiz))}
-                          class="mr-2 mb-2 float-right disabled:opacity-50 relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                          data-test="attack_v1"
-                        >
-                          Aanvallen
-                        </button>
+
+                        <div class="mr-2 mb-2 float-right">
+                          <Button
+                            on:click={() => (quiz = checkCorrectAnswer(quiz))}
+                            disabled={quiz.selectedAnswer === null}
+                            dataTest="attack_v1"
+                            color="primary"
+                            content="Aanvallen"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -2866,7 +2868,9 @@
                       </g>
                     </svg>
                   {:else}
-                    <div class="text-5xl" data-test="defeated">You are defeated!</div>
+                    <div class="text-5xl" data-test="defeated">
+                      You are defeated!
+                    </div>
                     <svg
                       class="mx-auto max-w-xl"
                       xmlns="http://www.w3.org/2000/svg"

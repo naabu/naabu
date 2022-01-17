@@ -5,6 +5,7 @@
   import { renderKatexOutput } from "$lib/Internals/Misc/helper.js";
   import QuizForm from "$lib/Activity/Components/quizzesForm.svelte";
   import { createEventDispatcher } from "svelte";
+  import Button from "$lib/Internals/Button/Button.svelte";
   const dispatch = createEventDispatcher();
 
   export let activity;
@@ -35,11 +36,13 @@
           <a href="/leerdoel/{activity.goalId}" class="underline"
             >{activity.goalTitle}</a
           >
-          <button
-            on:click|preventDefault={goBackToSearchGoals}
-            class="mt-3 block mb-1  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >Wijzigen</button
-          >
+          <div class="mt-3 block mb-1">
+            <Button
+              on:click={goBackToSearchGoals}
+              size="small"
+              content="Wijzigen"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -167,11 +170,16 @@
           <p class="mt-2 text-sm text-gray-500">
             Beschrijf kort de activiteit of de vraag
           </p>
-          <button
-            data-test="preview-description"
-            class="preview-button mt-3  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            on:click|preventDefault={updatePreview}>Update preview</button
-          >
+
+          <div class="mb-10 mt-3 block">
+            <Button
+              dataTest="preview-description"
+              size="small"
+              on:click={updatePreview}
+              content="Update preview"
+            />
+          </div>
+
           {#if activity.description}
             {@html activity.description}
           {/if}
@@ -263,10 +271,3 @@
     <QuizForm bind:quizzes={activity.quizzes} showTimeInVideo={true} />
   </div>
 </div>
-
-<style>
-  .preview-button {
-    display: block;
-    margin-bottom: 10px;
-  }
-</style>

@@ -124,7 +124,7 @@
         <div class="pt-5">
           <div class="flex justify-end">
             <Button
-              isPrimary={true}
+              color="primary"
               isSubmit={true}
               dataTest="edit-activity-submit-button"
               content="Concept opslaan en bekijken"

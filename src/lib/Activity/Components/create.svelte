@@ -165,7 +165,7 @@ import Button from "$lib/Internals/Button/Button.svelte";
       <div class="pt-5">
         <div class="flex justify-end">
           <Button
-            isPrimary={true}
+            color="primary"
             isSubmit={true}
             bind:isDisabled={buttonDisabled}
             dataTest="submit-activity-create-button"

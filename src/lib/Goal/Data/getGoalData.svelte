@@ -28,6 +28,18 @@
       if (!goal.publishedAdventures) {
         goal.publishedAdventures = [];
       }
+      if (!goal.selectedVerbs) {
+        goal.selectedVerbs = [];
+      }
+      if (!goal.multitopics) {
+        goal.multitopics = [];
+      }
+      if (!goal.taxonomy_solo) {
+        goal.taxonomy_solo = [];
+      }
+      if (!goal.taxonomy_bloom) {
+        goal.taxonomy_bloom = [];
+      }
       if (!goal.needsApprovalAdventures) {
         goal.needsApprovalAdventures = [];
       }

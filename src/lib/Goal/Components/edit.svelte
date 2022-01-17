@@ -40,6 +40,7 @@
     let data = getGoalSaveData(goal, $session.serverFirestoreTimeStamp);
     alert = getDefaultAlertValues();
     try {
+      let goalRef = db.collection("goals").doc(goal.id);
       await goalRef.update(data);
       for (let i = 0; i < goal.battles.length; i++) {
         let battleDocRef = db.doc(

@@ -29,15 +29,14 @@
       let db = await firebase.firestore();
       battleCol = db.collection("goals/" + $page.params.id + "/battles");
       const querySnapshot = await battleCol.get();
+      if (!goal.battles) {
+        goal.battles = [];
+      }
       querySnapshot.forEach((doc) => {
         let battleObject = doc.data();
         battleObject.name = doc.id;
         goal.battles = [...goal.battles, battleObject];
       });
-      console.log(goal.battles);
-      if (!goal.battles) {
-        goal.battles = [];
-      }
       console.log(goal.battles);
       previousBattles = [...goal.battles];
     }

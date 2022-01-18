@@ -3,12 +3,16 @@
   // import { getFirebaseFirestore } from "$lib/firebase";
   // import { collection, getDoc, updateDoc, query, getDocs, doc } from "firebase/firestore";
   import { getStores, session, page } from "$app/stores";
-  import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte"
+  import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
   import GoalForm from "$lib/Goal/Components/form.svelte";
   import { onMount } from "svelte";
   import MainTabs from "$lib/Internals/Tabs/goal.svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
-  import { createGoalRevision, getGoalSaveData } from "$lib/Goal/Components/helper";
+  import {
+    createGoalRevision,
+    getGoalSaveData,
+  } from "$lib/Goal/Components/helper";
+  import Button from "$lib/Internals/Button/Button.svelte";
 
   export let battleCol;
   export let firebase;
@@ -36,6 +40,7 @@
     let data = getGoalSaveData(goal, $session.serverFirestoreTimeStamp);
     alert = getDefaultAlertValues();
     try {
+      let goalRef = db.collection("goals").doc(goal.id);
       await goalRef.update(data);
       for (let i = 0; i < goal.battles.length; i++) {
         let battleDocRef = db.doc(
@@ -97,7 +102,7 @@
   <MainTabs bind:goal subSelected="edit" />
   <div class="mt-8">
     <ResultFeedback bind:alert />
-    <CheckPlayerHasProfile bind:hasCurriculumProfile/>
+    <CheckPlayerHasProfile bind:hasCurriculumProfile />
     <form
       class="space-y-8 divide-y divide-gray-200"
       on:submit|preventDefault={formSubmit}
@@ -106,14 +111,13 @@
 
       <div class="pt-5">
         <div class="flex justify-end">
-          <button
-            disabled={!hasCurriculumProfile}
-            data-cy="edit-goal-submit-button"
-            type="submit"
-            class="float-right disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Leerdoel publiseren
-          </button>
+          <Button
+            isDisabled={!hasCurriculumProfile}
+            dataTest="edit-goal-submit-button"
+            isSubmit={true}
+            color="primary"
+            content="Leerdoel publiseren"
+          />
         </div>
       </div>
     </form>

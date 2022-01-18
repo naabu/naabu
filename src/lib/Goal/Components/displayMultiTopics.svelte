@@ -1,4 +1,7 @@
 <script>
+import Button from "$lib/Internals/Button/Button.svelte";
+
+
   export let goal;
   let newMultitopic = "";
 
@@ -35,10 +38,12 @@
     {#each goal.multitopics as multiTopic, i}
       <div class="mt-1 mb-1">
         {multiTopic}
-        <button
-          class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          on:click|preventDefault={() => removeMultiTopic(i)}>Weghalen</button
-        >
+        <Button
+          size="very-small"
+          color="secondary"
+          content="Weghalen"
+          on:click={() => removeMultiTopic(i)}
+        />
       </div>
     {/each}
     <div>
@@ -50,12 +55,12 @@
         id="multi_topic_name"
         class="mt-2 mb-2 max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
       />
-      <button
-        data-cy="add-multi-topic-button"
-        class="inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        on:click|preventDefault={addMultiTopicSubmit}
-        >Onderwerp toevoegen</button
-      >
+      <Button 
+        dataTest="add-multi-topic-button"
+        size="small"
+        on:click={addMultiTopicSubmit}
+        content="Onderwerp toevoegen"
+      />
     </div>
   </div>
 </div>

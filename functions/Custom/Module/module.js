@@ -37,7 +37,7 @@ exports.onModulePlayerCreated = functions
   .firestore.document('modules/{moduleId}/players/{playerId}')
   .onCreate(async (snapshot, context) => {
 
-    if (helper.environment === 'development' || helper.environment === 'cypress' ||  helper.environment === 'test') {
+    if (helper.environment === 'development' || helper.environment === 'cypress' || helper.environment === 'test') {
       await sleep(5000);
     }
     const fb = helper.getFirebaseApp();
@@ -70,7 +70,9 @@ async function setModuleActivitiesForUid(uid, unlock = false, locationId = null)
   });
 
   for (let i = 0; i < modulesToProcessForUser.length; i++) {
-    await updateUserActivitiesForModule(modulesToProcessForUser[i], uid, unlock, locationId);
+    if (modulesToProcessForUser[i].locations) {
+      await updateUserActivitiesForModule(modulesToProcessForUser[i], uid, unlock, locationId);
+    }
   }
 }
 
@@ -85,6 +87,7 @@ async function updateUserActivitiesForModule(module, uid, unlock = false, locati
       startLocations.push(module.locations[i2].id);
     }
   }
+
 
   let userModuleRef = db.collection('modules').doc(module.id).collection('players').doc(uid);
   let userModuleSnap = await userModuleRef.get();

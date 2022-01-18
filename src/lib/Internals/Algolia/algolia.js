@@ -19,7 +19,6 @@ function getIndex(suffix, environment) {
 }
 
 export function getAlgoliaSearchClient() {
-  console.log(algoliaConfig);
   return algoliasearch(
     algoliaConfig.applicationID,
     algoliaConfig.searchOnlyApiKey

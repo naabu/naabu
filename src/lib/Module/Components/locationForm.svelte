@@ -2,11 +2,15 @@
   import { getStores, session, page } from "$app/stores";
   import PathsForm from "$lib/Module/Components/pathsForm.svelte";
   import { onMount } from "svelte";
-  import { getAlgoliaSearchClient, getGoalIndex } from "$lib/Internals/Algolia/algolia";
+  import {
+    getAlgoliaSearchClient,
+    getGoalIndex,
+  } from "$lib/Internals/Algolia/algolia";
   import { autocomplete, getAlgoliaResults } from "@algolia/autocomplete-js";
   import "@algolia/autocomplete-theme-classic";
   import VerwijderDialog from "$lib/Internals/Misc/dialog.svelte";
   import { generatePathsForMap } from "$lib/Module/Map/Components/helper";
+  import Button from "$lib/Internals/Button/Button.svelte";
 
   let filters = "";
   let goalIndex = getGoalIndex($session.environment);
@@ -204,11 +208,11 @@
   <div>
     <div class="block tabs">
       <div class="border-bborder-gray-200">
-        <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+        <nav class="-mb-px flex space-x-8 items-center" aria-label="Tabs">
           {#each map.locations as location, i}
             {#if selectedIndex !== i}
               <button
-                data-cy="location-tab-l{i + 1}"
+                data-test="location-tab-l{i + 1}"
                 on:click|preventDefault={() => setselectedIndex(i)}
                 class="outline-none active:outline-none focus:outline-none border-transparent  text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
               >
@@ -216,7 +220,7 @@
               </button>
             {:else}
               <button
-                data-cy="location-tab-l{i + 1}"
+                data-test="location-tab-l{i + 1}"
                 on:click|preventDefault={() => setselectedIndex(i)}
                 class="outline-none active:outline-none focus:outline-none border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
               >
@@ -224,13 +228,14 @@
               </button>
             {/if}
           {/each}
-          <button
-            data-cy="new-location-button"
-            class="mb-1  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            on:click|preventDefault={addLocation}
-          >
-            New Location
-          </button>
+          <div>
+            <Button
+              dataTest="new-location-button"
+              on:click={addLocation}
+              content="New Location"
+              size="small"
+            />
+          </div>
         </nav>
       </div>
     </div>
@@ -239,7 +244,7 @@
         <nav class="-mb-px flex space-x-8" aria-label="Tabs">
           {#if selectedLocationTab !== "content"}
             <button
-              data-cy="inhoud-button"
+              data-test="inhoud-button"
               on:click|preventDefault={() => setSelectedLocationTab("content")}
               class="outline-none active:outline-none focus:outline-none border-transparent  text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
             >
@@ -247,7 +252,7 @@
             </button>
           {:else}
             <button
-              data-cy="inhoud-button"
+              data-test="inhoud-button"
               on:click|preventDefault={() => setSelectedLocationTab("content")}
               class="outline-none active:outline-none focus:outline-none border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
             >
@@ -256,7 +261,7 @@
           {/if}
           {#if selectedLocationTab !== "waypoints"}
             <button
-              data-cy="waypoints-button"
+              data-test="waypoints-button"
               on:click|preventDefault={() =>
                 setSelectedLocationTab("waypoints")}
               class="outline-none active:outline-none focus:outline-none border-transparent  text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
@@ -265,7 +270,7 @@
             </button>
           {:else}
             <button
-              data-cy="waypoints-button"
+              data-test="waypoints-button"
               on:click|preventDefault={() =>
                 setSelectedLocationTab("waypoints")}
               class="outline-none active:outline-none focus:outline-none border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
@@ -275,7 +280,7 @@
           {/if}
           {#if selectedLocationTab !== "paths"}
             <button
-              data-cy="paths-button"
+              data-test="paths-button"
               on:click|preventDefault={() => setSelectedLocationTab("paths")}
               class="outline-none active:outline-none focus:outline-none border-transparent  text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
             >
@@ -283,7 +288,7 @@
             </button>
           {:else}
             <button
-              data-cy="paths-button"
+              data-test="paths-button"
               on:click|preventDefault={() => setSelectedLocationTab("paths")}
               class="outline-none active:outline-none focus:outline-none border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
             >
@@ -331,14 +336,14 @@
                 {:else}
                   <ul>
                     {#each map.locations[selectedIndex].goals as goal, i}
-                      <li data-cy="added-learning-goal-{i}">
+                      <li data-test="added-learning-goal-{i}">
                         {goal.title}
-                        <button
-                          data-cy="remove-goal-button-{i}"
-                          class="inline-flex items-center px-2.5 py-1.5 border border-gray-300 shadow-sm text-xs font-medium rounded text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                          on:click|preventDefault={() => removeGoal(i)}
-                          >Weghalen</button
-                        >
+                        <Button
+                          dataTest="remove-goal-button-{i}"
+                          on:click={() => removeGoal(i)}
+                          content="Weghalen"
+                          size="very-small"
+                        />
                       </li>
                     {/each}
                   </ul>
@@ -449,7 +454,7 @@
             {#each locationOptions as locationOption}
               <label>
                 <input
-                  data-cy="access-location-{locationOption.index}"
+                  data-test="access-location-{locationOption.index}"
                   type="checkbox"
                   bind:group={map.locations[selectedIndex].accessLocations}
                   name="accessLocations"
@@ -464,13 +469,13 @@
         <PathsForm bind:map bind:selectedIndex />
       {/if}
     </div>
-    <button
-      data-cy="remove-location-button"
-      type="button"
-      on:click|preventDefault={() => removeLocationButtonFunction()}
-      class="float-right mt-3 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-    >
-      Locatie verwijderen</button
-    >
+    <div class="flex justify-end mt-3">
+      <Button
+        dataTest="remove-location-button"
+        on:click={() => removeLocationButtonFunction()}
+        content="Locatie verwijderen"
+        size="small"
+      />
+    </div>
   </div>
 </div>

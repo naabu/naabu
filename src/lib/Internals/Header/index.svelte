@@ -7,6 +7,7 @@
   import { onMount, getContext } from "svelte";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { login } from "$lib/Internals/Firebase/helper";
+  import Button from "../Button/Button.svelte";
 
   $: firebase = $firebaseStore;
 
@@ -49,45 +50,45 @@
     <div class="max-w-7xl mx-auto px-2 sm:px-6 lg:px-8">
       <div class="relative flex items-center justify-between h-16">
         <div class="absolute inset-y-0 left-0 flex items-center sm:hidden">
-          <button
-            type="button"
-            on:click={() => (openMenu = !openMenu)}
-            class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-blue-400 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-            aria-controls="mobile-menu"
-            aria-expanded="false"
-          >
-            <span class="sr-only">Open main menu</span>
-            <svg
-              class="{openMenu === true ? 'hidden' : 'block'} block h-6 w-6"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              aria-hidden="true"
+          <div aria-controls="mobile-menu" aria-expanded="false">
+            <Button
+              on:click={() => (openMenu = !openMenu)}
+              size="icon-square"
+              color="blueWhiteIcon"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M4 6h16M4 12h16M4 18h16"
-              />
-            </svg>
-            <svg
-              class="{openMenu === true ? 'block' : 'hidden'} h-6 w-6"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              aria-hidden="true"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
+              <span class="sr-only">Open main menu</span>
+              <svg
+                class="{openMenu === true ? 'hidden' : 'block'} block h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M4 6h16M4 12h16M4 18h16"
+                />
+              </svg>
+              <svg
+                class="{openMenu === true ? 'block' : 'hidden'} h-6 w-6"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </Button>
+          </div>
         </div>
         <div
           class="flex-1 flex items-center justify-center sm:items-stretch sm:justify-start"
@@ -98,7 +99,7 @@
                 class="block lg:hidden h-10 w-auto"
                 src={logosmall}
                 alt="Wisvids"
-                data-cy="mobile-logo"
+                data-test="mobile-logo"
               /></a
             >
             <a href="/"
@@ -106,7 +107,7 @@
                 class="hidden lg:block  h-10 w-auto"
                 src={logo}
                 alt="Wisvids"
-                data-cy="desktop-logo"
+                data-test="desktop-logo"
               /></a
             >
           </div>
@@ -116,14 +117,14 @@
                 {#if mainMenuLink.isActive}
                   <a
                     href={mainMenuLink.url}
-                    data-cy={mainMenuLink.datacy}
+                    data-test={mainMenuLink.datacy}
                     class="bg-blue-700 text-white px-3 py-2 rounded-md text-sm font-medium"
                     aria-current="page">{mainMenuLink.content}</a
                   >
                 {:else}
                   <a
                     href={mainMenuLink.url}
-                    data-cy={mainMenuLink.datacy}
+                    data-test={mainMenuLink.datacy}
                     class="text-blue-300 hover:bg-blue-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
                     >{mainMenuLink.content}</a
                   >
@@ -166,15 +167,17 @@
             </div>
           {:else}
             <div class="ml-3 relative">
-              <div>
-                <button
-                  type="button"
-                  on:click={() => (openUserMenu = !openUserMenu)}
-                  class="bg-blue-500 flex text-sm rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-blue-500 focus:ring-white"
+              <div
+                id="user-menu-button"
+                aria-expanded="false"
+                aria-haspopup="true"
+              >
+                <Button
                   id="user-menu-button"
-                  aria-expanded="false"
-                  aria-haspopup="true"
-                  data-cy="user-menu"
+                  on:click={() => (openUserMenu = !openUserMenu)}
+                  dataTest="user-menu"
+                  color="whiteFullIcon"
+                  size="icon-round"
                 >
                   <span class="sr-only">Open user menu</span>
                   <img
@@ -182,7 +185,7 @@
                     src={personIcon}
                     alt="User menu"
                   />
-                </button>
+                </Button>
               </div>
 
               <Transition

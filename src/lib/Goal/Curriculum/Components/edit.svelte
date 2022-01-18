@@ -4,6 +4,7 @@
   import CurriculumTabs from "$lib/Internals/Tabs/curriculum.svelte";
   import { onMount } from "svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
+  import Button from "$lib/Internals/Button/Button.svelte";
   export let firebase;
   export let curriculumProfile;
 
@@ -27,9 +28,7 @@
     let data = curriculumProfile;
     alert = getDefaultAlertValues();
     try {
-      let profileRef = db
-        .collection("curriculumProfile")
-        .doc(data.id);
+      let profileRef = db.collection("curriculumProfile").doc(data.id);
       let result = await profileRef.set(data);
       alert.success = true;
       alert.successTitle = "Curriculum profiel gewijzigd";
@@ -53,16 +52,23 @@
 <svelte:window bind:scrollY={y} />
 
 {#if $session.player}
-  <CurriculumTabs bind:curriculumProfile subSelected="edit" isOwnProfile=true />
+  <CurriculumTabs
+    bind:curriculumProfile
+    subSelected="edit"
+    isOwnProfile="true"
+  />
   <ResultFeedback bind:alert />
 
   <form on:submit|preventDefault={updateCurriculumProfile}>
     <Form bind:curriculumProfile isEdit="true" />
-    <button
-      disabled={buttonDisabled}
-      data-cy="submit-button"
-      class="mt-4 float-right disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-      >Curriculum profiel wijzigen</button
-    >
+    <div class="mt-4 flex justify-end">
+      <Button
+        isDisabled={buttonDisabled}
+        dataTest="submit-button"
+        content="Curriculum profiel wijzigen"
+        isSubmit={true}
+        color="primary"
+      />
+    </div>
   </form>
 {/if}

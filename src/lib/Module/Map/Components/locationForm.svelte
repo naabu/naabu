@@ -1,10 +1,14 @@
 <script>
   import { getStores, session, page } from "$app/stores";
   import { onMount } from "svelte";
-  import { getAlgoliaSearchClient, getGoalIndex } from "$lib/Internals/Algolia/algolia";
+  import {
+    getAlgoliaSearchClient,
+    getGoalIndex,
+  } from "$lib/Internals/Algolia/algolia";
   import { autocomplete, getAlgoliaResults } from "@algolia/autocomplete-js";
   import "@algolia/autocomplete-theme-classic";
   import VerwijderDialog from "$lib/Internals/Misc/dialog.svelte";
+  import Button from "$lib/Internals/Button/Button.svelte";
 
   export let locations = [];
   export let selectedIndex = 0;
@@ -87,9 +91,7 @@
     };
     locations = [...locations, location];
   }
-  onMount(() => {
-  });
-
+  onMount(() => {});
 </script>
 
 <VerwijderDialog bind:toggle={deleteLocationToggle} on:ok={deleteLocation} />
@@ -97,7 +99,7 @@
   <div>
     <div class="block tabs">
       <div class="border-b mb-3 border-gray-200">
-        <nav class="-mb-px flex space-x-8" aria-label="Tabs">
+        <nav class="-mb-px flex space-x-8 items-center" aria-label="Tabs">
           {#each locations as location, i}
             {#if selectedIndex !== i}
               <button
@@ -115,12 +117,13 @@
               </button>
             {/if}
           {/each}
-          <button
-            class="mb-1  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            on:click|preventDefault={addLocation}
-          >
-            New Location
-          </button>
+          <div>
+            <Button
+              on:click={addLocation}
+              content="New Location"
+              size="small"
+            />
+          </div>
         </nav>
       </div>
     </div>
@@ -237,12 +240,14 @@
         </div>
       </div>
     </div>
-    <button
-      type="button"
-      on:click|preventDefault={() => removeLocationButtonFunction()}
-      class="float-right mt-3 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-    >
-      Locatie verwijderen</button
-    >
+
+    <div class="flex justify-end">
+      <Button
+        dataTest="remove-location-button"
+        on:click={() => removeLocationButtonFunction()}
+        content="Locatie verwijderen"
+        size="small"
+      />
+    </div>
   </div>
 </div>

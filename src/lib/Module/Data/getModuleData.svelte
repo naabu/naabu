@@ -26,14 +26,12 @@
       $session.player &&
       $session.player.id
     ) {
-      console.log("loading user module");
       userModule = await getUserModule(
         firebase,
         module.id,
         module,
         $session.player
       );
-      console.log(userModule);
       loadUserModule = false;
     }
   })();
@@ -45,9 +43,11 @@
     if (snap.exists) {
       module = snap.data();
       module.id = ref.id;
-      for (let i = 0; i < module.paths.length; i++) {
-        let addPath = module.paths[i];
-        addPath.points = JSON.parse(addPath.points);
+      if (module.paths) {
+        for (let i = 0; i < module.paths.length; i++) {
+          let addPath = module.paths[i];
+          addPath.points = JSON.parse(addPath.points);
+        }
       }
     }
   }

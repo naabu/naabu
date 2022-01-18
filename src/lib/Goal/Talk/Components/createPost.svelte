@@ -1,10 +1,11 @@
 <script>
   import { getStores, session } from "$app/stores";
   import { onMount } from "svelte";
-  import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte"
+  import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import { getDateString } from "$lib/Internals/Misc/helper";
   import { goto } from "$app/navigation";
+  import Button from "$lib/Internals/Button/Button.svelte";
   export let firebase;
   export let talk;
   export let goalId;
@@ -90,7 +91,7 @@
 </script>
 
 <ResultFeedback bind:alert />
-<CheckPlayerHasProfile bind:hasCurriculumProfile/>
+<CheckPlayerHasProfile bind:hasCurriculumProfile />
 
 {#if talk}
   <div class="ml-auto mr-auto max-w-xl mt-8">
@@ -101,7 +102,7 @@
         >
         <input
           type="text"
-          data-cy="post-title"
+          data-test="post-title"
           bind:value={newPostTitle}
           name="title"
           id="title"
@@ -122,17 +123,18 @@
             class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
           />
         </div>
-        <div class="mt-4">
+        <div class="mt-4 flex justify-between">
           <span class=" text-sm text-gray-500">
             Hou het vriendelijk en proffesioneel
           </span>
-          <button
-            data-cy="post-button"
-            disabled={buttonDisabled|| !hasCurriculumProfile}
-            type="submit"
-            class="float-right disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            >Post</button
-          >
+
+          <Button
+            dataTest="post-button"
+            isDisabled={buttonDisabled || !hasCurriculumProfile}
+            isSubmit={true}
+            color="primary"
+            content="Post"
+          />
         </div>
       </div>
     </form>

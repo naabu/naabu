@@ -19,6 +19,3 @@ exports.updateActivityConnectionStatus = functions.firestore.document("connectio
       ref.update(activityData);
     }
   });
-
-
-  

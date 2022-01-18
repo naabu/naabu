@@ -6,6 +6,7 @@
   // import firebase from "firebase/app";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { getMap, getUserMap } from "$lib/Module/Map/Components/helper";
+  import Button from "$lib/Internals/Button/Button.svelte";
 
   let firebase;
   let map;
@@ -25,12 +26,12 @@
     if ($firebaseStore) {
       firebase = $firebaseStore;
       await retrieveAllModules();
-    // if ($session.player) {
-    //   mapId = $session.player.currentMapId;
-    //   map = await getMap(firebase, mapId);
-    //   userMap = await getUserMap(firebase, mapId, map, $session.player);
-    // }
-    mounted = true;
+      // if ($session.player) {
+      //   mapId = $session.player.currentMapId;
+      //   map = await getMap(firebase, mapId);
+      //   userMap = await getUserMap(firebase, mapId, map, $session.player);
+      // }
+      mounted = true;
     }
   })();
 

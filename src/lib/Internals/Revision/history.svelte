@@ -5,13 +5,13 @@
   import TimeAgo from "javascript-time-ago";
   import nl from "javascript-time-ago/locale/nl.json";
   import Transition from "svelte-class-transition";
+  import Button from "../Button/Button.svelte";
 
   TimeAgo.addLocale(nl);
   const timeAgo = new TimeAgo("nl");
   export let firebase;
   export let toggle = true;
   export let activeRevisionId;
-
 </script>
 
 <div class="fixed inset-y-16 right-0 pl-10 max-w-full flex z-20">
@@ -33,12 +33,13 @@
               Wijzigingen
             </h2>
             <div class="ml-3 h-7 flex items-center">
-              <button
-                type="button"
+              <Button
+                color="whitePrimaryIcon"
+                size="icon-square-small"
+                extraClasses={["mb-1"]}
                 on:click={() => {
                   toggle = !toggle;
                 }}
-                class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
               >
                 <span class="sr-only">Close panel</span>
                 <svg
@@ -56,7 +57,7 @@
                     d="M6 18L18 6M6 6l12 12"
                   />
                 </svg>
-              </button>
+              </Button>
             </div>
           </div>
         </div>
@@ -64,7 +65,7 @@
           {#each revisions as revision, i}
             {#if revision.previousRevisionId}
               <a
-                data-cy="revision-link-{i}"
+                data-test="revision-link-{i}"
                 href="/revisie/{revision.revisionId}/diff/{revision.previousRevisionId}"
                 class="-m-3 p-3 block rounded-md hover:bg-gray-50 transition ease-in-out duration-150"
                 class:bg-gray-50={revision.revisionId === activeRevisionId}
@@ -85,7 +86,7 @@
               </a>
             {:else}
               <a
-                data-cy="revision-link-{i}"
+                data-test="revision-link-{i}"
                 href="/revisie/{revision.revisionId}/diff"
                 class="-m-3 p-3 block rounded-md hover:bg-gray-50 transition ease-in-out duration-150"
                 class:bg-gray-50={revision.revisionId === activeRevisionId}

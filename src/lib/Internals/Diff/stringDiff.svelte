@@ -30,12 +30,12 @@
 
           <div class="grid gap-4 grid-cols-2 mt-4 px-4 pb-5 sm:p-6 sm:pt-0">
             <div 
-              data-cy="{title}-old"
+              data-test="{title}-old"
             >
               {old}
             </div>
 
-            <div data-cy="{title}-new">
+            <div data-test="{title}-new">
               {neww}
             </div>
           </div>

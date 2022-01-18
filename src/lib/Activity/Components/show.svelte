@@ -9,6 +9,7 @@
   import BattleFight from "$lib/Goal/Components/battleFight.svelte";
   import { hasSpecialClaims } from "$lib/Internals/User/helper.js";
   import { goto } from "$app/navigation";
+  import Button from "$lib/Internals/Button/Button.svelte";
   export let firebase;
   export let activity;
   export let showFeedback = true;
@@ -75,7 +76,12 @@
     // }
     if (!userHasSpecialClaims) {
       setTimeout(async () => {
-        await goto("/module/" + $page.params.moduleId + "/locatie/" + $page.params.locationId);
+        await goto(
+          "/module/" +
+            $page.params.moduleId +
+            "/locatie/" +
+            $page.params.locationId
+        );
       }, 2000);
     } else {
       if ($page.path.includes("beheer")) {
@@ -83,7 +89,10 @@
       } else {
         setTimeout(async () => {
           await goto(
-            "/module/" + $page.params.moduleId + "/locatie/" + $page.params.locationId
+            "/module/" +
+              $page.params.moduleId +
+              "/locatie/" +
+              $page.params.locationId
           );
         }, 2000);
       }
@@ -130,7 +139,7 @@
 
       player.ready().then(function () {
         iframe = document.querySelector("#vimeoVideo iframe");
-        iframe.setAttribute("data-cy", "vimeo-iframe");
+        iframe.setAttribute("data-test", "vimeo-iframe");
 
         setInterval(checkTime, 10);
 
@@ -198,11 +207,11 @@
   function checkCorrectAnswer(quiz) {
     if (quiz.answers[quiz.selectedAnswer].correct === true) {
       quiz.feedback =
-        "<div data-cy='correct-feedback' class='text-green-700 font-bold'>Correct</div>";
+        "<div data-test='correct-feedback' class='text-green-700 font-bold'>Correct</div>";
       quiz.correct = true;
     } else {
       quiz.feedback =
-        "<div data-cy='incorrect-feedback' class='text-red-400 font-bold'>Incorrect</div>";
+        "<div data-test='incorrect-feedback' class='text-red-400 font-bold'>Incorrect</div>";
       quiz.false = true;
     }
     return quiz;
@@ -254,12 +263,17 @@
       {@html activity.description}
     {/if}
 
-    <button
+    <div
       class:displaynone={hideVideoIframe || activeQuiz === null}
-      on:click={() => (hideVideoIframe = true)}
-      class="relative ml-14 mt-11 float-left z-20 inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-      data-cy="back-to-quiz-button">Naar onderbreking</button
+      class="relative ml-14 mt-16 float-left z-20"
     >
+      <Button
+        on:click={() => (hideVideoIframe = true)}
+        color="primary"
+        dataTest="back-to-quiz-button"
+        content="Naar quiz"
+      />
+    </div>
 
     <div class:displaynone={hideVideoIframe} class="video mt-4">
       <div id="vimeoVideo" />
@@ -280,22 +294,21 @@
                     class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap"
                   >
                     <div class="ml-4 mt-4">
-                      <button
-                        type="button"
+                      <Button
                         on:click={() => (hideVideoIframe = false)}
-                        class="inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                        data-cy="watch-image-video-button"
-                      >
-                        Bekijk beeld video
-                      </button>
+                        dataTest="watch-image-video-button"
+                        content="Bekijk beeld video"
+                        color="primary"
+                      />
                     </div>
                     <div class="mt-4 mr-10">Weet jij het antwoord?</div>
                     <div class="ml-4 mt-4 flex-shrink-0">
                       <div class="ml-4 flex-shrink-0 flex">
-                        <button
+                        <Button
                           on:click={closeActiveQuiz}
-                          class="bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                          data-cy="close-button"
+                          dataTest="close-button"
+                          color="whitePrimaryIcon"
+                          size="icon-square"
                         >
                           <span class="sr-only">Close</span>
                           <svg
@@ -311,7 +324,7 @@
                               clip-rule="evenodd"
                             />
                           </svg>
-                        </button>
+                        </Button>
                       </div>
                     </div>
                   </div>
@@ -323,8 +336,10 @@
                     class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap"
                   >
                     <div class="ml-4 mt-4">
-                      <h3 data-test="quiz-question"
-                      class="text-lg leading-6 font-medium text-gray-900">
+                      <h3
+                        data-test="quiz-question"
+                        class="text-lg leading-6 font-medium text-gray-900"
+                      >
                         {@html renderKatexOutput(activeQuiz.question)}
                       </h3>
                       <p class="mt-1 text-sm ">
@@ -336,25 +351,22 @@
                     <div class="ml-4 mt-4 flex-shrink-0">
                       <!-- If answer is correct then change this button to doorgaan -->
                       {#if !activeQuiz.correct}
-                        <button
-                          type="button"
-                          disabled={activeQuiz.selectedAnswer === null}
+                        <Button
+                          isDisabled={activeQuiz.selectedAnswer === null}
                           on:click={() =>
                             (activeQuiz = checkCorrectAnswer(activeQuiz))}
-                          class="disabled:opacity-50 relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                          data-cy="check-answer-button"
-                        >
-                          Nakijken
-                        </button>
+                          dataTest="check-answer-button"
+                          content="Nakijken"
+                          color="primary"
+                        />
                       {:else}
-                        <button
-                          type="button"
+                        <Button
+                          isDisabled={activeQuiz.selectedAnswer === null}
                           on:click={closeActiveQuiz}
-                          class="relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                          data-cy="continue-button"
-                        >
-                          Doorgaan
-                        </button>
+                          dataTest="continue-button"
+                          content="Doorgaan"
+                          color="primary"
+                        />
                       {/if}
                     </div>
                   </div>
@@ -367,7 +379,7 @@
                         type="radio"
                         bind:group={activeQuiz.selectedAnswer}
                         value={i}
-                        data-cy="input-value-{i}"
+                        data-test="input-value-{i}"
                       />
                       {@html "<span class='pl-3'>" +
                         renderKatexOutput(answer.answer) +

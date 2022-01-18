@@ -2,6 +2,7 @@
   import DisplayMultiTopics from "$lib/Goal/Components/displayMultiTopics.svelte";
   import BattleListForm from "$lib/Goal/Components/battleListForm.svelte";
   import QuizForm from "$lib/Activity/Components/quizzesForm.svelte";
+import Button from "$lib/Internals/Button/Button.svelte";
 
   export let goal;
   let selectedQuizIndex = 0;
@@ -641,40 +642,44 @@
       </p>
     </div>
     <div>
-      <BattleListForm
-        bind:battles={goal.battles}
-        bind:index={selectedBattleIndex}
-      />
+      {#if goal.battles}
+        <BattleListForm
+          bind:battles={goal.battles}
+          bind:index={selectedBattleIndex}
+        />
+      {/if}
 
       <div class="block tabs">
         <div class="border-b mb-1 border-gray-200">
           <nav
-            data-cy="battle-nav"
+            data-test="battle-nav"
             class="-mb-px flex space-x-8"
             aria-label="Tabs"
           >
-            {#each goal.battles as battle, i}
-              {#if selectedBattleIndex !== i}
-                <button
-                  data-cy="click-battle-{i}-button"
-                  on:click|preventDefault={() => setSelectedBattleIndex(i)}
-                  class="outline-none active:outline-none focus:outline-none border-transparent  text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-                >
-                  {battle.name}
-                </button>
-              {:else}
-                <button
-                  on:click|preventDefault={() => setSelectedBattleIndex(i)}
-                  class="outline-none active:outline-none focus:outline-none border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-                >
-                  {battle.name}
-                </button>
-              {/if}
-            {/each}
+            {#if goal.battles}
+              {#each goal.battles as battle, i}
+                {#if selectedBattleIndex !== i}
+                  <button
+                    data-test="click-battle-{i}-button"
+                    on:click|preventDefault={() => setSelectedBattleIndex(i)}
+                    class="outline-none active:outline-none focus:outline-none border-transparent  text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+                  >
+                    {battle.name}
+                  </button>
+                {:else}
+                  <button
+                    on:click|preventDefault={() => setSelectedBattleIndex(i)}
+                    class="outline-none active:outline-none focus:outline-none border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+                  >
+                    {battle.name}
+                  </button>
+                {/if}
+              {/each}
+            {/if}
           </nav>
         </div>
       </div>
-      {#if goal.battles.length > 0}
+      {#if goal.battles && goal.battles.length > 0}
         <QuizForm
           bind:quizzes={goal.battles[selectedBattleIndex].quizzes}
           bind:selectedQuizIndex

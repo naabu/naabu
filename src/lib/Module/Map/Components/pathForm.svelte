@@ -1,4 +1,6 @@
 <script>
+  import Button from "$lib/Internals/Button/Button.svelte";
+
   export let map;
   let selectedIndex = 0;
   let paths = [];
@@ -98,10 +100,7 @@
       <div>
         <input type="text" bind:value={point[1]} />
         <input type="text" bind:value={point[0]} />
-        <button
-          class="mb-1  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          on:click|preventDefault={() => removePoint(i)}>Remove</button
-        >
+        <Button on:click={() => removePoint(i)} content="Remove" size="small" />
       </div>
     {:else}
       {point[1]} - {point[0]} <br />
@@ -139,12 +138,7 @@
         class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
       />
     </div>
-    <button
-      class="mb-1  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-      on:click|preventDefault={addPoint}
-    >
-      Punt toevoegen
-    </button>
+    <Button on:click={addPoint} content="Punt toevoegen" size="small" />
   </div>
 {/if}
 

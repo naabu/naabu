@@ -4,7 +4,8 @@
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import { onMount } from "svelte";
   import { getMapSaveData } from "$lib/Module/Map/Components/helper";
-import { getStores, session } from "$app/stores";
+  import { getStores, session } from "$app/stores";
+  import Button from "$lib/Internals/Button/Button.svelte";
 
   export let firebase;
 
@@ -104,13 +105,12 @@ import { getStores, session } from "$app/stores";
 
   <div class="pt-5">
     <div class="flex justify-end">
-      <button
-        disabled={buttonDisabled}
-        type="submit"
-        class="float-right disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-      >
-        Kaart aanmaken
-      </button>
+      <Button
+        isDisabled={buttonDisabled}
+        isSubmit={true}
+        color="primary"
+        content="Kaart aanmaken"
+      />
     </div>
   </div>
 </form>

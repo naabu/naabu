@@ -65,7 +65,7 @@
         <div class="flex space-x-8">
           {#each mainTabs as tab}
             <a
-              data-cy="maintab-{tab.value}"
+              data-test="maintab-{tab.value}"
               class:selected={mainSelected === tab.value}
               href={tab.url}
             >
@@ -77,7 +77,7 @@
           <div class="ml-auto flex space-x-8">
             {#each subTabs as tab}
               <a
-                data-cy="subtab-{tab.value}"
+                data-test="subtab-{tab.value}"
                 class=""
                 class:selected={subSelected === tab.value}
                 href={tab.url}

@@ -16,6 +16,7 @@ services:
       - 9229:9229
       - 24678:24678
       - 9005:9005
+      - 6006:6006
     networks:
       - internal_network
 

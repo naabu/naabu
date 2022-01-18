@@ -3,6 +3,7 @@
   import { getStores, session } from "$app/stores";
   import { getActivitySaveData } from "$lib/Activity/Components/helper";
   import { createRevision } from "$lib/Internals/Revision/helper";
+  import Button from "../Button/Button.svelte";
 
   export let revision;
   export let firebase;
@@ -56,12 +57,11 @@
   }
 </script>
 
-<div class="w-full flex">
-  <button
-    data-cy="reset-activity-to-revision-button"
-    class="ml-auto mt-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+<div class="w-full flex justify-end mt-3">
+  <Button
+    dataTest="reset-activity-to-revision-button"
+    content="Activiteit terugzetten naar deze versie"
+    color="primary"
     on:click={applyRevisionToActivity}
-  >
-    Activiteit terugzetten naar deze versie
-  </button>
+  />
 </div>

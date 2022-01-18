@@ -1,4 +1,6 @@
 <script>
+  import Button from "$lib/Internals/Button/Button.svelte";
+
   import VerwijderDialog from "$lib/Internals/Misc/dialog.svelte";
   import { renderKatexOutput } from "$lib/Internals/Misc/helper.js";
 
@@ -86,13 +88,14 @@
               </button>
             {/if}
           {/each}
-          <button
-            data-cy="add-question-button"
-            class="mt-3 mb-1  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            on:click|preventDefault={addQuiz}
-          >
-            Nieuwe vraag
-          </button>
+          <div class="mt-3 mb-1">
+            <Button
+              on:click={addQuiz}
+              dataTest="add-question-button"
+              content="Nieuwe vraag"
+              size="small"
+            />
+          </div>
         </nav>
         {#if quizzes.length > 0}
           <nav class="-mb-px flex space-x-8" aria-label="Tabs">
@@ -115,7 +118,7 @@
             {#each quizzes[selectedQuizIndex].answers as answer, i}
               {#if selectedFieldIndex !== i}
                 <button
-                  data-cy="A{i + 1}"
+                  data-test="A{i + 1}"
                   on:click|preventDefault={() => setSelectedFieldIndex(i)}
                   class="outline-none active:outline-none focus:outline-none border-transparent  text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
                 >
@@ -137,20 +140,22 @@
               {/if}
             {/each}
 
-            <button
-              data-cy="new-answer-button"
-              class="mt-3 mb-1  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              on:click|preventDefault={() => addAnswer(selectedQuizIndex)}
-            >
-              Nieuw antwoord
-            </button>
-            <button
-              data-cy="remove-quiz-button"
-              class="mt-3 float-right mb-1  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              on:click|preventDefault={() => removeQuizButtonFunction()}
-            >
-              Vraag verwijderen
-            </button>
+            <div class="mt-3 mb-1 ">
+              <Button
+                dataTest="new-answer-button"
+                on:click={() => addAnswer(selectedQuizIndex)}
+                content="Nieuw antwoord"
+                size="small"
+              />
+            </div>
+            <div class="mt-3 mb-1 ">
+              <Button
+                dataTest="remove-quiz-button"
+                on:click={removeQuizButtonFunction}
+                content="Vraag verwijderen"
+                size="small"
+              />
+            </div>
           </nav>
         {/if}
       </div>
@@ -217,12 +222,14 @@
               class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
             />
           </div>
-          <button
-            class="preview-button mt-3  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            on:click|preventDefault={() =>
-              updatePreview(quizzes[selectedQuizIndex].question)}
-            >Update preview</button
-          >
+          <div class="mb-10 mt-3 block">
+            <Button
+              size="small"
+              on:click={() =>
+                updatePreview(quizzes[selectedQuizIndex].question)}
+              content="Update preview"
+            />
+          </div>
           <div class="mt-3">{@html renderedKatex}</div>
         </div>
       {:else}
@@ -253,21 +260,29 @@
               >Goed antwoord</label
             >
           </div>
-          <button
-            class="float-left preview-button mt-3  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            on:click|preventDefault={() =>
-              updatePreview(
-                quizzes[selectedQuizIndex].answers[selectedFieldIndex].answer
-              )}>Update preview</button
-          >
-          <button
-            data-cy="remove-answer-button"
-            type="button"
-            on:click|preventDefault={() => deleteQuizAnswer()}
-            class="float-right mt-3 bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Antwoord verwijderen
-          </button>
+
+          <div class="flex justify-between max-w-lg">
+            <div class="mb-10 mt-3 block">
+              <Button
+                size="small"
+                on:click={() =>
+                  updatePreview(
+                    quizzes[selectedQuizIndex].answers[selectedFieldIndex]
+                      .answer
+                  )}
+                content="Update preview"
+              />
+            </div>
+
+            <div class="mb-10 mt-3 block">
+              <Button
+                size="small"
+                dataTest="remove-answer-button"
+                on:click={() => deleteQuizAnswer()}
+                content="Antwoord verwijderen"
+              />
+            </div>
+          </div>
           <div class="mt-14">{@html renderedKatex}</div>
         </div>
       {/if}

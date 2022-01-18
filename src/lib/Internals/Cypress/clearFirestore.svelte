@@ -50,8 +50,6 @@
           docRefArray.push(updateDoc.id);
         });
 
-        console.log(docRefArray);
-
         for (let i = 0; i < docRefArray.length; i++) {
           await db.collection(collection).doc(docRefArray[i]).delete();
         }

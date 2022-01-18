@@ -15,8 +15,6 @@
         !$session.user.isAnonymous
       ) {
         let email = $page.params.email;
-        console.log(email);
-        console.log($session.user.email);
         if ($session.user.email === email) {
           await firebase.auth().currentUser.delete();
         }

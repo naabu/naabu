@@ -13,6 +13,7 @@
   import Sidebar from "$lib/Internals/Containers/sidebar.svelte";
   import { goto } from "$app/navigation";
   import SaveActivityRevision from "$lib/Internals/Revision/saveActivityRevision.svelte";
+  import Button from "$lib/Internals/Button/Button.svelte";
 
   let menuitems;
 
@@ -116,7 +117,10 @@
       }
     }
 
-    if (revisionNew && (!revisionNew.revisionType || revisionNew.revisionType === "goal")) {
+    if (
+      revisionNew &&
+      (!revisionNew.revisionType || revisionNew.revisionType === "goal")
+    ) {
       let goalSnap = await db.collection("goals").doc(revisionNew.goalId).get();
       if (goalSnap.exists) {
         goal = goalSnap.data();
@@ -136,7 +140,6 @@
 </script>
 
 {#if mounted && revisionNew && revisionOld}
-{revisionNew.revisionType}
   {#if !revisionNew.revisionType || revisionNew.revisionType == "goal"}
     {#if goal}
       <ContainerBreadcrumpPageTitle bind:breadcrumbs title={goal.title} />
@@ -160,7 +163,7 @@
       <span slot="title"> Wijzigingen activiteit </span>
 
       <span slot="cta-button">
-        <div class="ml-4 mr-auto w-full flex">
+        <div class="ml-4 mr-auto w-full flex justify-between">
           <p class="pt-2 text-sm text-gray-500">
             <a
               href="/lerarenkamer/activiteit/{revisionNew.revisionSourceId}"
@@ -169,13 +172,12 @@
               Terug naar activiteit
             </a>
           </p>
-          <button
-            data-cy="show-all-activity-revisions-button"
-            class="z-10 ml-auto mr-4 inline-flex items-center px-3 py-2 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          <Button
+            dataTest="show-all-activity-revisions-button"
+            extraClasses={["z-10"]}
             on:click={() => (toggleShowAllHistory = !toggleShowAllHistory)}
-          >
-            Bekijk hele geschiedenis
-          </button>
+            content="Bekijk hele geschiedenis"
+          />
         </div>
       </span>
 

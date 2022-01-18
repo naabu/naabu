@@ -31,9 +31,9 @@
           </div>
 
           <div class="grid gap-4 grid-cols-2 mt-4 px-4 pb-5 sm:p-6 sm:pt-0">
-            <div data-cy="{title}-old">
+            <div data-test="{title}-old">
               {#each old as item, index}
-                <div data-cy="old-index{index}">
+                <div data-test="old-index{index}">
                   {item} -
                   {#if old2}
                     {old2[index]}
@@ -42,9 +42,9 @@
               {/each}
             </div>
 
-            <div data-cy="{title}-new">
+            <div data-test="{title}-new">
               {#each neww as item, index}
-                <div data-cy="new-index{index}">
+                <div data-test="new-index{index}">
                   {item}
                   {#if neww2}
                     -

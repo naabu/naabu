@@ -71,14 +71,14 @@
 />
 <div>
   <a
-    data-cy="back-to-course-button"
+    data-test="back-to-course-button"
     href="/module/{$page.params.moduleId}"
     class="font-medium hover:underline text-indigo-600 hover:text-indigo-500"
     ><span aria-hidden="true">&#8592;</span> Ga terug naar leskaart</a
   >
   {#if userModule && userModule.newUnlockedLocation}
     <span
-      data-cy="new-location-unlocked"
+      data-test="new-location-unlocked"
       class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800"
     >
       Nieuwe locatie ontgrendeld!

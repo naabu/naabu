@@ -23,6 +23,9 @@ let jsonFirebaseRCFile = JSON.stringify(firebaseRCFileObject, null, 2);
 firebaseConfigFile = "export " + firebaseConfigFile;
 algoliaConfigFile = "export " + algoliaConfigFile;
 
+console.log(firebaseConfigFile);
+console.log(algoliaConfigFile);
+
 fs.writeFile('/var/www/src/lib/Internals/Firebase/config.js', firebaseConfigFile, (err) => {
   // throws an error, you could also catch it here
   if (err) throw err;

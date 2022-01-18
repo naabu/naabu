@@ -24,15 +24,13 @@
         !$session.user.isAnonymous &&
         !moduleCreated
       ) {
-        console.log("hiasdfasdf");
         moduleCreated = true;
         let db = await firebase.firestore();
         try {
           let module = await getMapData(db);
-          console.log(module);
           if (module) {
-            module.moduleDescription = "test";
-            module.moduleName = "Test";
+            module.moduleDescription = "Test module 1 description";
+            module.moduleName = "Test module 1 title";
             module.moduleSvg = "";
             (module.modifiedAt = firebase.firestore.Timestamp.now().seconds),
               (module.authorId = $session.user.uid);

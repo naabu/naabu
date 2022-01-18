@@ -11,8 +11,6 @@
   let player = null;
   let firebase;
 
-  $: console.log($page.path);
-
   function handleLoginEvent(event) {
     firebase = $firebaseStore;
     if (firebase) {

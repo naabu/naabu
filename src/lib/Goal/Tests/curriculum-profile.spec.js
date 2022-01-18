@@ -18,7 +18,7 @@ function printMessages(page, showAllConsole) {
 const expect = base.expect;
 
 
-test('Test flow for creating and editing learning goals', async ({ page, domain, showAllConsole }) => {
+test('Test flow for creating and editing learning goals @goal', async ({ page, domain, showAllConsole }) => {
   printMessages(page, showAllConsole);
   await page.goto(domain);
   await page.click('[data-test=curriculum-menu]');

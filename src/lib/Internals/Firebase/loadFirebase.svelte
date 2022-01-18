@@ -6,8 +6,6 @@
   import { firebaseConfig } from "$lib/Internals/Firebase/config";
   const dispatch = createEventDispatcher();
 
-  $: console.log(firebaseConfig);
-
   initFirebase().then((fb) => {
     $firebaseStore = fb;
     dispatch("firebaseInitialized", {

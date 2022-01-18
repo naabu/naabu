@@ -51,11 +51,8 @@
           .collection("players")
           .doc($session.user.uid);
         await userModuleRef.update({ selectedActivities: [] });
-        console.log("cleared userModule");
-
         let collectionRef = db.collection("feedback");
         let result = await collectionRef.add(data);
-        console.log("added feedback");
       } catch (e) {
         console.log(e);
       }

@@ -127,9 +127,11 @@ export async function getUserModule(firebase, moduleId, module, player) {
       }
       else {
         let startLocations = [];
-        for (let i = 0; i < module.locations.length; i++) {
-          if (module.locations[i].isStartLocation) {
-            startLocations.push(module.locations[i].id);
+        if (module.locations) {
+          for (let i = 0; i < module.locations.length; i++) {
+            if (module.locations[i].isStartLocation) {
+              startLocations.push(module.locations[i].id);
+            }
           }
         }
 

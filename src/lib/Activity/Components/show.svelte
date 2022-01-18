@@ -295,10 +295,10 @@
                   >
                     <div class="ml-4 mt-4">
                       <Button
-                      on:click={() => (hideVideoIframe = false)}
-                      dataTest="watch-image-video-button"
-                      content="Bekijk beeld video"
-                      color="primary"
+                        on:click={() => (hideVideoIframe = false)}
+                        dataTest="watch-image-video-button"
+                        content="Bekijk beeld video"
+                        color="primary"
                       />
                     </div>
                     <div class="mt-4 mr-10">Weet jij het antwoord?</div>
@@ -307,7 +307,7 @@
                         <Button
                           on:click={closeActiveQuiz}
                           dataTest="close-button"
-                          color="whiteIcon"
+                          color="whitePrimaryIcon"
                           size="icon-square"
                         >
                           <span class="sr-only">Close</span>

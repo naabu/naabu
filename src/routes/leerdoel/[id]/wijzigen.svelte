@@ -8,7 +8,6 @@
 
   let firebase;
 
-  let goalRef;
   let battleCol;
   let mounted = false;
   let goal;
@@ -37,7 +36,6 @@
         battleObject.name = doc.id;
         goal.battles = [...goal.battles, battleObject];
       });
-      console.log(goal.battles);
       previousBattles = [...goal.battles];
     }
   })();
@@ -67,7 +65,6 @@
 {#if goal && mounted}
   <ContainerBreadcrumpPageTitle bind:breadcrumbs title={goal.title} />
   <EditGoal
-    bind:goalRef
     bind:goal
     bind:previousBattles
     bind:battleCol

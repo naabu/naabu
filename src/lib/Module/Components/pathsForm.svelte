@@ -1,4 +1,6 @@
 <script>
+  import Button from "$lib/Internals/Button/Button.svelte";
+
   export let map;
 
   export let selectedIndex;
@@ -91,11 +93,13 @@
       <div>
         <input data-test="path-input-x-{i}" type="text" bind:value={point[1]} />
         <input data-test="path-input-y-{i}" type="text" bind:value={point[0]} />
-        <button
-          data-test="remove-path-point-button-{i}"
-          class="mb-1  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          on:click|preventDefault={() => removePoint(i)}>Remove</button
-        >
+
+        <Button
+          dataTest="remove-path-point-button-{i}"
+          on:click={() => removePoint(i)}
+          content="Remove"
+          size="small"
+        />
       </div>
     {/if}
   {/each}
@@ -130,14 +134,16 @@
         bind:value={newPointY}
         class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
       />
+
+      <div class="flex justify-end max-w-lg mt-3">
+        <Button
+          dataTest="add-path-point-button"
+          size="small"
+          content="Punt toevoegen"
+          on:click={addPoint}
+        />
+      </div>
     </div>
-    <button
-      data-test="add-path-point-button"
-      class="mb-1  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-      on:click|preventDefault={addPoint}
-    >
-      Punt toevoegen
-    </button>
   </div>
 {/if}
 

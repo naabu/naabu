@@ -13,6 +13,7 @@
 
   function cancelDialog() {
     toggle = false;
+    dispatch("cancel");
   }
 </script>
 

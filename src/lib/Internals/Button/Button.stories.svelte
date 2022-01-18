@@ -1,6 +1,9 @@
 <script>
   import { Meta, Template, Story } from "@storybook/addon-svelte-csf";
   import Button from "$lib/Internals/Button/Button.svelte";
+  import MarginDecorator from "$lib/Internals/Story/MarginDecorator.svelte";
+  import GreyBackgroundDecorator from "$lib/Internals/Story/GreyBackgroundDecorator.svelte";
+  import PositionOnBottom from "../Story/PositionOnBottom.svelte";
 </script>
 
 <!-- More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export -->
@@ -11,14 +14,32 @@
   argTypes={{
     color: {
       control: { type: "select" },
-      options: ["primary", "secondary", "warning", "whiteIcon"],
+      options: [
+        "primary",
+        "secondary",
+        "warning",
+        "whitePrimaryIcon",
+        "whiteFullIcon",
+        "blueWhiteIcon",
+        "lightRed",
+      ],
     },
     isDisabled: { control: "boolean" },
     isSubmit: { control: "boolean" },
     isLinkToGoogle: { control: "boolean" },
     size: {
       control: { type: "select" },
-      options: ["very-small", "small", "medium", "large", "very-large"],
+      options: [
+        "tiny",
+        "very-small",
+        "small",
+        "medium",
+        "large",
+        "very-large",
+        "icon-square",
+        "icon-square-small",
+        "icon-round",
+      ],
     },
     content: { control: "text" },
     svelteSlot: { control: "text" },
@@ -29,13 +50,15 @@
 
 <!-- More on component templates: https://storybook.js.org/docs/svelte/writing-stories/introduction#using-args -->
 <Template let:args>
-  <Button {...args} on:click={args.onClick}>
-    {#if args.svelteSlot}
-      {@html args.svelteSlot}
-    {:else}
-      {args.content}
-    {/if}
-  </Button>
+  <MarginDecorator>
+    <Button {...args} on:click={args.onClick}>
+      {#if args.svelteSlot}
+        {@html args.svelteSlot}
+      {:else}
+        {args.content}
+      {/if}
+    </Button>
+  </MarginDecorator>
 </Template>
 
 <!-- More on args: https://storybook.js.org/docs/svelte/writing-stories/args -->
@@ -115,22 +138,53 @@
 />
 
 <Story
+  name="Light red tiny"
+  args={{
+    color: "lightRed",
+    size: "tiny",
+    content: "Delete",
+  }}
+/>
+
+
+<Story
   name="Warning medium"
   args={{
     color: "warning",
-    content: "Button",
+    content: "Verwijderen",
+  }}
+/>
+
+
+<Story
+  name="whitePrimaryIcon Square "
+  args={{
+    color: "whitePrimaryIcon",
+    size: "icon-square",
+    svelteSlot:
+      '<span class="sr-only">Open sidebar</span>\r\n        <svg\r\n          class="h-6 w-6"\r\n          xmlns="http://www.w3.org/2000/svg"\r\n          fill="none"\r\n          viewBox="0 0 24 24"\r\n          stroke="currentColor"\r\n          aria-hidden="true"\r\n        >\r\n          <path\r\n            stroke-linecap="round"\r\n            stroke-linejoin="round"\r\n            stroke-width="2"\r\n            d="M4 6h16M4 12h16M4 18h16"\r\n          />\r\n        </svg>',
   }}
 />
 
 <Story
-  name="whiteCloseIcon"
+  name="whiteFullIcon Round"
   args={{
-    color: "whiteIcon",
-    size: "icon-square",
-    svelteSlot: "<span class=\"sr-only\">Close<\/span>\r\n                          <svg\r\n                            class=\"h-5 w-5\"\r\n                            xmlns=\"http:\/\/www.w3.org\/2000\/svg\"\r\n                            viewBox=\"0 0 20 20\"\r\n                            fill=\"currentColor\"\r\n                            aria-hidden=\"true\"\r\n                          >\r\n                            <path\r\n                              fill-rule=\"evenodd\"\r\n                              d=\"M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z\"\r\n                              clip-rule=\"evenodd\"\r\n                            \/>\r\n                          <\/svg>"
+    color: "whiteFullIcon",
+    size: "icon-round",
+    svelteSlot:
+      '<span class="sr-only">Close sidebar</span>\r\n                <svg\r\n                  class="h-6 w-6 text-white"\r\n                  xmlns="http://www.w3.org/2000/svg"\r\n                  fill="none"\r\n                  viewBox="0 0 24 24"\r\n                  stroke="currentColor"\r\n                  aria-hidden="true"\r\n                >\r\n                  <path\r\n                    stroke-linecap="round"\r\n                    stroke-linejoin="round"\r\n                    stroke-width="2"\r\n                    d="M6 18L18 6M6 6l12 12"\r\n                  />\r\n                </svg>',
   }}
+  decorators={[() => GreyBackgroundDecorator]}
 />
 
+<Story
+  name="Green alert button"
+  args={{
+    color: "greenAlert",
+    size: "very-small",
+    content: "Sluiten",
+  }}
+/>
 
 <Story
   name="linkToGoogle"

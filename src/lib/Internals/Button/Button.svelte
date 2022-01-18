@@ -21,6 +21,8 @@
     "disabled:opacity-50",
   ];
 
+  let tiny = ["px-1.5", "py-.5", "text-xs"];
+
   let verySmall = ["px-2.5", "py-1.5", "text-xs"];
 
   let small = ["px-3", "py-2", "text-sm", "leading-4"];
@@ -38,10 +40,18 @@
 
   let verylarge = ["px-6", "py-3", "text-base"];
 
-  let iconSquare = [
-    "p-2",
-    "rounded-md",
-  ]
+  let iconSquare = ["p-2", "rounded-md"];
+
+  let iconSquareSmall = ["p-1", "rounded-lg"];
+
+  let iconRound = ["h-10", "w-10", "rounded-full", "items-center"];
+
+  let whiteFullIcon = [
+    "focus:outline-none",
+    "focus:ring-2",
+    "focus:ring-inset",
+    "focus:ring-white",
+  ];
 
   let secondary = [
     "border",
@@ -52,7 +62,7 @@
     "focus:outline-none",
     "focus:ring-indigo-500",
     "focus:ring-2",
-    "focus:ring-offset-2"
+    "focus:ring-offset-2",
   ];
 
   let primary = [
@@ -83,7 +93,19 @@
     "focus:ring-red-500",
   ];
 
-  let whiteIcon = [
+  let lightRed = [
+    "border",
+    "border-transparent",
+    "text-red-700",
+    "bg-red-100",
+    "hover:bg-red-200",
+    "focus:outline-none",
+    "focus:ring-2",
+    "focus:ring-offset-2",
+    "focus:ring-red-500",
+  ];
+
+  let whitePrimaryIcon = [
     "bg-white",
     "text-gray-400",
     "hover:text-gray-500",
@@ -93,21 +115,64 @@
     "focus:ring-indigo-500",
   ];
 
+  let greenAlert = [
+    "bg-green-50",
+    "text-green-800",
+    "hover:bg-green-100",
+    "focus:outline-none",
+    "focus:ring-2",
+    "focus:ring-offset-2",
+    "focus:ring-offset-green-50",
+    "focus:ring-green-600",
+  ];
+
+  let blueWhite = [
+    "text-gray-400",
+    "hover:text-white",
+    "hover:bg-blue-400",
+    "focus:outline-none",
+    "focus:ring-2",
+    "focus:ring-inset",
+    "focus:ring-white",
+  ];
+
   let classes = allButton;
 
   $: {
     classes = allButton;
-    if (color === "primary") {
-      classes = [...classes, ...primary];
-    } else if (color === "warning") {
-      classes = [...classes, ...warning];
-    } else if (color === "whiteIcon") {
-      classes = [...classes, ...whiteIcon];
-    } else {
-      classes = [...classes, ...secondary];
+    switch (color) {
+      case "primary":
+        classes = [...classes, ...primary];
+        break;
+      case "warning":
+        classes = [...classes, ...warning];
+        break;
+      case "whitePrimaryIcon":
+        classes = [...classes, ...whitePrimaryIcon];
+        break;
+      case "whiteFullIcon":
+        classes = [...classes, ...whiteFullIcon];
+        break;
+      case "greenAlert":
+        classes = [...classes, ...greenAlert];
+        break;
+      case "blueWhiteIcon":
+        classes = [...classes, ...blueWhite];
+        break;
+      case "lightRed":
+        classes = [...classes, ...lightRed];
+        break;
+      case "none":
+        break;
+      default:
+        classes = [...classes, ...secondary];
+        break;
     }
 
     switch (size) {
+      case "tiny":
+        classes = [...classes, ...tiny];
+        break;
       case "very-small":
         classes = [...classes, ...verySmall];
         break;
@@ -117,16 +182,20 @@
       case "medium":
         classes = [...classes, ...medium];
         break;
-
       case "large":
         classes = [...classes, ...large];
         break;
       case "very-large":
         classes = [...classes, ...verylarge];
         break;
-
       case "icon-square":
         classes = [...classes, ...iconSquare];
+        break;
+      case "icon-square-small":
+        classes = [...classes, ...iconSquareSmall];
+        break;
+      case "icon-round":
+        classes = [...classes, ...iconRound];
         break;
     }
     if (isFullWidth) {

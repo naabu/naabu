@@ -26,6 +26,7 @@
           <textarea
             id="name"
             name="name"
+            required
             rows="1"
             bind:value={module.moduleName}
             class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"

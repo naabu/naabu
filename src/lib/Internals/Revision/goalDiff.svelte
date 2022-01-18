@@ -1,9 +1,13 @@
 <script>
   import ArrayDiff from "$lib/Internals/Diff/arrayDiff.svelte";
   import StringDiff from "$lib/Internals/Diff/stringDiff.svelte";
-  import { checkArrayIsTheSame, getDateString } from "$lib/Internals/Misc/helper";
+  import {
+    checkArrayIsTheSame,
+    getDateString,
+  } from "$lib/Internals/Misc/helper";
   import { goto } from "$app/navigation";
   import MainTabs from "$lib/Internals/Tabs/revision.svelte";
+  import Button from "../Button/Button.svelte";
   export let revisionOld;
   export let revisionNew;
   export let goBackRevision;
@@ -146,13 +150,13 @@
 <MainTabs bind:revision={revisionNew} subSelected="read" />
 
 {#if !loading}
-  <div class="max-w-7xl flex">
-    <button
-      data-test="discuss-revision-button"
-      class="mt-3 bg-white py-2 ml-auto px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-      on:click|preventDefault={createPostFromRevision}
-      >Overleg deze wijzigingen</button
-    >
+  <div class="max-w-7xl flex mt-3 justify-end">
+    <Button
+      dataTest="discuss-revision-button"
+      content="Overleg deze wijzigingen"
+      size="small"
+      on:click={createPostFromRevision}
+    />
   </div>
   <div class="">
     <div class="max-w-7xl mx-auto py-2 sm:px-6 lg:px-4">
@@ -175,8 +179,9 @@
                 <a class="underline" href="/revisie/{revisionOld.revisionId}">
                   {getDateString(revisionOld.createdAt)}
                 </a>
-                (<a class="underline" href="/revisie/{revisionOld.revisionId}/wijzigen"
-                  >edit</a
+                (<a
+                  class="underline"
+                  href="/revisie/{revisionOld.revisionId}/wijzigen">edit</a
                 >)
                 <div>
                   {#if revisionOld.revisionAuthorId && revisionOld.curriculumProfile}
@@ -206,8 +211,9 @@
                 <a class="underline" href="/revisie/{revisionNew.revisionId}">
                   {getDateString(revisionNew.createdAt)}</a
                 >
-                (<a class="underline" href="/revisie/{revisionNew.revisionId}/wijzigen"
-                  >edit</a
+                (<a
+                  class="underline"
+                  href="/revisie/{revisionNew.revisionId}/wijzigen">edit</a
                 >)
                 <div>
                   {#if revisionNew.revisionAuthorId && revisionNew.curriculumProfile}

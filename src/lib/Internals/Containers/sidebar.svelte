@@ -18,7 +18,7 @@
     >
       <Button
         on:click={() => (openSidebarMenu = true)}
-        color="whiteIcon"
+        color="whitePrimaryIcon"
         size="icon-square"
       >
         <span class="sr-only">Open sidebar</span>
@@ -95,10 +95,11 @@
             outTransition="ease-in-out duration-300"
             outState="opacity-0"
           >
-            <div class="absolute top-0 right-0 -mr-12 pt-2">
-              <button
-                type="button"
-                class="ml-1 flex items-center justify-center h-10 w-10 rounded-full focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+            <div class="absolute top-0 right-0 -mr-12 pt-2 ml-1">
+              <Button
+                color="whiteFullIcon"
+                size="icon-round"
+                extraClasses={["ml-1"]}
                 on:click={() => (openSidebarMenu = false)}
               >
                 <span class="sr-only">Close sidebar</span>
@@ -117,7 +118,7 @@
                     d="M6 18L18 6M6 6l12 12"
                   />
                 </svg>
-              </button>
+              </Button>
             </div>
           </Transition>
           <div class="mt-5 flex-1 h-0 overflow-y-auto">

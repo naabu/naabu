@@ -47,7 +47,6 @@
   });
 
   function putLocationDataOnmap() {
-    console.log("putLocationDataOnmap");
     if ($session.player) {
       let tooltip = L.tooltip({
         direction: "center",
@@ -62,8 +61,6 @@
 
       for (let i = 0; i < map.locations.length; i++) {
         let location = map.locations[i];
-        console.log("here");
-        console.log(location);
         let unlockedLocation = false;
         if (
           $session.player &&
@@ -76,8 +73,6 @@
         let textLocationY = location.textPositionY;
         let markerLocationX = location.markerPositionX;
         let marketLocationY = location.markerPositionY;
-        console.log(markerLocationX);
-        console.log(marketLocationY);
 
         let tooltip3 = L.tooltip({
           direction: "center",
@@ -127,8 +122,7 @@
             // iconAnchor: [12, 12],
             iconSize: [36, 36],
           });
-          console.log(markerLocationX);
-          console.log(marketLocationY);
+
           let outerCircle = L.circle([marketLocationY, markerLocationX], 18, {
             color: "#707070",
             weight: 1,

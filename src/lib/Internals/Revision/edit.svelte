@@ -5,27 +5,16 @@
   import ShowBreadcrumb from "$lib/Internals/Breadcrumb/show.svelte";
   import MainTabs from "$lib/Internals/Tabs/revision.svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
-  import { createGoalRevision, getGoalSaveData } from "$lib/Goal/Components/helper";
+  import {
+    createGoalRevision,
+    getGoalSaveData,
+  } from "$lib/Goal/Components/helper";
+  import Button from "../Button/Button.svelte";
 
   export let battleCol;
   export let firebase;
 
   let y;
-
-  let breadcrumbs = [
-    {
-      url: "/beheer",
-      value: "Beheer",
-    },
-    {
-      url: "/beheer/leerdoel",
-      value: "Leerdoel",
-    },
-    {
-      url: "/beheer/leerdoel/" + $page.params.id + "/wijzigen",
-      value: "Leerdoel wijzigen",
-    },
-  ];
 
   export let revisionRef;
   let revisionSnap;
@@ -82,14 +71,10 @@
     const db = await firebase.firestore();
     let data = getGoalSaveData(revision, $session.serverFirestoreTimeStamp);
 
-
     alert = getDefaultAlertValues();
     // Edit a goal not a revision!
     try {
-      if (
-        $session.user &&
-        $session.player.curriculumProfileId
-      ) {
+      if ($session.user && $session.player.curriculumProfileId) {
         let goalRef = db.collection("goals").doc(revision.goalId);
         await goalRef.update(data);
         for (let i = 0; i < revision.battles.length; i++) {
@@ -110,11 +95,18 @@
 
         data.authorId = $session.player.curriculumProfileId;
         data.goalId = goalRef.id;
-        await createGoalRevision(db, revision, data, $session.user.uid, firebase);
+        await createGoalRevision(
+          db,
+          revision,
+          data,
+          $session.user.uid,
+          firebase
+        );
+
+        alert.success = true;
+        alert.successTitle = "Leerdoel gewijzigd";
+        alert.successMessage = "id: " + goalRef.id;
       }
-      alert.success = true;
-      alert.successTitle = "Leerdoel gewijzigd";
-      alert.successMessage = "id: " + goalRef.id;
     } catch (e) {
       console.error("Error adding document: ", e);
       alert.error = true;
@@ -134,7 +126,6 @@
 {#if revision}
   <div>
     <MainTabs bind:revision subSelected="edit" />
-    <ShowBreadcrumb bind:breadcrumbs />
 
     <div class="rounded-md bg-yellow-50 p-4">
       <div class="flex">
@@ -154,8 +145,9 @@
           </svg>
         </div>
         <div class="ml-3">
-          <h3 class="text-sm font-medium text-yellow-800"
-          data-test="alert-old-version"
+          <h3
+            class="text-sm font-medium text-yellow-800"
+            data-test="alert-old-version"
           >
             Waarschuwing: u bewerkt een oude versie van deze pagina.
           </h3>
@@ -167,7 +159,7 @@
             <p>
               <a
                 class="underline"
-                href="/beheer/leerdoel/{revision.goalId}/wijzigen"
+                href="/leerdoel/{revision.goalId}/wijzigen"
                 >bewerk huidige versie</a
               >
             </p>
@@ -197,13 +189,12 @@
       <GoalForm bind:goal={revision} />
 
       <div class="pt-5">
-        <div class="flex justify-end">
-          <button
-            type="submit"
-            class="float-right ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-          >
-            Leerdoel publiseren
-          </button>
+        <div class="flex ml-3 justify-end">
+          <Button
+            isSubmit={true}
+            color="primary"
+            content="Leerdoel publiseren"
+          />
         </div>
       </div>
     </form>

@@ -8,4 +8,4 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: Build the Docker images
-    - run: docker build . --file dockerfiles/sveltekit/dev/Dockerfile  --tag naabu-image:$GITHUB_SHA
+      run: docker build . --file dockerfiles/sveltekit/dev/Dockerfile  --tag naabu-image:test

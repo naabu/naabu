@@ -28,5 +28,5 @@ jobs:
     - run: sleep 60
     - run: docker-compose -f jenkins-docker-compose.yml logs sveltekit-test
     - run: docker-compose -f jenkins-docker-compose.yml logs firebase
-    - run: docker-compose -f jenkins-docker-compose.yml exec -T -d -u node sveltekit cat /var/www/config/config-firebase.js
-    - run: docker-compose -f jenkins-docker-compose.yml exec -T -d -u node sveltekit cat /var/www/config/config-algolia.js
+    - run: docker-compose -f jenkins-docker-compose.yml exec -T -d sveltekit cat /var/www/config/config-firebase.js
+    - run: docker-compose -f jenkins-docker-compose.yml exec -T -d sveltekit cat /var/www/config/config-algolia.js

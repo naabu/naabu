@@ -8,7 +8,7 @@ jobs:
     env: 
       ALGOLIA_CONFIG: ${{ secrets.ALGOLIA_CONFIG }}
       ALGOLIA_PRIVATE_API_KEY: ${{ secrets.ALGOLIA_PRIVATE_API_KEY }}
-      FIREBASE_CONFIG_FILE: ${{ secrets.FIREBASE_CONFIG_FILE }}
+      FIREBASE_CONFIG: ${{ secrets.FIREBASE_CONFIG }}
     steps:
     - uses: actions/checkout@v2
     - run: rm -rf node_modules
@@ -17,8 +17,8 @@ jobs:
     - run: rm -rf config/config-algolia.js
     - run: rm -rf config/config-firebase.js
     - run: echo -n $ALGOLIA_KEY >> config/algolia-secret-admin-api-key.txt
-    - run: echo -n $ALGOLIA_CONFIG_FILE >> config/config-algolia.js
-    - run: echo -n $FIREBASE_CONFIG_FILE >> config/config-firebase.js
+    - run: echo -n $ALGOLIA_CONFIG >> config/config-algolia.js
+    - run: echo -n $FIREBASE_CONFIG >> config/config-firebase.js
     - run: ls ${{ github.workspace }}/config
     # - run: docker build . --file dockerfiles/sveltekit/dev/Dockerfile  --tag naabu-image:$GITHUB_SHA
     - run: docker-compose -f jenkins-docker-compose.yml build

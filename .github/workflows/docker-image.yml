@@ -11,14 +11,13 @@ jobs:
       FIREBASE_CONFIG_FILE: ${{ secrets.FIREBASE_CONFIG_FILE }}
     steps:
     - uses: actions/checkout@v2
-    - name: Build the Docker images
-      run: rm -rf node_modules
-      run: rm -rf test-results
-      run: rm -rf config/algolia-secret-admin-api-key.txt
-      run: rm -rf config/config-algolia.js
-      run: rm -rf config/config-firebase.js
-      run: echo -n $ALGOLIA_KEY >> config/algolia-secret-admin-api-key.txt
-      run: echo -n $ALGOLIA_CONFIG_FILE >> config/config-algolia.js
-      run: echo -n $FIREBASE_CONFIG_FILE >> config/config-firebase.js
-      run: ls ${{ github.workspace }}/config
-      run: docker build . --file dockerfiles/sveltekit/dev/Dockerfile  --tag naabu-image:$GITHUB_SHA
+    - run: rm -rf node_modules
+    - run: rm -rf test-results
+    - run: rm -rf config/algolia-secret-admin-api-key.txt
+    - run: rm -rf config/config-algolia.js
+    - run: rm -rf config/config-firebase.js
+    - run: echo -n $ALGOLIA_KEY >> config/algolia-secret-admin-api-key.txt
+    - run: echo -n $ALGOLIA_CONFIG_FILE >> config/config-algolia.js
+    - run: echo -n $FIREBASE_CONFIG_FILE >> config/config-firebase.js
+    - run: ls ${{ github.workspace }}/config
+    - run: docker build . --file dockerfiles/sveltekit/dev/Dockerfile  --tag naabu-image:$GITHUB_SHA

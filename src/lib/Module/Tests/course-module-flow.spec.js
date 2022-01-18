@@ -46,7 +46,7 @@ test('Create course modules @module', async ({ page, domain, showAllConsole }) =
   // await page.waitForTimeout(5000);
   // await page.goto(domain + '/lerarenkamer/module/maken');
   await page.click('[data-test=create-module-button-link]');
-  await page.fill('#name', 'Test module');
+  await page.fill('#name', 'Test course module create');
   await page.fill('#description', 'Test description');
   await page.selectOption('select#maps', { label: 'Map1' });
   await page.waitForSelector('[data-test=location-tab-l1]');
@@ -118,14 +118,14 @@ test('Create course modules @module', async ({ page, domain, showAllConsole }) =
   await page.waitForSelector('[data-test=alert-success-title]');
   await expect(page.locator('[data-test=alert-success-title]')).toContainText('Module succesvol aangemaakt');
   await page.click('[data-test=desktop-sidebar-menu] > [data-test=teacher-menu-modules]');
-  await page.waitForSelector('[data-test=module-name-0]');
-  await expect(page.locator('[data-test=module-name-0]')).toContainText('Test module');
-
-  await page.click('[data-test=module-edit-button-0]');
-
+  
+  // Click the action link.
+  let courseModule = await page.locator("xpath=(//text()[contains(., 'Test course module create')]/../../../td[3]/a)[1]");
+  await courseModule.click();
+  
   await page.waitForSelector('#name');
   // Assert correct save of create form.
-  await expect(page.locator('#name')).toHaveValue('Test module');
+  await expect(page.locator('#name')).toHaveValue('Test course module create');
   await expect(page.locator('#description')).toHaveValue('Test description');
   await expect(page.locator('select#maps >> option.selected')).toContainText('Map1');
   await expect(page.locator('#location_name')).toHaveValue('Test start location 1');
@@ -257,8 +257,7 @@ test('Create course modules @module', async ({ page, domain, showAllConsole }) =
   await expect(page.locator('[data-test=added-learning-goal-0]')).toContainText("Cypress Test Goal 2");
 
   await page.click('[data-test=desktop-logo]');
-  await page.waitForSelector('[data-test=module-0-title-link]');
-  await expect(page.locator('[data-test=module-0-title-link]')).toContainText('Test module edited');
+  await page.waitForSelector('text=Test module edited');
 });
 
 test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {

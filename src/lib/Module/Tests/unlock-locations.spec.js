@@ -40,7 +40,7 @@ test('Unlock location on map test @module', async ({ page, domain, showAllConsol
   await page.goto(domain + '/cypress/user/logout');
   await page.waitForSelector('[data-test=complete]');
   await page.click('[data-test=desktop-logo]');
-  await page.click('[data-test=module-0-title-link]');
+  await page.click('text=Test module 1 title');
   await page.waitForSelector(".locked_marker_1");
   await expect(page.locator(".locked_marker_1")).toBeVisible();
   await expect(page.locator(".unlocked_marker_1")).not.toBeVisible();

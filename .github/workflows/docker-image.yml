@@ -1,9 +1,9 @@
 name: Docker Image CI
 
-on: [push]
+on: push
 
 jobs:
-  docker-build:
+  build:
     runs-on: ubuntu-latest
     env: 
       ALGOLIA_CONFIG: ${{ secrets.ALGOLIA_CONFIG }}
@@ -20,4 +20,9 @@ jobs:
     - run: echo -n $ALGOLIA_CONFIG_FILE >> config/config-algolia.js
     - run: echo -n $FIREBASE_CONFIG_FILE >> config/config-firebase.js
     - run: ls ${{ github.workspace }}/config
-    - run: docker build . --file dockerfiles/sveltekit/dev/Dockerfile  --tag naabu-image:$GITHUB_SHA
+    # - run: docker build . --file dockerfiles/sveltekit/dev/Dockerfile  --tag naabu-image:$GITHUB_SHA
+    - run: docker-compose -f jenkins-docker-compose.yml build
+    - run: docker-compose -f jenkins-docker-compose.yml up -d --remove-orphans
+    - run: sleep 60
+    - run: docker-compose -f jenkins-docker-compose.yml logs sveltekit-test
+    - run: docker-compose -f jenkins-docker-compose.yml logs firebase

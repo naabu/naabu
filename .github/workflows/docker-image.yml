@@ -5,7 +5,7 @@ on: push
 jobs:
   build:
     runs-on: ubuntu-latest
-    env: 
+    env:
       ALGOLIA_PRIVATE_API_KEY: ${{ secrets.ALGOLIA_PRIVATE_API_KEY }}
       ALGOLIA_APPLICATION_ID: ${{ secrets.ALGOLIA_APPLICATION_ID }}
       ALGOLIA_SEARCH_ONLY_API_KEY: ${{ secrets.ALGOLIA_SEARCH_ONLY_API_KEY }}
@@ -17,38 +17,38 @@ jobs:
       FB_APP_ID: ${{ secrets.FB_APP_ID }}
       FB_MEASUREMENT_ID: ${{ secrets.FB_MEASUREMENT_ID }}
     steps:
-    - uses: actions/checkout@v2
-    - run: rm -rf node_modules
-    - run: rm -rf test-results
-    - run: rm -rf config/algolia-secret-admin-api-key.txt
-    - run: rm -rf config/config-algolia.js
-    - run: rm -rf config/config-firebase.js
-    - run: echo -n $ALGOLIA_KEY >> config/algolia-secret-admin-api-key.txt
-    # - run: echo -n $ALGOLIA_CONFIG >> config/config-algolia.js
-    # - run: echo -n $FIREBASE_CONFIG >> config/config-firebase.js
-    # - run: cat config/config-firebase.js
-    # - run: cat config/config-algolia.js
-    - run: cp config/example-config-algolia.js config/config-algolia.js
-    - run: cp config/example-config-firebase.js config/config-firebase.js
-    - run: sed \
-        -e "s/<ALGOLIA_APPLICATION_ID>/$ALGOLIA_APPLICATION_ID/" \
-        -e "s/<ALGOLIA_SEARCH_ONLY_API_KEY>/$ALGOLIA_SEARCH_ONLY_API_KEY/" \
-        config-algolia.js
-    - run: sed \
-        -e "s/<FB_API_KEY>/$FB_API_KEY/" \
-        -e "s/<FB_AUTH_DOMAIN>/$FB_AUTH_DOMAIN/" \
-        -e "s/<FB_PROJECT_ID>/$FB_PROJECT_ID/" \
-        -e "s/<FB_STORAGE_BUCKET>/$FB_STORAGE_BUCKET/" \
-        -e "s/<FB_MESSAGING_SENDER_ID>/$FB_MESSAGING_SENDER_ID/" \
-        -e "s/<FB_APP_ID>/$FB_APP_ID/" \
-        -e "s/<FB_MEASUREMENT_ID>/$FB_MEASUREMENT_ID/" \
-        config-firebase.js
-    - run: ls ${{ github.workspace }}/config
-    # - run: docker build . --file dockerfiles/sveltekit/dev/Dockerfile  --tag naabu-image:$GITHUB_SHA
-    - run: docker-compose -f jenkins-docker-compose.yml build
-    - run: docker-compose -f jenkins-docker-compose.yml up -d --remove-orphans
-    - run: sleep 60
-    - run: docker-compose -f jenkins-docker-compose.yml logs sveltekit-test
-    - run: docker-compose -f jenkins-docker-compose.yml logs firebase
-    - run: docker-compose -f jenkins-docker-compose.yml exec -T -d sveltekit-test cat /var/www/config/config-firebase.js
-    - run: docker-compose -f jenkins-docker-compose.yml exec -T -d sveltekit-test cat /var/www/config/config-algolia.js
+      - uses: actions/checkout@v2
+      - run: rm -rf node_modules
+      - run: rm -rf test-results
+      - run: rm -rf config/algolia-secret-admin-api-key.txt
+      - run: rm -rf config/config-algolia.js
+      - run: rm -rf config/config-firebase.js
+      - run: echo -n $ALGOLIA_KEY >> config/algolia-secret-admin-api-key.txt
+      # - run: echo -n $ALGOLIA_CONFIG >> config/config-algolia.js
+      # - run: echo -n $FIREBASE_CONFIG >> config/config-firebase.js
+      # - run: cat config/config-firebase.js
+      # - run: cat config/config-algolia.js
+      - run: cp config/example-config-algolia.js config/config-algolia.js
+      - run: cp config/example-config-firebase.js config/config-firebase.js
+      - run: sed
+          -e "s/<ALGOLIA_APPLICATION_ID>/$ALGOLIA_APPLICATION_ID/"
+          -e "s/<ALGOLIA_SEARCH_ONLY_API_KEY>/$ALGOLIA_SEARCH_ONLY_API_KEY/"
+          config-algolia.js
+      - run: sed
+          -e "s/<FB_API_KEY>/$FB_API_KEY/"
+          -e "s/<FB_AUTH_DOMAIN>/$FB_AUTH_DOMAIN/"
+          -e "s/<FB_PROJECT_ID>/$FB_PROJECT_ID/"
+          -e "s/<FB_STORAGE_BUCKET>/$FB_STORAGE_BUCKET/"
+          -e "s/<FB_MESSAGING_SENDER_ID>/$FB_MESSAGING_SENDER_ID/"
+          -e "s/<FB_APP_ID>/$FB_APP_ID/"
+          -e "s/<FB_MEASUREMENT_ID>/$FB_MEASUREMENT_ID/"
+          config-firebase.js
+      - run: ls ${{ github.workspace }}/config
+      # - run: docker build . --file dockerfiles/sveltekit/dev/Dockerfile  --tag naabu-image:$GITHUB_SHA
+      - run: docker-compose -f jenkins-docker-compose.yml build
+      - run: docker-compose -f jenkins-docker-compose.yml up -d --remove-orphans
+      - run: sleep 60
+      - run: docker-compose -f jenkins-docker-compose.yml logs sveltekit-test
+      - run: docker-compose -f jenkins-docker-compose.yml logs firebase
+      - run: docker-compose -f jenkins-docker-compose.yml exec -T -d sveltekit-test cat /var/www/config/config-firebase.js
+      - run: docker-compose -f jenkins-docker-compose.yml exec -T -d sveltekit-test cat /var/www/config/config-algolia.js

@@ -19,6 +19,8 @@ jobs:
     - run: echo -n $ALGOLIA_KEY >> config/algolia-secret-admin-api-key.txt
     - run: echo -n $ALGOLIA_CONFIG >> config/config-algolia.js
     - run: echo -n $FIREBASE_CONFIG >> config/config-firebase.js
+    - run: cat config/config-firebase.js
+    - run: cat config/config-algolia.js
     - run: ls ${{ github.workspace }}/config
     # - run: docker build . --file dockerfiles/sveltekit/dev/Dockerfile  --tag naabu-image:$GITHUB_SHA
     - run: docker-compose -f jenkins-docker-compose.yml build

@@ -62,13 +62,6 @@ jobs:
       - run: docker push ghcr.io/naabu/naabu_sveltekit:${GITHUB_SHA}
       - run: docker push ghcr.io/naabu/naabu_playwright:${GITHUB_SHA}
 
-      # - run: docker-compose -f jenkins-docker-compose.yml up -d --remove-orphans
-      # - run: sleep 60
-      # - run: docker-compose -f jenkins-docker-compose.yml logs sveltekit-test
-      # - run: docker-compose -f jenkins-docker-compose.yml logs firebase
-      # - run: docker-compose -f jenkins-docker-compose.yml exec -T -d sveltekit-test cat /var/www/config/config-firebase.js
-      # - run: docker-compose -f jenkins-docker-compose.yml exec -T -d sveltekit-test cat /var/www/config/config-algolia.js
-
   test-playwright:
     needs: build
     runs-on: ubuntu-latest
@@ -80,7 +73,17 @@ jobs:
       - run: sed -e "s/<GITHUB_SHA>/$GITHUB_SHA/" actions-docker-compose.yml > sha-docker-compose.yml
       - run: docker-compose -f sha-docker-compose.yml up -d --remove-orphans
       - run: sleep 60
-      - run: docker-compose -f jenkins-docker-compose.yml logs sveltekit-test
-      - run: docker-compose -f jenkins-docker-compose.yml logs firebase
-      - run: docker-compose -f jenkins-docker-compose.yml exec -T -d sveltekit-test cat /var/www/config/config-firebase.js
-      - run: docker-compose -f jenkins-docker-compose.yml exec -T -d sveltekit-test cat /var/www/config/config-algolia.js
+      - run: docker-compose -f sha-docker-compose.yml logs sveltekit-test
+      - run: docker-compose -f sha-docker-compose.yml logs firebase
+      - run: echo "running playwright goal tests"
+      - run: docker-compose -f sha-docker-compose.yml exec -T playwright npx playwright test --grep @goal
+      - run: docker-compose -f sha-docker-compose.yml logs sveltekit-test
+      - run: docker-compose -f sha-docker-compose.yml logs firebase
+      - run: echo "running playwright activity tests"
+      - run: docker-compose -f sha-docker-compose.yml exec -T playwright npx playwright test --grep @activity
+      - run: docker-compose -f sha-docker-compose.yml logs sveltekit-test
+      - run: docker-compose -f sha-docker-compose.yml logs firebase
+      - run: echo "running playwright module tests"
+      - run: docker-compose -f sha-docker-compose.yml exec -T playwright npx playwright test --grep @module
+      - run: docker-compose -f sha-docker-compose.yml logs sveltekit-test
+      - run: docker-compose -f sha-docker-compose.yml logs firebase

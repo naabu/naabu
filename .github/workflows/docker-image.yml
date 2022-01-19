@@ -42,14 +42,14 @@ jobs:
           -e "s/<FB_MESSAGING_SENDER_ID>/$FB_MESSAGING_SENDER_ID/"
           -e "s/<FB_APP_ID>/$FB_APP_ID/"
           -e "s/<FB_MEASUREMENT_ID>/$FB_MEASUREMENT_ID/"
-          config/config-firebase.js > config/config-firebase.js
+          ${{ github.workspace }}/config/config-firebase.js > ${{ github.workspace }}/config/config-firebase.js
       - run: ls ${{ github.workspace }}/config
       - run: |
-          cat config/config-firebase.js
+          cat ${{ github.workspace }}/config-firebase.js
       - run: echo ${{ steps.vars.outputs.testFileOutput }}
       - name: Read VERSION file
         id: getversion
-        run: echo "::set-output name=version::$(cat config/config-firebase.js)"
+        run: echo "::set-output name=version::$(cat ${{ github.workspace }}/config/config-firebase.js)"
       # - run: docker build . --file dockerfiles/sveltekit/dev/Dockerfile  --tag naabu-image:$GITHUB_SHA
       - run: docker-compose -f jenkins-docker-compose.yml build
       - run: docker-compose -f jenkins-docker-compose.yml up -d --remove-orphans

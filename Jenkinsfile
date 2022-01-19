@@ -35,7 +35,7 @@ pipeline {
         }
         stage('Test') {
             environment {
-              TEST_ENVIROMENTFILE = 'TEST'
+              // TEST_ENVIROMENTFILE = 'TEST'
               // we will be recording test results and video on Cypress dashboard
               // to record we need to set an environment variable
               // we can load the record key variable from credentials store

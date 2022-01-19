@@ -5,6 +5,9 @@ on: push
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
     env:
       ALGOLIA_PRIVATE_API_KEY: ${{ secrets.ALGOLIA_PRIVATE_API_KEY }}
       ALGOLIA_APPLICATION_ID: ${{ secrets.ALGOLIA_APPLICATION_ID }}
@@ -39,13 +42,40 @@ jobs:
       - run: rm -rf test-results
       - run: rm -rf config/algolia-secret-admin-api-key.txt
       - run: echo -n $ALGOLIA_KEY >> config/algolia-secret-admin-api-key.txt
-
+      -
+        name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       # - run: docker build . --file dockerfiles/sveltekit/dev/Dockerfile  --tag naabu-image:$GITHUB_SHA
       - run: docker-compose -f jenkins-docker-compose.yml build
-      - run: docker-compose -f jenkins-docker-compose.yml up -d --remove-orphans
+      - run: docker tag naabu_firebase:latest naabu_firebase:$GITHUB_SHA
+      - run: docker tag naabu_sveltekit:latest naabu_sveltekit:$GITHUB_SHA
+      - run: docker tag naabu_playwright:latest naabu_playwright:$GITHUB_SHA
+      - run: docker push ghcr.io/naabu/naabu_firebase:$GITHUB_SHA
+      - run: docker push ghcr.io/naabu/naabu_sveltekit:$GITHUB_SHA
+      - run: docker push ghcr.io/naabu/naabu_playwright:$GITHUB_SHA
+
+      # - run: docker-compose -f jenkins-docker-compose.yml up -d --remove-orphans
+      # - run: sleep 60
+      # - run: docker-compose -f jenkins-docker-compose.yml logs sveltekit-test
+      # - run: docker-compose -f jenkins-docker-compose.yml logs firebase
+      # - run: docker-compose -f jenkins-docker-compose.yml exec -T -d sveltekit-test cat /var/www/config/config-firebase.js
+      # - run: docker-compose -f jenkins-docker-compose.yml exec -T -d sveltekit-test cat /var/www/config/config-algolia.js
+
+  test-playwright:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: read
+    steps:
+      - uses: actions/checkout@v2
+      - run: sed -e "s/<GITHUB_SHA>/$GITHUB_SHA/" actions-docker-compose.yml > sha-docker-compose.yml
+      - run: docker-compose -f sha-docker-compose.yml up -d --remove-orphans
       - run: sleep 60
       - run: docker-compose -f jenkins-docker-compose.yml logs sveltekit-test
       - run: docker-compose -f jenkins-docker-compose.yml logs firebase
       - run: docker-compose -f jenkins-docker-compose.yml exec -T -d sveltekit-test cat /var/www/config/config-firebase.js
       - run: docker-compose -f jenkins-docker-compose.yml exec -T -d sveltekit-test cat /var/www/config/config-algolia.js
-

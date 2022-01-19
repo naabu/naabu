@@ -13,7 +13,16 @@ if (process.env.environment) {
   environment = process.env.environment;
 }
 
-let algoliaApiKey = fs.readFileSync('/run/secrets/algolia-private-api-key', 'utf8');
+let algoliaApiKey = "";
+let secretPath = '/run/secrets/algolia-private-api-key';
+let configPath = '/var/www/config/algolia-private-api-key';
+
+if (fs.existsSync(secretPath)) {
+  algoliaApiKey = fs.readFileSync(secretPath, 'utf8');
+}
+else if (fs.existsSync(configPath)) {
+  algoliaApiKey = fs.readFileSync(configPath, 'utf8');
+}
 
 let objectToJson = {
   algolia: {

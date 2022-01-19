@@ -27,8 +27,8 @@ jobs:
       - run: |
           cat config/config-firebase.js
       - run: sed
-          -e "s/<ALGOLIA_APPLICATION_ID>/$ALGOLIA_APPLICATION_ID/"
-          -e "s/<ALGOLIA_SEARCH_ONLY_API_KEY>/$ALGOLIA_SEARCH_ONLY_API_KEY/"
+          -e "s/<ALGOLIA_APPLICATION_ID>/hijklmnop/"
+          -e "s/<ALGOLIA_SEARCH_ONLY_API_KEY>/abdefg/"
           config/config-algolia.js > config/config-algolia.js
       - run: |
           cat config/config-algolia.js

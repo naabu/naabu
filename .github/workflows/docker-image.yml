@@ -8,42 +8,8 @@ jobs:
     permissions:
       contents: read
       packages: write
-    env:
-      ALGOLIA_PRIVATE_API_KEY: ${{ secrets.ALGOLIA_PRIVATE_API_KEY }}
-      ALGOLIA_APPLICATION_ID: ${{ secrets.ALGOLIA_APPLICATION_ID }}
-      ALGOLIA_SEARCH_ONLY_API_KEY: ${{ secrets.ALGOLIA_SEARCH_ONLY_API_KEY }}
-      FB_API_KEY: ${{ secrets.FB_API_KEY }}
-      FB_AUTH_DOMAIN: ${{ secrets.FB_AUTH_DOMAIN }}
-      FB_PROJECT_ID: ${{ secrets.FB_PROJECT_ID }}
-      FB_STORAGE_BUCKET: ${{ secrets.FB_STORAGE_BUCKET }}
-      FB_MESSAGING_SENDER_ID: ${{ secrets.FB_MESSAGING_SENDER_ID }},
-      FB_APP_ID: ${{ secrets.FB_APP_ID }}
-      FB_MEASUREMENT_ID: ${{ secrets.FB_MEASUREMENT_ID }}
     steps:
       - uses: actions/checkout@v2
-      - run: |
-          printenv
-      - run: |
-          ls -lah
-      - run: sed
-          -e "s/<ALGOLIA_APPLICATION_ID>/$ALGOLIA_APPLICATION_ID/"
-          -e "s/<ALGOLIA_SEARCH_ONLY_API_KEY>/$ALGOLIA_SEARCH_ONLY_API_KEY/"
-          config/example-config-algolia.js > config/config-algolia.js
-      - run: sed
-          -e "s/<FB_API_KEY>/$FB_API_KEY/"
-          -e "s/<FB_AUTH_DOMAIN>/$FB_AUTH_DOMAIN/"
-          -e "s/<FB_PROJECT_ID>/$FB_PROJECT_ID/"
-          -e "s/<FB_STORAGE_BUCKET>/$FB_STORAGE_BUCKET/"
-          -e "s/<FB_MESSAGING_SENDER_ID>/$FB_MESSAGING_SENDER_ID/"
-          -e "s/<FB_APP_ID>/$FB_APP_ID/"
-          -e "s/<FB_MEASUREMENT_ID>/$FB_MEASUREMENT_ID/"
-          config/example-config-firebase.js > config/config-firebase.js
-      - run: |
-          ls -lah config/
-      - run: rm -rf node_modules
-      - run: rm -rf test-results
-      - run: rm -rf config/algolia-secret-admin-api-key.txt
-      - run: echo -n $ALGOLIA_KEY >> config/algolia-secret-admin-api-key.txt
       -
         name: Login to GitHub Container Registry
         uses: docker/login-action@v1
@@ -68,8 +34,41 @@ jobs:
     permissions:
       contents: read
       packages: read
+    env:
+      ALGOLIA_PRIVATE_API_KEY: ${{ secrets.ALGOLIA_PRIVATE_API_KEY }}
+      ALGOLIA_APPLICATION_ID: ${{ secrets.ALGOLIA_APPLICATION_ID }}
+      ALGOLIA_SEARCH_ONLY_API_KEY: ${{ secrets.ALGOLIA_SEARCH_ONLY_API_KEY }}
+      FB_API_KEY: ${{ secrets.FB_API_KEY }}
+      FB_AUTH_DOMAIN: ${{ secrets.FB_AUTH_DOMAIN }}
+      FB_PROJECT_ID: ${{ secrets.FB_PROJECT_ID }}
+      FB_STORAGE_BUCKET: ${{ secrets.FB_STORAGE_BUCKET }}
+      FB_MESSAGING_SENDER_ID: ${{ secrets.FB_MESSAGING_SENDER_ID }},
+      FB_APP_ID: ${{ secrets.FB_APP_ID }}
+      FB_MEASUREMENT_ID: ${{ secrets.FB_MEASUREMENT_ID }}
     steps:
       - uses: actions/checkout@v2
+       - run: |
+          ls -lah
+      - run: sed
+          -e "s/<ALGOLIA_APPLICATION_ID>/$ALGOLIA_APPLICATION_ID/"
+          -e "s/<ALGOLIA_SEARCH_ONLY_API_KEY>/$ALGOLIA_SEARCH_ONLY_API_KEY/"
+          config/example-config-algolia.js > config/config-algolia.js
+      - run: sed
+          -e "s/<FB_API_KEY>/$FB_API_KEY/"
+          -e "s/<FB_AUTH_DOMAIN>/$FB_AUTH_DOMAIN/"
+          -e "s/<FB_PROJECT_ID>/$FB_PROJECT_ID/"
+          -e "s/<FB_STORAGE_BUCKET>/$FB_STORAGE_BUCKET/"
+          -e "s/<FB_MESSAGING_SENDER_ID>/$FB_MESSAGING_SENDER_ID/"
+          -e "s/<FB_APP_ID>/$FB_APP_ID/"
+          -e "s/<FB_MEASUREMENT_ID>/$FB_MEASUREMENT_ID/"
+          config/example-config-firebase.js > config/config-firebase.js
+      - run: |
+          ls -lah config/
+      - run: rm -rf node_modules
+      - run: rm -rf test-results
+      - run: rm -rf config/algolia-secret-admin-api-key.txt
+      - run: echo -n $ALGOLIA_KEY >> config/algolia-secret-admin-api-key.txt
+
       - run: sed -e "s/<GITHUB_SHA>/$GITHUB_SHA/" actions-docker-compose.yml > sha-docker-compose.yml
       - run: docker-compose -f sha-docker-compose.yml up -d --remove-orphans
       - run: sleep 60

@@ -18,6 +18,8 @@ jobs:
       FB_MEASUREMENT_ID: ${{ secrets.FB_MEASUREMENT_ID }}
     steps:
       - uses: actions/checkout@v2
+      - |
+        ls -lah
       - run: rm -rf node_modules
       - run: rm -rf test-results
       - run: rm -rf config/algolia-secret-admin-api-key.txt
@@ -45,7 +47,7 @@ jobs:
           ${{ github.workspace }}/config/config-firebase.js > ${{ github.workspace }}/config/config-firebase.js
       - run: ls ${{ github.workspace }}/config
       - run: |
-          cat ${{ github.workspace }}/config-firebase.js
+          cat ${{ github.workspace }}/config/config-firebase.js
       - run: echo ${{ steps.vars.outputs.testFileOutput }}
       - name: Read VERSION file
         id: getversion

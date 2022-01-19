@@ -44,6 +44,8 @@ jobs:
           -e "s/<FB_MEASUREMENT_ID>/$FB_MEASUREMENT_ID/"
           config/config-firebase.js > config/config-firebase.js
       - run: ls ${{ github.workspace }}/config
+      - run: echo ::set-output name=testFileOutput::$(cat config/config-firebase.js)
+      - run: echo ${{ steps.vars.outputs.testFileOutput }}
       # - run: docker build . --file dockerfiles/sveltekit/dev/Dockerfile  --tag naabu-image:$GITHUB_SHA
       - run: docker-compose -f jenkins-docker-compose.yml build
       - run: docker-compose -f jenkins-docker-compose.yml up -d --remove-orphans
@@ -52,3 +54,5 @@ jobs:
       - run: docker-compose -f jenkins-docker-compose.yml logs firebase
       - run: docker-compose -f jenkins-docker-compose.yml exec -T -d sveltekit-test cat /var/www/config/config-firebase.js
       - run: docker-compose -f jenkins-docker-compose.yml exec -T -d sveltekit-test cat /var/www/config/config-algolia.js
+r     - run: echo ::set-output name=outputDocker::$(docker-compose -f jenkins-docker-compose.yml exec -T -d sveltekit-test cat /var/www/config/config-firebase.js)
+      - run: echo ${{ steps.vars.outputs.outputDocker }}

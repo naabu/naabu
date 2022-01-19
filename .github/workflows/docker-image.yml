@@ -26,6 +26,21 @@ jobs:
       - run: cp config/example-config-firebase.js config/config-firebase.js
       - run: |
           cat config/config-firebase.js
+      - run: sed
+          -e "s/<ALGOLIA_APPLICATION_ID>/$ALGOLIA_APPLICATION_ID/"
+          -e "s/<ALGOLIA_SEARCH_ONLY_API_KEY>/$ALGOLIA_SEARCH_ONLY_API_KEY/"
+          config/config-algolia.js > config/config-algolia.js
+      - run: |
+          cat config/example-config-algolia.js
+      - run: sed
+          -e "s/<FB_API_KEY>/$FB_API_KEY/"
+          -e "s/<FB_AUTH_DOMAIN>/$FB_AUTH_DOMAIN/"
+          -e "s/<FB_PROJECT_ID>/$FB_PROJECT_ID/"
+          -e "s/<FB_STORAGE_BUCKET>/$FB_STORAGE_BUCKET/"
+          -e "s/<FB_MESSAGING_SENDER_ID>/$FB_MESSAGING_SENDER_ID/"
+          -e "s/<FB_APP_ID>/$FB_APP_ID/"
+          -e "s/<FB_MEASUREMENT_ID>/$FB_MEASUREMENT_ID/"
+          ${{ github.workspace }}/config/config-firebase.js > ${{ github.workspace }}/config/config-firebase.js
       - run: |
           cat config/example-config-firebase.js 
       - run: |
@@ -45,7 +60,7 @@ jobs:
       - run: sed
           -e "s/<ALGOLIA_APPLICATION_ID>/$ALGOLIA_APPLICATION_ID/"
           -e "s/<ALGOLIA_SEARCH_ONLY_API_KEY>/$ALGOLIA_SEARCH_ONLY_API_KEY/"
-          config/config-algolia.js > config/config-firebase.js
+          config/config-algolia.js > config/config-algolia.js
       - run: sed
           -e "s/<FB_API_KEY>/$FB_API_KEY/"
           -e "s/<FB_AUTH_DOMAIN>/$FB_AUTH_DOMAIN/"

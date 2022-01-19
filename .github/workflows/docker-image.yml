@@ -47,7 +47,7 @@ jobs:
       FB_MEASUREMENT_ID: ${{ secrets.FB_MEASUREMENT_ID }}
     steps:
       - uses: actions/checkout@v2
-       - run: |
+      - run: |
           ls -lah
       - run: sed
           -e "s/<ALGOLIA_APPLICATION_ID>/$ALGOLIA_APPLICATION_ID/"

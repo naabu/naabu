@@ -25,7 +25,7 @@ jobs:
       - run: cp config/example-config-algolia.js config/config-algolia.js
       - run: cp config/example-config-firebase.js config/config-firebase.js
       - run: |
-          cat config/conconfig-firebase.js
+          cat config/config-firebase.js
       - run: |
           cat config/example-config-firebase.js 
       - run: |

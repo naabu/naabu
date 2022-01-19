@@ -11,7 +11,7 @@ jobs:
       ALGOLIA_SEARCH_ONLY_API_KEY: ${{ secrets.ALGOLIA_SEARCH_ONLY_API_KEY }}
       FB_API_KEY: ${{ secrets.FB_API_KEY }}
       FB_AUTH_DOMAIN: ${{ secrets.FB_AUTH_DOMAIN }}
-      FB_PROJECT_ID: ${{ secrets.FB_PROJECT_ID }}
+      FB_PROJECT_ID: "Test"
       FB_STORAGE_BUCKET: ${{ secrets.FB_STORAGE_BUCKET }}
       FB_MESSAGING_SENDER_ID: ${{ secrets.FB_MESSAGING_SENDER_ID }},
       FB_APP_ID: ${{ secrets.FB_APP_ID }}

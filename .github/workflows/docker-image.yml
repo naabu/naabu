@@ -18,8 +18,8 @@ jobs:
       FB_MEASUREMENT_ID: ${{ secrets.FB_MEASUREMENT_ID }}
     steps:
       - uses: actions/checkout@v2
-      - |
-        ls -lah
+      - run: |
+          ls -lah
       - run: rm -rf node_modules
       - run: rm -rf test-results
       - run: rm -rf config/algolia-secret-admin-api-key.txt

@@ -22,6 +22,8 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: |
+          printenv
+      - run: |
           ls -lah
       - run: sed
           -e "s/<ALGOLIA_APPLICATION_ID>/$ALGOLIA_APPLICATION_ID/"

@@ -66,6 +66,7 @@ jobs:
       # - run: docker-compose -f jenkins-docker-compose.yml exec -T -d sveltekit-test cat /var/www/config/config-algolia.js
 
   test-playwright:
+    needs: build
     runs-on: ubuntu-latest
     permissions:
       contents: read

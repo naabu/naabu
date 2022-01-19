@@ -20,6 +20,8 @@ jobs:
       - uses: actions/checkout@v2
       - run: |
           ls -lah
+      - run: |
+          cat svelte.config.js
       - run: rm -rf node_modules
       - run: rm -rf test-results
       - run: rm -rf config/algolia-secret-admin-api-key.txt
@@ -53,12 +55,12 @@ jobs:
         id: getversion
         run: echo "::set-output name=version::$(cat ${{ github.workspace }}/config/config-firebase.js)"
       # - run: docker build . --file dockerfiles/sveltekit/dev/Dockerfile  --tag naabu-image:$GITHUB_SHA
-      - run: docker-compose -f jenkins-docker-compose.yml build
-      - run: docker-compose -f jenkins-docker-compose.yml up -d --remove-orphans
-      - run: sleep 60
-      - run: docker-compose -f jenkins-docker-compose.yml logs sveltekit-test
-      - run: docker-compose -f jenkins-docker-compose.yml logs firebase
-      - run: docker-compose -f jenkins-docker-compose.yml exec -T -d sveltekit-test cat /var/www/config/config-firebase.js
-      - run: docker-compose -f jenkins-docker-compose.yml exec -T -d sveltekit-test cat /var/www/config/config-algolia.js
-      - run: echo ::set-output name=outputDocker::$(docker-compose -f jenkins-docker-compose.yml exec -T -d sveltekit-test cat /var/www/config/config-firebase.js)
-      - run: echo ${{ steps.vars.outputs.outputDocker }}
+      # - run: docker-compose -f jenkins-docker-compose.yml build
+      # - run: docker-compose -f jenkins-docker-compose.yml up -d --remove-orphans
+      # - run: sleep 60
+      # - run: docker-compose -f jenkins-docker-compose.yml logs sveltekit-test
+      # - run: docker-compose -f jenkins-docker-compose.yml logs firebase
+      # - run: docker-compose -f jenkins-docker-compose.yml exec -T -d sveltekit-test cat /var/www/config/config-firebase.js
+      # - run: docker-compose -f jenkins-docker-compose.yml exec -T -d sveltekit-test cat /var/www/config/config-algolia.js
+      # - run: echo ::set-output name=outputDocker::$(docker-compose -f jenkins-docker-compose.yml exec -T -d sveltekit-test cat /var/www/config/config-firebase.js)
+      # - run: echo ${{ steps.vars.outputs.outputDocker }}

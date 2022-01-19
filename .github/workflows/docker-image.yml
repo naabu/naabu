@@ -33,7 +33,7 @@ jobs:
       - run: sed
           -e "s/<ALGOLIA_APPLICATION_ID>/$ALGOLIA_APPLICATION_ID/"
           -e "s/<ALGOLIA_SEARCH_ONLY_API_KEY>/$ALGOLIA_SEARCH_ONLY_API_KEY/"
-          config/config-algolia.js
+          config/config-algolia.js > config/config-firebase.js
       - run: sed
           -e "s/<FB_API_KEY>/$FB_API_KEY/"
           -e "s/<FB_AUTH_DOMAIN>/$FB_AUTH_DOMAIN/"
@@ -42,7 +42,7 @@ jobs:
           -e "s/<FB_MESSAGING_SENDER_ID>/$FB_MESSAGING_SENDER_ID/"
           -e "s/<FB_APP_ID>/$FB_APP_ID/"
           -e "s/<FB_MEASUREMENT_ID>/$FB_MEASUREMENT_ID/"
-          config/config-firebase.js
+          config/config-firebase.js > config/config-firebase.js
       - run: ls ${{ github.workspace }}/config
       # - run: docker build . --file dockerfiles/sveltekit/dev/Dockerfile  --tag naabu-image:$GITHUB_SHA
       - run: docker-compose -f jenkins-docker-compose.yml build

@@ -10,7 +10,7 @@ services:
       - internal_network
 
   firebase:
-    image: ghcr.io/naabu/firebase:<GITHUB_SHA>
+    image: ghcr.io/naabu/naabu_firebase:<GITHUB_SHA>
     environment:
       - environment=test
     entrypoint: ["npm", "run", "emulateCypress"]
@@ -18,7 +18,7 @@ services:
       - internal_network
 
   playwright:
-    image: ghcr.io/naabu/playwright:<GITHUB_SHA>
+    image: ghcr.io/naabu/naabu_playwright:<GITHUB_SHA>
     volumes:
       - ./test-results/:/var/www/test-results
     environment:

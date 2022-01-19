@@ -51,12 +51,14 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
       # - run: docker build . --file dockerfiles/sveltekit/dev/Dockerfile  --tag naabu-image:$GITHUB_SHA
       - run: docker-compose -f jenkins-docker-compose.yml build
-      - run: docker tag naabu_firebase:latest naabu_firebase:$GITHUB_SHA
-      - run: docker tag naabu_sveltekit-test:latest naabu_sveltekit:$GITHUB_SHA
-      - run: docker tag naabu_playwright:latest naabu_playwright:$GITHUB_SHA
-      - run: docker push ghcr.io/naabu/naabu_firebase:$GITHUB_SHA
-      - run: docker push ghcr.io/naabu/naabu_sveltekit:$GITHUB_SHA
-      - run: docker push ghcr.io/naabu/naabu_playwright:$GITHUB_SHA
+      - run: docker tag naabu_firebase:latest naabu_firebase:${{ GITHUB_SHA }}
+      - run: docker tag naabu_sveltekit-test:latest naabu_sveltekit:${{ GITHUB_SHA }}
+      - run: docker tag naabu_playwright:latest naabu_playwright:${{ GITHUB_SHA }}
+      - run: |
+        docker images
+      - run: docker push ghcr.io/naabu/naabu_firebase:${{ GITHUB_SHA }}
+      - run: docker push ghcr.io/naabu/naabu_sveltekit:${{ GITHUB_SHA }}
+      - run: docker push ghcr.io/naabu/naabu_playwright:${{ GITHUB_SHA }}
 
       # - run: docker-compose -f jenkins-docker-compose.yml up -d --remove-orphans
       # - run: sleep 60

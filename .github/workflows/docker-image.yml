@@ -55,7 +55,7 @@ jobs:
       - run: docker tag naabu_sveltekit-test:latest naabu_sveltekit:${{ GITHUB_SHA }}
       - run: docker tag naabu_playwright:latest naabu_playwright:${{ GITHUB_SHA }}
       - run: |
-        docker images
+          docker images
       - run: docker push ghcr.io/naabu/naabu_firebase:${{ GITHUB_SHA }}
       - run: docker push ghcr.io/naabu/naabu_sveltekit:${{ GITHUB_SHA }}
       - run: docker push ghcr.io/naabu/naabu_playwright:${{ GITHUB_SHA }}

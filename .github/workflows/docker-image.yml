@@ -46,6 +46,9 @@ jobs:
       - run: ls ${{ github.workspace }}/config
       - run: echo ::set-output name=testFileOutput::$(cat config/config-firebase.js)
       - run: echo ${{ steps.vars.outputs.testFileOutput }}
+      - name: Read VERSION file
+        id: getversion
+        run: echo "::set-output name=version::$(cat config/config-firebase.js)"
       # - run: docker build . --file dockerfiles/sveltekit/dev/Dockerfile  --tag naabu-image:$GITHUB_SHA
       - run: docker-compose -f jenkins-docker-compose.yml build
       - run: docker-compose -f jenkins-docker-compose.yml up -d --remove-orphans

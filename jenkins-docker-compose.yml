@@ -26,7 +26,7 @@ services:
   playwright:
     build:
       context: .
-      dockerfile: dockerfiles/sveltekit/dev/Dockerfile
+      dockerfile: dockerfiles/playwright/Dockerfile
     volumes:
       - ./test-results/:/var/www/test-results
     environment:

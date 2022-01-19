@@ -49,7 +49,7 @@ services:
     volumes:
       - ./:/var/www/
     environment:
-      - environment=development
+      - environment=test
     ports:
       - 3009:3000
     networks:
@@ -58,14 +58,14 @@ services:
   playwright:
     build:
       context: .
-      dockerfile: dockerfiles/sveltekit/dev/Dockerfile
+      dockerfile: dockerfiles/playwright/Dockerfile
+    entrypoint: ["tail", "-f", "/dev/null"]
     environment:
       - CI=true
     volumes:
       - ./:/var/www/
     networks:
       - internal_network
-  
 
 secrets:
   algolia-private-api-key:

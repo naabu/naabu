@@ -76,6 +76,8 @@ jobs:
       - run: docker-compose -f sha-docker-compose.yml logs sveltekit-test
       - run: docker-compose -f sha-docker-compose.yml logs firebase
       - run: echo "running playwright goal tests"
+      - run: docker-compose -f sha-docker-compose.yml exec -T playwright npx playwright test learning-goals-flow.spec.js
+      - run: docker-compose -f sha-docker-compose.yml exec -T playwright npx playwright test curriculum-profile.spec.js
       - run: docker-compose -f sha-docker-compose.yml exec -T playwright npx playwright test --grep @goal
       - run: docker-compose -f sha-docker-compose.yml logs sveltekit-test
       - run: docker-compose -f sha-docker-compose.yml logs firebase

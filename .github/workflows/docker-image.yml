@@ -86,3 +86,9 @@ jobs:
       - run: docker-compose -f sha-docker-compose.yml exec -T playwright npx playwright test --grep @module
       - run: docker-compose -f sha-docker-compose.yml logs sveltekit-test
       - run: docker-compose -f sha-docker-compose.yml logs firebase
+      - name: Display Firebase logs on failure
+        if: ${{ failure() }}
+        run: docker-compose -f sha-docker-compose.yml logs firebase
+      - name: Display SvelteKit logs on failure
+        if: ${{ failure() }}
+        run: docker-compose -f sha-docker-compose.yml logs sveltekit-test

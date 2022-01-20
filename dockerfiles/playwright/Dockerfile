@@ -13,6 +13,7 @@ RUN apt install -y ./google-chrome-stable_current_amd64.deb
 RUN npx playwright install chrome
 COPY ./src /var/www/src/
 COPY ./playwright.config.js /var/www/playwright.config.js
+COPY ./dockerfiles/playwright/package.json /var/www/package.json
 WORKDIR /var/www/
-RUN npm install -D @playwright/test
+RUN npm update
 CMD ["tail", "-f", "/dev/null"]

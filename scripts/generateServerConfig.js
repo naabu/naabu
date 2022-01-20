@@ -15,7 +15,7 @@ if (process.env.environment) {
 
 let algoliaApiKey = "";
 let secretPath = '/run/secrets/algolia-private-api-key';
-let configPath = '/var/www/config/algolia-private-api-key';
+let configPath = '/var/www/config/algolia-secret-admin-api-key.txt';
 
 if (fs.existsSync(secretPath)) {
   algoliaApiKey = fs.readFileSync(secretPath, 'utf8');

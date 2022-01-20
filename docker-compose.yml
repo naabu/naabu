@@ -67,6 +67,11 @@ services:
     networks:
       - internal_network
 
+  sveltekit-core:
+    build:
+      context: .
+      dockerfile: dockerfiles/sveltekit/core/Dockerfile
+
 secrets:
   algolia-private-api-key:
     file: ./config/algolia-secret-admin-api-key.txt

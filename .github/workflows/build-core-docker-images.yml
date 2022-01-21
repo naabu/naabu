@@ -1,6 +1,11 @@
 name: Build core images when dependencies change
 
-on: push
+on:
+  push:
+    paths:
+      - '**package.json'
+      - '**package-lock.json'
+      - '**Dockerfile'
 
 jobs:
   build-sveltekit:

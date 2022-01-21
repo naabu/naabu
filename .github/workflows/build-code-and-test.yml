@@ -1,6 +1,11 @@
 name: Build and test latest code
 
-on: push
+on:
+  push:
+    paths:
+      - '**package.json'
+      - '**package-lock.json'
+      - '**Dockerfile'
 
 jobs:
   build:

@@ -4,10 +4,10 @@ on:
   push:
     paths:
       - 'package.json'
-      - '*/package.json'
+      - '**/package.json'
       - 'package-lock.json'
-      - '*/package-lock.json'
-      - '*/Dockerfile'
+      - '**/package-lock.json'
+      - '**/Dockerfile'
 
 jobs:
   build-svelte-kit:

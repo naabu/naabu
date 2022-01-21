@@ -3,7 +3,7 @@ name: Build core images when dependencies change
 on: push
 
 jobs:
-  buildsveltekit:
+  build-svelte-kit:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -22,41 +22,41 @@ jobs:
       - run: |
           docker images
       - run: docker push ghcr.io/naabu/naabu_sveltekit-core:v0.0.1
-  buildfirebase:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - uses: actions/checkout@v2
-      -
-        name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - run: docker-compose -f  ci/build-core-docker-compose.yml build firebase-core
-      - run: docker tag ci_firebase-core:latest ghcr.io/naabu/naabu_firebase-core:v0.0.1
-      - run: |
-          docker images
-      - run: docker push ghcr.io/naabu/naabu_firebase-core:v0.0.1
-   buildplaywright:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    steps:
-      - uses: actions/checkout@v2
-      -
-        name: Login to GitHub Container Registry
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - run: docker-compose -f ci/build-core-docker-compose.yml build playwright-core
-      - run: docker tag ci_playwright-core:latest ghcr.io/naabu/naabu_playwright-core:v0.0.1
-      - run: |
-          docker images
-      - run: docker push ghcr.io/naabu/naabu_playwright-core:v0.0.1
+  # buildfirebase:
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: read
+  #     packages: write
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     -
+  #       name: Login to GitHub Container Registry
+  #       uses: docker/login-action@v1
+  #       with:
+  #         registry: ghcr.io
+  #         username: ${{ github.actor }}
+  #         password: ${{ secrets.GITHUB_TOKEN }}
+  #     - run: docker-compose -f  ci/build-core-docker-compose.yml build firebase-core
+  #     - run: docker tag ci_firebase-core:latest ghcr.io/naabu/naabu_firebase-core:v0.0.1
+  #     - run: |
+  #         docker images
+  #     - run: docker push ghcr.io/naabu/naabu_firebase-core:v0.0.1
+  #  buildplaywright:
+  #   runs-on: ubuntu-latest
+  #   permissions:
+  #     contents: read
+  #     packages: write
+  #   steps:
+  #     - uses: actions/checkout@v2
+  #     -
+  #       name: Login to GitHub Container Registry
+  #       uses: docker/login-action@v1
+  #       with:
+  #         registry: ghcr.io
+  #         username: ${{ github.actor }}
+  #         password: ${{ secrets.GITHUB_TOKEN }}
+  #     - run: docker-compose -f ci/build-core-docker-compose.yml build playwright-core
+  #     - run: docker tag ci_playwright-core:latest ghcr.io/naabu/naabu_playwright-core:v0.0.1
+  #     - run: |
+  #         docker images
+  #     - run: docker push ghcr.io/naabu/naabu_playwright-core:v0.0.1

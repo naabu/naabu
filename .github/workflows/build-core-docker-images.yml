@@ -2,16 +2,8 @@ name: Build core images when dependencies change
 
 on: push
 
-# on:
-#   push:
-#     paths:
-#       - 'package.json'
-#       - '**/package.json'
-#       - 'package-lock.json'
-#       - '**/package-lock.json'
-#       - '**/Dockerfile'
 jobs:
-  build_svelte_kit:
+  buildsveltekit:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -30,8 +22,7 @@ jobs:
       - run: |
           docker images
       - run: docker push ghcr.io/naabu/naabu_sveltekit-core:v0.0.1
-
-  build_firebase:
+  buildfirebase:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -50,8 +41,7 @@ jobs:
       - run: |
           docker images
       - run: docker push ghcr.io/naabu/naabu_firebase-core:v0.0.1
-  
-   build_playwright:
+   buildplaywright:
     runs-on: ubuntu-latest
     permissions:
       contents: read

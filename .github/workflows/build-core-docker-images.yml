@@ -3,10 +3,19 @@ name: Build core images when dependencies change
 on:
   push:
     paths:
-      - 'package.json'
+      - '**.js'
+
+# on:
+#   push:
+#     paths:
+#       - 'package.json'
+#       - '**/package.json'
+#       - 'package-lock.json'
+#       - '**/package-lock.json'
+#       - '**/Dockerfile'
 
 jobs:
-  buildsveltekit:
+  build-svelte-kit:
     runs-on: ubuntu-latest
     permissions:
       contents: read

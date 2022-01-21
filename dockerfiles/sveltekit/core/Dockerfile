@@ -1,7 +1,4 @@
-FROM node:14
-RUN apt-get update; \
-    apt-get install -y \
-    default-jre; 
+FROM node:14 
 COPY package.json /usr/local/package.json
 COPY package-lock.json /usr/local/package-lock.json
 RUN chmod -R 777 /usr/local/

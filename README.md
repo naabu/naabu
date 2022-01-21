@@ -97,3 +97,11 @@ The Firebase production environment does not need admin keys or Firebase config 
 
 ## Embrace serverless paradigm
 We made the decision to [not support SSR](https://youtu.be/HMF1IorpKmk) for authenticated users for now. SSR is disabled until we have a good method to use SSR with SvelteKIt with Firebase.
+
+
+## Why these docker containers?
+
+Svelte kit tests containers is needed to connect to the Firebase service in the Docker containers. So firebase-code instead of localhost. This allows Playwright to be run in the Docker container which is usefull for quick testing and the continuous integration system.
+
+
+

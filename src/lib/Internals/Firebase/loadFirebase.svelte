@@ -53,11 +53,11 @@
       if (!fb.auth().emulatorConfig) {
         await fb
           .auth()
-          .useEmulator("http://firebase:5010", { disableWarnings: true });
+          .useEmulator("http://firebase-code:5010", { disableWarnings: true });
       }
-      if (fb.firestore()._delegate._settings.host !== "firebase:5012") {
+      if (fb.firestore()._delegate._settings.host !== "firebase-code:5012") {
         fb.firestore().settings({ experimentalAutoDetectLongPolling: true });
-        await fb.firestore().useEmulator("firebase", 5012);
+        await fb.firestore().useEmulator("firebase-code", 5012);
       }
     }
 

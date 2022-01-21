@@ -1,0 +1,17 @@
+version: "3.9"
+
+services:
+  sveltekit-test:
+    build:
+      context: ../
+      dockerfile: dockerfiles/sveltekit/Dockerfile
+
+  firebase-code:
+    build:
+      context: ../
+      dockerfile: dockerfiles/firebase/Dockerfile
+  
+  playwright-code:
+    build:
+      context: ../
+      dockerfile: dockerfiles/playwright/Dockerfile

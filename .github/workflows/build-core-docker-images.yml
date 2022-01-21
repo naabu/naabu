@@ -1,9 +1,16 @@
-name: Docker Image CI
+name: Build core images when dependencies change
 
-on: push
+on:
+  push:
+    paths:
+      - 'package.json'
+      - '*/package.json'
+      - 'package-lock.json'
+      - '*/package-lock.json'
+      - "*/Dockerfile"
 
 jobs:
-  build:
+  build-svelte-kit:
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -17,8 +24,48 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - run: docker-compose build sveltekit-core
-      - run: docker tag naabu_sveltekit-core:latest ghcr.io/naabu/naabu_sveltekit-core:v1.0.0
+      - run: docker-compose -f ci/build-core-docker-compose.yml build sveltekit-core
+      - run: docker tag ci_sveltekit-core:latest ghcr.io/naabu/naabu_sveltekit-core:v0.0.1
       - run: |
           docker images
-      - run: docker push ghcr.io/naabu/naabu_sveltekit-core:v1.0.0
+      - run: docker push ghcr.io/naabu/naabu_sveltekit-core:v0.0.1
+
+  build-firebase:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v2
+      -
+        name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - run: docker-compose -f  ci/build-core-docker-compose.yml build firebase-core
+      - run: docker tag ci_firebase-core:latest ghcr.io/naabu/naabu_firebase-core:v0.0.1
+      - run: |
+          docker images
+      - run: docker push ghcr.io/naabu/naabu_firebase-core:v0.0.1
+  
+   build-playwright:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v2
+      -
+        name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - run: docker-compose -f ci/build-core-docker-compose.yml build playwright-core
+      - run: docker tag ci_playwright-core:latest ghcr.io/naabu/naabu_playwright-core:v0.0.1
+      - run: |
+          docker images
+      - run: docker push ghcr.io/naabu/naabu_playwright-core:v0.0.1

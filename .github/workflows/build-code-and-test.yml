@@ -1,4 +1,4 @@
-name: Docker Image CI
+name: Build and test latest code
 
 on: push
 
@@ -18,10 +18,10 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       # - run: docker build . --file dockerfiles/sveltekit/dev/Dockerfile  --tag naabu-image:$GITHUB_SHA
-      - run: docker-compose -f jenkins-docker-compose.yml build
-      - run: docker tag naabu_firebase:latest ghcr.io/naabu/naabu_firebase:${GITHUB_SHA}
-      - run: docker tag naabu_sveltekit-test:latest ghcr.io/naabu/naabu_sveltekit:${GITHUB_SHA}
-      - run: docker tag naabu_playwright:latest ghcr.io/naabu/naabu_playwright:${GITHUB_SHA}
+      - run: docker-compose -f ci/build-code-sha-docker-compose.yml build
+      - run: docker tag ci_firebase-code:latest ghcr.io/naabu/naabu_firebase:${GITHUB_SHA}
+      - run: docker tag ci_sveltekit-test:latest ghcr.io/naabu/naabu_sveltekit:${GITHUB_SHA}
+      - run: docker tag ci_playwright-code:latest ghcr.io/naabu/naabu_playwright:${GITHUB_SHA}
       - run: |
           docker images
       - run: docker push ghcr.io/naabu/naabu_firebase:${GITHUB_SHA}
@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: read
+      packages: write
     env:
       ALGOLIA_PRIVATE_API_KEY: ${{ secrets.ALGOLIA_PRIVATE_API_KEY }}
       ALGOLIA_APPLICATION_ID: ${{ secrets.ALGOLIA_APPLICATION_ID }}
@@ -70,25 +70,25 @@ jobs:
       - run: echo -n $ALGOLIA_PRIVATE_API_KEY >> config/algolia-secret-admin-api-key.txt
       - run: |
           ls -lah
-      - run: sed -e "s/<GITHUB_SHA>/$GITHUB_SHA/" actions-docker-compose.yml > sha-docker-compose.yml
-      - run: docker-compose -f sha-docker-compose.yml up -d --remove-orphans
-      - run: sleep 60
-      - run: docker-compose -f sha-docker-compose.yml logs sveltekit-test
-      - run: docker-compose -f sha-docker-compose.yml logs firebase
+      - run: sed -e "s/<GITHUB_SHA>/$GITHUB_SHA/" ci/actions-docker-compose.yml > ci/sha-docker-compose.yml
+      - run: docker-compose -f ci/sha-docker-compose.yml up -d --remove-orphans
+      - run: sleep 40
+      - run: docker-compose -f ci/sha-docker-compose.yml logs sveltekit-test
+      - run: docker-compose -f ci/sha-docker-compose.yml logs firebase
+      - run: echo "running ping tests"
+      - run: docker-compose -f ci/sha-docker-compose.yml exec -T playwright npx playwright test --project=docker --grep @ping
       - run: echo "running playwright goal tests"
-      - run: docker-compose -f sha-docker-compose.yml exec -T playwright npx playwright test learning-goals-flow.spec.js
-      - run: docker-compose -f sha-docker-compose.yml exec -T playwright npx playwright test curriculum-profile.spec.js
-      - run: docker-compose -f sha-docker-compose.yml exec -T playwright npx playwright test --grep @goal
-      - run: docker-compose -f sha-docker-compose.yml logs sveltekit-test
-      - run: docker-compose -f sha-docker-compose.yml logs firebase
+      - run: docker-compose -f ci/sha-docker-compose.yml exec -T playwright npx playwright test --project=docker --grep @goal
+      - run: docker-compose -f ci/sha-docker-compose.yml logs sveltekit-test
+      - run: docker-compose -f ci/sha-docker-compose.yml logs firebase
       - run: echo "running playwright activity tests"
-      - run: docker-compose -f sha-docker-compose.yml exec -T playwright npx playwright test --grep @activity
-      - run: docker-compose -f sha-docker-compose.yml logs sveltekit-test
-      - run: docker-compose -f sha-docker-compose.yml logs firebase
+      - run: docker-compose -f ci/sha-docker-compose.yml exec -T playwright npx playwright test --project=docker --grep @activity
+      - run: docker-compose -f ci/sha-docker-compose.yml logs sveltekit-test
+      - run: docker-compose -f ci/sha-docker-compose.yml logs firebase
       - run: echo "running playwright module tests"
-      - run: docker-compose -f sha-docker-compose.yml exec -T playwright npx playwright test --grep @module
-      - run: docker-compose -f sha-docker-compose.yml logs sveltekit-test
-      - run: docker-compose -f sha-docker-compose.yml logs firebase
+      - run: docker-compose -f ci/sha-docker-compose.yml exec -T playwright npx playwright test --project=docker --grep @module
+      - run: docker-compose -f ci/sha-docker-compose.yml logs sveltekit-test
+      - run: docker-compose -f ci/sha-docker-compose.yml logs firebase
       - name: Display Firebase logs on failure
         if: ${{ failure() }}
         run: docker-compose -f sha-docker-compose.yml logs firebase

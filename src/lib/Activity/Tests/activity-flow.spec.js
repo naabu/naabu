@@ -1,8 +1,8 @@
 import base from '@playwright/test';
 
 export const test = base.extend({
-  domain: 'http://localhost:3000',
-  showAllConsole: false
+  domain: ['http://localhost:3000', { option: true }],
+  showAllConsole: [false, { option: true }],
 });
 
 function printMessages(page, showAllConsole) {

@@ -1,0 +1,23 @@
+version: "3.9"
+
+services:
+  sveltekit-core:
+    build:
+      context: ../
+      dockerfile: dockerfiles/sveltekit/core/Dockerfile
+
+  firebase-core:
+    build:
+      context: ../
+      dockerfile: dockerfiles/firebase/core/Dockerfile
+
+  playwright-core:
+    build:
+      context: ../
+      dockerfile: dockerfiles/playwright/core/Dockerfile
+
+volumes:
+  firebase_functions_node_modules:
+
+networks:
+  internal_network:

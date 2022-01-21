@@ -9,6 +9,9 @@ jobs:
       contents: read
       packages: write
     steps:
+      - uses: docker://ghcr.io/naabu/naabu_sveltekit-core:v0.0.1
+      - uses: docker://ghcr.io/naabu/naabu_firebase-core:v0.0.1
+      - uses: docker://ghcr.io/naabu/naabu_playwright-core:v0.0.1
       - uses: actions/checkout@v2
       -
         name: Login to GitHub Container Registry
@@ -46,6 +49,9 @@ jobs:
       FB_APP_ID: ${{ secrets.FB_APP_ID }}
       FB_MEASUREMENT_ID: ${{ secrets.FB_MEASUREMENT_ID }}
     steps:
+      - uses: docker://ghcr.io/naabu/naabu_sveltekit-core:v0.0.1
+      - uses: docker://ghcr.io/naabu/naabu_firebase-core:v0.0.1
+      - uses: docker://ghcr.io/naabu/naabu_playwright-core:v0.0.1
       - uses: actions/checkout@v2
       - run: |
           ls -lah

@@ -1,9 +1,6 @@
 name: Build core images when dependencies change
 
-on:
-  push:
-    paths:
-      - '**.js'
+on: push
 
 # on:
 #   push:

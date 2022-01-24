@@ -5,6 +5,7 @@ src/lib/Internals/Firebase/config.js
 src/lib/Internals/Algolia/config.js
 .firebaserc
 data/
+node_modules
 
 #build directory
 .svelte-kit/

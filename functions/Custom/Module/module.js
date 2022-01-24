@@ -47,7 +47,9 @@ exports.onModulePlayerCreated = functions
     if (moduleSnap.exists) {
       let module = moduleSnap.data();
       module.id = context.params.moduleId;
-      await updateUserActivitiesForModule(module, context.params.playerId);
+      if (module.locations) {
+        await updateUserActivitiesForModule(module, context.params.playerId);
+      }
     }
 
     return null;

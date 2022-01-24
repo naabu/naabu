@@ -1,0 +1,15 @@
+{
+  "name": "naabu_firebase",
+  "version": "0.0.1",
+  "license": "GPLv2",
+  "scripts": {
+    "addUserClaims": "export GOOGLE_APPLICATION_CREDENTIALS=/var/www/adminkey.json; node scripts/addUserClaims.js",
+    "deploy": "bash scripts/deploy.sh",
+    "emulate": "node scripts/generateServerConfig.js; firebase emulators:start  --import=./data/.devdata --export-on-exit --only auth,functions,firestore,pubsub",
+    "emulateCypress": "node scripts/generateServerConfig.js; firebase emulators:start --only auth,functions,firestore,pubsub"
+  },
+  "devDependencies": {
+    "firebase-tools": "^9.23.3"
+  },
+  "type": "module"
+}

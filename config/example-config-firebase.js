@@ -1,9 +1,9 @@
 const firebaseConfig = {
-  apiKey: "<API_KEY>",
-  authDomain: "<AUTH-DOMAIN>",
-  projectId: "<PROJECT-ID>",
-  storageBucket: "<STORAGE_BUCKET>",
-  messagingSenderId: "<MESSAGING-SENDER-ID>",
-  appId: "<APP-ID>",
-  measurementId: "<MEASUREMENT-ID>"
+  apiKey: "<FB_API_KEY>",
+  authDomain: "<FB_AUTH_DOMAIN>",
+  projectId: "<FB_PROJECT_ID>",
+  storageBucket: "<FB_STORAGE_BUCKET>",
+  messagingSenderId: "<FB_MESSAGING_SENDER_ID>",
+  appId: "<FB_APP_ID>",
+  measurementId: "<FB_MEASUREMENT_ID>"
 };

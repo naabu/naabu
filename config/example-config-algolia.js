@@ -1,4 +1,4 @@
 const algoliaConfig = {
-  applicationID: '<APPLICATION_ID>',
-  searchOnlyApiKey: '<SEARCH_ONLY_API_KEY>',
+  applicationID: '<ALGOLIA_APPLICATION_ID>',
+  searchOnlyApiKey: '<ALGOLIA_SEARCH_ONLY_API_KEY>',
 }

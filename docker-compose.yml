@@ -1,10 +1,11 @@
 version: "3.9"
 
 services:
+
   sveltekit:
     build:
-      context: .
-      dockerfile: dockerfiles/sveltekit/dev/Dockerfile
+      context: ../
+      dockerfile: dockerfiles/sveltekit/Dockerfile
     volumes:
       - ./:/var/www/
     environment:
@@ -15,20 +16,25 @@ services:
       - 9222:9222
       - 9229:9229
       - 24678:24678
-      - 9005:9005
       - 6006:6006
     networks:
       - internal_network
 
   firebase:
     build:
-      context: .
-      dockerfile: dockerfiles/sveltekit/dev/Dockerfile
+      context: ../
+      dockerfile: dockerfiles/firebase/Dockerfile
     volumes:
-      - ./:/var/www/
+      - ./functions:/var/www/functions
+      - firebase_functions_node_modules:/var/www/functions/node_modules/
+      - ./firestore.rules:/var/www/firestore.rules
+      - ./firebase.json:/var/www/firebase.json
+      - ./firestore.indexes.json:/var/www/firestore.indexes.json
+      - ./scripts/:/var/www/scripts/
+      - ./config/:/var/www/config/
+      - ./dockerfiles/firebase/core/package.json:/var/www/package.json
     environment:
       - environment=development
-    # entrypoint: ["npm", "run", "emulateCypress"]
     ports:
       - 5001:5001
       - 5010:5010
@@ -36,39 +42,9 @@ services:
       - 5014:5014
       - 4500:4500
       - 4400:4400
-    secrets:
-      - algolia-private-api-key
+      - 9005:9005
     networks:
       - internal_network
-
-  sveltekit-test:
-    build:
-      context: .
-      dockerfile: dockerfiles/sveltekit/dev/Dockerfile
-    entrypoint: ["npm", "run", "dev"]
-    volumes:
-      - ./:/var/www/
-    environment:
-      - environment=development
-    ports:
-      - 3009:3000
-    networks:
-      - internal_network
-
-  playwright:
-    build:
-      context: .
-      dockerfile: dockerfiles/sveltekit/dev/Dockerfile
-    environment:
-      - CI=true
-    volumes:
-      - ./:/var/www/
-    networks:
-      - internal_network
-  
-
-secrets:
-  algolia-private-api-key:
-    file: ./config/algolia-secret-admin-api-key.txt
+      
 networks:
   internal_network:

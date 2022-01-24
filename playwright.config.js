@@ -28,7 +28,7 @@ const config = {
       name: 'docker',
       use: {
         channel: 'chrome',
-        domain: 'http://sveltekit-test:3000',
+        domain: "http://sveltekit-test:3000",
         showAllConsole: false,
         launchOptions: {
           headless: true

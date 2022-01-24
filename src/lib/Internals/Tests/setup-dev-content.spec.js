@@ -1,8 +1,8 @@
 import base from '@playwright/test';
 
 export const test = base.extend({
-  domain: 'http://localhost:3000',
-  showAllConsole: false
+  domain: ['http://localhost:3000', { option: true }],
+  showAllConsole: [false, { option: true }],
 });
 
 function printMessages(page, showAllConsole) {
@@ -18,6 +18,7 @@ const expect = base.expect;
 test('Set up development content @dev', async ({ page, domain, showAllConsole }) => {
   printMessages(page, showAllConsole);
   await page.goto(domain + '/cypress/user/deletegoalscanmoderatedevelopcontent@example.com/password/login');
+  await expect(page.locator('html')).toContainText('Great success! Now login!');
   await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/user/logout');
   await page.waitForSelector('[data-test=complete]');

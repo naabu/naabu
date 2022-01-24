@@ -1,6 +1,5 @@
 
 import * as fs from 'fs';
-// import("./generateClientConfig.js");
 
 let algoliaConfigFile = fs.readFileSync('/var/www/config/config-algolia.js', 'utf8');
 let applicationIDRegex = new RegExp("applicationID:\\s*[\"'](.*)[\"']", "g");

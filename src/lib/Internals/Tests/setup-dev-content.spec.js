@@ -16,8 +16,6 @@ function printMessages(page, showAllConsole) {
 const expect = base.expect;
 
 test('Set up development content @dev', async ({ page, domain, showAllConsole }) => {
-  console.log(domain);
-  console.log(showAllConsole);
   printMessages(page, showAllConsole);
   await page.goto(domain + '/cypress/user/deletegoalscanmoderatedevelopcontent@example.com/password/login');
   await expect(page.locator('html')).toContainText('Great success! Now login!');

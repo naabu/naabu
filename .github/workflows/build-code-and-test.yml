@@ -33,7 +33,6 @@ jobs:
           -e "s/latest/${GITHUB_REF_NAME}/"
           dockerfiles/playwright/Dockerfile >> dockerfiles/playwright/Dockerfile-new
       - run: mv dockerfiles/playwright/Dockerfile-new dockerfiles/playwright/Dockerfile
-      # - run: docker build . --file dockerfiles/sveltekit/dev/Dockerfile  --tag naabu-image:$GITHUB_SHA
       - run: docker-compose -f ci/build-code-sha-docker-compose.yml build
       - run: docker tag ci_firebase-code:latest ghcr.io/naabu/naabu_firebase:${GITHUB_SHA}
       - run: docker tag ci_sveltekit-test:latest ghcr.io/naabu/naabu_sveltekit:${GITHUB_SHA}

@@ -111,16 +111,16 @@ jobs:
       # Hacky way to use the new dependencies and build the code with them.
       # Only used in this workflow.
       - run: sed
-        -e "s/latest/${GITHUB_SHA}/"
-        dockerfiles/sveltekit/Dockerfile >> dockerfiles/sveltekit/Dockerfile-new
+          -e "s/latest/${GITHUB_SHA}/"
+          dockerfiles/sveltekit/Dockerfile >> dockerfiles/sveltekit/Dockerfile-new
       - run: mv dockerfiles/sveltekit/Dockerfile-new dockerfiles/sveltekit/Dockerfile
       - run: sed
-        -e "s/latest/${GITHUB_SHA}/"
-        dockerfiles/firebase/Dockerfile >> dockerfiles/firebase/Dockerfile-new
+          -e "s/latest/${GITHUB_SHA}/"
+          dockerfiles/firebase/Dockerfile >> dockerfiles/firebase/Dockerfile-new
       - run: mv dockerfiles/firebase/Dockerfile-new dockerfiles/firebase/Dockerfile
       - run: sed
-        -e "s/latest/${GITHUB_SHA}/"
-        dockerfiles/playwright/Dockerfile >> dockerfiles/playwright/Dockerfile-new
+          -e "s/latest/${GITHUB_SHA}/"
+          dockerfiles/playwright/Dockerfile >> dockerfiles/playwright/Dockerfile-new
       - run: mv dockerfiles/playwright/Dockerfile-new dockerfiles/playwright/Dockerfile
 
       - run: docker-compose -f ci/build-code-sha-docker-compose.yml build
@@ -130,9 +130,9 @@ jobs:
       - run: |
           ls -lah
       - run: sed
-        -e "s/<EXTRA>/-core-code/"
-        -e "s/<GITHUB_SHA>/$GITHUB_SHA/"
-        ci/actions-docker-compose.yml > sha-docker-compose.yml
+          -e "s/<EXTRA>/-core-code/"
+          -e "s/<GITHUB_SHA>/$GITHUB_SHA/"
+          ci/actions-docker-compose.yml > sha-docker-compose.yml
       - run: docker-compose -f sha-docker-compose.yml up -d --remove-orphans
       - run: sleep 40
       - run: docker-compose -f sha-docker-compose.yml logs sveltekit-test

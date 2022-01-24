@@ -16,8 +16,5 @@ services:
       context: ../
       dockerfile: dockerfiles/playwright/core/Dockerfile
 
-volumes:
-  firebase_functions_node_modules:
-
 networks:
   internal_network:

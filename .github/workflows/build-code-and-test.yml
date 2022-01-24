@@ -1,6 +1,11 @@
 name: Build and test latest code
 
-on: push
+on:
+  push:
+    paths-ignore:
+      - '**package.json'
+      - '**package-lock.json'
+      - '**Dockerfile'
 
 jobs:
   build:
@@ -70,7 +75,11 @@ jobs:
       - run: echo -n $ALGOLIA_PRIVATE_API_KEY >> config/algolia-secret-admin-api-key.txt
       - run: |
           ls -lah
-      - run: sed -e "s/<GITHUB_SHA>/$GITHUB_SHA/" ci/actions-docker-compose.yml > sha-docker-compose.yml
+      - run: sed
+        -e "s/<EXTRA>//"
+        -e "s/<GITHUB_SHA>/$GITHUB_SHA/"
+        ci/actions-docker-compose.yml > sha-docker-compose.yml
+
       - run: docker-compose -f sha-docker-compose.yml up -d --remove-orphans
       - run: sleep 40
       - run: docker-compose -f sha-docker-compose.yml logs sveltekit-test

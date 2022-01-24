@@ -1,4 +1,4 @@
-FROM ghcr.io/naabu/naabu_firebase-core:v0.0.1
+FROM ghcr.io/naabu/naabu_firebase-core:latest
 COPY functions/index.js /var/www/functions/
 COPY functions/Custom/ /var/www/functions/Custom/
 COPY firebase.json firestore.rules firestore.indexes.json /var/www/

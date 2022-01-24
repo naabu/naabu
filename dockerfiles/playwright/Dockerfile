@@ -1,3 +1,3 @@
-FROM ghcr.io/naabu/naabu_playwright-core:v0.0.1
+FROM ghcr.io/naabu/naabu_playwright-core:latest
 COPY ./src /var/www/src/
 COPY ./playwright.config.js /var/www/playwright.config.js

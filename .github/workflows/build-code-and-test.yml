@@ -94,11 +94,18 @@ jobs:
       - run: docker tag ghcr.io/naabu/naabu_playwright:$GITHUB_SHA ghcr.io/naabu/naabu_playwright:$GITHUB_REF_NAME
       - run: |
           docker images
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - run: docker push ghcr.io/naabu/naabu_sveltekit:$GITHUB_REF_NAME
       - run: docker push ghcr.io/naabu/naabu_firebase:$GITHUB_REF_NAME
       - run: docker push ghcr.io/naabu/naabu_playwright:$GITHUB_REF_NAME
+
       - name: Archive production artifacts
-        if: ${{ true }}
+        if: ${{ always() }}
         uses: actions/upload-artifact@v2
         with:
           name: playwright-traces

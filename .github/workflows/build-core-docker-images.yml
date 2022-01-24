@@ -22,7 +22,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-      - run: docker-compose -f ci/build-core-docker-compose.yml build sveltekit-core:$GITHUB_SHA
+      - run: docker-compose -f ci/build-core-docker-compose.yml build sveltekit-core
       - run: docker tag ci_sveltekit-core:latest ghcr.io/naabu/naabu_sveltekit-core:$GITHUB_SHA
       - run: |
           docker images

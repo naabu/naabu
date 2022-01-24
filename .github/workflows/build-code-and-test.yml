@@ -89,6 +89,14 @@ jobs:
       - run: docker-compose -f sha-docker-compose.yml exec -T playwright npx playwright test --project=docker --grep @module
       - run: docker-compose -f sha-docker-compose.yml logs sveltekit-test
       - run: docker-compose -f sha-docker-compose.yml logs firebase
+      - run: docker tag ghcr.io/naabu/naabu_sveltekit:$GITHUB_REF_NAME ghcr.io/naabu/naabu_sveltekit:$GITHUB_REF_NAME
+      - run: docker tag ghcr.io/naabu/naabu_firebase:$GITHUB_REF_NAME ghcr.io/naabu/naabu_firebase:$GITHUB_REF_NAME
+      - run: docker tag ghcr.io/naabu/naabu_playwright:$GITHUB_REF_NAME ghcr.io/naabu/naabu_playwright:$GITHUB_REF_NAME
+      - run: |
+          docker images
+      - run: docker push ghcr.io/naabu/naabu_sveltekit:$GITHUB_REF_NAME
+      - run: docker push ghcr.io/naabu/naabu_firebase:$GITHUB_REF_NAME
+      - run: docker push ghcr.io/naabu/naabu_playwright:$GITHUB_REF_NAME
       - name: Display Firebase logs on failure
         if: ${{ failure() }}
         run: docker-compose -f sha-docker-compose.yml logs firebase

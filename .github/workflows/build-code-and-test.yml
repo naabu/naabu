@@ -21,7 +21,7 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-         - run: sed
+      - run: sed
           -e "s/latest/${GITHUB_REF_NAME}/"
           dockerfiles/sveltekit/Dockerfile >> dockerfiles/sveltekit/Dockerfile-new
       - run: mv dockerfiles/sveltekit/Dockerfile-new dockerfiles/sveltekit/Dockerfile

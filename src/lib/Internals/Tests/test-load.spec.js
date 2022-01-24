@@ -19,7 +19,7 @@ test('Test if the front page loads @ping', async ({ page, domain, showAllConsole
   printMessages(page, showAllConsole);
   await page.goto(domain + '/');
   let divSvelte = await page.locator('#svelte');
-  await expect(divSvelte).toContainText('De reis');
+  await expect(divSvelte).toContainText('De reis  This should fail now!');
   await expect(divSvelte).toContainText('Curriculum');
 });
 

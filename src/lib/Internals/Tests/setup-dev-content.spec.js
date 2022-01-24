@@ -20,7 +20,7 @@ test('Set up development content @dev', async ({ page, domain, showAllConsole })
   console.log(showAllConsole);
   printMessages(page, showAllConsole);
   await page.goto(domain + '/cypress/user/deletegoalscanmoderatedevelopcontent@example.com/password/login');
-  await expect(page.locator('html')).toContainText('Great success! Now login! This should fail now!');
+  await expect(page.locator('html')).toContainText('Great success! Now login!');
   await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/user/logout');
   await page.waitForSelector('[data-test=complete]');

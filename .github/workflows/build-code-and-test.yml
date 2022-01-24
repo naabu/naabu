@@ -119,6 +119,16 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push latest tag for master branch
+        if: github.ref == 'refs/heads/master'
+        run: |
+          docker tag ghcr.io/naabu/naabu_sveltekit:$GITHUB_SHA ghcr.io/naabu/naabu_sveltekit:latest
+          docker tag ghcr.io/naabu/naabu_firebase:$GITHUB_SHA ghcr.io/naabu/naabu_firebase:latest
+          docker tag ghcr.io/naabu/naabu_playwright:$GITHUB_SHA ghcr.io/naabu/naabu_playwright:latest
+          docker push ghcr.io/naabu/naabu_sveltekit:latest
+          docker push ghcr.io/naabu/naabu_firebase:latest
+          docker push ghcr.io/naabu/naabu_playwright:latest
       - run: docker push ghcr.io/naabu/naabu_sveltekit:$GITHUB_REF_NAME
       - run: docker push ghcr.io/naabu/naabu_firebase:$GITHUB_REF_NAME
       - run: docker push ghcr.io/naabu/naabu_playwright:$GITHUB_REF_NAME

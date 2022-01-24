@@ -4,7 +4,7 @@ services:
 
   sveltekit:
     build:
-      context: ../
+      context: .
       dockerfile: dockerfiles/sveltekit/Dockerfile
     volumes:
       - ./:/var/www/
@@ -22,7 +22,7 @@ services:
 
   firebase:
     build:
-      context: ../
+      context: .
       dockerfile: dockerfiles/firebase/Dockerfile
     volumes:
       - ./functions:/var/www/functions

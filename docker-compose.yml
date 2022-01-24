@@ -45,6 +45,8 @@ services:
       - 9005:9005
     networks:
       - internal_network
-      
+volumes:
+  firebase_functions_node_modules:
+
 networks:
   internal_network:

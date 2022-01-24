@@ -164,7 +164,7 @@ jobs:
 
 
       - name: Push latest tag for master branch
-        if: ${GITHUB_REF_NAME} == 'master'}
+        if: github.ref == 'refs/heads/master'
         run: |
           docker tag ghcr.io/naabu/naabu_sveltekit-core:$GITHUB_SHA ghcr.io/naabu/naabu_sveltekit-core:latest
           docker tag ghcr.io/naabu/naabu_firebase-core:$GITHUB_SHA ghcr.io/naabu/naabu_firebase-core:latest

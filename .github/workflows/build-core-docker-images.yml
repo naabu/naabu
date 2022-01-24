@@ -173,9 +173,9 @@ jobs:
           docker push ghcr.io/naabu/naabu_firebase-core:latest
           docker push ghcr.io/naabu/naabu_playwright-core:latest
 
-      - run: docker push ghcr.io/naabu/naabu_sveltekit:$GITHUB_REF_NAME
-      - run: docker push ghcr.io/naabu/naabu_firebase:$GITHUB_REF_NAME
-      - run: docker push ghcr.io/naabu/naabu_playwright:$GITHUB_REF_NAME
+      - run: docker push ghcr.io/naabu/naabu_sveltekit-core:$GITHUB_REF_NAME
+      - run: docker push ghcr.io/naabu/naabu_firebase-core:$GITHUB_REF_NAME
+      - run: docker push ghcr.io/naabu/naabu_playwright-core:$GITHUB_REF_NAME
 
       - name: Archive production artifacts
         if: ${{ always() }}

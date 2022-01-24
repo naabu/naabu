@@ -76,9 +76,9 @@ jobs:
       - run: |
           ls -lah
       - run: sed
-        -e "s/<EXTRA>//"
-        -e "s/<GITHUB_SHA>/$GITHUB_SHA/"
-        ci/actions-docker-compose.yml > sha-docker-compose.yml
+          -e "s/<EXTRA>//"
+          -e "s/<GITHUB_SHA>/$GITHUB_SHA/"
+          ci/actions-docker-compose.yml > sha-docker-compose.yml
 
       - run: docker-compose -f sha-docker-compose.yml up -d --remove-orphans
       - run: sleep 40

@@ -18,7 +18,7 @@ module.exports = {
       }
     }
   ],
-  staticDirs: ['../static'],
+  staticDirs: ['../static', '../public', '../src/lib/Internals/Button/'],
   framework: '@storybook/svelte',
   svelteOptions: {
     preprocess: import('../svelte.config.js').preprocess,

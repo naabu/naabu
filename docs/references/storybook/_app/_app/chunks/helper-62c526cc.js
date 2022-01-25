@@ -1,0 +1,1 @@
+async function r(n,i){let e=await n.collection("curriculumProfile").doc(i).get();if(e.exists){let t=e.data(),l={id:i,fullname:t.fullname};return t.institution&&(l.institution=t.institution),l}return null}export{r as g};

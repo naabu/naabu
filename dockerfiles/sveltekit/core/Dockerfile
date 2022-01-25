@@ -1,7 +1,11 @@
 FROM node:14 
 COPY package.json /usr/local/package.json
 COPY package-lock.json /usr/local/package-lock.json
-RUN chmod -R 777 /usr/local/
+RUN \
+  apt-get update && \
+  apt-get install -y ruby && \
+  gem install jekyll bundler && \
+  chmod -R 777 /usr/local/ 
 USER node
 RUN npm ci --global
 ENV PATH /usr/local/node_modules/.bin:$PATH

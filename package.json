@@ -15,7 +15,7 @@
     "playwright": "npx playwright test --project=localhost src",
     "playwright-docker": "npx playwright test --project=docker src",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "build-storybook -o docs/references/storybook"
   },
   "devDependencies": {
     "@babel/core": "^7.16.7",

@@ -237,15 +237,15 @@
     width: 240px;
     height: 44px;
     background-repeat: no-repeat;
-    background-image: url("/btn_google_signin_dark_normal_web@2x.png");
+    background-image: url("btn_google_signin_dark_normal_web@2x.png");
   }
 
   #linkGoogleButton:hover {
-    background-image: url("/btn_google_signin_dark_focus_web@2x.png");
+    background-image: url("btn_google_signin_dark_focus_web@2x.png");
   }
 
   #linkGoogleButton:focus {
-    background-image: url("/btn_google_signin_dark_pressed_web@2x.png");
+    background-image: url("btn_google_signin_dark_pressed_web@2x.png");
     outline: none;
   }
 
@@ -253,15 +253,15 @@
     width: 240px;
     height: 44px;
     background-repeat: no-repeat;
-    background-image: url("/btn-signup-google-dutch-normal.svg");
+    background-image: url("btn-signup-google-dutch-normal.svg");
   }
 
   #linkGoogleButton:hover {
-    background-image: url("/btn-signup-google-dutch-hover.svg");
+    background-image: url("btn-signup-google-dutch-hover.svg");
   }
 
   #linkGoogleButton:focus {
-    background-image: url("/btn-signup-google-dutch-pressed.svg");
+    background-image: url("btn-signup-google-dutch-pressed.svg");
     outline: none;
   }
 </style>

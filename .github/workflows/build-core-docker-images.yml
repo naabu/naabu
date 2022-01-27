@@ -1,6 +1,7 @@
 name: Build core images when dependencies change
 
 on:
+  create:
   push:
     paths:
       - '**package.json'

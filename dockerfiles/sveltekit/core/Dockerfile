@@ -10,7 +10,8 @@ RUN \
   gem install jekyll bundler && \
   chmod -R 777 /usr/local/ 
 USER node
-RUN npm ci --global
+RUN npm ci --global && \
+  npm set audit false
 ENV PATH /usr/local/node_modules/.bin:$PATH
 CMD ["tail", "-f", "/dev/null"]
 EXPOSE 3000

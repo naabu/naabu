@@ -7,7 +7,8 @@ COPY dockerfiles/firebase/core/package.json /usr/local/package.json
 COPY dockerfiles/firebase/core/package-lock.json /usr/local/package-lock.json
 RUN chmod -R 777 /usr/local/
 USER node
-RUN npm ci --global
+RUN npm ci --global && \
+    npm set audit false
 USER root
 ENV PATH /usr/local/node_modules/.bin:$PATH
 COPY functions/package.json functions/package-lock.json /var/www/functions/

@@ -73,9 +73,9 @@
           valueUrlConnectionType = "Dieper inzichten";
           connectionType = "goal-deeperunderstandings";
           break;
-        case "goal-bigideas":
+        case "groot-idee":
           valueUrlConnectionType = "Grote ideeën";
-          connectionType = "goal-specializations";
+          connectionType = "goal-bigideas";
           break;
         case "specialisatie":
           valueUrlConnectionType = "Specializaties";

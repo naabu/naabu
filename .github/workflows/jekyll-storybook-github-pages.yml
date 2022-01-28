@@ -11,3 +11,5 @@ jobs:
     steps:
       - run: docker pull ghcr.io/actions/jekyll-build-pages:v1-beta
       - uses: actions/checkout@v2
+      - run: cp ci/github-pages-jekyll-storybook.yml .
+      - run: docker-compose -f github-pages-jekyll-storybook.yml run build-storybook

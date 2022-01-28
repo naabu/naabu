@@ -1,0 +1,13 @@
+name: Build Jekyll Storybook and publish to Github pages
+
+on:
+  push:
+    paths:
+      - 'docs/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - run: docker pull ghcr.io/actions/jekyll-build-pages:v1-beta
+      - uses: actions/checkout@v2

@@ -1,6 +1,11 @@
 name: Build core images when dependencies change
 
 on:
+  create:
+    paths-ignore:
+      - '**package.json'
+      - '**package-lock.json'
+      - '**Dockerfile'
   push:
     paths:
       - '**package.json'

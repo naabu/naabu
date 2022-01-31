@@ -12,10 +12,10 @@
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/Components/helper";
   import ConnectionLinkList from "$lib/Goal/Connection/Components/connectionLinkList.svelte";
 
-  export let connectionType = "goal-activity";
+  export let connectionType;
   export let status;
+  export let urlType;
 
-  let urlType;
   let goal;
   let firebase;
   let connections;
@@ -41,25 +41,46 @@
     };
   }
 
-  $: if (connectionType && goal) {
-    if (connectionType === "goal-activity") {
-      selectedTab = "activities";
-      urlType = "activiteiten";
-      valueUrlConnectionType = "Activiteiten";
-    } else {
-      selectedTab = "connections";
-      if (connectionType === "goal-prerequisites") {
-        urlType = "voorkennis";
-        valueUrlConnectionType = "Voorkennis";
-      } else if (connectionType === "goal-deeperunderstandings") {
-        urlType = "dieper-inzicht";
-        valueUrlConnectionType = "Dieper inzichten";
-      } else if (connectionType === "goal-bigideas") {
-        urlType = "groot-idee";
-        valueUrlConnectionType = "Grote ideeën";
-      } else if (connectionType === "goal-specializations") {
-        urlType = "specialisatie";
-        valueUrlConnectionType = "Specializaties";
+  $: if (goal) {
+    if (connectionType) {
+      if (connectionType === "goal-activity") {
+        selectedTab = "activities";
+        urlType = "activiteiten";
+        valueUrlConnectionType = "Activiteiten";
+      } else {
+        selectedTab = "connections";
+        if (connectionType === "goal-prerequisites") {
+          urlType = "voorkennis";
+          valueUrlConnectionType = "Voorkennis";
+        } else if (connectionType === "goal-deeperunderstandings") {
+          urlType = "dieper-inzicht";
+          valueUrlConnectionType = "Dieper inzichten";
+        } else if (connectionType === "goal-bigideas") {
+          urlType = "groot-idee";
+          valueUrlConnectionType = "Grote ideeën";
+        } else if (connectionType === "goal-specializations") {
+          urlType = "specialisatie";
+          valueUrlConnectionType = "Specializaties";
+        }
+      }
+    } else if (urlType) {
+      switch (urlType) {
+        case "voorkennis":
+          valueUrlConnectionType = "Voorkennis";
+          connectionType = "goal-prerequisites";
+          break;
+        case "dieper-inzicht":
+          valueUrlConnectionType = "Dieper inzichten";
+          connectionType = "goal-deeperunderstandings";
+          break;
+        case "groot-idee":
+          valueUrlConnectionType = "Grote ideeën";
+          connectionType = "goal-bigideas";
+          break;
+        case "specialisatie":
+          valueUrlConnectionType = "Specializaties";
+          connectionType = "goal-specializations";
+          break;
       }
     }
   }
@@ -107,14 +128,16 @@
 </script>
 
 <GetGoalData bind:goal bind:firebase />
-<GetConnectionListsData
-  bind:goalId={$page.params.id}
-  bind:type={connectionType}
-  bind:status
-  bind:firebase
-  bind:mounted
-  bind:connections
-/>
+{#if connectionType}
+  <GetConnectionListsData
+    bind:goalId={$page.params.id}
+    bind:type={connectionType}
+    bind:status
+    bind:firebase
+    bind:mounted
+    bind:connections
+  />
+{/if}
 {#if mounted && goal}
   <ContainerBreadcrumpPageTitle bind:breadcrumbs title={goal.title} />
   <MainTabs bind:goal mainSelected={selectedTab} />

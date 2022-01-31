@@ -6,7 +6,8 @@ src/lib/Internals/Algolia/config.js
 .firebaserc
 data/
 node_modules
-storybook-static/
+docs/references/storybook/
+
 
 #build directory
 .svelte-kit/

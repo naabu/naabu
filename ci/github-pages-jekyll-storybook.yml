@@ -1,0 +1,8 @@
+version: "3.9"
+
+services:
+  build-storybook:
+    image: ghcr.io/naabu/naabu_sveltekit:latest
+    volumes:
+      - ./:/var/www/
+    entrypoint: ["bash", "scripts/ci-build-storybook.sh"]

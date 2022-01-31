@@ -1,6 +1,10 @@
 name: Build and test latest code
 
 on:
+  workflow_run:
+    workflows: ["Build core images when dependencies change"]
+    types:
+      - completed
   push:
     paths-ignore:
       - '**package.json'

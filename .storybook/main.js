@@ -33,6 +33,7 @@ module.exports = {
     config.resolve.alias = {
       ...config.resolve.alias,
       $lib: path.resolve(__dirname, '../src/lib'),
+      $app: path.resolve(__dirname, '../.storybook/app/')
     };
     return config;
   },

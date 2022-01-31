@@ -9,7 +9,6 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - run: docker pull ghcr.io/actions/jekyll-build-pages:v1-beta
       - uses: actions/checkout@v2
       - run: cp ci/github-pages-jekyll-storybook.yml .
       - run: docker-compose -f github-pages-jekyll-storybook.yml up
@@ -19,8 +18,10 @@ jobs:
           source: "./docs"
           destination: "./docs/_site"
       - run: pwd
+      - run: ls -lah
+      - run: ls -lah /github/workspace/
       - name: "Create archive of docs folder"
-        run: tar --dereference --hard-dereference --directory docs/_site/ -cvf artifact.tar docs/
+        run: tar --dereference --hard-dereference --directory _site/ -cvf artifact.tar .
       - name: "Upload artifact"
         uses: actions/upload-artifact@main
         with:

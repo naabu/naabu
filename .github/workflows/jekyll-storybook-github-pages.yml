@@ -33,7 +33,6 @@ jobs:
     needs: "build"
     permissions:
       contents: read
-      metadata: read
       pages: write
     steps:
       - name: Deploy Documnetation and Storybook on Github pages.

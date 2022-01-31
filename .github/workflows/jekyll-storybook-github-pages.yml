@@ -34,6 +34,7 @@ jobs:
     permissions:
       contents: read
       pages: write
+      id-token: write
     steps:
       - name: Deploy Documnetation and Storybook on Github pages.
         uses: actions/deploy-pages@v1-beta

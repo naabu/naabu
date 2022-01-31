@@ -31,6 +31,10 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: "build"
+    permissions:
+      - contents: 'read'
+      - metadata: 'read'
+      - pages: 'write'
     steps:
       - name: Deploy Documnetation and Storybook on Github pages.
         uses: actions/deploy-pages@v1-beta

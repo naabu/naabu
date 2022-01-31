@@ -26,6 +26,7 @@ jobs:
         with:
           branch: docs
           folder: docs/_site/
+      # TODO: reenable this when Github actions supports custom workflows to publish to pages. 
       # - name: "Create archive of docs folder"
       #   run: tar --dereference --hard-dereference --directory docs/_site/ -cvf artifact.tar .
       # - name: "Upload artifact"

@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="240" height="44" viewBox="0 0 240 44">
+  <defs>
+    <clipPath id="clip-Normal">
+      <rect width="240" height="44"/>
+    </clipPath>
+  </defs>
+  <g id="Normal" clip-path="url(#clip-Normal)">
+    <rect width="240" height="44" fill="#fff"/>
+    <g id="Google-Button" transform="translate(0 -0.5)">
+      <g id="btn_google_dark_normal" transform="translate(3 3)">
+        <g id="button">
+          <g id="button-bg">
+            <rect id="Rectangle_29" data-name="Rectangle 29" width="40" height="38" rx="2" transform="translate(0 0.5)" fill="#4285f4"/>
+            <rect id="Rectangle_30" data-name="Rectangle 30" width="40" height="38" rx="2" transform="translate(0 0.5)" fill="none"/>
+            <rect id="Rectangle_31" data-name="Rectangle 31" width="40" height="38" rx="2" transform="translate(0 0.5)" fill="none"/>
+            <rect id="Rectangle_32" data-name="Rectangle 32" width="40" height="38" rx="2" transform="translate(0 0.5)" fill="none"/>
+          </g>
+        </g>
+        <g id="button-bg-copy" transform="translate(1 1)">
+          <rect id="Rectangle_33" data-name="Rectangle 33" width="38" height="36" rx="1" transform="translate(0 0.5)" fill="#fff"/>
+          <rect id="Rectangle_34" data-name="Rectangle 34" width="38" height="36" rx="1" transform="translate(0 0.5)" fill="none"/>
+          <rect id="Rectangle_35" data-name="Rectangle 35" width="38" height="36" rx="1" transform="translate(0 0.5)" fill="none"/>
+          <rect id="Rectangle_36" data-name="Rectangle 36" width="38" height="36" rx="1" transform="translate(0 0.5)" fill="none"/>
+        </g>
+        <g id="logo_googleg_48dp" transform="translate(11 10.25)">
+          <path id="Shape" d="M17.64,9.2a10.347,10.347,0,0,0-.164-1.841H9v3.481h4.844a4.14,4.14,0,0,1-1.8,2.716v2.258h2.909A8.777,8.777,0,0,0,17.64,9.2Z" fill="#4285f4" fill-rule="evenodd"/>
+          <path id="Shape-2" data-name="Shape" d="M9,18a8.592,8.592,0,0,0,5.956-2.181l-2.909-2.258A5.43,5.43,0,0,1,3.964,10.71H.957v2.332A9,9,0,0,0,9,18Z" fill="#34a853" fill-rule="evenodd"/>
+          <path id="Shape-3" data-name="Shape" d="M3.964,10.71a5.321,5.321,0,0,1,0-3.42V4.958H.957a9.011,9.011,0,0,0,0,8.084L3.964,10.71Z" fill="#fbbc05" fill-rule="evenodd"/>
+          <path id="Shape-4" data-name="Shape" d="M9,3.58a4.862,4.862,0,0,1,3.441,1.346l2.581-2.581A8.649,8.649,0,0,0,9,0,9,9,0,0,0,.957,4.958L3.964,7.29A5.364,5.364,0,0,1,9,3.58Z" fill="#ea4335" fill-rule="evenodd"/>
+          <path id="Shape-5" data-name="Shape" d="M0,0H18V18H0Z" fill="none" fill-rule="evenodd"/>
+        </g>
+      </g>
+    </g>
+    <g id="Google-Button-2" data-name="Google-Button" transform="translate(45.5)">
+      <g id="btn_google_dark_focus" transform="translate(-3.5)">
+        <rect id="Rectangle-14" width="194" height="44" transform="translate(4)" fill="none"/>
+        <g id="button-2" data-name="button" transform="translate(1 3)">
+          <g id="button-bg-2" data-name="button-bg" transform="translate(0)">
+            <rect id="Rectangle_21" data-name="Rectangle 21" width="194" height="38" rx="2" transform="translate(0)" fill="#4285f4"/>
+            <rect id="Rectangle_22" data-name="Rectangle 22" width="194" height="38" rx="2" transform="translate(0)" fill="none"/>
+            <rect id="Rectangle_23" data-name="Rectangle 23" width="194" height="38" rx="2" transform="translate(0)" fill="none"/>
+            <rect id="Rectangle_24" data-name="Rectangle 24" width="194" height="38" rx="2" transform="translate(0)" fill="none"/>
+          </g>
+        </g>
+        <g id="button-bg-copy-2" data-name="button-bg-copy" transform="translate(0 3)">
+          <rect id="Rectangle_25" data-name="Rectangle 25" width="194" height="37" rx="1" transform="translate(0)" fill="#4285f4"/>
+          <rect id="Rectangle_26" data-name="Rectangle 26" width="194" height="37" rx="1" transform="translate(0)" fill="none"/>
+          <rect id="Rectangle_27" data-name="Rectangle 27" width="194" height="37" rx="1" transform="translate(0)" fill="none"/>
+          <rect id="Rectangle_28" data-name="Rectangle 28" width="194" height="37" rx="1" transform="translate(0)" fill="none"/>
+        </g>
+      </g>
+    </g>
+    <line id="Line_26" data-name="Line 26" x2="4" transform="translate(90.5 3.5)" fill="none" stroke="#4285f4" stroke-width="1"/>
+    <text id="Profiel_aanmaken_met_Google" data-name="Profiel aanmaken met Google" transform="translate(53 27)" fill="#fff" font-size="13" font-family="Roboto-Bold, Roboto" font-weight="700"><tspan x="0" y="0">Profiel aanmaken met Google</tspan></text>
+    <line id="Line_27" data-name="Line 27" x2="3" transform="translate(40.5 3.5)" fill="none" stroke="#4285f4" stroke-width="1"/>
+    <line id="Line_28" data-name="Line 28" x2="5" transform="translate(40.5 40.5)" fill="none" stroke="#4285f4" stroke-width="1"/>
+    <line id="Line_29" data-name="Line 29" y1="2" transform="translate(43 39)" fill="none" stroke="#4285f4" stroke-width="1"/>
+  </g>
+</svg>

@@ -2,9 +2,11 @@
   import DisplayMultiTopics from "$lib/Goal/Components/displayMultiTopics.svelte";
   import BattleListForm from "$lib/Goal/Components/battleListForm.svelte";
   import QuizForm from "$lib/Activity/Components/quizzesForm.svelte";
-import Button from "$lib/Internals/Button/Button.svelte";
+  import Button from "$lib/Internals/Button/Button.svelte";
+  import Radio from "$lib/Internals/FormFields/Radio.svelte";
 
   export let goal;
+
   let selectedQuizIndex = 0;
   let selectedFieldIndex = -1;
 
@@ -107,6 +109,30 @@ import Button from "$lib/Internals/Button/Button.svelte";
     },
   ];
 
+  let soloRadioOptions = [
+    {
+      value: "solo-1",
+      label: "Unistructureel",
+      description: "Leerdoel heeft te maken met maar 1 aspect.",
+    },
+    {
+      value: "solo-2",
+      label: "Multistructureel",
+      description: "Leerdoel heeft te maken met meerdere aspecten.",
+    },
+    {
+      value: "solo-3",
+      label: "Relationeel",
+      description:
+        "Leerdoel heeft te maken met structuur tussen aspecten in context.",
+    },
+    {
+      value: "solo-4",
+      label: "Overdraagbaar",
+      description: "Structuur van aspecten toepasbaar op een andere context.",
+    },
+  ];
+
   $: {
     selectedColumnId = [];
     for (let i = 0; i < goal.selectedVerbs.length; i++) {
@@ -143,9 +169,13 @@ import Button from "$lib/Internals/Button/Button.svelte";
   }
 
   function generateGoalTitle() {
-    if (goal.selectedVerbs.length > 0) {
+    if (goal.selectedVerbs && goal.selectedVerbs.length > 0) {
       goal.title = "Ik kan ";
-      if (goal.unitopic.length > 0 && goal.taxonomy_solo.includes("solo-1")) {
+      if (
+        goal.unitopic &&
+        goal.unitopic.length > 0 &&
+        goal.taxonomy_solo.includes("solo-1")
+      ) {
         goal.title += goal.unitopic + " ";
       }
 
@@ -160,7 +190,7 @@ import Button from "$lib/Internals/Button/Button.svelte";
       }
       goal.title += generateMulti(goal.selectedVerbs);
 
-      if (goal.fromText.length > 0) {
+      if (goal.fromText && goal.fromText.length > 0) {
         goal.title += goal.fromText;
       }
     }
@@ -276,6 +306,7 @@ import Button from "$lib/Internals/Button/Button.svelte";
 </svelte:head>
 
 <div class="space-y-6 sm:space-y-5 divide-y divide-gray-200" />
+
 <div class="divide-y divide-gray-200 pt-8 space-y-6 sm:pt-10 sm:space-y-5">
   <div>
     <h3 class="text-lg leading-6 font-medium text-gray-900">Taxonomies</h3>
@@ -284,158 +315,59 @@ import Button from "$lib/Internals/Button/Button.svelte";
       taxonomy.
     </p>
   </div>
-  <div class="space-y-6 sm:space-y-5 divide-y divide-gray-200">
-    <div class="pt-6 sm:pt-5">
-      <div role="group" aria-labelledby="label-solo">
-        <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-baseline">
-          <div>
-            <div
-              class="text-base font-medium text-gray-900 sm:text-sm sm:text-gray-700"
-              id="label-solo"
-            >
-              SOLO taxonomy
-            </div>
-          </div>
-          <div class="mt-4 sm:mt-0 sm:col-span-2">
-            <div class="max-w-lg space-y-4">
-              <div class="relative flex items-start">
-                <div class="flex items-center h-5">
-                  <input
-                    id="unistructureel"
-                    name="unistructureel"
-                    value="solo-1"
-                    bind:group={goal.taxonomy_solo}
-                    type="radio"
-                    class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                  />
-                </div>
-                <div class="ml-3 text-sm">
-                  <label for="unistructureel" class="font-medium text-gray-700"
-                    >Unistructureel</label
-                  >
-                  <p class="text-gray-500">
-                    Leerdoel heeft te maken met maar 1 aspect
-                  </p>
-                </div>
-              </div>
-              {#if goal.taxonomy_solo.includes("solo-1")}
-                <div
-                  class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
-                >
-                  <label
-                    for="uni_topic_name"
-                    class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-                  >
-                    Onderwerp
-                  </label>
-                  <div class="mt-1 sm:mt-0 sm:col-span-2">
-                    <input
-                      type="text"
-                      bind:value={goal.unitopic}
-                      name="uni_topic_name"
-                      id="uni_topic_name"
-                      class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
-                    />
-                  </div>
-                </div>
-              {/if}
-              <div>
-                <div class="relative flex items-start">
-                  <div class="flex items-center h-5">
-                    <input
-                      id="multistructureel"
-                      name="multistructureel"
-                      value="solo-2"
-                      bind:group={goal.taxonomy_solo}
-                      type="radio"
-                      class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                    />
-                  </div>
-                  <div class="ml-3 text-sm">
-                    <label
-                      for="multistructureel"
-                      class="font-medium text-gray-700">Multistructureel</label
-                    >
-                    <p class="text-gray-500">
-                      Leerdoel heeft te maken met meerdere aspecten.
-                    </p>
-                  </div>
-                </div>
-                {#if goal.taxonomy_solo.includes("solo-2")}
-                  <DisplayMultiTopics bind:goal />
-                {/if}
-              </div>
-              <div>
-                <div class="relative flex items-start">
-                  <div class="flex items-center h-5">
-                    <input
-                      id="relationeel"
-                      name="relationeel"
-                      value="solo-3"
-                      bind:group={goal.taxonomy_solo}
-                      type="radio"
-                      class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                    />
-                  </div>
-                  <div class="ml-3 text-sm">
-                    <label for="relationeel" class="font-medium text-gray-700"
-                      >Relationeel</label
-                    >
-                    <p class="text-gray-500">
-                      Leerdoel heeft te maken met structuur tussen aspecten in
-                      context.
-                    </p>
-                  </div>
-                </div>
-                {#if goal.taxonomy_solo.includes("solo-3")}
-                  <DisplayMultiTopics bind:goal />
-                {/if}
-              </div>
-              <div>
-                <div class="relative flex items-start">
-                  <div class="flex items-center h-5">
-                    <input
-                      id="overdraagbaar"
-                      name="overdraagbaar"
-                      value="solo-4"
-                      bind:group={goal.taxonomy_solo}
-                      type="radio"
-                      class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                    />
-                  </div>
-                  <div class="ml-3 text-sm">
-                    <label for="overdraagbaar" class="font-medium text-gray-700"
-                      >Overdraagbaar</label
-                    >
-                    <p class="text-gray-500">
-                      Structuur van aspecten toepasbaar op een andere context.
-                    </p>
-                  </div>
-                </div>
-                {#if goal.taxonomy_solo.includes("solo-4")}
-                  <DisplayMultiTopics bind:goal />
-                  <label
-                    for="context_name"
-                    class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-                  >
-                    Nieuwe context
-                  </label>
-                  <div class="mt-1 sm:mt-0 sm:col-span-2">
-                    <input
-                      type="text"
-                      bind:value={goal.context}
-                      name="context_name"
-                      id="context_name"
-                      class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
-                    />
-                  </div>
-                {/if}
-              </div>
-            </div>
+
+  <Radio
+    bind:selectedValue={goal.taxonomy_solo}
+    options={soloRadioOptions}
+    title="SOLO taxonomy"
+  >
+    <span slot="after-options">
+      {#if goal.taxonomy_solo.includes("solo-1")}
+        <div
+          class="mt-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
+        >
+          <label
+            for="uni_topic_name"
+            class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+          >
+            Onderwerp
+          </label>
+          <div class="mt-1 sm:mt-0 sm:col-span-2">
+            <input
+              type="text"
+              bind:value={goal.unitopic}
+              name="uni_topic_name"
+              id="uni_topic_name"
+              class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+            />
           </div>
         </div>
-      </div>
-    </div>
+      {/if}
+      {#if goal.taxonomy_solo.includes("solo-2") || goal.taxonomy_solo.includes("solo-3")}
+        <DisplayMultiTopics bind:goal />
+      {/if}
+      {#if goal.taxonomy_solo.includes("solo-4")}
+        <DisplayMultiTopics bind:goal />
+        <label
+          for="context_name"
+          class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
+        >
+          Nieuwe context
+        </label>
+        <div class="mt-1 sm:mt-0 sm:col-span-2">
+          <input
+            type="text"
+            bind:value={goal.context}
+            name="context_name"
+            id="context_name"
+            class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+          />
+        </div>
+      {/if}
+    </span>
+  </Radio>
+
+  <div class="space-y-6 sm:space-y-5 divide-y divide-gray-200">
     <div class="space-y-6 sm:space-y-5 divide-y divide-gray-200">
       <div class="pt-6 sm:pt-5">
         <div role="group" aria-labelledby="label-solo">

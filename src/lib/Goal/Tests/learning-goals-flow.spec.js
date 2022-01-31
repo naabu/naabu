@@ -190,7 +190,6 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
 
 test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {
   printMessages(page, showAllConsole);
-  console.log("trying to delete the user");
   // await expect(page.locator()).toContainText();
   // await page.click();
   // await page.fill('', '');

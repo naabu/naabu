@@ -9,6 +9,7 @@
 
   export let activity;
   export let toggle = false;
+
   export let firebase;
 
   let toggleResultScreen;
@@ -2101,6 +2102,8 @@
                           </label>
                         {/each}
                       </div>
+
+
                       <div class="mr-2 mb-2 float-right">
                         <Button
                           on:click={() => (quiz = checkCorrectAnswer(quiz))}

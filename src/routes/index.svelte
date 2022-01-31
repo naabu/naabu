@@ -7,12 +7,15 @@
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { getMap, getUserMap } from "$lib/Module/Map/Components/helper";
   import Button from "$lib/Internals/Button/Button.svelte";
+  import Radio from "$lib/Internals/FormFields/Radio.svelte";
 
   let firebase;
   let map;
   let mounted = false;
   let modules = null;
   let mapId = null;
+
+  export let radioDefaultValue = "map";
 
   // $: async () => {
   //   if ($session.player) {
@@ -51,6 +54,20 @@
 <svelte:head>
   <title>Naabu</title>
 </svelte:head>
+
+<Radio
+  bind:selectedValue={radioDefaultValue}
+  options={[
+    {
+      label: "Map",
+      value: "map",
+    },
+    {
+      label: "Module",
+      value: "module",
+    },
+  ]}
+/>
 
 {#if mounted}
   <ModuleTeaserList bind:modules />

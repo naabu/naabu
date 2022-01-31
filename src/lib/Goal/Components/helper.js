@@ -1,6 +1,9 @@
 export function getGoalSaveData(goal, timestamp) {
   let addLeerdoelen = [];
 
+  if (!goal.goalLinks) {
+    goal.goalLinks = [];
+  }
   for (let i = 0; i < goal.goalLinks.length; i++) {
     let toAdd = {};
     toAdd.objectID = goal.goalLinks[i].objectID;
@@ -12,17 +15,36 @@ export function getGoalSaveData(goal, timestamp) {
 
   const data = {
     title: goal.title,
-    goalLinks: addLeerdoelen,
-    description: goal.description,
-    taxonomy_solo: goal.taxonomy_solo,
-    taxonomy_bloom: goal.taxonomy_bloom,
-    unitopic: goal.unitopic,
-    context: goal.context,
-    multitopics: goal.multitopics,
-    selectedVerbs: goal.selectedVerbs,
-    fromText: goal.fromText,
     createdAt: timestamp,
   };
+
+  if (goal.unitopic) {
+    data.unitopic = goal.unitopic;
+  }
+  if (goal.addLeerdoelen) {
+    data.goalLinks = goal.addLeerdoelen;
+  }
+  if (goal.description) {
+    data.description = goal.description;
+  }
+  if (goal.taxonomy_solo) {
+    data.taxonomy_solo = goal.taxonomy_solo;
+  }
+  if (goal.taxonomy_bloom) {
+    data.taxonomy_bloom = goal.taxonomy_bloom;
+  }
+  if (goal.context) {
+    data.context = goal.context;
+  }
+  if (goal.multitopics) {
+    data.multitopics = goal.multitopics;
+  }
+  if (goal.selectedVerbs) {
+    data.selectedVerbs = goal.selectedVerbs;
+  }
+  if (goal.fromText) {
+    data.fromText = goal.fromText;
+  }
 
   return data;
 }

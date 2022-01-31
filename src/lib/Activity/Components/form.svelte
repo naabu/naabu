@@ -6,9 +6,28 @@
   import QuizForm from "$lib/Activity/Components/quizzesForm.svelte";
   import { createEventDispatcher } from "svelte";
   import Button from "$lib/Internals/Button/Button.svelte";
+  import Radio from "$lib/Internals/FormFields/Radio.svelte";
   const dispatch = createEventDispatcher();
 
   export let activity;
+
+  export let typeOfActivityRadioOptions = [
+    {
+      value: "explanation",
+      label: "Uitleg",
+      description: "Activiteit bevat uitleg om het leerdoel te leren.",
+    },
+    {
+      value: "practice",
+      label: "Oefening",
+      description: "Activiteit is een oefening voor het leerdoel.",
+    },
+    {
+      value: "boss",
+      label: "Eindbaas",
+      description: "Een eindbaas type ontgrendeld de locaties op de kaart.",
+    },
+  ];
 
   function goBackToSearchGoals() {
     dispatch("toLearningGoals");
@@ -47,89 +66,13 @@
       </div>
     </div>
   </div>
-  <div class="mt-6 sm:border-t sm:border-gray-200 sm:pt-5">
-    <div role="group" aria-labelledby="label-type">
-      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-baseline">
-        <div>
-          <div
-            class="mb-40text-base font-medium text-gray-900 sm:text-sm sm:text-gray-700"
-            id="label-type"
-          >
-            Type activity
-          </div>
-        </div>
-        <div class="mt-4 sm:mt-0 sm:col-span-2">
-          <div class="max-w-lg space-y-4">
-            <div>
-              <div class="relative flex items-start">
-                <div class="flex items-center h-5">
-                  <input
-                    id="explanation"
-                    name="explanation"
-                    value="explanation"
-                    bind:group={activity.type}
-                    type="radio"
-                    class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                  />
-                </div>
-                <div class="ml-3 text-sm">
-                  <label
-                    for="multistructureel"
-                    class="font-medium text-gray-700">Uitleg</label
-                  >
-                  <p class="text-gray-500">
-                    Activiteit bevat uitleg om het leerdoel te leren.
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div class="relative flex items-start">
-              <div class="flex items-center h-5">
-                <input
-                  id="practice"
-                  name="practice"
-                  value="practice"
-                  bind:group={activity.type}
-                  type="radio"
-                  class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                />
-              </div>
-              <div class="ml-3 text-sm">
-                <label for="unistructureel" class="font-medium text-gray-700"
-                  >Oefening</label
-                >
-                <p class="text-gray-500">
-                  Activiteit is een oefening voor het leerdoel.
-                </p>
-              </div>
-            </div>
-            <div>
-              <div class="relative flex items-start">
-                <div class="flex items-center h-5">
-                  <input
-                    id="boss"
-                    name="boss"
-                    value="boss"
-                    bind:group={activity.type}
-                    type="radio"
-                    class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
-                  />
-                </div>
-                <div class="ml-3 text-sm">
-                  <label for="relationeel" class="font-medium text-gray-700"
-                    >Eindbaas</label
-                  >
-                  <p class="text-gray-500">
-                    Een eindbaas type ontgrendeld de locaties op de kaart
-                  </p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+
+  <Radio
+    bind:selectedValue={activity.type}
+    options={typeOfActivityRadioOptions}
+    title="Type activiteit"
+  />
+
   <div>
     <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
       <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start  sm:pt-5">

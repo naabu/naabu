@@ -26,6 +26,18 @@
       activity = snap.data();
       activity.id = ref.id;
       cloneActivity = JSON.parse(JSON.stringify(activity));
+      if (activity.goalId) {
+        let battleCol = db.collection(
+          "goals/" + activity.goalId + "/battles"
+        );
+        const querySnapshot = await battleCol.get();
+        activity.battles = [];
+        querySnapshot.forEach((doc) => {
+          let battleObject = doc.data();
+          battleObject.name = doc.id;
+          activity.battles = [...activity.battles, battleObject];
+        });
+      }
     }
   }
 </script>

@@ -251,8 +251,9 @@
       bind:firebase
     />
   {/if}
-  <BattleFight bind:toggle={fightToggle} bind:activity bind:firebase />
-
+  {#if activity && activity.battles}
+    <BattleFight bind:toggle={fightToggle} bind:activity bind:firebase />
+  {/if}
   {#if activity}
     <h1 class="text-lg leading-6 font-medium text-gray-900">
       {#if activity.title}
@@ -373,6 +374,8 @@
                 </div>
 
                 <div class="px-4 pb-5 sm:p-6 sm:pt-0">
+
+                  
                   {#each activeQuiz.answers as answer, i}
                     <label class="block mt-2 mb-2 pb-2 pt-2">
                       <input
@@ -385,6 +388,8 @@
                         renderKatexOutput(answer.answer) +
                         "</span>"}
                     </label>
+
+
                   {/each}
                 </div>
               </div>

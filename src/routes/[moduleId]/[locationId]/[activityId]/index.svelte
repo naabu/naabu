@@ -1,9 +1,7 @@
 <script>
   import ShowActivity from "$lib/Activity/Components/show.svelte";
   import GetActivityData from "$lib/Activity/Data/getActivityData.svelte";
-
   export let activity;
-
   let firebase;
 </script>
 

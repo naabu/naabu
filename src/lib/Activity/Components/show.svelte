@@ -10,6 +10,7 @@
   import { hasSpecialClaims } from "$lib/Internals/User/helper.js";
   import { goto } from "$app/navigation";
   import Button from "$lib/Internals/Button/Button.svelte";
+  import RadioQuestion from "$lib/Internals/Quiz/RadioQuestion.svelte";
   export let firebase;
   export let activity;
   export let showFeedback = true;
@@ -330,68 +331,32 @@
                     </div>
                   </div>
                 </div>
-                <div
-                  class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6"
-                >
+
+                <RadioQuestion bind:quiz={activeQuiz}>
                   <div
-                    class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap"
+                    slot="quiz-question-actions"
+                    class="ml-4 mt-4 flex-shrink-0"
                   >
-                    <div class="ml-4 mt-4">
-                      <h3
-                        data-test="quiz-question"
-                        class="text-lg leading-6 font-medium text-gray-900"
-                      >
-                        {@html renderKatexOutput(activeQuiz.question)}
-                      </h3>
-                      <p class="mt-1 text-sm ">
-                        {#if activeQuiz.feedback}
-                          {@html activeQuiz.feedback}
-                        {/if}
-                      </p>
-                    </div>
-                    <div class="ml-4 mt-4 flex-shrink-0">
-                      <!-- If answer is correct then change this button to doorgaan -->
-                      {#if !activeQuiz.correct}
-                        <Button
-                          isDisabled={activeQuiz.selectedAnswer === null}
-                          on:click={() =>
-                            (activeQuiz = checkCorrectAnswer(activeQuiz))}
-                          dataTest="check-answer-button"
-                          content="Nakijken"
-                          color="primary"
-                        />
-                      {:else}
-                        <Button
-                          isDisabled={activeQuiz.selectedAnswer === null}
-                          on:click={closeActiveQuiz}
-                          dataTest="continue-button"
-                          content="Doorgaan"
-                          color="primary"
-                        />
-                      {/if}
-                    </div>
-                  </div>
-                </div>
-
-                <div class="px-4 pb-5 sm:p-6 sm:pt-0">
-
-                  
-                  {#each activeQuiz.answers as answer, i}
-                    <label class="block mt-2 mb-2 pb-2 pt-2">
-                      <input
-                        type="radio"
-                        bind:group={activeQuiz.selectedAnswer}
-                        value={i}
-                        data-test="input-value-{i}"
+                    {#if !activeQuiz.correct}
+                      <Button
+                        isDisabled={activeQuiz.selectedAnswer === null}
+                        on:click={() =>
+                          (activeQuiz = checkCorrectAnswer(activeQuiz))}
+                        dataTest="check-answer-button"
+                        content="Nakijken"
+                        color="primary"
                       />
-                      {@html "<span class='pl-3'>" +
-                        renderKatexOutput(answer.answer) +
-                        "</span>"}
-                    </label>
-
-
-                  {/each}
-                </div>
+                    {:else}
+                      <Button
+                        isDisabled={activeQuiz.selectedAnswer === null}
+                        on:click={closeActiveQuiz}
+                        dataTest="continue-button"
+                        content="Doorgaan"
+                        color="primary"
+                      />
+                    {/if}
+                  </div>
+                </RadioQuestion>
               </div>
             </div>
           </div>

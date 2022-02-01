@@ -55,20 +55,6 @@
   <title>Naabu</title>
 </svelte:head>
 
-<Radio
-  bind:selectedValue={radioDefaultValue}
-  options={[
-    {
-      label: "Map",
-      value: "map",
-    },
-    {
-      label: "Module",
-      value: "module",
-    },
-  ]}
-/>
-
 {#if mounted}
   <ModuleTeaserList bind:modules />
 {:else}

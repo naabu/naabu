@@ -1,4 +1,6 @@
 <script>
+  import TextInput from "$lib/Internals/FormFields/TextInput.svelte";
+
   export let curriculumProfile;
   export let isEdit = false;
 </script>
@@ -16,14 +18,11 @@
           Volledige naam (voor en achternaam)
         </label>
         <div class="mt-1 sm:mt-0 sm:col-span-2">
-          <input
-            type="text"
-            name="fullname"
+          <TextInput
+            bind:value={curriculumProfile.fullname}
             id="fullname"
             autocomplete="name"
-            required
-            bind:value={curriculumProfile.fullname}
-            class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+            required={true}
           />
         </div>
       </div>
@@ -38,12 +37,11 @@
         Institutie
       </label>
       <div class="mt-1 sm:mt-0 sm:col-span-2">
-        <input
-          type="text"
-          name="institution"
-          id="institution"
+        <TextInput
           bind:value={curriculumProfile.institution}
-          class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
+          id="institution"
+          autocomplete="organization"
+          required={true}
         />
       </div>
     </div>

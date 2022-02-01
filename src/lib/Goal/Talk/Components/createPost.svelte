@@ -6,6 +6,7 @@
   import { getDateString } from "$lib/Internals/Misc/helper";
   import { goto } from "$app/navigation";
   import Button from "$lib/Internals/Button/Button.svelte";
+  import TextInput from "$lib/Internals/FormFields/TextInput.svelte";
   export let firebase;
   export let talk;
   export let goalId;
@@ -100,13 +101,10 @@
         <label for="title" class="block text-sm font-medium text-gray-700"
           >Titel</label
         >
-        <input
-          type="text"
-          data-test="post-title"
+        <TextInput
           bind:value={newPostTitle}
-          name="title"
+          data-test="post-title"
           id="title"
-          class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
         />
       </div>
 

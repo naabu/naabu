@@ -4,6 +4,7 @@
   import QuizForm from "$lib/Activity/Components/quizzesForm.svelte";
   import Button from "$lib/Internals/Button/Button.svelte";
   import Radio from "$lib/Internals/FormFields/Radio.svelte";
+  import TextInput from "$lib/Internals/FormFields/TextInput.svelte";
 
   export let goal;
 
@@ -305,8 +306,6 @@
   />
 </svelte:head>
 
-<div class="space-y-6 sm:space-y-5 divide-y divide-gray-200" />
-
 <div class="divide-y divide-gray-200 pt-8 space-y-6 sm:pt-10 sm:space-y-5">
   <div>
     <h3 class="text-lg leading-6 font-medium text-gray-900">Taxonomies</h3>
@@ -320,53 +319,26 @@
     bind:selectedValue={goal.taxonomy_solo}
     options={soloRadioOptions}
     title="SOLO taxonomy"
-  >
-    <span slot="after-options">
-      {#if goal.taxonomy_solo.includes("solo-1")}
-        <div
-          class="mt-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
-        >
-          <label
-            for="uni_topic_name"
-            class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-          >
-            Onderwerp
-          </label>
-          <div class="mt-1 sm:mt-0 sm:col-span-2">
-            <input
-              type="text"
-              bind:value={goal.unitopic}
-              name="uni_topic_name"
-              id="uni_topic_name"
-              class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
-            />
-          </div>
-        </div>
-      {/if}
-      {#if goal.taxonomy_solo.includes("solo-2") || goal.taxonomy_solo.includes("solo-3")}
-        <DisplayMultiTopics bind:goal />
-      {/if}
-      {#if goal.taxonomy_solo.includes("solo-4")}
-        <DisplayMultiTopics bind:goal />
-        <label
-          for="context_name"
-          class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-        >
-          Nieuwe context
-        </label>
-        <div class="mt-1 sm:mt-0 sm:col-span-2">
-          <input
-            type="text"
-            bind:value={goal.context}
-            name="context_name"
-            id="context_name"
-            class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
-          />
-        </div>
-      {/if}
-    </span>
-  </Radio>
+  />
 
+  {#if goal.taxonomy_solo.includes("solo-1")}
+    <TextInput
+      label="Onderwerp"
+      bind:value={goal.unitopic}
+      id="uni_topic_name"
+    />
+  {/if}
+
+  {#if goal.taxonomy_solo.includes("solo-2") || goal.taxonomy_solo.includes("solo-3") || goal.taxonomy_solo.includes("solo-4")}
+    <DisplayMultiTopics bind:goal />
+  {/if}
+  {#if goal.taxonomy_solo.includes("solo-4")}
+    <TextInput
+      label="Nieuwe context"
+      bind:value={goal.context}
+      id="context_name"
+    />
+  {/if}
   <div class="space-y-6 sm:space-y-5 divide-y divide-gray-200">
     <div class="space-y-6 sm:space-y-5 divide-y divide-gray-200">
       <div class="pt-6 sm:pt-5">
@@ -477,13 +449,7 @@
             Waar moet de leerling het doen?
           </label>
           <div class="mt-1 sm:mt-0 sm:col-span-2">
-            <input
-              type="text"
-              bind:value={goal.fromText}
-              name="from_text"
-              id="from_text"
-              class="max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
-            />
+            <TextInput bind:value={goal.fromText} id="from_text" />
           </div>
         </div>
       </div>

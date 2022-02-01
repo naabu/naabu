@@ -1,5 +1,6 @@
 <script>
   import Button from "$lib/Internals/Button/Button.svelte";
+  import TextInput from "$lib/Internals/FormFields/TextInput.svelte";
 
   export let battles;
   export let index;
@@ -52,14 +53,12 @@
       </div>
     {/each}
     <div>
-      <input
+      <TextInput
         on:keypress={onKeyPress}
-        type="text"
         bind:value={newBattleName}
-        name="test_name"
         id="test_name"
-        class="mt-2 mb-2 max-w-lg block w-full shadow-sm focus:ring-indigo-500 focus:border-indigo-500 sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
       />
+      
       <Button
         on:click={addBattleSubmit}
         size="small"

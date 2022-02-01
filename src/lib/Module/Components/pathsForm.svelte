@@ -1,5 +1,6 @@
 <script>
   import Button from "$lib/Internals/Button/Button.svelte";
+  import TextInput from "$lib/Internals/FormFields/TextInput.svelte";
 
   export let map;
 
@@ -91,6 +92,17 @@
       </div>
     {:else}
       <div>
+        <TextInput
+          label="Point X"
+          data-test="path-input-x-{i}"
+          bind:value={point[1]}
+        />
+
+        <TextInput
+          label="Point Y"
+          data-test="path-input-y-{i}"
+          bind:value={point[0]}
+        />
         <input data-test="path-input-x-{i}" type="text" bind:value={point[1]} />
         <input data-test="path-input-y-{i}" type="text" bind:value={point[0]} />
 

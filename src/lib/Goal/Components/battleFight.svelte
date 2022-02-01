@@ -3,7 +3,6 @@
   import { getStores, session, page } from "$app/stores";
   import Transition from "svelte-class-transition";
   import { onMount } from "svelte";
-  import { renderKatexOutput } from "$lib/Internals/Misc/helper.js";
   import { hasSpecialClaims } from "$lib/Internals/User/helper.js";
   import Button from "$lib/Internals/Button/Button.svelte";
   import RadioQuestion from "$lib/Internals/Quiz/RadioQuestion.svelte";

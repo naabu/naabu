@@ -29,6 +29,7 @@
     <label class="block mt-2 mb-2 pb-2 pt-2">
       <input
         type="radio"
+        class="focus:ring-blue-600 h-4 w-4 text-blue-600 border-gray-300"
         bind:group={quiz.selectedAnswer}
         value={i}
         data-test="input-value-{i}"

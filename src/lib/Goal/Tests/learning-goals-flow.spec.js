@@ -57,7 +57,7 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
   await page.click('[data-test=create-goal-link]');
 
   // Create goal page.
-  await page.click('#unistructureel');
+  await page.click('#solo-1');
   await page.fill('#uni_topic_name', 'subject 1');
   await page.click('#bloom1-1');
   await page.click('#bloom2-2');
@@ -80,7 +80,7 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
 
   // Edit goal page.
   await page.click('[data-test=subtab-edit]');
-  await page.click('#multistructureel');
+  await page.click('#solo-2');
   await page.fill('#multi_topic_name', 'subject 1');
   await page.click('[data-test=add-multi-topic-button]');
   await page.fill('#multi_topic_name', 'subject 2');

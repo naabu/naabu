@@ -94,13 +94,13 @@
       <div>
         <TextInput
           label="Point X"
-          data-test="path-input-x-{i}"
+          dataTest="path-input-x-{i}"
           bind:value={point[1]}
         />
 
         <TextInput
           label="Point Y"
-          data-test="path-input-y-{i}"
+          dataTest="path-input-y-{i}"
           bind:value={point[0]}
         />
         <input data-test="path-input-x-{i}" type="text" bind:value={point[1]} />

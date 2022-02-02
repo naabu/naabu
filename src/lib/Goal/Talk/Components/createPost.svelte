@@ -103,7 +103,7 @@
         >
         <TextInput
           bind:value={newPostTitle}
-          data-test="post-title"
+          dataTest="post-title"
           id="title"
         />
       </div>

@@ -5,6 +5,10 @@
   import Button from "$lib/Internals/Button/Button.svelte";
   import Radio from "$lib/Internals/FormFields/Radio.svelte";
   import TextInput from "$lib/Internals/FormFields/TextInput.svelte";
+  import FieldSet from "$lib/Internals/FormFields/FieldSet.svelte";
+  import Select from "$lib/Internals/FormFields/Select.svelte";
+  import Textarea from "$lib/Internals/FormFields/Textarea.svelte";
+import Tabs from "$lib/Internals/Tabs/tabs.svelte";
 
   export let goal;
 
@@ -145,8 +149,7 @@
     generateGoalTitle();
   }
 
-  function setSelectedBattleIndex(index) {
-    selectedBattleIndex = index;
+  $: if (selectedBattleIndex) {
     selectedQuizIndex = 0;
     selectedFieldIndex = -1;
   }
@@ -226,7 +229,7 @@
       let addVerbs = [];
       for (let i2 = 0; i2 < toAddVerbs.length; i2++) {
         if (!verbs.includes(toAddVerbs[i2])) {
-          addVerbs.push(toAddVerbs[i2]);
+          addVerbs.push({ value: toAddVerbs[i2], content: toAddVerbs[i2] });
         }
       }
       verbs = [...verbs, ...addVerbs];
@@ -263,37 +266,16 @@
     goal.taxonomy_bloom = newArray;
   }
 
-  function setDisabledBloom(bloomValue) {
-    return false;
-    let bloomColumn = bloomValue.substr(bloomValue.length - 1);
-    if (
-      goal.taxonomy_solo.includes("solo-1") &&
-      (bloomColumn === "1" || bloomColumn === "2")
-    ) {
-      return false;
+  export let battleTabs = [];
+
+  $: if (goal.battles) {
+    battleTabs = [];
+    for (let i = 0; i < goal.battles.length; i++) {
+      battleTabs.push({
+        label: goal.battles[i].title,
+        value: i,
+      });
     }
-    if (
-      goal.taxonomy_solo.includes("solo-2") &&
-      (bloomColumn === "2" || bloomColumn === "3")
-    ) {
-      return false;
-    }
-    if (
-      goal.taxonomy_solo.includes("solo-3") &&
-      (bloomColumn === "3" || bloomColumn === "4")
-    ) {
-      return false;
-    }
-    if (
-      goal.taxonomy_solo.includes("solo-4") &&
-      (bloomColumn === "3" ||
-        bloomColumn === "4" ||
-        bloomColumn === "5" ||
-        bloomColumn === "6")
-    ) {
-      return false;
-    }
-    return true;
   }
 </script>
 
@@ -306,15 +288,11 @@
   />
 </svelte:head>
 
-<div class="divide-y divide-gray-200 pt-8 space-y-6 sm:pt-10 sm:space-y-5">
-  <div>
-    <h3 class="text-lg leading-6 font-medium text-gray-900">Taxonomies</h3>
-    <p class="mt-1 max-w-2xl text-sm text-gray-500">
-      Probeer het leerdoel zo goed mogelijk te classifieren met SOLO en Bloom's
-      taxonomy.
-    </p>
-  </div>
-
+<FieldSet
+  title="Taxonomies"
+  description="Probeer het leerdoel zo goed mogelijk te classifieren met SOLO en Bloom's
+taxonomy."
+>
   <Radio
     bind:selectedValue={goal.taxonomy_solo}
     options={soloRadioOptions}
@@ -323,7 +301,7 @@
 
   {#if goal.taxonomy_solo.includes("solo-1")}
     <TextInput
-      label="Onderwerp"
+      title="Onderwerp"
       bind:value={goal.unitopic}
       id="uni_topic_name"
     />
@@ -334,7 +312,7 @@
   {/if}
   {#if goal.taxonomy_solo.includes("solo-4")}
     <TextInput
-      label="Nieuwe context"
+      title="Nieuwe context"
       bind:value={goal.context}
       id="context_name"
     />
@@ -389,10 +367,6 @@
                       name={cognitionValue}
                       bind:group={goal.taxonomy_bloom}
                       value={cognitionValue}
-                      disabled={setDisabledBloom(
-                        cognitionValue,
-                        goal.taxonomy_solo
-                      )}
                       type="checkbox"
                       class="disabled:opacity-50 bg-black-500focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
                     />
@@ -405,252 +379,123 @@
       </div>
     </div>
   </div>
-</div>
+</FieldSet>
 
-<div>
-  <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
-    <div
-      class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
-    >
-      <label for="title" class="block text-sm font-medium text-gray-700">
-        Welk werkwoord past het beste bij je leerdoel?
-      </label>
-      <div class="mt-1 sm:mt-0 sm:col-span-2">
-        <div class="mt-1 sm:mt-0 sm:col-span-2">
-          <select
-            multiple
-            bind:value={goal.selectedVerbs}
-            id="selectedVerbs"
-            name="selectedVerbs"
-            class="resize-y max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
-          >
-            {#each verbs as verb}
-              <option value={verb}>{verb}</option>
-            {/each}
-          </select>
-        </div>
-      </div>
-    </div>
-    <div
-      class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
-    >
-      <label
-        for="from_text"
-        class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-      >
-        Extra info
-      </label>
-      <div class="mt-1 sm:mt-0 sm:col-span-2">
-        <div class="mt-1 sm:mt-0 sm:col-span-2">
-          <label
-            for="from_text"
-            class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-          >
-            Waar moet de leerling het doen?
-          </label>
-          <div class="mt-1 sm:mt-0 sm:col-span-2">
-            <TextInput bind:value={goal.fromText} id="from_text" />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
+<FieldSet
+  title="Leerdoel"
+  description="Omschrijf het leerdoel zo concreet mogelijk."
+>
+  <Select
+    title="Welk werkwoord past het beste bij je leerdoel?"
+    bind:value={goal.selectedVerbs}
+    bind:options={verbs}
+    id="select-verbs"
+  />
 
-<div>
-  <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
-    <div
-      class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
-    >
-      <label
-        for="title"
-        class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-      >
-        Titel
-      </label>
-      <div class="mt-1 sm:mt-0 sm:col-span-2">
-        <textarea
-          id="title"
-          name="title"
-          rows="1"
-          bind:value={goal.title}
-          class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
-        />
-      </div>
-    </div>
+  <TextInput
+    title="Waar moet de leerling het leerdoel kunnen toepassen?"
+    bind:value={goal.fromText}
+    id="from_text"
+  />
 
-    <div
-      class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
-    >
-      <label
-        for="description"
-        class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-      >
-        Description
-      </label>
-      <div class="mt-1 sm:mt-0 sm:col-span-2">
-        <textarea
-          id="description"
-          name="description"
-          rows="3"
-          bind:value={goal.description}
-          class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
-        />
-        <div class="mt-2 text-sm text-gray-500">
-          <ul class="list-disc">
-            <li>
-              Probeer de <a
-                class="underline"
-                href="/beheer/leerdoel/woorden-bloom"
-                >woorden van Bloom's taxonomy</a
-              > aan te houden om het leerdoel te beschrijven.
-            </li>
-            <li>
-              Probeer het leerdoel te omschrijven zodat het specifiek, meetbaar,
-              acceptabel, realistisch en tijdsgebonden kan zijn (<a
-                class="underline"
-                href="https://www.leroyseijdel.nl/doelen-stellen/smart-leerdoelen-voorbeelden/"
-                >SMART</a
-              >)
-            </li>
-            <li>
-              Houd rekening met de beschrijving met de Solo taxonomy. Heeft het
-              te maken met meerdere aspecten in de context of buiten de context?
-            </li>
-          </ul>
-          <br />
-          <b>Voorbeelden</b>
-          <ul class="list-disc">
-            <li>
-              Herken en beschrijf de structuur van een exponentieele formule
-            </li>
-            <li>Opstellen van een exponentieele formule uit tekst</li>
-            <li>
-              Kan classifieren van voorbeelden van linaire en exponentiele
-              verbanden
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-    <div>
-      <h3 class="text-lg leading-6 font-medium text-gray-900">Testen</h3>
-      <p class="mt-1 max-w-2xl text-sm text-gray-500">
-        Leerlingen bewijzen met deze testen dat ze het leerdoel beheersen.
-      </p>
-    </div>
-    <div>
-      {#if goal.battles}
-        <BattleListForm
-          bind:battles={goal.battles}
-          bind:index={selectedBattleIndex}
-        />
-      {/if}
+  <Textarea title="Titel" bind:value={goal.title} id="title-textarea" />
 
-      <div class="block tabs">
-        <div class="border-b mb-1 border-gray-200">
-          <nav
-            data-test="battle-nav"
-            class="-mb-px flex space-x-8"
-            aria-label="Tabs"
-          >
-            {#if goal.battles}
-              {#each goal.battles as battle, i}
-                {#if selectedBattleIndex !== i}
-                  <button
-                    data-test="click-battle-{i}-button"
-                    on:click|preventDefault={() => setSelectedBattleIndex(i)}
-                    class="outline-none active:outline-none focus:outline-none border-transparent  text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-                  >
-                    {battle.name}
-                  </button>
-                {:else}
-                  <button
-                    on:click|preventDefault={() => setSelectedBattleIndex(i)}
-                    class="outline-none active:outline-none focus:outline-none border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-                  >
-                    {battle.name}
-                  </button>
-                {/if}
-              {/each}
-            {/if}
-          </nav>
-        </div>
+  <Textarea
+    id="description"
+    title="Omschrijving"
+    bind:value={goal.description}
+    rows="3"
+  >
+    <svelte:fragment slot="after">
+      <div class="ml-4 mt-2 text-sm text-gray-500">
+        <ul class="list-disc">
+          <li>
+            Probeer de <a
+              class="underline"
+              href="/beheer/leerdoel/woorden-bloom"
+              >woorden van Bloom's taxonomy</a
+            > aan te houden om het leerdoel te beschrijven.
+          </li>
+          <li>
+            Probeer het leerdoel te omschrijven zodat het specifiek, meetbaar,
+            acceptabel, realistisch en tijdsgebonden kan zijn (<a
+              class="underline"
+              href="https://www.leroyseijdel.nl/doelen-stellen/smart-leerdoelen-voorbeelden/"
+              >SMART</a
+            >)
+          </li>
+          <li>
+            Houd rekening met de beschrijving met de Solo taxonomy. Heeft het te
+            maken met meerdere aspecten in de context of buiten de context?
+          </li>
+        </ul>
+        <br />
+        <b>Voorbeelden</b>
+        <ul class="list-disc">
+          <li>
+            Herken en beschrijf de structuur van een exponentieele formule
+          </li>
+          <li>Opstellen van een exponentieele formule uit tekst</li>
+          <li>
+            Kan classifieren van voorbeelden van linaire en exponentiele
+            verbanden
+          </li>
+        </ul>
       </div>
-      {#if goal.battles && goal.battles.length > 0}
-        <QuizForm
-          bind:quizzes={goal.battles[selectedBattleIndex].quizzes}
-          bind:selectedQuizIndex
-          bind:selectedFieldIndex
-        />
-      {/if}
-      <!-- <label
-      for="battleName"
-      class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-    >
-      Battle name
-    </label>
-    <div class="mt-1 sm:mt-0 sm:col-span-2">
-      <textarea
-        id="battleName"
-        name="battleName"
-        rows="1"
-        bind:value={goal.battleName}
-        class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
+    </svelte:fragment>
+  </Textarea>
+</FieldSet>
+
+<FieldSet
+  title="Testen"
+  description="Leerlingen bewijzen met deze testen dat ze het leerdoel beheersen."
+>
+  <div>
+    {#if goal.battles}
+      <BattleListForm
+        bind:battles={goal.battles}
+        bind:index={selectedBattleIndex}
       />
-    </div> -->
-    </div>
-  </div>
-</div>
-<!-- <div class="divide-y divide-gray-200 pt-8 space-y-6 sm:pt-10 sm:space-y-5">
-  <h3 class="text-lg leading-6 font-medium text-gray-900">Leerdoelen</h3>
-  <p class="mt-1 max-w-2xl text-sm text-gray-500">
-    Met welke leerdoelen heeft deze leerdoel te maken?
-  </p>
-  <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
-    <div
-      class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
-    >
-      <label
-        for="title"
-        class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-      >
-        Gekoppelde leerdoelen
-      </label>
-      <div class="mt-1 sm:mt-0 sm:col-span-2">
-        {#if goal.goalLinks.length === 0}
-          <p class="mt-1 max-w-2xl text-sm text-gray-500">
-            Nog geen koppeling met andere leerdoelen toegevoegd
-          </p>
-        {:else}
-          <ul>
-            {#each goal.goalLinks as leerdoel, i}
-              <li>
-                {leerdoel.title}
-                <button on:click|preventDefault={() => removeLeerdoel(i)}
-                  >Weghalen</button
-                >
-              </li>
-            {/each}
-          </ul>
-        {/if}
-      </div>
-    </div>
-  </div>
+    {/if}
 
-  <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
-    <div
-      class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
-    >
-      <label
-        for="autocomplete-leerdoelen"
-        class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-      >
-        Leerdoel toevoegen
-      </label>
-      <div class="mt-1 sm:mt-0 sm:col-span-2">
-        <div id="autocomplete-leerdoelen" class="max-w-lg" />
+    <Tabs mainTabs={battleTabs} mainSelected={selectedBattleIndex} />
+
+    <!-- <div class="block tabs">
+      <div class="border-b mb-1 border-gray-200">
+        <nav
+          data-test="battle-nav"
+          class="-mb-px flex space-x-8"
+          aria-label="Tabs"
+        >
+          {#if goal.battles}
+            {#each goal.battles as battle, i}
+              {#if selectedBattleIndex !== i}
+                <button
+                  data-test="click-battle-{i}-button"
+                  on:click|preventDefault={() => setSelectedBattleIndex(i)}
+                  class="outline-none active:outline-none focus:outline-none border-transparent  text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+                >
+                  {battle.name}
+                </button>
+              {:else}
+                <button
+                  on:click|preventDefault={() => setSelectedBattleIndex(i)}
+                  class="outline-none active:outline-none focus:outline-none border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
+                >
+                  {battle.name}
+                </button>
+              {/if}
+            {/each}
+          {/if}
+        </nav>
       </div>
-    </div>
+    </div> -->
+    {#if goal.battles && goal.battles.length > 0}
+      <QuizForm
+        bind:quizzes={goal.battles[selectedBattleIndex].quizzes}
+        bind:selectedQuizIndex
+        bind:selectedFieldIndex
+      />
+    {/if}
   </div>
-</div> -->
+</FieldSet>

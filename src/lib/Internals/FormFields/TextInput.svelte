@@ -1,6 +1,6 @@
 <script>
   export let id = "input-id";
-  export let label;
+  export let title;
   export let value;
   export let required = false;
   export let dataTest = "inputText";
@@ -10,12 +10,12 @@
 <div
   class="mt-4 mb-4 sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
 >
-  {#if label}
+  {#if title}
     <label
       for={id}
       class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
     >
-      {label}
+      {title}
     </label>
   {/if}
 

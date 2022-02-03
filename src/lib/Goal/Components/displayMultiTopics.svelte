@@ -26,13 +26,15 @@
 </script>
 
 <TextInput
-  label="Onderwerpen"
+  title="Onderwerpen"
   on:keypress={onKeyPress}
   bind:value={newMultitopic}
   id="multi_topic_name"
 >
   <svelte:fragment slot="above-input">
-    <div class="sm:grid sm:grid-cols-2 space-between justify-items-start items-center">
+    <div
+      class="sm:grid sm:grid-cols-2 space-between justify-items-start items-center"
+    >
       {#each goal.multitopics as multiTopic, i}
         {multiTopic}
         <Button

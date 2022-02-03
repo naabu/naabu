@@ -93,17 +93,17 @@
     {:else}
       <div>
         <TextInput
-          label="Point X"
+          title="Point X"
           dataTest="path-input-x-{i}"
           bind:value={point[1]}
         />
 
         <TextInput
-          label="Point Y"
+          title="Point Y"
           dataTest="path-input-y-{i}"
           bind:value={point[0]}
         />
-        
+
         <Button
           dataTest="remove-path-point-button-{i}"
           on:click={() => removePoint(i)}

@@ -54,6 +54,8 @@
       answers: [],
     };
     quizzes = [...quizzes, quiz];
+    selectedFieldIndex = -1;
+    selectedQuizIndex = quizzes.length - 1;
   }
 
   function addAnswer(quizIndex) {

@@ -272,10 +272,12 @@ import Tabs from "$lib/Internals/Tabs/tabs.svelte";
     battleTabs = [];
     for (let i = 0; i < goal.battles.length; i++) {
       battleTabs.push({
-        label: goal.battles[i].title,
+        text: goal.battles[i].name,
         value: i,
       });
     }
+    console.log(goal.battles);
+    console.log(battleTabs);
   }
 </script>
 
@@ -458,7 +460,7 @@ taxonomy."
       />
     {/if}
 
-    <Tabs mainTabs={battleTabs} mainSelected={selectedBattleIndex} />
+    <Tabs id="battle" mainTabs={battleTabs} mainSelected={selectedBattleIndex} />
 
     <!-- <div class="block tabs">
       <div class="border-b mb-1 border-gray-200">

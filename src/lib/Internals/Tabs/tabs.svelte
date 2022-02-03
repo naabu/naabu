@@ -5,6 +5,7 @@
   export let subTabs;
   export let mainSelected;
   export let subSelected;
+  export let id = "tabs";
 
   let mainSelectedTab = mainSelected;
   let subSelectedTab = subSelected;
@@ -12,7 +13,9 @@
   function gotoMainTab() {
     for (let i = 0; i < mainTabs.length; i++) {
       if (mainTabs[i].value === mainSelectedTab) {
-        goto(mainTabs[i].url);
+        if (mainTabs[i].url) {
+          goto(mainTabs[i].url);
+        }
       }
     }
   }
@@ -20,7 +23,9 @@
   function gotoSubTab() {
     for (let i = 0; i < subTabs.length; i++) {
       if (subTabs[i].value === subSelectedTab) {
-        goto(subTabs[i].url);
+        if (subTabs[i].url) {
+          goto(subTabs[i].url);
+        }
       }
     }
   }
@@ -40,18 +45,13 @@
     "hover:border-gray-300",
   ];
 
-  let selectedAClasses = [
-    "border-indigo-500",
-    "text-indigo-600",
-  ];
-
+  let selectedAClasses = ["border-indigo-500", "text-indigo-600"];
 
   function getClasses(tab, selectedTab) {
     let classes = allAClasses;
     if (tab.value === selectedTab) {
       classes = [...classes, ...selectedAClasses];
-    }
-    else {
+    } else {
       classes = [...classes, ...nonSelectedAClasses];
     }
 
@@ -61,12 +61,12 @@
 
 <div>
   <div class="sm:hidden">
-    <label for="tabs" class="sr-only">Selecteer een tab</label>
+    <label for="main-{id}" class="sr-only">Selecteer een tab</label>
     <select
       bind:value={mainSelectedTab}
       on:change={gotoMainTab}
-      id="tabs"
-      name="tabs"
+      id="main-{id}"
+      name="main-{id}"
       class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
     >
       {#each mainTabs as tab}
@@ -76,12 +76,12 @@
       {/each}
     </select>
     {#if subTabs}
-      <label for="subTabs" class="sr-only">Selecteer een tab</label>
+      <label for="sub-{id}" class="sr-only">Selecteer een tab</label>
       <select
         bind:value={subSelectedTab}
         on:change={gotoSubTab}
-        id="tabs"
-        name="tabs"
+        id="sub-{id}"
+        name="sub-{id}"
         class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
       >
         {#each subTabs as tab}
@@ -98,10 +98,10 @@
         <div class="flex space-x-8">
           {#each mainTabs as tab}
             <a
-              data-test="maintab-{tab.value}"
+              data-test="{id}-main-{tab.value}"
               class={getClasses(tab, mainSelected)}
               href={tab.url}
-              on:click={() => mainSelected = tab.value}
+              on:click={() => (mainSelected = tab.value)}
             >
               {tab.text}
             </a>
@@ -110,12 +110,11 @@
         {#if subTabs}
           <div class="ml-auto flex space-x-8">
             {#each subTabs as tab}
-
               <a
-                data-test="subtab-{tab.value}"
+                data-test="{id}-sub-{tab.value}"
                 class={getClasses(tab, subSelected)}
                 href={tab.url}
-                on:click={() => subSelected = tab.value}
+                on:click={() => (subSelected = tab.value)}
               >
                 {tab.text}
               </a>

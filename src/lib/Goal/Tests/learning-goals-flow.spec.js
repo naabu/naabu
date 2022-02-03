@@ -40,7 +40,7 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
   await expect(profileView).toContainText('University of Logic');
   await expect(profileView).toContainText('johndoe@unilogic.org');
   await expect(profileView).toContainText('Proffesor of logic (5 years) Head of department of logic.');
-  await page.click('[data-test=subtab-edit]');
+  await page.click('[data-test=tabs-sub-edit]');
   await page.waitForTimeout(1000);
   await page.waitForSelector('#institution');
   await expect(page.locator('#institution')).toBeVisible();
@@ -49,7 +49,7 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
   await page.fill('#email', 'johndoe@uniedu.org');
   await page.fill('#credentials', 'The top Proffesor of education (5 years) Head of department of logic.');
   await page.click('[data-test=submit-button]');
-  await page.click('[data-test=subtab-read]');
+  await page.click('[data-test=tabs-sub-read]');
   await expect(profileView).toContainText('University of Education');
   await expect(profileView).toContainText('johndoe@uniedu.org');
   await expect(profileView).toContainText('The top Proffesor of education (5 years) Head of department of logic.');
@@ -61,7 +61,7 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
   await page.fill('#uni_topic_name', 'subject 1');
   await page.click('#bloom1-1');
   await page.click('#bloom2-2');
-  await page.selectOption('select#selectedVerbs', ['benoemen', 'definieren']);
+  await page.selectOption('select#select-verbs', ['benoemen', 'definieren']);
   await page.fill('#from_text', 'from a work sheet');
   await page.fill('#description', 'Important learning goal for reasons');
   await page.fill('#test_name', 'Battle 1');
@@ -79,7 +79,7 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
   await expect(page.locator('div#svelte')).toContainText('Ik kan subject 1 benoemen en definieren from a work sheet');
 
   // Edit goal page.
-  await page.click('[data-test=subtab-edit]');
+  await page.click('[data-test=tabs-sub-edit]');
   await page.click('#solo-2');
   await page.fill('#multi_topic_name', 'subject 1');
   await page.click('[data-test=add-multi-topic-button]');
@@ -87,7 +87,7 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
   await page.click('[data-test=add-multi-topic-button]');
   await page.click('#bloom1-3');
   await page.click('#bloom2-3');
-  await page.selectOption('select#selectedVerbs', ['berekenen', 'omzetten']);
+  await page.selectOption('select#select-verbs', ['berekenen', 'omzetten']);
   await page.fill('#from_text', 'from your head without a calculator');
   await page.fill('#description', 'Vital to learn this early');
   await page.fill('#quiz_question', 'Weet jij het antwoord? $$1+1=$$..');
@@ -101,7 +101,7 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
   await page.fill('#answeranswer', '3');
   await page.fill('#test_name', 'Battle 2');
   await page.click('[data-test=add-battle-button]');
-  await page.click('[data-test=click-battle-1-button]');
+  await page.click('[data-test=battle-main-1]');
   await page.click('[data-test=add-question-button]');
   await page.fill('#quiz_question', '$$2+2=$$..');
   await page.click('[data-test=new-answer-button]');
@@ -113,7 +113,7 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
   await page.fill('#answeranswer', '1');
   await page.click('[data-test=edit-goal-submit-button]');
   await expect(page.locator('div#svelte')).toContainText('Leerdoel gewijzigd');
-  await page.click('[data-test=subtab-history]');
+  await page.click('[data-test=tabs-sub-history]');
 
   // Revision page.
   await expect(page.locator('div#svelte')).toContainText('John Doe')
@@ -157,24 +157,23 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
   await expect(page.locator('[data-test="Antwoorden-new"] > [data-test=new-index1]')).toContainText('2 - Goede antwoord');
   await expect(page.locator('[data-test="Antwoorden-new"] > [data-test=new-index2]')).toContainText('3 - Fout antwoord');
 
-  await page.click('[data-test=subtab-edit]');
+  await page.click('[data-test=tabs-sub-edit]');
   await expect(page.locator('[data-test=alert-old-version]')).toContainText('Waarschuwing: u bewerkt een oude versie van deze pagina.');
   await expect(page.locator('div#svelte')).toContainText('Als u uw bewerking opslaat, gaan alle wijzigingen verloren die na deze versie zijn gemaakt.');
-  await page.click('[data-test="maintab-goal"]');
+  await page.click('[data-test="tabs-main-goal"]');
   await expect(page.locator('div#svelte')).toContainText('Je bekijkt een revisie');
   await page.click('[data-test="show-diff-link"]');
   await page.waitForSelector('[data-test=discuss-revision-button]');
   // await page.waitForTimeout(5000);
   await expect(page.locator('div#svelte')).toContainText('Verschil tussen versies');
   await page.click('[data-test=discuss-revision-button]');
-
   await page.waitForSelector('[data-test=post-title]');
   await expect(page.locator('[data-test=post-title]')).toHaveValue(/Overleg revisie.*/);
   await page.fill('#post', 'Test post for cypress');
   await page.click('[data-test="post-button"]');
   await expect(page.locator('div#svelte')).toContainText('Antwoord');
   await page.fill('#reply', 'Answer on post');
-  await page.click('[data-test="maintab-talk"]')
+  await page.click('[data-test="tabs-main-talk"]')
   await expect(page.locator('div#svelte')).toContainText('Titel');
   await page.fill('#title', 'New title');
   await page.fill('#post', 'New post');

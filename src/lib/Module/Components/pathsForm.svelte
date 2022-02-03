@@ -103,9 +103,7 @@
           dataTest="path-input-y-{i}"
           bind:value={point[0]}
         />
-        <input data-test="path-input-x-{i}" type="text" bind:value={point[1]} />
-        <input data-test="path-input-y-{i}" type="text" bind:value={point[0]} />
-
+        
         <Button
           dataTest="remove-path-point-button-{i}"
           on:click={() => removePoint(i)}

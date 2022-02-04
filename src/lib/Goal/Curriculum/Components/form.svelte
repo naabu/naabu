@@ -1,5 +1,6 @@
 <script>
   import TextInput from "$lib/Internals/FormFields/TextInput.svelte";
+  import Textarea from "../../../Internals/FormFields/Textarea.svelte";
 
   export let curriculumProfile;
   export let isEdit = false;
@@ -66,27 +67,17 @@
       </div>
     </div>
 
-    <div
-      class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
+    <Textarea
+      title="Referenties"
+      bind:value={curriculumProfile.credentials}
+      id="credentials"
+      rows="3"
     >
-      <label
-        for="credentials"
-        class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-      >
-        Referenties
-      </label>
-      <div class="mt-1 sm:mt-0 sm:col-span-2">
-        <textarea
-          bind:value={curriculumProfile.credentials}
-          id="credentials"
-          name="credentials"
-          rows="3"
-          class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border border-gray-300 rounded-md"
-        />
+      <svelte:fragment slot="after">
         <p class="mt-2 text-sm text-gray-500">
           Voeg je relevante opleidingen en posities toe.
         </p>
-      </div>
-    </div>
+      </svelte:fragment>
+    </Textarea>
   </div>
 {/if}

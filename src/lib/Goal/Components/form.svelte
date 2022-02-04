@@ -8,7 +8,7 @@
   import FieldSet from "$lib/Internals/FormFields/FieldSet.svelte";
   import Select from "$lib/Internals/FormFields/Select.svelte";
   import Textarea from "$lib/Internals/FormFields/Textarea.svelte";
-import Tabs from "$lib/Internals/Tabs/tabs.svelte";
+  import Tabs from "$lib/Internals/Tabs/tabs.svelte";
 
   export let goal;
 
@@ -276,8 +276,6 @@ import Tabs from "$lib/Internals/Tabs/tabs.svelte";
         value: i,
       });
     }
-    console.log(goal.battles);
-    console.log(battleTabs);
   }
 </script>
 
@@ -392,6 +390,7 @@ taxonomy."
     bind:value={goal.selectedVerbs}
     bind:options={verbs}
     id="select-verbs"
+    multiple={true}
   />
 
   <TextInput
@@ -460,7 +459,11 @@ taxonomy."
       />
     {/if}
 
-    <Tabs id="battle" mainTabs={battleTabs} mainSelected={selectedBattleIndex} />
+    <Tabs
+      id="battle"
+      mainTabs={battleTabs}
+      mainSelected={selectedBattleIndex}
+    />
 
     <!-- <div class="block tabs">
       <div class="border-b mb-1 border-gray-200">

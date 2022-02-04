@@ -2,12 +2,29 @@
   import "@algolia/autocomplete-theme-classic";
   import LocationForm from "$lib/Module/Components/locationForm.svelte";
   import { formatMapObject } from "$lib/Module/Components/helper";
+  import Select from "../../Internals/FormFields/Select.svelte";
   export let module;
   export let allMaps;
+  export let selectMapOptions = [];
 
-  function changeMap() {
-    module = formatMapObject(module, true, false);
+  let changedMap = false;
+
+  $: if (allMaps) {
+    selectMapOptions = [];
+    for (let i = 0; i < allMaps.length; i++) {
+      allMaps[i].processed = false;
+      selectMapOptions.push({
+        value: allMaps[i],
+        content: allMaps[i].title,
+      });
+    }
   }
+
+  $: if (module.map && !module.map.processed) {
+    module = formatMapObject(module, true, false);
+    module.map.processed = true;
+  }
+
 </script>
 
 <div class="mb-44 space-y-8 divide-y divide-gray-200 sm:space-y-5">
@@ -73,7 +90,14 @@
           />
         </div>
       </div>
-      <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
+      <Select
+        id="maps"
+        title="Kaart"
+        bind:value={module.map}
+        options={selectMapOptions}
+      />
+
+      <!-- <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
         <label
           for="maps"
           class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
@@ -89,11 +113,15 @@
         >
           <option value={undefined}>Geen kaart</option>
           {#each allMaps as map}
-            <option class:selected={module.map === map} value={map}>{map.title}</option>
+            <option class:selected={module.map === map} value={map}
+              >{map.title}</option
+            >
           {/each}
         </select>
-      </div>
+      </div> -->
+      test3
       {#if module.locations}
+        test12
         <div
           class="divide-y divide-gray-200 pt-8 space-y-6 sm:pt-10 sm:space-y-5"
         >

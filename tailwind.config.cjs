@@ -30,11 +30,16 @@ module.exports = {
       gridTemplateColumns: {
         // Simple 8 row grid
         'taxonomy': '2fr minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr) minmax(0,1fr)',
-      },
-    },
+      }
+    }
+  },
+  variants: {
+    extend: {
+      opacity: ['disabled'],
+    }
   },
   plugins: [
     require('@tailwindcss/forms'),
-    require('@tailwindcss/aspect-ratio'),
+    require('@tailwindcss/aspect-ratio')
   ]
 };

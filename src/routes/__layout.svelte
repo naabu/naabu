@@ -3,7 +3,7 @@
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { onMount, getContext } from "svelte";
   import Header from "$lib/Internals/Header/index.svelte";
-  import "$lib/../app.css";
+  import "../app.css";
   import LoadFirebase from "$lib/Internals/Firebase/loadFirebase.svelte";
   import { loginUser } from "$lib/Internals/User/helper";
 

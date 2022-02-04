@@ -50,7 +50,7 @@
     "svelte": "^3.46.2",
     "svelte-adapter-firebase": "^0.13.1",
     "svelte-loader": "^3.1.2",
-    "svelte-preprocess": "^4.10.1",
+    "svelte-preprocess": "^4.10.2",
     "sveltedoc-parser": "^4.2.1",
     "tailwindcss": "^2.2.19",
     "vite": "^2.7.10"

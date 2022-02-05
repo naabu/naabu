@@ -9,6 +9,13 @@
 
   let changedMap = false;
 
+  function compareFunction(value1, value2) {
+    if (value1.mapId == value2.mapId) {
+      return true;
+    }
+    return false;
+}
+
   $: if (allMaps) {
     selectMapOptions = [];
     for (let i = 0; i < allMaps.length; i++) {
@@ -20,9 +27,8 @@
     }
   }
 
-  $: if (module.map && !module.map.processed) {
-    module = formatMapObject(module, true, false);
-    module.map.processed = true;
+  function selectChanged(event) {
+    module = formatMapObject(module, true, false);  
   }
 
 </script>
@@ -95,6 +101,8 @@
         title="Kaart"
         bind:value={module.map}
         options={selectMapOptions}
+        compareFunction={compareFunction}
+        on:change={selectChanged}
       />
 
       <!-- <div class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:pt-5">
@@ -119,9 +127,7 @@
           {/each}
         </select>
       </div> -->
-      test3
       {#if module.locations}
-        test12
         <div
           class="divide-y divide-gray-200 pt-8 space-y-6 sm:pt-10 sm:space-y-5"
         >

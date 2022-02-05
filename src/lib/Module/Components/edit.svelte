@@ -77,7 +77,7 @@
   class="space-y-8 divide-y divide-gray-200"
   on:submit|preventDefault={formSubmit}
 >
-  <ModuleForm bind:module bind:allMaps />
+  <ModuleForm bind:module bind:allMaps/>
 
   <div class="pt-5">
     <div class="flex justify-end">

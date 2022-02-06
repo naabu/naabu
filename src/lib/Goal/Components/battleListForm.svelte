@@ -1,5 +1,7 @@
 <script>
   import Button from "$lib/Internals/Button/Button.svelte";
+  import FormField from "$lib/Internals/FormFields/FormField.svelte";
+  import TextAndRemove from "$lib/Internals/FormFields/TextAndRemove.svelte";
   import TextInput from "$lib/Internals/FormFields/TextInput.svelte";
 
   export let battles;
@@ -17,8 +19,8 @@
     newBattleName = "";
   }
 
-  function removeBattle(battleToRemoveIndex) {
-    battles.splice(battleToRemoveIndex, 1);
+  function removeBattle(event) {
+    battles.splice(event.detail.i, 1);
     battles = battles;
     index = 0;
   }
@@ -31,40 +33,23 @@
   }
 </script>
 
-<div
-  class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
->
-  <label
-    for="test_name"
-    class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-  >
-    Testen
-  </label>
-  <div class="mt-1 sm:mt-0 sm:col-span-2">
-    {#each battles as battle, i}
-      <div class="mt-1 mb-1">
-        {battle.name}
-        <Button
-          dataTest="battle-{i}-button"
-          size="very-small"
-          on:click={() => removeBattle(i)}
-          content="Weghalen"
-        />
-      </div>
-    {/each}
-    <div>
-      <TextInput
-        on:keypress={onKeyPress}
-        bind:value={newBattleName}
-        id="test_name"
-      />
-      
-      <Button
-        on:click={addBattleSubmit}
-        size="small"
-        dataTest="add-battle-button"
-        content="Test toevoegen"
-      />
-    </div>
-  </div>
-</div>
+<FormField id="test_name" labelPosition="left" title="Testen">
+  <TextAndRemove items={battles} on:remove={removeBattle}>
+    <svelte:fragment let:item={battle} slot="show">
+      {battle.name}
+    </svelte:fragment>
+  </TextAndRemove>
+  <FormField labelPosition="none">
+    <TextInput
+      on:keypress={onKeyPress}
+      bind:value={newBattleName}
+      id="test_name"
+    />
+  </FormField>
+  <Button
+    on:click={addBattleSubmit}
+    size="small"
+    dataTest="add-battle-button"
+    content="Test toevoegen"
+  />
+</FormField>

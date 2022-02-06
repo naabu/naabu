@@ -21,6 +21,8 @@
   import { getCurriculumProfile } from "$lib/Goal/Curriculum/Components/helper";
   import Button from "$lib/Internals/Button/Button.svelte";
   import Textarea from "../../../Internals/FormFields/Textarea.svelte";
+  import FormField from "$lib/Internals/FormFields/FormField.svelte";
+  import AdditionalFormText from "$lib/Internals/FormFields/AdditionalFormText.svelte";
 
   export let firebase;
   export let goal;
@@ -647,19 +649,14 @@
 
   <div class="max-w-lg mx-auto px-6 mt-12 mb-32">
     <form on:submit|preventDefault={formSubmit}>
-      <Textarea
-        title="Reageren"
-        id="comment"
-        rows="3"
-        bind:value={newCommentText}
-        labelOnTop={true}
-      >
+      <FormField title="Reageren" id="comment" labelPosition="top">
+        <Textarea id="comment" rows="3" bind:value={newCommentText} />
         <svelte:fragment slot="after">
           <div class="mt-3">
             <div class="flex justify-between mt-4">
-              <span class=" text-sm text-gray-500">
-                Hou het vriendelijk en proffesioneel
-              </span>
+              <AdditionalFormText
+                content="Hou het vriendelijk en proffesioneel"
+              />
               <Button
                 isDisabled={buttonDisabled}
                 color="primary"
@@ -670,7 +667,7 @@
             </div>
           </div>
         </svelte:fragment>
-      </Textarea>
+      </FormField>
     </form>
   </div>
 {/if}

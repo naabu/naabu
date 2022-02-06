@@ -10,6 +10,8 @@
   import Textarea from "$lib/Internals/FormFields/Textarea.svelte";
   import FieldSet from "$lib/Internals/FormFields/FieldSet.svelte";
   import NumberInput from "$lib/Internals/FormFields/NumberInput.svelte";
+  import FormField from "$lib/Internals/FormFields/FormField.svelte";
+  import AdditionalFormText from "$lib/Internals/FormFields/AdditionalFormText.svelte";
   const dispatch = createEventDispatcher();
 
   export let activity;
@@ -78,23 +80,20 @@
 
   <div>
     <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
-      <Textarea
-        id="title"
-        title="Titel"
-        bind:value={activity.title}
-        required={true}
-      />
+      <FormField title="Titel" id="title">
+        <Textarea id="title" bind:value={activity.title} required={true} />
+      </FormField>
 
-      <Textarea
-        id="description"
-        title="Beschrijving"
-        bind:value={activity.descriptionRaw}
-        rows="3"
-      >
+      <FormField title="Beschrijving" id="description">
+        <Textarea
+          id="description"
+          bind:value={activity.descriptionRaw}
+          rows="3"
+        />
         <svelte:fragment slot="after">
-          <p class="mt-2 text-sm text-gray-500">
-            Beschrijf kort de activiteit of de vraag
-          </p>
+          <AdditionalFormText
+            content="Beschrijf kort de activiteit of de vraag"
+          />
           <div class="mb-10 mt-3 block">
             <Button
               dataTest="preview-description"
@@ -108,7 +107,7 @@
             {@html activity.description}
           {/if}
         </svelte:fragment>
-      </Textarea>
+      </FormField>
     </div>
   </div>
 
@@ -120,8 +119,10 @@
     bind:value={activity.difficulty}
   />
 
-  <Textarea id="svg" title="SVG" rows="5" bind:value={activity.svg} />
-
+  <FormField title="SVG" id="svg">
+    <Textarea id="svg" rows="5" bind:value={activity.svg} />
+  </FormField>
+  
   <FieldSet
     title="Video"
     description="Specificeer video gerelateerde informatie"

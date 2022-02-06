@@ -1,15 +1,16 @@
 <script>
   import { inputClasses } from "./helper";
+
   export let id = "input-id";
   export let value;
   export let required = false;
-  export let dataTest = "inputText";
-  export let autocomplete = "off";
+  export let dataTest = "input";
+  export let autocomplete = "email";
   let classes = inputClasses().join(" ");
 </script>
 
 <input
-  type="text"
+  type="email"
   on:keypress
   on:keyup
   bind:value

@@ -36,7 +36,7 @@
 />
 
 <Sidebar bind:menuitems>
-  <div slot="abovetitle" class="ml-auto w-max">
+  <div slot="before" class="ml-auto w-max">
     {#if activity && activity.latestRevisionCreatedAt && activity.previousRevisionId}
       <p class="pt-2 text-sm text-gray-500">
         <a

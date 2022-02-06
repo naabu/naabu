@@ -6,6 +6,7 @@
   import Textarea from "$lib/Internals/FormFields/Textarea.svelte";
   import Checkbox from "../../Internals/FormFields/Checkbox.svelte";
   import Select from "../../Internals/FormFields/Select.svelte";
+  import FormField from "$lib/Internals/FormFields/FormField.svelte";
 
   export let quizzes = [];
   export let showTimeInVideo = false;
@@ -202,34 +203,33 @@
           bind:value={quizzes[selectedQuizIndex].type}
           labelOnTop={true}
         />
-
-        <Textarea
-          title="Vraag"
-          id="quiz_question"
-          labelOnTop={true}
-          rows="3"
-          bind:value={quizzes[selectedQuizIndex].question}
-        >
-          <div class="mb-10 mt-3 block">
-            <Button
-              size="small"
-              on:click={() =>
-                updatePreview(quizzes[selectedQuizIndex].question)}
-              content="Update preview"
-            />
-          </div>
-          <div class="mt-3">{@html renderedKatex}</div>
-        </Textarea>
+        <FormField labelPosition="top" title="Vraag" id="quiz_question">
+          <Textarea
+            id="quiz_question"
+            rows="3"
+            bind:value={quizzes[selectedQuizIndex].question}
+          />
+          <svelte:fragment slot="after">
+            <div class="mb-10 mt-3 block">
+              <Button
+                size="small"
+                on:click={() =>
+                  updatePreview(quizzes[selectedQuizIndex].question)}
+                content="Update preview"
+              />
+            </div>
+            <div class="mt-3">{@html renderedKatex}</div>
+          </svelte:fragment>
+        </FormField>
       {:else}
-        <Textarea
-          title="Antwoord"
-          id="answeranswer"
-          labelOnTop={true}
-          rows="3"
-          bind:value={quizzes[selectedQuizIndex].answers[selectedFieldIndex]
-            .answer}
-        />
-
+        <FormField labelPosition="top" title="Antwoord" id="answeranswer">
+          <Textarea
+            id="answeranswer"
+            rows="3"
+            bind:value={quizzes[selectedQuizIndex].answers[selectedFieldIndex]
+              .answer}
+          />
+        </FormField>
         <Checkbox
           id="answers_check"
           label="Goed antwoord"

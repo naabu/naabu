@@ -22,7 +22,7 @@
   {/if}
 
   <div class="mt-1 mb-1 sm:mt-0 sm:col-span-2">
-    <slot name="above-input" />
+    <slot name="before" />
     <input
       type="number"
       bind:value

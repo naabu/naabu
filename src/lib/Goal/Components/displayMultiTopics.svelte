@@ -1,5 +1,7 @@
 <script>
   import Button from "$lib/Internals/Button/Button.svelte";
+  import FormField from "$lib/Internals/FormFields/FormField.svelte";
+  import TextAndRemove from "$lib/Internals/FormFields/TextAndRemove.svelte";
   import TextInput from "$lib/Internals/FormFields/TextInput.svelte";
 
   export let goal;
@@ -12,8 +14,8 @@
     newMultitopic = "";
   }
 
-  function removeMultiTopic(multiTopicToRemoveIndex) {
-    goal.multitopics.splice(multiTopicToRemoveIndex, 1);
+  function removeMultiTopic(event) {
+    goal.multitopics.splice(event.detail.i, 1);
     goal.multitopics = goal.multitopics;
   }
 
@@ -25,28 +27,16 @@
   }
 </script>
 
-<TextInput
-  title="Onderwerpen"
-  on:keypress={onKeyPress}
-  bind:value={newMultitopic}
-  id="multi_topic_name"
->
-  <svelte:fragment slot="above-input">
-    <div
-      class="sm:grid sm:grid-cols-2 space-between justify-items-start items-center"
-    >
-      {#each goal.multitopics as multiTopic, i}
-        {multiTopic}
-        <Button
-          size="very-small"
-          color="secondary"
-          content="Weghalen"
-          on:click={() => removeMultiTopic(i)}
-        />
-      {/each}
-    </div>
+<FormField title="Onderwerpen" id="multi_topic_name">
+  <svelte:fragment slot="before">
+    <TextAndRemove items={goal.multitopics} on:remove={removeMultiTopic} />
   </svelte:fragment>
-  <svelte:fragment slot="below-input">
+  <TextInput
+    on:keypress={onKeyPress}
+    bind:value={newMultitopic}
+    id="multi_topic_name"
+  />
+  <svelte:fragment slot="below">
     <Button
       dataTest="add-multi-topic-button"
       size="small"
@@ -54,4 +44,4 @@
       content="Onderwerp toevoegen"
     />
   </svelte:fragment>
-</TextInput>
+</FormField>

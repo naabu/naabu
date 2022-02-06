@@ -161,7 +161,7 @@
       <slot name="cta-button" />
 
       <main class="w-full">
-        <slot name="abovetitle" />
+        <slot name="before" />
         <div class="py-6">
           <!-- <div class="px-4 sm:px-6 md:px-0">
             <h1 class="text-2xl font-semibold text-gray-900">

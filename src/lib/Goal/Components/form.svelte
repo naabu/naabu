@@ -9,6 +9,7 @@
   import Select from "$lib/Internals/FormFields/Select.svelte";
   import Textarea from "$lib/Internals/FormFields/Textarea.svelte";
   import Tabs from "$lib/Internals/Tabs/tabs.svelte";
+  import FormField from "$lib/Internals/FormFields/FormField.svelte";
 
   export let goal;
 
@@ -300,22 +301,18 @@ taxonomy."
   />
 
   {#if goal.taxonomy_solo.includes("solo-1")}
-    <TextInput
-      title="Onderwerp"
-      bind:value={goal.unitopic}
-      id="uni_topic_name"
-    />
+    <FormField title="Onderwerp" id="uni_topic_name">
+      <TextInput bind:value={goal.unitopic} id="uni_topic_name" />
+    </FormField>
   {/if}
 
   {#if goal.taxonomy_solo.includes("solo-2") || goal.taxonomy_solo.includes("solo-3") || goal.taxonomy_solo.includes("solo-4")}
     <DisplayMultiTopics bind:goal />
   {/if}
   {#if goal.taxonomy_solo.includes("solo-4")}
-    <TextInput
-      title="Nieuwe context"
-      bind:value={goal.context}
-      id="context_name"
-    />
+    <FormField title="Nieuwe context" id="context_name">
+      <TextInput bind:value={goal.context} id="context_name" />
+    </FormField>
   {/if}
   <div class="space-y-6 sm:space-y-5 divide-y divide-gray-200">
     <div class="space-y-6 sm:space-y-5 divide-y divide-gray-200">
@@ -392,21 +389,17 @@ taxonomy."
     id="select-verbs"
     multiple={true}
   />
-
-  <TextInput
+  <FormField
     title="Waar moet de leerling het leerdoel kunnen toepassen?"
-    bind:value={goal.fromText}
     id="from_text"
-  />
-
-  <Textarea title="Titel" bind:value={goal.title} id="title-textarea" />
-
-  <Textarea
-    id="description"
-    title="Omschrijving"
-    bind:value={goal.description}
-    rows="3"
   >
+    <TextInput bind:value={goal.fromText} id="from_text" />
+  </FormField>
+  <FormField title="Titel" id="title-textarea">
+    <Textarea bind:value={goal.title} id="title-textarea" />
+  </FormField>
+  <FormField title="Omschrijving" id="description">
+    <Textarea id="description" bind:value={goal.description} rows="3" />
     <svelte:fragment slot="after">
       <div class="ml-4 mt-2 text-sm text-gray-500">
         <ul class="list-disc">
@@ -444,7 +437,7 @@ taxonomy."
         </ul>
       </div>
     </svelte:fragment>
-  </Textarea>
+  </FormField>
 </FieldSet>
 
 <FieldSet

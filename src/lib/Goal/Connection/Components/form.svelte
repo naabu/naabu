@@ -1,4 +1,6 @@
 <script>
+  import FormField from "$lib/Internals/FormFields/FormField.svelte";
+
   export let connection;
   import Radio from "$lib/Internals/FormFields/Radio.svelte";
   import Textarea from "../../../Internals/FormFields/Textarea.svelte";
@@ -33,9 +35,6 @@
   title="Type verbinding"
 />
 
-<Textarea
-  id="description"
-  title="Omschrijving verbinding"
-  rows="5"
-  bind:value={connection.description}
-/>
+<FormField title="Omschrijving verbinding" id="description">
+  <Textarea id="description" rows="5" bind:value={connection.description} />
+</FormField>

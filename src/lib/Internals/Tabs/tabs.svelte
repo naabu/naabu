@@ -1,5 +1,6 @@
 <script>
   import { goto } from "$app/navigation";
+  import { createEventDispatcher } from "svelte";
 
   export let mainTabs;
   export let subTabs;
@@ -7,12 +8,12 @@
   export let subSelected;
   export let id = "tabs";
 
-  let mainSelectedTab = mainSelected;
-  let subSelectedTab = subSelected;
+  let dispatch = createEventDispatcher();
 
   function gotoMainTab() {
+    dispatch("click");
     for (let i = 0; i < mainTabs.length; i++) {
-      if (mainTabs[i].value === mainSelectedTab) {
+      if (mainTabs[i].value === mainSelected) {
         if (mainTabs[i].url) {
           goto(mainTabs[i].url);
         }
@@ -21,13 +22,24 @@
   }
 
   function gotoSubTab() {
+    dispatch("click");
     for (let i = 0; i < subTabs.length; i++) {
-      if (subTabs[i].value === subSelectedTab) {
+      if (subTabs[i].value === subSelected) {
         if (subTabs[i].url) {
           goto(subTabs[i].url);
         }
       }
     }
+  }
+
+  function clickMainTab(tab) {
+    mainSelected = tab.value;
+    gotoMainTab();
+  }
+
+  function clickSubTab(tab) {
+    subSelected = tab.value;
+    gotoSubTab();
   }
 
   let allAClasses = [
@@ -57,13 +69,29 @@
 
     return classes.join(" ");
   }
+
+  $: if (mainTabs) {
+    for (let i = 0; i < mainTabs.length; i++) {
+      if (!mainTabs[i].dataTest) {
+        mainTabs[i].dataTest = id + "-main-" + mainTabs[i].value;
+      }
+    }
+  }
+
+  $: if (subTabs) {
+    for (let i = 0; i < subTabs.length; i++) {
+      if (!subTabs[i].dataTest) {
+        mainTasubTabsbs[i].dataTest = id + "-main-" + subTabs[i].value;
+      }
+    }
+  }
 </script>
 
 <div>
   <div class="sm:hidden">
     <label for="main-{id}" class="sr-only">Selecteer een tab</label>
     <select
-      bind:value={mainSelectedTab}
+      bind:value={mainSelected}
       on:change={gotoMainTab}
       id="main-{id}"
       name="main-{id}"
@@ -78,7 +106,7 @@
     {#if subTabs}
       <label for="sub-{id}" class="sr-only">Selecteer een tab</label>
       <select
-        bind:value={subSelectedTab}
+        bind:value={subSelected}
         on:change={gotoSubTab}
         id="sub-{id}"
         name="sub-{id}"
@@ -91,6 +119,7 @@
         {/each}
       </select>
     {/if}
+    <slot name="after-main-tabs" />
   </div>
   <div class="hidden sm:block">
     <div class="border-b border-gray-200">
@@ -98,23 +127,24 @@
         <div class="flex space-x-8">
           {#each mainTabs as tab}
             <a
-              data-test="{id}-main-{tab.value}"
+              data-test={tab.dataTest}
               class={getClasses(tab, mainSelected)}
               href={tab.url}
-              on:click={() => (mainSelected = tab.value)}
+              on:click|preventDefault={() => clickMainTab(tab)}
             >
               {tab.text}
             </a>
           {/each}
+          <slot name="after-main-tabs" />
         </div>
         {#if subTabs}
           <div class="ml-auto flex space-x-8">
             {#each subTabs as tab}
               <a
-                data-test="{id}-sub-{tab.value}"
+                data-test={tab.dataTest}
                 class={getClasses(tab, subSelected)}
                 href={tab.url}
-                on:click={() => (subSelected = tab.value)}
+                on:click|preventDefault={() => clickSubTab(tab)}
               >
                 {tab.text}
               </a>

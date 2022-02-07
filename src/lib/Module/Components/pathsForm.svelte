@@ -27,6 +27,7 @@
       newPointArray.push(selectedPath.points[i]);
     }
     selectedPath.points = newPointArray;
+    map.paths = paths;
   }
 
   function setselectedPathIndex(index) {
@@ -156,45 +157,3 @@
     </div>
   </div>
 {/if}
-
-<!--     
-      {#if quizzes.length > 0}
-        {#each quizzes[selectedQuizIndex].answers as answer, i}
-          {#if selectedFieldIndex !== i}
-            <button
-              on:click|preventDefault={() => setSelectedFieldIndex(i)}
-              class="outline-none active:outline-none focus:outline-none border-transparent  text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-            >
-              A{i + 1}
-              {#if quizzes[selectedQuizIndex].answers[i].correct}
-                *
-              {/if}
-            </button>
-          {:else}
-            <button
-              on:click|preventDefault={() => setSelectedFieldIndex(i)}
-              class="outline-none active:outline-none focus:outline-none border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-            >
-              A{i + 1}
-              {#if quizzes[selectedQuizIndex].answers[i].correct}
-                *
-              {/if}
-            </button>
-          {/if}
-        {/each}
-      {/if}
-      <button
-        class="mb-1  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        on:click|preventDefault={() => addAnswer(selectedQuizIndex)}
-      >
-        New answer
-      </button>
-      <button
-        class="mb-1  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        on:click|preventDefault={() => removeQuizButtonFunction()}
-      >
-        Remove Quiz
-      </button>
-    </nav>
-  </div>
-</div> -->

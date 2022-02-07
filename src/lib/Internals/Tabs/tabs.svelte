@@ -81,7 +81,7 @@
   $: if (subTabs) {
     for (let i = 0; i < subTabs.length; i++) {
       if (!subTabs[i].dataTest) {
-        mainTasubTabsbs[i].dataTest = id + "-main-" + subTabs[i].value;
+        subTabs[i].dataTest = id + "-sub-" + subTabs[i].value;
       }
     }
   }
@@ -119,7 +119,7 @@
         {/each}
       </select>
     {/if}
-    <slot name="after-main-tabs" />
+    <slot name="after-main-tabs" mobile={true} />
   </div>
   <div class="hidden sm:block">
     <div class="border-b border-gray-200">
@@ -135,7 +135,7 @@
               {tab.text}
             </a>
           {/each}
-          <slot name="after-main-tabs" />
+          <slot name="after-main-tabs" mobile={false} />
         </div>
         {#if subTabs}
           <div class="ml-auto flex space-x-8">

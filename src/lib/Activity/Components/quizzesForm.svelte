@@ -103,6 +103,7 @@
       quizQuestionsAndAnswerOptions.push({
         value: i,
         text: answerText,
+        dataTest: "A" + (i + 1),
       });
     }
 
@@ -114,10 +115,12 @@
 
 <div>
   <Tabs mainTabs={questionTabs} bind:mainSelected={selectedQuizIndex}>
-    <svelte:fragment slot="after-main-tabs">
+    <svelte:fragment slot="after-main-tabs" let:mobile>
       <Button
         on:click={addQuiz}
-        dataTest="add-question-button"
+        dataTest={!mobile
+          ? "add-question-button"
+          : "add-question-button-mobile"}
         content="Nieuwe vraag"
         size="small"
       />
@@ -129,15 +132,17 @@
       mainTabs={quizQuestionsAndAnswerOptions}
       bind:mainSelected={selectedFieldIndex}
     >
-      <svelte:fragment slot="after-main-tabs">
+      <svelte:fragment slot="after-main-tabs" let:mobile>
         <Button
-          dataTest="new-answer-button"
+          dataTest={!mobile ? "new-answer-button" : "new-answer-button-mobile"}
           on:click={() => addAnswer(selectedQuizIndex)}
           content="Nieuw antwoord"
           size="small"
         />
         <Button
-          dataTest="remove-quiz-button"
+          dataTest={!mobile
+            ? "remove-quiz-button"
+            : "remove-quiz-button-mobile"}
           on:click={removeQuizButtonFunction}
           content="Vraag verwijderen"
           size="small"

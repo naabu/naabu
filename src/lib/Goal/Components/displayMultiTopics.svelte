@@ -36,7 +36,7 @@
     bind:value={newMultitopic}
     id="multi_topic_name"
   />
-  <svelte:fragment slot="below">
+  <svelte:fragment slot="after">
     <Button
       dataTest="add-multi-topic-button"
       size="small"

@@ -363,48 +363,7 @@
         </div>
       </div>
     {/if}
-
-    <!-- {#each activity.quizzes as quiz}
-    <div class="bg-gray-100">
-    <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
-      <div class="max-w-none mx-auto">
-        <div class="bg-white overflow-hidden sm:rounded-lg sm:shadow">
-          
-          <div class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6">
-            <div class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap">
-              <div class="ml-4 mt-4">
-                <h3 class="text-lg leading-6 font-medium text-gray-900">
-                  {@html renderKatexOutput(quiz.question)}
-                </h3>
-                <p class="mt-1 text-sm ">
-                  {#if quiz.feedback}
-                    {@html quiz.feedback}
-                  {/if}
-                </p>
-              </div>
-              <div class="ml-4 mt-4 flex-shrink-0">
-                <button type="button" disabled={quiz.selectedAnswer === null} on:click|preventDefault={() => quiz = checkCorrectAnswer(quiz)} class="disabled:opacity-50 relative inline-flex items-center px-4 py-2 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                  Nakijken
-                </button>
-              </div>
-            </div>
-          </div>
-
-                <div class="px-4 pb-5 sm:p-6 sm:pt-0">
-                  {#each quiz.answers as answer, i}
-                  <label class="block mt-2 mb-2 pb-2 pt-2">
-                    <input type=radio bind:group={quiz.selectedAnswer} value={i}>
-                      {@html "<span class='pl-3'>" + renderKatexOutput(answer.answer) + "</span>"}
-                  </label>
-                  {/each}     
-                </div>
-              </div>
-            </div>
-      </div>
-    </div>
-    {/each} -->
   {:else}
-    <!-- TODO: cleaner error message -->
     <p>Activiteit niet gevonden</p>
   {/if}
 </div>

@@ -294,11 +294,9 @@
   description="Probeer het leerdoel zo goed mogelijk te classifieren met SOLO en Bloom's
 taxonomy."
 >
-  <Radio
-    bind:selectedValue={goal.taxonomy_solo}
-    options={soloRadioOptions}
-    title="SOLO taxonomy"
-  />
+  <FormField title="SOLO taxonomy">
+    <Radio bind:selectedValue={goal.taxonomy_solo} options={soloRadioOptions} />
+  </FormField>
 
   {#if goal.taxonomy_solo.includes("solo-1")}
     <FormField title="Onderwerp" id="uni_topic_name">

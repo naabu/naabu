@@ -45,93 +45,74 @@
 
 <div class="mb-44 space-y-8 divide-y divide-gray-200 sm:space-y-5">
   <div>
-    <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
-      <div
-        class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
+    <FormField title="Leerdoel" id="goal">
+      <a href="/leerdoel/{activity.goalId}" class="underline"
+        >{activity.goalTitle}</a
       >
-        <label
-          for="goal"
-          class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-        >
-          Leerdoel
-        </label>
-
-        <div class="mt-1 sm:mt-0 sm:col-span-2">
-          <a href="/leerdoel/{activity.goalId}" class="underline"
-            >{activity.goalTitle}</a
-          >
-          <div class="mt-3 block mb-1">
-            <Button
-              on:click={goBackToSearchGoals}
-              size="small"
-              content="Wijzigen"
-            />
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <Radio
-    bind:selectedValue={activity.type}
-    options={typeOfActivityRadioOptions}
-    title="Type activiteit"
-  />
-
-  <div>
-    <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
-      <FormField title="Titel" id="title">
-        <Textarea id="title" bind:value={activity.title} required={true} />
-      </FormField>
-
-      <FormField title="Beschrijving" id="description">
-        <Textarea
-          id="description"
-          bind:value={activity.descriptionRaw}
-          rows="3"
+      <div class="mt-3 block mb-1">
+        <Button
+          on:click={goBackToSearchGoals}
+          size="small"
+          content="Wijzigen"
         />
-        <svelte:fragment slot="after">
-          <AdditionalFormText
-            content="Beschrijf kort de activiteit of de vraag"
-          />
-          <div class="mb-10 mt-3 block">
-            <Button
-              dataTest="preview-description"
-              size="small"
-              on:click={updatePreview}
-              content="Update preview"
-            />
-          </div>
-
-          {#if activity.description}
-            {@html activity.description}
-          {/if}
-        </svelte:fragment>
-      </FormField>
-    </div>
+      </div>
+    </FormField>
   </div>
 
-  <NumberInput
-    id="difficulty"
-    title="Moeilijkheid"
-    min="1"
-    max="5"
-    bind:value={activity.difficulty}
-  />
+  <FormField title="Type activiteit" id="type_of_activity">
+    <Radio
+      bind:selectedValue={activity.type}
+      options={typeOfActivityRadioOptions}
+      id="type_of_activity"
+    />
+  </FormField>
+
+  <FormField title="Titel" id="title">
+    <Textarea id="title" bind:value={activity.title} required={true} />
+  </FormField>
+
+  <FormField title="Beschrijving" id="description">
+    <Textarea id="description" bind:value={activity.descriptionRaw} rows="3" />
+    <svelte:fragment slot="after">
+      <AdditionalFormText content="Beschrijf kort de activiteit of de vraag" />
+      <div class="mb-10 mt-3 block">
+        <Button
+          dataTest="preview-description"
+          size="small"
+          on:click={updatePreview}
+          content="Update preview"
+        />
+      </div>
+
+      {#if activity.description}
+        {@html activity.description}
+      {/if}
+    </svelte:fragment>
+  </FormField>
+  <FormField title="Moeilijkheid" id="difficulty">
+    <NumberInput
+      id="difficulty"
+      min="1"
+      max="5"
+      bind:value={activity.difficulty}
+    />
+  </FormField>
 
   <FormField title="SVG" id="svg">
     <Textarea id="svg" rows="5" bind:value={activity.svg} />
   </FormField>
-  
+
   <FieldSet
     title="Video"
     description="Specificeer video gerelateerde informatie"
   >
-    <NumberInput
-      id="vimeo_id"
-      title="Vimeo"
-      bind:value={activity.video.vimeoId}
-    />
+    <FormField title="Vimeo" id="vimeo_id">
+      <NumberInput
+        id="vimeo_id"
+        title="Vimeo"
+        bind:value={activity.video.vimeoId}
+      />
+    </FormField>
   </FieldSet>
 
   <FieldSet title="Quiz" description="Specificeer vragen en quizjes">

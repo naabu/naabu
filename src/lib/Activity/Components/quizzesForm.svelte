@@ -7,6 +7,7 @@
   import Checkbox from "../../Internals/FormFields/Checkbox.svelte";
   import Select from "../../Internals/FormFields/Select.svelte";
   import FormField from "$lib/Internals/FormFields/FormField.svelte";
+  import NumberInput from "$lib/Internals/FormFields/NumberInput.svelte";
 
   export let quizzes = [];
   export let showTimeInVideo = false;
@@ -174,35 +175,28 @@
     {#if quizzes.length > 0}
       {#if selectedFieldIndex === -1}
         {#if showTimeInVideo}
-          <div class="mt-3">
-            <label
-              for="quiz_video_time"
-              class="mb-1 block text-sm font-medium text-gray-700"
-            >
-              Tijd in video
-            </label>
-            <div>
-              <div>
-                <input
-                  type="number"
-                  step="0.1"
-                  name="quiz_video_time"
-                  id="quiz_video_time"
-                  class="max-w-xs focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
-                  bind:value={quizzes[selectedQuizIndex].timeInVideo}
-                />
-              </div>
-            </div>
-          </div>
+          <FormField
+            title="Tijd in video"
+            id="quiz_video_time"
+            labelPosition="top"
+          >
+            <NumberInput
+              id="quiz_video_time"
+              step="0.1"
+              bind:value={quizzes[selectedQuizIndex].timeInVideo}
+            />
+          </FormField>
         {/if}
 
-        <Select
-          id="quiz_type"
-          title="Type"
-          bind:options={quizSelectOptions}
-          bind:value={quizzes[selectedQuizIndex].type}
-          labelOnTop={true}
-        />
+        <FormField title="Type" id="quiz_type" labelPosition="top">
+          <Select
+            id="quiz_type"
+            bind:options={quizSelectOptions}
+            bind:value={quizzes[selectedQuizIndex].type}
+            labelOnTop={true}
+          />
+        </FormField>
+
         <FormField labelPosition="top" title="Vraag" id="quiz_question">
           <Textarea
             id="quiz_question"

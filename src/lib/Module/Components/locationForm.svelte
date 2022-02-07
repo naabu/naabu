@@ -11,6 +11,7 @@
   import VerwijderDialog from "$lib/Internals/Misc/dialog.svelte";
   import { generatePathsForMap } from "$lib/Module/Map/Components/helper";
   import Button from "$lib/Internals/Button/Button.svelte";
+  import Checkbox from "$lib/Internals/FormFields/Checkbox.svelte";
 
   let filters = "";
   let goalIndex = getGoalIndex($session.environment);
@@ -432,17 +433,12 @@
               class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
             />
           </div>
-          <div class="mt-3">
-            <input
-              bind:checked={map.locations[selectedIndex].isStartLocation}
-              id="start_locations_check"
-              type="checkbox"
-              class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
-            />
-            <label class="font-medium text-gray-700" for="start_locations_check"
-              >Start locatie op kaart</label
-            >
-          </div>
+          <Checkbox
+            label="Start locatie op kaart"
+            id="start_locations_check"
+            bind:checked={map.locations[selectedIndex].isStartLocation}
+          />
+
           <label
             for="accessLocations"
             class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"

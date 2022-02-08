@@ -1,5 +1,6 @@
 <script>
-  export let id = "input-id";
+  export let id = "formfield-id";
+  export let forId = id;
   export let title;
   export let component;
   export let labelPosition = "left";
@@ -36,7 +37,7 @@
 <div class={classes}>
   {#if labelPosition && labelPosition !== "none"}
     <label
-      for={id}
+      for={forId}
       class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
     >
       {#if title}

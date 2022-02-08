@@ -18,7 +18,8 @@
   export let value;
   export let options = [];
   export let multiple = false;
-  export let classes = [
+
+  let classes = [
     "block",
     "focus:ring-indigo-500",
     "focus:border-indigo-500",

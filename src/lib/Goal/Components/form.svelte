@@ -299,7 +299,7 @@ taxonomy."
   </FormField>
 
   {#if goal.taxonomy_solo.includes("solo-1")}
-    <FormField title="Onderwerp" id="uni_topic_name">
+    <FormField title="Onderwerp" forId="uni_topic_name">
       <TextInput bind:value={goal.unitopic} id="uni_topic_name" />
     </FormField>
   {/if}
@@ -308,7 +308,7 @@ taxonomy."
     <DisplayMultiTopics bind:goal />
   {/if}
   {#if goal.taxonomy_solo.includes("solo-4")}
-    <FormField title="Nieuwe context" id="context_name">
+    <FormField title="Nieuwe context" forId="context_name">
       <TextInput bind:value={goal.context} id="context_name" />
     </FormField>
   {/if}
@@ -380,23 +380,24 @@ taxonomy."
   title="Leerdoel"
   description="Omschrijf het leerdoel zo concreet mogelijk."
 >
-  <Select
-    title="Welk werkwoord past het beste bij je leerdoel?"
-    bind:value={goal.selectedVerbs}
-    bind:options={verbs}
-    id="select-verbs"
-    multiple={true}
-  />
+  <FormField title="Welk werkwoord past het beste bij je leerdoel?">
+    <Select
+      bind:value={goal.selectedVerbs}
+      bind:options={verbs}
+      id="select-verbs"
+      multiple={true}
+    />
+  </FormField>
   <FormField
     title="Waar moet de leerling het leerdoel kunnen toepassen?"
-    id="from_text"
+    forId="from_text"
   >
     <TextInput bind:value={goal.fromText} id="from_text" />
   </FormField>
-  <FormField title="Titel" id="title-textarea">
+  <FormField title="Titel" forId="title-textarea">
     <Textarea bind:value={goal.title} id="title-textarea" />
   </FormField>
-  <FormField title="Omschrijving" id="description">
+  <FormField title="Omschrijving" forId="description">
     <Textarea id="description" bind:value={goal.description} rows="3" />
     <svelte:fragment slot="after">
       <div class="ml-4 mt-2 text-sm text-gray-500">

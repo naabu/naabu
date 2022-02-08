@@ -100,10 +100,10 @@
 {#if talk}
   <div class="ml-auto mr-auto max-w-xl mt-8">
     <form on:submit|preventDefault={formSubmit}>
-      <FormField title="Titel" id="title">
+      <FormField title="Titel" forId="title">
         <TextInput bind:value={newPostTitle} dataTest="post-title" id="title" />
       </FormField>
-      <FormField title="Post" id="post">
+      <FormField title="Post" forId="post">
         <Textarea id="post" bind:value={newPostText} rows="3" />
         <svelte:fragment slot="after">
           <div class="mt-4 flex justify-between">

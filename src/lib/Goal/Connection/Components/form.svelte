@@ -35,6 +35,6 @@
   title="Type verbinding"
 />
 
-<FormField title="Omschrijving verbinding" id="description">
+<FormField title="Omschrijving verbinding" forId="description">
   <Textarea id="description" rows="5" bind:value={connection.description} />
 </FormField>

@@ -106,8 +106,6 @@
         dataTest: "A" + (i + 1),
       });
     }
-
-    console.log(quizQuestionsAndAnswerOptions);
   }
 </script>
 
@@ -155,7 +153,7 @@
 {#if quizzes.length > 0 && quizzes[selectedQuizIndex]}
   {#if selectedFieldIndex === -1}
     {#if showTimeInVideo}
-      <FormField title="Tijd in video" id="quiz_video_time" labelPosition="top">
+      <FormField title="Tijd in video" forId="quiz_video_time" labelPosition="top">
         <NumberInput
           id="quiz_video_time"
           step="0.1"
@@ -164,7 +162,7 @@
       </FormField>
     {/if}
 
-    <FormField title="Type" id="quiz_type" labelPosition="top">
+    <FormField title="Type" forId="quiz_type" labelPosition="top">
       <Select
         id="quiz_type"
         bind:options={quizSelectOptions}
@@ -173,7 +171,7 @@
       />
     </FormField>
 
-    <FormField labelPosition="top" title="Vraag" id="quiz_question">
+    <FormField labelPosition="top" title="Vraag" forId="quiz_question">
       <Textarea
         id="quiz_question"
         rows="3"
@@ -191,7 +189,7 @@
       </svelte:fragment>
     </FormField>
   {:else if quizzes[selectedQuizIndex].answers[selectedFieldIndex]}
-    <FormField labelPosition="top" title="Antwoord" id="answeranswer">
+    <FormField labelPosition="top" title="Antwoord" forId="answeranswer">
       <Textarea
         id="answeranswer"
         rows="3"

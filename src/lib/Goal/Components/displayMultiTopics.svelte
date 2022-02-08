@@ -27,7 +27,7 @@
   }
 </script>
 
-<FormField title="Onderwerpen" id="multi_topic_name">
+<FormField title="Onderwerpen" forId="multi_topic_name">
   <svelte:fragment slot="before">
     <TextAndRemove items={goal.multitopics} on:remove={removeMultiTopic} />
   </svelte:fragment>

@@ -12,7 +12,7 @@
 {#if curriculumProfile}
   <div class="space-y-6 sm:space-y-5">
     {#if !isEdit}
-      <FormField title="Volledige naam (voor en achternaam)" id="fullname">
+      <FormField title="Volledige naam (voor en achternaam)" forId="fullname">
         <TextInput
           bind:value={curriculumProfile.fullname}
           id="fullname"
@@ -22,7 +22,7 @@
       </FormField>
     {/if}
 
-    <FormField title="Institutie" id="institution">
+    <FormField title="Institutie" forId="institution">
       <TextInput
         bind:value={curriculumProfile.institution}
         id="institution"
@@ -30,11 +30,11 @@
       />
     </FormField>
 
-    <FormField title="Jouw email van de institutie" id="email">
+    <FormField title="Jouw email van de institutie" forId="email">
       <EmailInput id="email" bind:value={curriculumProfile.institutionEmail} />
     </FormField>
 
-    <FormField title="Referenties" id="credentials">
+    <FormField title="Referenties" forId="credentials">
       <Textarea
         bind:value={curriculumProfile.credentials}
         id="credentials"

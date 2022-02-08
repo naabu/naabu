@@ -282,14 +282,14 @@
       <div>
         {#if selectedLocationTab === "content"}
           <FieldSet>
-            <FormField title="Name" id="location_name">
+            <FormField title="Name" forId="location_name">
               <Textarea
                 id="location_name"
                 bind:value={map.locations[selectedIndex].name}
               />
             </FormField>
 
-            <FormField id="learning-goals" title="Gekoppelde leerdoelen">
+            <FormField forId="learning-goals" title="Gekoppelde leerdoelen">
               <div id="learning-goals">
                 <TextAndRemove
                   items={map.locations[selectedIndex].goals}
@@ -304,13 +304,13 @@
               </div>
             </FormField>
 
-            <FormField title="Leerdoel toevoegen" id="autocomplete-leerdoelen">
+            <FormField title="Leerdoel toevoegen" forId="autocomplete-leerdoelen">
               <div id="autocomplete-leerdoelen" class="max-w-lg" />
             </FormField>
           </FieldSet>
         {:else if selectedLocationTab === "waypoints"}
           <FieldSet>
-            <FormField title="Tekst position X" id="text_position_x">
+            <FormField title="Tekst position X" forId="text_position_x">
               <NumberInput
                 id="text_position_x"
                 min="0"
@@ -318,7 +318,7 @@
                 bind:value={map.locations[selectedIndex].textPositionX}
               />
             </FormField>
-            <FormField title="Tekst position Y" id="text_position_y">
+            <FormField title="Tekst position Y" forId="text_position_y">
               <NumberInput
                 id="text_position_y"
                 min="0"
@@ -326,7 +326,7 @@
                 bind:value={map.locations[selectedIndex].textPositionY}
               />
             </FormField>
-            <FormField title="Marker position X" id="marker_position_x">
+            <FormField title="Marker position X" forId="marker_position_x">
               <NumberInput
                 id="marker_position_x"
                 min="0"
@@ -334,7 +334,7 @@
                 bind:value={map.locations[selectedIndex].markerPositionX}
               />
             </FormField>
-            <FormField title="Marker position Y" id="marker_position_y">
+            <FormField title="Marker position Y" forId="marker_position_y">
               <NumberInput
                 id="marker_position_y"
                 min="0"

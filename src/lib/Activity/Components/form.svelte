@@ -45,7 +45,7 @@
 
 <div class="mb-44 space-y-8 divide-y divide-gray-200 sm:space-y-5">
   <div>
-    <FormField title="Leerdoel" id="goal">
+    <FormField title="Leerdoel" forId="goal">
       <a href="/leerdoel/{activity.goalId}" class="underline"
         >{activity.goalTitle}</a
       >
@@ -59,7 +59,7 @@
     </FormField>
   </div>
 
-  <FormField title="Type activiteit" id="type_of_activity">
+  <FormField title="Type activiteit" forId="type_of_activity">
     <Radio
       bind:selectedValue={activity.type}
       options={typeOfActivityRadioOptions}
@@ -67,11 +67,11 @@
     />
   </FormField>
 
-  <FormField title="Titel" id="title">
+  <FormField title="Titel" forId="title">
     <Textarea id="title" bind:value={activity.title} required={true} />
   </FormField>
 
-  <FormField title="Beschrijving" id="description">
+  <FormField title="Beschrijving" forId="description">
     <Textarea id="description" bind:value={activity.descriptionRaw} rows="3" />
     <svelte:fragment slot="after">
       <AdditionalFormText content="Beschrijf kort de activiteit of de vraag" />
@@ -89,7 +89,7 @@
       {/if}
     </svelte:fragment>
   </FormField>
-  <FormField title="Moeilijkheid" id="difficulty">
+  <FormField title="Moeilijkheid" forId="difficulty">
     <NumberInput
       id="difficulty"
       min="1"
@@ -98,7 +98,7 @@
     />
   </FormField>
 
-  <FormField title="SVG" id="svg">
+  <FormField title="SVG" forId="svg">
     <Textarea id="svg" rows="5" bind:value={activity.svg} />
   </FormField>
 
@@ -106,7 +106,7 @@
     title="Video"
     description="Specificeer video gerelateerde informatie"
   >
-    <FormField title="Vimeo" id="vimeo_id">
+    <FormField title="Vimeo" forId="vimeo_id">
       <NumberInput
         id="vimeo_id"
         title="Vimeo"

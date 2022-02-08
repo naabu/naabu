@@ -649,7 +649,7 @@
 
   <div class="max-w-lg mx-auto px-6 mt-12 mb-32">
     <form on:submit|preventDefault={formSubmit}>
-      <FormField title="Reageren" id="comment" labelPosition="top">
+      <FormField title="Reageren" forId="comment" labelPosition="top">
         <Textarea id="comment" rows="3" bind:value={newCommentText} />
         <svelte:fragment slot="after">
           <div class="mt-3">

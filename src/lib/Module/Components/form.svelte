@@ -33,16 +33,16 @@
   }
 </script>
 
-<FormField title="Naam" id="name">
+<FormField title="Naam" forId="name">
   <Textarea id="name" required={true} bind:value={module.moduleName} />
 </FormField>
-<FormField title="Beschrijving" id="description">
+<FormField title="Beschrijving" forId="description">
   <Textarea id="description" rows="3" bind:value={module.moduleDescription} />
 </FormField>
-<FormField title="SVG afbeelding" id="svg">
+<FormField title="SVG afbeelding" forId="svg">
   <Textarea id="svg" rows="5" bind:value={module.moduleSvg} />
 </FormField>
-<FormField title="Kaart" id="maps">
+<FormField title="Kaart" forId="maps">
   <Select
     id="maps"
     bind:value={module.map}

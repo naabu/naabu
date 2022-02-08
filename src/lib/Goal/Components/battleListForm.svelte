@@ -33,7 +33,7 @@
   }
 </script>
 
-<FormField id="test_name" labelPosition="left" title="Testen">
+<FormField forId="test_name" labelPosition="left" title="Testen">
   <TextAndRemove items={battles} on:remove={removeBattle}>
     <svelte:fragment let:item={battle} slot="show">
       {battle.name}

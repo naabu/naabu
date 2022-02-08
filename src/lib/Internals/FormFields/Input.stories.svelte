@@ -35,6 +35,7 @@
     value: "text not required",
     dataTest: "inputTextForTest",
     autocomplete: "name",
+    id: "text_name",
   }}
 />
 
@@ -45,7 +46,7 @@
   args={{
     value: "email required",
     required: true,
-    id:"email",
+    id: "email",
   }}
 />
 
@@ -59,5 +60,6 @@
     max: 100,
     step: 5,
     required: false,
+    id: "number",
   }}
 />

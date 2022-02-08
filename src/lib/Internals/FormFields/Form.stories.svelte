@@ -1,14 +1,16 @@
 <script>
   import { Meta, Template, Story } from "@storybook/addon-svelte-csf";
   import SimpleDivDecorator from "$lib/Internals/Story/SimpleDivDecorator.svelte";
-  import * as InputStories from "$lib/Internals/FormFields/Input.stories.svelte";
-  import * as ButtonStories from "$lib/Internals/Button/Button.stories.svelte";
-  import * as RadioStories from "$lib/Internals/FormFields/Radio.stories.svelte";
-  import * as SelectStories from "$lib/Internals/FormFields/Select.stories.svelte";
+  import * as InputS from "$lib/Internals/FormFields/Input.stories.svelte";
+  import * as ButtonS from "$lib/Internals/Button/Button.stories.svelte";
+  import * as RadioS from "$lib/Internals/FormFields/Radio.stories.svelte";
+  import * as SelectS from "$lib/Internals/FormFields/Select.stories.svelte";
+  import * as CheckboxS from "$lib/Internals/FormFields/Checkbox.stories.svelte";
 
   import FieldSet from "./FieldSet.svelte";
   import FormField from "./FormField.svelte";
   import AdditionalFormText from "./AdditionalFormText.svelte";
+  import DisplayMultiTopics from "$lib/Goal/Components/displayMultiTopics.svelte";
 
   let textInput;
   let numberInput;
@@ -16,21 +18,27 @@
   let submitButton;
   let exampleRadio;
   let exampleSelect;
+  let singleCheckbox;
+  let multipleCheckbox;
 
   $: {
-    textInput = InputStories.text_name(InputStories.text_name.args);
-    numberInput = InputStories.number(InputStories.number.args);
-    emailInput = InputStories.email(InputStories.email.args);
-    let submitButtonArgs = ButtonStories.primary_small.args;
+    textInput = InputS.text_name(InputS.text_name.args);
+    numberInput = InputS.number(InputS.number.args);
+    emailInput = InputS.email(InputS.email.args);
+    let submitButtonArgs = ButtonS.primary_small.args;
     submitButtonArgs.content = "Submit";
-    submitButton = ButtonStories.primary_small(submitButtonArgs);
-    exampleRadio = RadioStories.radioWithDescriptionDefault(
-      RadioStories.radioWithDescriptionDefault.args
+    submitButton = ButtonS.primary_small(submitButtonArgs);
+    exampleRadio = RadioS.radioWithDescriptionDefault(
+      RadioS.radioWithDescriptionDefault.args
     );
-    exampleSelect = SelectStories.multiple_compare(
-      SelectStories.multiple_compare.args
-    );
+    exampleSelect = SelectS.multiple_compare(SelectS.multiple_compare.args);
+    singleCheckbox = CheckboxS.single(CheckboxS.single.args);
+    multipleCheckbox = CheckboxS.multiple(CheckboxS.multiple.args);
   }
+
+  let goal = {
+    multitopics: [],
+  };
 </script>
 
 <Meta title="Form/Stories" />
@@ -42,10 +50,18 @@
         title="Information"
         description="Please fill in the following information"
       >
-        <FormField title="Name" labelPosition="left">
+        <FormField
+          title="Name"
+          forId="text_name"
+          labelPosition={args.labelPosition}
+        >
           <svelte:component this={textInput.Component} {...textInput.props} />
         </FormField>
-        <FormField title="Email" forId={"email"} labelPosition="left">
+        <FormField
+          title="Email"
+          forId={"email"}
+          labelPosition={args.labelPosition}
+        >
           <svelte:component this={emailInput.Component} {...emailInput.props} />
           <svelte:fragment slot="after">
             <AdditionalFormText
@@ -53,20 +69,49 @@
             />
           </svelte:fragment>
         </FormField>
+        <FormField
+          title="Number input"
+          forId="number"
+          labelPosition={args.labelPosition}
+        >
+          <svelte:component
+            this={numberInput.Component}
+            {...numberInput.props}
+          />
+        </FormField>
+      </FieldSet>
 
-        <FormField title="Pick your exam" labelPosition="left">
+      <FieldSet title="Details" description="Please also provide the details">
+        <FormField title="Pick your exam" labelPosition={args.labelPosition}>
           <svelte:component
             this={exampleRadio.Component}
             {...exampleRadio.props}
           />
         </FormField>
 
-        <FormField title="What car brand do you like?" labelPosition="left">
+        <FormField
+          title="What car brand do you like?"
+          labelPosition={args.labelPosition}
+        >
           <svelte:component
             this={exampleSelect.Component}
             {...exampleSelect.props}
           />
         </FormField>
+
+        <FormField title="Check the boxes" labelPosition={args.labelPosition}>
+          <svelte:component
+            this={singleCheckbox.Component}
+            {...singleCheckbox.props}
+          />
+          <svelte:component
+            this={multipleCheckbox.Component}
+            {...multipleCheckbox.props}
+          />
+        </FormField>
+
+        <DisplayMultiTopics bind:goal labelPosition={args.labelPosition} />
+
         <svelte:component
           this={submitButton.Component}
           {...submitButton.props}
@@ -82,5 +127,16 @@
   template="form_example_1"
   id="form_example_1"
   name="Example of a form"
-  args={{}}
+  args={{
+    labelPosition: "left",
+  }}
+/>
+
+<Story
+  template="form_example_1"
+  id="form_example_2"
+  name="Example of a form with labels on top"
+  args={{
+    labelPosition: "top",
+  }}
 />

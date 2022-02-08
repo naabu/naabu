@@ -5,6 +5,7 @@
   import TextInput from "$lib/Internals/FormFields/TextInput.svelte";
 
   export let goal;
+  export let labelPosition = "left";
   let newMultitopic = "";
 
   function addMultiTopicSubmit() {
@@ -27,9 +28,13 @@
   }
 </script>
 
-<FormField title="Onderwerpen" forId="multi_topic_name">
+<FormField title="Onderwerpen" forId="multi_topic_name" {labelPosition}>
   <svelte:fragment slot="before">
-    <TextAndRemove items={goal.multitopics} on:remove={removeMultiTopic} />
+    <TextAndRemove
+      noItemsMessage="Voeg onderwerpen toe"
+      items={goal.multitopics}
+      on:remove={removeMultiTopic}
+    />
   </svelte:fragment>
   <TextInput
     on:keypress={onKeyPress}

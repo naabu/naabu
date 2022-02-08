@@ -3,11 +3,11 @@
   import FieldSet from "$lib/Internals/FormFields/FieldSet.svelte";
   import FormField from "$lib/Internals/FormFields/FormField.svelte";
   import SimpleDivDecorator from "$lib/Internals/Story/SimpleDivDecorator.svelte";
-  import * as InputStories from "$lib/Internals/FormFields/Input.stories.svelte";
+  import * as InputS from "$lib/Internals/FormFields/Input.stories.svelte";
   let textInput;
 
   $: {
-    textInput = InputStories.text_name(InputStories.text_name.args);
+    textInput = InputS.text_name(InputS.text_name.args);
   }
 </script>
 

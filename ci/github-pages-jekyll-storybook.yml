@@ -5,4 +5,5 @@ services:
     image: ghcr.io/naabu/naabu_sveltekit:latest
     volumes:
       - ./:/var/www/
+      - /var/www/node_modules/
     entrypoint: ["bash", "scripts/ci-build-storybook.sh"]

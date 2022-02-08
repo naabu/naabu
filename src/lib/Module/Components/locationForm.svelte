@@ -36,8 +36,6 @@
   let autoCompleteElementExists = null;
   let autoCompleteTimer;
 
-  $: console.log(map.locations);
-
   $: {
     for (let i = 0; i < map.locations.length; i++) {
       let newAccessLocations = [];
@@ -251,11 +249,8 @@
     },
   ];
 
-  $: console.log(map.locations[selectedIndex].accessLocations);
-
   let testGroup = [""];
 
-  $: console.log(testGroup);
 </script>
 
 <VerwijderDialog bind:toggle={deleteLocationToggle} on:ok={deleteLocation} />

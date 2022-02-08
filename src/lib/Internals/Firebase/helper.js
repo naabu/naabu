@@ -34,15 +34,6 @@ export async function login(firebase) {
           }).catch(function (error) {
             console.error("Something went wrong", error);
           });
-
-          // 
-          // anonymousUser.linkWithCredential(authCredential)
-          // .then((usercred) => {
-          //   var user = usercred.user;
-          //   console.log("Anonymous account successfully upgraded", user);
-          // }).catch((error) => {
-          //   console.log("Error upgrading anonymous account", error);
-          // });
         }
       }).catch(function (error) {
         console.error("Google sign in failed", error);

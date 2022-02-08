@@ -104,7 +104,7 @@
     <ResultFeedback bind:alert />
     <CheckPlayerHasProfile bind:hasCurriculumProfile />
     <form
-      class="space-y-8 divide-y divide-gray-200"
+      class="space-y-8"
       on:submit|preventDefault={formSubmit}
     >
       <GoalForm bind:goal />

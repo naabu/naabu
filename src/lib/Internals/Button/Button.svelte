@@ -1,5 +1,4 @@
 <script>
-  import { createEventDispatcher } from "svelte";
   export let color = "secondary";
   // export let isLink = false;
   export let isDisabled = false;
@@ -19,6 +18,8 @@
     "rounded-md",
     "font-medium",
     "disabled:opacity-50",
+    "mb-2",
+    "mt-2"
   ];
 
   let tiny = ["px-1.5", "py-.5", "text-xs"];
@@ -207,21 +208,14 @@
   $: if (isSubmit) {
     type = "submit";
   }
-
-  const dispatch = createEventDispatcher();
-  // class="disabled:opacity-50 ml-3 inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-  function onClick(event) {
-    dispatch("click", event);
-  }
 </script>
 
-<!-- If isSubmit add type="submit" to button -->
 {#if !isLinkToGoogle}
   <button
     {type}
     class={classes.join(" ")}
     data-test={dataTest}
-    on:click={onClick}
+    on:click
     disabled={isDisabled}
   >
     <slot>
@@ -229,7 +223,7 @@
     </slot>
   </button>
 {:else}
-  <button id="linkGoogleButton" on:click={onClick} />
+  <button id="linkGoogleButton" on:click />
 {/if}
 
 <style>

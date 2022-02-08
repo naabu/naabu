@@ -6,6 +6,10 @@
   import { getDateString } from "$lib/Internals/Misc/helper";
   import { goto } from "$app/navigation";
   import Button from "$lib/Internals/Button/Button.svelte";
+  import TextInput from "$lib/Internals/FormFields/TextInput.svelte";
+  import Textarea from "../../../Internals/FormFields/Textarea.svelte";
+  import FormField from "$lib/Internals/FormFields/FormField.svelte";
+  import AdditionalFormText from "$lib/Internals/FormFields/AdditionalFormText.svelte";
   export let firebase;
   export let talk;
   export let goalId;
@@ -96,47 +100,26 @@
 {#if talk}
   <div class="ml-auto mr-auto max-w-xl mt-8">
     <form on:submit|preventDefault={formSubmit}>
-      <div class="col-span-6 sm:col-span-4">
-        <label for="title" class="block text-sm font-medium text-gray-700"
-          >Titel</label
-        >
-        <input
-          type="text"
-          data-test="post-title"
-          bind:value={newPostTitle}
-          name="title"
-          id="title"
-          class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md"
-        />
-      </div>
-
-      <div>
-        <label for="post" class="block text-sm font-medium text-gray-700">
-          Post
-        </label>
-        <div class="mt-1">
-          <textarea
-            id="post"
-            name="post"
-            rows="3"
-            bind:value={newPostText}
-            class="shadow-sm focus:ring-indigo-500 focus:border-indigo-500 mt-1 block w-full sm:text-sm border border-gray-300 rounded-md"
-          />
-        </div>
-        <div class="mt-4 flex justify-between">
-          <span class=" text-sm text-gray-500">
-            Hou het vriendelijk en proffesioneel
-          </span>
-
-          <Button
-            dataTest="post-button"
-            isDisabled={buttonDisabled || !hasCurriculumProfile}
-            isSubmit={true}
-            color="primary"
-            content="Post"
-          />
-        </div>
-      </div>
+      <FormField title="Titel" forId="title">
+        <TextInput bind:value={newPostTitle} dataTest="post-title" id="title" />
+      </FormField>
+      <FormField title="Post" forId="post">
+        <Textarea id="post" bind:value={newPostText} rows="3" />
+        <svelte:fragment slot="after">
+          <div class="mt-4 flex justify-between">
+            <AdditionalFormText
+              content="Hou het vriendelijk en proffesioneel"
+            />
+            <Button
+              dataTest="post-button"
+              isDisabled={buttonDisabled || !hasCurriculumProfile}
+              isSubmit={true}
+              color="primary"
+              content="Post"
+            />
+          </div>
+        </svelte:fragment>
+      </FormField>
     </form>
   </div>
 {/if}

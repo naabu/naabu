@@ -1,28 +1,45 @@
 <script>
   import { goto } from "$app/navigation";
+  import { createEventDispatcher } from "svelte";
 
   export let mainTabs;
   export let subTabs;
   export let mainSelected;
   export let subSelected;
+  export let id = "tabs";
 
-  let mainSelectedTab = mainSelected;
-  let subSelectedTab = subSelected;
+  let dispatch = createEventDispatcher();
 
   function gotoMainTab() {
+    dispatch("click");
     for (let i = 0; i < mainTabs.length; i++) {
-      if (mainTabs[i].value === mainSelectedTab) {
-        goto(mainTabs[i].url);
+      if (mainTabs[i].value === mainSelected) {
+        if (mainTabs[i].url) {
+          goto(mainTabs[i].url);
+        }
       }
     }
   }
 
   function gotoSubTab() {
+    dispatch("click");
     for (let i = 0; i < subTabs.length; i++) {
-      if (subTabs[i].value === subSelectedTab) {
-        goto(subTabs[i].url);
+      if (subTabs[i].value === subSelected) {
+        if (subTabs[i].url) {
+          goto(subTabs[i].url);
+        }
       }
     }
+  }
+
+  function clickMainTab(tab) {
+    mainSelected = tab.value;
+    gotoMainTab();
+  }
+
+  function clickSubTab(tab) {
+    subSelected = tab.value;
+    gotoSubTab();
   }
 
   let allAClasses = [
@@ -40,33 +57,44 @@
     "hover:border-gray-300",
   ];
 
-  let selectedAClasses = [
-    "border-indigo-500",
-    "text-indigo-600",
-  ];
-
+  let selectedAClasses = ["border-indigo-500", "text-indigo-600"];
 
   function getClasses(tab, selectedTab) {
     let classes = allAClasses;
     if (tab.value === selectedTab) {
       classes = [...classes, ...selectedAClasses];
-    }
-    else {
+    } else {
       classes = [...classes, ...nonSelectedAClasses];
     }
 
     return classes.join(" ");
   }
+
+  $: if (mainTabs) {
+    for (let i = 0; i < mainTabs.length; i++) {
+      if (!mainTabs[i].dataTest) {
+        mainTabs[i].dataTest = id + "-main-" + mainTabs[i].value;
+      }
+    }
+  }
+
+  $: if (subTabs) {
+    for (let i = 0; i < subTabs.length; i++) {
+      if (!subTabs[i].dataTest) {
+        subTabs[i].dataTest = id + "-sub-" + subTabs[i].value;
+      }
+    }
+  }
 </script>
 
 <div>
   <div class="sm:hidden">
-    <label for="tabs" class="sr-only">Selecteer een tab</label>
+    <label for="main-{id}" class="sr-only">Selecteer een tab</label>
     <select
-      bind:value={mainSelectedTab}
+      bind:value={mainSelected}
       on:change={gotoMainTab}
-      id="tabs"
-      name="tabs"
+      id="main-{id}"
+      name="main-{id}"
       class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
     >
       {#each mainTabs as tab}
@@ -76,12 +104,12 @@
       {/each}
     </select>
     {#if subTabs}
-      <label for="subTabs" class="sr-only">Selecteer een tab</label>
+      <label for="sub-{id}" class="sr-only">Selecteer een tab</label>
       <select
-        bind:value={subSelectedTab}
+        bind:value={subSelected}
         on:change={gotoSubTab}
-        id="tabs"
-        name="tabs"
+        id="sub-{id}"
+        name="sub-{id}"
         class="block w-full pl-3 pr-10 py-2 text-base border-gray-300 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
       >
         {#each subTabs as tab}
@@ -91,6 +119,7 @@
         {/each}
       </select>
     {/if}
+    <slot name="after-main-tabs" mobile={true} />
   </div>
   <div class="hidden sm:block">
     <div class="border-b border-gray-200">
@@ -98,24 +127,24 @@
         <div class="flex space-x-8">
           {#each mainTabs as tab}
             <a
-              data-test="maintab-{tab.value}"
+              data-test={tab.dataTest}
               class={getClasses(tab, mainSelected)}
               href={tab.url}
-              on:click={() => mainSelected = tab.value}
+              on:click|preventDefault={() => clickMainTab(tab)}
             >
               {tab.text}
             </a>
           {/each}
+          <slot name="after-main-tabs" mobile={false} />
         </div>
         {#if subTabs}
           <div class="ml-auto flex space-x-8">
             {#each subTabs as tab}
-
               <a
-                data-test="subtab-{tab.value}"
+                data-test={tab.dataTest}
                 class={getClasses(tab, subSelected)}
                 href={tab.url}
-                on:click={() => subSelected = tab.value}
+                on:click|preventDefault={() => clickSubTab(tab)}
               >
                 {tab.text}
               </a>

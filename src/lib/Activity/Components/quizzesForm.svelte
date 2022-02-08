@@ -3,6 +3,12 @@
 
   import VerwijderDialog from "$lib/Internals/Misc/dialog.svelte";
   import { renderKatexOutput } from "$lib/Internals/Misc/helper.js";
+  import Textarea from "$lib/Internals/FormFields/Textarea.svelte";
+  import Checkbox from "../../Internals/FormFields/Checkbox.svelte";
+  import Select from "../../Internals/FormFields/Select.svelte";
+  import FormField from "$lib/Internals/FormFields/FormField.svelte";
+  import NumberInput from "$lib/Internals/FormFields/NumberInput.svelte";
+  import Tabs from "$lib/Internals/Tabs/tabs.svelte";
 
   export let quizzes = [];
   export let showTimeInVideo = false;
@@ -10,6 +16,10 @@
   export let selectedFieldIndex = -1;
   let deleteQuizToggle = false;
   let renderedKatex = "";
+  let quizSelectOptions = [
+    { value: "multiple_choice", content: "Multiple choice" },
+    { value: "quiz", content: "Quiz" },
+  ];
 
   function updatePreview(input) {
     renderedKatex = renderKatexOutput(input);
@@ -33,14 +43,12 @@
     quizAnswers = quizAnswers;
   }
 
-  function setSelectedQuizIndex(index) {
-    selectedQuizIndex = index;
+  $: if (selectedQuizIndex) {
     selectedFieldIndex = -1;
     renderedKatex = "";
   }
 
-  function setSelectedFieldIndex(index) {
-    selectedFieldIndex = index;
+  $: if (selectedFieldIndex) {
     renderedKatex = "";
   }
 
@@ -54,6 +62,8 @@
       answers: [],
     };
     quizzes = [...quizzes, quiz];
+    selectedFieldIndex = -1;
+    selectedQuizIndex = quizzes.length - 1;
   }
 
   function addAnswer(quizIndex) {
@@ -63,229 +73,158 @@
     };
     quizzes[quizIndex].answers = [...quizzes[quizIndex].answers, answer];
   }
+
+  let questionTabs = [];
+
+  $: if (quizzes) {
+    questionTabs = [];
+    for (let i = 0; i < quizzes.length; i++) {
+      questionTabs.push({
+        value: i,
+        text: "Vraag " + (i + 1),
+      });
+    }
+  }
+
+  let quizQuestionsAndAnswerOptions = [];
+
+  $: if (quizzes && quizzes[selectedQuizIndex]) {
+    quizQuestionsAndAnswerOptions = [];
+
+    quizQuestionsAndAnswerOptions.push({
+      value: -1,
+      text: "Vraag",
+    });
+    for (let i = 0; i < quizzes[selectedQuizIndex].answers.length; i++) {
+      let answerText = "Antwoord " + (i + 1);
+      if (quizzes[selectedQuizIndex].answers[i].correct) {
+        answerText += " *";
+      }
+      quizQuestionsAndAnswerOptions.push({
+        value: i,
+        text: answerText,
+        dataTest: "A" + (i + 1),
+      });
+    }
+  }
 </script>
 
 <VerwijderDialog bind:toggle={deleteQuizToggle} on:ok={deleteQuiz} />
-<div class="space-y-3 sm:space-y-2">
-  <div>
-    <div class="block tabs">
-      <div class="border-b mb-3 border-gray-200">
-        <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-          {#each quizzes as quiz, i}
-            {#if selectedQuizIndex !== i}
-              <button
-                on:click|preventDefault={() => setSelectedQuizIndex(i)}
-                class="outline-none active:outline-none focus:outline-none border-transparent  text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-              >
-                Vraag {i + 1}
-              </button>
-            {:else}
-              <button
-                on:click|preventDefault={() => setSelectedQuizIndex(i)}
-                class="outline-none active:outline-none focus:outline-none border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-              >
-                Vraag {i + 1}
-              </button>
-            {/if}
-          {/each}
-          <div class="mt-3 mb-1">
-            <Button
-              on:click={addQuiz}
-              dataTest="add-question-button"
-              content="Nieuwe vraag"
-              size="small"
-            />
-          </div>
-        </nav>
-        {#if quizzes.length > 0}
-          <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-            {#if selectedFieldIndex !== -1}
-              <button
-                on:click|preventDefault={() => setSelectedFieldIndex(-1)}
-                class="outline-none active:outline-none focus:outline-none border-transparent  text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-              >
-                Vraag
-              </button>
-            {:else}
-              <button
-                on:click|preventDefault={() => setSelectedFieldIndex(-1)}
-                class="outline-none active:outline-none focus:outline-none border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-              >
-                Vraag
-              </button>
-            {/if}
 
-            {#each quizzes[selectedQuizIndex].answers as answer, i}
-              {#if selectedFieldIndex !== i}
-                <button
-                  data-test="A{i + 1}"
-                  on:click|preventDefault={() => setSelectedFieldIndex(i)}
-                  class="outline-none active:outline-none focus:outline-none border-transparent  text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-                >
-                  Antwoord {i + 1}
-                  {#if quizzes[selectedQuizIndex].answers[i].correct}
-                    *
-                  {/if}
-                </button>
-              {:else}
-                <button
-                  on:click|preventDefault={() => setSelectedFieldIndex(i)}
-                  class="outline-none active:outline-none focus:outline-none border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-                >
-                  Antwoord {i + 1}
-                  {#if quizzes[selectedQuizIndex].answers[i].correct}
-                    *
-                  {/if}
-                </button>
-              {/if}
-            {/each}
+<div>
+  <Tabs mainTabs={questionTabs} bind:mainSelected={selectedQuizIndex}>
+    <svelte:fragment slot="after-main-tabs" let:mobile>
+      <Button
+        on:click={addQuiz}
+        dataTest={!mobile
+          ? "add-question-button"
+          : "add-question-button-mobile"}
+        content="Nieuwe vraag"
+        size="small"
+      />
+    </svelte:fragment>
+  </Tabs>
 
-            <div class="mt-3 mb-1 ">
-              <Button
-                dataTest="new-answer-button"
-                on:click={() => addAnswer(selectedQuizIndex)}
-                content="Nieuw antwoord"
-                size="small"
-              />
-            </div>
-            <div class="mt-3 mb-1 ">
-              <Button
-                dataTest="remove-quiz-button"
-                on:click={removeQuizButtonFunction}
-                content="Vraag verwijderen"
-                size="small"
-              />
-            </div>
-          </nav>
-        {/if}
+  {#if quizzes.length > 0 && quizzes[selectedQuizIndex]}
+    <Tabs
+      mainTabs={quizQuestionsAndAnswerOptions}
+      bind:mainSelected={selectedFieldIndex}
+    >
+      <svelte:fragment slot="after-main-tabs" let:mobile>
+        <Button
+          dataTest={!mobile ? "new-answer-button" : "new-answer-button-mobile"}
+          on:click={() => addAnswer(selectedQuizIndex)}
+          content="Nieuw antwoord"
+          size="small"
+        />
+        <Button
+          dataTest={!mobile
+            ? "remove-quiz-button"
+            : "remove-quiz-button-mobile"}
+          on:click={removeQuizButtonFunction}
+          content="Vraag verwijderen"
+          size="small"
+        />
+      </svelte:fragment>
+    </Tabs>
+  {/if}
+</div>
+
+{#if quizzes.length > 0 && quizzes[selectedQuizIndex]}
+  {#if selectedFieldIndex === -1}
+    {#if showTimeInVideo}
+      <FormField title="Tijd in video" forId="quiz_video_time" labelPosition="top">
+        <NumberInput
+          id="quiz_video_time"
+          step="0.1"
+          bind:value={quizzes[selectedQuizIndex].timeInVideo}
+        />
+      </FormField>
+    {/if}
+
+    <FormField title="Type" forId="quiz_type" labelPosition="top">
+      <Select
+        id="quiz_type"
+        bind:options={quizSelectOptions}
+        bind:value={quizzes[selectedQuizIndex].type}
+        labelOnTop={true}
+      />
+    </FormField>
+
+    <FormField labelPosition="top" title="Vraag" forId="quiz_question">
+      <Textarea
+        id="quiz_question"
+        rows="3"
+        bind:value={quizzes[selectedQuizIndex].question}
+      />
+      <svelte:fragment slot="after">
+        <div class="mb-10 mt-3 block">
+          <Button
+            size="small"
+            on:click={() => updatePreview(quizzes[selectedQuizIndex].question)}
+            content="Update preview"
+          />
+        </div>
+        <div class="mt-3">{@html renderedKatex}</div>
+      </svelte:fragment>
+    </FormField>
+  {:else if quizzes[selectedQuizIndex].answers[selectedFieldIndex]}
+    <FormField labelPosition="top" title="Antwoord" forId="answeranswer">
+      <Textarea
+        id="answeranswer"
+        rows="3"
+        bind:value={quizzes[selectedQuizIndex].answers[selectedFieldIndex]
+          .answer}
+      />
+    </FormField>
+    <Checkbox
+      id="answers_check"
+      label="Goed antwoord"
+      bind:checked={quizzes[selectedQuizIndex].answers[selectedFieldIndex]
+        .correct}
+    />
+
+    <div class="flex justify-between max-w-lg">
+      <div class="mb-10 mt-3 block">
+        <Button
+          size="small"
+          on:click={() =>
+            updatePreview(
+              quizzes[selectedQuizIndex].answers[selectedFieldIndex].answer
+            )}
+          content="Update preview"
+        />
+      </div>
+
+      <div class="mb-10 mt-3 block">
+        <Button
+          size="small"
+          dataTest="remove-answer-button"
+          on:click={() => deleteQuizAnswer()}
+          content="Antwoord verwijderen"
+        />
       </div>
     </div>
-
-    {#if quizzes.length > 0}
-      {#if selectedFieldIndex === -1}
-        {#if showTimeInVideo}
-          <div class="mt-3">
-            <label
-              for="quiz_video_time"
-              class="mb-1 block text-sm font-medium text-gray-700"
-            >
-              Tijd in video
-            </label>
-            <div>
-              <div>
-                <input
-                  type="number"
-                  step="0.1"
-                  name="quiz_video_time"
-                  id="quiz_video_time"
-                  class="max-w-xs focus:ring-indigo-500 focus:border-indigo-500 flex-1 block w-full rounded-none rounded-r-md sm:text-sm border-gray-300"
-                  bind:value={quizzes[selectedQuizIndex].timeInVideo}
-                />
-              </div>
-            </div>
-          </div>
-        {/if}
-        <div class="mt-3">
-          <label
-            for="quiz_type"
-            class="mb-1  block text-sm font-medium text-gray-700"
-          >
-            Type
-          </label>
-          <div>
-            <div>
-              <select
-                id="quiz_type"
-                name="quiz_type"
-                class="max-w-lg block focus:ring-indigo-500 focus:border-indigo-500 w-full shadow-sm sm:max-w-xs sm:text-sm border-gray-300 rounded-md"
-                bind:value={quizzes[selectedQuizIndex].type}
-              >
-                <option value="multiple_choice">Multiple choice</option>
-                <option value="quiz">Quiz</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="mt-3">
-          <label
-            for="quiz_question"
-            class="mb-1  block text-sm font-medium text-gray-700"
-          >
-            Vraag
-          </label>
-          <div>
-            <textarea
-              id="quiz_question"
-              name="quiz_question"
-              rows="3"
-              bind:value={quizzes[selectedQuizIndex].question}
-              class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
-            />
-          </div>
-          <div class="mb-10 mt-3 block">
-            <Button
-              size="small"
-              on:click={() =>
-                updatePreview(quizzes[selectedQuizIndex].question)}
-              content="Update preview"
-            />
-          </div>
-          <div class="mt-3">{@html renderedKatex}</div>
-        </div>
-      {:else}
-        <div class="mt-3">
-          <label
-            for="answeranswer"
-            class="mb-1 block text-sm font-medium text-gray-700"
-          >
-            Antwoord
-          </label>
-          <textarea
-            rows="3"
-            id="answeranswer"
-            bind:value={quizzes[selectedQuizIndex].answers[selectedFieldIndex]
-              .answer}
-            class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
-          />
-          <div class="mt-3">
-            <input
-              bind:checked={quizzes[selectedQuizIndex].answers[
-                selectedFieldIndex
-              ].correct}
-              id="answers_check"
-              type="checkbox"
-              class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
-            />
-            <label class="font-medium text-gray-700" for="answers_check"
-              >Goed antwoord</label
-            >
-          </div>
-
-          <div class="flex justify-between max-w-lg">
-            <div class="mb-10 mt-3 block">
-              <Button
-                size="small"
-                on:click={() =>
-                  updatePreview(
-                    quizzes[selectedQuizIndex].answers[selectedFieldIndex]
-                      .answer
-                  )}
-                content="Update preview"
-              />
-            </div>
-
-            <div class="mb-10 mt-3 block">
-              <Button
-                size="small"
-                dataTest="remove-answer-button"
-                on:click={() => deleteQuizAnswer()}
-                content="Antwoord verwijderen"
-              />
-            </div>
-          </div>
-          <div class="mt-14">{@html renderedKatex}</div>
-        </div>
-      {/if}
-    {/if}
-  </div>
-</div>
+    <div class="mt-14">{@html renderedKatex}</div>
+  {/if}
+{/if}

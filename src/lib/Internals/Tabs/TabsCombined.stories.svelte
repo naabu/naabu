@@ -1,7 +1,6 @@
 <script>
   import { Meta, Template, Story } from "@storybook/addon-svelte-csf";
   import * as TabStories from "$lib/Internals/Tabs/Tabs.stories.svelte";
-  // { mainfirst, real }
   let topTapOutput;
   let realOutput;
 

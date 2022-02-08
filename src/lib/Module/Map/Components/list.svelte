@@ -4,6 +4,7 @@
   import ShowBreadcrumb from "$lib/Internals/Breadcrumb/show.svelte";
   import { getAlgoliaSearchClient, getMapIndex } from "$lib/Internals/Algolia/algolia";
   import { getStores, session } from "$app/stores";
+import TextInput from "$lib/Internals/FormFields/TextInput.svelte";
 
   let index;
   let indexName = getMapIndex($session.environment);
@@ -32,6 +33,7 @@
     const result = await index.search(query);
     hits = result.hits;
   }
+
 </script>
 
 <ShowBreadcrumb bind:breadcrumbs />
@@ -40,7 +42,8 @@
 <a href="kaart/maken"> Nieuwe kaart maken</a> 
 
 <div>
-  <input type="text" bind:value={query} on:keyup={search} />
+  <!-- TODO replace to search component -->
+  <TextInput bind:value={query} on:keyup={search} />
 </div>
 <div class="flex flex-col">
   <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">

@@ -71,6 +71,7 @@
   }}
 />
 <Story
+  id="primary_small"
   name="Primary small"
   args={{
     color: "primary",

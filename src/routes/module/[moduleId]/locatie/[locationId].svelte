@@ -37,30 +37,6 @@
       timer = null;
     }
   }
-
-  // $: (async () => {
-  //   if (
-  //     module &&
-  //     userModule &&
-  //     filteredActivities &&
-  //     filteredActivities.length === 0
-  //   ) {
-  //     setTimeout(async () => {
-  //       userModule = await getUserModule(
-  //         firebase,
-  //         module.id,
-  //         module,
-  //         $session.player
-  //       );
-  //     }, 500);
-  //   }
-  // })();
-
-  // $: if (userModule && userModule.selectedActivities) {
-  //   displayAdventures = userModule.selectedActivities;
-  // }
-
-  // $: console.log(displayedAdventures);
 </script>
 
 <GetModuleData

@@ -6,10 +6,13 @@
   import { onMount } from "svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import { renderKatexOutput } from "$lib/Internals/Misc/helper.js";
-  import { getActivitySaveData, getDefaultEmptyActivity } from "$lib/Activity/Components/helper";
+  import {
+    getActivitySaveData,
+    getDefaultEmptyActivity,
+  } from "$lib/Activity/Components/helper";
   import { goto } from "$app/navigation";
   import { createRevision } from "$lib/Internals/Revision/helper";
-import Button from "$lib/Internals/Button/Button.svelte";
+  import Button from "$lib/Internals/Button/Button.svelte";
   export let firebase;
   export let goal;
   let draftId;
@@ -93,7 +96,7 @@ import Button from "$lib/Internals/Button/Button.svelte";
         let collectionRef = db.collection("activities");
         let result = await collectionRef.add(activityData);
         activity.id = result.id;
-        
+
         let resultRevision = await createRevision(
           firebase,
           activity,

@@ -51,7 +51,6 @@ test('Test flow for creating and editing learning goals @goal', async ({ page, d
 
 test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {
   printMessages(page, showAllConsole);
-  console.log("trying to delete the user");
   await page.goto(domain + '/cypress/curriculumProfile/clear');
   await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/user/clear');

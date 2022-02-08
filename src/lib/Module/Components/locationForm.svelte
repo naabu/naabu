@@ -11,6 +11,14 @@
   import VerwijderDialog from "$lib/Internals/Misc/dialog.svelte";
   import { generatePathsForMap } from "$lib/Module/Map/Components/helper";
   import Button from "$lib/Internals/Button/Button.svelte";
+  import Checkbox from "$lib/Internals/FormFields/Checkbox.svelte";
+  import Tabs from "$lib/Internals/Tabs/tabs.svelte";
+  import Textarea from "$lib/Internals/FormFields/Textarea.svelte";
+  import FormField from "$lib/Internals/FormFields/FormField.svelte";
+  import TextAndRemove from "$lib/Internals/FormFields/TextAndRemove.svelte";
+  import FieldSet from "$lib/Internals/FormFields/FieldSet.svelte";
+  import NumberInput from "$lib/Internals/FormFields/NumberInput.svelte";
+  import MultipleCheckbox from "$lib/Internals/FormFields/MultipleCheckbox.svelte";
 
   let filters = "";
   let goalIndex = getGoalIndex($session.environment);
@@ -50,7 +58,11 @@
     locationOptions = [];
     for (let i = 0; i < map.locations.length; i++) {
       if (i !== selectedIndex) {
-        locationOptions.push({ id: map.locations[i].id, index: i + 1 });
+        locationOptions.push({
+          value: map.locations[i].id,
+          label: "L" + (i + 1),
+          dataTest: "access-location-" + (i + 1),
+        });
       }
     }
   }
@@ -128,8 +140,8 @@
     resetFilters();
   }
 
-  function removeGoal(i) {
-    map.locations[selectedIndex].goals.splice(i, 1);
+  function removeGoal(event) {
+    map.locations[selectedIndex].goals.splice(event.detail.i, 1);
     map.locations[selectedIndex].goals = map.locations[selectedIndex].goals;
     resetFilters();
   }
@@ -197,285 +209,160 @@
     }
   }
 
+  function setAutocompleteNull() {
+    autoCompleteElementExists = null;
+  }
+
   function setSelectedLocationTab(tab) {
     selectedLocationTab = tab;
     autoCompleteElementExists = null;
   }
+
+  let locationTabs = [];
+
+  $: if (map.locations) {
+    locationTabs = [];
+    for (let i = 0; i < map.locations.length; i++) {
+      locationTabs.push({
+        value: i,
+        text: "L" + (i + 1),
+        dataTest: "location-tab-l" + (i + 1),
+      });
+    }
+  }
+
+  let locationCategories = [
+    {
+      value: "content",
+      text: "Inhoud",
+      dataTest: "inhoud-button",
+    },
+    {
+      value: "waypoints",
+      text: "Waypoints",
+      dataTest: "waypoints-button",
+    },
+    {
+      value: "paths",
+      text: "Paden",
+      dataTest: "paths-button",
+    },
+  ];
+
+  let testGroup = [""];
+
 </script>
 
 <VerwijderDialog bind:toggle={deleteLocationToggle} on:ok={deleteLocation} />
-<div class="space-y-3 sm:space-y-2">
-  <div>
-    <div class="block tabs">
-      <div class="border-bborder-gray-200">
-        <nav class="-mb-px flex space-x-8 items-center" aria-label="Tabs">
-          {#each map.locations as location, i}
-            {#if selectedIndex !== i}
-              <button
-                data-test="location-tab-l{i + 1}"
-                on:click|preventDefault={() => setselectedIndex(i)}
-                class="outline-none active:outline-none focus:outline-none border-transparent  text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-              >
-                L{i + 1}
-              </button>
-            {:else}
-              <button
-                data-test="location-tab-l{i + 1}"
-                on:click|preventDefault={() => setselectedIndex(i)}
-                class="outline-none active:outline-none focus:outline-none border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-              >
-                L{i + 1}
-              </button>
-            {/if}
-          {/each}
-          <div>
-            <Button
-              dataTest="new-location-button"
-              on:click={addLocation}
-              content="New Location"
-              size="small"
-            />
-          </div>
-        </nav>
-      </div>
-    </div>
-    <div class="block tabs">
-      <div class="border-b mb-3 border-gray-200">
-        <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-          {#if selectedLocationTab !== "content"}
-            <button
-              data-test="inhoud-button"
-              on:click|preventDefault={() => setSelectedLocationTab("content")}
-              class="outline-none active:outline-none focus:outline-none border-transparent  text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-            >
-              Inhoud
-            </button>
-          {:else}
-            <button
-              data-test="inhoud-button"
-              on:click|preventDefault={() => setSelectedLocationTab("content")}
-              class="outline-none active:outline-none focus:outline-none border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-            >
-              Inhoud
-            </button>
-          {/if}
-          {#if selectedLocationTab !== "waypoints"}
-            <button
-              data-test="waypoints-button"
-              on:click|preventDefault={() =>
-                setSelectedLocationTab("waypoints")}
-              class="outline-none active:outline-none focus:outline-none border-transparent  text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-            >
-              Waypoints
-            </button>
-          {:else}
-            <button
-              data-test="waypoints-button"
-              on:click|preventDefault={() =>
-                setSelectedLocationTab("waypoints")}
-              class="outline-none active:outline-none focus:outline-none border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-            >
-              Waypoints
-            </button>
-          {/if}
-          {#if selectedLocationTab !== "paths"}
-            <button
-              data-test="paths-button"
-              on:click|preventDefault={() => setSelectedLocationTab("paths")}
-              class="outline-none active:outline-none focus:outline-none border-transparent  text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-            >
-              Paden
-            </button>
-          {:else}
-            <button
-              data-test="paths-button"
-              on:click|preventDefault={() => setSelectedLocationTab("paths")}
-              class="outline-none active:outline-none focus:outline-none border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-            >
-              Paden
-            </button>
-          {/if}
-        </nav>
-      </div>
-    </div>
 
-    <div>
-      {#if selectedLocationTab === "content"}
-        <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
-          <label
-            for="location_name"
-            class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-          >
-            Name
-          </label>
-          <div class="mt-1 sm:mt-0 sm:col-span-2">
-            <textarea
-              id="location_name"
-              name="location_name"
-              rows="1"
-              bind:value={map.locations[selectedIndex].name}
-              class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
-            />
-          </div>
-
-          <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
-            <div
-              class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
-            >
-              <label
-                for="learning-goals"
-                class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-              >
-                Gekoppelde leerdoelen
-              </label>
-              <div id="learning-goals" class="mt-1 sm:mt-0 sm:col-span-2">
-                {#if map.locations[selectedIndex].goals.length === 0}
-                  <p class="mt-1 max-w-2xl text-sm text-gray-500">
-                    Nog geen leerdoelen aan activiteit toegevoegd
-                  </p>
-                {:else}
-                  <ul>
-                    {#each map.locations[selectedIndex].goals as goal, i}
-                      <li data-test="added-learning-goal-{i}">
-                        {goal.title}
-                        <Button
-                          dataTest="remove-goal-button-{i}"
-                          on:click={() => removeGoal(i)}
-                          content="Weghalen"
-                          size="very-small"
-                        />
-                      </li>
-                    {/each}
-                  </ul>
-                {/if}
-              </div>
-            </div>
-          </div>
-
-          <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
-            <div
-              class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
-            >
-              <label
-                for="autocomplete-leerdoelen"
-                class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-              >
-                Leerdoel toevoegen
-              </label>
-              <div class="mt-1 sm:mt-0 sm:col-span-2">
-                <div id="autocomplete-leerdoelen" class="max-w-lg" />
-              </div>
-            </div>
-          </div>
-        </div>
-      {:else if selectedLocationTab === "waypoints"}
-        <div class="mt-6 sm:mt-5 space-y-6 sm:space-y-5">
-          <label
-            for="text_position_x"
-            class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-          >
-            tekst position X
-          </label>
-          <div class="mt-1 sm:mt-0 sm:col-span-2">
-            <textarea
-              id="text_position_x"
-              name="title"
-              rows="1"
-              bind:value={map.locations[selectedIndex].textPositionX}
-              class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
-            />
-          </div>
-          <label
-            for="text_position_y"
-            class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-          >
-            tekst position Y
-          </label>
-
-          <div class="mt-1 sm:mt-0 sm:col-span-2">
-            <textarea
-              id="text_position_y"
-              name="title"
-              rows="1"
-              bind:value={map.locations[selectedIndex].textPositionY}
-              class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
-            />
-          </div>
-          <label
-            for="marker_position_x"
-            class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-          >
-            marker position X
-          </label>
-          <div class="mt-1 sm:mt-0 sm:col-span-2">
-            <textarea
-              id="marker_position_x"
-              name="title"
-              rows="1"
-              bind:value={map.locations[selectedIndex].markerPositionX}
-              class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
-            />
-          </div>
-          <label
-            for="marker_position_y"
-            class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-          >
-            marker position Y
-          </label>
-
-          <div class="mt-1 sm:mt-0 sm:col-span-2">
-            <textarea
-              id="marker_position_y"
-              name="title"
-              rows="1"
-              bind:value={map.locations[selectedIndex].markerPositionY}
-              class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
-            />
-          </div>
-          <div class="mt-3">
-            <input
-              bind:checked={map.locations[selectedIndex].isStartLocation}
-              id="start_locations_check"
-              type="checkbox"
-              class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
-            />
-            <label class="font-medium text-gray-700" for="start_locations_check"
-              >Start locatie op kaart</label
-            >
-          </div>
-          <label
-            for="accessLocations"
-            class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
-          >
-            Toegang tot locaties
-          </label>
-
-          <div class="mt-1 sm:mt-0 sm:col-span-2">
-            {#each locationOptions as locationOption}
-              <label>
-                <input
-                  data-test="access-location-{locationOption.index}"
-                  type="checkbox"
-                  bind:group={map.locations[selectedIndex].accessLocations}
-                  name="accessLocations"
-                  value={locationOption.id}
-                />
-                L{locationOption.index}
-              </label>
-            {/each}
-          </div>
-        </div>
-      {:else if selectedLocationTab === "paths"}
-        <PathsForm bind:map bind:selectedIndex />
-      {/if}
-    </div>
-    <div class="flex justify-end mt-3">
+<div>
+  <Tabs mainTabs={locationTabs} bind:mainSelected={selectedIndex}>
+    <svelte:fragment slot="after-main-tabs">
       <Button
-        dataTest="remove-location-button"
-        on:click={() => removeLocationButtonFunction()}
-        content="Locatie verwijderen"
+        dataTest="new-location-button"
+        on:click={addLocation}
+        content="New Location"
         size="small"
       />
+    </svelte:fragment>
+  </Tabs>
+  <Tabs
+    mainTabs={locationCategories}
+    bind:mainSelected={selectedLocationTab}
+    on:click={setAutocompleteNull}
+  />
+
+  <div class="space-y-3 sm:space-y-2">
+    <div>
+      <div>
+        {#if selectedLocationTab === "content"}
+          <FieldSet>
+            <FormField title="Name" forId="location_name">
+              <Textarea
+                id="location_name"
+                bind:value={map.locations[selectedIndex].name}
+              />
+            </FormField>
+
+            <FormField forId="learning-goals" title="Gekoppelde leerdoelen">
+              <div id="learning-goals">
+                <TextAndRemove
+                  items={map.locations[selectedIndex].goals}
+                  on:remove={removeGoal}
+                  dataTest="remove-goal-button-"
+                  noItemsMessage="Nog geen leerdoelen aan activiteit toegevoegd"
+                >
+                  <svelte:fragment let:item={goal} slot="show">
+                    {goal.title}
+                  </svelte:fragment>
+                </TextAndRemove>
+              </div>
+            </FormField>
+
+            <FormField title="Leerdoel toevoegen" forId="autocomplete-leerdoelen">
+              <div id="autocomplete-leerdoelen" class="max-w-lg" />
+            </FormField>
+          </FieldSet>
+        {:else if selectedLocationTab === "waypoints"}
+          <FieldSet>
+            <FormField title="Tekst position X" forId="text_position_x">
+              <NumberInput
+                id="text_position_x"
+                min="0"
+                max="2000"
+                bind:value={map.locations[selectedIndex].textPositionX}
+              />
+            </FormField>
+            <FormField title="Tekst position Y" forId="text_position_y">
+              <NumberInput
+                id="text_position_y"
+                min="0"
+                max="2000"
+                bind:value={map.locations[selectedIndex].textPositionY}
+              />
+            </FormField>
+            <FormField title="Marker position X" forId="marker_position_x">
+              <NumberInput
+                id="marker_position_x"
+                min="0"
+                max="2000"
+                bind:value={map.locations[selectedIndex].markerPositionX}
+              />
+            </FormField>
+            <FormField title="Marker position Y" forId="marker_position_y">
+              <NumberInput
+                id="marker_position_y"
+                min="0"
+                max="2000"
+                bind:value={map.locations[selectedIndex].markerPositionY}
+              />
+            </FormField>
+            <FormField labelPosition="left" title="Toegang">
+              <Checkbox
+                label="Start locatie op kaart"
+                id="start_locations_check"
+                bind:checked={map.locations[selectedIndex].isStartLocation}
+              />
+
+              <MultipleCheckbox
+                name="accesslocations"
+                bind:group={map.locations[selectedIndex].accessLocations}
+                bind:options={locationOptions}
+              />
+            </FormField>
+          </FieldSet>
+        {:else if selectedLocationTab === "paths"}
+          <PathsForm bind:map bind:selectedIndex />
+        {/if}
+      </div>
+      <div class="flex justify-end mt-3">
+        <Button
+          dataTest="remove-location-button"
+          on:click={() => removeLocationButtonFunction()}
+          content="Locatie verwijderen"
+          size="small"
+        />
+      </div>
     </div>
   </div>
 </div>

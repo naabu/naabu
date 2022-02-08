@@ -126,7 +126,7 @@
     </div>
   </div> -->
   <form
-    class="mt-8 space-y-8 divide-y divide-gray-200"
+    class="mt-8 space-y-8"
     on:submit|preventDefault={formSubmit}
   >
     <GoalForm bind:goal />

@@ -2,8 +2,12 @@
   import { onMount } from "svelte";
   import ManagementTabs from "$lib/Internals/Tabs/management.svelte";
   import ShowBreadcrumb from "$lib/Internals/Breadcrumb/show.svelte";
-  import { getAlgoliaSearchClient, getMapIndex } from "$lib/Internals/Algolia/algolia";
+  import {
+    getAlgoliaSearchClient,
+    getMapIndex,
+  } from "$lib/Internals/Algolia/algolia";
   import { getStores, session } from "$app/stores";
+import TextInput from "$lib/Internals/FormFields/TextInput.svelte";
 
   let index;
   let indexName = getMapIndex($session.environment);
@@ -37,10 +41,11 @@
 <ShowBreadcrumb bind:breadcrumbs />
 <ManagementTabs mainSelected="map" />
 
-<a href="kaart/maken"> Nieuwe kaart maken</a> 
+<a href="kaart/maken"> Nieuwe kaart maken</a>
 
 <div>
-  <input type="text" bind:value={query} on:keyup={search} />
+  <TextInput bind:value={query} on:keyup={search} />
+  
 </div>
 <div class="flex flex-col">
   <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">

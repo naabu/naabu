@@ -76,9 +76,7 @@ test('Unlock location on map test @module', async ({ page, domain, showAllConsol
   await teaser.click();
   await page.frameLocator('[data-test=vimeo-iframe]').locator(".play").scrollIntoViewIfNeeded();
   await page.frameLocator('[data-test=vimeo-iframe]').locator(".play").click();
-  console.log("played video");
   await page.waitForSelector('[data-test=too-easy]');
-  console.log("data-test=too-easy");
   await page.waitForTimeout(1000);
   await page.click('[data-test=too-easy]', { timeout: 30000 });
   teaser = await page.locator('[data-test=activity-teaser-0]');

@@ -3,12 +3,13 @@
   import { getStores, session, page } from "$app/stores";
   import Transition from "svelte-class-transition";
   import { onMount } from "svelte";
-  import { renderKatexOutput } from "$lib/Internals/Misc/helper.js";
   import { hasSpecialClaims } from "$lib/Internals/User/helper.js";
   import Button from "$lib/Internals/Button/Button.svelte";
+  import RadioQuestion from "$lib/Internals/Quiz/RadioQuestion.svelte";
 
   export let activity;
   export let toggle = false;
+
   export let firebase;
 
   let toggleResultScreen;
@@ -2067,40 +2068,9 @@
                           </div>
                         </div>
                       </div>
-                      <div
-                        class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6"
-                      >
-                        <div
-                          class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap"
-                        >
-                          <div class="ml-4 mt-4">
-                            <h3
-                              class="text-lg leading-6 font-medium text-gray-900"
-                            >
-                              {@html renderKatexOutput(quiz.question)}
-                            </h3>
-                          </div>
-                          <div class="ml-4 mt-4 flex-shrink-0">
-                            <!-- If answer is correct then change this button to doorgaan -->
-                          </div>
-                        </div>
-                      </div>
 
-                      <div class="px-4 pb-5 sm:p-6 sm:pt-0">
-                        {#each quiz.answers as answer, i}
-                          <label class="block mt-2 mb-2 pb-2 pt-2">
-                            <input
-                              type="radio"
-                              bind:group={quiz.selectedAnswer}
-                              value={i}
-                              data-test="answer_v1_{i}"
-                            />
-                            {@html "<span class='pl-3'>" +
-                              renderKatexOutput(answer.answer) +
-                              "</span>"}
-                          </label>
-                        {/each}
-                      </div>
+                      <RadioQuestion bind:quiz />
+
                       <div class="mr-2 mb-2 float-right">
                         <Button
                           on:click={() => (quiz = checkCorrectAnswer(quiz))}
@@ -2175,42 +2145,7 @@
                             </div>
                           </div>
                         </div>
-                        <div
-                          class="bg-white px-4 py-5 border-b border-gray-200 sm:px-6"
-                        >
-                          <div
-                            class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap"
-                          >
-                            <div class="ml-4 mt-4">
-                              <h3
-                                class="text-lg leading-6 font-medium text-gray-900"
-                              >
-                                {@html renderKatexOutput(quiz.question)}
-                              </h3>
-                              <p class="mt-1 text-sm " />
-                            </div>
-                            <div class="ml-4 mt-4 flex-shrink-0">
-                              <!-- If answer is correct then change this button to doorgaan -->
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="px-4 pb-5 sm:p-6 sm:pt-0">
-                          {#each quiz.answers as answer, i}
-                            <label class="block mt-2 mb-2 pb-2 pt-2">
-                              <input
-                                type="radio"
-                                bind:group={quiz.selectedAnswer}
-                                value={i}
-                                data-test="answer_v2_{i}"
-                              />
-                              {@html "<span class='pl-3'>" +
-                                renderKatexOutput(answer.answer) +
-                                "</span>"}
-                            </label>
-                          {/each}
-                        </div>
-
+                        <RadioQuestion bind:quiz />
                         <div class="mr-2 mb-2 float-right">
                           <Button
                             on:click={() => (quiz = checkCorrectAnswer(quiz))}

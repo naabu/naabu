@@ -2,8 +2,6 @@ name: Build Jekyll Storybook and publish to Github pages
 
 on:
   push:
-    paths:
-      - 'docs/**'
     branches: [ master ]
 
 jobs:

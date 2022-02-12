@@ -1,6 +1,7 @@
 ---
 layout: page
 title: Explanations
+parent: Explanations
 permalink: /explanations/why-firebase
 ---
 Why do we use Firebase and not an open source stack?

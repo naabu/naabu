@@ -1,6 +1,6 @@
 ---
 layout: page
-title: Explanations
+title: Why do we use Firebase for this tool?
 parent: Explanations
 permalink: /explanations/why-firebase
 ---

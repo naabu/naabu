@@ -7,6 +7,10 @@ service cloud.firestore {
     match /users/{userId} {
       allow write: if (request.auth.uid == userId)
     }
+
+    match /testplugin/{testpluginId} {
+      allow read, write: if true
+    }
      
     match /goals/{goalsId} {
       allow read: if true

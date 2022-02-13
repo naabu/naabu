@@ -5,125 +5,125 @@
     "url": "https://naabu.github.io/naabu/about/",
     "relUrl": "/about/"
   },"1": {
+    "doc": "Whats up with Docker?",
+    "title": "Why all these docker-compose files?",
+    "content": "We use Github actions to build and test the project. in the ci/ folder are all the images that are needed for the build. Svelte kit tests containers is needed to connect to the Firebase service in the Docker containers. So firebase-code instead of localhost. This allows Playwright to be run in the Docker container which is useful for quick testing and the continuous integration system. Jekyll is the documentation in Github. Storybook is running in the svelte-kit images. We have split the build into core images that install all dependencies but not the code. The idea is that we do not need to update dependencies that often and we often change the code. The split will make it easier for other developers to work on the project as they do not run into dependencies issues as much and will have a faster initial Docker build. ",
+    "url": "https://naabu.github.io/naabu/explanations/docker#why-all-these-docker-compose-files",
+    "relUrl": "/explanations/docker#why-all-these-docker-compose-files"
+  },"2": {
+    "doc": "Whats up with Docker?",
+    "title": "Whats up with Docker?",
+    "content": " ",
+    "url": "https://naabu.github.io/naabu/explanations/docker",
+    "relUrl": "/explanations/docker"
+  },"3": {
     "doc": "Explanations",
     "title": "Explanations",
     "content": " ",
     "url": "https://naabu.github.io/naabu/explanations",
     "relUrl": "/explanations"
-  },"2": {
+  },"4": {
     "doc": "How to guides",
     "title": "How to guides",
     "content": " ",
     "url": "https://naabu.github.io/naabu/how-to-guides",
     "relUrl": "/how-to-guides"
-  },"3": {
+  },"5": {
+    "doc": "Install a local environment",
+    "title": "How to install the project for your local environment",
+    "content": "A small guide on how to get the Tool to work locally. ",
+    "url": "https://naabu.github.io/naabu/how-to-guides/install-local-dev#how-to-install-the-project-for-your-local-environment",
+    "relUrl": "/how-to-guides/install-local-dev#how-to-install-the-project-for-your-local-environment"
+  },"6": {
+    "doc": "Install a local environment",
+    "title": "Local installation",
+    "content": "Requirements: . | Create a Firebase App | Store the config of Firebase in config/config-firebase.js (project settings =&gt; config) | Create an Algolia account and get the API configuration. | Algolia Admin API Key | Algolia Private key | Algolia public key. | . | Algolia Application Id and Algoliase search client should be in config/config-algolia.js | Algolia Admin key should be in algolia-secret-admin-api-key.txt | Algolia indexes should be created: dev_goals, dev_activities, and dev_maps | Install Docker and Docker Compose | . Installation steps: . | Run with Docker (first time it will take a while): docker-compose up -d . | In one terminal, go inside the svelte kit container: . | . | docker ps | docker exec -it naabu_sveltekit_1 bash | . | Run the install script (one time only) bash scripts/install.sh . | Run the Svelte Kit dev server in this container: npm run dev . | Open a new terminal and go inside the firebase emulator container docker exec -it naabu_firebase_1 bash and start the Firebase emulators: . | . npm run emulate . | Go to localhost:3000 and you should see the project and localhost:5001 to see the emulator UI of Firebase. | Errors? Reach out on Discord for support or create an Github Issue. | . ",
+    "url": "https://naabu.github.io/naabu/how-to-guides/install-local-dev#local-installation",
+    "relUrl": "/how-to-guides/install-local-dev#local-installation"
+  },"7": {
+    "doc": "Install a local environment",
+    "title": "Install a local environment",
+    "content": " ",
+    "url": "https://naabu.github.io/naabu/how-to-guides/install-local-dev",
+    "relUrl": "/how-to-guides/install-local-dev"
+  },"8": {
     "doc": "References",
     "title": "References",
     "content": "Storybook design components . ",
     "url": "https://naabu.github.io/naabu/references",
     "relUrl": "/references"
-  },"4": {
+  },"9": {
     "doc": "Storybook Reference",
     "title": "Storybook Reference",
     "content": "Storybook design components . TODO: explain why and how we use storybook. ",
     "url": "https://naabu.github.io/naabu/references/storybook-ref/",
     "relUrl": "/references/storybook-ref/"
-  },"5": {
+  },"10": {
+    "doc": "How to convert Tailwind UI transitions to Svelte",
+    "title": "How to make transitions with tailwind and Svelte.",
+    "content": "TailwindUI uses Tailwind classes for transitions (e.g. motion and slide in). Svelte has its own motion API but it is not compatible to this workflow with classes. We make use of the Svelte Class Transition tool to be able to add classes during transitions. You can use the converting table below to get classes from TailwindUI and put them in a Transition object. ",
+    "url": "https://naabu.github.io/naabu/how-to-guides/tailwind-ui-to-svelte#how-to-make-transitions-with-tailwind-and-svelte",
+    "relUrl": "/how-to-guides/tailwind-ui-to-svelte#how-to-make-transitions-with-tailwind-and-svelte"
+  },"11": {
+    "doc": "How to convert Tailwind UI transitions to Svelte",
+    "title": "Converting table",
+    "content": "First import the Transition class import Transition from 'svelte-class-transition'; . Convert Tailwind UI classes to this component: . | Entering = inTransition | Entering from = inState | Entering to = onState | Leaving = outTransition | Leaving from = Not there and not needed | Leaving To = outState | . ",
+    "url": "https://naabu.github.io/naabu/how-to-guides/tailwind-ui-to-svelte#converting-table",
+    "relUrl": "/how-to-guides/tailwind-ui-to-svelte#converting-table"
+  },"12": {
+    "doc": "How to convert Tailwind UI transitions to Svelte",
+    "title": "Example:",
+    "content": "Tailwind UI gives these types of documentation for adding transitions: . &lt;!-- Off-canvas menu, show/hide based on off-canvas menu state. Entering: \"transition ease-in-out duration-300 transform\" From: \"-translate-x-full\" To: \"translate-x-0\" Leaving: \"transition ease-in-out duration-300 transform\" From: \"translate-x-0\" To: \"-translate-x-full\" --&gt; . We can convert this to this Svelte component . ``` // Toggle shows or hide the content in the transition let toggle= false . … ... // Content goes here for example a sliding sidebar ",
+    "url": "https://naabu.github.io/naabu/how-to-guides/tailwind-ui-to-svelte#example",
+    "relUrl": "/how-to-guides/tailwind-ui-to-svelte#example"
+  },"13": {
+    "doc": "How to convert Tailwind UI transitions to Svelte",
+    "title": "How to convert Tailwind UI transitions to Svelte",
+    "content": " ",
+    "url": "https://naabu.github.io/naabu/how-to-guides/tailwind-ui-to-svelte",
+    "relUrl": "/how-to-guides/tailwind-ui-to-svelte"
+  },"14": {
     "doc": "Test markdown page",
     "title": "Markdown!",
     "content": "Test some code . ",
     "url": "https://naabu.github.io/naabu/tutorials/test#markdown",
     "relUrl": "/tutorials/test#markdown"
-  },"6": {
+  },"15": {
     "doc": "Test markdown page",
     "title": "Test markdown page",
     "content": " ",
     "url": "https://naabu.github.io/naabu/tutorials/test",
     "relUrl": "/tutorials/test"
-  },"7": {
+  },"16": {
     "doc": "Tutorials",
     "title": "Tutorials",
     "content": " ",
     "url": "https://naabu.github.io/naabu/tutorials",
     "relUrl": "/tutorials"
-  },"8": {
-    "doc": "Why do we use Firebase for this tool?",
-    "title": "Technical reasons",
-    "content": " ",
-    "url": "https://naabu.github.io/naabu/explanations/why-firebase#technical-reasons",
-    "relUrl": "/explanations/why-firebase#technical-reasons"
-  },"9": {
-    "doc": "Why do we use Firebase for this tool?",
-    "title": "Outsourcing infrastructure work",
-    "content": "From experience, setting up and maintaining infrastructure can take a lot of work. Using an system like Firebase outsources much of this work without extra cost to cloud resources. The Naabu tool needs a place to run on and we would have hosted it with a cloud solution anyway and Google cloud is a good fit because of support for Tensorflow. ",
-    "url": "https://naabu.github.io/naabu/explanations/why-firebase#outsourcing-infrastructure-work",
-    "relUrl": "/explanations/why-firebase#outsourcing-infrastructure-work"
-  },"10": {
-    "doc": "Why do we use Firebase for this tool?",
-    "title": "Scalable by default",
-    "content": "The Firebase stack with the Firestore and Firebase functions are scalable by design. All the scaling will be done automatically and there should be little technical work needed when the traffic increases exponentially. ",
-    "url": "https://naabu.github.io/naabu/explanations/why-firebase#scalable-by-default",
-    "relUrl": "/explanations/why-firebase#scalable-by-default"
-  },"11": {
-    "doc": "Why do we use Firebase for this tool?",
-    "title": "Attributed-based access control with Firestore.",
-    "content": "Authentication and authorization is an important aspect to get right. Firebase Auth lets us pick between many providers so users can use there Google account to create an account for Naabu. Furthermore, it has support for custom Auth systems which should help when you need to make an custom integrations for school systems. For the authorization part it is important to be able to specify who has access to what data. The most flexible way of creating such a system is using attributed-based access control (ABAC). Firebase integrated a rules system with Firestore where you can determine access based on attributes. ",
-    "url": "https://naabu.github.io/naabu/explanations/why-firebase#attributed-based-access-control-with-firestore",
-    "relUrl": "/explanations/why-firebase#attributed-based-access-control-with-firestore"
-  },"12": {
-    "doc": "Why do we use Firebase for this tool?",
-    "title": "Event driven backend architecture build on top of Google Cloud functions.",
-    "content": "Event driven architecture’s are useful to keep the code clean. However, it is difficult to set up yourself. Every Firebase Function is transferer to a Google Cloud function and will run on its own machine. They are triggered by events from Firestore and Firebase Auth and make the system flexible to extend. One use case we have is to use Python Google Functions to retrieve the best activities for users using machine learning. Python functions can also trigger on the Firebase events making the whole system pretty extensible to anything we need. Alternatives to Google functions are AWS Lambda on the Amazon cloud. A buzzword that is often used to describe these functions is serverless architecture. This serverless paradigm plays well with SvelteKit that embraces this serverless paradigm that can be contrasted to running your own node.js servers. ",
-    "url": "https://naabu.github.io/naabu/explanations/why-firebase#event-driven-backend-architecture-build-on-top-of-google-cloud-functions",
-    "relUrl": "/explanations/why-firebase#event-driven-backend-architecture-build-on-top-of-google-cloud-functions"
-  },"13": {
-    "doc": "Why do we use Firebase for this tool?",
-    "title": "Other reasons",
-    "content": " ",
-    "url": "https://naabu.github.io/naabu/explanations/why-firebase#other-reasons",
-    "relUrl": "/explanations/why-firebase#other-reasons"
-  },"14": {
-    "doc": "Why do we use Firebase for this tool?",
-    "title": "Using a large name",
-    "content": "Hosting on the Google Cloud can help in adopting this solution for educational institutions that are used to use Google products. People have some trust in large institutions like Google compared to some more unknown but growing solution like Vercel or Netifly. ",
-    "url": "https://naabu.github.io/naabu/explanations/why-firebase#using-a-large-name",
-    "relUrl": "/explanations/why-firebase#using-a-large-name"
-  },"15": {
-    "doc": "Why do we use Firebase for this tool?",
-    "title": "Firebase popularity",
-    "content": "There are many installations on Firebase on the web. Furthermore, they have a large user base with Android developers. Many developers have experience with Firebase and many more at least know the name. ",
-    "url": "https://naabu.github.io/naabu/explanations/why-firebase#firebase-popularity",
-    "relUrl": "/explanations/why-firebase#firebase-popularity"
-  },"16": {
-    "doc": "Why do we use Firebase for this tool?",
-    "title": "Documentation",
-    "content": "The documentation of Firebase is comprehensive and there are many additional learning opportunities to learn Firebase. ",
-    "url": "https://naabu.github.io/naabu/explanations/why-firebase#documentation",
-    "relUrl": "/explanations/why-firebase#documentation"
   },"17": {
     "doc": "Why do we use Firebase for this tool?",
-    "title": "Downsides of using Firebase",
+    "title": "Why do we use Firebase and not an open source stack?",
     "content": " ",
-    "url": "https://naabu.github.io/naabu/explanations/why-firebase#downsides-of-using-firebase",
-    "relUrl": "/explanations/why-firebase#downsides-of-using-firebase"
+    "url": "https://naabu.github.io/naabu/explanations/why-firebase#why-do-we-use-firebase-and-not-an-open-source-stack",
+    "relUrl": "/explanations/why-firebase#why-do-we-use-firebase-and-not-an-open-source-stack"
   },"18": {
     "doc": "Why do we use Firebase for this tool?",
-    "title": "Open source",
-    "content": ". | Firebase itself is not open source and we can only host it on the Google Cloud. The Firebase JS Sdk has an open source license. | . Some people can use this non-open source as the reason for not using this project. ",
-    "url": "https://naabu.github.io/naabu/explanations/why-firebase#open-source",
-    "relUrl": "/explanations/why-firebase#open-source"
+    "title": "Technical reasons",
+    "content": "Outsourcing infrastructure work . From experience, setting up and maintaining infrastructure can take a lot of work. Using an system like Firebase outsources much of this work without extra cost to cloud resources. The Naabu tool needs a place to run on and we would have hosted it with a cloud solution anyway and Google cloud is a good fit because of support for Tensorflow. Scalable by default . The Firebase stack with the Firestore and Firebase functions are scalable by design. All the scaling will be done automatically and there should be little technical work needed when the traffic increases exponentially. Attributed-based access control with Firestore. Authentication and authorization is an important aspect to get right. Firebase Auth lets us pick between many providers so users can use there Google account to create an account for Naabu. Furthermore, it has support for custom Auth systems which should help when you need to make an custom integrations for school systems. For the authorization part it is important to be able to specify who has access to what data. The most flexible way of creating such a system is using attributed-based access control (ABAC). Firebase integrated a rules system with Firestore where you can determine access based on attributes. Event driven backend architecture build on top of Google Cloud functions. Event driven architecture’s are useful to keep the code clean. However, it is difficult to set up yourself. Every Firebase Function is transferer to a Google Cloud function and will run on its own machine. They are triggered by events from Firestore and Firebase Auth and make the system flexible to extend. One use case we have is to use Python Google Functions to retrieve the best activities for users using machine learning. Python functions can also trigger on the Firebase events making the whole system pretty extensible to anything we need. Alternatives to Google functions are AWS Lambda on the Amazon cloud. A buzzword that is often used to describe these functions is serverless architecture. This serverless paradigm plays well with SvelteKit that embraces this serverless paradigm that can be contrasted to running your own node.js servers. ",
+    "url": "https://naabu.github.io/naabu/explanations/why-firebase#technical-reasons",
+    "relUrl": "/explanations/why-firebase#technical-reasons"
   },"19": {
     "doc": "Why do we use Firebase for this tool?",
-    "title": "Server Side Rendering (SSR) support",
-    "content": "With a serious attempt to get SSR working with Firebase we ran into many issues. It seems that Firebase is still behind supporting the serverless paradigm related to SSR. They do support server side rendering but expect special server code that handles the rendering. With SvelteKit we have the same code run both on the initial load of the server and on the client. ",
-    "url": "https://naabu.github.io/naabu/explanations/why-firebase#server-side-rendering-ssr-support",
-    "relUrl": "/explanations/why-firebase#server-side-rendering-ssr-support"
+    "title": "Other reasons",
+    "content": "Using a large name . Hosting on the Google Cloud can help in adopting this solution for educational institutions that are used to use Google products. People have some trust in large institutions like Google compared to some more unknown but growing solution like Vercel or Netifly. Firebase popularity . There are many installations on Firebase on the web. Furthermore, they have a large user base with Android developers. Many developers have experience with Firebase and many more at least know the name. Documentation . The documentation of Firebase is comprehensive and there are many additional learning opportunities to learn Firebase. ",
+    "url": "https://naabu.github.io/naabu/explanations/why-firebase#other-reasons",
+    "relUrl": "/explanations/why-firebase#other-reasons"
   },"20": {
     "doc": "Why do we use Firebase for this tool?",
-    "title": "SvelteKit support",
-    "content": "Svelte Kit support adapters but Firebase is not an official adapter. There is a community SvelteKit Firebase adapter that works well and contains very little magic. What it does is that it moves the compiled SvelteKit code to a functions/ssr directory and in the functions/index.js file we can write our Firebase functions code. For SvelteKit it creates one ssr function that executes the SvelteKit code. With Firebase hosting we can serve this function from a domain. ",
-    "url": "https://naabu.github.io/naabu/explanations/why-firebase#sveltekit-support",
-    "relUrl": "/explanations/why-firebase#sveltekit-support"
+    "title": "Downsides of using Firebase",
+    "content": "Open source . | Firebase itself is not open source and we can only host it on the Google Cloud. The Firebase JS Sdk has an open source license. | . Some people can use this non-open source as the reason for not using this project. Server Side Rendering (SSR) support . With a serious attempt to get SSR working with Firebase we ran into many issues. It seems that Firebase is still behind supporting the serverless paradigm related to SSR. They do support server side rendering but expect special server code that handles the rendering. With SvelteKit we have the same code run both on the initial load of the server and on the client. SvelteKit support . Svelte Kit support adapters but Firebase is not an official adapter. There is a community SvelteKit Firebase adapter that works well and contains very little magic. What it does is that it moves the compiled SvelteKit code to a functions/ssr directory and in the functions/index.js file we can write our Firebase functions code. For SvelteKit it creates one ssr function that executes the SvelteKit code. With Firebase hosting we can serve this function from a domain. ",
+    "url": "https://naabu.github.io/naabu/explanations/why-firebase#downsides-of-using-firebase",
+    "relUrl": "/explanations/why-firebase#downsides-of-using-firebase"
   },"21": {
     "doc": "Why do we use Firebase for this tool?",
     "title": "When should we support other more open stacks?",
@@ -133,8 +133,50 @@
   },"22": {
     "doc": "Why do we use Firebase for this tool?",
     "title": "Why do we use Firebase for this tool?",
-    "content": "Why do we use Firebase and not an open source stack? . ",
+    "content": " ",
     "url": "https://naabu.github.io/naabu/explanations/why-firebase",
     "relUrl": "/explanations/why-firebase"
+  },"23": {
+    "doc": "How to work with Firebase",
+    "title": "How to guide of using Firebase",
+    "content": "Useful how to guide on how to use Firebase in the project. ",
+    "url": "https://naabu.github.io/naabu/how-to-guides/work-with-firebase#how-to-guide-of-using-firebase",
+    "relUrl": "/how-to-guides/work-with-firebase#how-to-guide-of-using-firebase"
+  },"24": {
+    "doc": "How to work with Firebase",
+    "title": "Where to write security rules",
+    "content": "firestore.rules file in the root directory. ",
+    "url": "https://naabu.github.io/naabu/how-to-guides/work-with-firebase#where-to-write-security-rules",
+    "relUrl": "/how-to-guides/work-with-firebase#where-to-write-security-rules"
+  },"25": {
+    "doc": "How to work with Firebase",
+    "title": "Where to place function code",
+    "content": "In the functions/ directory. ",
+    "url": "https://naabu.github.io/naabu/how-to-guides/work-with-firebase#where-to-place-function-code",
+    "relUrl": "/how-to-guides/work-with-firebase#where-to-place-function-code"
+  },"26": {
+    "doc": "How to work with Firebase",
+    "title": "How to deploy to production.",
+    "content": "Login to Firebase: firebase login . Build the SvelteKit code: npm run build . Deploy to an Firebase environment (This will take some minutes): firebase deploy . ",
+    "url": "https://naabu.github.io/naabu/how-to-guides/work-with-firebase#how-to-deploy-to-production",
+    "relUrl": "/how-to-guides/work-with-firebase#how-to-deploy-to-production"
+  },"27": {
+    "doc": "How to work with Firebase",
+    "title": "Updated Firestore indexes from Firebase UI",
+    "content": "firebase firestore:indexes &gt; firestore.indexes.json . ",
+    "url": "https://naabu.github.io/naabu/how-to-guides/work-with-firebase#updated-firestore-indexes-from-firebase-ui",
+    "relUrl": "/how-to-guides/work-with-firebase#updated-firestore-indexes-from-firebase-ui"
+  },"28": {
+    "doc": "How to work with Firebase",
+    "title": "How to work with Firebase",
+    "content": " ",
+    "url": "https://naabu.github.io/naabu/how-to-guides/work-with-firebase",
+    "relUrl": "/how-to-guides/work-with-firebase"
+  },"29": {
+    "doc": "Playwright references",
+    "title": "Playwright references",
+    "content": "# Playwright references Some helpful commands to use when writing Playwright tests ## Playwright cheatsheet: ``` await expect(page.locator()).toContainText(); await page.click(); await page.fill('', ''); await page.pause(); await expect(page.locator()).toBeVisible(); await expect(page.locator()).not.toBeVisible(); await page.selectOption('select#', ''); await expect(page.locator('')).toHaveValue(''); ``` ",
+    "url": "https://naabu.github.io/naabu/references/playwright.html",
+    "relUrl": "/references/playwright.html"
   }
 }

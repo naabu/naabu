@@ -1,3 +1,11 @@
+---
+layout: page
+title: Playwright Reference
+permalink: /references/playwright/ 
+parent: References
+nav_order: 3
+---
+
 # Playwright references
 Some helpful commands to use when writing Playwright tests
 

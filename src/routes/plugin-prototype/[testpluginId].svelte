@@ -7,6 +7,8 @@
   let mounted = false;
   let firebase;
   let pluginComponents = [];
+  let currentPlugin = null;
+  let currentPluginIndex = 0;
 
   $: (async () => {
     if ($firebaseStore && !mounted) {
@@ -21,21 +23,43 @@
           testObject.plugins = JSON.parse(testObject.plugins);
           for (let i = 0; i < testObject.plugins.length; i++) {
             let plugin = testObject.plugins[i];
-            testObject.plugins[i].component = await loadPlugin(plugin.pluginId, "Render");
+            testObject.plugins[i].component = await loadPlugin(
+              plugin.pluginId,
+              "Render"
+            );
+          }
+          if (testObject.plugins.length > 0) {
+            currentPlugin = testObject.plugins[currentPluginIndex];
           }
         }
       }
       mounted = true;
     }
   })();
+
+  function handleEndPlugin() {
+    if (testObject.plugins.length > currentPluginIndex + 1) {
+      currentPluginIndex = currentPluginIndex + 1;
+      currentPlugin = testObject.plugins[currentPluginIndex];
+    } else {
+      currentPlugin = null;
+    }
+  }
 </script>
 
 {#if testObject}
-  {testObject.title}
+  <h1 class="font-bold text-lg">
+    {testObject.title}
+  </h1>
 
-  {#each testObject.plugins as plugin}
-    <div>
-      <svelte:component this={plugin.component} bind:data={plugin.data} />
-    </div>
-  {/each}
+  {#if currentPlugin !== null}
+    <!-- This is the start event, rendering the component. -->
+    <svelte:component
+      this={currentPlugin.component}
+      bind:data={currentPlugin.data}
+      on:end={handleEndPlugin}
+    />
+  {:else}
+    <p>There are no plugins to render.</p>
+  {/if}
 {/if}

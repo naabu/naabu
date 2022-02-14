@@ -1,17 +1,32 @@
 import { loadPluginsConfiguration } from "$lib/Internals/Plugin/loader";
 
-export function getPluginDataFromForm(plugins) {
+function recursiveDataPlugin(plugins) {
   let dataPlugins = [];
   for (let i = 0; i < plugins.length; i++) {
-    dataPlugins = [
-      ...dataPlugins,
-      {
-        pluginId: plugins[i].pluginConfig.id,
-        order: plugins[i].order,
-        data: plugins[i].data
-      },
-    ];
+    let pluginData = {
+      pluginId: plugins[i].pluginConfig.id,
+      order: plugins[i].order,
+      data: plugins[i].data
+    }
+    if (plugins[i].plugins) {
+      pluginData.plugins = recursiveDataPlugin(plugins[i].plugins)
+    }
+    if (dataPlugins.length > 0) {
+      dataPlugins = [
+        ...dataPlugins,
+        , pluginData
+      ];
+    } else {
+      dataPlugins = [pluginData];
+    }
   }
+  console.log(dataPlugins);
+  return dataPlugins;
+}
+
+export function getPluginDataFromForm(plugins) {
+  let dataPlugins = recursiveDataPlugin(plugins);
+  console.log(dataPlugins);
   dataPlugins = JSON.stringify(dataPlugins);
   return dataPlugins;
 }

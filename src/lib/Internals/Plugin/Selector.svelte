@@ -1,5 +1,4 @@
 <script>
-  import Radio from "$lib/Internals/FormFields/Radio.svelte";
   import { loadPlugin, loadPluginsConfiguration } from "$lib/Internals/Plugin/loader";
   import Transition from "svelte-class-transition";
   import Button from "../Button/Button.svelte";
@@ -10,7 +9,7 @@
   const dispatch = createEventDispatcher();
 
   export let toggle = true;
-  export let filterCanBeInterupted = false;
+  export let filterInterrupt = false;
   let pluginsConfiguration = [];
 
   let pluginsToSelect = [];
@@ -22,7 +21,7 @@
   $: if (pluginsConfiguration && pluginsConfiguration.length > 0) {
     pluginsToSelect = [];
     for (let i = 0; i < pluginsConfiguration.length; i++) {
-      if (!filterCanBeInterupted || pluginsConfiguration[i].canBeInterupted) {
+      if (!filterInterrupt || pluginsConfiguration[i].canInterrupt) {
         pluginsToSelect.push({
           name: pluginsConfiguration[i].name,
           description: pluginsConfiguration[i].description,

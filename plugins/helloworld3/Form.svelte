@@ -5,6 +5,6 @@
   data.textValue = "Hello world and hello textarea";
 </script>
 
-<FormField title="Test label">
+<FormField labelPosition="top" title="Test label">
   <Textarea rows="5" bind:value={data.textValue} />
 </FormField>

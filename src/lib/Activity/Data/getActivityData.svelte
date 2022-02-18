@@ -25,6 +25,7 @@
     if (snap.exists) {
       activity = snap.data();
       activity.id = ref.id;
+      activity.plugins = JSON.parse(JSON.stringify(activity.plugins));
       cloneActivity = JSON.parse(JSON.stringify(activity));
       if (activity.goalId) {
         let battleCol = db.collection(

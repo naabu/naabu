@@ -13,6 +13,7 @@ export function getDefaultEmptyActivity() {
       vimeoId: null,
     },
     quizzes: [],
+    plugins: [],
   };
 }
 

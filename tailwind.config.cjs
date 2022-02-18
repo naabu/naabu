@@ -1,5 +1,4 @@
-
-module.exports = {
+const config = {
   content: ['./src/**/*.{html,js,svelte,ts}'],
   theme: {
     extend: {
@@ -8,6 +7,9 @@ module.exports = {
         '72': '18rem',
       },
       colors: {
+        gray: {
+          500: "#262626",
+        },
         black: {
           500: "#262626",
         },
@@ -43,3 +45,5 @@ module.exports = {
     require('@tailwindcss/aspect-ratio')
   ]
 };
+
+module.exports = config;

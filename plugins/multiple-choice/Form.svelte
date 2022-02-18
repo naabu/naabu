@@ -36,7 +36,6 @@
     data.answers = [...data.answers, answer];
   }
 
-  let questionTabs = [];
   let quizQuestionsAndAnswerOptions = [];
 
   $: if (data) {

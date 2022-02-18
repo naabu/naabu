@@ -1,5 +1,8 @@
 <script>
-  import { loadPlugin, loadPluginsConfiguration } from "$lib/Internals/Plugin/loader";
+  import {
+    loadPlugin,
+    loadPluginsConfiguration,
+  } from "$lib/Internals/Plugin/loader";
   import Transition from "svelte-class-transition";
   import Button from "../Button/Button.svelte";
   import AdditionalFormText from "../FormFields/AdditionalFormText.svelte";
@@ -32,10 +35,20 @@
   }
 
   async function addPlugin(pluginConfig) {
-    dispatch("add", {
+    let plugin = {
       pluginConfig: pluginConfig,
       component: await loadPlugin(pluginConfig.id, "Form"),
-    });
+    };
+
+    if (pluginConfig.interruptionFields) {
+      console.log("Loading interruptionForm");
+      plugin.interruptionForm = await loadPlugin(
+        pluginConfig.id,
+        "InterruptionForm"
+      );
+    }
+
+    dispatch("add", plugin);
     toggle = false;
   }
 </script>

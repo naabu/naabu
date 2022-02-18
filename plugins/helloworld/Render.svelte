@@ -4,6 +4,10 @@
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
 
+  if (!data.name) {
+    data.name = "World";
+  }
+
   function end() {
     dispatch("end");
   }

@@ -1,5 +1,5 @@
 <script>
-import Button from "$lib/Internals/Button/Button.svelte";
+  import Button from "$lib/Internals/Button/Button.svelte";
 
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();

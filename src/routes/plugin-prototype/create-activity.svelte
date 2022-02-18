@@ -40,23 +40,6 @@
 
     data.plugins = getPluginDataFromForm(plugins);
 
-    console.log(data);
-
-    // data.plugins = [];
-    // for (let i = 0; i < plugins.length; i++) {
-    //   data = {
-    //     ...data,
-    //     ...getPluginDataFromForm(
-    //       plugins[i].pluginConfig,
-    //       plugins[i].data,
-    //       plugins[i].order
-    //     ),
-    //   };
-    //   data.plugins = [
-    //     ...data.plugins,
-    //     { pluginId: plugins[i].pluginConfig.id, order: plugins[i].order },
-    //   ];
-    // }
     firestore
       .collection("testplugin")
       .add(data)
@@ -79,6 +62,9 @@
         breadcrumb: [],
         currentPlugin: null,
       };
+      if (event.detail.interruptionForm) {
+        newPlugin.interruptionForm = event.detail.interruptionForm;
+      }
       plugins = [...plugins, newPlugin];
     }
   }
@@ -94,8 +80,12 @@
         component: event.detail.component,
         data: {},
       };
+      if (event.detail.interruptionForm) {
+        newPlugin.interruptionForm = event.detail.interruptionForm;
+      }
       parentPlugin.plugins = [...parentPlugin.plugins, newPlugin];
       topPlugin.currentPlugin = newPlugin;
+      topPlugin.currentPlugin.parentPlugin = parentPlugin;
     }
     if (!topPlugin.breadcrumb) {
       topPlugin.breadcrumb = [parentPlugin];
@@ -115,15 +105,13 @@
   }
 
   function goToPlugin(parentPlugin, currentPlugin, topPlugin) {
-    console.log(currentPlugin);
     if (!topPlugin.breadcrumb) {
       topPlugin.breadcrumb = [parentPlugin];
     } else {
       topPlugin.breadcrumb = [...topPlugin.breadcrumb, parentPlugin];
     }
-    console.log("test");
-    console.log(currentPlugin);
     topPlugin.currentPlugin = currentPlugin;
+    topPlugin.currentPlugin.parentPlugin = parentPlugin;
     plugins = plugins;
   }
 
@@ -133,6 +121,9 @@
       topPlugin.currentPlugin = parentPlugin;
       if (topPlugin.breadcrumb.length == 0) {
         topPlugin.currentPlugin = null;
+      } else {
+        topPlugin.currentPlugin.parentPlugin =
+          topPlugin.breadcrumb[topPlugin.breadcrumb.length - 1];
       }
     }
     plugins = plugins;
@@ -233,6 +224,14 @@
               />
             {/if}
           </div>
+
+          {#if plugin.currentPlugin.parentPlugin.pluginConfig.interruptionFields}
+            <svelte:component
+              this={plugin.currentPlugin.parentPlugin.interruptionForm}
+              bind:data={plugin.currentPlugin.interruptionData}
+            />
+          {/if}
+
           <svelte:component
             this={plugin.currentPlugin.component}
             bind:data={plugin.currentPlugin.data}
@@ -284,23 +283,6 @@
     {/each}
 
     <AddPlugin on:addPlugin={addPlugin} />
-
-    <!-- {#if selectedPlugin}
-      <FieldSet
-        title={selectedPlugin.name}
-        description={selectedPlugin.description}
-      >
-        {#if pluginForm}
-          {#if selectedPlugin.canBeInterupted}
-            <FormField title="How do you want to make it interactive?">
-              <PluginSelector bind:selectedPlugin filterCanBeInterupted={true}/></FormField
-            >
-          {/if}
-
-          <svelte:component this={pluginForm} bind:data={pluginData} />
-        {/if}
-      </FieldSet>
-    {/if} -->
     <Button
       color="primary"
       isSubmit={true}

@@ -104,12 +104,13 @@
     }
   }
 
-  function deleteInterruptionPlugin() {
-    console.log("Delete interruption plugion");
+  function deleteInterruptionPlugin(mainPluginIndex, pluginIndex) {
+    plugins[mainPluginIndex].plugins.splice(pluginIndex, 1);
+    plugins = plugins;
   }
 </script>
 
-{#each plugins as plugin}
+{#each plugins as plugin, mainPluginIndex}
   {#if plugin.breadcrumb.length == 0 && plugin.currentPlugin === null}
     <FieldSet
       title={plugin.pluginConfig.name}
@@ -118,13 +119,19 @@
     >
       <svelte:component this={plugin.component} bind:data={plugin.data} />
 
-      {#if plugin.plugins}
+      {#if plugin.plugins && plugin.plugins.length > 0}
         <Table tableHeaders={["Plugin"]} tableBodyContents={plugin.pluginNames}>
           <svelte:fragment slot="action" let:i>
             <Button
-              size="small"
+              size="tiny"
               content="Edit"
               on:click={() => goToPlugin(plugin, plugin.plugins[i], plugin)}
+            />
+            <Button
+              size="tiny"
+              color="lightRed"
+              content="Delete"
+              on:click={() => deleteInterruptionPlugin(mainPluginIndex, i)}
             />
           </svelte:fragment>
         </Table>
@@ -170,55 +177,29 @@
         this={plugin.currentPlugin.component}
         bind:data={plugin.currentPlugin.data}
       />
-<!-- 
+
       {#if plugin.currentPlugin.plugins}
-        <table class="min-w-full divide-y divide-gray-200">
-          <thead class="bg-gray-50">
-            <tr>
-              <th
-                scope="col"
-                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                >Pluginasdfsdasdfasdff</th
-              >
-              <th scope="col" class="relative px-6 py-3">
-                <span class="sr-only">Edit</span>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {#each plugin.currentPlugin.plugins as subPlugin, i}
-              <tr class:bg-white={i % 2 == 0} class:bg-gray-50={i % 2 != 0}>
-                <td
-                  class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-                  >{subPlugin.pluginConfig.name}</td
-                >
-                <td
-                  class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
-                >
-                  What is going on?
-                  <Button
-                    size="small"
-                    content="Edit?"
-                    on:click={() =>
-                      goToPlugin(plugin.currentPlugin, subPlugin, plugin)}
-                  />
-                  <Button
-                    size="tiny"
-                    color="lightRed"
-                    content="Delete"
-                    on:click={() => deleteInterruptionPlugin()}
-                  />
-                </td>
-              </tr>
-            {/each}
-          </tbody>
-        </table>
-      {/if} -->
-<!-- 
+        <Table tableHeaders={["Plugin"]} tableBodyContents={plugin.pluginNames}>
+          <svelte:fragment slot="action" let:i>
+            <Button
+              size="very-small"
+              content="Edit"
+              on:click={() => goToPlugin(plugin, plugin.plugins[i], plugin)}
+            />
+            <Button
+              size="very-small"
+              color="lightRed"
+              content="Delete"
+              on:click={() => deleteInterruptionPlugin(mainPluginIndex, i)}
+            />
+          </svelte:fragment>
+        </Table>
+      {/if}
+      
       <AddInterruptPlugin
         on:addPlugin={(event) =>
           addInteruptPlugin(event, plugin.currentPlugin, plugin)}
-      /> -->
+      />
     </FieldSet>
   {/if}
 {/each}

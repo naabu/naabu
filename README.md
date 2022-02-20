@@ -19,8 +19,3 @@ This roadmap can still be changed based on stakeholder input but it gives an ide
 - Q1: Open source support and create more interactive learning activities.
 - Q2: Implement [moment-to-moment learning curves](https://www.upenn.edu/learninganalytics/ryanbaker/GraphReplayBakerEtAlJLS08132013.pdf) dashboards.
 - Q3: More features for teachers to better control the teaching of course modules.
-
-
-
-
-

@@ -29,6 +29,9 @@
   }
 
   function close() {
+    data.selectedAnswer = null;
+    data.feedback = "";
+    data.correct = false;
     dispatch("end");
   }
 </script>

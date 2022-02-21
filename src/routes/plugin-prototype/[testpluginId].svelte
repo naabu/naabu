@@ -10,6 +10,14 @@
   let firebase;
   let pluginComponents = [];
   let currentPlugin = null;
+  let advance;
+  let observe;
+
+  $: {
+    console.log(currentPlugin);
+    console.log(testObject);
+  }
+
   let currentPluginIndex = 0;
   let interruptionPlugin = null;
 
@@ -58,17 +66,6 @@
 
   async function loadPluginComponents() {
     await loadPluginRecursivly(testObject);
-    console.log(testObject);
-    // for (let i = 0; i < testObject.plugins.length; i++) {
-    //   let plugin = testObject.plugins[i];
-    //   if (plugin !== null && plugin.pluginId) {
-    //     testObject.plugins[i].component = await loadPlugin(
-    //       plugin.pluginId,
-    //       "Render"
-    //     );
-    //   }
-    // }
-    // This is place where we should load all Svelte Components.
     if (testObject.plugins.length > 0) {
       await setDataCurrentPlugin();
     }
@@ -77,18 +74,17 @@
   async function setDataCurrentPlugin() {
     let newCurrentPlugin = testObject.plugins[currentPluginIndex];
     if (newCurrentPlugin.pluginConfig.canBeInterrupted) {
-      // newCurrentPlugin.pluginConfig = await loadPluginConfig(
-      //   newCurrentPlugin.pluginId
-      // );
       newCurrentPlugin.interruptions = [];
-      for (let i = 0; i < newCurrentPlugin.plugins.length; i++) {
-        newCurrentPlugin.interruptions = [
-          ...newCurrentPlugin.interruptions,
-          {
-            data: newCurrentPlugin.plugins[i].interruptionData,
-            order: newCurrentPlugin.plugins[i].order,
-          },
-        ];
+      if (newCurrentPlugin.plugins) {
+        for (let i = 0; i < newCurrentPlugin.plugins.length; i++) {
+          newCurrentPlugin.interruptions = [
+            ...newCurrentPlugin.interruptions,
+            {
+              data: newCurrentPlugin.plugins[i].interruptionData,
+              order: newCurrentPlugin.plugins[i].order,
+            },
+          ];
+        }
       }
     }
     currentPlugin = newCurrentPlugin;
@@ -110,8 +106,6 @@
           currentPlugin.plugins[i].order === event.detail.interruption.order
         ) {
           interruptionPlugin = currentPlugin.plugins[i];
-          console.log(currentPlugin);
-          console.log(interruptionPlugin);
           let canObserve = false;
           if (currentPlugin.pluginConfig.canBeObserved) {
             canObserve = true;
@@ -125,15 +119,18 @@
   }
 
   function handleInterruptionEndPlugin() {
-    currentPlugin.advance();
+    if (advance) {
+      advance();
+    }
   }
 
   function observeParent() {
     if (
       currentPlugin.pluginConfig &&
-      currentPlugin.pluginConfig.canBeObserved
+      currentPlugin.pluginConfig.canBeObserved &&
+      observe
     ) {
-      currentPlugin.observe();
+      observe();
     }
   }
 
@@ -154,10 +151,10 @@
         on:interrupt={handleInteruptPlugin}
         on:end={handleEndPlugin}
         on:observeComplete={observeComplete}
-        bind:advance={currentPlugin.advance}
-        bind:observe={currentPlugin.observe}
+        bind:advance
+        bind:observe
       >
-        <svelte:fragment slot="interuption">
+        <svelte:fragment slot="interruption">
           {#if interruptionPlugin && interruptionPlugin !== null}
             {#if interruptionPlugin.pluginConfig.canObserve && interruptionPlugin.canObserve}
               <svelte:component

@@ -86,14 +86,15 @@
   $: if (plugins) {
     for (let i = 0; i < plugins.length; i++) {
       let pluginNames = [];
-      if (
-        plugins[i].currentPlugin !== null &&
-        plugins[i].currentPlugin.plugins
-      ) {
-        for (let i2 = 0; i2 < plugins[i].currentPlugin.plugins.length; i2++) {
-          pluginNames.push([
-            plugins[i].currentPlugin.plugins[i2].pluginConfig.name,
-          ]);
+      if (plugins[i].currentPlugin !== null) {
+        console.log(plugins[i].currentPlugin);
+        if (plugins[i].currentPlugin.plugins) {
+          for (let i2 = 0; i2 < plugins[i].currentPlugin.plugins.length; i2++) {
+            console.log("RUn this code?");
+            pluginNames.push([
+              plugins[i].currentPlugin.plugins[i2].pluginConfig.name,
+            ]);
+          }
         }
       } else if (plugins[i].plugins) {
         for (let i2 = 0; i2 < plugins[i].plugins.length; i2++) {
@@ -104,8 +105,20 @@
     }
   }
 
+  function deleteMainPlugin(mainPluginIndex) {
+    plugins.splice(mainPluginIndex, 1);
+    plugins = plugins;
+  }
+
   function deleteInterruptionPlugin(mainPluginIndex, pluginIndex) {
-    plugins[mainPluginIndex].plugins.splice(pluginIndex, 1);
+    console.log(plugins);
+    console.log(mainPluginIndex);
+    console.log(pluginIndex);
+    if (plugins[mainPluginIndex].currentPlugin === null) {
+      plugins[mainPluginIndex].plugins.splice(pluginIndex, 1);
+    } else {
+      plugins[mainPluginIndex].currentPlugin.plugins.splice(pluginIndex, 1);
+    }
     plugins = plugins;
   }
 </script>
@@ -117,6 +130,30 @@
       description={plugin.pluginConfig.description}
       layout="two-column-full-width-cards"
     >
+      <div slot="top" class="float-right">
+        <Button
+          color="whitePrimaryIcon"
+          size="icon-round"
+          on:click={() => deleteMainPlugin(mainPluginIndex)}
+        >
+          <span class="sr-only">Delete plugin</span>
+          <svg
+            class="h-6 w-6"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            aria-hidden="true"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M6 18L18 6M6 6l12 12"
+            />
+          </svg>
+        </Button>
+      </div>
       <svelte:component this={plugin.component} bind:data={plugin.data} />
 
       {#if plugin.plugins && plugin.plugins.length > 0}
@@ -182,12 +219,13 @@
         <Table tableHeaders={["Plugin"]} tableBodyContents={plugin.pluginNames}>
           <svelte:fragment slot="action" let:i>
             <Button
-              size="very-small"
+              size="tiny"
               content="Edit"
-              on:click={() => goToPlugin(plugin, plugin.plugins[i], plugin)}
+              on:click={() =>
+                goToPlugin(plugin.currentPlugin, plugin.currentPlugin.plugins[i], plugin)}
             />
             <Button
-              size="very-small"
+              size="tiny"
               color="lightRed"
               content="Delete"
               on:click={() => deleteInterruptionPlugin(mainPluginIndex, i)}
@@ -195,7 +233,7 @@
           </svelte:fragment>
         </Table>
       {/if}
-      
+
       <AddInterruptPlugin
         on:addPlugin={(event) =>
           addInteruptPlugin(event, plugin.currentPlugin, plugin)}

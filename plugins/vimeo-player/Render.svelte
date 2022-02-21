@@ -9,7 +9,7 @@
   export let data;
 
   export let interruptions = [];
-  export let interrupted = false;
+  let interrupted = false;
 
   let isObserved = false;
 
@@ -17,9 +17,6 @@
     if (player) {
       lastActiveInterruption = activeInterruption;
       activeInterruption = null;
-      data.selectedAnswer = null;
-      data.feedback = "";
-      data.correct = false;
       hideVideoIframe = false;
       player.play();
       interrupted = false;
@@ -43,6 +40,8 @@
   let iframe;
   let y;
   let videoHasEnded = false;
+  let initialized = false;
+  let lastVimeoId = null;
 
   function end() {
     dispatch("end");
@@ -54,7 +53,24 @@
 
   $: if (mounted && data.video.vimeoId) {
     initializeVideoPlayer();
+    initialized = true;
   }
+
+  $: (async () => {
+    if (
+      initialized &&
+      data.video.vimeoId &&
+      lastVimeoId !== data.video.vimeoId
+    ) {
+      iframe = document.querySelector("#vimeoVideo iframe");
+      if (iframe !== null) {
+        console.log("Playing new video");
+        player = new Player(iframe);
+        lastVimeoId = data.video.vimeoId;
+        await player.loadVideo(data.video.vimeoId);
+      }
+    }
+  })();
 
   function initializeVideoPlayer() {
     if ((element = document.getElementById("vimeoVideo"))) {
@@ -66,6 +82,7 @@
           quality: "720p",
           playsinline: true,
         };
+        lastVimeoId = data.video.vimeoId;
         player = new Player("vimeoVideo", vimeoOptions);
       }
 
@@ -125,7 +142,6 @@
         player.pause();
         activeInterruption = interruption;
         hideVideoIframe = true;
-        console.log("Vimeo video interruption");
         dispatch("interrupt", { interruption: interruption });
         interrupted = true;
       }
@@ -174,7 +190,7 @@
         <div
           class="interruption-container bg-white overflow-hidden sm:rounded-lg sm:shadow"
         >
-          <slot name="interuption">Not showing the interuption! :(</slot>
+          <slot name="interruption" />
         </div>
       </div>
     </div>

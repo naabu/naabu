@@ -2,6 +2,7 @@
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { loadPluginRecursively } from "$lib/Internals/Plugin/loader";
 
   export let firebase;
 
@@ -9,6 +10,7 @@
   export let cloneActivity;
   export let mounted = false;
   export let activityId = $page.params.activityId;
+  export let loadComponent = "render";
 
   $: (async () => {
     if ($firebaseStore) {
@@ -23,22 +25,28 @@
     let ref = db.collection("activities").doc(activityId);
     let snap = await ref.get();
     if (snap.exists) {
-      activity = snap.data();
-      activity.id = ref.id;
-      activity.plugins = JSON.parse(JSON.stringify(activity.plugins));
-      cloneActivity = JSON.parse(JSON.stringify(activity));
-      if (activity.goalId) {
-        let battleCol = db.collection(
-          "goals/" + activity.goalId + "/battles"
-        );
+      let object = snap.data();
+      object.id = ref.id;
+      if (object.plugins) {
+        object.plugins = JSON.parse(object.plugins);
+        let loadPluginsObject = {
+          plugins: object.plugins,
+        };
+        await loadPluginRecursively(loadPluginsObject, loadComponent);
+        object.plugins = loadPluginsObject.plugins;
+      }
+      cloneActivity = JSON.parse(JSON.stringify(object));
+      if (object.goalId) {
+        let battleCol = db.collection("goals/" + object.goalId + "/battles");
         const querySnapshot = await battleCol.get();
-        activity.battles = [];
+        object.battles = [];
         querySnapshot.forEach((doc) => {
           let battleObject = doc.data();
           battleObject.name = doc.id;
-          activity.battles = [...activity.battles, battleObject];
+          object.battles = [...object.battles, battleObject];
         });
       }
+      activity = object;
     }
   }
 </script>

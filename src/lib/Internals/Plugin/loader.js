@@ -20,3 +20,44 @@ export async function loadPluginConfig(pluginId) {
   }
   return null;
 }
+
+export async function loadPluginRecursively(plugin, view = "render") {
+  for (let i = 0; i < plugin.plugins.length; i++) {
+    let childPlugin = plugin.plugins[i];
+    if (childPlugin !== null && childPlugin.pluginId) {
+      plugin.plugins[i].pluginConfig = await loadPluginConfig(
+        childPlugin.pluginId
+      );
+      if (view === "render") {
+        plugin.plugins[i].component = await loadPlugin(
+          childPlugin.pluginId,
+          "Render"
+        );
+      }
+      else if (view === "form") {
+        plugin.plugins[i].component = await loadPlugin(
+          childPlugin.pluginId,
+          "Form"
+        );
+        if (plugin.plugins[i].pluginConfig.interruptionFields) {
+          plugin.plugins[i].interruptionForm = await loadPlugin(
+            childPlugin.pluginId,
+            "InterruptionForm"
+          );
+        }
+      }
+
+      if (!plugin.plugins[i].breadcrumb) {
+        plugin.plugins[i].breadcrumb = [];
+      }
+      if (!plugin.plugins[i].currentPlugin) {
+        plugin.plugins[i].currentPlugin = null;
+      }
+
+      if (childPlugin.plugins) {
+        console.log(view);
+        await loadPluginRecursively(childPlugin, view);
+      }
+    }
+  }
+}

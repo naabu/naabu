@@ -90,7 +90,7 @@
     if ($session.user) {
       let activityData = getActivitySaveData(activity);
 
-      activity.plugins = getPluginDataFromForm(activity.plugins);
+      activityData.plugins = getPluginDataFromForm(activity.plugins);
 
       activityData.authorId = $session.user.uid;
       alert = getDefaultAlertValues();

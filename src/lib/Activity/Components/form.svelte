@@ -12,7 +12,7 @@
   import NumberInput from "$lib/Internals/FormFields/NumberInput.svelte";
   import FormField from "$lib/Internals/FormFields/FormField.svelte";
   import AdditionalFormText from "$lib/Internals/FormFields/AdditionalFormText.svelte";
-  import PluginForm from "$lib/Internals/Plugin/form.svelte";
+  import PluginForm from "$lib/Internals/Plugin/Form.svelte";
 
   const dispatch = createEventDispatcher();
 

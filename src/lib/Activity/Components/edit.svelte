@@ -11,6 +11,7 @@
     getDifferencesBetweenRevisions,
   } from "$lib/Internals/Revision/helper";
   import Button from "$lib/Internals/Button/Button.svelte";
+import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
 
   let y;
   export let previousActivity;
@@ -38,6 +39,8 @@
   async function edit() {
     if ($session.user) {
       let activityData = getActivitySaveData(activity);
+
+      activityData.plugins = getPluginDataFromForm(activity.plugins);
 
       let differences = getDifferencesBetweenRevisions(
         previousActivity,

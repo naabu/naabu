@@ -9,8 +9,8 @@
     sortOnCreatedAt,
   } from "$lib/Internals/Revision/helper";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
-  import ArrayDiff from "$lib/Internals/Diff/arrayDiff.svelte";
-  import StringDiff from "$lib/Internals/Diff/stringDiff.svelte";
+  import ArrayDiff from "$lib/Internals/Revision/ArrayDiff.svelte";
+  import StringDiff from "$lib/Internals/Revision/StringDiff.svelte";
 
   import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
   import {

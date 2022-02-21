@@ -9,7 +9,7 @@
   import AddPlugin from "$lib/Internals/Plugin/AddPlugin.svelte";
   import AddInterruptPlugin from "$lib/Internals/Plugin/AddInterruptPlugin.svelte";
   import Table from "$lib/Internals/Table/Table.svelte";
-  import PluginForm from "$lib/Internals/Plugin/form.svelte";
+  import PluginForm from "$lib/Internals/Plugin/Form.svelte";
 
   let firebase;
   let successId;

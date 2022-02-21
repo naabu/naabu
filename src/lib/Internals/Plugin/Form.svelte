@@ -86,11 +86,10 @@
   $: if (plugins) {
     for (let i = 0; i < plugins.length; i++) {
       let pluginNames = [];
-      if (plugins[i].currentPlugin !== null) {
+      if (plugins[i].currentPlugin && plugins[i].currentPlugin !== null) {
         console.log(plugins[i].currentPlugin);
         if (plugins[i].currentPlugin.plugins) {
           for (let i2 = 0; i2 < plugins[i].currentPlugin.plugins.length; i2++) {
-            console.log("RUn this code?");
             pluginNames.push([
               plugins[i].currentPlugin.plugins[i2].pluginConfig.name,
             ]);
@@ -124,7 +123,7 @@
 </script>
 
 {#each plugins as plugin, mainPluginIndex}
-  {#if plugin.breadcrumb.length == 0 && plugin.currentPlugin === null}
+  {#if plugin.breadcrumb && plugin.breadcrumb.length == 0 && (plugin.currentPlugin || plugin.currentPlugin === null)}
     <FieldSet
       title={plugin.pluginConfig.name}
       description={plugin.pluginConfig.description}
@@ -179,6 +178,7 @@
       />
     </FieldSet>
   {:else}
+    {console.log(plugin.currentPlugin)}
     <FieldSet
       title={plugin.currentPlugin.pluginConfig.name}
       description={plugin.currentPlugin.pluginConfig.description}
@@ -222,7 +222,11 @@
               size="tiny"
               content="Edit"
               on:click={() =>
-                goToPlugin(plugin.currentPlugin, plugin.currentPlugin.plugins[i], plugin)}
+                goToPlugin(
+                  plugin.currentPlugin,
+                  plugin.currentPlugin.plugins[i],
+                  plugin
+                )}
             />
             <Button
               size="tiny"
@@ -234,10 +238,12 @@
         </Table>
       {/if}
 
-      <AddInterruptPlugin
-        on:addPlugin={(event) =>
-          addInteruptPlugin(event, plugin.currentPlugin, plugin)}
-      />
+      {#if plugin.currentPlugin.pluginConfig.canBeInterrupted}
+        <AddInterruptPlugin
+          on:addPlugin={(event) =>
+            addInteruptPlugin(event, plugin.currentPlugin, plugin)}
+        />
+      {/if}
     </FieldSet>
   {/if}
 {/each}

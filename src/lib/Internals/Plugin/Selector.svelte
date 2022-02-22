@@ -118,6 +118,7 @@
               </div>
               <div class="flex-shrink-0 pr-2">
                 <Button
+                  dataTest="plugin-option-{pluginOption.value.id}"
                   on:click={() => addPlugin(pluginOption.value)}
                   content="Add to activity"
                 />

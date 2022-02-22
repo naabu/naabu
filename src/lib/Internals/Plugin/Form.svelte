@@ -161,9 +161,11 @@
             <Button
               size="tiny"
               content="Edit"
+              dataTest="edit-plugin-{i}-button"
               on:click={() => goToPlugin(plugin, plugin.plugins[i], plugin)}
             />
             <Button
+              dataTest="delete-plugin-{i}-button"
               size="tiny"
               color="lightRed"
               content="Delete"
@@ -221,6 +223,7 @@
             <Button
               size="tiny"
               content="Edit"
+              dataTest="edit-plugin-{i}-button"
               on:click={() =>
                 goToPlugin(
                   plugin.currentPlugin,
@@ -229,6 +232,7 @@
                 )}
             />
             <Button
+              dataTest="delete-plugin-{i}-button"
               size="tiny"
               color="lightRed"
               content="Delete"

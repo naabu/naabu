@@ -55,7 +55,7 @@ test('Unlock location on map test @module', async ({ page, domain, showAllConsol
   await page.locator('[data-test=quiz-question]').waitFor();
   await expect(page.locator('[data-test=quiz-question]')).toContainText('1+1=');
   await page.click('[data-test=watch-image-video-button]');
-  await page.click('[data-test=back-to-quiz-button]');
+  await page.click('[data-test=back-to-interruption]');
   await page.click('[data-test=input-value-0]');
   await page.click('[data-test=check-answer-button]');
   await page.waitForSelector('[data-test=incorrect-feedback]');

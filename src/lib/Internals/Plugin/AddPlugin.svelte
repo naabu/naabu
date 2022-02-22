@@ -17,5 +17,7 @@
 <PluginSelector bind:toggle={showPluginSelector} on:add={addPlugin} />
 
 <FormField>
-  <Button content="Add +" on:click={() => (showPluginSelector = true)} />
+  <Button 
+  dataTest = "add-plugin-button"
+  content="Add +" on:click={() => (showPluginSelector = true)} />
 </FormField>

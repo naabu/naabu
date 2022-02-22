@@ -1,6 +1,6 @@
 <script>
   import ArrayDiff from "$lib/Internals/Revision/ArrayDiff.svelte";
-  import StringDiff from "$lib/Internals/Revision/stringDiff.svelte";
+  import StringDiff from "$lib/Internals/Revision/StringDiff.svelte";
   import {
     checkArrayIsTheSame,
     getDateString,

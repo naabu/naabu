@@ -39,20 +39,20 @@ test('Create activities and attach them @activity', async ({ page, domain, showA
   await expect(page.locator('[data-test=create-activity-button]')).toBeVisible();
   await page.waitForTimeout(2000);
   await page.click('[data-test=create-activity-button]', { force: true });
-
-  // Select learning goal.
-  await page.click('[data-test=select-learning-goal-0]');
   
-  // Create form.
-  // Click type.
+  await page.click('[data-test=select-learning-goal-0]');
   await page.click("#explanation");
   await page.fill('#title', 'Test activity title');
   await page.fill('#description', "Test description $$\\cfrac{5}{4}$$");
   await page.click('[data-test=preview-description]');
   await page.fill('#difficulty', '2');
+
+  await page.click('[data-test="add-plugin-button"]');
+  await page.click('[data-test="plugin-option-vimeo-player"]');
   await page.fill('#vimeo_id', '604675909');
-  await page.click('[data-test=add-question-button]');
-  await page.fill('#quiz_video_time', '2');
+  await page.click('[data-test="add-interrupt-+-button"]');
+  await page.click('[data-test="plugin-option-multiple-choice"]');
+  await page.fill('#video_time', '2');
   await page.fill('#quiz_question', 'Weet jij het antwoord? $$1+1=$$..');
   await page.click('[data-test=new-answer-button]');
   await page.click('[data-test=A1]');
@@ -71,7 +71,7 @@ test('Create activities and attach them @activity', async ({ page, domain, showA
   await page.locator('[data-test=quiz-question]').waitFor();
   await expect(page.locator('[data-test=quiz-question]')).toContainText('1+1=');
   await page.click('[data-test=watch-image-video-button]');
-  await page.click('[data-test=back-to-quiz-button]');
+  await page.click('[data-test=back-to-interruption]');
   await page.click('[data-test=input-value-0]');
   await page.click('[data-test=check-answer-button]');
   await expect(page.locator('[data-test=incorrect-feedback]')).toBeVisible();
@@ -90,7 +90,8 @@ test('Create activities and attach them @activity', async ({ page, domain, showA
   await page.click('[data-test=preview-description]');
   await page.fill('#difficulty', '3');
   await page.fill('#vimeo_id', '115154289');
-  await page.fill('#quiz_video_time', '3');
+  await page.click('[data-test="edit-plugin-0-button"]');
+  await page.fill('#video_time', '3');
   await page.fill('#quiz_question', 'Weet jij het antwoord? $$1+2=$$..');
   await page.click('[data-test=A1]');
   await page.fill('#answeranswer', '3');
@@ -112,22 +113,15 @@ test('Create activities and attach them @activity', async ({ page, domain, showA
   await expect(page.locator('[data-test="Beschrijving:-new"]')).toContainText('Test description $$\\cfrac{5}{3}$$');
   await expect(page.locator('[data-test="Moeilijkheid:-old"]')).toContainText('Makkelijk');
   await expect(page.locator('[data-test="Moeilijkheid:-new"]')).toContainText('Niet makkelijk, niet moeilijk');
-  await expect(page.locator('[data-test="Video - vimeo id:-old"]')).toContainText('604675909');
-  await expect(page.locator('[data-test="Video - vimeo id:-new"]')).toContainText('115154289');
-  await expect(page.locator('[data-test="Quiz - vraag 1 - vraag:-old"]')).toContainText('Weet jij het antwoord? $$1+1=$$..');
-  await expect(page.locator('[data-test="Quiz - vraag 1 - vraag:-new"]')).toContainText('Weet jij het antwoord? $$1+2=$$..');
-  await expect(page.locator('[data-test="Quiz - vraag 1 - antwoord 1 - goed antwoord:-old"]')).toContainText("Nee");
-  await expect(page.locator('[data-test="Quiz - vraag 1 - antwoord 1 - goed antwoord:-new"]')).toContainText("Ja");
-  await expect(page.locator('[data-test="Quiz - vraag 1 - antwoord 1:-old"]')).toContainText("1");
-  await expect(page.locator('[data-test="Quiz - vraag 1 - antwoord 1:-new"]')).toContainText("3");
-  await expect(page.locator('[data-test="Quiz - vraag 1 - antwoord 2 - goed antwoord:-old"]')).toContainText("Ja");
-  await expect(page.locator('[data-test="Quiz - vraag 1 - antwoord 2 - goed antwoord:-new"]')).toContainText("Nee");
-  await expect(page.locator('[data-test="Quiz - vraag 1 - antwoord 2:-old"]')).toContainText("2");
-  await expect(page.locator('[data-test="Quiz - vraag 1 - antwoord 2:-new"]')).toContainText("4");
-  await expect(page.locator('[data-test="Quiz - vraag 1 - antwoord 3:-old"]')).toContainText("3");
-  await expect(page.locator('[data-test="Quiz - vraag 1 - antwoord 3:-new"]')).toContainText("2");
-  await expect(page.locator('[data-test="Quiz - vraag 1 - tijd in video:-old"]')).toContainText("2");
-  await expect(page.locator('[data-test="Quiz - vraag 1 - tijd in video:-new"]')).toContainText("3");
+
+  await expect(page.locator('[data-test="plugins:-old"]')).toContainText('604675909');
+  await expect(page.locator('[data-test="plugins:-new"]')).toContainText('115154289');
+  await expect(page.locator('[data-test="plugins:-old"]')).toContainText('Weet jij het antwoord? $$1+1=$$..');
+  await expect(page.locator('[data-test="plugins:-new"]')).toContainText('Weet jij het antwoord? $$1+2=$$..');
+  await expect(page.locator('[data-test="plugins:-old"]')).toContainText("{\"answers\":[{\"answer\":\"1\",\"correct\":false},{\"answer\":\"2\",\"correct\":true},{\"answer\":\"3\",\"correct\":false}],\"question\":\"Weet jij het antwoord? $$1+1=$$..\"}");
+  await expect(page.locator('[data-test="plugins:-new"]')).toContainText("{\"answers\":[{\"answer\":\"3\",\"correct\":true},{\"answer\":\"4\",\"correct\":false},{\"answer\":\"2\",\"correct\":false}],\"question\":\"Weet jij het antwoord? $$1+2=$$..\"}");
+  await expect(page.locator('[data-test="plugins:-old"]')).toContainText("\"interruptionData\":{\"timeInVideo\":2}}");
+  await expect(page.locator('[data-test="plugins:-new"]')).toContainText("\"interruptionData\":{\"timeInVideo\":3}}");
 
   await page.click('[data-test="show-all-activity-revisions-button"]');
   await page.waitForSelector('[data-test="revision-link-0"]');
@@ -139,15 +133,10 @@ test('Create activities and attach them @activity', async ({ page, domain, showA
   await expect(page.locator('[data-test="Titel:-new"]')).toContainText("Test activity title");
   await expect(page.locator('[data-test="Beschrijving:-new"]')).toContainText("Test description $$\\cfrac{5}{4}$$");
   await expect(page.locator('[data-test="Moeilijkheid:-new"]')).toContainText("Makkelijk");
-  await expect(page.locator('[data-test="Video - vimeo id:-new"]')).toContainText("604675909");
-  await expect(page.locator('[data-test="Quiz - vraag 1 - vraag:-new"]')).toContainText("Weet jij het antwoord? $$1+1=$$..");
-  await expect(page.locator('[data-test="Quiz - vraag 1 - antwoord 1 - goed antwoord:-new"]')).toContainText("Nee");
-  await expect(page.locator('[data-test="Quiz - vraag 1 - antwoord 2 - goed antwoord:-new"]')).toContainText("Ja");
-  await expect(page.locator('[data-test="Quiz - vraag 1 - antwoord 2:-new"]')).toContainText("2");
-  await expect(page.locator('[data-test="Quiz - vraag 1 - antwoord 3 - goed antwoord:-new"]')).toContainText("Nee");
-  await expect(page.locator('[data-test="Quiz - vraag 1 - antwoord 3:-new"]')).toContainText("3");
-  await expect(page.locator('[data-test="Quiz - vraag 1 - tijd in video:-new"]')).toContainText("2");
-  await expect(page.locator('[data-test="Quiz - vraag 1 - Type:-new"]')).toContainText("Geen type");
+
+  await expect(page.locator('[data-test="plugins:-new"]')).toContainText("{\"answers\":[{\"answer\":\"1\",\"correct\":false},{\"answer\":\"2\",\"correct\":true},{\"answer\":\"3\",\"correct\":false}],\"question\":\"Weet jij het antwoord? $$1+1=$$..\"}");
+  await expect(page.locator('[data-test="plugins:-new"]')).toContainText("\"interruptionData\":{\"timeInVideo\":2}}");
+
   await page.click('[data-test=reset-activity-to-revision-button]');
   await page.waitForSelector('#difficulty');
   await expect(page.locator('#difficulty')).toHaveValue('2');

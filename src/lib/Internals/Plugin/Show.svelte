@@ -26,7 +26,6 @@ import ActivityDiff from "../Revision/ActivityDiff.svelte";
       }
       await loadPluginRecursively(loadPluginsObject);
       object.plugins = loadPluginsObject.plugins;
-      console.log(object);
       if (object.plugins.length > 0) {
         await setDataCurrentPlugin();
       }

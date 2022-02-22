@@ -8,8 +8,6 @@
   export let showPluginSelector = false;
 
   function addPlugin(event) {
-    console.log("Add Plugin component: event detail");
-    console.log(event.detail);
     dispatch("addPlugin", event.detail);
   }
 </script>

@@ -24,11 +24,14 @@
   <tbody>
     {#each tableBodyContents as tableBodyContent, i}
       <tr class:bg-white={i % 2 == 0} class:bg-gray-50={i % 2 != 0}>
-        {#each tableBodyContent as row}
+        {#each tableBodyContent as column, columnIndex}
           <td
             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
-            >{row}</td
           >
+            <slot name="column" {column} {i}  {columnIndex}>
+              {column}
+            </slot>
+          </td>
         {/each}
         {#if hasActions}
           <td

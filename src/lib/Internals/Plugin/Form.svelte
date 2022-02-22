@@ -85,22 +85,52 @@
 
   $: if (plugins) {
     for (let i = 0; i < plugins.length; i++) {
-      let pluginNames = [];
+      let pluginTable = [];
       if (plugins[i].currentPlugin && plugins[i].currentPlugin !== null) {
-        console.log(plugins[i].currentPlugin);
         if (plugins[i].currentPlugin.plugins) {
           for (let i2 = 0; i2 < plugins[i].currentPlugin.plugins.length; i2++) {
-            pluginNames.push([
+            let fieldString = [];
+            if (
+              plugins[i].currentPlugin.plugins[i2].parentPlugin &&
+              plugins[i].currentPlugin.plugins[i2].parentPlugin.pluginConfig
+                .interruptionFields
+            ) {
+              let interruptionFields =
+                plugins[i].currentPlugin.plugins[i2].parentPlugin.pluginConfig
+                  .interruptionFields;
+
+              for (let i = 0; i < interruptionFields.length; i++) {
+                if (
+                  plugins[i].currentPlugin.plugins[i2].interruptionData[
+                    interruptionFields[i].id
+                  ]
+                ) {
+                  fieldString.push(
+                    interruptionFields[i].name +
+                      ": " +
+                      plugins[i].currentPlugin.plugins[i2].interruptionData[
+                        interruptionFields[i].id
+                      ]
+                  );
+                }
+              }
+            }
+            let interruptionString = fieldString.join(", ");
+            pluginTable.push([
               plugins[i].currentPlugin.plugins[i2].pluginConfig.name,
+              interruptionString,
             ]);
           }
         }
       } else if (plugins[i].plugins) {
         for (let i2 = 0; i2 < plugins[i].plugins.length; i2++) {
-          pluginNames.push([plugins[i].plugins[i2].pluginConfig.name]);
+          pluginTable.push([plugins[i].plugins[i2].pluginConfig.name]);
         }
       }
-      plugins[i].pluginNames = pluginNames;
+      plugins[i].pluginTable = pluginTable;
+
+      //   [ [ colunn1, column2 ],
+      // [row 2],   ]
     }
   }
 
@@ -110,9 +140,6 @@
   }
 
   function deleteInterruptionPlugin(mainPluginIndex, pluginIndex) {
-    console.log(plugins);
-    console.log(mainPluginIndex);
-    console.log(pluginIndex);
     if (plugins[mainPluginIndex].currentPlugin === null) {
       plugins[mainPluginIndex].plugins.splice(pluginIndex, 1);
     } else {
@@ -160,7 +187,10 @@
     />
 
     {#if plugin.currentPlugin.plugins}
-      <Table tableHeaders={["Plugin"]} tableBodyContents={plugin.pluginNames}>
+      <Table
+        tableHeaders={["Plugin", "Onderbreking", "Acties"]}
+        tableBodyContents={plugin.currentPlugin.pluginTable}
+      >
         <svelte:fragment slot="action" let:i>
           <Button
             size="tiny"

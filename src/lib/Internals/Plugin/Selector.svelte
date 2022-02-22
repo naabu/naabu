@@ -41,7 +41,6 @@
     };
 
     if (pluginConfig.interruptionFields) {
-      console.log("Loading interruptionForm");
       plugin.interruptionForm = await loadPlugin(
         pluginConfig.id,
         "InterruptionForm"

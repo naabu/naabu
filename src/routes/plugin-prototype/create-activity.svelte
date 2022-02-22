@@ -6,9 +6,6 @@
   import Button from "$lib/Internals/Button/Button.svelte";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
-  import AddPlugin from "$lib/Internals/Plugin/AddPlugin.svelte";
-  import AddInterruptPlugin from "$lib/Internals/Plugin/AddInterruptPlugin.svelte";
-  import Table from "$lib/Internals/Table/Table.svelte";
   import PluginForm from "$lib/Internals/Plugin/Form.svelte";
 
   let firebase;

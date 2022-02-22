@@ -28,7 +28,6 @@ function recursiveDataPlugin(plugins) {
 
 export function getPluginDataFromForm(plugins) {
   let dataPlugins = recursiveDataPlugin(plugins);
-  console.log(dataPlugins);
   dataPlugins = JSON.stringify(dataPlugins);
   return dataPlugins;
 }

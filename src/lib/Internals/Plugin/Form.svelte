@@ -17,11 +17,11 @@
         component: event.detail.component,
         data: {},
         breadcrumb: [],
-        currentPlugin: null,
       };
       if (event.detail.interruptionForm) {
         newPlugin.interruptionForm = event.detail.interruptionForm;
       }
+      newPlugin.currentPlugin = newPlugin;
       plugins = [...plugins, newPlugin];
     }
   }
@@ -54,7 +54,7 @@
 
   function toTop(topPlugin) {
     topPlugin.breadcrumb = [];
-    topPlugin.currentPlugin = null;
+    topPlugin.currentPlugin = topPlugin;
     plugins = plugins;
   }
 
@@ -74,7 +74,7 @@
       let parentPlugin = topPlugin.breadcrumb.pop();
       topPlugin.currentPlugin = parentPlugin;
       if (topPlugin.breadcrumb.length == 0) {
-        topPlugin.currentPlugin = null;
+        topPlugin.currentPlugin = topPlugin;
       } else {
         topPlugin.currentPlugin.parentPlugin =
           topPlugin.breadcrumb[topPlugin.breadcrumb.length - 1];
@@ -123,133 +123,73 @@
 </script>
 
 {#each plugins as plugin, mainPluginIndex}
-  {#if plugin.breadcrumb && plugin.breadcrumb.length == 0 && (plugin.currentPlugin || plugin.currentPlugin === null)}
-    <FieldSet
-      title={plugin.pluginConfig.name}
-      description={plugin.pluginConfig.description}
-      layout="two-column-full-width-cards"
-    >
-      <div slot="top" class="float-right">
+  <FieldSet
+    title={plugin.currentPlugin.pluginConfig.name}
+    description={plugin.currentPlugin.pluginConfig.description}
+    layout="two-column-full-width-cards"
+  >
+    <div slot="top">
+      {#if plugin.breadcrumb[plugin.breadcrumb.length - 1]}
         <Button
-          color="whitePrimaryIcon"
-          size="icon-round"
-          on:click={() => deleteMainPlugin(mainPluginIndex)}
-        >
-          <span class="sr-only">Delete plugin</span>
-          <svg
-            class="h-6 w-6"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            aria-hidden="true"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M6 18L18 6M6 6l12 12"
-            />
-          </svg>
-        </Button>
-      </div>
-      <svelte:component this={plugin.component} bind:data={plugin.data} />
-
-      {#if plugin.plugins && plugin.plugins.length > 0}
-        <Table tableHeaders={["Plugin"]} tableBodyContents={plugin.pluginNames}>
-          <svelte:fragment slot="action" let:i>
-            <Button
-              size="tiny"
-              content="Edit"
-              dataTest="edit-plugin-{i}-button"
-              on:click={() => goToPlugin(plugin, plugin.plugins[i], plugin)}
-            />
-            <Button
-              dataTest="delete-plugin-{i}-button"
-              size="tiny"
-              color="lightRed"
-              content="Delete"
-              on:click={() => deleteInterruptionPlugin(mainPluginIndex, i)}
-            />
-          </svelte:fragment>
-        </Table>
-      {/if}
-
-      <AddInterruptPlugin
-        on:addPlugin={(event) => addInteruptPlugin(event, plugin, plugin)}
-      />
-    </FieldSet>
-  {:else}
-    {console.log(plugin.currentPlugin)}
-    <FieldSet
-      title={plugin.currentPlugin.pluginConfig.name}
-      description={plugin.currentPlugin.pluginConfig.description}
-      layout="two-column-full-width-cards"
-    >
-      <div slot="top">
-        {#if plugin.breadcrumb[plugin.breadcrumb.length - 1]}
-          <Button
-            size="very-small"
-            content="To top"
-            on:click={() => toTop(plugin)}
-          />
-          <Button
-            size="very-small"
-            content="Go back"
-            on:click={() => goBack(plugin)}
-          />
-          <AdditionalFormText
-            content="Parent: {plugin.breadcrumb[plugin.breadcrumb.length - 1]
-              .pluginConfig.name}"
-          />
-        {/if}
-      </div>
-
-      {#if plugin.currentPlugin.parentPlugin.pluginConfig.interruptionFields}
-        <svelte:component
-          this={plugin.currentPlugin.parentPlugin.interruptionForm}
-          bind:data={plugin.currentPlugin.interruptionData}
+          size="very-small"
+          content="To top"
+          on:click={() => toTop(plugin)}
+        />
+        <Button
+          size="very-small"
+          content="Go back"
+          on:click={() => goBack(plugin)}
+        />
+        <AdditionalFormText
+          content="Parent: {plugin.breadcrumb[plugin.breadcrumb.length - 1]
+            .pluginConfig.name}"
         />
       {/if}
+    </div>
 
+    {#if plugin.currentPlugin.parentPlugin && plugin.currentPlugin.parentPlugin.pluginConfig.interruptionFields}
       <svelte:component
-        this={plugin.currentPlugin.component}
-        bind:data={plugin.currentPlugin.data}
+        this={plugin.currentPlugin.parentPlugin.interruptionForm}
+        bind:data={plugin.currentPlugin.interruptionData}
       />
+    {/if}
 
-      {#if plugin.currentPlugin.plugins}
-        <Table tableHeaders={["Plugin"]} tableBodyContents={plugin.pluginNames}>
-          <svelte:fragment slot="action" let:i>
-            <Button
-              size="tiny"
-              content="Edit"
-              dataTest="edit-plugin-{i}-button"
-              on:click={() =>
-                goToPlugin(
-                  plugin.currentPlugin,
-                  plugin.currentPlugin.plugins[i],
-                  plugin
-                )}
-            />
-            <Button
-              dataTest="delete-plugin-{i}-button"
-              size="tiny"
-              color="lightRed"
-              content="Delete"
-              on:click={() => deleteInterruptionPlugin(mainPluginIndex, i)}
-            />
-          </svelte:fragment>
-        </Table>
-      {/if}
+    <svelte:component
+      this={plugin.currentPlugin.component}
+      bind:data={plugin.currentPlugin.data}
+    />
 
-      {#if plugin.currentPlugin.pluginConfig.canBeInterrupted}
-        <AddInterruptPlugin
-          on:addPlugin={(event) =>
-            addInteruptPlugin(event, plugin.currentPlugin, plugin)}
-        />
-      {/if}
-    </FieldSet>
-  {/if}
+    {#if plugin.currentPlugin.plugins}
+      <Table tableHeaders={["Plugin"]} tableBodyContents={plugin.pluginNames}>
+        <svelte:fragment slot="action" let:i>
+          <Button
+            size="tiny"
+            content="Edit"
+            dataTest="edit-plugin-{i}-button"
+            on:click={() =>
+              goToPlugin(
+                plugin.currentPlugin,
+                plugin.currentPlugin.plugins[i],
+                plugin
+              )}
+          />
+          <Button
+            dataTest="delete-plugin-{i}-button"
+            size="tiny"
+            color="lightRed"
+            content="Delete"
+            on:click={() => deleteInterruptionPlugin(mainPluginIndex, i)}
+          />
+        </svelte:fragment>
+      </Table>
+    {/if}
+
+    <AddInterruptPlugin
+      bind:canBeInterrupted={plugin.currentPlugin.pluginConfig.canBeInterrupted}
+      on:addPlugin={(event) =>
+        addInteruptPlugin(event, plugin.currentPlugin, plugin)}
+    />
+  </FieldSet>
 {/each}
 
 <AddPlugin on:addPlugin={addPlugin} />

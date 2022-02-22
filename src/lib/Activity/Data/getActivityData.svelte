@@ -27,15 +27,18 @@
     if (snap.exists) {
       let object = snap.data();
       object.id = ref.id;
+
       if (object.plugins) {
         object.plugins = JSON.parse(object.plugins);
+        cloneActivity = JSON.parse(JSON.stringify(object));
         let loadPluginsObject = {
           plugins: object.plugins,
         };
         await loadPluginRecursively(loadPluginsObject, loadComponent);
         object.plugins = loadPluginsObject.plugins;
+      } else {
+        cloneActivity = JSON.parse(JSON.stringify(object));
       }
-      cloneActivity = JSON.parse(JSON.stringify(object));
       if (object.goalId) {
         let battleCol = db.collection("goals/" + object.goalId + "/battles");
         const querySnapshot = await battleCol.get();

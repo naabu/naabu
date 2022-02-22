@@ -68,7 +68,7 @@
     inTransition="transform transition ease-in-out duration-500 sm:duration-700"
     inState="translate-x-full"
     onState="translate-x-0"
-    outTransition="transform transition ease-in-out duration-500 sm:duration-700"
+    outTransition="transform transition ease-in-out duration-200 sm:duration-300"
     outState="translate-x-full"
   >
     <div class="w-screen max-w-2xl">

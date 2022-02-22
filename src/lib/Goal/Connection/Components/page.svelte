@@ -211,6 +211,7 @@
   async function formSubmit(event) {
     buttonDisabled = true;
     await createCommentUpdate();
+    newCommentText = "";
     setTimeout(() => {
       if (hasCurriculumProfile || isTeacher) {
         buttonDisabled = false;

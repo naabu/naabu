@@ -51,11 +51,10 @@ export async function loadPluginRecursively(plugin, view = "render") {
         plugin.plugins[i].breadcrumb = [];
       }
       if (!plugin.plugins[i].currentPlugin) {
-        plugin.plugins[i].currentPlugin = null;
+        plugin.plugins[i].currentPlugin = plugin.plugins[i];
       }
 
       if (childPlugin.plugins) {
-        console.log(view);
         await loadPluginRecursively(childPlugin, view);
       }
     }

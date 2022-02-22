@@ -49,9 +49,11 @@ test('Create activities and attach them @activity', async ({ page, domain, showA
 
   await page.click('[data-test="add-plugin-button"]');
   await page.click('[data-test="plugin-option-vimeo-player"]');
+  await page.waitForTimeout(500);
   await page.fill('#vimeo_id', '604675909');
   await page.click('[data-test="add-interrupt-+-button"]');
   await page.click('[data-test="plugin-option-multiple-choice"]');
+  await page.waitForTimeout(500);
   await page.fill('#video_time', '2');
   await page.fill('#quiz_question', 'Weet jij het antwoord? $$1+1=$$..');
   await page.click('[data-test=new-answer-button]');

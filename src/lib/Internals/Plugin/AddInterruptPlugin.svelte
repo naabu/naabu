@@ -3,6 +3,7 @@
   import FormField from "$lib/Internals/FormFields/FormField.svelte";
   import PluginSelector from "$lib/Internals/Plugin/Selector.svelte";
   import { createEventDispatcher } from "svelte";
+  export let canBeInterrupted = false;
 
   const dispatch = createEventDispatcher();
   export let showPluginSelector = false;
@@ -18,9 +19,11 @@
   on:add={addPlugin}
 />
 
+{#if canBeInterrupted}
 <FormField>
   <Button
     content="Add interrupt +"
     on:click={() => (showPluginSelector = true)}
   />
 </FormField>
+{/if}

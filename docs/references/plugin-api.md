@@ -18,8 +18,8 @@ nav_order: 3
 | **canInterrupt**       | boolean | True if you want this plugin be used as interruption in other plugins       |
 | **canBeObserved**      | boolean | True if you support being observed by your interruptions                    |
 | **canObserve**         | boolean | True if you support observing your parent plugins that you are interrupting |
-| **storage**            | array   | Config your fields that you store in the data                               |
-| **interruptionFields** | array   | add fields that need to be set for interruptions to this plugin             |
+| **storage**            | array   | Config your fields as object with id and name where store in data in this plugin |
+| **interruptionFields** | array   | add objects of fields with an id and a name of interruption data for this plugin             |
 
 
 
@@ -33,15 +33,8 @@ const config = {
   canInterrupt: true,
   canBeObserved: false,
   canObserve: true,
-  storage: {
-    quizzes: {
-    }
-  },
-  interruptionFields:
-  {
-    timeInVideo: {
-    }
-  }
+  storage: [{ id: "video", name: "Video" }],
+  interruptionFields: [{ id: "timeInVideo", name: "Tijd in video" }],
 }
 
 export default config;

@@ -5,10 +5,7 @@ const config = {
   canBeInterrupted: false,
   canInterrupt: true,
   canObserve: true,
-  storage: {
-    quizzes: {
-    }
-  },
+  storage: [{ id: "quizzes", name: "Quizzes" }],
 }
 
 export default config;

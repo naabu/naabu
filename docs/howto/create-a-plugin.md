@@ -15,7 +15,7 @@ permalink: /how-to-guides/create-plugin
 
 4. Create your ``Form.svelte``:
 
-Set values in the data. You can use the [Storybook components](/naabu/references/storybook/index.html?path=/story/form-stories--form-example-1)) but also create custom Svelte code.
+Set values in the data. You can use the [Storybook components](/naabu/references/storybook/index.html?path=/story/form-stories--form-example-1) but also create custom Svelte code.
 For example:
 
 ```

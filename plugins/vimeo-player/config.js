@@ -1,6 +1,6 @@
 const config = {
   id: "vimeo-player",
-  name: "Vimeo player plugin",
+  name: "Vimeo player",
   description: "Loads a vimeo player and interrupts the video for other plugins.",
   canBeInterrupted: true,
   canBeObserved: true,

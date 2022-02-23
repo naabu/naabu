@@ -1,6 +1,6 @@
 const config = {
   id: "multiple-choice",
-  name: "Multiple choice plugin",
+  name: "Multiple choice",
   description: "Pick one of the options",
   canBeInterrupted: false,
   canInterrupt: true,

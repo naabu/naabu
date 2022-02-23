@@ -1,6 +1,5 @@
 <script>
-  import { loadPlugin, loadPluginConfig, loadPluginRecursively } from "$lib/Internals/Plugin/loader";
-import ActivityDiff from "../Revision/ActivityDiff.svelte";
+  import { loadPluginRecursively } from "$lib/Internals/Plugin/loader";
   export let object;
   export let finished = false;
   let loaded = false;
@@ -17,13 +16,11 @@ import ActivityDiff from "../Revision/ActivityDiff.svelte";
     }
   })();
 
-  
-
   async function loadPluginComponents() {
     if (object && object.plugins) {
       let loadPluginsObject = {
-        plugins: object.plugins
-      }
+        plugins: object.plugins,
+      };
       await loadPluginRecursively(loadPluginsObject);
       object.plugins = loadPluginsObject.plugins;
       if (object.plugins.length > 0) {

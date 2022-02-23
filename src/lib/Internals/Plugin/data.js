@@ -6,19 +6,16 @@ function recursiveDataPlugin(plugins) {
     let pluginData = {
       pluginId: plugins[i].pluginConfig.id,
       order: plugins[i].order,
-      data: plugins[i].data
-    }
+      data: plugins[i].data,
+    };
     if (plugins[i].interruptionData) {
       pluginData.interruptionData = plugins[i].interruptionData;
     }
     if (plugins[i].plugins) {
-      pluginData.plugins = recursiveDataPlugin(plugins[i].plugins)
+      pluginData.plugins = recursiveDataPlugin(plugins[i].plugins);
     }
     if (dataPlugins.length > 0) {
-      dataPlugins = [
-        ...dataPlugins,
-        pluginData
-      ];
+      dataPlugins = [...dataPlugins, pluginData];
     } else {
       dataPlugins = [pluginData];
     }
@@ -32,7 +29,10 @@ export function getPluginDataFromForm(plugins) {
   return dataPlugins;
 }
 
-export async function handlePluginCreation(firestoreObject, svelteComponent = "Render") {
+export async function handlePluginCreation(
+  firestoreObject,
+  svelteComponent = "Render"
+) {
   let pluginsConfiguration = await loadPluginsConfiguration();
 
   let pluginComponentsData = [];

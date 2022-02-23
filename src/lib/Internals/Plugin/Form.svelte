@@ -1,8 +1,6 @@
 <script>
   import FieldSet from "$lib/Internals/FormFields/FieldSet.svelte";
   import AdditionalFormText from "$lib/Internals/FormFields/AdditionalFormText.svelte";
-  import TextInput from "$lib/Internals/FormFields/TextInput.svelte";
-  import FormField from "$lib/Internals/FormFields/FormField.svelte";
   import Button from "$lib/Internals/Button/Button.svelte";
   import AddPlugin from "$lib/Internals/Plugin/AddPlugin.svelte";
   import AddInterruptPlugin from "$lib/Internals/Plugin/AddInterruptPlugin.svelte";

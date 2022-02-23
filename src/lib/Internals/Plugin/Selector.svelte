@@ -4,8 +4,8 @@
     loadPluginsConfiguration,
   } from "$lib/Internals/Plugin/loader";
   import Transition from "svelte-class-transition";
-  import Button from "../Button/Button.svelte";
-  import AdditionalFormText from "../FormFields/AdditionalFormText.svelte";
+  import Button from "$lib/Internals/Button/Button.svelte";
+  import AdditionalFormText from "$lib/Internals/FormFields/AdditionalFormText.svelte";
 
   import { createEventDispatcher } from "svelte";
 

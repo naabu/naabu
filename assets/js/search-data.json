@@ -5,234 +5,288 @@
     "url": "https://naabu.github.io/naabu/about/",
     "relUrl": "/about/"
   },"1": {
+    "doc": "How to create a new interruption plugin",
+    "title": "Guide to create a plugin that can be interrupted.",
+    "content": ". | Follow Guide to create a plugin | Set the canBeInterrupted plugin setting in the config.js to true. | In the config set the interruptionFields of the data that you need to store for each interruption. The data to determine when to go to the interruption. For example for the Vimeo API we store time in the video in seconds, when the player reaches the seconds it will interrupt the video. | Create InterruptFormField.svelte and store data. ``` export let data; | . data = “Set based on your own custom data form” . 5. Register the ``InterruptFormField.svelte`` in the ``plugin.js`` . export async function loadPluginComponent(pluginId, svelteComponent = “Render”) { … if (pluginId == “\") { else if (svelteComponent === \"InterruptionForm\") { return (await import(\"@plugins//InterruptionForm.svelte\")).default; } . 6. In the Render export the interruptions: . export let interruptions = []; . 7. Based on the data in the interruptions interrupt the plugin at the right time: . for (let i = 0; i &lt; interruptions.length; i++) { let interruption = interruptions[i]; if (interruption.data. …) { . } . 8. To interrupt dispatch the ``interrupt`` event and add the interruption in the detail: . if (interruption.data. …) { dispatch(“interrupt”, { interruption: interruption }); } . 9. Create a named ``interruption`` slot. The interruption will be loaded in here this is the place to provide some custom styling. 10. Create and export the ``advance`` function to handle the case when an interruption is finished. export function advance() { // Continue with the plugin e.g. play the video again … } ``` . ",
+    "url": "https://naabu.github.io/naabu/how-to-guides/create-interruption-plugin#guide-to-create-a-plugin-that-can-be-interrupted",
+    "relUrl": "/how-to-guides/create-interruption-plugin#guide-to-create-a-plugin-that-can-be-interrupted"
+  },"2": {
+    "doc": "How to create a new interruption plugin",
+    "title": "How to create a new interruption plugin",
+    "content": " ",
+    "url": "https://naabu.github.io/naabu/how-to-guides/create-interruption-plugin",
+    "relUrl": "/how-to-guides/create-interruption-plugin"
+  },"3": {
+    "doc": "How to create a custom plugin",
+    "title": "Guide to create a plugin.",
+    "content": ". | Create a directory in the plugin folder with your plugin-id. | Create a config.js, Form.svelte a Render.svelte file. | Create sensible config for your plugin. | Create your Form.svelte: . | . Set values in the data. You can use the Storybook components but also create custom Svelte code. For example: . &lt;script&gt; export let data; &lt;/script&gt; &lt;FormField labelPosition=\"top\" title=\"NumberInput label\"&gt; &lt;NumberInput bind:value={data.number} step=\"0.5\" /&gt; &lt;/FormField&gt; . | Create your Render.svelte: | . Export the data and use the data to render your plugin. For example: . &lt;script&gt; export let data; &lt;/script&gt; &lt;p&gt; This is a number: {data.number} &lt;/p&gt; . In the Render.svelte you need top dispatch the end event when plugin is complete: . For example, with a button: . import { createEventDispatcher } from \"svelte\"; const dispatch = createEventDispatcher(); function end() { dispatch(\"end\"); } &lt;/script&gt; &lt;Button on:click={end} content=\"Continue\" /&gt; . | To enable the button register the plugin in the plugin.js file: | . Enable the plugin configuration: . export async function loadConfigAllPlugins() { let plugins = []; plugins.push((await import(\"@plugins/&lt;YOUR-PLUGIN-ID&gt;/config.js\")).default); return plugins; } . Enable the Form.svelte and Render.svelte: . export async function loadPluginComponent(pluginId, svelteComponent = \"Render\") { ... if (pluginId == \"&lt;YOUR-PLUGIN-ID&gt;\") { if (svelteComponent === \"Render\") { return (await import(\"@plugins/&lt;YOUR-PLUGIN-ID&gt;/Render.svelte\")).default; } else if (svelteComponent === \"Form\") { return (await import(\"@plugins/&lt;YOUR-PLUGIN-ID&gt;/Form.svelte\")).default; } } } . ",
+    "url": "https://naabu.github.io/naabu/how-to-guides/create-plugin#guide-to-create-a-plugin",
+    "relUrl": "/how-to-guides/create-plugin#guide-to-create-a-plugin"
+  },"4": {
+    "doc": "How to create a custom plugin",
+    "title": "How to create a custom plugin",
+    "content": " ",
+    "url": "https://naabu.github.io/naabu/how-to-guides/create-plugin",
+    "relUrl": "/how-to-guides/create-plugin"
+  },"5": {
     "doc": "Whats up with Docker?",
     "title": "Why all these docker-compose files?",
     "content": "We use Github actions to build and test the project. in the ci/ folder are all the images that are needed for the build. Svelte kit tests containers is needed to connect to the Firebase service in the Docker containers. So firebase-code instead of localhost. This allows Playwright to be run in the Docker container which is useful for quick testing and the continuous integration system. Jekyll is the documentation in Github. Storybook is running in the svelte-kit images. We have split the build into core images that install all dependencies but not the code. The idea is that we do not need to update dependencies that often and we often change the code. The split will make it easier for other developers to work on the project as they do not run into dependencies issues as much and will have a faster initial Docker build. ",
     "url": "https://naabu.github.io/naabu/explanations/docker#why-all-these-docker-compose-files",
     "relUrl": "/explanations/docker#why-all-these-docker-compose-files"
-  },"2": {
+  },"6": {
     "doc": "Whats up with Docker?",
     "title": "Whats up with Docker?",
     "content": " ",
     "url": "https://naabu.github.io/naabu/explanations/docker",
     "relUrl": "/explanations/docker"
-  },"3": {
+  },"7": {
     "doc": "Explanations",
     "title": "Explanations",
     "content": " ",
     "url": "https://naabu.github.io/naabu/explanations",
     "relUrl": "/explanations"
-  },"4": {
+  },"8": {
     "doc": "How to guides",
     "title": "How to guides",
     "content": " ",
     "url": "https://naabu.github.io/naabu/how-to-guides",
     "relUrl": "/how-to-guides"
-  },"5": {
+  },"9": {
     "doc": "Install a local environment",
     "title": "How to install the project for your local environment",
     "content": "A small guide on how to get the Tool to work locally. ",
     "url": "https://naabu.github.io/naabu/how-to-guides/install-local-dev#how-to-install-the-project-for-your-local-environment",
     "relUrl": "/how-to-guides/install-local-dev#how-to-install-the-project-for-your-local-environment"
-  },"6": {
+  },"10": {
     "doc": "Install a local environment",
     "title": "Local installation",
-    "content": "Requirements: . | Create a Firebase App | Store the config of Firebase in config/config-firebase.js (project settings =&gt; config) | Create an Algolia account and get the API configuration. | Algolia Admin API Key | Algolia Private key | Algolia public key. | . | Algolia Application Id and Algoliase search client should be in config/config-algolia.js | Algolia Admin key should be in algolia-secret-admin-api-key.txt | Algolia indexes should be created: dev_goals, dev_activities, and dev_maps | Install Docker and Docker Compose | . Installation steps: . | Run with Docker (first time it will take a while): docker-compose up -d . | In one terminal, go inside the svelte kit container: . | . | docker ps | docker exec -it naabu_sveltekit_1 bash | . | Run the install script (one time only) bash scripts/install.sh . | Run the Svelte Kit dev server in this container: npm run dev . | Open a new terminal and go inside the firebase emulator container docker exec -it naabu_firebase_1 bash and start the Firebase emulators: . | . npm run emulate . | Go to localhost:3000 and you should see the project and localhost:5001 to see the emulator UI of Firebase. | Errors? Reach out on Discord for support or create an Github Issue. | . ",
+    "content": "Requirements: . | Create a Firebase App | Store the config of Firebase in config/config-firebase.js (project settings =&gt; config) | Create an Algolia account and get the API configuration. | Algolia Admin API Key | Algolia Private key | Algolia public key. | . | Algolia Application Id and Algoliase search client should be in config/config-algolia.js | Algolia Admin key should be in algolia-secret-admin-api-key.txt | Algolia indexes should be created: dev_goals, dev_activities, and dev_maps | Install Docker and Docker Compose | . Installation steps: . | Run with Docker (first time it will take a while): docker-compose up -d . | In one terminal, go inside the svelte kit container: . | . | docker ps | docker exec -it naabu_sveltekit_1 bash | . | Install NPM packages from package.json.lock npm ci . | Run the Svelte Kit dev server in this container: npm run dev . | Open a new terminal and go inside the firebase emulator container docker exec -it naabu_firebase_1 bash and start the Firebase emulators: . | . npm run emulate . | Go to localhost:3000 and you should see the project and localhost:5001 to see the emulator UI of Firebase. | Errors? Reach out on Discord for support or create an Github Issue. | . ",
     "url": "https://naabu.github.io/naabu/how-to-guides/install-local-dev#local-installation",
     "relUrl": "/how-to-guides/install-local-dev#local-installation"
-  },"7": {
+  },"11": {
     "doc": "Install a local environment",
     "title": "Install a local environment",
     "content": " ",
     "url": "https://naabu.github.io/naabu/how-to-guides/install-local-dev",
     "relUrl": "/how-to-guides/install-local-dev"
-  },"8": {
+  },"12": {
     "doc": "Playwright Reference",
     "title": "Playwright references",
     "content": "Some helpful commands to use when writing Playwright tests . ",
     "url": "https://naabu.github.io/naabu/references/playwright/#playwright-references",
     "relUrl": "/references/playwright/#playwright-references"
-  },"9": {
+  },"13": {
     "doc": "Playwright Reference",
     "title": "Playwright cheatsheet:",
     "content": "await expect(page.locator()).toContainText(); await page.click(); await page.fill('', ''); await page.pause(); await expect(page.locator()).toBeVisible(); await expect(page.locator()).not.toBeVisible(); await page.selectOption('select#', ''); await expect(page.locator('')).toHaveValue(''); . ",
     "url": "https://naabu.github.io/naabu/references/playwright/#playwright-cheatsheet",
     "relUrl": "/references/playwright/#playwright-cheatsheet"
-  },"10": {
+  },"14": {
     "doc": "Playwright Reference",
     "title": "Playwright Reference",
     "content": " ",
     "url": "https://naabu.github.io/naabu/references/playwright/",
     "relUrl": "/references/playwright/"
-  },"11": {
+  },"15": {
+    "doc": "Plug-in API Reference",
+    "title": "Plugin reference",
+    "content": " ",
+    "url": "https://naabu.github.io/naabu/references/plugin/#plugin-reference",
+    "relUrl": "/references/plugin/#plugin-reference"
+  },"16": {
+    "doc": "Plug-in API Reference",
+    "title": "Plugin config.js settings",
+    "content": "| Config | type | Description | . | id | string | The plugin ID | . | name | string | Shows when user selects a plugin | . | description | string | Shows when user selects a plugin | . | canBeInterrupted | boolean | True if you support interruption in your plugin | . | canInterrupt | boolean | True if you want this plugin be used as interruption in other plugins | . | canBeObserved | boolean | True if you support being observed by your interruptions | . | canObserve | boolean | True if you support observing your parent plugins that you are interrupting | . | storage | array | Config your fields as object with id and name where store in data in this plugin | . | interruptionFields | array | add objects of fields with an id and a name of interruption data for this plugin | . Example: . const config = { id: \"multiple-choice\", name: \"Multiple choice\", description: \"Pick one of the options\", canBeInterrupted: false, canInterrupt: true, canBeObserved: false, canObserve: true, storage: [{ id: \"video\", name: \"Video\" }], interruptionFields: [{ id: \"timeInVideo\", name: \"Tijd in video\" }], } export default config; . ",
+    "url": "https://naabu.github.io/naabu/references/plugin/#plugin-configjs-settings",
+    "relUrl": "/references/plugin/#plugin-configjs-settings"
+  },"17": {
+    "doc": "Plug-in API Reference",
+    "title": "Plugin to be interrupted reference",
+    "content": ". | canBeInterrupted to true. | Set the interruptionFields in config. | Create InterruptFormField.svelte | Register the InterruptFormField.svelte in the plugin.js | Access the interruptions in Render.svelte with: export let interruptions = []; for (let i = 0; i &lt; interruptions.length; i++) { let interruption = interruptions[i]; if (interruption.data...) { | Dispatch interruption in Render.svelte: dispatch(\"interrupt\", { interruption: interruption }); . | Named slot interruption to display interruption in Render.svelte. &lt;slot name=\"interruption\" /&gt; . | Create an advance function to continue with the plugin after an interruption in Render.svelte export function advance() { . | . ",
+    "url": "https://naabu.github.io/naabu/references/plugin/#plugin-to-be-interrupted-reference",
+    "relUrl": "/references/plugin/#plugin-to-be-interrupted-reference"
+  },"18": {
+    "doc": "Plug-in API Reference",
+    "title": "Plugin to be observable reference",
+    "content": ". | Only plugins that can be interrupted can be observed. | canBeObservable to true in the plugin config.js | Provide a observe function in Render.svelte with: export function observe() { . | Dispatch observeComplete event when observing is done. dispatch(\"observeComplete\"); . | . ",
+    "url": "https://naabu.github.io/naabu/references/plugin/#plugin-to-be-observable-reference",
+    "relUrl": "/references/plugin/#plugin-to-be-observable-reference"
+  },"19": {
+    "doc": "Plug-in API Reference",
+    "title": "Plug-in API Reference",
+    "content": " ",
+    "url": "https://naabu.github.io/naabu/references/plugin/",
+    "relUrl": "/references/plugin/"
+  },"20": {
     "doc": "References",
     "title": "References",
     "content": "Storybook design components . ",
     "url": "https://naabu.github.io/naabu/references",
     "relUrl": "/references"
-  },"12": {
+  },"21": {
     "doc": "Storybook Reference",
     "title": "Storybook Reference",
-    "content": "Storybook design components . TODO: explain why and how we use storybook. ",
+    "content": "Storybook design components . ",
     "url": "https://naabu.github.io/naabu/references/storybook-ref/",
     "relUrl": "/references/storybook-ref/"
-  },"13": {
+  },"22": {
     "doc": "How to convert Tailwind UI transitions to Svelte",
     "title": "How to make transitions with tailwind and Svelte.",
     "content": "TailwindUI uses Tailwind classes for transitions (e.g. motion and slide in). Svelte has its own motion API but it is not compatible to this workflow with classes. We make use of the Svelte Class Transition tool to be able to add classes during transitions. You can use the converting table below to get classes from TailwindUI and put them in a Transition object. ",
     "url": "https://naabu.github.io/naabu/how-to-guides/tailwind-ui-to-svelte#how-to-make-transitions-with-tailwind-and-svelte",
     "relUrl": "/how-to-guides/tailwind-ui-to-svelte#how-to-make-transitions-with-tailwind-and-svelte"
-  },"14": {
+  },"23": {
     "doc": "How to convert Tailwind UI transitions to Svelte",
     "title": "Converting table",
     "content": "First import the Transition class import Transition from 'svelte-class-transition'; . Convert Tailwind UI classes to this component: . | Entering = inTransition | Entering from = inState | Entering to = onState | Leaving = outTransition | Leaving from = Not there and not needed | Leaving To = outState | . ",
     "url": "https://naabu.github.io/naabu/how-to-guides/tailwind-ui-to-svelte#converting-table",
     "relUrl": "/how-to-guides/tailwind-ui-to-svelte#converting-table"
-  },"15": {
+  },"24": {
     "doc": "How to convert Tailwind UI transitions to Svelte",
     "title": "Example:",
     "content": "Tailwind UI gives these types of documentation for adding transitions: . &lt;!-- Off-canvas menu, show/hide based on off-canvas menu state. Entering: \"transition ease-in-out duration-300 transform\" From: \"-translate-x-full\" To: \"translate-x-0\" Leaving: \"transition ease-in-out duration-300 transform\" From: \"translate-x-0\" To: \"-translate-x-full\" --&gt; . We can convert this to this Svelte component . ``` // Toggle shows or hide the content in the transition let toggle= false . … ... // Content goes here for example a sliding sidebar ",
     "url": "https://naabu.github.io/naabu/how-to-guides/tailwind-ui-to-svelte#example",
     "relUrl": "/how-to-guides/tailwind-ui-to-svelte#example"
-  },"16": {
+  },"25": {
     "doc": "How to convert Tailwind UI transitions to Svelte",
     "title": "How to convert Tailwind UI transitions to Svelte",
     "content": " ",
     "url": "https://naabu.github.io/naabu/how-to-guides/tailwind-ui-to-svelte",
     "relUrl": "/how-to-guides/tailwind-ui-to-svelte"
-  },"17": {
+  },"26": {
     "doc": "Test markdown page",
     "title": "Markdown!",
     "content": "Test some code . ",
     "url": "https://naabu.github.io/naabu/tutorials/test#markdown",
     "relUrl": "/tutorials/test#markdown"
-  },"18": {
+  },"27": {
     "doc": "Test markdown page",
     "title": "Test markdown page",
     "content": " ",
     "url": "https://naabu.github.io/naabu/tutorials/test",
     "relUrl": "/tutorials/test"
-  },"19": {
+  },"28": {
     "doc": "Tutorials",
     "title": "Tutorials",
     "content": " ",
     "url": "https://naabu.github.io/naabu/tutorials",
     "relUrl": "/tutorials"
-  },"20": {
+  },"29": {
     "doc": "Why do we use Firebase for this tool?",
     "title": "Why do we use Firebase and not an open source stack?",
     "content": " ",
     "url": "https://naabu.github.io/naabu/explanations/why-firebase#why-do-we-use-firebase-and-not-an-open-source-stack",
     "relUrl": "/explanations/why-firebase#why-do-we-use-firebase-and-not-an-open-source-stack"
-  },"21": {
+  },"30": {
     "doc": "Why do we use Firebase for this tool?",
     "title": "Technical reasons",
     "content": "Outsourcing infrastructure work . From experience, setting up and maintaining infrastructure can take a lot of work. Using an system like Firebase outsources much of this work without extra cost to cloud resources. The Naabu tool needs a place to run on and we would have hosted it with a cloud solution anyway and Google cloud is a good fit because of support for Tensorflow. Scalable by default . The Firebase stack with the Firestore and Firebase functions are scalable by design. All the scaling will be done automatically and there should be little technical work needed when the traffic increases exponentially. Attributed-based access control with Firestore. Authentication and authorization is an important aspect to get right. Firebase Auth lets us pick between many providers so users can use there Google account to create an account for Naabu. Furthermore, it has support for custom Auth systems which should help when you need to make an custom integrations for school systems. For the authorization part it is important to be able to specify who has access to what data. The most flexible way of creating such a system is using attributed-based access control (ABAC). Firebase integrated a rules system with Firestore where you can determine access based on attributes. Event driven backend architecture build on top of Google Cloud functions. Event driven architecture’s are useful to keep the code clean. However, it is difficult to set up yourself. Every Firebase Function is transferer to a Google Cloud function and will run on its own machine. They are triggered by events from Firestore and Firebase Auth and make the system flexible to extend. One use case we have is to use Python Google Functions to retrieve the best activities for users using machine learning. Python functions can also trigger on the Firebase events making the whole system pretty extensible to anything we need. Alternatives to Google functions are AWS Lambda on the Amazon cloud. A buzzword that is often used to describe these functions is serverless architecture. This serverless paradigm plays well with SvelteKit that embraces this serverless paradigm that can be contrasted to running your own node.js servers. ",
     "url": "https://naabu.github.io/naabu/explanations/why-firebase#technical-reasons",
     "relUrl": "/explanations/why-firebase#technical-reasons"
-  },"22": {
+  },"31": {
     "doc": "Why do we use Firebase for this tool?",
     "title": "Other reasons",
     "content": "Using a large name . Hosting on the Google Cloud can help in adopting this solution for educational institutions that are used to use Google products. People have some trust in large institutions like Google compared to some more unknown but growing solution like Vercel or Netifly. Firebase popularity . There are many installations on Firebase on the web. Furthermore, they have a large user base with Android developers. Many developers have experience with Firebase and many more at least know the name. Documentation . The documentation of Firebase is comprehensive and there are many additional learning opportunities to learn Firebase. ",
     "url": "https://naabu.github.io/naabu/explanations/why-firebase#other-reasons",
     "relUrl": "/explanations/why-firebase#other-reasons"
-  },"23": {
+  },"32": {
     "doc": "Why do we use Firebase for this tool?",
     "title": "Downsides of using Firebase",
     "content": "Open source . | Firebase itself is not open source and we can only host it on the Google Cloud. The Firebase JS Sdk has an open source license. | . Some people can use this non-open source as the reason for not using this project. Server Side Rendering (SSR) support . With a serious attempt to get SSR working with Firebase we ran into many issues. It seems that Firebase is still behind supporting the serverless paradigm related to SSR. They do support server side rendering but expect special server code that handles the rendering. With SvelteKit we have the same code run both on the initial load of the server and on the client. SvelteKit support . Svelte Kit support adapters but Firebase is not an official adapter. There is a community SvelteKit Firebase adapter that works well and contains very little magic. What it does is that it moves the compiled SvelteKit code to a functions/ssr directory and in the functions/index.js file we can write our Firebase functions code. For SvelteKit it creates one ssr function that executes the SvelteKit code. With Firebase hosting we can serve this function from a domain. ",
     "url": "https://naabu.github.io/naabu/explanations/why-firebase#downsides-of-using-firebase",
     "relUrl": "/explanations/why-firebase#downsides-of-using-firebase"
-  },"24": {
+  },"33": {
     "doc": "Why do we use Firebase for this tool?",
     "title": "When should we support other more open stacks?",
     "content": "It would be great if we would be able to support multiple solutions and use an Adapter like system to host our code anywhere people want. Unfortunately, this is require a massive undertaken because every platform has its own special syntax and solutions. The codebase would be more difficult to work with and maintain and in case there are issues we would have a harder time solving issues with multiple stacks. The only viable option to support multiple systems is to have a larger community working on it. ",
     "url": "https://naabu.github.io/naabu/explanations/why-firebase#when-should-we-support-other-more-open-stacks",
     "relUrl": "/explanations/why-firebase#when-should-we-support-other-more-open-stacks"
-  },"25": {
+  },"34": {
     "doc": "Why do we use Firebase for this tool?",
     "title": "Why do we use Firebase for this tool?",
     "content": " ",
     "url": "https://naabu.github.io/naabu/explanations/why-firebase",
     "relUrl": "/explanations/why-firebase"
-  },"26": {
+  },"35": {
     "doc": "Why do we need this project?",
     "title": "Why are we building this project",
     "content": "Naabu wants to become the tool teachers, curriculum designers, and researchers use to improve learning outcomes. I envision an open system like Wikipedia where different disciplines can contribute to something greater than one EdTech project or research study. We base our platform on learning goals, activities, and course modules and attempt to optimize user experience by applying machine learning algorithms and gamification elements. My Niels van der Molen software engineering mindset focuses on up-to-date educational scientific understanding and experiments (e.g., KLI framework and learning curves). All the curriculum and code will be open to being used and modified by anyone, which should significantly reduce the costs for researchers to build their experiments from scratch. The technology stack is an easy-to-learn javascript framework called Svelte and scalable technology with Firebase on the Google Cloud connecting with Tensorflow algorithms written in Python. Furthermore, I would be delighted to work with researchers to design experiments on the platform and would be willing to donate time and effort to set up experiment . ",
     "url": "https://naabu.github.io/naabu/explanations/why-this-project#why-are-we-building-this-project",
     "relUrl": "/explanations/why-this-project#why-are-we-building-this-project"
-  },"27": {
+  },"36": {
     "doc": "Why do we need this project?",
     "title": "Project Team",
     "content": "MSc Niels van der Molen. Father of two kids. Degrees in computer science and human media interaction. I am the son of a geography teacher, and my significant other and mother of my children is an active math teacher and has a private tutor business. I got professional experience working on community software for Greenpeace and the UN, building large systems where people interact and connect. Furthermore, I have deep knowledge about APIs and helped to make an online course with SymfonyCasts. My strength is doing software architecture for complex systems and executing software engineering. My education allows me not to lose perspective on the social side of technology. The team consists of one, but I feel not alone. In the last seven months of building this project, I gathered a community of people interested in the development of Naabu on Twitch. I am building the tool live on stream every workday, and in the last 30 days. I made friends with a machine learning specialist from Greece, an expert in custom video players from Brazil, and a freshman computer science student from Germany who is learning Svelte and is eager to contribute to the project. ",
     "url": "https://naabu.github.io/naabu/explanations/why-this-project#project-team",
     "relUrl": "/explanations/why-this-project#project-team"
-  },"28": {
+  },"37": {
     "doc": "Why do we need this project?",
     "title": "A detailed description of the tool and the execution plan",
     "content": "The tool allows creating a library of learning goals using a Wikipedia-like consensus approach. Teachers can create interactive learning activities and attach them to the learning goals. With this library of learning goals and activities, teachers can create new course modules where they just have to specify the learning goals they are teaching in class. Currently, I see the course module as temporary units expected to be online from a couple of weeks till a few months. Course modules should be easy to make, and as they run temporarily, they could serve as valuable units for experimentation (e.g., assign groups to different course modules). The course module turns into a gamified and fun experience for the students. The student will select activities from various activities given by deep learning algorithms trained on the data gathered from user interactions. In 2021, I made the first version of a working deep learning algorithm using engagement data given by the user. The algorithm is ready to be deployed after collecting enough training data. The plan is also to create a similar algorithm focused on the learning outcomes by applying moment-by-moment learning curves. The teacher would still control the content served in the course module on a high level and can override the algorithms by assigning activities manually. The tool should visualize the learning outcomes dashboards displaying moment-to-moment learning curves for students, teachers, curriculum designers, and researchers. The tool will have a dashboard on the course modules, activities, learning goals, individual students, and teachers. This tool should make the work of a teacher much easier and more valuable. First, most teachers only need to specify what they want the class to learn and not select individual activities. Second, because everybody contributes to one extensive educational library, the workload is shared and can be way more extensive than other curriculum resources. Third, any teacher that has a great lesson or activity in mind can share it, and the lesson can be distributed quickly to all teachers and their students. The use of the tool could lead to a burst of distribution of new learning activities that we would otherwise never have had a large audience. There is an opportunity to bring together learning engineering ideas in an open-source project. For example, this tool competition will have over 800 project ideas that most likely do turn into final working projects. With an easy-to-use open-source project, people can play with ideas themselves without needing a significant initial investment to get things going. Reducing the costs of new initiatives will increase the impact of each funding dollar. ",
     "url": "https://naabu.github.io/naabu/explanations/why-this-project#a-detailed-description-of-the-tool-and-the-execution-plan",
     "relUrl": "/explanations/why-this-project#a-detailed-description-of-the-tool-and-the-execution-plan"
-  },"29": {
+  },"38": {
     "doc": "Why do we need this project?",
     "title": "Research base and potential for impact",
     "content": "Only a few differences in instructional content can lead to a fast number of learning experience journeys. Koedinger et al. estimated that there are quickly hundreds of trillion ways to design instructions. Every new instruction technique increases the number of options exponentially. Furthermore, the evidence shows that there are no easy solutions like learning styles for teaching that generally apply. Consequently, not all the learning experiences on the platform will be good. Still, we hope by using data and tools to visualize learning, students, teachers, curriculum designers, and researchers have the resources available to make it better. All stakeholders in education want a good education. With all the technological advantages globally, there is a feeling that education can benefit from applying better technology. Unfortunately, most working technologies are closed source, and once they establish a place in the education market, they stop innovating. An open, collaborative community that produces quality content and proven learning results could put counterbalance pressure on other for-profit companies to be more innovative and open. For example, Microsoft is now a significant contributor to the Linux ecosystem. The first iterations of Naabu focus on complex high school math where there is a small amount of free online content available for students. The initial curriculum built with the tool can potentially impact around 250.000 high school students in the Netherlands (see Table 2), where a high proportion relies on private tutoring (see Table 1). The learning topics are complicated enough that it is a big challenge to create a curriculum that works, especially for the group that needs private tutoring. Once we can demonstrate a learning tool that works for one math topic, there are many opportunities for many different companies and institutions to receive support to tackle other math topics and for different target groups. For example, the Gates foundation has issued grants for specific solutions for students to learn algebra 1 in the US. It would be great if other companies and institutions could use this tool to improve learning outcomes for the more marginalized student groups across the globe. Research in Content standards, Bloom’s taxonomy, and the work on the KLI framework and Understanding by design strengthen the case that it is probably best to start thinking first about what the students should learn before planning learning activities. When you can specifically categorize what you want the students to learn, the assessments and learning activities are often easy to create. However, constructing reasonable learning goals is complex and a lot of work, and in reality, many teachers fall back on teaching the default curriculum provided by the educational content providers. Teachers can become better at what they do when exposed to the learning goals behind the curriculum and the learning outcomes they generate. This tool makes it easy for curriculum designers to create learning goals while not losing complexity. Moment-by-moment learning curves are a way to measure the effect size of individual learning activities on learning goals, and they are used in state-of-the-art educational research to determine the effect on interventions. I see them as a successor of Hattie’s effect size calculations because we can use them to calculate the effect of individual activities and have more statistical validity. A significant requirement for these learning curves to be calculated is that they have a relation to a learning goal or skill. Luckily, our whole system is built around learning goals, so it should not be too challenging to use moment-by-moment learning curves. The big problem to solve in education is offering students activities that are both engaging (they will be motivated to learn) and maximizing the learning outcomes (e.g., they learn the subjects robustly). The comparison between Intelligent tutoring systems and ASSISTments shows the problems of having a complete artificial intelligence approach versus an approach without any machine learning. A hybrid solution is needed because of the large size of the problem. Machine learning tools are good at interpreting large quantities of data, and human teachers are good at spotting complex patterns for individual students. ",
     "url": "https://naabu.github.io/naabu/explanations/why-this-project#research-base-and-potential-for-impact",
     "relUrl": "/explanations/why-this-project#research-base-and-potential-for-impact"
-  },"30": {
+  },"39": {
     "doc": "Why do we need this project?",
     "title": "Attention to equity",
     "content": "There is a growing divide of opportunities for learning in the Netherlands where the group that can afford it is spending money on private tutoring. Table 1 shows how much money is spent on education support by families every year. I suspect a large proportion goes to support math education. A free tool that regular teachers could use as extra support with homework could reduce the growing inequality of learning opportunities. It is better for a society that all people can grow academically when they have the potential. The resources of your parents should not be a (significant) factor. |   |   |   |   |   |   |   |   |   |   |   |   | . | Year | 2005 | 2010 | 2011 | 2012 | 2013 | 2014 | 2015 | 2016 | 2017 | 2018 | 2019 | . | Money spent in millions | 46 | 93 | 99 | 113 | 116 | 136 | 157 | 171 | 210 | 254 | 290 | . Table 1. Estimated money spent by families to education support for secondary education (Source: an official statistics institution of the government in the Netherlands) . ",
     "url": "https://naabu.github.io/naabu/explanations/why-this-project#attention-to-equity",
     "relUrl": "/explanations/why-this-project#attention-to-equity"
-  },"31": {
+  },"40": {
     "doc": "Why do we need this project?",
     "title": "Learning Engineering",
     "content": "We will collect the student activity on the tool (e.g., data related to answers they give on quiz questions), the students’ self-reported engagement (too easy, just right, and too difficult), and regular web and video statistics like watch time. We also store the algorithm’s output of selecting the activities and the calculated moment-by-moment learning curves. Combining this data could be a good source for a Kaggle dataset for machine learning researchers to gather insights. I will use Datashop as a reference to structure the data to be helpful to scientists in the field. A big part of the data collection will be creating a model of the students connected to the learning goals. What does the student know? What mistakes did they make? How much time does he spend on the platform? Are there patterns we can recognize that lead to new features? An example is the implementation of Duolingo using a model that can help predict behavior and learning outcomes. Instead of optimizing for engaging as they do in Duolingo, we would allow the teacher or student to determine what percentage they want to optimize for learning outcomes or engagement. I wish we could make the data available as Wikimedia does with regular automated data dumps for everyone to download. The caveat is that the EU GDPR law is respected. No personally identifiable data is in the database unless a student explicitly agrees on specific features to be shared (like gender or age). A potential future feature could be to ask students or teachers to share detailed information for particular experiments only available to specific researchers. Besides just having the data, the code is also open-source, so a researcher could use it to host the tool on a new website in a matter of days for custom experiments. Furthermore, the visualization with the moment-to-moment learning curves can be a tool for scientists to investigate differences between learning trajectories. ",
     "url": "https://naabu.github.io/naabu/explanations/why-this-project#learning-engineering",
     "relUrl": "/explanations/why-this-project#learning-engineering"
-  },"32": {
+  },"41": {
     "doc": "Why do we need this project?",
     "title": "Plan for growth",
     "content": "The tool should work on a large scale (e.g., Wikipedia) and a small scale (e.g., one module for one class). Our focus is on creating content for mathematical subjects tested at final examinations in the Netherlands. Where the student age is between 16 and 18. | Type of education | Total | Year 4 (age 16) | Year 5 (age 17) | Year 6 (age 18) | . | Vwo | 130.051 | 43.420 | 45.513 | 41.118 | . | Havo | 118.186 | 61.788 | 56.408 |   | . | Total | 248.237 |   |   |   | . Table 2. The number of students in the target audience for initial modules. (Source: an official statistics institution of the government in the Netherlands) . From one of my previous project, we can reuse 1000+ interactive math videos linked to a curriculum book for the target audience of upper high school math students. These videos contain theory lessons and guided practice examples similar to the students’ textbooks. The plan is to start small, on one math topic at a time. As a test, I started adding learning goals for students to learn how to create exponential formulas. Most of my partner’s tutoring service students have had great difficulties learning this topic. When adding the 80 related interactive videos to learning goals, I identified significant gaps in content for specific learning goals. Most of the content in the videos is for teaching students to do the calculations without any more profound understanding. Focusing on different categories of learning goals like classification could lead to more robust learning. So one of the first steps is to add to the content to fill in the gaps. One example is that there is little practice content asking students to classify if a relationship is linear or exponential. Or they get the insight into why an exponential connection decreases when a growth factor is below 1. We plan to create new interactive activities to serve these kinds of learning goals, like a dragging widget where students need to group items in buckets. Furthermore, there is potential to create specific custom interactive activities tailed to exponential growth. The technology we use has excellent support to make great tools for learning with complicated interactions without much effort. Once a version of the exponential growth module is complete, we will advertise it on search engines, and students who struggle with a topic will engage with the course. The keywords for topics related to exponential growth do not cost much compared to private tutoring. When we gathered data that students are learning the course, the plan is to roll it out to teachers in the Netherlands. Then the hope is that the adoption will grow somewhat organically and that we can convince teachers also to contribute content themselves and run their course modules with the tool. ",
     "url": "https://naabu.github.io/naabu/explanations/why-this-project#plan-for-growth",
     "relUrl": "/explanations/why-this-project#plan-for-growth"
-  },"33": {
+  },"42": {
     "doc": "Why do we need this project?",
     "title": "Why do we need this project?",
     "content": "Last updated: 19-02-2022 . ",
     "url": "https://naabu.github.io/naabu/explanations/why-this-project",
     "relUrl": "/explanations/why-this-project"
-  },"34": {
+  },"43": {
     "doc": "How to work with Firebase",
     "title": "How to guide of using Firebase",
     "content": "Useful how to guide on how to use Firebase in the project. ",
     "url": "https://naabu.github.io/naabu/how-to-guides/work-with-firebase#how-to-guide-of-using-firebase",
     "relUrl": "/how-to-guides/work-with-firebase#how-to-guide-of-using-firebase"
-  },"35": {
+  },"44": {
     "doc": "How to work with Firebase",
     "title": "Where to write security rules",
     "content": "firestore.rules file in the root directory. ",
     "url": "https://naabu.github.io/naabu/how-to-guides/work-with-firebase#where-to-write-security-rules",
     "relUrl": "/how-to-guides/work-with-firebase#where-to-write-security-rules"
-  },"36": {
+  },"45": {
     "doc": "How to work with Firebase",
     "title": "Where to place function code",
     "content": "In the functions/ directory. ",
     "url": "https://naabu.github.io/naabu/how-to-guides/work-with-firebase#where-to-place-function-code",
     "relUrl": "/how-to-guides/work-with-firebase#where-to-place-function-code"
-  },"37": {
+  },"46": {
     "doc": "How to work with Firebase",
     "title": "How to deploy to production.",
     "content": "Login to Firebase: firebase login . Build the SvelteKit code: npm run build . Deploy to an Firebase environment (This will take some minutes): firebase deploy . ",
     "url": "https://naabu.github.io/naabu/how-to-guides/work-with-firebase#how-to-deploy-to-production",
     "relUrl": "/how-to-guides/work-with-firebase#how-to-deploy-to-production"
-  },"38": {
+  },"47": {
     "doc": "How to work with Firebase",
     "title": "Updated Firestore indexes from Firebase UI",
     "content": "firebase firestore:indexes &gt; firestore.indexes.json . ",
     "url": "https://naabu.github.io/naabu/how-to-guides/work-with-firebase#updated-firestore-indexes-from-firebase-ui",
     "relUrl": "/how-to-guides/work-with-firebase#updated-firestore-indexes-from-firebase-ui"
-  },"39": {
+  },"48": {
     "doc": "How to work with Firebase",
     "title": "How to work with Firebase",
     "content": " ",

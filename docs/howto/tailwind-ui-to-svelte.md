@@ -12,10 +12,11 @@ permalink: /how-to-guides/tailwind-ui-to-svelte
 We make use of the [Svelte Class Transition](https://github.com/gawlk/svelte-class-transition) tool to be able to add classes during transitions. You can use the converting table below to get classes from TailwindUI and put them in a Transition object.
 
 ## Converting table
-First import the Transition class
-``
+First import the Transition class:
+
+```
   import Transition from 'svelte-class-transition';
-``
+```
 
 Convert Tailwind UI classes to this component:
 

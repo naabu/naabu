@@ -13,6 +13,7 @@
   import { createRevision } from "$lib/Internals/Revision/helper";
   import Button from "$lib/Internals/Button/Button.svelte";
   import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
+  import { t } from "svelte-intl-precompile";
   export let firebase;
   export let goal;
   let draftId;
@@ -113,7 +114,7 @@
         await collectionRef.doc(activity.id).update(activityData);
         goto("/lerarenkamer/activiteit/" + activity.id + "/preview");
         alert.success = true;
-        alert.successTitle = "Activiteit gemaakt";
+        alert.successTitle = $t("activity-create-success-title");
         alert.successMessage = "id: " + result.id;
         draftId = result.id;
       } catch (e) {
@@ -153,8 +154,7 @@
       <div class="flex-1 min-w-0">
         <div>
           <p class="max-w-2xl text-sm text-gray-500">
-            Maak hier elke soort activiteit, bijvoorbeeld een uitleg video of
-            quiz.
+            {$t("activity-create-title")}
           </p>
         </div>
       </div>
@@ -164,10 +164,7 @@
     class="space-y-8 divide-y divide-gray-200"
     on:submit|preventDefault={formSubmit}
   >
-    <ActivityForm
-      on:toLearningGoals={goBackToSearchGoals}
-      bind:activity
-    />
+    <ActivityForm on:toLearningGoals={goBackToSearchGoals} bind:activity />
 
     <div class="">
       <div class="pt-5">
@@ -177,7 +174,7 @@
             isSubmit={true}
             bind:isDisabled={buttonDisabled}
             dataTest="submit-activity-create-button"
-            content="Concept opslaan en bekijken"
+            content={$t("activity-save-concept-and-look")}
           />
         </div>
       </div>

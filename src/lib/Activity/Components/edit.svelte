@@ -11,7 +11,8 @@
     getDifferencesBetweenRevisions,
   } from "$lib/Internals/Revision/helper";
   import Button from "$lib/Internals/Button/Button.svelte";
-import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
+  import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
+  import { t } from "svelte-intl-precompile";
 
   let y;
   export let previousActivity;
@@ -69,10 +70,10 @@ import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
       try {
         await ref.update(activityData);
         alert.success = true;
-        alert.successTitle = "Activiteit gewijzigd";
+        alert.successTitle = $t("activity-changed-successfully");
         alert.successMessage = "id: " + ref.id;
       } catch (e) {
-        console.error("Error adding documfent: ", e);
+        console.error("Error adding document: ", e);
         alert.error = true;
         alert.errorCode = e.code;
         alert.errorMessage = e.message;
@@ -107,10 +108,9 @@ import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
           <div>
             <p class="max-w-2xl text-sm text-gray-500">
               {#if activity.status === "draft"}
-                Maak hier elke soort activiteit, bijvoorbeeld een uitleg video
-                of quiz.
+                {$t("activity-create-title")}
               {:else}
-                Wijzig hier je activiteit
+                {$t("activity-edit-title")}
               {/if}
             </p>
           </div>
@@ -130,7 +130,7 @@ import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
               color="primary"
               isSubmit={true}
               dataTest="edit-activity-submit-button"
-              content="Concept opslaan en bekijken"
+              content={$t("activity-save-concept-and-look")}
             />
           </div>
         </div>

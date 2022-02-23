@@ -29,6 +29,9 @@ baseurl: /naabu
 twitter_username: jekyllrb
 github_username:  jekyll
 
+kramdown:
+  syntax_highlighter: coderay
+  
 # Build settings
 remote_theme: pmarsceill/just-the-docs
 plugins:

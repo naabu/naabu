@@ -1,5 +1,5 @@
 <script>
-  import ActivityDiff from "$lib/Internals/Revision/activityDiff.svelte";
+  import ActivityDiff from "$lib/Internals/Revision/ActivityDiff.svelte";
   import GoalDiff from "$lib/Internals/Revision/goalDiff.svelte";
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";

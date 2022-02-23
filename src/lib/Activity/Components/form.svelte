@@ -12,6 +12,8 @@
   import NumberInput from "$lib/Internals/FormFields/NumberInput.svelte";
   import FormField from "$lib/Internals/FormFields/FormField.svelte";
   import AdditionalFormText from "$lib/Internals/FormFields/AdditionalFormText.svelte";
+  import PluginForm from "$lib/Internals/Plugin/Form.svelte";
+
   const dispatch = createEventDispatcher();
 
   export let activity;
@@ -101,7 +103,7 @@
   <FormField title="SVG" forId="svg">
     <Textarea id="svg" rows="5" bind:value={activity.svg} />
   </FormField>
-
+<!-- 
   <FieldSet
     title="Video"
     description="Specificeer video gerelateerde informatie"
@@ -113,9 +115,13 @@
         bind:value={activity.video.vimeoId}
       />
     </FormField>
-  </FieldSet>
-
+  </FieldSet> -->
+<!-- 
   <FieldSet title="Quiz" description="Specificeer vragen en quizjes">
     <QuizForm bind:quizzes={activity.quizzes} showTimeInVideo={true} />
+  </FieldSet> -->
+
+  <FieldSet title="Plugins" description="Voeg functionaliteit toe">
+    <PluginForm bind:plugins={activity.plugins} />
   </FieldSet>
 </div>

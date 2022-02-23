@@ -1,5 +1,6 @@
 import preprocess from "svelte-preprocess";
 import firebaseAdapter from "svelte-adapter-firebase";
+import path from 'path'
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
@@ -11,15 +12,16 @@ const config = {
 
   kit: {
     ssr: false,
-    // hydrate the <div id="svelte"> element in src/app.html
     adapter: firebaseAdapter(),
     target: '#svelte',
     vite: {
-      // optimizeDeps: {
-      // 	exclude: ['@algolia/autocomplete-js']
-      // },
       ssr: {
         noExternal: ['@algolia/autocomplete-js']
+      },
+      resolve: {
+        alias: {
+          '@plugins': path.resolve('./plugins')
+        }
       }
     }
   }

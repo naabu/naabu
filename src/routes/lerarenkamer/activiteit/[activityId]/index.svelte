@@ -33,6 +33,7 @@
   bind:firebase
   bind:activity
   bind:cloneActivity={previousActivity}
+  loadComponent={"form"}
 />
 
 <Sidebar bind:menuitems>

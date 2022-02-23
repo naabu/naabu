@@ -33,10 +33,10 @@ Installation steps:
 - ``docker ps``
 - ``docker exec -it naabu_sveltekit_1 bash``
 
-3. Run the install script (one time only)
-``bash scripts/install.sh``
+3. Install NPM packages from package.json.lock
+``npm ci``
 
-4. Run the Svelte Kit dev server in this container:
+1. Run the Svelte Kit dev server in this container:
 ``npm run dev``
 
 5. Open a new terminal and go inside the firebase emulator container

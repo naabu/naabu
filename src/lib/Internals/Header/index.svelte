@@ -23,7 +23,7 @@
     }
   }
 
-  $: if ($page.path) {
+  $: if ($page && $page.path) {
     mainMenuLinks = [
       {
         url: "/",

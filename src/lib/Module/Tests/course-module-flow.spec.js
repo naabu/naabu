@@ -32,7 +32,7 @@ test('Create course modules @module', async ({ page, domain, showAllConsole }) =
   await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/map/course-test-map/add');
   await page.waitForSelector('[data-test=complete]');
-  await page.pause();
+
   // Go to course module create form.
   await page.click('[data-test=user-menu]');
   await page.waitForTimeout(500);
@@ -86,7 +86,6 @@ test('Create course modules @module', async ({ page, domain, showAllConsole }) =
   await page.fill('#pointX', '450');
   await page.fill('#pointY', '550');
   await page.click('[data-test=add-path-point-button]');
-  await page.pause();
   await page.waitForSelector('[data-test=path-input-x-1]');
   await expect(page.locator('[data-test=path-input-x-1]')).toHaveValue('450');
   await expect(page.locator('[data-test=path-input-y-1]')).toHaveValue('550');

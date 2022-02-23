@@ -16,7 +16,6 @@
   id="radioNoDescriptionNoDefault"
   name="Radio with no description and no default"
   args={{
-    title: "What content type do you like best?",
     options: [
       {
         label: "Map",
@@ -39,12 +38,10 @@
   }}
 />
 
-
 <Story
   id="radioWithDescriptionDefault"
   name="Radio with description and default"
   args={{
-    title: "What tests do you like best?",
     selectedValue: "summative",
     options: [
       {
@@ -54,7 +51,8 @@
       },
       {
         label: "Summative assesments",
-        description: "Formal feedback to compare where you stand against others",
+        description:
+          "Formal feedback to compare where you stand against others",
         value: "summative",
       },
       {

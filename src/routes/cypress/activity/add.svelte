@@ -20,24 +20,15 @@
       svg: "",
       title: title,
       type: "explanation",
-      video: {
-        vimeoId: 604675909,
-      },
+
     };
     if (hasQuiz) {
-      data.quizzes = [
-        {
-          answers: [
-            { answer: "1", correct: false },
-            { answer: "2", correct: true },
-          ],
-          id: "sg1dr",
-          question: "1+1=",
-          timeInVideo: 2,
-          type: "multiple_choice",
-        },
-      ];
+      data.plugins = "[{\"pluginId\":\"vimeo-player\",\"order\":0,\"data\":{\"video\":{\"vimeoId\":604675909}},\"plugins\":[{\"pluginId\":\"multiple-choice\",\"order\":0,\"data\":{\"answers\":[{\"answer\":\"1\",\"correct\":false},{\"answer\":\"2\",\"correct\":true}],\"question\":\"1+1=\"},\"interruptionData\":{\"timeInVideo\":2}}]}]";
     }
+    else {
+      data.plugins = "[{\"pluginId\":\"vimeo-player\",\"order\":0,\"data\":{\"video\":{\"vimeoId\":604675909}}}]";
+    }
+  
     return data;
   }
 

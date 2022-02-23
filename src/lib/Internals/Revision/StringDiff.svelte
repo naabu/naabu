@@ -29,9 +29,7 @@
           </div>
 
           <div class="grid gap-4 grid-cols-2 mt-4 px-4 pb-5 sm:p-6 sm:pt-0">
-            <div 
-              data-test="{title}-old"
-            >
+            <div data-test="{title}-old">
               {old}
             </div>
 

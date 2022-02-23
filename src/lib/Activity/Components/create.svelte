@@ -5,7 +5,6 @@
   import ActivityForm from "$lib/Activity/Components/form.svelte";
   import { onMount } from "svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
-  import { renderKatexOutput } from "$lib/Internals/Misc/helper.js";
   import {
     getActivitySaveData,
     getDefaultEmptyActivity,
@@ -13,6 +12,7 @@
   import { goto } from "$app/navigation";
   import { createRevision } from "$lib/Internals/Revision/helper";
   import Button from "$lib/Internals/Button/Button.svelte";
+  import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
   export let firebase;
   export let goal;
   let draftId;
@@ -90,6 +90,8 @@
     if ($session.user) {
       let activityData = getActivitySaveData(activity);
 
+      activityData.plugins = getPluginDataFromForm(activity.plugins);
+
       activityData.authorId = $session.user.uid;
       alert = getDefaultAlertValues();
       try {
@@ -162,7 +164,10 @@
     class="space-y-8 divide-y divide-gray-200"
     on:submit|preventDefault={formSubmit}
   >
-    <ActivityForm on:toLearningGoals={goBackToSearchGoals} bind:activity />
+    <ActivityForm
+      on:toLearningGoals={goBackToSearchGoals}
+      bind:activity
+    />
 
     <div class="">
       <div class="pt-5">

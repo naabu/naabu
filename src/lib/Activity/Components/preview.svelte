@@ -16,6 +16,7 @@
     getDifferencesBetweenRevisions,
   } from "$lib/Internals/Revision/helper";
   import Button from "$lib/Internals/Button/Button.svelte";
+  import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
   export let firebase;
   export let showActivity;
   export let activity;
@@ -82,6 +83,10 @@
             let previousRevision = previousRevisionSnap.data();
             let sortListOrder = getActivitySort();
 
+            if (activity.plugins) {
+              activity.plugins = getPluginDataFromForm(activity.plugins);
+            }
+
             let differences = getDifferencesBetweenRevisions(
               previousRevision,
               activity,
@@ -143,6 +148,11 @@
         activityRef.update(activityData);
 
         let sortListOrder = getActivitySort();
+
+        if (activity.plugins) {
+          activity.plugins = getPluginDataFromForm(activity.plugins);
+        }
+        
         let differences = getDifferencesBetweenRevisions(
           {},
           activity,

@@ -8,10 +8,10 @@ permalink: /how-to-guides/create-interruption-plugin
 # Guide to create a plugin that can be interrupted.
 
 ## Step 1
-Follow [Guide to create a plugin](/how-to-guides/create-plugin)
+Follow [Guide to create a plugin](/naabu/how-to-guides/create-plugin)
 
 ## Step 2
-Set the ``canBeInterrupted`` plugin setting in the [config.js](/references/plugin/) to true.
+Set the ``canBeInterrupted`` plugin setting in the [config.js](/naabu/references/plugin/) to true.
 
 ## Step 3
 In the config set the ``interruptionFields`` of the data that you need to store for each interruption. The data to determine when to go to the interruption. For example for the Vimeo API we store time in the video in seconds, when the player reaches the seconds it will interrupt the video.

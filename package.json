@@ -70,6 +70,7 @@
     "javascript-time-ago": "^2.3.13",
     "katex": "^0.13.24",
     "leaflet": "^1.7.1",
-    "svelte-class-transition": "^1.0.4"
+    "svelte-class-transition": "^1.0.4",
+    "svelte-intl-precompile": "^0.8.1"
   }
 }

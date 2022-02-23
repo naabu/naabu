@@ -1,6 +1,9 @@
 <script>
   import { onMount } from "svelte";
-  import { getAlgoliaSearchClient, getGoalIndex } from "$lib/Internals/Algolia/algolia";
+  import {
+    getAlgoliaSearchClient,
+    getGoalIndex,
+  } from "$lib/Internals/Algolia/algolia";
   import { getStores, session } from "$app/stores";
 
   import { truncate } from "$lib/Internals/Misc/helper";
@@ -23,18 +26,21 @@
     const result = await goalIndex.search(query);
     hits = result.hits;
     for (let i = 0; i < hits.length; i++) {
-      hits[i].description = truncate(hits[i].description, truncateDescription);
-      hits[i].description = hits[i].description.replace(
-        /(?:\r\n|\r|\n)/g,
-        "<br>"
-      );
+      if (hits[i].description) {
+        hits[i].description = truncate(
+          hits[i].description,
+          truncateDescription
+        );
+        hits[i].description = hits[i].description.replace(
+          /(?:\r\n|\r|\n)/g,
+          "<br>"
+        );
+      }
     }
   }
 </script>
 
-<slot name="link"> 
-
-</slot>
+<slot name="link" />
 <div>
   <div class="relative flex items-center justify-center mt-4 mb-4">
     <div class="w-full sm:max-w-xs">
@@ -119,7 +125,12 @@
                     href="/leerdoel/{hit.objectID}"
                     class="text-indigo-600 hover:text-indigo-900">Bekijken</a
                   >
-                  <slot name="cta-learning-goal" goalId={hit.objectID} goalTitle={hit.title} index={i}>
+                  <slot
+                    name="cta-learning-goal"
+                    goalId={hit.objectID}
+                    goalTitle={hit.title}
+                    index={i}
+                  >
                     <a
                       href="/leerdoel/{hit.objectID}/wijzigen"
                       class="text-indigo-600 hover:text-indigo-900">Wijzigen</a

@@ -56,13 +56,13 @@
         <Button
           on:click={goBackToSearchGoals}
           size="small"
-          content="{$t("modify")}
+          content="{$t("modify")}"
         />
       </div>
     </FormField>
   </div>
 
-  <FormField title="Type activiteit" forId="type_of_activity">
+  <FormField title="{$t("type-activity")}" forId="type_of_activity">
     <Radio
       bind:selectedValue={activity.type}
       options={typeOfActivityRadioOptions}

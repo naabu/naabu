@@ -1,5 +1,5 @@
 <script context="module">
-  import { addMessages, init, getLocaleFromNavigator } from 'svelte-intl-precompile';
+  import { addMessages, init } from 'svelte-intl-precompile';
   import en from '$locales/en.js';
   import nl from '$locales/nl.js';
   addMessages('en', en);
@@ -19,10 +19,15 @@
   let player = null;
   let firebase;
 
-  init({
-    fallbackLocale: 'nl',
-    initialLocale: getLocaleFromNavigator($session.acceptedLanguage)
-  });	
+  let config = {
+    fallbackLocale: 'en',
+  }
+
+  if ($session.defaultLanguage) {
+    config.initialLocale = $session.defaultLanguage;
+  }
+
+  init(config);
 
   function handleLoginEvent(event) {
     firebase = $firebaseStore;

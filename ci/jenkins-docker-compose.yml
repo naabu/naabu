@@ -8,6 +8,7 @@ services:
     entrypoint: ["npm", "run", "dev"]
     environment:
       - environment=test
+      - defaultLanguage="nl"
     networks:
       - internal_network
 

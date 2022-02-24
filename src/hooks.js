@@ -9,7 +9,8 @@ export function getSession(request) {
     fbStorageBucket: process.env['fbStorageBucket'],
     fbMessagingSenderId: process.env['fbMessagingSenderId'],
     fbAppI: process.env['fbAppI'],
-    fbMeasurementId: process.env['fbMeasurementId']
+    fbMeasurementId: process.env['fbMeasurementId'],
+    defaultLanguage: process.env["defaultLanguage"],
 	};
 }
 

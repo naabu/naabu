@@ -13,6 +13,7 @@
     getGoalSaveData,
   } from "$lib/Goal/Components/helper";
   import Button from "$lib/Internals/Button/Button.svelte";
+  import { t } from "svelte-intl-precompile";
 
   export let battleCol;
   export let firebase;
@@ -80,7 +81,7 @@
       await createGoalRevision(db, goal, data, $session.user.uid, firebase);
 
       alert.success = true;
-      alert.successTitle = "Leerdoel gewijzigd";
+      alert.successTitle = $t("goal-change");
       alert.successMessage = "id: " + goalRef.id;
     } catch (e) {
       console.error("Error adding document: ", e);
@@ -116,7 +117,7 @@
             dataTest="edit-goal-submit-button"
             isSubmit={true}
             color="primary"
-            content="Leerdoel publiseren"
+            content={$t("publish-goals")}
           />
         </div>
       </div>

@@ -6,6 +6,7 @@
   import { hasSpecialClaims } from "$lib/Internals/User/helper.js";
   import Button from "$lib/Internals/Button/Button.svelte";
   import RadioQuestion from "$lib/Internals/Quiz/RadioQuestion.svelte";
+  import { t } from "svelte-intl-precompile";
 
   export let activity;
   export let toggle = false;
@@ -2105,7 +2106,7 @@
                           <div
                             class="-ml-4 -mt-4 flex justify-between items-center flex-wrap sm:flex-nowrap"
                           >
-                            <div class="mt-4 mr-10">Weet jij het antwoord?</div>
+                            <div class="mt-4 mr-10">{$t("do-you-know-the-answer")}</div>
                             <div class="mt-4 base-timer">
                               <svg
                                 class="base-timer__svg"
@@ -2152,7 +2153,7 @@
                             disabled={quiz.selectedAnswer === null}
                             dataTest="attack_v1"
                             color="primary"
-                            content="Aanvallen"
+                            content={$t("attack")}
                           />
                         </div>
                       </div>
@@ -2170,7 +2171,7 @@
               >
                 <div class="absolute inset-0">
                   {#if quiz.correct == true}
-                    <div class="text-5xl" data-test="won">Enemy defeated!</div>
+                    <div class="text-5xl" data-test="won">{$t("enemy-defeated")}</div>
                     <svg
                       class="mx-auto max-w-xl"
                       xmlns="http://www.w3.org/2000/svg"
@@ -2804,7 +2805,7 @@
                     </svg>
                   {:else}
                     <div class="text-5xl" data-test="defeated">
-                      You are defeated!
+                      {$t("defeated-message")}
                     </div>
                     <svg
                       class="mx-auto max-w-xl"

@@ -1,4 +1,5 @@
 import { renderKatexOutput } from "$lib/Internals/Misc/helper.js";
+import { t } from "svelte-intl-precompile";
 
 export function getDefaultEmptyActivity() {
   return {
@@ -40,40 +41,40 @@ export function getActivitySaveData(activity) {
 export function getTypeText(theType) {
   switch (theType) {
     case "explanation":
-      return "Uitleg";
+      return $t("explanation");
     case "practice":
-      return "Oefening";
+      return  $t("practice");
     case "boss":
-      return "Eindbaas";
+      return  $t("boss");
   }
-  return "Geen type";
+  return $t("no-type");
 }
 
 export function getDifficultyToString(difficulty) {
   switch (difficulty) {
     case 1:
-      return "Heel makkelijk";
+      return $t("very-easy");
     case 2:
-      return "Makkelijk";
+      return $t("easy");
     case 3:
-      return "Niet makkelijk, niet moeilijk";
+      return $t("not-easy-not-difficult");
     case 4:
-      return "moeilijk";
+      return $t("difficult");
     case 5:
-      return "Heel moeilijk";
+      return $t("very-difficult");
   }
 }
 
 export function getStatusTranslation(status) {
   switch (status) {
     case "draft":
-      return "Concept";
+      return $t("draft");
     case "open":
-      return "Open";
+      return $t("open");
     case "published":
-      return "Gepubliceerd";
+      return $t("published");;
   }
-  return "Geen status";
+  return $t("no-status");
 }
 
 export async function retrieveActivityListFB(db, status, authorId) {

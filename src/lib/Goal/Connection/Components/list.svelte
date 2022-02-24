@@ -1,8 +1,12 @@
 <script>
   export let connections;
-  import { formatToTimeAgo, formatToTimeLeft } from "$lib/Internals/Misc/helper";
+  import {
+    formatToTimeAgo,
+    formatToTimeLeft,
+  } from "$lib/Internals/Misc/helper";
   import TimeAgo from "javascript-time-ago";
   import nl from "javascript-time-ago/locale/nl.json";
+  import { t } from "svelte-intl-precompile";
   import {
     compareTimeLeftToApprove,
     compareTimeLeftToNeedsWork,
@@ -70,7 +74,7 @@
                   scope="col"
                   class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  Titel
+                  {$t("title")}
                 </th>
                 <slot name="tableHeader" />
 
@@ -78,39 +82,39 @@
                   scope="col"
                   class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  Gewijzigd op
+                  {$t("changed-on")}
                 </th>
                 <th
                   scope="col"
                   class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  Laatste update
+                  {$t("last-update")}
                 </th>
                 {#if status === "needs-work"}
                   <th
                     scope="col"
                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Tijd tot prullenbak
+                    {$t("time-for-trash")}
                   </th>
                 {:else if status === "in-progress"}
                   <th
                     scope="col"
                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Tijd tot goedkeuring
+                    {$t("time-for-approval")}
                   </th>
                 {:else if status === "needs-approval"}
                   <th
                     scope="col"
                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Tijd over om goed te keuren
+                    {$t("time-for-needs-work")}
                   </th>
                 {/if}
 
                 <th scope="col" class="relative px-6 py-3">
-                  <span class="sr-only">Edit</span>
+                  <span class="sr-only">{$t("edit")}</span>
                 </th>
               </tr>
             </thead>
@@ -182,7 +186,7 @@
                     <a
                       href="/leerdoel/{goalId}/{urlType}/{connection.id}"
                       class="text-indigo-600 hover:text-indigo-900"
-                      >Geschiedenis</a
+                      >{$t("history")}</a
                     >
                   </td>
                 </tr>
@@ -194,5 +198,5 @@
     </div>
   </div>
 {:else}
-  Geen verbindingen gevonden
+  {$t("no-connection-found")}
 {/if}

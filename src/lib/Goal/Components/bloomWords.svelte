@@ -1,21 +1,45 @@
+<script>
+  import { t } from "svelte-intl-precompile";
+</script>
+
 <div>
-<a class="underline" href="https://ocw.tudelft.nl/wp-content/uploads/Blooms-taxonomy-for-learning-objectives-TU-Delft-Sep-2019.pdf">Engels voorbeeld</a>, <a class="underline" href="https://ocw.tudelft.nl/course-lectures/2b-blooms-taxonomy/">Nederlandse bron</a>
-<!-- This example requires Tailwind CSS v2.0+ -->
-<div class="flex flex-col">
+  <a
+    class="underline"
+    href="https://ocw.tudelft.nl/wp-content/uploads/Blooms-taxonomy-for-learning-objectives-TU-Delft-Sep-2019.pdf"
+    >{$t("english-example")}</a
+  >,
+  <a
+    class="underline"
+    href="https://ocw.tudelft.nl/course-lectures/2b-blooms-taxonomy/"
+    >{$t("dutch-source")}</a
+  >
+  <!-- This example requires Tailwind CSS v2.0+ -->
+  <div class="flex flex-col">
     <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
       <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
-        <div class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg">
+        <div
+          class="shadow overflow-hidden border-b border-gray-200 sm:rounded-lg"
+        >
           <table class="min-w-full divide-y divide-gray-200">
             <thead class="bg-gray-50">
               <tr>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Bloom taxonomy process
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  {$t("bloom-taxonomhy-process")}
                 </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Woorden
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  {$t("words")}
                 </th>
-                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                  Activiteiten
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  {$t("activities")}
                 </th>
               </tr>
             </thead>
@@ -25,229 +49,224 @@
                   <div class="flex items-center">
                     <div class="ml-4">
                       <div class="text-sm font-medium text-gray-900">
-                            Onthouden <br/>
+                        {$t("remember")}
+                         <br />
                       </div>
                       <div class="text-sm text-gray-500">
-                        Het kunnen ophalen van <br/>
-                        specifieke informatie
+                        {$t("remember-description")}
                       </div>
                     </div>
                   </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="text-sm text-gray-500">
-                    Benoem <br/>
-                    Definieer <br/>
-                    Beschrijf <br/>
-                    Toon <br/>
-                    Identificeer <br/>
-                    Verzamel
-                    </div>
+                    {$t("naming")} <br />
+                    {$t("defining")} <br />
+                    {$t("describing")} <br />
+                    {$t("showing")} <br />
+                    {$t("identify")} <br />
+                    {$t("collection")}
+                  </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-500">
-                        Quiz <br/>
-                        Definitie <br/>
-                        Feiten <br/>
-                        Werkblad <br/>
-                        Toets
-                      </div>
-                  </td>
+                  <div class="text-sm text-gray-500">
+                    {$t("quiz")} <br />
+                    {$t("definitions")} <br />
+                    {$t("facts")} <br />
+                    {$t("worksheets")}  <br />
+                    {$t("exams")}
+                  </div>
+                </td>
               </tr>
               <tr>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="flex items-center">
                     <div class="ml-4">
                       <div class="text-sm font-medium text-gray-900">
-                        Begrijpen
+                        {$t("understand")}
                       </div>
                       <div class="text-sm text-gray-500">
-                        Betekenis geven aan informatie
+                        {$t("understand-description")}
                       </div>
                     </div>
                   </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="text-sm text-gray-500">
-                        Interpreteer <br/>
-                        Vat samen <br/>
-                        Bespreek <br/>
-                        Onderscheid <br/>
-                        Classificeer <br/>
-                        Vergelijk <br/>
-                        Leg uit <br/>
-                        Concludeer <br/>
-                        Voorspel <br/>
-                    </div>
-                </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-500">
-                        Samenvatting <br/>
-                        Verzameling <br/>
-                        Spreekbeurt <br/>
-                        Voorbeeld <br/>
-                        Quiz <br/>
-                        Lijst <br/>
-                        Overzicht
-                      </div>
-                  </td>
-              </tr>
-              <tr>
-                <td class="px-6 py-4 whitespace-nowrap">
-                  <div class="flex items-center">
-                    <div class="ml-4">
-                      <div class="text-sm font-medium text-gray-900">
-                        Toepassen
-                      </div>
-                      <div class="text-sm text-gray-500">
-                        Strategieën, concepten, principes en <br/>
-                        theorieën in nieuwe situaties gebruiken
-                      </div>
-                    </div>
+                    {$t("interpret")} <br />
+                    {$t("discuss")} <br />
+                    {$t("distinguish")} <br />
+                    {$t("classify")} <br />
+                    {$t("compare")} <br />
+                    {$t("explain")} <br />
+                    {$t("conclude")} <br />
+                    {$t("predict")}          
                   </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-500">
-                        Pas toe <br/>
-                        Demonstreer <br/>
-                        Bereken <br/>
-                        Vul aan <br/>
-                        Illustreer <br/>
-                        Toon <br/>
-                        Los op <br/>
-                        Onderzoek <br/>
-                        Pas aan 
-                    </div>
+                  <div class="text-sm text-gray-500">
+                    {$t("summary")} <br />
+                    {$t("collections")} <br />
+                    {$t("lecture")} <br />
+                    {$t("example")} <br />
+                    {$t("quiz")} <br />
+                    {$t("list")} <br />
+                    {$t("overview")} <br />
+                  </div>
                 </td>
-                <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-500">
-                        Presentatie <br/>
-                        Illustratie <br/>
-                        Simulatie <br/>
-                        Demonstratie <br/>
-                        Interview <br/>
-                        Logboek
-                      </div>
-                  </td>
               </tr>
               <tr>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="flex items-center">
                     <div class="ml-4">
                       <div class="text-sm font-medium text-gray-900">
-                        Analyseren
+                        {$t("apply")}
                       </div>
                       <div class="text-sm text-gray-500">
-                        Het opdelen van informatie in <br/>
-                        de verschillende onderdelen
+                        {$t("apply-description")}
                       </div>
                     </div>
                   </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="text-sm text-gray-500">
-                    Analyseer <br/>
-                    Scheid <br/>
-                    Orden <br/>
-                    Leg uit <br/>
-                    Verbind <br/>
-                    Classificeer <br/>
-                    (De)construeer <br/>
-                    Vergelijk <br/>
-                    Selecteer <br/>
-                    Leid af
-                    </div>
+                    {$t("apply")} <br />
+                    {$t("demonstrate")} <br />
+                    {$t("calculate")} <br />
+                    {$t("add")} <br />
+                    {$t("illustrate")} <br />
+                    {$t("show")} <br />
+                    {$t("solve")} <br />
+                    {$t("research")} <br />
+                    {$t("customize")} <br />
+                  </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-500">
-                        Enquete <br/>
-                        Verslag <br/>
-                        Grafiek <br/>
-                        Spreadsheet <br/>
-                        Checklist <br/>
-                        Kaart <br/>
-                        Programma
-                      </div>
-                  </td>
+                  <div class="text-sm text-gray-500">
+                    {$t("presentation")} <br/>
+                    {$t("illustration")} <br/>
+                    {$t("simulatie")} <br/>
+                    {$t("demonstrations")} <br/>
+                    {$t("interview")} <br/>
+                    {$t("log")} <br/>
+                  </div>
+                </td>
               </tr>
               <tr>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="flex items-center">
                     <div class="ml-4">
                       <div class="text-sm font-medium text-gray-900">
-                        Evalueren
+                        {$t("analyze")}
                       </div>
                       <div class="text-sm text-gray-500">
-                        De waarde van ideeën, materialen en <br/>
-                        methoden beoordelen door het <br/>
-                        ontwikkelen en toepassen van criteria.
+                        {$t("analyze-description")}
                       </div>
                     </div>
                   </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="text-sm text-gray-500">
-                    Beoordeel <br/>
-                    Orden <br/>
-                    Toets <br/>
-                    Meet <br/>
-                    Overtuig <br/>
-                    Selecteer <br/>
-                    Leg uit <br/>
-                    Concludeer <br/>
-                    Vergelijk <br/>
-                    Vat samen
-                    </div>
+
+                    {$t("analyze")}  <br/>
+                    {$t("seperate")}  <br/>
+                    {$t("order")}  <br/>
+                    {$t("explain")}  <br/>
+                    {$t("connect")}  <br/>
+                    {$t("classify")}  <br/>
+                    {$t("de-construct")}  <br/>
+                    {$t("compare")}  <br/>
+                    {$t("select")}  <br/>
+                    {$t("distract")} 
+                  </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-500">
-                        Debat <br/>
-                        Verslag <br/>
-                        Evaluatie <br/>
-                        Beoordeling <br/>
-                        Conclusie <br/>
-                        Overtuigende <br/>
-                        speech
-                      </div>
-                  </td>
+                  <div class="text-sm text-gray-500">
+                    {$t("survey")} <br/>
+                    {$t("report")} <br/>
+                    {$t("chart")} <br/>
+                    {$t("spreadsheet")} <br/>
+                    {$t("checklist")} <br/>
+                    {$t("map")} <br/>
+                    {$t("program")} <br/>
+                  </div>
+                </td>
               </tr>
               <tr>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="flex items-center">
                     <div class="ml-4">
                       <div class="text-sm font-medium text-gray-900">
-                        Creëren
+                        {$t("evaluate")}
                       </div>
                       <div class="text-sm text-gray-500">
-                        Ontwikkelen van nieuwe ideeën, <br/>
-                        oplossingen of producten
+                        {$t("evaluate-description")}  
                       </div>
                     </div>
                   </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="text-sm text-gray-500">
-                        Combineer <br/>
-                        Plan <br/>
-                        Ontwerp <br/>
-                        Maak <br/>
-                        Ontwikkel <br/>
-                        Onderzoek <br/>
-                        Stel op <br/>
-                        Formuleer <br/>
-                        Herschrijf
-                    </div>
+                    {$t("judge")}  <br />
+                    {$t("order")}  <br />
+                    {$t("assess")}  <br />
+                    {$t("measure")}  <br />
+                    {$t("convince")}  <br />
+                    {$t("select")}  <br />
+                    {$t("explain")}  <br />
+                    {$t("conclude")}  <br />
+                    {$t("compare")}  <br />
+                    {$t("summarize")}  <br />
+                  </div>
                 </td>
                 <td class="px-6 py-4 whitespace-nowrap">
-                    <div class="text-sm text-gray-500">
-                        Product <br/>
-                        Project <br/>
-                        Plan <br/>
-                        Spel <br/>
-                        Ontwerp <br/>
-                        Film <br/>
+                  <div class="text-sm text-gray-500">
+                    {$t("debate")} <br/>
+                    {$t("evaluation")} <br/>
+                    {$t("report")} <br/>
+                    {$t("rating")} <br/>
+                    {$t("conclusion")} <br/>
+                    {$t("convincing")} <br/>
+                    {$t("speech")}
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="flex items-center">
+                    <div class="ml-4">
+                      <div class="text-sm font-medium text-gray-900">
+                        {$t("creating")}
                       </div>
-                  </td>
+                      <div class="text-sm text-gray-500">
+                        {$t("creating-description")}
+                      </div>
+                    </div>
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-500">
+                    {$t("combine")} <br />
+                    {$t("schedule")} <br />
+                    {$t("design")} <br />
+                    {$t("create")} <br />
+                    {$t("develop")} <br />
+                    {$t("research")} <br />
+                    {$t("set-up")} <br />
+                    {$t("formulate")} <br />
+                    {$t("rewrite")} <br />
+                  </div>
+                </td>
+                <td class="px-6 py-4 whitespace-nowrap">
+                  <div class="text-sm text-gray-500">
+                    {$t("product")} <br />
+                    {$t("project")} <br />
+                    {$t("plan")} <br />
+                    {$t("game")} <br />
+                    {$t("design")} <br />
+                    {$t("movie")} <br />
+                  </div>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -255,7 +274,4 @@
       </div>
     </div>
   </div>
-  
-
-
 </div>

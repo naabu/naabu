@@ -10,6 +10,7 @@
   import Textarea from "$lib/Internals/FormFields/Textarea.svelte";
   import Tabs from "$lib/Internals/Tabs/tabs.svelte";
   import FormField from "$lib/Internals/FormFields/FormField.svelte";
+  import { t } from "svelte-intl-precompile";
 
   export let goal;
 

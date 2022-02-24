@@ -3,6 +3,7 @@
   import { goto } from "$app/navigation";
   import { getStores, page } from "$app/stores";
   import Button from "$lib/Internals/Button/Button.svelte";
+  import { t } from "svelte-intl-precompile";
   export let activity;
   export let firebase;
 
@@ -25,6 +26,6 @@
 
 {#if redirect}
   <div class="mt-8 mb-32">
-    <Button on:click={goBack} content="Terug" />
+    <Button on:click={goBack} content="{$t("back")}" />
   </div>
 {/if}

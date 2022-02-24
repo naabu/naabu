@@ -23,6 +23,7 @@
   import Textarea from "../../../Internals/FormFields/Textarea.svelte";
   import FormField from "$lib/Internals/FormFields/FormField.svelte";
   import AdditionalFormText from "$lib/Internals/FormFields/AdditionalFormText.svelte";
+  import { t } from "svelte-intl-precompile";
 
   export let firebase;
   export let goal;
@@ -144,7 +145,7 @@
         let updatesColRef = db.collection("updates");
         let result = await updatesColRef.add(data);
         alert.success = true;
-        alert.successTitle = "Status update gemaakt";
+        alert.successTitle = $t("status-update-created");
         alert.successMessage = "id: " + result.id;
         updates = [...updates, data];
       } catch (e) {
@@ -196,7 +197,7 @@
           let updatesColRef = db.collection("updates");
           let result = await updatesColRef.add(data);
           alert.success = true;
-          alert.successTitle = "Reactie geplaats";
+          alert.successTitle = $t("reaction-placed");
           alert.successMessage = "id: " + result.id;
           updates = [...updates, data];
         } catch (e) {
@@ -241,14 +242,13 @@
           class="text-lg leading-6 font-medium text-gray-900"
         >
           {#if connection.type === "goal-activity"}
-            Koppeling leerdoel activiteit informatie
+            {$t("connection-goal-activity-information")}
           {:else}
-            Informatie
+            {$t("information")}
           {/if}
         </h3>
         <div class="flex">
           {#if connection.type === "goal-activity"}
-            <!--Is the owner of the activity-->
             <div class="ml-auto">
               {#if isTeacher}
                 <a
@@ -256,14 +256,14 @@
                   href="/lerarenkamer/activiteit/{connection.linkId}"
                   class="mr-8 font-medium text-indigo-600 hover:text-indigo-500"
                 >
-                  Activiteit wijzigen
+                  {$t("change-activity")}
                 </a>
               {/if}
               <a
                 href="/activiteit/{connection.linkId}?redirect={$page.path}"
                 class="font-medium text-indigo-600 hover:text-indigo-500"
               >
-                Activiteit bekijken
+                {$t("watch-activity")}
               </a>
             </div>
           {:else}
@@ -271,7 +271,7 @@
               href="/leerdoel/{connection.linkId}"
               class="ml-auto font-medium text-indigo-600 hover:text-indigo-500"
             >
-              Leerdoel bekijken
+              {$t("watch-goal")}
             </a>
           {/if}
         </div>
@@ -279,7 +279,7 @@
       <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
         <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
           <div class="sm:col-span-1">
-            <dt class="text-sm font-medium text-gray-500">Titel</dt>
+            <dt class="text-sm font-medium text-gray-500">{$t("title")}</dt>
             <dd data-test="field-Titel" class="mt-1 text-sm text-gray-900">
               {connection.title}
             </dd>
@@ -309,40 +309,40 @@
             isDisabled={!delayDone}
             on:click={() => changeStatus("in-progress", "needs-approval")}
             dataTest="ready-to-publish-button"
-            content="Activiteit klaar om te publiceren"
+            content={$t("activity-ready-to-publish")}
           />
         {/if}
         {#if connection.status === "needs-approval"}
           <Button
             isDisabled={!delayDone}
             on:click={() => changeStatus("needs-approval", "needs-work")}
-            content="Heeft werk nodig"
+            content={$t("needs-work")}
           />
           <Button
             color="primary"
             isDisabled={!delayDone}
             on:click={() => changeStatus("needs-approval", "published")}
-            content="Activiteit publiceren"
+            content={$t("activity-publish")}
           />
         {/if}
         {#if connection.status === "needs-work"}
           <Button
             isDisabled={!delayDone}
             on:click={() => changeStatus("needs-work", "in-trash")}
-            content="Activiteit in prullenbak"
+            content={$t("activity-in-trash")}
           />
           <Button
             color="primary"
             isDisabled={!delayDone}
             on:click={() => changeStatus("needs-work", "in-progress")}
-            content="Aan activiteit werken"
+            content={$t("work-on-activity")}
           />
         {/if}
         {#if connection.status === "published"}
           <Button
             isDisabled={!delayDone}
             on:click={() => changeStatus("published", "needs-work")}
-            content="Activiteit publicatie ongedaan maken"
+            content={$t("activity-unpublish-action")}
           />
         {/if}
         {#if connection.status === "in-trash"}
@@ -350,7 +350,7 @@
             color="primary"
             isDisabled={!delayDone}
             on:click={() => changeStatus("in-trash", "needs-work")}
-            content="Activiteit terugzetten"
+            content={$t("activity-from-trash-to-backlog")}
           />
         {/if}
       </div>
@@ -414,10 +414,13 @@
                               href="/curriculum-profiel/{update
                                 .curriculumProfile.id}"
                               class="font-medium text-gray-900"
-                              >{update.curriculumProfile.fullname} - Docent</a
+                              >{update.curriculumProfile.fullname} - {$t(
+                                "teacher"
+                              )}</a
                             >
                           {:else}
-                            <span class="font-medium text-gray-900">Docent</span
+                            <span class="font-medium text-gray-900"
+                              >{$t("teacher")}</span
                             >
                           {/if}
                         </div>
@@ -435,19 +438,7 @@
                     <div class="relative">
                       <span
                         class="h-10 w-10 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white"
-                      >
-                        <!-- <svg class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                  <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-                </svg>  -->
-                      </span>
-                      <!-- <img
-                class="h-10 w-10 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white"
-                src="https://images.unsplash.com/photo-1520785643438-5bf77931f493?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80"
-                alt=""
-              /> -->
-                      <!-- <svg class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-              </svg> -->
+                      />
                       <span
                         class="absolute -bottom-0.5 -right-1 bg-white rounded-tl px-0.5 py-px"
                       >
@@ -519,33 +510,35 @@
                           class="font-medium text-gray-900"
                           >{update.curriculumProfile.fullname}</a
                         >
-                        heeft de status gewijzigd naar
+                        {$t("has-changed-status-to")}
                         {#if update.content === "in-trash"}
                           <a
                             href="/leerdoel/{goal.id}/avonturen/prullenbak"
-                            class="font-medium text-gray-900">Prullenbak</a
+                            class="font-medium text-gray-900">{$t("trash")}</a
                           >
                         {:else if update.content === "needs-work"}
                           <a
                             href="/leerdoel/{goal.id}/avonturen/werk-nodig"
                             class="font-medium text-gray-900"
-                            >Heeft werk nodig</a
+                            >{$t("needs-work")}</a
                           >
                         {:else if update.content === "in-progress"}
                           <a
                             href="/leerdoel/{goal.id}/avonturen/uitvoering"
-                            class="font-medium text-gray-900">In uitvoering</a
+                            class="font-medium text-gray-900"
+                            >{$t("in-progress")}</a
                           >
                         {:else if update.content === "needs-approval"}
                           <a
                             href="/leerdoel/{goal.id}/avonturen/goedkeuring"
                             class="font-medium text-gray-900"
-                            >Goedkeuring nodig</a
+                            >{$t("needs-approval")}</a
                           >
                         {:else if update.content === "published"}
                           <a
                             href="/leerdoel/{goal.id}/avonturen"
-                            class="font-medium text-gray-900">Gepubliceerd</a
+                            class="font-medium text-gray-900"
+                            >{$t("published")}</a
                           >
                         {:else}
                           <span class="font-medium text-gray-900">
@@ -593,15 +586,19 @@
                             href="/curriculum-profiel/{update.curriculumProfile
                               .id}"
                             class="font-medium text-gray-900"
-                            >{update.curriculumProfile.fullname}- Docent</a
+                            >{update.curriculumProfile.fullname}- {$t(
+                              "teacher"
+                            )}</a
                           >
                         {:else}
-                          <span class="font-medium text-gray-900">Docent</span>
+                          <span class="font-medium text-gray-900"
+                            >{$t("teacher")}</span
+                          >
                         {/if}
                         {#if update.type === "created-teacher"}
-                          Activiteit gekoppeld met leerdoel
+                          {$t("activity-connected-to-activity")}
                         {:else}
-                          Activiteit is geupdate
+                          {$t("activity-updated")}
                         {/if}
 
                         <span class="whitespace-nowrap"
@@ -656,13 +653,13 @@
           <div class="mt-3">
             <div class="flex justify-between mt-4">
               <AdditionalFormText
-                content="Hou het vriendelijk en proffesioneel"
+                content={$t("keep-it-friendly-and-proffesional")}
               />
               <Button
                 isDisabled={buttonDisabled}
                 color="primary"
                 isSubmit={true}
-                content="Plaats reactie"
+                content={$t("place-reaction")}
                 dataTest="post-reaction-button"
               />
             </div>

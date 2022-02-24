@@ -1,10 +1,13 @@
 <script>
   import { onMount } from "svelte";
-  import { getAlgoliaSearchClient, getGoalIndex } from "$lib/Internals/Algolia/algolia";
+  import {
+    getAlgoliaSearchClient,
+    getGoalIndex,
+  } from "$lib/Internals/Algolia/algolia";
   import { getStores, session } from "$app/stores";
   import { truncate } from "$lib/Internals/Misc/helper";
+  import { t } from "svelte-intl-precompile";
   export let goal;
-  export let firebase;
   export let listLinkedGoalIds;
 
   let truncateDescription = 600;
@@ -54,7 +57,7 @@
 <div>
   <div class="relative flex items-center justify-center mt-4 mb-4">
     <div class="w-full sm:max-w-xs">
-      <label for="search" class="sr-only">Search</label>
+      <label for="search" class="sr-only">{$t("search")}</label>
       <div class="relative">
         <div
           class="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center"
@@ -77,7 +80,7 @@
           id="search"
           name="search"
           class="pr-3 block w-full bg-white border border-gray-300 rounded-md py-2 pl-10 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          placeholder="Search"
+          placeholder="{$t('search')}}"
           type="search"
           bind:value={query}
           on:keyup={search}
@@ -101,22 +104,22 @@
                 scope="col"
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
-                Leerdoel
+                {$t("goal")}
               </th>
               <th
                 scope="col"
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
-                Beschrijving
+                {$t("description")}
               </th>
               <th
                 scope="col"
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
-                Activiteiten
+                {$t("activities")}
               </th>
               <th scope="col" class="relative px-6 py-3">
-                <span class="sr-only">Edit</span>
+                <span class="sr-only">{$t("edit")}</span>
               </th>
             </tr>
           </thead>
@@ -131,13 +134,16 @@
                   </td>
                   <td class="px-6 py-4">
                     <div class="text-sm text-gray-900">
-                      {#if hit.description}{@html hit.description}{:else}Geen
-                        beschrijving{/if}
+                      {#if hit.description}{@html hit.description}{:else}{$t(
+                          "no-description"
+                        )}{/if}
                     </div>
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap">
                     <div class="text-sm text-gray-900">
-                      {#if hit.activities}Activiteiten{:else}Geen activititen{/if}
+                      {#if hit.activities}{$t("activities")}{:else}{$t(
+                          "no-activities"
+                        )}{/if}
                     </div>
                   </td>
                   <td
@@ -145,13 +151,14 @@
                   >
                     <a
                       href="/leerdoel/{hit.objectID}"
-                      class="text-indigo-600 hover:text-indigo-900">Bekijken</a
+                      class="text-indigo-600 hover:text-indigo-900"
+                      >{$t("watch")}</a
                     >
                     <a
                       href="/leerdoel/{goal.id}/verbinding-maken/{hit.objectID}"
                       class="text-indigo-600 hover:text-indigo-900"
-                      >Verbinding maken</a
-                    >
+                      >{$t("create-connection")}
+                    </a>
                   </td>
                 </tr>
               {/if}

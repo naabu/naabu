@@ -12,6 +12,7 @@
   import { getGoalIndex } from "$lib/Internals/Algolia/algolia";
   import { goto } from "$app/navigation";
   import Button from "$lib/Internals/Button/Button.svelte";
+  import { t } from "svelte-intl-precompile";
 
   export let firebase;
 
@@ -19,11 +20,9 @@
   let db;
   let buttonDisabled = false;
   let hasCurriculumProfile;
-  let mounted = false;
 
   onMount(async () => {
     db = await firebase.firestore();
-    mounted = true;
   });
 
   let goal = {
@@ -51,19 +50,6 @@
     };
   }
 
-  // $: if (mounted) {
-  //   if ($session.player && $session.player.curriculumProfileId) {
-  //     hasCurriculumProfile = true;
-  //     buttonDisabled = false;
-  //     alert = getDefaultAlertValues();
-  //   } else {
-  //     hasCurriculumProfile = false;
-  //     alert.error = true;
-  //     alert.errorCode = "no-curriculum-profile";
-  //     buttonDisabled = true;
-  //   }
-  // }
-
   async function createGoal() {
     if ($session.user) {
       let data = getGoalSaveData(goal, $session.serverFirestoreTimeStamp);
@@ -88,7 +74,7 @@
         await createGoalRevision(db, goal, data, $session.user.uid, firebase);
 
         alert.success = true;
-        alert.successTitle = "Leerdoel gemaakt";
+        alert.successTitle = $t("goal-created")
         alert.successMessage = "id: " + goalResult.id;
         await goto("/leerdoel/" + goalResult.id);
       } catch (e) {
@@ -116,15 +102,6 @@
   <ResultFeedback bind:alert />
   <CheckPlayerHasProfile bind:hasCurriculumProfile />
 
-  <!-- <div>
-    <div class="mt-2 md:flex md:items-center md:justify-between">
-      <div class="flex-1 min-w-0">
-        <div>
-          <p class="mt-1 max-w-2xl text-sm text-gray-500" />
-        </div>
-      </div>
-    </div>
-  </div> -->
   <form
     class="mt-8 space-y-8"
     on:submit|preventDefault={formSubmit}
@@ -132,7 +109,7 @@
     <GoalForm bind:goal />
     <div class="pt-5">
       <div class="flex justify-end">
-        <Button content="Leerdoel publiseren" 
+        <Button content={$t("publish-goals")} 
           isDisabled={buttonDisabled || !hasCurriculumProfile}
           isSubmit={true}
           color="primary"

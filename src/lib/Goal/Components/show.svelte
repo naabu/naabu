@@ -1,16 +1,17 @@
 <script>
   export let goal;
   import MainTabs from "$lib/Internals/Tabs/goal.svelte";
+  import { t } from "svelte-intl-precompile";
 </script>
 
 <MainTabs bind:goal />
 
 <div class="mt-8">
-  Titel: {goal.title}
+  {$t("title")}: {goal.title}
 </div>
 
 <div class="mt-8">
-  Omschrijving: {goal.description}
+  {$t("description")}: {goal.description}
 </div>
 
 <div class="mt-16">

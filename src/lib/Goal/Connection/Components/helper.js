@@ -1,15 +1,17 @@
+import { t } from "svelte-intl-precompile";
+
 export function getStatusText(status) {
   switch (status) {
     case "published":
-      return "Gepubliceerd";
+      return $t("published");
     case "needs-approval":
-      return "Goedkeuring nodig";
+      return $t("needs-approval");
     case "in-progress":
-      return "In uitvoering";
+      return $t("in-progress");
     case "needs-work":
-      return "Heeft werk nodig";
+      return $t("needs-work");
     case "in-trash":
-      return "In prullenbak";
+      return $t("in-trash");;
   }
 }
 

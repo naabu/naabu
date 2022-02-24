@@ -17,6 +17,7 @@
   } from "$lib/Internals/Revision/helper";
   import Button from "$lib/Internals/Button/Button.svelte";
   import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
+  import { t } from "svelte-intl-precompile";
   export let firebase;
   export let showActivity;
   export let activity;
@@ -38,15 +39,15 @@
       title: activity.title,
       fields: [
         {
-          title: "Beschrijving",
+          title: $t("description"),
           value: activity.description,
         },
         {
-          title: "Moeilijkheid",
+          title: $t("difficulty"),
           value: getDifficultyToString(activity.difficulty),
         },
         {
-          title: "Type",
+          title: $t("type"),
           value: getTypeText(activity.type),
         },
       ],
@@ -188,7 +189,7 @@
   <div class="flex justify-between mt-8 mb-32">
     <Button
       dataTest="back-to-form-button"
-      content="Terug"
+      content={$t("back")}
       on:click={goBackToActivityEdit}
     />
 
@@ -197,7 +198,7 @@
         color="primary"
         isDisabled={buttonDisabled}
         dataTest="update-activity-learning-goal-button"
-        content="Koppeling met leerdoel updaten"
+        content={$t("connection-update")}
         on:click={updateConnection}
       />
     {:else}
@@ -205,11 +206,12 @@
         color="primary"
         isDisabled={buttonDisabled}
         dataTest="connect-activity-learning-goal-button"
-        content="Deze activiteit koppelen met leerdoel"
+        content={$t("connection-create")}
         on:click={openActivity}
       />
     {/if}
   </div>
 {:else}
-  Je moet ingelogd zijn om deze activiteit te kunnen koppelen.
+  {$t("login-to-connect-activity")}
+  
 {/if}

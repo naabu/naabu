@@ -3,7 +3,6 @@
   import { onMount } from "svelte";
   import "@algolia/autocomplete-theme-classic";
   import { renderKatexOutput } from "$lib/Internals/Misc/helper.js";
-  import QuizForm from "$lib/Activity/Components/quizzesForm.svelte";
   import { createEventDispatcher } from "svelte";
   import Button from "$lib/Internals/Button/Button.svelte";
   import Radio from "$lib/Internals/FormFields/Radio.svelte";

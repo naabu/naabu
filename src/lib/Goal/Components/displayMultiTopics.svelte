@@ -3,6 +3,7 @@
   import FormField from "$lib/Internals/FormFields/FormField.svelte";
   import TextAndRemove from "$lib/Internals/FormFields/TextAndRemove.svelte";
   import TextInput from "$lib/Internals/FormFields/TextInput.svelte";
+  import { t } from "svelte-intl-precompile";
 
   export let goal;
   export let labelPosition = "left";
@@ -28,10 +29,9 @@
   }
 </script>
 
-<FormField title="Onderwerpen" forId="multi_topic_name" {labelPosition}>
-  <svelte:fragment slot="before">
+<FormField title={$t("topics")} forId="multi_topic_name" {labelPosition}>  <svelte:fragment slot="before">
     <TextAndRemove
-      noItemsMessage="Voeg onderwerpen toe"
+      noItemsMessage={$t("add-topics")}
       items={goal.multitopics}
       on:remove={removeMultiTopic}
     />
@@ -46,7 +46,7 @@
       dataTest="add-multi-topic-button"
       size="small"
       on:click={addMultiTopicSubmit}
-      content="Onderwerp toevoegen"
+      content={$t("add-topic")}
     />
   </svelte:fragment>
 </FormField>

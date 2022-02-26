@@ -152,7 +152,7 @@
                     <a
                       href="/leerdoel/{hit.objectID}"
                       class="text-indigo-600 hover:text-indigo-900"
-                      >{$t("watch")}</a
+                      >{$t("show")}</a
                     >
                     <a
                       href="/leerdoel/{goal.id}/verbinding-maken/{hit.objectID}"

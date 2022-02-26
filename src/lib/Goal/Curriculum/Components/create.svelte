@@ -7,6 +7,7 @@
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import { login } from "$lib/Internals/Firebase/helper";
   import Button from "$lib/Internals/Button/Button.svelte";
+  import { t } from "svelte-intl-precompile";
 
   export let firebase;
 
@@ -87,7 +88,7 @@
           .doc($session.player.curriculumProfileId);
         let result = await profileRef.update(data);
         alert.success = true;
-        alert.successTitle = "Curriculum profiel gemaakt";
+        alert.successTitle = $t("curriculum-profile-created-success");
       }
       await redirect();
     } catch (e) {
@@ -121,7 +122,7 @@
 <div
   class="sm:grid sm:grid-cols-3 sm:gap-4 sm:items-start sm:border-t sm:border-gray-200 sm:pt-5"
 >
-  <p class="text-sm font-medium text-gray-700">Profiel aanmaken met</p>
+  <p class="text-sm font-medium text-gray-700">{$t("create-profile-with")}</p>
   <div class="mt-1 sm:mt-0 sm:col-span-2">
     {#if !$session.user || $session.user.isAnonymous}
       <div>
@@ -142,7 +143,7 @@
       dataTest="submit-button"
       isSubmit={true}
       color="primary"
-      content="Curriculum profiel aanmaken"
+      content={$t("curriculum-profile-create-button")}
     />
   </div>
 </form>

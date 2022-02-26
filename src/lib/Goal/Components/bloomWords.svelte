@@ -169,7 +169,7 @@
                   <div class="text-sm text-gray-500">
 
                     {$t("analyze")}  <br/>
-                    {$t("seperate")}  <br/>
+                    {$t("separate")}  <br/>
                     {$t("order")}  <br/>
                     {$t("explain")}  <br/>
                     {$t("connect")}  <br/>
@@ -247,7 +247,7 @@
                 <td class="px-6 py-4 whitespace-nowrap">
                   <div class="text-sm text-gray-500">
                     {$t("combine")} <br />
-                    {$t("schedule")} <br />
+                    {$t("plan")} <br />
                     {$t("design")} <br />
                     {$t("create")} <br />
                     {$t("develop")} <br />

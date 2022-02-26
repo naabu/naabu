@@ -125,7 +125,7 @@
                 >
                   <a
                     href="/leerdoel/{hit.objectID}"
-                    class="text-indigo-600 hover:text-indigo-900">{$t("watch")}</a
+                    class="text-indigo-600 hover:text-indigo-900">{$t("show")}</a
                   >
                   <slot
                     name="cta-learning-goal"

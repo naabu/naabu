@@ -263,7 +263,7 @@
                 href="/activiteit/{connection.linkId}?redirect={$page.path}"
                 class="font-medium text-indigo-600 hover:text-indigo-500"
               >
-                {$t("watch-activity")}
+                {$t("show-activity")}
               </a>
             </div>
           {:else}
@@ -271,7 +271,7 @@
               href="/leerdoel/{connection.linkId}"
               class="ml-auto font-medium text-indigo-600 hover:text-indigo-500"
             >
-              {$t("watch-goal")}
+              {$t("show-goal")}
             </a>
           {/if}
         </div>

@@ -2,7 +2,6 @@
   import DisplayMultiTopics from "$lib/Goal/Components/displayMultiTopics.svelte";
   import BattleListForm from "$lib/Goal/Components/battleListForm.svelte";
   import QuizForm from "$lib/Activity/Components/quizzesForm.svelte";
-  import Button from "$lib/Internals/Button/Button.svelte";
   import Radio from "$lib/Internals/FormFields/Radio.svelte";
   import TextInput from "$lib/Internals/FormFields/TextInput.svelte";
   import FieldSet from "$lib/Internals/FormFields/FieldSet.svelte";
@@ -32,86 +31,85 @@
     {
       id: "1",
       verbs: [
-        "benoemen",
-        "definieren",
-        "beschrijven",
-        "tonen",
-        "identificeren",
-        "verzamelen",
+        $t("naming-plural"),
+        $t("defining-plural"),
+        $t("describing-plural"),
+        $t("showing-plural"),
+        $t("identifying-plural"),
+        $t("collecting-plural"),
       ],
     },
     {
       id: "2",
       verbs: [
-        "interpreteren",
-        "samenvatten",
-        "bespreken",
-        "onderscheiden",
-        "classificeren",
-        "vergelijken",
-        "uitleggen",
-        "concluderen",
-        "voorspellen",
+        $t("interpreting-plural"),
+        $t("summarizing-plural"),
+        $t("discussing-plural"),
+        $t("distinguishing-plural"),
+        $t("classifying-plural"),
+        $t("comparing-plural"),
+        $t("explaining-plural"),
+        $t("concluding-plural"),
+        $t("predicting-plural"),
       ],
     },
     {
       id: "3",
       verbs: [
-        "berekenen",
-        "opstellen",
-        "omzetten",
-        "toepassen",
-        "tonen",
-        "oplossen",
-        "onderzoeken",
-        "aanpassen",
-        "demonstreren",
-        "aanvullen",
-        "illustreren",
+        $t("calculating-plural"),
+        $t("converting-plural"),
+        $t("applying-plural"),
+        $t("showing-plural"),
+        $t("solving-plural"),
+        $t("investigating-plural"),
+        $t("adjusting-plural"),
+        $t("demonstrating-plural"),
+        $t("adding-plural"),
+        $t("illustrating-plural"),
       ],
     },
     {
       id: "4",
       verbs: [
-        "analyseren",
-        "scheiden",
-        "ordenen",
-        "uitleggen",
-        "verbinden",
-        "classificeren",
-        "(de)construeren",
-        "vergelijken",
-        "selecteren",
-        "afleiden",
+        $t("analyzing-plural"),
+        $t("separating-plural"),
+        $t("ordering-plural"),
+        $t("explaining-plural"),
+        $t("connecting-plural"),
+        $t("classifying-plural"),
+        $t("de-constructing-plural"),
+        $t("comparing-plural"),
+        $t("selecting"),
+        $t("deducing-plural"),
       ],
     },
     {
       id: "5",
       verbs: [
-        "beoordelen",
-        "ordenen",
-        "toetsen",
-        "meten",
-        "overtuigen",
-        "selecteren",
-        "uitleggen",
-        "concluderen",
-        "vergelijken",
-        "samenvatten",
+        $t("judging-plural"),
+        $t("ordering-plural"),
+        $t("assesing-plural"),
+        $t("measuring-plural"),
+        $t("convincing-plural"),
+        $t("selecting-plural"),
+        $t("explaining-plural"),
+        $t("concluding-plural"),
+        $t("comparing-plural"),
+        $t("summarizing-plural"),
       ],
     },
     {
       id: "6",
       verbs: [
-        "combineren",
-        "plannen",
-        "ontwerpen",
-        "maken",
-        "ontwikkelen",
-        "onderzoeken",
-        "opstellen",
-        "formuleren",
-        "herschrijven",
+        $t("combining-plural"),
+        $t("planning-plural"),
+        $t("designing-plural"),
+        $t("creating-plural"),
+        $t("developing-plural"),
+        $t("researching-plural"),
+        $t("setting-up-plural"),
+        $t("formulating-plural"),
+        $t("rewriting-plural"),
       ],
     },
   ];
@@ -119,24 +117,23 @@
   let soloRadioOptions = [
     {
       value: "solo-1",
-      label: "Unistructureel",
-      description: "Leerdoel heeft te maken met maar 1 aspect.",
+      label: $t("unistructural"),
+      description: $t("unistructural-description"),
     },
     {
       value: "solo-2",
-      label: "Multistructureel",
-      description: "Leerdoel heeft te maken met meerdere aspecten.",
+      label: $t("multi-structural"),
+      description: $t("multi-structural-description"),
     },
     {
       value: "solo-3",
-      label: "Relationeel",
-      description:
-        "Leerdoel heeft te maken met structuur tussen aspecten in context.",
+      label: $t("relational"),
+      description: $t("relational-description"),
     },
     {
       value: "solo-4",
-      label: "Overdraagbaar",
-      description: "Structuur van aspecten toepasbaar op een andere context.",
+      label: $t("transferable"),
+      description: $t("transferable-description"),
     },
   ];
 
@@ -238,36 +235,6 @@
     }
   }
 
-  // $: {
-  //   if (goal.taxonomy_solo.includes("solo-1")) {
-  //     removeBloomSelectedItems("1", "2");
-  //   } else if (goal.taxonomy_solo.includes("solo-2")) {
-  //     removeBloomSelectedItems("2", "3");
-  //   } else if (goal.taxonomy_solo.includes("solo-3")) {
-  //     removeBloomSelectedItems("3", "4");
-  //   } else if (goal.taxonomy_solo.includes("solo-4")) {
-  //     removeBloomSelectedItems("3", "4", "5", "6");
-  //   }
-  // }
-
-  function removeBloomSelectedItems(column1, column2, column3, column4) {
-    let newArray = [];
-    for (let i = 0; i < goal.taxonomy_bloom.length; i++) {
-      let lastChar = goal.taxonomy_bloom[i].substr(
-        goal.taxonomy_bloom[i].length - 1
-      );
-      if (
-        lastChar === column1 ||
-        lastChar === column2 ||
-        lastChar === column3 ||
-        lastChar === column4
-      ) {
-        newArray.push(goal.taxonomy_bloom[i]);
-      }
-    }
-    goal.taxonomy_bloom = newArray;
-  }
-
   export let battleTabs = [];
 
   $: if (goal.battles) {
@@ -290,17 +257,13 @@
   />
 </svelte:head>
 
-<FieldSet
-  title="Taxonomies"
-  description="Probeer het leerdoel zo goed mogelijk te classifieren met SOLO en Bloom's
-taxonomy."
->
-  <FormField title="SOLO taxonomy">
+<FieldSet title={$t("taxonomies")} description={$t("taxonomies-description")}>
+  <FormField title={$t("solo-taxonomy")}>
     <Radio bind:selectedValue={goal.taxonomy_solo} options={soloRadioOptions} />
   </FormField>
 
   {#if goal.taxonomy_solo.includes("solo-1")}
-    <FormField title="Onderwerp" forId="uni_topic_name">
+    <FormField title={$t("subject")} forId="uni_topic_name">
       <TextInput bind:value={goal.unitopic} id="uni_topic_name" />
     </FormField>
   {/if}
@@ -309,7 +272,7 @@ taxonomy."
     <DisplayMultiTopics bind:goal />
   {/if}
   {#if goal.taxonomy_solo.includes("solo-4")}
-    <FormField title="Nieuwe context" forId="context_name">
+    <FormField title={$t("new-context")} forId="context_name">
       <TextInput bind:value={goal.context} id="context_name" />
     </FormField>
   {/if}
@@ -323,7 +286,7 @@ taxonomy."
                 class="text-base font-medium text-gray-900 sm:text-sm sm:text-gray-700"
                 id="label-solo"
               >
-                Bloom's taxonomy
+                {$t("blooms-taxonomy")}
               </div>
             </div>
             <div
@@ -331,30 +294,32 @@ taxonomy."
             >
               <div />
               <div class="content-center flex h-12 items-end relative -left-8">
-                Herinneren
+                {$t("remember")}
               </div>
               <div class="content-center flex h-12 relative -left-5">
-                Begrijpen
+                {$t("understand")}
               </div>
               <div class="content-center flex h-12 items-end relative -left-7">
-                Toepassen
+                {$t("apply")}
               </div>
               <div class="content-center flex h-12 relative -left-7">
-                Analyseren
+                {$t("analyze")}
               </div>
               <div class="content-center flex h-12 items-end relative -left-7">
-                Evalueren
+                {$t("evaluate")}
               </div>
-              <div class="content-center flex h-12 relative -left-3">Maken</div>
+              <div class="content-center flex h-12 relative -left-3">
+                {$t("creating-bloom")}
+              </div>
               {#each bloomCheckValues as knowledgeArray, i}
                 {#if i == 0}
-                  Feiten
+                  {$t("facts")}
                 {:else if i == 1}
-                  Concepten
+                  {$t("concepts")}
                 {:else if i == 2}
-                  Processen
+                  {$t("processes")}
                 {:else if i == 3}
-                  Leren leren
+                  {$t("meta-cognition")}
                 {/if}
                 {#each knowledgeArray as cognitionValue}
                   <div class="content-center">
@@ -378,10 +343,10 @@ taxonomy."
 </FieldSet>
 
 <FieldSet
-  title="Leerdoel"
-  description="Omschrijf het leerdoel zo concreet mogelijk."
+  title={$t("goal")}
+  description={$t("goal-description")}
 >
-  <FormField title="Welk werkwoord past het beste bij je leerdoel?">
+  <FormField title={$t("select-verb-description")}>
     <Select
       bind:value={goal.selectedVerbs}
       bind:options={verbs}
@@ -390,49 +355,49 @@ taxonomy."
     />
   </FormField>
   <FormField
-    title="Waar moet de leerling het leerdoel kunnen toepassen?"
+    title={$t("from_where-learning-goal")}
     forId="from_text"
   >
     <TextInput bind:value={goal.fromText} id="from_text" />
   </FormField>
-  <FormField title="Titel" forId="title-textarea">
+  <FormField title={$t("title")} forId="title-textarea">
     <Textarea bind:value={goal.title} id="title-textarea" />
   </FormField>
-  <FormField title="Omschrijving" forId="description">
+  <FormField title={$t("description")} forId="description">
     <Textarea id="description" bind:value={goal.description} rows="3" />
     <svelte:fragment slot="after">
       <div class="ml-4 mt-2 text-sm text-gray-500">
         <ul class="list-disc">
           <li>
-            Probeer de <a
+            {$t("try-the-worlds")} <a
               class="underline"
               href="/beheer/leerdoel/woorden-bloom"
-              >woorden van Bloom's taxonomy</a
-            > aan te houden om het leerdoel te beschrijven.
+              >{$t("blooms-taxonomy")}</a
+            > {$t("to-describe-the-goal")}
           </li>
           <li>
-            Probeer het leerdoel te omschrijven zodat het specifiek, meetbaar,
-            acceptabel, realistisch en tijdsgebonden kan zijn (<a
+            {$t("describe-text-goal")}
+             (<a
               class="underline"
               href="https://www.leroyseijdel.nl/doelen-stellen/smart-leerdoelen-voorbeelden/"
-              >SMART</a
+              >{$t("smart")}</a
             >)
           </li>
           <li>
-            Houd rekening met de beschrijving met de Solo taxonomy. Heeft het te
-            maken met meerdere aspecten in de context of buiten de context?
+          {$t("take-into-account-solo")}
           </li>
         </ul>
         <br />
-        <b>Voorbeelden</b>
+        <b>{$t("examples")}</b>
         <ul class="list-disc">
           <li>
-            Herken en beschrijf de structuur van een exponentieele formule
+            {$t("example-goal-1")}
           </li>
-          <li>Opstellen van een exponentieele formule uit tekst</li>
           <li>
-            Kan classifieren van voorbeelden van linaire en exponentiele
-            verbanden
+            {$t("example-goal-2")}
+            </li>
+          <li>
+            {$t("example-goal-3")}
           </li>
         </ul>
       </div>
@@ -441,8 +406,8 @@ taxonomy."
 </FieldSet>
 
 <FieldSet
-  title="Testen"
-  description="Leerlingen bewijzen met deze testen dat ze het leerdoel beheersen."
+  title={$t("tests")}
+  description={$t("student-evidence-goal-description")}
 >
   <div>
     {#if goal.battles}

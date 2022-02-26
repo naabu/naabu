@@ -4,9 +4,13 @@
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
   import { getDateString } from "$lib/Internals/Misc/helper";
-  import { sortOnCreatedAt, sortOnLastReplyAt } from "$lib/Internals/Revision/helper";
+  import {
+    sortOnCreatedAt,
+    sortOnLastReplyAt,
+  } from "$lib/Internals/Revision/helper";
   import MainTabs from "$lib/Internals/Tabs/talk.svelte";
-import Button from "$lib/Internals/Button/Button.svelte";
+  import Button from "$lib/Internals/Button/Button.svelte";
+  import { t } from "svelte-intl-precompile";
   export let talkId;
   export let post;
   export let replies;
@@ -63,7 +67,7 @@ import Button from "$lib/Internals/Button/Button.svelte";
           .collection("replies")
           .add(data);
         alert.success = true;
-        alert.successTitle = "Antwoord gemaakt";
+        alert.successTitle = $t("answer-created");
         alert.successMessage = "id: " + replyResult.id;
         let newReply = data;
         newReply.id = replyResult.id;
@@ -81,7 +85,7 @@ import Button from "$lib/Internals/Button/Button.svelte";
           .doc(post.id)
           .update({ numberOfReplies: post.numberOfReplies });
       } catch (e) {
-        console.error("Kan post niet maken: ", e);
+        console.error($t("can-answer-not-created")+ ": ", e);
         alert.error = true;
         alert.errorCode = e.code;
         alert.errorMessage = e.message;
@@ -183,7 +187,7 @@ import Button from "$lib/Internals/Button/Button.svelte";
     <form on:submit|preventDefault={formSubmit}>
       <div>
         <label for="reply" class="block text-sm font-medium text-gray-700">
-          Antwoord
+          {$t("answer")}
         </label>
         <div class="mt-1">
           <textarea
@@ -196,13 +200,13 @@ import Button from "$lib/Internals/Button/Button.svelte";
         </div>
         <div class="mt-4 flex justify-between">
           <span class=" text-sm text-gray-500">
-            Hou het vriendelijk en proffesioneel
+            {$t("keep-it-friendly-and-proffesional")}
           </span>
-          <Button 
+          <Button
             isDisabled={buttonDisabled || !hasCurriculumProfile}
             isSubmit={true}
             color="primary"
-            content="Antwoorden"
+            content={$t("answers")}
           />
         </div>
       </div>

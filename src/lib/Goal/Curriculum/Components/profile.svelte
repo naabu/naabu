@@ -3,7 +3,8 @@
   import RevisionList from "$lib/Goal/Curriculum/Components/revisionList.svelte";
   import PostList from "$lib/Goal/Curriculum/Components/postList.svelte";
   import CurriculumTabs from "$lib/Internals/Tabs/curriculum.svelte";
-
+  import { t } from "svelte-intl-precompile";
+  
   export let curriculumProfile;
   export let isOwnProfile = false;
 

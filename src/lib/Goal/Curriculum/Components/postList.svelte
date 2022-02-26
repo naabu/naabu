@@ -2,6 +2,7 @@
   import { goto } from "$app/navigation";
   import { getDateString, truncate } from "$lib/Internals/Misc/helper";
   import { sortOnCreatedAt } from "$lib/Internals/Revision/helper";
+  import { t } from "svelte-intl-precompile";
   export let curriculumProfile;
 
   $: if (curriculumProfile.postList) {
@@ -12,7 +13,7 @@
 
 {#if curriculumProfile.postList}
   <h3 class=" mt-5 mb-5 text-lg leading-6 font-medium text-gray-900">
-    Posts en antwoorden
+    {$t("post-and-answers")}
   </h3>
 
   <div>
@@ -29,19 +30,22 @@
                     scope="col"
                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Gemaakt op
+                  {$t("made-on")}
+
                   </th>
                   <th
                     scope="col"
                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Post title
+                  {$t("post-title")}
+                    
                   </th>
                   <th
                     scope="col"
                     class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                   >
-                    Leerdoel title
+                  {$t("goal-title")}
+                    
                   </th>
                 </tr>
               </thead>

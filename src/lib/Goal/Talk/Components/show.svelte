@@ -3,6 +3,7 @@
   import { sortOnLastReplyAt } from "$lib/Internals/Revision/helper";
   import CreatePostForm from "$lib/Goal/Talk/Components/createPost.svelte";
   import MainTabs from "$lib/Internals/Tabs/talk.svelte";
+  import { t } from "svelte-intl-precompile";
   export let firebase;
   export let talk;
   export let posts;
@@ -18,7 +19,7 @@
 
   <CreatePostForm bind:firebase bind:goalId bind:talk />
   <div class="mt-4 ml-auto mr-auto max-w-xl">
-    <h1 class="sr-only">Recent posts</h1>
+    <h1 class="sr-only">{$t("recent-posts")}</h1>
     <ul role="list" class="space-y-4">
       {#each posts as post}
         <li class="bg-white px-4 py-6 shadow sm:p-6 sm:rounded-lg">
@@ -70,7 +71,6 @@
                   <span
                     class="inline-flex space-x-2 text-gray-400 hover:text-gray-500"
                   >
-                    <!-- Heroicon name: solid/chat-alt -->
                     <svg
                       class="h-5 w-5"
                       xmlns="http://www.w3.org/2000/svg"
@@ -91,7 +91,7 @@
                         0
                       {/if}
                     </span>
-                    <span class="sr-only">replies</span>
+                    <span class="sr-only">{$t("replies")}</span>
                   </span>
                 </span>
               </div>

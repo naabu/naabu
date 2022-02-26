@@ -2,6 +2,7 @@
   import { goto } from "$app/navigation";
   import { getDateString, truncate } from "$lib/Internals/Misc/helper";
   import { sortOnCreatedAt } from "$lib/Internals/Revision/helper";
+  import { t } from "svelte-intl-precompile";
   export let curriculumProfile;
 
   $: if (curriculumProfile.revisionList) {
@@ -14,7 +15,7 @@
 
 {#if curriculumProfile.revisionList}
   <h3 class=" mt-5 mb-5 text-lg leading-6 font-medium text-gray-900">
-    Revisies
+    {$t("revisions")}
   </h3>
 
   <div>
@@ -55,11 +56,11 @@
                       <a
                         href="/revisie/{revision.revisionId}"
                         class="text-indigo-600 hover:text-indigo-900"
-                        >Bekijken</a
+                        >{$t("show")}</a
                       >
                       <a
                         href="/revisie/{revision.revisionId}/wijzigen"
-                        class="text-indigo-600 hover:text-indigo-900">Wijzig</a
+                        class="text-indigo-600 hover:text-indigo-900">{$t("edit")}</a
                       >
                     </td>
                   </tr>

@@ -9,7 +9,7 @@ services:
       - ./:/var/www/
     environment:
       - environment=development
-      - defaultLanguage=nl
+      - defaultLanguage=en
     ports:
       - 3000:3000
       - 3001:3001

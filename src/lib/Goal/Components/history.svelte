@@ -79,7 +79,7 @@
                   >
                     <a
                       href="/revisie/{revision.revisionId}"
-                      class="text-indigo-600 hover:text-indigo-900">{$t("watch")}</a
+                      class="text-indigo-600 hover:text-indigo-900">{$t("show")}</a
                     >
                     <a
                       href="/revisie/{revision.revisionId}/wijzigen"

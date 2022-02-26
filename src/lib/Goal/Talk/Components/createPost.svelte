@@ -10,6 +10,7 @@
   import Textarea from "../../../Internals/FormFields/Textarea.svelte";
   import FormField from "$lib/Internals/FormFields/FormField.svelte";
   import AdditionalFormText from "$lib/Internals/FormFields/AdditionalFormText.svelte";
+  import { t } from "svelte-intl-precompile";
   export let firebase;
   export let talk;
   export let goalId;
@@ -22,7 +23,7 @@
   let db;
 
   if (revision) {
-    newPostTitle = "Overleg revisie " + getDateString(revision.createdAt);
+    newPostTitle = $t("discuss-revision") + " " + getDateString(revision.createdAt);
     newPostText = "";
   }
 
@@ -71,11 +72,11 @@
           .collection("posts")
           .add(data);
         alert.success = true;
-        alert.successTitle = "Post gemaakt";
+        alert.successTitle = $t("post-created-success");
         alert.successMessage = "id: " + postsResult.id;
         await goto("/overleg/" + goalId + "/" + talk.id + "/" + postsResult.id);
       } catch (e) {
-        console.error("Kan post niet maken: ", e);
+        console.error($t("can-not-create-post") +": ", e);
         alert.error = true;
         alert.errorCode = e.code;
         alert.errorMessage = e.message;
@@ -100,10 +101,10 @@
 {#if talk}
   <div class="ml-auto mr-auto max-w-xl mt-8">
     <form on:submit|preventDefault={formSubmit}>
-      <FormField title="Titel" forId="title">
+      <FormField title={$t("title")} forId="title">
         <TextInput bind:value={newPostTitle} dataTest="post-title" id="title" />
       </FormField>
-      <FormField title="Post" forId="post">
+      <FormField title={$t("post")} forId="post">
         <Textarea id="post" bind:value={newPostText} rows="3" />
         <svelte:fragment slot="after">
           <div class="mt-4 flex justify-between">
@@ -115,7 +116,7 @@
               isDisabled={buttonDisabled || !hasCurriculumProfile}
               isSubmit={true}
               color="primary"
-              content="Post"
+              content={$t("post")}
             />
           </div>
         </svelte:fragment>

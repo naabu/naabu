@@ -5,6 +5,7 @@
   import { onMount } from "svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import Button from "$lib/Internals/Button/Button.svelte";
+  import { t } from "svelte-intl-precompile";
   export let firebase;
   export let curriculumProfile;
 
@@ -31,7 +32,7 @@
       let profileRef = db.collection("curriculumProfile").doc(data.id);
       let result = await profileRef.set(data);
       alert.success = true;
-      alert.successTitle = "Curriculum profiel gewijzigd";
+      alert.successTitle = $t("curriciulum-profile-edit-success");
       alert.successMessage = "id: " + data.id;
     } catch (e) {
       alert.error = true;
@@ -65,7 +66,7 @@
       <Button
         isDisabled={buttonDisabled}
         dataTest="submit-button"
-        content="Curriculum profiel wijzigen"
+        content={$t("curriculum-profile-update-button")}
         isSubmit={true}
         color="primary"
       />

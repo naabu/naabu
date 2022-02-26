@@ -1,6 +1,7 @@
 <script>
   import Transition from "svelte-class-transition";
   import Button from "../Button/Button.svelte";
+  import { t } from "svelte-intl-precompile";
 
   export let time = 4000;
   export let displayNotification = false;
@@ -87,7 +88,7 @@
                 color="whitePrimaryIcon"
                 size="icon-square-small"
               >
-                <span class="sr-only">Close</span>
+                <span class="sr-only">{$t("close")}</span>
                 <svg
                   class="h-5 w-5"
                   xmlns="http://www.w3.org/2000/svg"

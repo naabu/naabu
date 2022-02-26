@@ -3,7 +3,8 @@
   import FormField from "$lib/Internals/FormFields/FormField.svelte";
   import PluginSelector from "$lib/Internals/Plugin/Selector.svelte";
   import { createEventDispatcher } from "svelte";
-
+  import { t } from "svelte-intl-precompile";
+  
   const dispatch = createEventDispatcher();
   export let showPluginSelector = false;
 
@@ -17,5 +18,5 @@
 <FormField>
   <Button 
   dataTest = "add-plugin-button"
-  content="Add +" on:click={() => (showPluginSelector = true)} />
+  content={$t("add-plugin-button")} on:click={() => (showPluginSelector = true)} />
 </FormField>

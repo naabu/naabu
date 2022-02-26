@@ -2,6 +2,7 @@
   import Transition from "svelte-class-transition";
   import { createEventDispatcher } from "svelte";
   import Button from "../Button/Button.svelte";
+  import { t } from "svelte-intl-precompile";
   const dispatch = createEventDispatcher();
 
   export let toggle = false;
@@ -79,10 +80,11 @@
                 class="text-lg leading-6 font-medium text-gray-900"
                 id="modal-title"
               >
-                Verwijder confirmatie
+              {$t("confirm-delete")}
+                
               </h3>
               <div class="mt-2">
-                <p class="text-sm text-gray-500">Weet je het zeker?</p>
+                <p class="text-sm text-gray-500">{$t("are-you-sure")}</p>
               </div>
             </div>
           </div>
@@ -91,13 +93,13 @@
               extraClasses={["sm:ml-3", "w-full", "sm:w-auto"]}
               on:click={dialogOkEvent}
               color="warning"
-              content="Verwijderen"
+              content={$t("delete")}
               size="large"
             />
             <Button
               extraClasses={["mt-3", "sm:mt-0", "w-full", "sm:w-auto"]}
               on:click={cancelDialog}
-              content="Cancel"
+              content={$("")}
               size="large"
             />
           </div>

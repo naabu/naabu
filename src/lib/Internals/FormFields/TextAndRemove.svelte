@@ -2,7 +2,7 @@
   import { createEventDispatcher } from "svelte";
   import Button from "../Button/Button.svelte";
   import AdditionalFormText from "./AdditionalFormText.svelte";
-
+  import { t } from "svelte-intl-precompile";
   export let items = [];
   export let noItemsMessage;
   const dispatch = createEventDispatcher();
@@ -29,7 +29,7 @@
     <Button
       size="very-small"
       color="secondary"
-      content="Weghalen"
+      content={$t("remove")}
       dataTest={dataTest + i}
       on:click={() => remove(item, i)}
     />

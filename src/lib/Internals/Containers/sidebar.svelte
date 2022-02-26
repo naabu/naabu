@@ -2,6 +2,7 @@
   import ShowMenuItems from "$lib/Internals/Containers/menuitems.svelte";
   import Transition from "svelte-class-transition";
   import Button from "../Button/Button.svelte";
+  import { t } from "svelte-intl-precompile";
 
   export let menuitems = [];
   let openSidebarMenu;
@@ -20,7 +21,7 @@
         color="whitePrimaryIcon"
         size="icon-square"
       >
-        <span class="sr-only">Open sidebar</span>
+        <span class="sr-only">{$t("open-sidebar")}</span>
         <svg
           class="h-6 w-6"
           xmlns="http://www.w3.org/2000/svg"
@@ -78,7 +79,7 @@
                 extraClasses={["ml-1"]}
                 on:click={() => (openSidebarMenu = false)}
               >
-                <span class="sr-only">Close sidebar</span>
+                <span class="sr-only">{$t("close-sidebar")}</span>
                 <svg
                   class="h-6 w-6 text-white"
                   xmlns="http://www.w3.org/2000/svg"
@@ -137,7 +138,7 @@
           <div class="md:pl-4 sm:flex sm:justify-between sm:items-baseline">
             <div class="sm:w-0 sm:flex-1">
               <h1 class="text-2xl font-semibold text-gray-900">
-                <slot name="title">Dashboard</slot>
+                <slot name="title">{$t("dashboard")}</slot>
               </h1>
             </div>
             <div

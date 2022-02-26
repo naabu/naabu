@@ -5,6 +5,8 @@
   import AddPlugin from "$lib/Internals/Plugin/AddPlugin.svelte";
   import AddInterruptPlugin from "$lib/Internals/Plugin/AddInterruptPlugin.svelte";
   import Table from "$lib/Internals/Table/Table.svelte";
+  import { t } from "svelte-intl-precompile";
+
   export let plugins = [];
 
   function addPlugin(event) {
@@ -157,16 +159,16 @@
       {#if plugin.breadcrumb[plugin.breadcrumb.length - 1]}
         <Button
           size="very-small"
-          content="To top"
+          content={$t("to-top")}
           on:click={() => toTop(plugin)}
         />
         <Button
           size="very-small"
-          content="Go back"
+          content={$t("back")}
           on:click={() => goBack(plugin)}
         />
         <AdditionalFormText
-          content="Parent: {plugin.breadcrumb[plugin.breadcrumb.length - 1]
+          content="{$t("parent")} : {plugin.breadcrumb[plugin.breadcrumb.length - 1]
             .pluginConfig.name}"
         />
       {/if}
@@ -186,13 +188,13 @@
 
     {#if plugin.currentPlugin.plugins}
       <Table
-        tableHeaders={["Plugin", "Onderbreking", "Acties"]}
+        tableHeaders={[$t("plugin"), $t("onderbreking"), $t("acties")]}
         tableBodyContents={plugin.currentPlugin.pluginTable}
       >
         <svelte:fragment slot="action" let:i>
           <Button
             size="tiny"
-            content="Edit"
+            content={$t("edit")}
             dataTest="edit-plugin-{i}-button"
             on:click={() =>
               goToPlugin(
@@ -205,7 +207,7 @@
             dataTest="delete-plugin-{i}-button"
             size="tiny"
             color="lightRed"
-            content="Delete"
+            content={$t("delete")}
             on:click={() => deleteInterruptionPlugin(mainPluginIndex, i)}
           />
         </svelte:fragment>

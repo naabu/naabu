@@ -8,6 +8,7 @@
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { login } from "$lib/Internals/Firebase/helper";
   import Button from "../Button/Button.svelte";
+  import { t } from "svelte-intl-precompile";
 
   $: firebase = $firebaseStore;
 
@@ -27,13 +28,13 @@
     mainMenuLinks = [
       {
         url: "/",
-        content: "De reis",
+        content: $t("the-journey"),
         datacy: "de-reis-menu",
         isActive: $page.path === "/" ? true : false,
       },
       {
         url: "/curriculum",
-        content: "Curriculum",
+        content: $t("curriculum"),
         datacy: "curriculum-menu",
         isActive: $page.path === "/curriculum" ? true : false,
       },
@@ -56,7 +57,7 @@
               size="icon-square"
               color="blueWhiteIcon"
             >
-              <span class="sr-only">Open main menu</span>
+              <span class="sr-only">{$t("open-main-menu")}</span>
               <svg
                 class="{openMenu === true ? 'hidden' : 'block'} block h-6 w-6"
                 xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +99,7 @@
               ><img
                 class="block lg:hidden h-10 w-auto"
                 src={logosmall}
-                alt="Wisvids"
+                alt={$t("logo-text")}
                 data-test="mobile-logo"
               /></a
             >
@@ -106,7 +107,7 @@
               ><img
                 class="hidden lg:block  h-10 w-auto"
                 src={logo}
-                alt="Wisvids"
+                alt={$t("logo-text")}
                 data-test="desktop-logo"
               /></a
             >
@@ -156,7 +157,7 @@
                 href="#"
                 on:click|preventDefault={() => loginWithHeader(firebase)}
                 class="inline-block bg-indigo-500 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75"
-                >Inloggen</a
+                >{$t("sign-in")}</a
               >
               <!-- <a
                 href="#"
@@ -179,7 +180,7 @@
                   color="whiteFullIcon"
                   size="icon-round"
                 >
-                  <span class="sr-only">Open user menu</span>
+                  <span class="sr-only">{$t("open-user-menu")}</span>
                   <img
                     class="h-8 w-8 rounded-full"
                     src={personIcon}
@@ -209,7 +210,7 @@
                     class="block px-4 py-2 text-sm text-gray-700"
                     role="menuitem"
                     tabindex="-1"
-                    id="user-menu-item-teacher-room">Lerarenkamer</a
+                    id="user-menu-item-teacher-room">{$t("teachers-room")}</a
                   >
                   <a
                     href="/curriculum-profiel/mijn-profiel"
@@ -217,7 +218,7 @@
                     class="block px-4 py-2 text-sm text-gray-700"
                     role="menuitem"
                     tabindex="-1"
-                    id="user-menu-item-curriculum">Curriculum profiel</a
+                    id="user-menu-item-curriculum">{$t("curriculum-profile")}</a
                   >
                   <a
                     href="/logout"
@@ -225,7 +226,7 @@
                     class="block px-4 py-2 text-sm text-gray-700"
                     role="menuitem"
                     tabindex="-1"
-                    id="user-menu-item-2">Sign out</a
+                    id="user-menu-item-2">{$t("sign-out")}</a
                   >
                 </div>
               </Transition>
@@ -246,7 +247,7 @@
           class="text-gray-300 hover:bg-blue-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
           role="menuitem"
           tabindex="-1"
-          id="user-menu-item-teacher-room">Lerarenkamer</a
+          id="user-menu-item-teacher-room">{$t("teachers-room")}</a
         >
         <a
           href="/curriculum-profiel/mijn-profiel"
@@ -254,7 +255,7 @@
           class="text-gray-300 hover:bg-blue-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
           role="menuitem"
           tabindex="-1"
-          id="user-menu-item-curriculum">Curriculum profiel</a
+          id="user-menu-item-curriculum">{$t("curriculum-profile")}</a
         >
         <a
           href="/logout"
@@ -262,7 +263,7 @@
           class="text-gray-300 hover:bg-blue-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
           role="menuitem"
           tabindex="-1"
-          id="user-menu-item-2">Sign out</a
+          id="user-menu-item-2">{$t("sign-out")}</a
         >
       </div>
     </div>

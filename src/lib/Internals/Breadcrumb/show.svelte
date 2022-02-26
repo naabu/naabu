@@ -1,12 +1,13 @@
 <script>
   import { getStores, session } from "$app/stores"
   import Notification from "$lib/Internals/Misc/notification.svelte";
+  import { t } from "svelte-intl-precompile";
 
   export let breadcrumbs = [];
   let displayNotification = false;
   let notificationText = {
-    title: "Link succesvol gekopieerd!",
-    description: "Je kan nu de link naar een iemand sturen",
+    title: $t("link-copy-success"),
+    description: $t("send-link-message"),
   }
 
   function copyLinkToClipboard(url) {
@@ -19,7 +20,7 @@
       clipboardUrl = "https://expwis.web.app" + url;
     }
     else if ($session.environment === 'production') {
-      clipboardUrl = "TODO: Add production environment to Breadcrumb/show.svelte" + url;
+      clipboardUrl = "https://naabu.org" + url;
     }
     navigator.clipboard.writeText(clipboardUrl);
     displayNotification = true;
@@ -53,7 +54,7 @@
           clip-rule="evenodd"
         />
       </svg>
-      Back
+      {$t("back")}
     </a>
   </nav>
 {:else if breadcrumbs.length == 1}

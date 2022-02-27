@@ -6,6 +6,8 @@
   import { formatMapObject } from "$lib/Module/Components/helper";
   import { getStores, session } from "$app/stores";
   import Button from "$lib/Internals/Button/Button.svelte";
+  import { t } from "svelte-intl-precompile";
+
   export let firebase;
 
   export let module;
@@ -42,7 +44,7 @@
       let moduleRef = db.collection("modules").doc(module.id);
       await moduleRef.set(data);
       alert.success = true;
-      alert.successTitle = "Module gewijzigd";
+      alert.successTitle = $t("module-updated-succes");
       alert.successMessage = "id: " + module.id;
     } catch (e) {
       alert.error = true;
@@ -68,7 +70,7 @@
   <div class="mt-2 md:flex md:items-center md:justify-between">
     <div class="flex-1 min-w-0">
       <div>
-        <p class="mt-1 max-w-2xl text-sm text-gray-500">Wijzig je module</p>
+        <p class="mt-1 max-w-2xl text-sm text-gray-500">{$t("update-your-module")}</p>
       </div>
     </div>
   </div>
@@ -86,7 +88,7 @@
         isDiabled={buttonDisabled}
         isSubmit={true}
         color="primary"
-        content="Module wijzigen"
+        content={$t("edit-module-button")}
       />
     </div>
   </div>

@@ -6,6 +6,7 @@
   import { formatMapObject } from "$lib/Module/Components/helper";
   import { getStores, session } from "$app/stores";
   import Button from "$lib/Internals/Button/Button.svelte";
+  import { t } from "svelte-intl-precompile";
   export let firebase;
 
   let y;
@@ -47,7 +48,7 @@
       let collectionRef = db.collection("modules");
       let result = await collectionRef.add(data);
       alert.success = true;
-      alert.successTitle = "Module succesvol aangemaakt";
+      alert.successTitle = $t("module-created-success");
       alert.successMessage = "id: " + result.id;
     } catch (e) {
       alert.error = true;
@@ -74,7 +75,7 @@
     <div class="flex-1 min-w-0">
       <div>
         <p class="mt-1 max-w-2xl text-sm text-gray-500">
-          Maak een nieuwe module aan met een kaart
+          {$t("create-new-module-with-a-map")}
         </p>
       </div>
     </div>
@@ -90,7 +91,7 @@
     <div class="flex justify-end">
       <Button
         dataTest="create-module-submit-button"
-        content="Module aanmaken"
+        content={$t("create-module-button")}
         isSubmit={true}
         color="primary"
         isDisabled={buttonDisabled}

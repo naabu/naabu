@@ -1,6 +1,7 @@
 <script>
   import Button from "$lib/Internals/Button/Button.svelte";
   import TextInput from "$lib/Internals/FormFields/TextInput.svelte";
+  import { t } from "svelte-intl-precompile";
 
   export let map;
 
@@ -75,7 +76,7 @@
         {/if}
       {/each}
       {#if paths.length === 0}
-        <div class="mt-6 mb-6">Geen paden gevonden voor start locatie</div>
+        <div class="mt-6 mb-6">{$t("no-paths-found-for-start-location")}</div>
       {/if}
     </nav>
   </div>
@@ -85,22 +86,22 @@
   {#each selectedPath.points as point, i}
     {#if i == 0}
       <div data-test="start-location-point">
-        Start locatie: {point[1]} - {point[0]}
+        {$t("start-location")}: {point[1]} - {point[0]}
       </div>
     {:else if i == selectedPath.points.length - 1}
       <div data-test="end-location-point">
-        Eind locatie: {point[1]} - {point[0]}
+        {$t("end-location")}: {point[1]} - {point[0]}
       </div>
     {:else}
       <div>
         <TextInput
-          title="Point X"
+          title={$t("point-x")}
           dataTest="path-input-x-{i}"
           bind:value={point[1]}
         />
 
         <TextInput
-          title="Point Y"
+          title={$t("point-y")}
           dataTest="path-input-y-{i}"
           bind:value={point[0]}
         />
@@ -108,7 +109,7 @@
         <Button
           dataTest="remove-path-point-button-{i}"
           on:click={() => removePoint(i)}
-          content="Remove"
+          content={$t("remove")}
           size="small"
         />
       </div>
@@ -150,7 +151,7 @@
         <Button
           dataTest="add-path-point-button"
           size="small"
-          content="Punt toevoegen"
+          content={$t("add-point-button")}
           on:click={addPoint}
         />
       </div>

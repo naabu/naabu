@@ -1,6 +1,6 @@
 <script>
   import Button from "$lib/Internals/Button/Button.svelte";
-
+  import { t } from "svelte-intl-precompile";
   export let map;
   let selectedIndex = 0;
   let paths = [];
@@ -88,7 +88,7 @@
         {/if}
       {/each}
       {#if paths.length === 0}
-        <div class="mt-6 mb-6">Geen paden gevonden voor start locatie</div>
+        <div class="mt-6 mb-6">{$t("no-paths-found-for-start-location")}</div>
       {/if}
     </nav>
   </div>
@@ -100,7 +100,7 @@
       <div>
         <input type="text" bind:value={point[1]} />
         <input type="text" bind:value={point[0]} />
-        <Button on:click={() => removePoint(i)} content="Remove" size="small" />
+        <Button on:click={() => removePoint(i)} content={$t("remove")} size="small" />
       </div>
     {:else}
       {point[1]} - {point[0]} <br />
@@ -138,48 +138,6 @@
         class="max-w-lg shadow-sm block w-full focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm border-gray-300 rounded-md"
       />
     </div>
-    <Button on:click={addPoint} content="Punt toevoegen" size="small" />
+    <Button on:click={addPoint} content={$t("add-point-button")} size="small" />
   </div>
 {/if}
-
-<!--     
-      {#if quizzes.length > 0}
-        {#each quizzes[selectedQuizIndex].answers as answer, i}
-          {#if selectedFieldIndex !== i}
-            <button
-              on:click|preventDefault={() => setSelectedFieldIndex(i)}
-              class="outline-none active:outline-none focus:outline-none border-transparent  text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-            >
-              A{i + 1}
-              {#if quizzes[selectedQuizIndex].answers[i].correct}
-                *
-              {/if}
-            </button>
-          {:else}
-            <button
-              on:click|preventDefault={() => setSelectedFieldIndex(i)}
-              class="outline-none active:outline-none focus:outline-none border-indigo-500 text-indigo-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm"
-            >
-              A{i + 1}
-              {#if quizzes[selectedQuizIndex].answers[i].correct}
-                *
-              {/if}
-            </button>
-          {/if}
-        {/each}
-      {/if}
-      <button
-        class="mb-1  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        on:click|preventDefault={() => addAnswer(selectedQuizIndex)}
-      >
-        New answer
-      </button>
-      <button
-        class="mb-1  bg-white py-2 px-3 border border-gray-300 rounded-md shadow-sm text-sm leading-4 font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        on:click|preventDefault={() => removeQuizButtonFunction()}
-      >
-        Remove Quiz
-      </button>
-    </nav>
-  </div>
-</div> -->

@@ -20,7 +20,7 @@
   let breadcrumbs = [
     {
       url: "/beheer",
-      value: "Beheer",
+      value: $t("management"),
     },
   ];
 

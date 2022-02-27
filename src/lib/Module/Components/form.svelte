@@ -6,6 +6,8 @@
   import FormField from "$lib/Internals/FormFields/FormField.svelte";
   import FieldSet from "$lib/Internals/FormFields/FieldSet.svelte";
   import Textarea from "$lib/Internals/FormFields/Textarea.svelte";
+  import { t } from "svelte-intl-precompile";
+
   export let module;
   export let allMaps;
   export let selectMapOptions = [];
@@ -33,16 +35,16 @@
   }
 </script>
 
-<FormField title="Naam" forId="name">
+<FormField title={$t("name")} forId="name">
   <Textarea id="name" required={true} bind:value={module.moduleName} />
 </FormField>
-<FormField title="Beschrijving" forId="description">
+<FormField title={$t("description")} forId="description">
   <Textarea id="description" rows="3" bind:value={module.moduleDescription} />
 </FormField>
-<FormField title="SVG afbeelding" forId="svg">
+<FormField title={$t("svg-image")} forId="svg">
   <Textarea id="svg" rows="5" bind:value={module.moduleSvg} />
 </FormField>
-<FormField title="Kaart" forId="maps">
+<FormField title={$t("map")} forId="maps">
   <Select
     id="maps"
     bind:value={module.map}
@@ -52,7 +54,7 @@
   />
 </FormField>
 {#if module.locations}
-  <FieldSet title="Locaties" description="Locaties op de kaart?">
+  <FieldSet title={$t("locations")} description={$t("locations-description")}>
     <LocationForm bind:map={module} />
   </FieldSet>
 {/if}

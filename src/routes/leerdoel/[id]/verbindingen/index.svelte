@@ -3,7 +3,8 @@
   import ConnectionTemplate from "$lib/Internals/Containers/connectionTemplate.svelte";
   import { getStores, page } from "$app/stores";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/Components/helper";
-
+  import { t } from "svelte-intl-precompile";
+  
   let goal;
   let firebase;
   let breadcrumbs;
@@ -15,7 +16,7 @@
       ...breadcrumbs,
       {
         url: $page.path,
-        value: "Overzicht verbinding",
+        value: $t("overview connections"),
       },
     ];
   }

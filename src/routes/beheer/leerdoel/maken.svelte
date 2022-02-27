@@ -4,6 +4,7 @@
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { getStores, session } from "$app/stores";
   import ShowBreadcrumb from "$lib/Internals/Breadcrumb/show.svelte";
+  import { t } from "svelte-intl-precompile";
   let firebase;
 
   let breadcrumbs = [
@@ -13,11 +14,11 @@
     },
     {
       url: "/beheer/leerdoel",
-      value: "Leerdoel",
+      value: $t("goal"),
     },
     {
       url: "/beheer/leerdoel/maken",
-      value: "Leerdoel maken",
+      value: $t("create-goal"),
     },
   ];
 

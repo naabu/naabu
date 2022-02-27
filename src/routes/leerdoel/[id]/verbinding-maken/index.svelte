@@ -5,7 +5,7 @@
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/Components/helper";
   import { onMount } from "svelte";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
-
+  import { t } from "svelte-intl-precompile";
   let goal;
   let firebase;
   let breadcrumbs;
@@ -19,7 +19,7 @@
       ...breadcrumbs,
       {
         url: $page.path,
-        value: "Verbinding maken, leerdoel zoeken",
+        value: $t("create-connection-search-goal"),
       },
     ];
   }
@@ -64,6 +64,6 @@
   {#if mounted}
     <SearchGoalForConnection bind:goal bind:firebase bind:listLinkedGoalIds />
   {:else}
-    Loading...
+    {$t("loading")}
   {/if}
 </ConnectionTemplate>

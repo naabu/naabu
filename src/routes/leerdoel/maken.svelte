@@ -3,16 +3,17 @@
   import { onMount } from "svelte";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { getStores, session } from "$app/stores";
+  import { t } from "svelte-intl-precompile";
 
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
   let breadcrumbs = [
     {
       url: "/curriculum",
-      value: "Curriculum",
+      value: $t("curriculum"),
     },
     {
       url: "/leerdoel/maken",
-      value: "Leerdoel maken",
+      value: $t("create-goal"),
     },
   ];
   let firebase;
@@ -25,6 +26,6 @@
 </script>
 
 {#if firebase}
-  <ContainerBreadcrumpPageTitle bind:breadcrumbs title="Leerdoel maken" />
+  <ContainerBreadcrumpPageTitle bind:breadcrumbs title={$t("create-goal")} />
   <CreateGoal bind:firebase />
 {/if}

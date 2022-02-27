@@ -4,6 +4,7 @@
   import { getStores, page } from "$app/stores";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/Components/helper";
   import GetGoalData from "$lib/Goal/Data/getGoalData.svelte";
+  import { t } from "svelte-intl-precompile";
 
   let goal;
   let connectionGoal;
@@ -18,11 +19,11 @@
       ...breadcrumbs,
       {
         url: "/leerdoel/" + goal.id + "/verbinding-maken",
-        value: "Verbinding maken leerdoel zoeken",
+        value: $t("search-connection-goal"),
       },
       {
         url: $page.path,
-        value: "Verbinding informatie",
+        value: $t("connection-information"),
       },
     ];
   }

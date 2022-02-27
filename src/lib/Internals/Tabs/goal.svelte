@@ -36,7 +36,7 @@
     },
     {
       value: "edit",
-      text: t("edit"),
+      text: $t("edit"),
       url: "/leerdoel/" + goal.id + "/wijzigen",
     },
     {

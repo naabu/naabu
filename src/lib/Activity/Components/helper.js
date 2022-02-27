@@ -1,5 +1,4 @@
 import { renderKatexOutput } from "$lib/Internals/Misc/helper.js";
-import { t } from "svelte-intl-precompile";
 
 export function getDefaultEmptyActivity() {
   return {
@@ -32,25 +31,26 @@ export function getActivitySaveData(activity) {
     quizzes: activity.quizzes,
     status: activity.status,
     video: {
-      vimeoId: activity.video.vimeoId
-    }
+      vimeoId: activity.video.vimeoId,
+    },
   };
   return data;
 }
 
-export function getTypeText(theType) {
+export function getTypeText(theType, $t) {
   switch (theType) {
     case "explanation":
       return $t("explanation");
     case "practice":
-      return  $t("practice");
+      return $t("practice");
     case "boss":
-      return  $t("boss");
+      return $t("boss");
   }
   return $t("no-type");
 }
 
-export function getDifficultyToString(difficulty) {
+export function getDifficultyToString(difficulty, $t) {
+  console.log($t);
   switch (difficulty) {
     case 1:
       return $t("very-easy");
@@ -65,14 +65,14 @@ export function getDifficultyToString(difficulty) {
   }
 }
 
-export function getStatusTranslation(status) {
+export function getStatusTranslation(status, $t) {
   switch (status) {
     case "draft":
       return $t("draft");
     case "open":
       return $t("open");
     case "published":
-      return $t("published");;
+      return $t("published");
   }
   return $t("no-status");
 }
@@ -80,21 +80,28 @@ export function getStatusTranslation(status) {
 export async function retrieveActivityListFB(db, status, authorId) {
   let ref;
   if (status && authorId) {
-    ref = db.collection("activities").where("status", "==", status).where("authorId", "==", authorId).orderBy("latestRevisionCreatedAt", "desc");
-  }
-  else if (status) {
-    ref = db.collection("activities").where("status", "==", status).orderBy("latestRevisionCreatedAt", "desc");
-  }
-  else if (authorId) {
-    ref = db.collection("activities").where("authorId", "==", authorId).orderBy("latestRevisionCreatedAt", "desc");
-  }
-  else {
+    ref = db
+      .collection("activities")
+      .where("status", "==", status)
+      .where("authorId", "==", authorId)
+      .orderBy("latestRevisionCreatedAt", "desc");
+  } else if (status) {
+    ref = db
+      .collection("activities")
+      .where("status", "==", status)
+      .orderBy("latestRevisionCreatedAt", "desc");
+  } else if (authorId) {
+    ref = db
+      .collection("activities")
+      .where("authorId", "==", authorId)
+      .orderBy("latestRevisionCreatedAt", "desc");
+  } else {
     return [];
   }
 
   let snapshot = await ref.get();
   let activities = [];
-  snapshot.forEach(doc => {
+  snapshot.forEach((doc) => {
     let activity = doc.data();
     activity.id = doc.id;
     activities.push(activity);

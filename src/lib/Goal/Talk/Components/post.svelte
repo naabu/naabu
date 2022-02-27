@@ -200,7 +200,7 @@
         </div>
         <div class="mt-4 flex justify-between">
           <span class=" text-sm text-gray-500">
-            {$t("keep-it-friendly-and-proffesional")}
+            {$t("keep-it-friendly-and-professional")}
           </span>
           <Button
             isDisabled={buttonDisabled || !hasCurriculumProfile}

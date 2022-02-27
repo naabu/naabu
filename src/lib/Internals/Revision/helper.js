@@ -121,13 +121,13 @@ export function formatActivityValue(difference, value) {
     return value;
   }
   if (difference.keys[difference.keys.length - 1] === "type") {
-    return getTypeText(value);
+    return getTypeText(value, $t);
   }
   if (difference.keys[difference.keys.length - 1] === "difficulty") {
-    return getDifficultyToString(value);
+    return getDifficultyToString(value, $t);
   }
   if (difference.keys[difference.keys.length - 1] === "status") {
-    return getStatusTranslation(value);
+    return getStatusTranslation(value, $t);
   }
   if (value === false) {
     return "Nee";

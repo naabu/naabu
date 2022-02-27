@@ -11,7 +11,8 @@
   import TimeAgo from "javascript-time-ago";
   import nl from "javascript-time-ago/locale/nl.json";
   import { getStatusTranslation } from "$lib/Activity/Components/helper";
-
+  import { t } from "svelte-intl-precompile";
+  
   let menuitems;
   let firebase;
   let module;
@@ -19,7 +20,7 @@
   const timeAgo = new TimeAgo("nl");
 
   $: if (module) {
-    menuitems = getTeacherMenuitems($page.path);
+    menuitems = getTeacherMenuitems($page.path, $t);
   }
 
   $: (async () => {

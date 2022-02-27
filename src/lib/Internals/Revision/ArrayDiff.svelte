@@ -1,7 +1,8 @@
 <script>
   import { checkArrayIsTheSame } from "$lib/Internals/Misc/helper";
+  import { t } from "svelte-intl-precompile";
 
-  export let title = "Verschil";
+  export let title = $t("difference");
   export let old;
   export let neww;
   export let old2 = null;

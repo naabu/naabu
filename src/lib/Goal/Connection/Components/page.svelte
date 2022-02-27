@@ -425,7 +425,7 @@
                           {/if}
                         </div>
                         <p class="mt-0.5 text-sm text-gray-500">
-                          {formatToTimeAgo(update.createdAt, firebase, timeAgo)}
+                          {formatToTimeAgo(update.createdAt, firebase, timeAgo, $t)}
                         </p>
                       </div>
                       <div class="mt-2 ">
@@ -468,7 +468,7 @@
                           >
                         </div>
                         <p class="mt-0.5 text-sm text-gray-500">
-                          {formatToTimeAgo(update.createdAt, firebase, timeAgo)}
+                          {formatToTimeAgo(update.createdAt, firebase, timeAgo, $t)}
                         </p>
                       </div>
                       <div class="mt-2 ">
@@ -549,7 +549,7 @@
                           >{formatToTimeAgo(
                             update.createdAt,
                             firebase,
-                            timeAgo
+                            timeAgo, $t
                           )}</span
                         >
                       </div>
@@ -605,7 +605,7 @@
                           >{formatToTimeAgo(
                             update.createdAt,
                             firebase,
-                            timeAgo
+                            timeAgo, $t
                           )}</span
                         >
                         <div>
@@ -653,7 +653,7 @@
           <div class="mt-3">
             <div class="flex justify-between mt-4">
               <AdditionalFormText
-                content={$t("keep-it-friendly-and-proffesional")}
+                content={$t("keep-it-friendly-and-professional")}
               />
               <Button
                 isDisabled={buttonDisabled}

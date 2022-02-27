@@ -5,7 +5,9 @@
   import { getStores, session, page } from "$app/stores";
   import Sidebar from "$lib/Internals/Containers/sidebar.svelte";
   import { getTeacherMenuitems } from "$lib/Internals/Teachers/helper";
-  let menuitems = getTeacherMenuitems($page.path);
+  import { t } from "svelte-intl-precompile";
+
+  let menuitems = getTeacherMenuitems($page.path, $t);
   let firebase;
 
   $: (async () => {

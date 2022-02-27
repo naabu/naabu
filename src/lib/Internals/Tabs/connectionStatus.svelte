@@ -1,5 +1,6 @@
 <script>
   import Tabs from "$lib/Internals/Tabs/tabs.svelte";
+  import { t } from "svelte-intl-precompile";
   export let mainSelected = "published";
   export let goal;
   export let urlType;
@@ -15,31 +16,30 @@
   $: mainTabs = [
     {
       value: "published",
-      text: "Gepubliceerd (" + publishedCount + ")",
+      text: $t("published") + "(" + publishedCount + ")",
       url: "/leerdoel/" + goal.id + "/" + urlType,
     },
     {
       value: "needs-approval",
-      text: "Goedkeuring nodig (" + needsApprovalCount + ")",
+      text: $t("needs-approval") + "(" + needsApprovalCount + ")",
       url: "/leerdoel/" + goal.id + "/" + urlType + "/goedkeuring",
     },
     {
       value: "in-progress",
-      text: "In uitvoering (" + inProgressCount + ")",
+      text: $t("in-progress") + "(" + inProgressCount + ")",
       url: "/leerdoel/" + goal.id + "/" + urlType + "/uitvoering",
     },
     {
       value: "needs-work",
-      text: "Heeft werk nodig (" + needsWorksCount + ")",
+      text: $t("needs-work") + "(" + needsWorksCount + ")",
       url: "/leerdoel/" + goal.id + "/" + urlType + "/werk-nodig",
     },
     {
       value: "in-trash",
-      text: "Prullenbak (" + trashCanCount + ")",
+      text: $t("in-trash") + "(" + trashCanCount + ")",
       url: "/leerdoel/" + goal.id + "/" + urlType + "/prullenbak",
     },
   ];
-
 </script>
 
 <Tabs bind:mainTabs bind:mainSelected />

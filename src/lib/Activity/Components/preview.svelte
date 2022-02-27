@@ -44,11 +44,11 @@
         },
         {
           title: $t("difficulty"),
-          value: getDifficultyToString(activity.difficulty),
+          value: getDifficultyToString(activity.difficulty, $t),
         },
         {
           title: $t("type"),
-          value: getTypeText(activity.type),
+          value: getTypeText(activity.type, $t),
         },
       ],
     };

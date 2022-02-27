@@ -31,7 +31,7 @@
       />
     </FormField>
 
-    <FormField title={$t("insitutional-email")} forId="email">
+    <FormField title={$t("institutional-email")} forId="email">
       <EmailInput id="email" bind:value={curriculumProfile.institutionEmail} />
     </FormField>
 

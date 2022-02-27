@@ -6,10 +6,11 @@
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { t } from "svelte-intl-precompile";
 
   let activityId = $page.query.get("activityId");
 
-  let menuitems = getTeacherMenuitems($page.path);
+  let menuitems = getTeacherMenuitems($page.path, $t);
   let firebase;
   let db;
 

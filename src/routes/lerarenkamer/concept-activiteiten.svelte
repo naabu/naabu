@@ -4,8 +4,9 @@
   import { getStores, page } from "$app/stores";
   import { getTeacherMenuitems } from "$lib/Internals/Teachers/helper";
   import GetActivityListData from "$lib/Activity/Data/getActivityListData.svelte";
+  import { t } from "svelte-intl-precompile";
 
-  let menuitems = getTeacherMenuitems($page.path);
+  let menuitems = getTeacherMenuitems($page.path, $t);
   import { goto } from "$app/navigation";
   let activities;
   let firebase;

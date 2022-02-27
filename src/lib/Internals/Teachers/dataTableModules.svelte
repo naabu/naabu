@@ -1,9 +1,13 @@
 <script>
-  import { getDifficultyToString, getTypeText } from "$lib/Activity/Components/helper";
+  import {
+    getDifficultyToString,
+    getTypeText,
+  } from "$lib/Activity/Components/helper";
   import { formatToTimeAgo } from "$lib/Internals/Misc/helper";
   import nl from "javascript-time-ago/locale/nl.json";
   import { getStores, page } from "$app/stores";
   import TimeAgo from "javascript-time-ago";
+  import { t } from "svelte-intl-precompile";
 
   export let modules;
   export let firebase;
@@ -24,17 +28,17 @@
                 scope="col"
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
-                Module
+                {$t("module")}
               </th>
               <th
                 scope="col"
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
-                Laatste wijziging
+                {$t("last-change-on")}
               </th>
               <slot name="table-header" />
               <th scope="col" class="relative px-6 py-3">
-                <span class="sr-only">Edit</span>
+                <span class="sr-only">{$t("edit")}"</span>
               </th>
             </tr>
           </thead>
@@ -51,7 +55,7 @@
                 </td>
                 <td class="px-6 py-4">
                   <div class="text-sm text-gray-900">
-                    {formatToTimeAgo(module.modifiedAt, firebase, timeAgo)}
+                    {formatToTimeAgo(module.modifiedAt, firebase, timeAgo, $t)}
                   </div>
                 </td>
                 <td
@@ -61,7 +65,7 @@
                     data-test="module-edit-button-{index}"
                     href="/lerarenkamer/module/{module.id}"
                     class="mr-1 underline text-indigo-600 hover:text-indigo-900"
-                    >Wijzigen</a
+                    >{$t("edit")}</a
                   >
                 </td>
               </tr>
@@ -70,11 +74,11 @@
         </table>
         {#if modules.length === 0}
           <div class="m-4">
-            Geen modules gevonden. <a
+            {$t("no-modules-found")} <a
               class="underline"
               href="/lerarenkamer/module/maken"
             >
-              Je kan hier een module maken</a
+              {$t("create-module-here")}</a
             >
           </div>
         {/if}

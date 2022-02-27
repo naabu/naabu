@@ -2,6 +2,7 @@
   import ArrayDiff from "$lib/Internals/Revision/ArrayDiff.svelte";
   import StringDiff from "$lib/Internals/Revision/StringDiff.svelte";
   import { goto } from "$app/navigation";
+  import { t } from "svelte-intl-precompile";
   import { formatActivityKeys, formatActivityValue, getActivitySort, getDifferencesBetweenRevisions } from "$lib/Internals/Revision/helper";
   export let revisionOld;
   export let revisionNew;
@@ -32,5 +33,5 @@
     {/if}
   {/each}
 {:else}
-  <div class="mt-4">Loading...</div>
+  <div class="mt-4">{$t("loading")}</div>
 {/if}

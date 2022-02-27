@@ -1,7 +1,8 @@
 <script>
+    import { t } from "svelte-intl-precompile";
   export let old = "";
   export let neww = "";
-  export let title = "difference";
+  export let title = $t("difference");
   export let differs;
 
   $: {

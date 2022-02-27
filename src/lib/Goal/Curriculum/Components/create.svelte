@@ -107,7 +107,7 @@
   });
 
   async function signInWithGoogle() {
-    let result = await login(firebase);
+    let result = await login(firebase, $t);
     if (result !== null) {
       $session.user = result.user;
       $session.player = result.player;

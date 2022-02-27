@@ -6,6 +6,7 @@
   import Transition from "svelte-class-transition";
   import Button from "$lib/Internals/Button/Button.svelte";
   import AdditionalFormText from "$lib/Internals/FormFields/AdditionalFormText.svelte";
+  import { t } from "svelte-intl-precompile";
 
   import { createEventDispatcher } from "svelte";
 
@@ -53,15 +54,6 @@
 </script>
 
 <div class="fixed inset-y-16 right-0 pl-10 max-w-full flex z-20">
-  <!-- <div
-  class="fixed inset-0 overflow-hidden"
-  aria-labelledby="slide-over-title"
-  role="dialog"
-  aria-modal="true"
->
-  <div class="absolute inset-0 overflow-hidden">
-    <div class="absolute inset-0" aria-hidden="true">
-      <div class="fixed inset-y-0 right-0 pl-10 max-w-full flex sm:pl-16"> -->
   <Transition
     {toggle}
     inTransition="transform transition ease-in-out duration-500 sm:duration-700"
@@ -77,7 +69,7 @@
         <div class="px-4 sm:px-6">
           <div class="flex items-start justify-between">
             <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">
-              Add new stuff
+              {$t("add-new-plugins-text")} 
             </h2>
             <div class="ml-3 h-7 flex items-center">
               <button
@@ -85,7 +77,7 @@
                 class="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
                 on:click={() => (toggle = false)}
               >
-                <span class="sr-only">Close panel</span>
+                <span class="sr-only">{$t("close-panel")}</span>
 
                 <svg
                   class="h-6 w-6"
@@ -119,7 +111,7 @@
                 <Button
                   dataTest="plugin-option-{pluginOption.value.id}"
                   on:click={() => addPlugin(pluginOption.value)}
-                  content="Add to activity"
+                  content={$t("add-to-activity")}
                 />
               </div>
             </div>
@@ -129,4 +121,3 @@
     </div>
   </Transition>
 </div>
-<!-- <Radio bind:selectedValue={selectedPlugin} bind:options /> -->

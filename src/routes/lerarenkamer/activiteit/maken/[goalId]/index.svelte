@@ -6,7 +6,8 @@
   import Sidebar from "$lib/Internals/Containers/sidebar.svelte";
   import { getTeacherMenuitems } from "$lib/Internals/Teachers/helper";
   import GetGoalData from "$lib/Goal/Data/getGoalData.svelte";
-  let menuitems = getTeacherMenuitems($page.path, "draft");
+  import { t } from "svelte-intl-precompile";
+  let menuitems = getTeacherMenuitems($page.path, $t, "draft");
   let firebase;
   let goal;
 

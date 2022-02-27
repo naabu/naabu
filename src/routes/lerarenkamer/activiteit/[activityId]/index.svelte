@@ -11,6 +11,7 @@
   import TimeAgo from "javascript-time-ago";
   import nl from "javascript-time-ago/locale/nl.json";
   import { getStatusTranslation } from "$lib/Activity/Components/helper";
+  import { t } from "svelte-intl-precompile";
 
   let menuitems;
   let firebase;
@@ -20,7 +21,7 @@
   const timeAgo = new TimeAgo("nl");
 
   $: if (activity) {
-    menuitems = getTeacherMenuitems($page.path, activity.status);
+    menuitems = getTeacherMenuitems($page.path, $t, activity.status);
   }
 
   $: (async () => {
@@ -50,7 +51,7 @@
             {formatToTimeAgo(
               activity.latestRevisionCreatedAt,
               firebase,
-              timeAgo
+              timeAgo, $t
             )}</time
           >
         </a>
@@ -65,7 +66,7 @@
     class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800"
   >
     {#if firebase && activity}
-      {getStatusTranslation(activity.status)}
+      {getStatusTranslation(activity.status, $t)}
     {/if}
   </span>
 

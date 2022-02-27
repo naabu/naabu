@@ -1,10 +1,11 @@
 <script>
+  import MainTabs from "$lib/Internals/Tabs/revision.svelte";
+  import { t } from "svelte-intl-precompile";
   export let revision;
   export let previousPreviousRevision;
   export let previousRevision;
   export let nextRevision;
   export let loading;
-  import MainTabs from "$lib/Internals/Tabs/revision.svelte";
 </script>
 
 <MainTabs bind:revision />
@@ -29,40 +30,42 @@
       </div>
       <div class="ml-3">
         <h3 class="text-sm font-medium text-yellow-800">
-          Je bekijkt een revisie<br />
+          {$t("looking-at-revision")}<br />
         </h3>
         <div class="mt-2 text-sm text-yellow-700">
-          <p>Wil je de laatste versie van het leerdoel zien ga terug naar de</p>
+          <p>{$t("want-to-go-back-goal")}</p>
           <p>
             <a class="underline" href="/leerdoel/{revision.goalId}"
-              >hoofdpagina</a
+              >{$t("mainpage")}</a
             >
           </p>
 
           <p class="space-x-4 mt-4">
             {#if previousRevision !== null}
               <span>
-                <a class="underline" href="/revisie/{previousRevision.revisionId}"
-                  >← Oudere versie</a
+                <a
+                  class="underline"
+                  href="/revisie/{previousRevision.revisionId}"
+                  >{$t("older-version")}</a
                 >
                 {#if previousPreviousRevision !== null}
                   (<a
                     class="underline"
                     href="/revisie/{previousRevision.revisionId}/diff/{previousPreviousRevision.revisionId}"
-                    >wijz</a
+                    >{$t("edit")}</a
                   >)
                 {/if}
               </span>
 
               <span>
                 <a class="underline" href="/revisie/{revision.revisionId}"
-                  >Huidige versie</a
+                  >{$t("current-version")}</a
                 >
                 (<a
                   data-test="show-diff-link"
                   class="underline"
                   href="/revisie/{revision.revisionId}/diff/{previousRevision.revisionId}"
-                  >wijz</a
+                  >{$t("edit")}</a
                 >)
               </span>
             {/if}
@@ -70,11 +73,12 @@
             {#if nextRevision !== null}
               <span>
                 <a class="underline" href="/revisie/{nextRevision.revisionId}"
-                  >Nieuwe versie →</a
+                  >{$t("newer-version")}</a
                 >
                 (<a
                   class="underline"
-                  href="/revisie/{nextRevision.revisionId}/diff/{revision.revisionId}">wijz</a
+                  href="/revisie/{nextRevision.revisionId}/diff/{revision.revisionId}"
+                  >{$t("edit")}</a
                 >)</span
               >
             {/if}
@@ -85,16 +89,16 @@
   </div>
 
   <div class="mt-8">
-    Titel: {revision.title}
+    {$t("title")}: {revision.title}
   </div>
 
   <div class="mt-8">
-    Omschrijving: {revision.description}
+    {$t("description")}: {revision.description}
   </div>
 
   <div class="mt-16">
     <!-- <b> TODO: change later </b> -->
   </div>
 {:else}
-  Loading...
+  {$t("loading")}
 {/if}

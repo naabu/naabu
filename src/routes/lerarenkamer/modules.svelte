@@ -4,8 +4,9 @@
   import GetMapsListData from "$lib/Module/Data/getListData.svelte";
   import { getStores, page } from "$app/stores";
   import { getTeacherMenuitems } from "$lib/Internals/Teachers/helper";
+  import { t } from "svelte-intl-precompile";
   import { goto } from "$app/navigation";
-  let menuitems = getTeacherMenuitems($page.path);
+  let menuitems = getTeacherMenuitems($page.path, $t);
   let modules = [];
   let ready = false;
   let firebase; 

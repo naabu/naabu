@@ -1,6 +1,7 @@
 <script>
   import { goto } from "$app/navigation";
   import { createEventDispatcher } from "svelte";
+  import { t } from "svelte-intl-precompile";
 
   export let mainTabs;
   export let subTabs;
@@ -89,7 +90,7 @@
 
 <div>
   <div class="sm:hidden">
-    <label for="main-{id}" class="sr-only">Selecteer een tab</label>
+    <label for="main-{id}" class="sr-only">{$t("select-a-tab")}</label>
     <select
       bind:value={mainSelected}
       on:change={gotoMainTab}
@@ -104,7 +105,7 @@
       {/each}
     </select>
     {#if subTabs}
-      <label for="sub-{id}" class="sr-only">Selecteer een tab</label>
+      <label for="sub-{id}" class="sr-only">{$t("select-a-tab")}</label>
       <select
         bind:value={subSelected}
         on:change={gotoSubTab}

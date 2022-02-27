@@ -14,6 +14,7 @@
   import { goto } from "$app/navigation";
   import SaveActivityRevision from "$lib/Internals/Revision/saveActivityRevision.svelte";
   import Button from "$lib/Internals/Button/Button.svelte";
+  import { t } from "svelte-intl-precompile";
 
   let menuitems;
 
@@ -65,7 +66,7 @@
   }
 
   $: if (revisionNew && revisionNew.revisionType === "activity") {
-    menuitems = getTeacherMenuitems($page.path, latestRevisionStatus);
+    menuitems = getTeacherMenuitems($page.path, $t,  latestRevisionStatus);
   }
 
   $: (async () => {

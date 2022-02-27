@@ -263,7 +263,7 @@
   </FormField>
 
   {#if goal.taxonomy_solo.includes("solo-1")}
-    <FormField title={$t("subject")} forId="uni_topic_name">
+    <FormField title={$t("topic")} forId="uni_topic_name">
       <TextInput bind:value={goal.unitopic} id="uni_topic_name" />
     </FormField>
   {/if}

@@ -132,7 +132,8 @@
                       {formatToTimeAgo(
                         connection.modifiedAt,
                         firebase,
-                        timeAgo
+                        timeAgo,
+                        $t
                       )}
                     </div>
                   </td>
@@ -141,7 +142,8 @@
                       {formatToTimeAgo(
                         connection.lastUpdatesAt,
                         firebase,
-                        timeAgo
+                        timeAgo,
+                        $t
                       )}
                     </div>
                   </td>
@@ -152,7 +154,8 @@
                           serverTimestamp,
                           connection.timeInFutureToTrash,
                           firebase,
-                          timeAgo
+                          timeAgo,
+                          $t
                         )}
                       </div>
                     </td>
@@ -163,7 +166,8 @@
                           serverTimestamp,
                           connection.timeInFutureToApprove,
                           firebase,
-                          timeAgo
+                          timeAgo,
+                          $t
                         )}
                       </div>
                     </td>
@@ -174,7 +178,8 @@
                           serverTimestamp,
                           connection.timeInFutureToNeedsWork,
                           firebase,
-                          timeAgo
+                          timeAgo,
+                          $t
                         )}
                       </div>
                     </td>

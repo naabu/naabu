@@ -99,7 +99,7 @@
             <Button
               extraClasses={["mt-3", "sm:mt-0", "w-full", "sm:w-auto"]}
               on:click={cancelDialog}
-              content={$("")}
+              content={$t("cancel")}
               size="large"
             />
           </div>

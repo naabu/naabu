@@ -37,7 +37,7 @@
   $: if (status) {
     breadcrumbsStatus = {
       url: $page.path,
-      value: getStatusText(status),
+      value: getStatusText(status, $t),
     };
   }
 

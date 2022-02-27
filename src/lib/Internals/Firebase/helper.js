@@ -1,7 +1,6 @@
 import { loginUser } from "$lib/Internals/User/helper.js";
-import { t } from "svelte-intl-precompile";
 
-export async function login(firebase) {
+export async function login(firebase, $t) {
   try {
     let auth = firebase.auth();
     const provider = new firebase.auth.GoogleAuthProvider();

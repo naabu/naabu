@@ -4,6 +4,8 @@
   import { getActivitySaveData } from "$lib/Activity/Components/helper";
   import { createRevision } from "$lib/Internals/Revision/helper";
   import Button from "../Button/Button.svelte";
+  import { t } from "svelte-intl-precompile";
+
 
   export let revision;
   export let firebase;
@@ -37,7 +39,7 @@
         await ref.update(activityData);
         goto("/lerarenkamer/activiteit/" + activity.id);
       } catch (e) {
-        console.error("Error adding documfent: ", e);
+        console.error($t("error-adding-document") +": ", e);
       }
     }
   }
@@ -60,7 +62,7 @@
 <div class="w-full flex justify-end mt-3">
   <Button
     dataTest="reset-activity-to-revision-button"
-    content="Activiteit terugzetten naar deze versie"
+    content={$t("reset-activity-to-this-version")}
     color="primary"
     on:click={applyRevisionToActivity}
   />

@@ -77,7 +77,7 @@
                   {formatToTimeAgo(
                     revision.revisionCreatedAt,
                     firebase,
-                    timeAgo
+                    timeAgo, $t
                   )}
                 </p>
                 <p class="mt-1 text-sm text-gray-500">
@@ -98,7 +98,7 @@
                   {formatToTimeAgo(
                     revision.revisionCreatedAt,
                     firebase,
-                    timeAgo
+                    timeAgo, $t
                   )}
                 </p>
                 <p class="mt-1 text-sm text-gray-500">

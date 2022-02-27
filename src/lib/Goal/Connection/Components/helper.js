@@ -1,6 +1,4 @@
-import { t } from "svelte-intl-precompile";
-
-export function getStatusText(status) {
+export function getStatusText(status, $t) {
   switch (status) {
     case "published":
       return $t("published");

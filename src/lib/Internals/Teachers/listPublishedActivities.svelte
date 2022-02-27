@@ -1,6 +1,6 @@
 <script>
   import DataTableActivities from "$lib/Internals/Teachers/dataTableActivities.svelte";
-
+  import { t } from "svelte-intl-precompile";
   export let activities = [];
 </script>
 
@@ -10,6 +10,6 @@
     href="/leerdoel/{goalId}/activiteiten/{connectionId}"
     class=" underline text-indigo-600 hover:text-indigo-900 text-right text-sm font-medium"
   >
-    Koppeling met leerdoel
+    {$t("connection-with-goal")}
   </a>
 </DataTableActivities>

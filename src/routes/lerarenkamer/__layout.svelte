@@ -2,13 +2,14 @@
   import { getStores, session } from "$app/stores";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { login } from "$lib/Internals/Firebase/helper";
+  import { t } from "svelte-intl-precompile";
   let firebase;
 
   async function loginTeacher() {
     let firebase = $firebaseStore;
     if (firebase) {
       try {
-        let result = await login(firebase);
+        let result = await login(firebase, $t);
         if (result !== null) {
           $session.user = result.user;
           $session.player = result.player;

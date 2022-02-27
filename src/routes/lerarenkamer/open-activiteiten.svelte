@@ -4,7 +4,9 @@
   import Sidebar from "$lib/Internals/Containers/sidebar.svelte";
   import { getStores, page } from "$app/stores";
   import { getTeacherMenuitems } from "$lib/Internals/Teachers/helper";
-  let menuitems = getTeacherMenuitems($page.path);
+  import { t } from "svelte-intl-precompile";
+
+  let menuitems = getTeacherMenuitems($page.path, $t);
   import { goto } from "$app/navigation";
   let activities;
 </script>

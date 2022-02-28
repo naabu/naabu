@@ -5,6 +5,7 @@
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/Components/helper";
+  import { t } from "svelte-intl-precompile";
 
   let firebase;
   let ref;
@@ -21,7 +22,7 @@
       ...breadcrumbs,
       {
         url: $page.path,
-        value: "Leerdoel wijzigen vanuit revisie",
+        value: $t("edit-goal-from-revision"),
       },
     ];
   }

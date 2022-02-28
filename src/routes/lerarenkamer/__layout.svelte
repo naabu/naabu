@@ -3,7 +3,6 @@
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { login } from "$lib/Internals/Firebase/helper";
   import { t } from "svelte-intl-precompile";
-  let firebase;
 
   async function loginTeacher() {
     let firebase = $firebaseStore;
@@ -25,12 +24,12 @@
   {#if $session.user}
     <slot />
   {:else}
-    <p>Je moet eerst inloggen om naar de lerarenkamer te gaan</p>
+    <p>{$t("login-teachersroom-message")}</p>
     <a
       href="#"
       on:click|preventDefault={loginTeacher}
       class="inline-block mt-4 bg-indigo-500 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75"
-      >Inloggen</a
+      >{$t("sign-in")}</a
     >
   {/if}
 {/if}

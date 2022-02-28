@@ -1,12 +1,11 @@
 <script>
   import CreatePostForm from "$lib/Goal/Talk/Components/createPost.svelte";
-  import { onMount } from "svelte";
-  import { getStores, session, page } from "$app/stores";
+  import { getStores, page } from "$app/stores";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import MainTabs from "$lib/Internals/Tabs/talk.svelte";
-  import GetGoalData from "$lib/Goal/Data/getGoalData.svelte";
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/Components/helper";
+  import { t } from "svelte-intl-precompile";
 
   let firebase;
   let revision;
@@ -26,11 +25,11 @@
           $page.params.revisionId +
           "/diff/" +
           $page.params.oldRevId,
-        value: "Verschil versies",
+        value: $t("difference-versions"),
       },
       {
         url: $page.path,
-        value: "Overleg verschillen revisies",
+        value: $t("overview-difference-revisions"),
       },
     ];
   }

@@ -1,8 +1,7 @@
 <script>
   import ActivityDiff from "$lib/Internals/Revision/ActivityDiff.svelte";
   import GoalDiff from "$lib/Internals/Revision/goalDiff.svelte";
-  import { onMount } from "svelte";
-  import { getStores, session, page } from "$app/stores";
+  import { getStores, page } from "$app/stores";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { getNextAndPreviousRevisions } from "$lib/Internals/Revision/helper";
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
@@ -14,7 +13,7 @@
   import SaveActivityRevision from "$lib/Internals/Revision/saveActivityRevision.svelte";
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
-  
+
   let menuitems;
 
   let goal;
@@ -39,7 +38,7 @@
       ...breadcrumbs,
       {
         url: $page.path,
-        value: "Verschil versies",
+        value: $t("difference-versions"),
       },
     ];
   }
@@ -63,21 +62,9 @@
     update();
   }
 
-  // let compareActivityEmpty;
-
   $: if (revisionNew && revisionNew.revisionType === "activity") {
     menuitems = getTeacherMenuitems($page.path, $t, latestRevisionStatus);
-    // compareActivityEmpty = getDefaultEmptyActivity();
-    // compareActivityEmpty.difficulty = "";
   }
-
-  // $: if ($page.params.id && $page.params.oldId && mounted) {
-  //   loading = true;
-  //   goBackRevision = null;
-  //   goForwardRevision = null;
-  //   retrieveFirestoreData();
-  //   loading = false;
-  // }
 
   $: (async () => {
     if ($firebaseStore) {
@@ -152,7 +139,7 @@
     />
 
     <Sidebar bind:menuitems>
-      <span slot="title"> Wijzigingen activiteit </span>
+      <span slot="title">{$t("edits-activity")}</span>
 
       <span slot="cta-button">
         <div class="ml-4 mr-auto w-full flex justify-between">
@@ -161,7 +148,7 @@
               href="/lerarenkamer/activiteit/{revisionNew.revisionSourceId}"
               class="hover:underline"
             >
-              Terug naar activiteit
+              {$t("back-to-activity")}
             </a>
           </p>
 
@@ -169,36 +156,13 @@
             dataTest="show-all-activity-revisions-button"
             extraClasses={["z-10"]}
             on:click={() => (toggleShowAllHistory = !toggleShowAllHistory)}
-            content="Bekijk hele geschiedenis"
+            content={$t("show-complete-history")}
             size="small"
           />
         </div>
-        <!-- <div class="w-full flex">
-          <button
-            class="z-10 mr-auto ml-4 pl-2 pr-2 bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            on:click={() =>
-              goto("/lerarenkamer/activiteit/" + revisionNew.revisionSourceId)}
-          >
-            Terug naar activiteit
-          </button>
-          <button
-            class="z-10 ml-auto mr-4 pl-2 pr-2 bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            on:click={() => (toggleShowAllHistory = !toggleShowAllHistory)}
-          >
-            Bekijk hele geschiedenis
-          </button>
-        </div> -->
       </span>
 
       <span slot="content">
-        <!-- <div class="w-full flex m-4"> -->
-        <!-- <button
-            class="ml-auto mr-4 pl-2 pr-2 bg-white rounded-md inline-flex text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-            on:click={() => (toggleShowAllHistory = !toggleShowAllHistory)}
-          >
-            Bekijk hele geschiedenis
-          </button> -->
-        <!-- </div> -->
         <ActivityDiff
           bind:revisionNew
           revisionOld={{}}

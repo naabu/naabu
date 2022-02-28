@@ -1,6 +1,7 @@
 <script>
   import Preview from "$lib/Activity/Components/preview.svelte";
   import GetActivityData from "$lib/Activity/Data/getActivityData.svelte";
+  import { t } from "svelte-intl-precompile";
 
   let firebase;
   let activity;
@@ -15,5 +16,5 @@
 {#if activity}
   <Preview bind:firebase {showActivity} bind:activity />
 {:else}
-  Loading...
+  {t("loading")}
 {/if}

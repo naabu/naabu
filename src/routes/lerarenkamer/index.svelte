@@ -9,7 +9,7 @@
 </script>
 
 <Sidebar bind:menuitems>
-  <span slot="title"> Dashboard </span>
+  <span slot="title">{$t("dashboard")}</span>
 
   <span slot="content">
     <ListOpenActivities />

@@ -47,7 +47,7 @@
           class="hover:underline"
         >
           <time datetime="2020-12-09T11:43:00">
-            Laatste wijziging was
+            {$t("last-change-was-on")}
             {formatToTimeAgo(
               activity.latestRevisionCreatedAt,
               firebase,
@@ -58,7 +58,7 @@
       </p>
     {/if}
   </div>
-  <span slot="title"> Activiteit maken</span>
+  <span slot="title">{$t("create-activity")}</span>
 
   <span
     slot="status"

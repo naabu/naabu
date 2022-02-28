@@ -1,10 +1,10 @@
 <script>
   import Post from "$lib/Goal/Talk/Components/post.svelte";
-  import { onMount } from "svelte";
-  import { getStores, session, page } from "$app/stores";
+  import { getStores, page } from "$app/stores";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
   import GetGoalData from "$lib/Goal/Data/getGoalData.svelte";
+  import { t } from "svelte-intl-precompile";
 
   let firebase;
   let goal;
@@ -51,15 +51,15 @@
     breadcrumbs = [
       {
         url: "/curriculum",
-        value: "Curriculum",
+        value: $t("curriculum"),
       },
       {
         url: "/leerdoel/" + goal.id,
-        value: "Leerdoel: " + goal.title,
+        value: $t("goal") + ": " + goal.title,
       },
       {
         url: "/overleg/" + goal.id + "/" + $page.params.talkId,
-        value: "Overleg",
+        value: $t("overview"),
       },
       {
         url: $page.path,

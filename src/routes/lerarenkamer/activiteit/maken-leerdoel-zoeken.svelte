@@ -36,7 +36,7 @@
 </script>
 
 <Sidebar bind:menuitems>
-  <span slot="title"> Activiteit maken</span>
+  <span slot="title">{$t("create-activity")}</span>
 
   <span slot="content">
     <ListGoals let:goalId let:goalTitle let:index>
@@ -45,13 +45,13 @@
           <a
             on:click|preventDefault={() => editLearningGoal(goalId, goalTitle)}
             href="/lerarenkamer/activiteit/{activityId}"
-            class="text-indigo-600 hover:text-indigo-900">Selecteren</a
+            class="text-indigo-600 hover:text-indigo-900">{$t("select")}</a
           >
         {:else}
           <a
             data-test="select-learning-goal-{index}"
             href="/lerarenkamer/activiteit/maken/{goalId}"
-            class="text-indigo-600 hover:text-indigo-900">Selecteren</a
+            class="text-indigo-600 hover:text-indigo-900">{$t("select")}</a
           >
         {/if}
       </span>

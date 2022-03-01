@@ -188,7 +188,7 @@
 
     {#if plugin.currentPlugin.plugins}
       <Table
-        tableHeaders={[$t("plugin"), $t("onderbreking"), $t("acties")]}
+        tableHeaders={[$t("plugin"), $t("interruption"), $t("acties")]}
         tableBodyContents={plugin.currentPlugin.pluginTable}
       >
         <svelte:fragment slot="action" let:i>

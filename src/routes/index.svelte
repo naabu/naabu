@@ -1,7 +1,8 @@
 <script>
   import ModuleTeaserList from "$lib/Module/Components/teaserList.svelte";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
-
+  import { t } from "svelte-intl-precompile";
+  
   let firebase;
   let mounted = false;
   let modules = null;

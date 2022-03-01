@@ -291,7 +291,7 @@
                   items={map.locations[selectedIndex].goals}
                   on:remove={removeGoal}
                   dataTest="remove-goal-button-"
-                  noItemsMessage={$t("not-added-goals-to-activity")}
+                  noItemsMessage={$t("no-goals-connected")}
                 >
                   <svelte:fragment let:item={goal} slot="show">
                     {goal.title}

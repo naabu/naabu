@@ -1,6 +1,7 @@
 <script>
   import TimeAgo from "javascript-time-ago";
   import nl from "javascript-time-ago/locale/nl.json";
+  import en from "javascript-time-ago/locale/en.json";
   import { getStores, session, page } from "$app/stores";
   import { onMount } from "svelte";
   import {
@@ -9,8 +10,6 @@
     sortOnCreatedAt,
   } from "$lib/Internals/Revision/helper";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
-  import ArrayDiff from "$lib/Internals/Revision/ArrayDiff.svelte";
-  import StringDiff from "$lib/Internals/Revision/StringDiff.svelte";
 
   import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
   import {
@@ -23,7 +22,7 @@
   import Textarea from "../../../Internals/FormFields/Textarea.svelte";
   import FormField from "$lib/Internals/FormFields/FormField.svelte";
   import AdditionalFormText from "$lib/Internals/FormFields/AdditionalFormText.svelte";
-  import { t } from "svelte-intl-precompile";
+  import { t, locale } from "svelte-intl-precompile";
 
   export let firebase;
   export let goal;
@@ -84,8 +83,9 @@
 
   let alert = getDefaultAlertValues();
   onMount(async () => {
+    TimeAgo.addLocale(en);
     TimeAgo.addLocale(nl);
-    timeAgo = new TimeAgo("nl");
+    timeAgo = new TimeAgo($locale);
     db = await firebase.firestore();
   });
 
@@ -280,7 +280,7 @@
         <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
           <div class="sm:col-span-1">
             <dt class="text-sm font-medium text-gray-500">{$t("title")}</dt>
-            <dd data-test="field-Titel" class="mt-1 text-sm text-gray-900">
+            <dd data-test="field-Title" class="mt-1 text-sm text-gray-900">
               {connection.title}
             </dd>
           </div>
@@ -425,7 +425,12 @@
                           {/if}
                         </div>
                         <p class="mt-0.5 text-sm text-gray-500">
-                          {formatToTimeAgo(update.createdAt, firebase, timeAgo, $t)}
+                          {formatToTimeAgo(
+                            update.createdAt,
+                            firebase,
+                            timeAgo,
+                            $t
+                          )}
                         </p>
                       </div>
                       <div class="mt-2 ">
@@ -468,7 +473,12 @@
                           >
                         </div>
                         <p class="mt-0.5 text-sm text-gray-500">
-                          {formatToTimeAgo(update.createdAt, firebase, timeAgo, $t)}
+                          {formatToTimeAgo(
+                            update.createdAt,
+                            firebase,
+                            timeAgo,
+                            $t
+                          )}
                         </p>
                       </div>
                       <div class="mt-2 ">
@@ -549,7 +559,8 @@
                           >{formatToTimeAgo(
                             update.createdAt,
                             firebase,
-                            timeAgo, $t
+                            timeAgo,
+                            $t
                           )}</span
                         >
                       </div>
@@ -605,7 +616,8 @@
                           >{formatToTimeAgo(
                             update.createdAt,
                             firebase,
-                            timeAgo, $t
+                            timeAgo,
+                            $t
                           )}</span
                         >
                         <div>
@@ -614,17 +626,19 @@
                               {#if difference.type === "string"}
                                 <div class="text-gray-900">
                                   <div>
-                                    {formatActivityKeys(difference.keys)}
+                                    {formatActivityKeys(difference.keys, $t)}
                                     {@html getDiffStrings(
                                       "" +
                                         formatActivityValue(
                                           difference,
-                                          difference.oldValue
+                                          difference.oldValue,
+                                          $t
                                         ),
                                       "" +
                                         formatActivityValue(
                                           difference,
-                                          difference.newValue
+                                          difference.newValue,
+                                          $t
                                         )
                                     )}
                                   </div>

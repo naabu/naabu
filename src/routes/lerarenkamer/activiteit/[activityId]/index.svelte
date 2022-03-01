@@ -1,8 +1,7 @@
 <script>
   import EditActivity from "$lib/Activity/Components/edit.svelte";
-  import { onMount } from "svelte";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
-  import { getStores, session, page } from "$app/stores";
+  import { getStores, page } from "$app/stores";
   import Sidebar from "$lib/Internals/Containers/sidebar.svelte";
   import { getTeacherMenuitems } from "$lib/Internals/Teachers/helper";
   import GetActivityData from "$lib/Activity/Data/getActivityData.svelte";
@@ -10,15 +9,17 @@
   import { formatToTimeAgo } from "$lib/Internals/Misc/helper";
   import TimeAgo from "javascript-time-ago";
   import nl from "javascript-time-ago/locale/nl.json";
+  import en from "javascript-time-ago/locale/en.json";
   import { getStatusTranslation } from "$lib/Activity/Components/helper";
-  import { t } from "svelte-intl-precompile";
+  import { t, locale } from "svelte-intl-precompile";
 
   let menuitems;
   let firebase;
   let activity;
   let previousActivity;
+  TimeAgo.addLocale(en);
   TimeAgo.addLocale(nl);
-  const timeAgo = new TimeAgo("nl");
+  const timeAgo = new TimeAgo($locale);
 
   $: if (activity) {
     menuitems = getTeacherMenuitems($page.path, $t, activity.status);
@@ -51,7 +52,8 @@
             {formatToTimeAgo(
               activity.latestRevisionCreatedAt,
               firebase,
-              timeAgo, $t
+              timeAgo,
+              $t
             )}</time
           >
         </a>

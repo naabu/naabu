@@ -5,14 +5,16 @@
   } from "$lib/Activity/Components/helper";
   import { formatToTimeAgo } from "$lib/Internals/Misc/helper";
   import nl from "javascript-time-ago/locale/nl.json";
+  import en from "javascript-time-ago/locale/en.json";
   import { getStores, page } from "$app/stores";
   import TimeAgo from "javascript-time-ago";
-  import { t } from "svelte-intl-precompile";
+  import { t, locale } from "svelte-intl-precompile";
 
   export let modules;
   export let firebase;
+  TimeAgo.addLocale(en);
   TimeAgo.addLocale(nl);
-  const timeAgo = new TimeAgo("nl");
+  const timeAgo = new TimeAgo($locale);
 </script>
 
 <div class="flex flex-col">

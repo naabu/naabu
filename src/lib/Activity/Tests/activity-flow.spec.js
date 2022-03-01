@@ -106,38 +106,37 @@ test('Create activities and attach them @activity', async ({ page, domain, showA
   await page.click('[data-test=edit-activity-submit-button]');
   await page.locator('[data-test=back-to-form-button]').scrollIntoViewIfNeeded();
   await page.click('[data-test=back-to-form-button]');
-  // Click revisions - changes with Force?
   await page.click('[data-test=last-change-link]');
-  await page.waitForSelector('[data-test="Titel:-old"]');
-  await expect(page.locator('[data-test="Titel:-old"]')).toContainText('Test activity title');
-  await expect(page.locator('[data-test="Titel:-new"]')).toContainText('Test activity title changed');
-  await expect(page.locator('[data-test="Beschrijving:-old"]')).toContainText('Test description $$\\cfrac{5}{4}$$');
-  await expect(page.locator('[data-test="Beschrijving:-new"]')).toContainText('Test description $$\\cfrac{5}{3}$$');
-  await expect(page.locator('[data-test="Moeilijkheid:-old"]')).toContainText('Makkelijk');
-  await expect(page.locator('[data-test="Moeilijkheid:-new"]')).toContainText('Niet makkelijk, niet moeilijk');
+  await page.waitForSelector('[data-test=title-old]');
+  await expect(page.locator('[data-test=title-old]')).toContainText('Test activity title');
+  await expect(page.locator('[data-test=title-new]')).toContainText('Test activity title changed');
+  await expect(page.locator('[data-test=descriptionRaw-old]')).toContainText('Test description $$\\cfrac{5}{4}$$');
+  await expect(page.locator('[data-test=descriptionRaw-new]')).toContainText('Test description $$\\cfrac{5}{3}$$');
+  await expect(page.locator('[data-test=difficulty-old]')).toContainText('Easy');
+  await expect(page.locator('[data-test=difficulty-new]')).toContainText('Not easy, not difficult');
 
-  await expect(page.locator('[data-test="plugins:-old"]')).toContainText('604675909');
-  await expect(page.locator('[data-test="plugins:-new"]')).toContainText('115154289');
-  await expect(page.locator('[data-test="plugins:-old"]')).toContainText('Weet jij het antwoord? $$1+1=$$..');
-  await expect(page.locator('[data-test="plugins:-new"]')).toContainText('Weet jij het antwoord? $$1+2=$$..');
-  await expect(page.locator('[data-test="plugins:-old"]')).toContainText("{\"answers\":[{\"answer\":\"1\",\"correct\":false},{\"answer\":\"2\",\"correct\":true},{\"answer\":\"3\",\"correct\":false}],\"question\":\"Weet jij het antwoord? $$1+1=$$..\"}");
-  await expect(page.locator('[data-test="plugins:-new"]')).toContainText("{\"answers\":[{\"answer\":\"3\",\"correct\":true},{\"answer\":\"4\",\"correct\":false},{\"answer\":\"2\",\"correct\":false}],\"question\":\"Weet jij het antwoord? $$1+2=$$..\"}");
-  await expect(page.locator('[data-test="plugins:-old"]')).toContainText("\"interruptionData\":{\"timeInVideo\":2}}");
-  await expect(page.locator('[data-test="plugins:-new"]')).toContainText("\"interruptionData\":{\"timeInVideo\":3}}");
+  await expect(page.locator('[data-test=plugins-old]')).toContainText('604675909');
+  await expect(page.locator('[data-test=plugins-new]')).toContainText('115154289');
+  await expect(page.locator('[data-test=plugins-old]')).toContainText('Weet jij het antwoord? $$1+1=$$..');
+  await expect(page.locator('[data-test=plugins-new]')).toContainText('Weet jij het antwoord? $$1+2=$$..');
+  await expect(page.locator('[data-test=plugins-old]')).toContainText("{\"answers\":[{\"answer\":\"1\",\"correct\":false},{\"answer\":\"2\",\"correct\":true},{\"answer\":\"3\",\"correct\":false}],\"question\":\"Weet jij het antwoord? $$1+1=$$..\"}");
+  await expect(page.locator('[data-test=plugins-new]')).toContainText("{\"answers\":[{\"answer\":\"3\",\"correct\":true},{\"answer\":\"4\",\"correct\":false},{\"answer\":\"2\",\"correct\":false}],\"question\":\"Weet jij het antwoord? $$1+2=$$..\"}");
+  await expect(page.locator('[data-test=plugins-old]')).toContainText("\"interruptionData\":{\"timeInVideo\":2}}");
+  await expect(page.locator('[data-test=plugins-new]')).toContainText("\"interruptionData\":{\"timeInVideo\":3}}");
 
   await page.click('[data-test="show-all-activity-revisions-button"]');
   await page.waitForSelector('[data-test="revision-link-0"]');
   await expect(page.locator('[data-test="revision-link-0"]')).toBeVisible();
   await expect(page.locator('[data-test="revision-link-2"]')).not.toBeVisible();
   await page.click('[data-test="revision-link-1"]');
-  await page.waitForSelector('[data-test="Type:-new"]');
-  await expect(page.locator('[data-test="Type:-new"]')).toContainText('Uitleg');
-  await expect(page.locator('[data-test="Titel:-new"]')).toContainText("Test activity title");
-  await expect(page.locator('[data-test="Beschrijving:-new"]')).toContainText("Test description $$\\cfrac{5}{4}$$");
-  await expect(page.locator('[data-test="Moeilijkheid:-new"]')).toContainText("Makkelijk");
+  await page.waitForSelector('[data-test=type-new]');
+  await expect(page.locator('[data-test=type-new]')).toContainText('Explanation');
+  await expect(page.locator('[data-test=title-new]')).toContainText("Test activity title");
+  await expect(page.locator('[data-test=descriptionRaw-new]')).toContainText("Test description $$\\cfrac{5}{4}$$");
+  await expect(page.locator('[data-test=difficulty-new]')).toContainText("Easy");
 
-  await expect(page.locator('[data-test="plugins:-new"]')).toContainText("{\"answers\":[{\"answer\":\"1\",\"correct\":false},{\"answer\":\"2\",\"correct\":true},{\"answer\":\"3\",\"correct\":false}],\"question\":\"Weet jij het antwoord? $$1+1=$$..\"}");
-  await expect(page.locator('[data-test="plugins:-new"]')).toContainText("\"interruptionData\":{\"timeInVideo\":2}}");
+  await expect(page.locator('[data-test=plugins-new]')).toContainText("{\"answers\":[{\"answer\":\"1\",\"correct\":false},{\"answer\":\"2\",\"correct\":true},{\"answer\":\"3\",\"correct\":false}],\"question\":\"Weet jij het antwoord? $$1+1=$$..\"}");
+  await expect(page.locator('[data-test=plugins-new]')).toContainText("\"interruptionData\":{\"timeInVideo\":2}}");
 
   await page.click('[data-test=reset-activity-to-revision-button]');
   await page.waitForSelector('#difficulty');
@@ -146,18 +145,18 @@ test('Create activities and attach them @activity', async ({ page, domain, showA
   await page.click('[data-test=connect-activity-learning-goal-button]');
   await page.waitForSelector('[data-test=title-learning-goal-connection-page]');
 
-  await expect(page.locator('[data-test=title-learning-goal-connection-page]')).toContainText("Koppeling leerdoel activiteit informatie");
-  await expect(page.locator('[data-test=field-Titel]')).toContainText("Test activity title");
-  await expect(page.locator('[data-test=field-Moeilijkheid]')).toContainText("Makkelijk");
-  await expect(page.locator('[data-test=field-Type]')).toContainText("Uitleg");
-  await expect(page.locator('[data-test="connection-write-by-teacher-update-content-0"]')).toContainText("Activiteit gekoppeld met leerdoel");
+  await expect(page.locator('[data-test=title-learning-goal-connection-page]')).toContainText("Connection learning goal activity information");
+  await expect(page.locator('[data-test=field-Title]')).toContainText("Test activity title");
+  await expect(page.locator('[data-test=field-Difficulty]')).toContainText("Easy");
+  await expect(page.locator('[data-test=field-Type]')).toContainText("Explanation");
+  await expect(page.locator('[data-test="connection-write-by-teacher-update-content-0"]')).toContainText("Activity connected to activity");
   await page.fill('#comment', "Hey this is a comment on a learning goal activity connection page");
   await page.click('[data-test=post-reaction-button]');
   await page.waitForSelector('[data-test="comment-teacher-content-1"]');
   await expect(page.locator('[data-test="comment-teacher-content-1"]')).toContainText("Hey this is a comment on a learning goal activity connection page");
   await page.click('[data-test=ready-to-publish-button]');
   await page.waitForSelector('[data-test="status-changed-content-2"]');
-  await expect(page.locator('[data-test="status-changed-content-2"]')).toContainText("heeft de status gewijzigd naar Goedkeuring nodig zojuist");
+  await expect(page.locator('[data-test="status-changed-content-2"]')).toContainText("has changed the status to Needs approval just now");
   await page.click('[data-test=edit-activity-page-link]');
   await page.waitForSelector('[data-test=concept-status]');
   await expect(page.locator('[data-test=concept-status]')).toContainText("Open");
@@ -170,10 +169,6 @@ test('Create activities and attach them @activity', async ({ page, domain, showA
 
 test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {
   printMessages(page, showAllConsole);
-  // await page.goto(domain + '/cypress/module/clear');
-  // await page.waitForSelector('[data-test=complete]');
-  // await page.goto(domain + '/cypress/map/clear');
-  // await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/revision/clear');
   await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/goal/clear');

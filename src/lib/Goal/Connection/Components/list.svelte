@@ -6,7 +6,9 @@
   } from "$lib/Internals/Misc/helper";
   import TimeAgo from "javascript-time-ago";
   import nl from "javascript-time-ago/locale/nl.json";
-  import { t } from "svelte-intl-precompile";
+  import en from "javascript-time-ago/locale/en.json";
+
+  import { t, locale  } from "svelte-intl-precompile";
   import {
     compareTimeLeftToApprove,
     compareTimeLeftToNeedsWork,
@@ -54,8 +56,9 @@
 
   setInterval(setServerTimeInFunction, 3000);
 
+  TimeAgo.addLocale(en);
   TimeAgo.addLocale(nl);
-  const timeAgo = new TimeAgo("nl");
+  const timeAgo = new TimeAgo($locale);
 </script>
 
 <slot name="createButton" />

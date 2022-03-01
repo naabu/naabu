@@ -182,7 +182,8 @@
                 </a>
                 (<a
                   class="underline"
-                  href="/revisie/{revisionOld.revisionId}/wijzigen">{$t("edit")}</a
+                  href="/revisie/{revisionOld.revisionId}/wijzigen"
+                  >{$t("edit")}</a
                 >)
                 <div>
                   {#if revisionOld.revisionAuthorId && revisionOld.curriculumProfile}
@@ -214,7 +215,8 @@
                 >
                 (<a
                   class="underline"
-                  href="/revisie/{revisionNew.revisionId}/wijzigen">{$t("edit")}</a
+                  href="/revisie/{revisionNew.revisionId}/wijzigen"
+                  >{$t("edit")}</a
                 >)
                 <div>
                   {#if revisionNew.revisionAuthorId && revisionNew.curriculumProfile}
@@ -245,61 +247,61 @@
   </div>
 
   <StringDiff
-    title={$t("title")}
+    titleTranslationKey="title"
     bind:old={revisionOld.title}
     bind:neww={revisionNew.title}
   />
 
   <StringDiff
-    title={$t("description")}
+    titleTranslationKey="description"
     bind:old={revisionOld.description}
     bind:neww={revisionNew.description}
   />
 
   <StringDiff
-    title={$t("topic")}
+    titleTranslationKey="topic"
     bind:old={revisionOld.unitopic}
     bind:neww={revisionNew.unitopic}
   />
 
   <StringDiff
-    title={$t("from-text")}
+    titleTranslationKey="from-text"
     bind:old={revisionOld.fromText}
     bind:neww={revisionNew.fromText}
   />
 
   <ArrayDiff
-    title={$t("topics")}
+    titleTranslationKey="topics"
     bind:old={revisionOld.multitopics}
     bind:neww={revisionNew.multitopics}
   />
 
   <ArrayDiff
-    title={$t("verbs")}
+    titleTranslationKey="verbs"
     bind:old={revisionOld.selectedVerbs}
     bind:neww={revisionNew.selectedVerbs}
   />
 
   <ArrayDiff
-    title={$t("blooms-taxonomy")}
+    titleTranslationKey="blooms-taxonomy"
     bind:old={revisionOld.taxonomy_bloom}
     bind:neww={revisionNew.taxonomy_bloom}
   />
 
   <StringDiff
-    title={$t("solo-taxonomy")}
+    titleTranslationKey="solo-taxonomy"
     bind:old={revisionOld.taxonomy_solo}
     bind:neww={revisionNew.taxonomy_solo}
   />
 
   <StringDiff
-    title={$t("goal")}
+    titleTranslationKey="goal"
     bind:old={revisionOld.goals}
     bind:neww={revisionNew.goals}
   />
 
   <ArrayDiff
-    title={$t("tests")}
+    titleTranslationKey="tests"
     bind:old={revisionOld.battleNames}
     bind:neww={revisionNew.battleNames}
   />
@@ -310,7 +312,7 @@
     {/if}
 
     <ArrayDiff
-      title={$t("quizzes")}
+      titleTranslationKey="quizzes"
       bind:old={battle.oldQuizIds}
       bind:neww={battle.newQuizIds}
     />
@@ -320,13 +322,13 @@
       {/if}
       <!-- bind:differs={battle.quizzes[i].differsQuestion} -->
       <StringDiff
-        title={$t("question")}
+        titleTranslationKey="question"
         bind:old={quizz.oldQuestion}
         bind:neww={quizz.newQuestion}
       />
       <!--       bind:differs={battle.quizzes[i].differsAnswers} -->
       <ArrayDiff
-        title={$t("answers")}
+        titleTranslationKey="answers"
         bind:old={quizz.oldAnswerText}
         bind:neww={quizz.newAnswerText}
         bind:old2={quizz.oldAnswerCorrect}

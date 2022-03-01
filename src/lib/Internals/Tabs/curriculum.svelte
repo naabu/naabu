@@ -1,6 +1,5 @@
 <script>
   import Tabs from "$lib/Internals/Tabs/tabs.svelte";
-  import Aanmaken from "src/routes/overleg/revisie/[goalId]/[revisionId]/[oldRevId]/aanmaken.svelte";
   import { t } from "svelte-intl-precompile";
   export let mainSelected = "curriculum";
   export let subSelected = "read";

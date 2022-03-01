@@ -50,7 +50,6 @@ export function getTypeText(theType, $t) {
 }
 
 export function getDifficultyToString(difficulty, $t) {
-  console.log($t);
   switch (difficulty) {
     case 1:
       return $t("very-easy");

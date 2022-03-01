@@ -39,7 +39,7 @@
       ...breadcrumbs,
       {
         url: $page.path,
-        value: "Verschil versies",
+        value: $t("difference-versions"),
       },
     ];
   }

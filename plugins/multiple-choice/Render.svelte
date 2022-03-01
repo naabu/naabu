@@ -2,6 +2,7 @@
   import Button from "$lib/Internals/Button/Button.svelte";
   import RadioQuestion from "$lib/Internals/Quiz/RadioQuestion.svelte";
   import { createEventDispatcher } from "svelte";
+  import { t } from "svelte-intl-precompile";
   export let data;
   export let canObserve = false;
 
@@ -18,11 +19,15 @@
   function checkCorrectAnswer(quiz) {
     if (quiz.answers[quiz.selectedAnswer].correct === true) {
       quiz.feedback =
-        "<div data-test='correct-feedback' class='text-green-700 font-bold'>Correct</div>";
+        "<div data-test='correct-feedback' class='text-green-700 font-bold'>" +
+        $t("correct") +
+        "</div>";
       quiz.correct = true;
     } else {
       quiz.feedback =
-        "<div data-test='incorrect-feedback' class='text-red-400 font-bold'>Incorrect</div>";
+        "<div data-test='incorrect-feedback' class='text-red-400 font-bold'>" +
+        $t("incorrect") +
+        "</div>";
       quiz.false = true;
     }
     return quiz;
@@ -54,12 +59,12 @@
         <Button
           on:click={observeParent}
           dataTest="watch-image-video-button"
-          content="Bekijk beeld video"
+          content={$t("show-image-video")}
           color="primary"
         />
       {/if}
     </div>
-    <div class="mt-4 mr-10">Weet jij het antwoord?</div>
+    <div class="mt-4 mr-10">{$t("do-you-know-the-answer")}</div>
     <div class="ml-4 mt-4 flex-shrink-0">
       <div class="ml-4 flex-shrink-0 flex">
         <Button
@@ -68,7 +73,7 @@
           color="whitePrimaryIcon"
           size="icon-square"
         >
-          <span class="sr-only">Close</span>
+          <span class="sr-only">{$t("close")}</span>
           <svg
             class="h-5 w-5"
             xmlns="http://www.w3.org/2000/svg"
@@ -95,7 +100,7 @@
         isDisabled={data.selectedAnswer === null}
         on:click={() => (data = checkCorrectAnswer(data))}
         dataTest="check-answer-button"
-        content="Nakijken"
+        content={$t("check")}
         color="primary"
       />
     {:else}
@@ -103,7 +108,7 @@
         isDisabled={data.selectedAnswer === null}
         on:click={close}
         dataTest="continue-button"
-        content="Doorgaan"
+        content={$t("continue")}
         color="primary"
       />
     {/if}

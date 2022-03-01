@@ -5,6 +5,7 @@
   import Checkbox from "$lib/Internals/FormFields/Checkbox.svelte";
   import FormField from "$lib/Internals/FormFields/FormField.svelte";
   import Tabs from "$lib/Internals/Tabs/tabs.svelte";
+  import { t } from "svelte-intl-precompile";
 
   export let data;
 
@@ -43,10 +44,10 @@
 
     quizQuestionsAndAnswerOptions.push({
       value: -1,
-      text: "Vraag",
+      text: $t("question"),
     });
     for (let i = 0; i < data.answers.length; i++) {
-      let answerText = "Antwoord " + (i + 1);
+      let answerText = $t("answer") + " " + (i + 1);
       if (data.answers[i].correct) {
         answerText += " *";
       }
@@ -78,7 +79,7 @@
         <Button
           dataTest={!mobile ? "new-answer-button" : "new-answer-button-mobile"}
           on:click={() => addAnswer()}
-          content="Nieuw antwoord"
+          content={$t("new-answer")}
           size="small"
         />
       </svelte:fragment>
@@ -88,21 +89,21 @@
 
 {#if data}
   {#if selectedFieldIndex === -1}
-    <FormField labelPosition="top" title="Vraag" forId="quiz_question">
+    <FormField labelPosition="top" title={$t("question")} forId="quiz_question">
       <Textarea id="quiz_question" rows="3" bind:value={data.question} />
       <svelte:fragment slot="after">
         <div class="mb-10 mt-3 block">
           <Button
             size="small"
             on:click={() => updatePreview(data.question)}
-            content="Update preview"
+            content={$t("update-preview")}
           />
         </div>
         <div class="mt-3">{@html renderedKatex}</div>
       </svelte:fragment>
     </FormField>
   {:else if data.answers[selectedFieldIndex]}
-    <FormField labelPosition="top" title="Antwoord" forId="answeranswer">
+    <FormField labelPosition="top" title={$t("answer")} forId="answeranswer">
       <Textarea
         id="answeranswer"
         rows="3"
@@ -111,7 +112,7 @@
     </FormField>
     <Checkbox
       id="answers_check"
-      label="Goed antwoord"
+      label={$t("correct-answer")}
       bind:checked={data.answers[selectedFieldIndex].correct}
     />
 
@@ -121,7 +122,7 @@
           size="small"
           on:click={() =>
             updatePreview(data.answers[selectedFieldIndex].answer)}
-          content="Update preview"
+          content={$t("update-preview")}
         />
       </div>
 
@@ -130,7 +131,7 @@
           size="small"
           dataTest="remove-answer-button"
           on:click={() => deleteQuizAnswer()}
-          content="Antwoord verwijderen"
+          content={$t("remove-answer")}
         />
       </div>
     </div>

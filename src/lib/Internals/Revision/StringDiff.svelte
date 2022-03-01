@@ -1,8 +1,9 @@
 <script>
-    import { t } from "svelte-intl-precompile";
+  import { t } from "svelte-intl-precompile";
   export let old = "";
   export let neww = "";
-  export let title = $t("difference");
+  export let titleTranslationKey = "difference";
+  export let title = $t(titleTranslationKey);
   export let differs;
 
   $: {
@@ -30,11 +31,11 @@
           </div>
 
           <div class="grid gap-4 grid-cols-2 mt-4 px-4 pb-5 sm:p-6 sm:pt-0">
-            <div data-test="{title}-old">
+            <div data-test="{titleTranslationKey}-old">
               {old}
             </div>
 
-            <div data-test="{title}-new">
+            <div data-test="{titleTranslationKey}-new">
               {neww}
             </div>
           </div>

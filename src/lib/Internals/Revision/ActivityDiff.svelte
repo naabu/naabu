@@ -7,7 +7,6 @@
   export let revisionOld;
   export let revisionNew;
   export let loading = false;
-  export let differences = [];
   let orderedDifference;
   let sortListOrder = getActivitySort();
 
@@ -20,13 +19,14 @@
   {#each orderedDifference as difference}
     {#if difference.type === "string"}
       <StringDiff
-        title={formatActivityKeys(difference.keys)}
-        old={formatActivityValue(difference, difference.oldValue)}
-        neww={formatActivityValue(difference, difference.newValue)}
+        titleTranslationKey={difference.keys[difference.keys.length - 1]}
+        title={formatActivityKeys(difference.keys, $t)}
+        old={formatActivityValue(difference, difference.oldValue, $t)}
+        neww={formatActivityValue(difference, difference.newValue, $t)}
       />
     {:else if difference.type === "array"}
       <ArrayDiff
-        title={formatActivityKeys(difference.key)}
+        title={formatActivityKeys(difference.key, $t)}
         bind:old={difference.oldValue}
         bind:neww={difference.newValue}
       />

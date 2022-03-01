@@ -7,13 +7,15 @@
   import GetModuleData from "$lib/Module/Data/getModuleData.svelte";
   import TimeAgo from "javascript-time-ago";
   import nl from "javascript-time-ago/locale/nl.json";
-  import { t } from "svelte-intl-precompile";
+  import en from "javascript-time-ago/locale/en.json";
+  import { t, locale } from "svelte-intl-precompile";
   
   let menuitems;
   let firebase;
   let module;
+  TimeAgo.addLocale(en);
   TimeAgo.addLocale(nl);
-  const timeAgo = new TimeAgo("nl");
+  const timeAgo = new TimeAgo($locale);
 
   $: if (module) {
     menuitems = getTeacherMenuitems($page.path, $t);

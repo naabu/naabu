@@ -16,5 +16,5 @@
 {#if activity}
   <Preview bind:firebase {showActivity} bind:activity />
 {:else}
-  {t("loading")}
+  {$t("loading")}
 {/if}

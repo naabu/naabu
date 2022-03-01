@@ -68,6 +68,7 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
   await page.fill('#description', 'Important learning goal for reasons');
   await page.fill('#test_name', 'Battle 1');
   await page.click('[data-test=add-battle-button]');
+  await page.waitForTimeout("500");
   await page.click('[data-test=add-question-button]');
   await page.fill('#quiz_question', '$$1+1=$$..');
   await page.click('[data-test=new-answer-button]');
@@ -104,6 +105,7 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
   await page.fill('#test_name', 'Battle 2');
   await page.click('[data-test=add-battle-button]');
   await page.click('[data-test=battle-main-1]');
+  await page.waitForTimeout("500");
   await page.click('[data-test=add-question-button]');
   await page.fill('#quiz_question', '$$2+2=$$..');
   await page.click('[data-test=new-answer-button]');

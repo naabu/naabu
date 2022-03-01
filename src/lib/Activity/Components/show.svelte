@@ -127,7 +127,6 @@
     {#if activity.plugins && activity.plugins.length > 0}
       <ShowPlugins bind:object={activity} bind:finished={pluginFinished} />
     {/if}
-    {pluginFinished}
   {:else}
     <p>
       {$t("activity-not-found")}

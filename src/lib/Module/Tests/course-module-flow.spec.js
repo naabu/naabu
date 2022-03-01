@@ -32,6 +32,7 @@ test('Create course modules @module', async ({ page, domain, showAllConsole }) =
   await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/map/course-test-map/add');
   await page.waitForSelector('[data-test=complete]');
+  await page.waitForTimeout(3000);
 
   // Go to course module create form.
   await page.click('[data-test=user-menu]');

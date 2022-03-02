@@ -371,7 +371,7 @@
   "published": "Gepubliceerd",
   "published-activities": "Gepubliceerde activiteiten",
   "question": "Vraag",
-  "question-number": "Vraag {questionNum, number}",
+  "question-number": "Vraag {questionNum}",
   "question-remove": "Vraag verwijderen",
   "quiz": "Quiz",
   "quizzes": "Quizzes",

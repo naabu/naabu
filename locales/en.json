@@ -371,7 +371,7 @@
   "published": "Published",
   "published-activities": "Published activities",
   "question": "Question",
-  "question-number": "Question {questionNum, number}",
+  "question-number": "Question {questionNum}",
   "question-remove": "Remove question",
   "quiz": "Quiz",
   "quizzes": "Quizzes",

@@ -9,6 +9,7 @@
   import FormField from "$lib/Internals/FormFields/FormField.svelte";
   import NumberInput from "$lib/Internals/FormFields/NumberInput.svelte";
   import Tabs from "$lib/Internals/Tabs/tabs.svelte";
+  import { t } from "svelte-intl-precompile";
 
   export let quizzes = [];
   export let showTimeInVideo = false;
@@ -17,8 +18,7 @@
   let deleteQuizToggle = false;
   let renderedKatex = "";
   let quizSelectOptions = [
-    { value: "multiple_choice", content: "Multiple choice" },
-    { value: "quiz", content: "Quiz" },
+    { value: "multiple_choice", content: $t("multiple-choice") },
   ];
 
   function updatePreview(input) {
@@ -81,7 +81,7 @@
     for (let i = 0; i < quizzes.length; i++) {
       questionTabs.push({
         value: i,
-        text: "Vraag " + (i + 1),
+        text: $t("question-number", { values: { questionNum: i + 1 } }),
       });
     }
   }
@@ -93,10 +93,10 @@
 
     quizQuestionsAndAnswerOptions.push({
       value: -1,
-      text: "Vraag",
+      text: $t("question"),
     });
     for (let i = 0; i < quizzes[selectedQuizIndex].answers.length; i++) {
-      let answerText = "Antwoord " + (i + 1);
+      let answerText = $t("answer-number", { values: { answerNum: i + 1 } });
       if (quizzes[selectedQuizIndex].answers[i].correct) {
         answerText += " *";
       }
@@ -119,7 +119,7 @@
         dataTest={!mobile
           ? "add-question-button"
           : "add-question-button-mobile"}
-        content="Nieuwe vraag"
+        content={$t("new-question")}
         size="small"
       />
     </svelte:fragment>
@@ -134,7 +134,7 @@
         <Button
           dataTest={!mobile ? "new-answer-button" : "new-answer-button-mobile"}
           on:click={() => addAnswer(selectedQuizIndex)}
-          content="Nieuw antwoord"
+          content={$t("new-answer")}
           size="small"
         />
         <Button
@@ -142,7 +142,7 @@
             ? "remove-quiz-button"
             : "remove-quiz-button-mobile"}
           on:click={removeQuizButtonFunction}
-          content="Vraag verwijderen"
+          content={$t("question-remove")}
           size="small"
         />
       </svelte:fragment>
@@ -153,7 +153,11 @@
 {#if quizzes.length > 0 && quizzes[selectedQuizIndex]}
   {#if selectedFieldIndex === -1}
     {#if showTimeInVideo}
-      <FormField title="Tijd in video" forId="quiz_video_time" labelPosition="top">
+      <FormField
+        title={$t("time-in-video")}
+        forId="quiz_video_time"
+        labelPosition="top"
+      >
         <NumberInput
           id="quiz_video_time"
           step="0.1"
@@ -162,7 +166,7 @@
       </FormField>
     {/if}
 
-    <FormField title="Type" forId="quiz_type" labelPosition="top">
+    <FormField title={$t("type")} forId="quiz_type" labelPosition="top">
       <Select
         id="quiz_type"
         bind:options={quizSelectOptions}
@@ -171,7 +175,7 @@
       />
     </FormField>
 
-    <FormField labelPosition="top" title="Vraag" forId="quiz_question">
+    <FormField labelPosition="top" title={$t("question")} forId="quiz_question">
       <Textarea
         id="quiz_question"
         rows="3"
@@ -182,14 +186,14 @@
           <Button
             size="small"
             on:click={() => updatePreview(quizzes[selectedQuizIndex].question)}
-            content="Update preview"
+            content={$t("update-preview")}
           />
         </div>
         <div class="mt-3">{@html renderedKatex}</div>
       </svelte:fragment>
     </FormField>
   {:else if quizzes[selectedQuizIndex].answers[selectedFieldIndex]}
-    <FormField labelPosition="top" title="Antwoord" forId="answeranswer">
+    <FormField labelPosition="top" title={$t("answer")} forId="answeranswer">
       <Textarea
         id="answeranswer"
         rows="3"
@@ -199,7 +203,7 @@
     </FormField>
     <Checkbox
       id="answers_check"
-      label="Goed antwoord"
+      label={$t("correct-answer")}
       bind:checked={quizzes[selectedQuizIndex].answers[selectedFieldIndex]
         .correct}
     />
@@ -212,7 +216,7 @@
             updatePreview(
               quizzes[selectedQuizIndex].answers[selectedFieldIndex].answer
             )}
-          content="Update preview"
+          content={$t("update-preview")}
         />
       </div>
 
@@ -221,7 +225,7 @@
           size="small"
           dataTest="remove-answer-button"
           on:click={() => deleteQuizAnswer()}
-          content="Antwoord verwijderen"
+          content={$t("remove-answer")}
         />
       </div>
     </div>

@@ -116,24 +116,24 @@ export function getDifferencesBetweenRevisions(revision1, revision2, sortListOrd
 }
 
 
-export function formatActivityValue(difference, value) {
+export function formatActivityValue(difference, value, $t) {
   if (value === "") {
     return value;
   }
   if (difference.keys[difference.keys.length - 1] === "type") {
-    return getTypeText(value);
+    return getTypeText(value, $t);
   }
   if (difference.keys[difference.keys.length - 1] === "difficulty") {
-    return getDifficultyToString(value);
+    return getDifficultyToString(value, $t);
   }
   if (difference.keys[difference.keys.length - 1] === "status") {
-    return getStatusTranslation(value);
+    return getStatusTranslation(value, $t);
   }
   if (value === false) {
-    return "Nee";
+    return $t("no");
   }
   if (value === true) {
-    return "Ja";
+    return $t("yes");
   }
   if (!value) {
     return "";
@@ -141,18 +141,12 @@ export function formatActivityValue(difference, value) {
   return value;
 }
 
-export function formatActivityKeys(keys) {
+export function formatActivityKeys(keys, $t) {
   let formatKeys = [];
   for (let i = 0; i < keys.length; i++) {
     switch (keys[i]) {
       case "descriptionRaw":
-        formatKeys.push("Beschrijving");
-        break;
-      case "title":
-        formatKeys.push("Titel");
-        break;
-      case "quizzes":
-        formatKeys.push("Quiz");
+        formatKeys.push($t("description"));
         break;
       case "0":
       case "1":
@@ -165,44 +159,32 @@ export function formatActivityKeys(keys) {
       case "8":
       case "9":
         if (keys[i - 1] === "quizzes") {
-          formatKeys.push("vraag " + (parseInt(keys[i]) + 1));
+          formatKeys.push($t("question") + " " + (parseInt(keys[i]) + 1));
         }
         if (keys[i - 1] === "answers") {
-          formatKeys.push("antwoord " + (parseInt(keys[i]) + 1));
+          formatKeys.push($t("answer") + " " + (parseInt(keys[i]) + 1));
         }
         break;
-      case "question":
-        formatKeys.push("vraag");
-        break;
-      case "video":
-        formatKeys.push("Video");
-        break;
       case "vimeoId":
-        formatKeys.push("vimeo id");
-        break;
-      case "type":
-        formatKeys.push("Type");
-        break;
-      case "difficulty":
-        formatKeys.push("Moeilijkheid");
+        formatKeys.push($t("vimeo-id"));
         break;
       case "answers":
       case "answer":
         break;
       default:
-        formatKeys.push(keys[i]);
+        formatKeys.push($t(keys[i]));
         break;
       case "timeInVideo":
-        formatKeys.push("tijd in video");
+        formatKeys.push($t("time-in-video"));
         break;
       case "status":
-        formatKeys.push("Status");
+        formatKeys.push($t("status"));
         break;
       case "correct":
-        formatKeys.push("goed antwoord");
+        formatKeys.push($t("correct-answer"));
         break;
       case "goalTitle":
-        formatKeys.push("Leerdoel");
+        formatKeys.push($t("goal"));
         break;
     }
   }

@@ -4,6 +4,7 @@
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import Button from "../Button/Button.svelte";
   import VerwijderDialog from "$lib/Internals/Misc/dialog.svelte";
+  import { t } from "svelte-intl-precompile";
   let deleteActivityToggle = false;
   export let firebase;
 
@@ -28,14 +29,14 @@
       let db = await firebase.firestore();
       try {
         await db.collection("activities").doc(activityDeleteId).delete();
-        alert.successTitle = "Concept verwijderd";
+        alert.successTitle = $t("concept-removed");
         alert.successMessage = "";
         alert.success = true;
         activities.splice(activityDeleteIndex, 1);
         activities = activities;
       } catch (error) {
         console.log(error);
-        alert.errorMessage = "Error met het verwijderen";
+        alert.errorMessage = $t("error-while-removing");
         alert.error = true;
       }
     }
@@ -55,7 +56,7 @@
     <Button
       color="lightRed"
       size="tiny"
-      content="Verwijderen"
+      content={$t("removing")}
       on:click={() => toggleDeleteActivity(activityId, index)}
     />
   </span>

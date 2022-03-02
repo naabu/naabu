@@ -50,6 +50,8 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
   await page.fill('#credentials', 'The top Proffesor of education (5 years) Head of department of logic.');
   await page.click('[data-test=submit-button]');
   await page.click('[data-test=tabs-sub-read]');
+  await page.waitForTimeout(1000);
+  await page.waitForSelector('[data-test=curriculum-menu]');
   await expect(profileView).toContainText('University of Education');
   await expect(profileView).toContainText('johndoe@uniedu.org');
   await expect(profileView).toContainText('The top Proffesor of education (5 years) Head of department of logic.');
@@ -61,11 +63,12 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
   await page.fill('#uni_topic_name', 'subject 1');
   await page.click('#bloom1-1');
   await page.click('#bloom2-2');
-  await page.selectOption('select#select-verbs', ['benoemen', 'definieren']);
+  await page.selectOption('select#select-verbs', ['describing', 'showing']);
   await page.fill('#from_text', 'from a work sheet');
   await page.fill('#description', 'Important learning goal for reasons');
   await page.fill('#test_name', 'Battle 1');
   await page.click('[data-test=add-battle-button]');
+  await page.waitForTimeout(500);
   await page.click('[data-test=add-question-button]');
   await page.fill('#quiz_question', '$$1+1=$$..');
   await page.click('[data-test=new-answer-button]');
@@ -76,7 +79,7 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
   await page.fill('#answeranswer', '1');
   await page.check('#answers_check');
   await page.click('[data-test=create-goal-submit-button]');
-  await expect(page.locator('div#svelte')).toContainText('Ik kan subject 1 benoemen en definieren from a work sheet');
+  await expect(page.locator('div#svelte')).toContainText('Ik kan subject 1 describing en showing from a work sheet');
 
   // Edit goal page.
   await page.click('[data-test=tabs-sub-edit]');
@@ -87,7 +90,7 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
   await page.click('[data-test=add-multi-topic-button]');
   await page.click('#bloom1-3');
   await page.click('#bloom2-3');
-  await page.selectOption('select#select-verbs', ['berekenen', 'omzetten']);
+  await page.selectOption('select#select-verbs', ['investigating', 'adjusting']);
   await page.fill('#from_text', 'from your head without a calculator');
   await page.fill('#description', 'Vital to learn this early');
   await page.fill('#quiz_question', 'Weet jij het antwoord? $$1+1=$$..');
@@ -102,6 +105,7 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
   await page.fill('#test_name', 'Battle 2');
   await page.click('[data-test=add-battle-button]');
   await page.click('[data-test=battle-main-1]');
+  await page.waitForTimeout(500);
   await page.click('[data-test=add-question-button]');
   await page.fill('#quiz_question', '$$2+2=$$..');
   await page.click('[data-test=new-answer-button]');
@@ -112,7 +116,7 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
   await page.click('[data-test=A2]');
   await page.fill('#answeranswer', '1');
   await page.click('[data-test=edit-goal-submit-button]');
-  await expect(page.locator('div#svelte')).toContainText('Leerdoel gewijzigd');
+  await page.waitForSelector('[data-test=alert-success-title]');
   await page.click('[data-test=tabs-sub-history]');
 
   // Revision page.
@@ -123,68 +127,68 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
   await expect(page.locator('[data-test=revision2]')).not.toBeVisible();
 
   await page.click('[data-test=revision-index-0]');
-  await page.waitForSelector('[data-test=Titel-old]');
-  await expect(page.locator('[data-test=Titel-old]')).toContainText("Ik kan subject 1 benoemen en definieren from a work sheet");
-  await expect(page.locator('[data-test=Titel-new]')).toContainText("Ik kan subject 1 en subject 2 berekenen en omzetten from your head without a calculator");
-  await expect(page.locator('[data-test=Omschrijving-old]')).toContainText("Important learning goal for reasons");
-  await expect(page.locator('[data-test=Omschrijving-new]')).toContainText("Vital to learn this early");
+  await page.waitForSelector('[data-test=title-old]');
+  await expect(page.locator('[data-test=title-old]')).toContainText("Ik kan subject 1 describing en showing from a work sheet");
+  await expect(page.locator('[data-test=title-new]')).toContainText("Ik kan subject 1 en subject 2 investigating en adjusting from your head without a calculator");
+  await expect(page.locator('[data-test=description-old]')).toContainText("Important learning goal for reasons");
+  await expect(page.locator('[data-test=description-new]')).toContainText("Vital to learn this early");
 
-  await expect(page.locator('[data-test="from Text-old"]')).toContainText("from a work sheet");
-  await expect(page.locator('[data-test="from Text-new"]')).toContainText("from your head without a calculator");
-  await expect(page.locator('[data-test=Onderwerpen-new] > [data-test=new-index0]')).toContainText('subject 1');
+  await expect(page.locator('[data-test=from-text-old]')).toContainText("from a work sheet");
+  await expect(page.locator('[data-test=from-text-new]')).toContainText("from your head without a calculator");
+  await expect(page.locator('[data-test=topics-new] > [data-test=new-index0]')).toContainText('subject 1');
 
-  await expect(page.locator('[data-test=Onderwerpen-new] > [data-test=new-index1]')).toContainText('subject 2');
-  await expect(page.locator('[data-test=Werkwoorden-old] > [data-test=old-index0]')).toContainText('benoemen');
-  await expect(page.locator('[data-test=Werkwoorden-old] > [data-test=old-index1]')).toContainText('definieren');
-  await expect(page.locator('[data-test=Werkwoorden-new] > [data-test=new-index0]')).toContainText('berekenen');
-  await expect(page.locator('[data-test=Werkwoorden-new] > [data-test=new-index1]')).toContainText('omzetten');
-  await expect(page.locator('[data-test="Bloom\'s taxonomy-old"] > [data-test=old-index0]')).toContainText('bloom1-1');
-  await expect(page.locator('[data-test="Bloom\'s taxonomy-old"] > [data-test=old-index1]')).toContainText('bloom2-2');
+  await expect(page.locator('[data-test=topics-new] > [data-test=new-index1]')).toContainText('subject 2');
+  await expect(page.locator('[data-test=verbs-old] > [data-test=old-index0]')).toContainText('describing');
+  await expect(page.locator('[data-test=verbs-old] > [data-test=old-index1]')).toContainText('showing');
+  await expect(page.locator('[data-test=verbs-new] > [data-test=new-index0]')).toContainText('investigating');
+  await expect(page.locator('[data-test=verbs-new] > [data-test=new-index1]')).toContainText('adjusting');
+  await expect(page.locator('[data-test=blooms-taxonomy-old] > [data-test=old-index0]')).toContainText('bloom1-1');
+  await expect(page.locator('[data-test=blooms-taxonomy-old] > [data-test=old-index1]')).toContainText('bloom2-2');
 
-  await expect(page.locator('[data-test="Bloom\'s taxonomy-new"] > [data-test=new-index1]')).toContainText('bloom1-3');
-  await expect(page.locator('[data-test="Bloom\'s taxonomy-new"] > [data-test=new-index2]')).toContainText('bloom2-2');
-  await expect(page.locator('[data-test="Bloom\'s taxonomy-new"] > [data-test=new-index3]')).toContainText('bloom2-3');
-  await expect(page.locator('[data-test="Solo\'s taxonomy-old"]')).toContainText('solo-1');
-  await expect(page.locator('[data-test="Solo\'s taxonomy-new"]')).toContainText('solo-2');
-  await expect(page.locator('[data-test="Battles-old"] > [data-test=old-index0]')).toContainText('Battle 1');
-  await expect(page.locator('[data-test="Battles-new"] > [data-test=new-index0]')).toContainText('Battle 1');
-  await expect(page.locator('[data-test="Battles-new"] > [data-test=new-index1]')).toContainText('Battle 2');
-  await expect(page.locator('[data-test="Vraag-old"]')).toContainText('$$1+1=$$..');
-  await expect(page.locator('[data-test="Vraag-new"]')).toContainText('Weet jij het antwoord? $$1+1=$$..');
-  await expect(page.locator('[data-test="Antwoorden-old"] > [data-test=old-index0]')).toContainText('5 - Fout antwoord');
-  await expect(page.locator('[data-test="Antwoorden-old"] > [data-test=old-index1]')).toContainText('1 - Goede antwoord');
-  await expect(page.locator('[data-test="Antwoorden-new"] > [data-test=new-index0]')).toContainText('1 - Fout antwoord');
-  await expect(page.locator('[data-test="Antwoorden-new"] > [data-test=new-index1]')).toContainText('2 - Goede antwoord');
-  await expect(page.locator('[data-test="Antwoorden-new"] > [data-test=new-index2]')).toContainText('3 - Fout antwoord');
+  await expect(page.locator('[data-test=blooms-taxonomy-new] > [data-test=new-index1]')).toContainText('bloom1-3');
+  await expect(page.locator('[data-test=blooms-taxonomy-new] > [data-test=new-index2]')).toContainText('bloom2-2');
+  await expect(page.locator('[data-test=blooms-taxonomy-new] > [data-test=new-index3]')).toContainText('bloom2-3');
+  await expect(page.locator('[data-test=solo-taxonomy-old]')).toContainText('solo-1');
+  await expect(page.locator('[data-test=solo-taxonomy-new]')).toContainText('solo-2');
+  await expect(page.locator('[data-test=tests-old] > [data-test=old-index0]')).toContainText('Battle 1');
+  await expect(page.locator('[data-test=tests-new] > [data-test=new-index0]')).toContainText('Battle 1');
+  await expect(page.locator('[data-test=tests-new] > [data-test=new-index1]')).toContainText('Battle 2');
+  await expect(page.locator('[data-test=question-old]')).toContainText('$$1+1=$$..');
+  await expect(page.locator('[data-test=question-new]')).toContainText('Weet jij het antwoord? $$1+1=$$..');
+  await expect(page.locator('[data-test=answers-old] > [data-test=old-index0]')).toContainText('5 - Wrong answer');
+  await expect(page.locator('[data-test=answers-old] > [data-test=old-index1]')).toContainText('1 - Correct answer');
+  await expect(page.locator('[data-test=answers-new] > [data-test=new-index0]')).toContainText('1 - Wrong answer');
+  await expect(page.locator('[data-test=answers-new] > [data-test=new-index1]')).toContainText('2 - Correct answer');
+  await expect(page.locator('[data-test=answers-new] > [data-test=new-index2]')).toContainText('3 - Wrong answer');
 
   await page.click('[data-test=tabs-sub-edit]');
-  await expect(page.locator('[data-test=alert-old-version]')).toContainText('Waarschuwing: u bewerkt een oude versie van deze pagina.');
-  await expect(page.locator('div#svelte')).toContainText('Als u uw bewerking opslaat, gaan alle wijzigingen verloren die na deze versie zijn gemaakt.');
+  await expect(page.locator('[data-test=alert-old-version]')).toContainText('Warning: You are editing an old version of this page.');
+  await expect(page.locator('div#svelte')).toContainText('If you save your edit, all changes made after this version will be lost.');
   await page.click('[data-test="tabs-main-goal"]');
-  await expect(page.locator('div#svelte')).toContainText('Je bekijkt een revisie');
+  await expect(page.locator('div#svelte')).toContainText('You are viewing a revision');
   await page.click('[data-test="show-diff-link"]');
   await page.waitForSelector('[data-test=discuss-revision-button]');
   // await page.waitForTimeout(5000);
-  await expect(page.locator('div#svelte')).toContainText('Verschil tussen versies');
+  await expect(page.locator('div#svelte')).toContainText('Versions differences');
   await page.click('[data-test=discuss-revision-button]');
   await page.waitForSelector('[data-test=post-title]');
-  await expect(page.locator('[data-test=post-title]')).toHaveValue(/Overleg revisie.*/);
+  await expect(page.locator('[data-test=post-title]')).toHaveValue(/Discuss revision.*/);
   await page.fill('#post', 'Test post for cypress');
   await page.click('[data-test="post-button"]');
-  await expect(page.locator('div#svelte')).toContainText('Antwoord');
+  await expect(page.locator('div#svelte')).toContainText('Answer');
   await page.fill('#reply', 'Answer on post');
   await page.click('[data-test="tabs-main-talk"]')
-  await expect(page.locator('div#svelte')).toContainText('Titel');
+  await expect(page.locator('div#svelte')).toContainText('Title');
   await page.fill('#title', 'New title');
   await page.fill('#post', 'New post');
   await page.click('[data-test="post-button"]');
-  await expect(page.locator('div#svelte')).toContainText('Antwoord');
+  await expect(page.locator('div#svelte')).toContainText('Answers');
   await page.waitForTimeout(1000);
   await page.click('[data-test="profile-link"]');
-  await expect(page.locator('div#svelte')).toContainText('Ik kan subject 1 en subject 2 berekenen en omzetten from your head wi…');
-  await expect(page.locator('div#svelte')).toContainText('Ik kan subject 1 benoemen en definieren from a work sheet');
+  await expect(page.locator('div#svelte')).toContainText('Ik kan subject 1 en subject 2 investigating en adjusting from your he…');
+  await expect(page.locator('div#svelte')).toContainText('Ik kan subject 1 describing en showing from a work sheet');
   await expect(page.locator('div#svelte')).toContainText('New title');
-  await expect(page.locator('div#svelte')).toContainText('Overleg revisie');
+  await expect(page.locator('div#svelte')).toContainText('Discuss revision');
 });
 
 test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {

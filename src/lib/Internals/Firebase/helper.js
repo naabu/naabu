@@ -1,7 +1,6 @@
 import { loginUser } from "$lib/Internals/User/helper.js";
 
-
-export async function login(firebase) {
+export async function login(firebase, $t) {
   try {
     let auth = firebase.auth();
     const provider = new firebase.auth.GoogleAuthProvider();
@@ -12,14 +11,14 @@ export async function login(firebase) {
           let userLoginResult = await loginUser(firebase, loginResult.user);
           return userLoginResult;
         }).catch((error) => {
-          console.error("could not login");
+          console.error($t("could-not-login"));
 
         });
       }).catch(function (error) {
         console.log(error);
         if (error.code === "auth/credential-already-in-use") {
           auth.signInWithCredential(error.credential).catch((error) => {
-            console.error("could not login");
+            console.error($t("could-not-login"));
           });
         }
       }
@@ -32,11 +31,11 @@ export async function login(firebase) {
           anonymousUser.delete().then(function () {
           }).then(function () {
           }).catch(function (error) {
-            console.error("Something went wrong", error);
+            console.error($t("something-went-wrong"), error);
           });
         }
       }).catch(function (error) {
-        console.error("Google sign in failed", error);
+        console.error($t("google-sign-in-failed"), error);
       })
     }
   } catch (e) {

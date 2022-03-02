@@ -2,12 +2,11 @@
   import Button from "$lib/Internals/Button/Button.svelte";
   import Player from "@vimeo/player";
   import { onMount } from "svelte";
-
   import { createEventDispatcher } from "svelte";
+  import { t } from "svelte-intl-precompile";
   const dispatch = createEventDispatcher();
 
   export let data;
-
   export let interruptions = [];
   let interrupted = false;
 
@@ -64,7 +63,6 @@
     ) {
       iframe = document.querySelector("#vimeoVideo iframe");
       if (iframe !== null) {
-        console.log("Playing new video");
         player = new Player(iframe);
         lastVimeoId = data.video.vimeoId;
         await player.loadVideo(data.video.vimeoId);
@@ -150,7 +148,6 @@
         lastActiveInterruption !== null &&
         interruption.order === lastActiveInterruption.order
       ) {
-        console.log("reset the active interruption");
         lastActiveInterruption = null;
       }
     }
@@ -175,7 +172,7 @@
     on:click={observeComplete}
     color="primary"
     dataTest="back-to-interruption"
-    content="Terug naar onderbreking"
+    content={$t("back-to-interruption")}
   />
 </div>
 
@@ -196,8 +193,6 @@
     </div>
   </div>
 </div>
-
-<Button on:click={end} content="Continue" />
 
 <style>
   .video {

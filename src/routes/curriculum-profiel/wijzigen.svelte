@@ -4,6 +4,7 @@
   import { getStores, session, page } from "$app/stores";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
+  import { t } from "svelte-intl-precompile";
 
   let firebase;
 
@@ -34,18 +35,18 @@
   let breadcrumbs = [
     {
       url: "/curriculum",
-      value: "Curriculum",
+      value: $t("curriculum"),
     },
     {
       url: "/curriculum-profiel/wijzigen",
-      value: "Curriculum profiel wijzigen",
+      value: $t("update-curriculum-profile"),
     },
   ];
 </script>
 
 <ContainerBreadcrumpPageTitle
   bind:breadcrumbs
-  title="Curriculum profiel wijzigen"
+  title={$t("update-curriculum-profile")}
 />
 {#if mounted}
   <EditCurriculumProfile bind:firebase bind:curriculumProfile />

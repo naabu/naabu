@@ -1,5 +1,6 @@
 <script>
   import { renderKatexOutput } from "../Misc/helper";
+  import { t } from "svelte-intl-precompile";
   export let quiz;
 </script>
 

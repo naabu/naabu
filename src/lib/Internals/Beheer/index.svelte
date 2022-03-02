@@ -6,20 +6,21 @@
   import Notification from "$lib/Internals/Misc/notification.svelte";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import Button from "../Button/Button.svelte";
+  import { t } from "svelte-intl-precompile";
 
   let firebase;
 
   let db;
   let displayNotification = false;
   let notificationText = {
-    title: "Export succesvol gekopieerd!",
-    description: "Je kan nu export in Python gebruiken",
+    title: $t("export-success-copy"),
+    description: $t("export-can-be-used"),
   };
 
   let breadcrumbs = [
     {
       url: "/beheer",
-      value: "Beheer",
+      value: $t("management"),
     },
   ];
 
@@ -71,12 +72,10 @@
 <br />
 
 {#if $session.user && $session.user.idTokenResult.claims.canDebugDevelopment}
-  <Button on:click={trigger} color="primary" content="Trigger Functions" />
+  <Button on:click={trigger} color="primary" content={$t("trigger-functions")} />
   <Button
     on:click={exportActivityData}
-    content="Get activities export in JSON"
+    content={$t("get-activities-export-json")}
   />
-  <Button on:click={exportGoalData} content="Get goals export in JSON" />
+  <Button on:click={exportGoalData} content={$t("goals-export-json")} />
 {/if}
-
-<!-- TODO: Maybe some dashboards here. Related to activity? -->

@@ -3,7 +3,6 @@
   import { onMount } from "svelte";
   import "@algolia/autocomplete-theme-classic";
   import { renderKatexOutput } from "$lib/Internals/Misc/helper.js";
-  import QuizForm from "$lib/Activity/Components/quizzesForm.svelte";
   import { createEventDispatcher } from "svelte";
   import Button from "$lib/Internals/Button/Button.svelte";
   import Radio from "$lib/Internals/FormFields/Radio.svelte";
@@ -13,6 +12,7 @@
   import FormField from "$lib/Internals/FormFields/FormField.svelte";
   import AdditionalFormText from "$lib/Internals/FormFields/AdditionalFormText.svelte";
   import PluginForm from "$lib/Internals/Plugin/Form.svelte";
+  import { t } from "svelte-intl-precompile";
 
   const dispatch = createEventDispatcher();
 
@@ -21,18 +21,18 @@
   export let typeOfActivityRadioOptions = [
     {
       value: "explanation",
-      label: "Uitleg",
-      description: "Activiteit bevat uitleg om het leerdoel te leren.",
+      label: $t("explanation"),
+      description: $t("explanation_description"),
     },
     {
       value: "practice",
-      label: "Oefening",
-      description: "Activiteit is een oefening voor het leerdoel.",
+      label: $t("practice"),
+      description: $t("practice_description"),
     },
     {
       value: "boss",
-      label: "Eindbaas",
-      description: "Een eindbaas type ontgrendeld de locaties op de kaart.",
+      label: $t("boss"),
+      description: $t("boss_description"),
     },
   ];
 
@@ -55,13 +55,13 @@
         <Button
           on:click={goBackToSearchGoals}
           size="small"
-          content="Wijzigen"
+          content="{$t("modify")}"
         />
       </div>
     </FormField>
   </div>
 
-  <FormField title="Type activiteit" forId="type_of_activity">
+  <FormField title="{$t("type-activity")}" forId="type_of_activity">
     <Radio
       bind:selectedValue={activity.type}
       options={typeOfActivityRadioOptions}
@@ -69,20 +69,20 @@
     />
   </FormField>
 
-  <FormField title="Titel" forId="title">
+  <FormField title="{$t("title")}" forId="title">
     <Textarea id="title" bind:value={activity.title} required={true} />
   </FormField>
 
-  <FormField title="Beschrijving" forId="description">
+  <FormField title="{$t("description")}" forId="description">
     <Textarea id="description" bind:value={activity.descriptionRaw} rows="3" />
     <svelte:fragment slot="after">
-      <AdditionalFormText content="Beschrijf kort de activiteit of de vraag" />
+      <AdditionalFormText content="{$t("activity-description-additional")}" />
       <div class="mb-10 mt-3 block">
         <Button
           dataTest="preview-description"
           size="small"
           on:click={updatePreview}
-          content="Update preview"
+          content={$t("update-preview")}
         />
       </div>
 
@@ -91,7 +91,7 @@
       {/if}
     </svelte:fragment>
   </FormField>
-  <FormField title="Moeilijkheid" forId="difficulty">
+  <FormField title="{$t("difficulty")}" forId="difficulty">
     <NumberInput
       id="difficulty"
       min="1"
@@ -100,28 +100,11 @@
     />
   </FormField>
 
-  <FormField title="SVG" forId="svg">
+  <FormField title="{$t("svg")}" forId="svg">
     <Textarea id="svg" rows="5" bind:value={activity.svg} />
   </FormField>
-<!-- 
-  <FieldSet
-    title="Video"
-    description="Specificeer video gerelateerde informatie"
-  >
-    <FormField title="Vimeo" forId="vimeo_id">
-      <NumberInput
-        id="vimeo_id"
-        title="Vimeo"
-        bind:value={activity.video.vimeoId}
-      />
-    </FormField>
-  </FieldSet> -->
-<!-- 
-  <FieldSet title="Quiz" description="Specificeer vragen en quizjes">
-    <QuizForm bind:quizzes={activity.quizzes} showTimeInVideo={true} />
-  </FieldSet> -->
 
-  <FieldSet title="Plugins" description="Voeg functionaliteit toe">
+  <FieldSet title="Plugins" description="{$t("add-plugin-text")}">
     <PluginForm bind:plugins={activity.plugins} />
   </FieldSet>
 </div>

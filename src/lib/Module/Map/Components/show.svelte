@@ -5,7 +5,7 @@
   export let userMap;
   import { onMount } from "svelte";
   import { getStores, session } from "$app/stores";
-
+  import { t } from "svelte-intl-precompile";
   let leafletMap;
   let bounds;
   let image;

@@ -1,11 +1,11 @@
 <script>
   import Show from "$lib/Internals/Revision/show.svelte";
-  import { onMount } from "svelte";
-  import { getStores, session, page } from "$app/stores";
+  import { getStores, page } from "$app/stores";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { getNextAndPreviousRevisions } from "$lib/Internals/Revision/helper";
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/Components/helper";
+  import { t } from "svelte-intl-precompile";
 
   let firebase;
   let db;
@@ -25,7 +25,7 @@
       ...breadcrumbs,
       {
         url: $page.path,
-        value: "Revisie bekijken",
+        value: $t("show-revision"),
       },
     ];
   }

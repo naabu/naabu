@@ -1,6 +1,7 @@
 <script>
   import { getStores, session, page } from "$app/stores";
   import { onMount } from "svelte";
+  import { t } from "svelte-intl-precompile";
   export let hasCurriculumProfile;
   let mounted = false;
 
@@ -42,17 +43,17 @@
       </div>
       <div class="ml-3">
         <p class="text-sm text-yellow-700">
-          Geen curriculum profiel gevonden
+          {$t("no-curriculum profile found")}
+
           <a
             data-test="create-curriculum-profile-message"
             href="/curriculum-profiel/maken?redirect={$page.path}"
             class="font-medium underline text-yellow-700 hover:text-yellow-600"
           >
             {#if type === "goal"}
-              Maak eerst een curriculum profiel aan om aan leerdoelen te werken
+              {$t(" create-profile-to-work-on-goal")}
             {:else if type === "discuss"}
-              Maak eerst een curriculum profiel aan om te overleggen over
-              leerdoelen
+              {$t("create-profile-to-discuss-goal")}
             {/if}
           </a>
         </p>

@@ -1,5 +1,6 @@
 <script>
   import Tabs from "$lib/Internals/Tabs/tabs.svelte";
+  import { t } from "svelte-intl-precompile";
   export let mainSelected = "talk";
   export let subSelected = "read";
   export let objectId;
@@ -12,23 +13,23 @@
     mainTabs = [
       {
         value: "goal",
-        text: "Leerdoel",
+        text: $t("goal"),
         url: "/leerdoel/" + objectId,
       },
 
       {
         value: "adventures",
-        text: "Activiteiten",
+        text: $t("activities"),
         url: "/leerdoel/" + objectId + "/avonturen",
       },
       {
         value: "connections",
-        text: "Verbindingen",
+        text: $t("connections"),
         url: "/leerdoel/" + objectId + "/verbindingen",
       },
       {
         value: "talk",
-        text: "Overleg",
+        text: $t("discuss"),
         url: "/overleg/" + objectId + "/" + talkId,
       },
     ];
@@ -36,17 +37,17 @@
     subTabs = [
       {
         value: "read",
-        text: "Lezen",
+        text: $t("show"),
         url: "/overleg/" + objectId + "/" + talkId,
       },
       {
         value: "edit",
-        text: "Bewerken",
+        text: $t("edit"),
         url: "/leerdoel/" + objectId + "/wijzigen",
       },
       {
         value: "history",
-        text: "Geschiedenis",
+        text: $t("history"),
         url: "/leerdoel/" + objectId + "/geschiedenis",
       },
     ];

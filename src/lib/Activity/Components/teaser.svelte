@@ -1,5 +1,6 @@
 <script>
   import Stars from "$lib/Internals/Misc/stars.svelte";
+  import { t } from "svelte-intl-precompile";
   export let activity;
   export let moduleId;
   export let locationId;
@@ -19,11 +20,11 @@
       </div>
       <div>
         {#if activity.type === "boss"}
-          Eindbaas
+          {$t("boss")}
         {:else if activity.type === "explanation"}
-          Uitleg
+          {$t("explanation")}
         {:else if activity.type === "practice"}
-          Oefenening
+          {$t("practice")}
         {/if}
       </div>
     </div>
@@ -35,7 +36,7 @@
         <div
           class="float-right flex-1 flex bg-black-500 relative z-10 rounded-lg"
         >
-          <span>Moeilijkheid: </span>
+          <span>{$t("difficulty")}: </span>
           <Stars bind:value={activity.difficulty} />
         </div>
       </div>

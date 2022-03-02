@@ -3,6 +3,7 @@
   import FormField from "$lib/Internals/FormFields/FormField.svelte";
   import TextAndRemove from "$lib/Internals/FormFields/TextAndRemove.svelte";
   import TextInput from "$lib/Internals/FormFields/TextInput.svelte";
+  import { t } from "svelte-intl-precompile";
 
   export let battles;
   export let index;
@@ -33,7 +34,7 @@
   }
 </script>
 
-<FormField forId="test_name" labelPosition="left" title="Testen">
+<FormField forId="test_name" labelPosition="left" title={$t("goal-test-battles")}>
   <TextAndRemove items={battles} on:remove={removeBattle}>
     <svelte:fragment let:item={battle} slot="show">
       {battle.name}
@@ -50,6 +51,6 @@
     on:click={addBattleSubmit}
     size="small"
     dataTest="add-battle-button"
-    content="Test toevoegen"
+    content={$t("add-test-battle")}
   />
 </FormField>

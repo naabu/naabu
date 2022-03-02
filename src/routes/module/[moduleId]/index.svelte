@@ -1,9 +1,9 @@
 <script>
   import Show from "$lib/Module/Map/Components/show.svelte";
-  import { getStores, session, page } from "$app/stores";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { getStores, page } from "$app/stores";
   // import { getMap, getUserMap } from "$lib/Module/Map/Components/helper";
   import GetModuleData from "$lib/Module/Data/getModuleData.svelte";
+  import { t } from "svelte-intl-precompile";
 
   let firebase;
   let module;
@@ -12,11 +12,11 @@
   let breadcrumbs = [
     {
       url: "/",
-      value: "Reis",
+      value: $t("the-journey"),
     },
     {
       url: "/kaart/" + $page.params.id,
-      value: "Kaart bekijken",
+      value: $t("show-map"),
     },
   ];
 
@@ -40,5 +40,5 @@
 {#if module && module.mapId}
   <Show bind:map={module} bind:userMap={userModule} isModule="true" />
 {:else}
-  Loading...
+  {$t("loading")}
 {/if}

@@ -1,8 +1,8 @@
 <script>
   import Show from "$lib/Activity/Components/show.svelte";
-  import { onMount } from "svelte";
-  import { getStores, session, page } from "$app/stores";
+  import { getStores, page } from "$app/stores";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { t } from "svelte-intl-precompile";
 
   let firebase;
 
@@ -11,11 +11,11 @@
   let breadcrumbs = [
     {
       url: "/",
-      value: "Reis",
+      value: $t("the-journey"),
     },
     {
       url: "/" + $page.params.id,
-      value: "Activiteit bekijken",
+      value: $t("show-activity"),
     },
   ];
 
@@ -34,7 +34,6 @@
     if (snap.exists) {
       activity = snap.data();
       activity.id = ref.id;
-      // TODO: There can be multiple goals attached to an activity, support this?
       if (activity.goals.length > 0) {
         let battleCol = db.collection(
           "goals/" + activity.goals[0].objectID + "/battles"

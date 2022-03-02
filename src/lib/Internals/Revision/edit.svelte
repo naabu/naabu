@@ -10,6 +10,7 @@
     getGoalSaveData,
   } from "$lib/Goal/Components/helper";
   import Button from "../Button/Button.svelte";
+  import { t } from "svelte-intl-precompile";
 
   export let battleCol;
   export let firebase;
@@ -104,11 +105,12 @@
         );
 
         alert.success = true;
-        alert.successTitle = "Leerdoel gewijzigd";
+        alert.successTitle = $t("goal-updated");
         alert.successMessage = "id: " + goalRef.id;
       }
     } catch (e) {
-      console.error("Error adding document: ", e);
+      
+      console.error( $t("error-adding-document") + ": ", e);
       alert.error = true;
       alert.errorCode = e.code;
       alert.errorMessage = e.message;
@@ -149,18 +151,18 @@
             class="text-sm font-medium text-yellow-800"
             data-test="alert-old-version"
           >
-            Waarschuwing: u bewerkt een oude versie van deze pagina.
+            {$t("warning-old-version")}
+            
           </h3>
           <div class="mt-2 text-sm text-yellow-700">
             <p>
-              Als u uw bewerking opslaat, gaan alle wijzigingen verloren die na
-              deze versie zijn gemaakt.
+              {$t("warning-old-version-text-description")}
             </p>
             <p>
               <a
                 class="underline"
                 href="/leerdoel/{revision.goalId}/wijzigen"
-                >bewerk huidige versie</a
+                >{$t("edit-current-version")}</a
               >
             </p>
           </div>
@@ -175,7 +177,7 @@
         <div class="flex-1 min-w-0">
           <div>
             <h3 class="text-lg leading-6 font-medium text-gray-900">
-              Leerdoel wijzigen
+              {$t("goal-update")} 
             </h3>
             <p class="mt-1 max-w-2xl text-sm text-gray-500" />
           </div>
@@ -193,7 +195,7 @@
           <Button
             isSubmit={true}
             color="primary"
-            content="Leerdoel publiseren"
+            content={$t("goal-publish-button")}
           />
         </div>
       </div>

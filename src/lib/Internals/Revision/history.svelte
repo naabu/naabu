@@ -1,14 +1,16 @@
 <script>
-  import { getDateString } from "$lib/Internals/Misc/helper";
   export let revisions;
   import { formatToTimeAgo } from "$lib/Internals/Misc/helper";
   import TimeAgo from "javascript-time-ago";
   import nl from "javascript-time-ago/locale/nl.json";
+  import en from "javascript-time-ago/locale/en.json";
   import Transition from "svelte-class-transition";
   import Button from "../Button/Button.svelte";
+  import { t, locale } from "svelte-intl-precompile";
 
+  TimeAgo.addLocale(en);
   TimeAgo.addLocale(nl);
-  const timeAgo = new TimeAgo("nl");
+  const timeAgo = new TimeAgo($locale);
   export let firebase;
   export let toggle = true;
   export let activeRevisionId;
@@ -30,7 +32,7 @@
         <div class="px-4 sm:px-6">
           <div class="flex items-start justify-between">
             <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">
-              Wijzigingen
+              {$t("edit")}
             </h2>
             <div class="ml-3 h-7 flex items-center">
               <Button
@@ -41,7 +43,7 @@
                   toggle = !toggle;
                 }}
               >
-                <span class="sr-only">Close panel</span>
+                <span class="sr-only">{$t("close-panel")}</span>
                 <svg
                   class="h-6 w-6"
                   xmlns="http://www.w3.org/2000/svg"
@@ -77,11 +79,11 @@
                   {formatToTimeAgo(
                     revision.revisionCreatedAt,
                     firebase,
-                    timeAgo
+                    timeAgo, $t
                   )}
                 </p>
                 <p class="mt-1 text-sm text-gray-500">
-                  bekijk wijzigingen - {revision.revisionId}
+                  {$t("show-edits")} - {revision.revisionId}
                 </p>
               </a>
             {:else}
@@ -98,11 +100,11 @@
                   {formatToTimeAgo(
                     revision.revisionCreatedAt,
                     firebase,
-                    timeAgo
+                    timeAgo, $t
                   )}
                 </p>
                 <p class="mt-1 text-sm text-gray-500">
-                  bekijk wijzigingen - {revision.revisionId}
+                  {$t("show-edits")} - {revision.revisionId}
                 </p>
               </a>
             {/if}

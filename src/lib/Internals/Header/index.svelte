@@ -4,19 +4,19 @@
   import personIcon from "$lib/Internals/Header/person-icon.svg";
   import Transition from "svelte-class-transition";
   import { getStores, session, page } from "$app/stores";
-  import { onMount, getContext } from "svelte";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { login } from "$lib/Internals/Firebase/helper";
   import Button from "../Button/Button.svelte";
+  import { t } from "svelte-intl-precompile";
 
   $: firebase = $firebaseStore;
 
   let openMenu = false;
   let openUserMenu = false;
-  let mainMenuLinks;
+  let mainMenuLinks = [];
 
   async function loginWithHeader() {
-    let result = await login(firebase);
+    let result = await login(firebase, $t);
     if (result !== null) {
       $session.user = result.user;
       $session.player = result.player;
@@ -27,18 +27,19 @@
     mainMenuLinks = [
       {
         url: "/",
-        content: "De reis",
+        content: $t("the-journey"),
         datacy: "de-reis-menu",
         isActive: $page.path === "/" ? true : false,
       },
       {
         url: "/curriculum",
-        content: "Curriculum",
+        content: $t("curriculum"),
         datacy: "curriculum-menu",
         isActive: $page.path === "/curriculum" ? true : false,
       },
     ];
   }
+
   async function logout() {
     await firebase.auth().signOut();
     openUserMenu = false;
@@ -56,7 +57,7 @@
               size="icon-square"
               color="blueWhiteIcon"
             >
-              <span class="sr-only">Open main menu</span>
+              <span class="sr-only">{$t("open-main-menu")}</span>
               <svg
                 class="{openMenu === true ? 'hidden' : 'block'} block h-6 w-6"
                 xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +99,7 @@
               ><img
                 class="block lg:hidden h-10 w-auto"
                 src={logosmall}
-                alt="Wisvids"
+                alt={$t("logo-text")}
                 data-test="mobile-logo"
               /></a
             >
@@ -106,7 +107,7 @@
               ><img
                 class="hidden lg:block  h-10 w-auto"
                 src={logo}
-                alt="Wisvids"
+                alt={$t("logo-text")}
                 data-test="desktop-logo"
               /></a
             >
@@ -130,40 +131,20 @@
                   >
                 {/if}
               {/each}
-
-              <!-- <a href="#" class="text-gray-300 hover:bg-blue-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Team</a>
-  
-			  <a href="#" class="text-gray-300 hover:bg-blue-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Projects</a>
-  
-			  <a href="#" class="text-gray-300 hover:bg-blue-600 hover:text-white px-3 py-2 rounded-md text-sm font-medium">Calendar</a> -->
             </div>
           </div>
         </div>
         <div
           class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
         >
-          <!-- <button class="bg-blue-500 p-1 rounded-full text-gray-400 hover:text-white focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-blue-500 focus:ring-white">
-			<span class="sr-only">View notifications</span>
-			<svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
-			  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-			</svg>
-		  </button> -->
-
-          <!-- Profile dropdown -->
           {#if !$session.user || $session.user.isAnonymous}
             <div class="ml-10 space-x-4">
               <a
                 href="#"
                 on:click|preventDefault={() => loginWithHeader(firebase)}
                 class="inline-block bg-indigo-500 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75"
-                >Inloggen</a
+                >{$t("sign-in")}</a
               >
-              <!-- <a
-                href="#"
-                on:click|preventDefault
-                class="inline-block bg-white py-2 px-4 border border-transparent rounded-md text-base font-medium text-indigo-600 hover:bg-indigo-50"
-                >Sign up</a
-              > -->
             </div>
           {:else}
             <div class="ml-3 relative">
@@ -179,7 +160,7 @@
                   color="whiteFullIcon"
                   size="icon-round"
                 >
-                  <span class="sr-only">Open user menu</span>
+                  <span class="sr-only">{$t("open-user-menu")}</span>
                   <img
                     class="h-8 w-8 rounded-full"
                     src={personIcon}
@@ -209,7 +190,7 @@
                     class="block px-4 py-2 text-sm text-gray-700"
                     role="menuitem"
                     tabindex="-1"
-                    id="user-menu-item-teacher-room">Lerarenkamer</a
+                    id="user-menu-item-teacher-room">{$t("teachers-room")}</a
                   >
                   <a
                     href="/curriculum-profiel/mijn-profiel"
@@ -217,7 +198,7 @@
                     class="block px-4 py-2 text-sm text-gray-700"
                     role="menuitem"
                     tabindex="-1"
-                    id="user-menu-item-curriculum">Curriculum profiel</a
+                    id="user-menu-item-curriculum">{$t("curriculum-profile")}</a
                   >
                   <a
                     href="/logout"
@@ -225,7 +206,7 @@
                     class="block px-4 py-2 text-sm text-gray-700"
                     role="menuitem"
                     tabindex="-1"
-                    id="user-menu-item-2">Sign out</a
+                    id="user-menu-item-2">{$t("sign-out")}</a
                   >
                 </div>
               </Transition>
@@ -235,18 +216,15 @@
       </div>
     </div>
 
-    <!-- Mobile menu, show/hide based on menu state. -->
     <div class:hidden={!openMenu} class="sm:hidden" id="mobile-menu">
       <div class="px-2 pt-2 pb-3 space-y-1 highz">
-        <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
-
         <a
           href="/lerarenkamer"
           on:click={() => (openUserMenu = false)}
           class="text-gray-300 hover:bg-blue-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
           role="menuitem"
           tabindex="-1"
-          id="user-menu-item-teacher-room">Lerarenkamer</a
+          id="user-menu-item-teacher-room">{$t("teachers-room")}</a
         >
         <a
           href="/curriculum-profiel/mijn-profiel"
@@ -254,7 +232,7 @@
           class="text-gray-300 hover:bg-blue-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
           role="menuitem"
           tabindex="-1"
-          id="user-menu-item-curriculum">Curriculum profiel</a
+          id="user-menu-item-curriculum">{$t("curriculum-profile")}</a
         >
         <a
           href="/logout"
@@ -262,7 +240,7 @@
           class="text-gray-300 hover:bg-blue-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
           role="menuitem"
           tabindex="-1"
-          id="user-menu-item-2">Sign out</a
+          id="user-menu-item-2">{$t("sign-out")}</a
         >
       </div>
     </div>
@@ -273,4 +251,4 @@
   .highz {
     z-index: 10000;
   }
-</style>
+</style> 

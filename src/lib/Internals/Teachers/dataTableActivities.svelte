@@ -2,6 +2,7 @@
   import { getDifficultyToString, getTypeText } from "$lib/Activity/Components/helper";
   import { truncate } from "$lib/Internals/Misc/helper";
   import { getStores, page } from "$app/stores";
+  import { t } from "svelte-intl-precompile";
 
   export let activities;
 </script>
@@ -19,17 +20,17 @@
                 scope="col"
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
-                Leerdoel
+                {$t("goal")}
               </th>
               <th
                 scope="col"
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
-                Velden
+                {$t("fields")}
               </th>
               <slot name="table-header" />
               <th scope="col" class="relative px-6 py-3">
-                <span class="sr-only">Edit</span>
+                <span class="sr-only">{$t("edit")}</span>
               </th>
             </tr>
           </thead>
@@ -46,7 +47,7 @@
                 <td class="px-6 py-4">
                   <div class="text-sm text-gray-900">
                     {#if activity.type !== ""}
-                      {getTypeText(activity.type)} <br />
+                      {getTypeText(activity.type, $t)} <br />
                     {/if}
                     {#if activity.title}{activity.title}<br />{/if}
                     {#if activity.descriptionRaw}{@html truncate(
@@ -54,7 +55,7 @@
                         60
                       )}<br />{/if}
                     {#if activity.difficulty}{getDifficultyToString(
-                        activity.difficulty
+                        activity.difficulty, $t
                       )}<br />{/if}
                     {#if activity.video.vimeoId}<a
                         class="underline"
@@ -73,12 +74,12 @@
                   <a
                     href="/activiteit/{activity.id}?redirect={$page.path}"
                     class="mr-1 underline text-indigo-600 hover:text-indigo-900"
-                    >Bekijken</a
+                    >{$t("show")}</a
                   >
                   <a
                     href="/lerarenkamer/activiteit/{activity.id}"
                     class="mr-1 underline text-indigo-600 hover:text-indigo-900"
-                    >Wijzigen</a
+                    >{$t("edit")}</a
                   >
                   <slot
                     name="cta"
@@ -94,11 +95,11 @@
         </table>
         {#if activities.length === 0}
           <div class="m-4">
-            Geen concept activiteiten gevonden. <a
+            {$t("no-concept-activities-found")}<a
               class="underline"
               href="/lerarenkamer/activiteit/maken-leerdoel-zoeken"
             >
-              Je kan hier een activiteit maken</a
+              {$t("create-activity-here")}</a
             >
           </div>
         {/if}

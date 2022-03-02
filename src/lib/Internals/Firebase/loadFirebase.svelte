@@ -1,6 +1,5 @@
 <script>
   import { getStores, session } from "$app/stores";
-  // import { getFirebaseConfig } from "$lib/Internals/Firebase/config";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { createEventDispatcher } from "svelte";
   import { firebaseConfig } from "$lib/Internals/Firebase/config";

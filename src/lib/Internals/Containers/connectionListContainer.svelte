@@ -2,15 +2,15 @@
   import GetGoalData from "$lib/Goal/Data/getGoalData.svelte";
   import GetConnectionListsData from "$lib/Goal/Connection/Data/getConnectionListsData.svelte";
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
-  import { getStores, page, session } from "$app/stores";
+  import { getStores, page } from "$app/stores";
   import MainTabs from "$lib/Internals/Tabs/goal.svelte";
   import LearningGoalConnectionsTabs from "$lib/Internals/Tabs/learningGoalConnections.svelte";
   import ConnectionStatusTabs from "$lib/Internals/Tabs/connectionStatus.svelte";
-  import { onMount } from "svelte";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { getStatusText } from "$lib/Goal/Connection/Components/helper";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/Components/helper";
   import ConnectionLinkList from "$lib/Goal/Connection/Components/connectionLinkList.svelte";
+  import { t } from "svelte-intl-precompile";
 
   export let connectionType;
   export let status;
@@ -37,7 +37,7 @@
   $: if (status) {
     breadcrumbsStatus = {
       url: $page.path,
-      value: getStatusText(status),
+      value: getStatusText(status, $t),
     };
   }
 
@@ -46,39 +46,39 @@
       if (connectionType === "goal-activity") {
         selectedTab = "activities";
         urlType = "activiteiten";
-        valueUrlConnectionType = "Activiteiten";
+        valueUrlConnectionType = $t("activities");
       } else {
         selectedTab = "connections";
         if (connectionType === "goal-prerequisites") {
           urlType = "voorkennis";
-          valueUrlConnectionType = "Voorkennis";
+          valueUrlConnectionType = $t("prior-knowledge");
         } else if (connectionType === "goal-deeperunderstandings") {
           urlType = "dieper-inzicht";
-          valueUrlConnectionType = "Dieper inzichten";
+          valueUrlConnectionType = $t("deeper-insight");
         } else if (connectionType === "goal-bigideas") {
           urlType = "groot-idee";
-          valueUrlConnectionType = "Grote ideeën";
+          valueUrlConnectionType = $t("big-ideas");
         } else if (connectionType === "goal-specializations") {
           urlType = "specialisatie";
-          valueUrlConnectionType = "Specializaties";
+          valueUrlConnectionType = $t("specializations");
         }
       }
     } else if (urlType) {
       switch (urlType) {
         case "voorkennis":
-          valueUrlConnectionType = "Voorkennis";
+          valueUrlConnectionType = $t("prior-knowledge");
           connectionType = "goal-prerequisites";
           break;
         case "dieper-inzicht":
-          valueUrlConnectionType = "Dieper inzichten";
+          valueUrlConnectionType = $t("deeper-insight");
           connectionType = "goal-deeperunderstandings";
           break;
         case "groot-idee":
-          valueUrlConnectionType = "Grote ideeën";
+          valueUrlConnectionType = $t("big-ideas");
           connectionType = "goal-bigideas";
           break;
         case "specialisatie":
-          valueUrlConnectionType = "Specializaties";
+          valueUrlConnectionType = $t("specializations");
           connectionType = "goal-specializations";
           break;
       }
@@ -166,6 +166,6 @@
       />
     </slot>
   {:else}
-    Loading...
+    {$t("loading")}
   {/if}
 {/if}

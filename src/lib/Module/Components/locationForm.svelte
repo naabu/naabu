@@ -19,6 +19,7 @@
   import FieldSet from "$lib/Internals/FormFields/FieldSet.svelte";
   import NumberInput from "$lib/Internals/FormFields/NumberInput.svelte";
   import MultipleCheckbox from "$lib/Internals/FormFields/MultipleCheckbox.svelte";
+  import { t } from "svelte-intl-precompile";
 
   let filters = "";
   let goalIndex = getGoalIndex($session.environment);
@@ -168,7 +169,7 @@
       const searchClient = getAlgoliaSearchClient();
       autocomplete({
         container: "#autocomplete-leerdoelen",
-        placeholder: "Zoek voor leerdoelen",
+        placeholder: $t("search-goals"),
         onSubmit({ state }) {
           console.log(state);
         },
@@ -199,7 +200,7 @@
                   return item.title;
                 },
                 noResults() {
-                  return "Geen leerdoelen gevonden";
+                  return $t("no-goals-found");
                 },
               },
             },
@@ -234,17 +235,17 @@
   let locationCategories = [
     {
       value: "content",
-      text: "Inhoud",
+      text: $t("content"),
       dataTest: "inhoud-button",
     },
     {
       value: "waypoints",
-      text: "Waypoints",
+      text: $t("waypoints"),
       dataTest: "waypoints-button",
     },
     {
       value: "paths",
-      text: "Paden",
+      text: $t("paths"),
       dataTest: "paths-button",
     },
   ];
@@ -261,7 +262,7 @@
       <Button
         dataTest="new-location-button"
         on:click={addLocation}
-        content="New Location"
+        content={$t("new-locations-button")}
         size="small"
       />
     </svelte:fragment>
@@ -277,20 +278,20 @@
       <div>
         {#if selectedLocationTab === "content"}
           <FieldSet>
-            <FormField title="Name" forId="location_name">
+            <FormField title={$t("name")} forId="location_name">
               <Textarea
                 id="location_name"
                 bind:value={map.locations[selectedIndex].name}
               />
             </FormField>
 
-            <FormField forId="learning-goals" title="Gekoppelde leerdoelen">
+            <FormField forId="learning-goals" title={$t("connected-goals")}>
               <div id="learning-goals">
                 <TextAndRemove
                   items={map.locations[selectedIndex].goals}
                   on:remove={removeGoal}
                   dataTest="remove-goal-button-"
-                  noItemsMessage="Nog geen leerdoelen aan activiteit toegevoegd"
+                  noItemsMessage={$t("no-goals-connected")}
                 >
                   <svelte:fragment let:item={goal} slot="show">
                     {goal.title}
@@ -299,13 +300,13 @@
               </div>
             </FormField>
 
-            <FormField title="Leerdoel toevoegen" forId="autocomplete-leerdoelen">
+            <FormField title={$t("add-goal")} forId="autocomplete-leerdoelen">
               <div id="autocomplete-leerdoelen" class="max-w-lg" />
             </FormField>
           </FieldSet>
         {:else if selectedLocationTab === "waypoints"}
           <FieldSet>
-            <FormField title="Tekst position X" forId="text_position_x">
+            <FormField title={$t("text-position-x")} forId="text_position_x">
               <NumberInput
                 id="text_position_x"
                 min="0"
@@ -313,7 +314,7 @@
                 bind:value={map.locations[selectedIndex].textPositionX}
               />
             </FormField>
-            <FormField title="Tekst position Y" forId="text_position_y">
+            <FormField title={$t("text-position-y")} forId="text_position_y">
               <NumberInput
                 id="text_position_y"
                 min="0"
@@ -321,7 +322,7 @@
                 bind:value={map.locations[selectedIndex].textPositionY}
               />
             </FormField>
-            <FormField title="Marker position X" forId="marker_position_x">
+            <FormField title={$t("marker-position-x")} forId="marker_position_x">
               <NumberInput
                 id="marker_position_x"
                 min="0"
@@ -329,7 +330,7 @@
                 bind:value={map.locations[selectedIndex].markerPositionX}
               />
             </FormField>
-            <FormField title="Marker position Y" forId="marker_position_y">
+            <FormField title={$t("marker-position-y")} forId="marker_position_y">
               <NumberInput
                 id="marker_position_y"
                 min="0"
@@ -337,9 +338,9 @@
                 bind:value={map.locations[selectedIndex].markerPositionY}
               />
             </FormField>
-            <FormField labelPosition="left" title="Toegang">
+            <FormField labelPosition="left" title={$t("access")}>
               <Checkbox
-                label="Start locatie op kaart"
+                label={$t("start-location-on-the-map")}
                 id="start_locations_check"
                 bind:checked={map.locations[selectedIndex].isStartLocation}
               />
@@ -359,7 +360,7 @@
         <Button
           dataTest="remove-location-button"
           on:click={() => removeLocationButtonFunction()}
-          content="Locatie verwijderen"
+          content={$t("remove-location")}
           size="small"
         />
       </div>

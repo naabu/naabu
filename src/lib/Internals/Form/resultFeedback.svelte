@@ -1,6 +1,7 @@
 <script>
   import { getStores, page } from "$app/stores";
   import Button from "../Button/Button.svelte";
+  import { t } from "svelte-intl-precompile";
 
   export let alert = {
     success: false,
@@ -74,9 +75,9 @@
         </svg>
       </div>
       <div class="ml-3">
-        <h3 class="text-sm font-medium text-red-800">Geen toestemming</h3>
+        <h3 class="text-sm font-medium text-red-800">{$t("no-permission")}</h3>
         <div class="mt-2 text-sm text-red-700">
-          <p>Misschien ben je vergeten in te loggen?</p>
+          <p>{$t("forgot-to-login-message")}</p>
           <p>
             {alert.errorMessage}
           </p>
@@ -104,7 +105,7 @@
       </div>
       <div class="ml-3">
         <h3 class="text-sm font-medium text-red-800">
-          Er is iets fout gegaan code = {alert.errorCode}
+          {$t("there-went-something-wrong")} = {alert.errorCode}
         </h3>
         <div class="mt-2 text-sm text-red-700">
           <p>

@@ -1,5 +1,6 @@
 <script>
   import Tabs from "$lib/Internals/Tabs/tabs.svelte";
+  import { t } from "svelte-intl-precompile";
   export let mainSelected = "curriculum";
   export let subSelected = "read";
   export let curriculumProfile;
@@ -13,7 +14,7 @@
       mainTabs = [
         {
           value: "curriculum",
-          text: "Curriculum profiel",
+          text: $t("curriculum-profile"),
           url: "/curriculum-profiel/mijn-profiel",
         },
       ];
@@ -21,26 +22,21 @@
       mainTabs = [
         {
           value: "curriculum",
-          text: "Curriculum profiel",
+          text: $t("curriculum-profile"),
           url: "/curriculum-profiel/" + curriculumProfile.id,
         },
       ];
     }
-    // {
-    //   value: "talk",
-    //   text: "Overleg",
-    //   url: "/profcurriculum-profiel/" + curriculumProfile.id + "/overleg",
-    // },
     if (isOwnProfile) {
       subTabs = [
         {
           value: "read",
-          text: "Lezen",
+          text: $t("show"),
           url: "/curriculum-profiel/mijn-profiel",
         },
         {
           value: "edit",
-          text: "Bewerken",
+          text: $t("edit"),
           url: "/curriculum-profiel/wijzigen",
         },
       ];
@@ -48,13 +44,12 @@
       subTabs = [
         {
           value: "read",
-          text: "Lezen",
+          text: $t("show"),
           url: "/curriculum-profiel/" + curriculumProfile.id,
         },
       ];
     }
   }
 </script>
-
 
 <Tabs bind:mainTabs bind:subTabs bind:mainSelected bind:subSelected />

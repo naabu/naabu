@@ -6,21 +6,22 @@
   import { getMapSaveData } from "$lib/Module/Map/Components/helper";
   import { getStores, session } from "$app/stores";
   import Button from "$lib/Internals/Button/Button.svelte";
+  import { t } from "svelte-intl-precompile";
 
   export let firebase;
 
   let breadcrumbs = [
     {
       url: "/beheer",
-      value: "Beheer",
+      value: $t("management"),
     },
     {
       url: "/beheer/kaart",
-      value: "Kaarten",
+      value: $t("maps"),
     },
     {
       url: "/beheer/kaarten/maken",
-      value: "Kaarten maken",
+      value: $t("create-maps"),
     },
   ];
 
@@ -59,7 +60,7 @@
       let collectionRef = db.collection("maps");
       let result = await collectionRef.add(data);
       alert.success = true;
-      alert.successTitle = "Kaart gemaakt";
+      alert.successTitle = $t("map-created");
       alert.successMessage = "id: " + result.id;
       map.id = result.id;
       updateActivities(firebase, map);
@@ -89,9 +90,11 @@
   <div class="mt-2 md:flex md:items-center md:justify-between">
     <div class="flex-1 min-w-0">
       <div>
-        <h3 class="text-lg leading-6 font-medium text-gray-900">Kaart maken</h3>
+        <h3 class="text-lg leading-6 font-medium text-gray-900">
+          {$t("create-map")}
+        </h3>
         <p class="mt-1 max-w-2xl text-sm text-gray-500">
-          Maak een nieuwe kaart aan met leerdoelen
+          {$t("create-map-description")}
         </p>
       </div>
     </div>
@@ -109,7 +112,7 @@
         isDisabled={buttonDisabled}
         isSubmit={true}
         color="primary"
-        content="Kaart aanmaken"
+        content={$t("create-map")}
       />
     </div>
   </div>

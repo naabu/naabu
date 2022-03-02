@@ -1,4 +1,5 @@
 <script>
+  import { t } from "svelte-intl-precompile";
   export let tableHeaders = [];
   export let tableBodyContents = [];
   export let hasActions = true;
@@ -16,7 +17,7 @@
       {/each}
       {#if hasActions}
         <th scope="col" class="relative px-6 py-3">
-          <span class="sr-only">Actions</span>
+          <span class="sr-only">{$t("actions")}</span>
         </th>
       {/if}
     </tr>
@@ -28,7 +29,7 @@
           <td
             class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900"
           >
-            <slot name="column" {column} {i}  {columnIndex}>
+            <slot name="column" {column} {i} {columnIndex}>
               {column}
             </slot>
           </td>

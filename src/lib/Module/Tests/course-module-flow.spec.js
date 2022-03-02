@@ -32,6 +32,7 @@ test('Create course modules @module', async ({ page, domain, showAllConsole }) =
   await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/map/course-test-map/add');
   await page.waitForSelector('[data-test=complete]');
+  await page.waitForTimeout(3000);
 
   // Go to course module create form.
   await page.click('[data-test=user-menu]');
@@ -59,7 +60,7 @@ test('Create course modules @module', async ({ page, domain, showAllConsole }) =
 
   // Add learning goals to location.
   await page.fill('#location_name', 'Test start location 1');
-  await page.fill('[placeholder="Zoek voor leerdoelen"]', 'Cypress');
+  await page.fill('[placeholder="Search for learning goals"]', 'Cypress');
 
   // Algolia autocomplete.
   await page.waitForSelector(".aa-Panel >> .aa-List >> li >> nth=0");
@@ -81,8 +82,8 @@ test('Create course modules @module', async ({ page, domain, showAllConsole }) =
   await page.click('[data-test=paths-button]');
   await page.waitForSelector('[data-test=path-to-location-button-2]');
   await expect(page.locator('[data-test=path-to-location-button-2]')).toContainText("L2");
-  await expect(page.locator('[data-test=start-location-point]')).toContainText("Start locatie: 400 - 500");
-  await expect(page.locator('[data-test=end-location-point]')).toContainText("Eind locatie: 500 - 650");
+  await expect(page.locator('[data-test=start-location-point]')).toContainText("Start location: 400 - 500");
+  await expect(page.locator('[data-test=end-location-point]')).toContainText("End location: 500 - 650");
   await page.fill('#pointX', '450');
   await page.fill('#pointY', '550');
   await page.click('[data-test=add-path-point-button]');
@@ -96,11 +97,11 @@ test('Create course modules @module', async ({ page, domain, showAllConsole }) =
   await page.click('[data-test=location-tab-l2]');
   await page.click('[data-test=inhoud-button]');
   await page.waitForSelector('#learning-goals');
-  await expect(page.locator('#learning-goals')).toContainText('Nog geen leerdoelen aan activiteit toegevoegd');
+  await expect(page.locator('#learning-goals')).toContainText('No goals connected');
   await page.fill('#location_name', 'Test start location 2');
 
   // Autocomplete Algolia widget.
-  await page.fill('[placeholder="Zoek voor leerdoelen"]', 'Cypress');
+  await page.fill('[placeholder="Search for learning goals"]', 'Cypress');
   await page.waitForSelector(".aa-Panel >> .aa-List >> li >> nth=0");
   await expect(page.locator(".aa-Panel >> .aa-List >> li >> nth=0")).toContainText("Cypress Test Goal 1");
   await expect(page.locator(".aa-Panel >> .aa-List >> li >> nth=1")).toContainText("Cypress Test Goal 2");
@@ -113,7 +114,7 @@ test('Create course modules @module', async ({ page, domain, showAllConsole }) =
 
   await page.click("[data-test=create-module-submit-button]");
   await page.waitForSelector('[data-test=alert-success-title]');
-  await expect(page.locator('[data-test=alert-success-title]')).toContainText('Module succesvol aangemaakt');
+  await expect(page.locator('[data-test=alert-success-title]')).toContainText('Module successfully created');
   await page.click('[data-test=desktop-sidebar-menu] > [data-test=teacher-menu-modules]');
 
   // Click the action link.
@@ -141,8 +142,8 @@ test('Create course modules @module', async ({ page, domain, showAllConsole }) =
   // Check paths.
   await page.click('[data-test=paths-button]');
   await page.waitForSelector('[data-test=start-location-point]');
-  await expect(page.locator('[data-test=start-location-point]')).toContainText("Start locatie: 400 - 500");
-  await expect(page.locator('[data-test=end-location-point]')).toContainText("Eind locatie: 500 - 650");
+  await expect(page.locator('[data-test=start-location-point]')).toContainText("Start location: 400 - 500");
+  await expect(page.locator('[data-test=end-location-point]')).toContainText("End location: 500 - 650");
   await expect(page.locator('[data-test=path-input-x-1]')).toHaveValue('200');
   await expect(page.locator('[data-test=path-input-y-1]')).toHaveValue('430');
 
@@ -160,9 +161,9 @@ test('Create course modules @module', async ({ page, domain, showAllConsole }) =
   await page.fill('#location_name', 'Test start location 1 edited');
   await page.click("[data-test=remove-goal-button-0]");
   await page.waitForSelector('#learning-goals');
-  await expect(page.locator('#learning-goals')).toContainText('Nog geen leerdoelen aan activiteit toegevoegd');
+  await expect(page.locator('#learning-goals')).toContainText('No goals connected');
 
-  await page.fill('[placeholder="Zoek voor leerdoelen"]', 'Cypress');
+  await page.fill('[placeholder="Search for learning goals"]', 'Cypress');
   await page.waitForSelector(".aa-Panel >> .aa-List >> li >> nth=0");
   await expect(page.locator(".aa-Panel >> .aa-List >> li >> nth=0")).toContainText("Cypress Test Goal 1");
   await expect(page.locator(".aa-Panel >> .aa-List >> li >> nth=1")).toContainText("Cypress Test Goal 2");
@@ -179,8 +180,8 @@ test('Create course modules @module', async ({ page, domain, showAllConsole }) =
   await page.click('[data-test=paths-button]');
   await page.waitForSelector('[data-test=path-to-location-button-2]');
   await expect(page.locator('[data-test=path-to-location-button-2]')).toContainText("L2");
-  await expect(page.locator('[data-test=start-location-point]')).toContainText("Start locatie: 450 - 550");
-  await expect(page.locator('[data-test=end-location-point]')).toContainText("Eind locatie: 500 - 650");
+  await expect(page.locator('[data-test=start-location-point]')).toContainText("Start location: 450 - 550");
+  await expect(page.locator('[data-test=end-location-point]')).toContainText("End location: 500 - 650");
   await page.fill('[data-test=path-input-x-1]', '260');
   await page.fill('[data-test=path-input-y-1]', '460');
   await page.fill('#pointX', '250');
@@ -197,7 +198,7 @@ test('Create course modules @module', async ({ page, domain, showAllConsole }) =
   await page.waitForSelector('#learning-goals');
   await expect(page.locator('#learning-goals')).toContainText('Cypress Test Goal 1');
   await page.fill('#location_name', 'Test start location 2 edited');
-  await page.fill('[placeholder="Zoek voor leerdoelen"]', 'Cypress');
+  await page.fill('[placeholder="Search for learning goals"]', 'Cypress');
   await page.waitForSelector(".aa-Panel >> .aa-List >> li >> nth=0");
   await expect(page.locator(".aa-Panel >> .aa-List >> li >> nth=0")).toContainText("Cypress Test Goal 2");
   await page.click(".aa-Panel >> .aa-List >> li >> nth=0");
@@ -238,8 +239,8 @@ test('Create course modules @module', async ({ page, domain, showAllConsole }) =
   // Check paths.
   await page.click('[data-test=paths-button]');
   await page.waitForSelector('[data-test=start-location-point]');
-  await expect(page.locator('[data-test=start-location-point]')).toContainText("Start locatie: 450 - 550");
-  await expect(page.locator('[data-test=end-location-point]')).toContainText("Eind locatie: 500 - 650");
+  await expect(page.locator('[data-test=start-location-point]')).toContainText("Start location: 450 - 550");
+  await expect(page.locator('[data-test=end-location-point]')).toContainText("End location: 500 - 650");
   await expect(page.locator('[data-test=path-input-x-1]')).toHaveValue('260');
   await expect(page.locator('[data-test=path-input-y-1]')).toHaveValue('460');
   await expect(page.locator('[data-test=path-input-x-2]')).toHaveValue('250');

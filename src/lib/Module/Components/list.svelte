@@ -7,7 +7,8 @@
     getMapIndex,
   } from "$lib/Internals/Algolia/algolia";
   import { getStores, session } from "$app/stores";
-import TextInput from "$lib/Internals/FormFields/TextInput.svelte";
+  import TextInput from "$lib/Internals/FormFields/TextInput.svelte";
+  import { t } from "svelte-intl-precompile";
 
   let index;
   let indexName = getMapIndex($session.environment);
@@ -18,11 +19,11 @@ import TextInput from "$lib/Internals/FormFields/TextInput.svelte";
   let breadcrumbs = [
     {
       url: "/beheer",
-      value: "Beheer",
+      value: $t("management"),
     },
     {
       url: "/beheer/kaart",
-      value: "Kaarten",
+      value: $t("maps"),
     },
   ];
 
@@ -41,11 +42,10 @@ import TextInput from "$lib/Internals/FormFields/TextInput.svelte";
 <ShowBreadcrumb bind:breadcrumbs />
 <ManagementTabs mainSelected="map" />
 
-<a href="kaart/maken"> Nieuwe kaart maken</a>
+<a href="kaart/maken">{$t("create-new-map")}</a>
 
 <div>
   <TextInput bind:value={query} on:keyup={search} />
-  
 </div>
 <div class="flex flex-col">
   <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -60,16 +60,16 @@ import TextInput from "$lib/Internals/FormFields/TextInput.svelte";
                 scope="col"
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
-                Titel
+                {$t("title")}
               </th>
               <th
                 scope="col"
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
-                Image
+                {$t("image")}
               </th>
               <th scope="col" class="relative px-6 py-3">
-                <span class="sr-only">Edit</span>
+                <span class="sr-only">{$t("edit")}</span>
               </th>
             </tr>
           </thead>
@@ -91,15 +91,18 @@ import TextInput from "$lib/Internals/FormFields/TextInput.svelte";
                 >
                   <a
                     href="/kaart/{hit.objectID}"
-                    class="text-indigo-600 hover:text-indigo-900">Bekijken</a
+                    class="text-indigo-600 hover:text-indigo-900"
+                    >{$t("show")}</a
                   >
                   <a
                     href="/beheer/kaart/{hit.objectID}/wijzigen"
-                    class="text-indigo-600 hover:text-indigo-900">Wijzigen</a
+                    class="text-indigo-600 hover:text-indigo-900"
+                    >{$t("edit")}</a
                   >
                   <a
                     href="/beheer/kaart/{hit.objectID}/paden"
-                    class="text-indigo-600 hover:text-indigo-900">Paden</a
+                    class="text-indigo-600 hover:text-indigo-900"
+                    >{$t("paths")}</a
                   >
                 </td>
               </tr>

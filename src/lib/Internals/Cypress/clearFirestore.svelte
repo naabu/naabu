@@ -1,6 +1,7 @@
 <script>
   import { getStores, session } from "$app/stores";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { t } from "svelte-intl-precompile";
   export let collection;
   export let userCheck = true;
   export let fieldUserId = "authorId";
@@ -14,11 +15,11 @@
   export let title = null;
   let firebase;
   export let resetDone = false;
-  
+
   export let showComplete = true;
   let mounted = false;
   let db;
-  let feedbackstring = "<br> feedback: <br>";
+  let feedbackstring = "<br> "+ $t("feedback") + ": <br>";
 
   async function clear() {
     try {
@@ -125,10 +126,14 @@
 </script>
 
 {#if $session.environment === "cypress" || $session.environment === "test" || $session.environment === "development"}
-  Now cleaning up the {collection}.
+  {$t("clearing-collection", { values: { collection: collection } })}
   {@html feedbackstring}
 
   {#if resetDone && showComplete}
-    <div data-test="complete">The {collection} are cleared</div>
+    <div data-test="complete">
+      {$t("clearing-collection-complete", {
+        values: { collection: collection },
+      })}
+    </div>
   {/if}
 {/if}

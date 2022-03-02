@@ -4,6 +4,7 @@
   import { getStores, session, page } from "$app/stores";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
+  import { t } from "svelte-intl-precompile";
 
   let firebase;
 
@@ -32,15 +33,15 @@
     breadcrumbs = [
       {
         url: "/curriculum",
-        value: "Curriculum",
+        value: $t("curriculum"),
       },
       {
         url: "/leerdoel/" + goal.id,
-        value: "Leerdoel: " + goal.title,
+        value: $t("goal") + ": " + goal.title,
       },
       {
         url: $page.path,
-        value: "Geschiedenis",
+        value: $t("history"),
       },
     ];
   }

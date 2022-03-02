@@ -3,6 +3,7 @@
   import SecondTabs from "$lib/Internals/Tabs/learningGoalConnections.svelte";
   import ConnectionList from "$lib/Goal/Connection/Components/list.svelte";
   import GetConnectionListsData from "$lib/Goal/Connection/Data/getConnectionListsData.svelte";
+  import { t } from "svelte-intl-precompile";
   export let goal;
   export let firebase;
   let mounted;
@@ -53,12 +54,14 @@
 
 <div class="mt-8 mb-8 flex">
   <a class="underline ml-auto" href="verbinding-maken">
-    Nieuwe verbinding maken</a
+    {$t("create-new-connection")}</a
   >
 </div>
 
 <div>
-  <h3 class="text-lg leading-6 font-medium text-gray-900">Voorkennis</h3>
+  <h3 class="text-lg leading-6 font-medium text-gray-900">
+    {$t("prior-knowledge")}
+  </h3>
   <ConnectionList
     urlType="voorkennis"
     bind:goalId={goal.id}
@@ -68,7 +71,9 @@
 </div>
 
 <div class="mt-4 mb-4">
-  <h3 class="text-lg leading-6 font-medium text-gray-900">Specialisatie</h3>
+  <h3 class="text-lg leading-6 font-medium text-gray-900">
+    {$t("specialization")}
+  </h3>
   <ConnectionList
     urlType="specialisatie"
     bind:goalId={goal.id}
@@ -78,7 +83,7 @@
 </div>
 
 <div class="mt-4 mb-4">
-  <h3 class="text-lg leading-6 font-medium text-gray-900">Grote ideeën</h3>
+  <h3 class="text-lg leading-6 font-medium text-gray-900">{$t("big-ideas")}</h3>
 
   <ConnectionList
     urlType="groot-idee"
@@ -89,7 +94,9 @@
 </div>
 
 <div class="mt-4 mb-4">
-  <h3 class="text-lg leading-6 font-medium text-gray-900">Diepere inzichten</h3>
+  <h3 class="text-lg leading-6 font-medium text-gray-900">
+    {$t("deeper-insight")}
+  </h3>
 
   <ConnectionList
     urlType="dieper-inzicht"

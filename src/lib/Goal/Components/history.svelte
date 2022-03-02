@@ -1,6 +1,7 @@
 <script>
   import { getDateString } from "$lib/Internals/Misc/helper";
   import { sortOnCreatedAt } from "$lib/Internals/Revision/helper";
+  import { t } from "svelte-intl-precompile";
 
   export let goal;
   import MainTabs from "$lib/Internals/Tabs/goal.svelte";
@@ -36,10 +37,10 @@
                   scope="col"
                   class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
                 >
-                  Auteur
+                  {$t("author")}
                 </th>
                 <th scope="col" class="relative px-6 py-3">
-                  <span class="sr-only">Edit</span>
+                  <span class="sr-only">{$t("edit")}</span>
                 </th>
               </tr>
             </thead>
@@ -78,11 +79,11 @@
                   >
                     <a
                       href="/revisie/{revision.revisionId}"
-                      class="text-indigo-600 hover:text-indigo-900">Bekijken</a
+                      class="text-indigo-600 hover:text-indigo-900">{$t("show")}</a
                     >
                     <a
                       href="/revisie/{revision.revisionId}/wijzigen"
-                      class="text-indigo-600 hover:text-indigo-900">Wijzig</a
+                      class="text-indigo-600 hover:text-indigo-900">{$t("edit")}</a
                     >
                   </td>
                 </tr>

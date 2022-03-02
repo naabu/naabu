@@ -11,6 +11,7 @@
   let hasCurriculumProfile = false;
   import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
   import Button from "$lib/Internals/Button/Button.svelte";
+  import { t } from "svelte-intl-precompile";
 
   let connection = {
     type: "prerequisit",
@@ -54,11 +55,11 @@
       publishedAt: serverTimestamp,
       fields: [
         {
-          title: "Beschrijving",
+          title: $t("description"),
           value: connectionGoal.description,
         },
         {
-          title: "Reden tot koppeling",
+          title: $t("reason-to-create-connection"),
           value: connection.description,
         },
       ],
@@ -123,13 +124,13 @@
       <div class="flex-1 min-w-0">
         <div>
           <h3 class="text-lg leading-6 font-medium text-gray-900">
-            Verbinding maken
+            {$t("create-connection")}
           </h3>
           <p>
-            Leerdoel 1:
+            {$t("goal-1")}:
             <a class="underline" href="/leerdoel/{goal.id}">{goal.title}</a>
             <br />
-            Leerdoel 2:
+            {$t("goal-2")}
             <a class="underline" href="/leerdoel/{connectionGoal.id}"
               >{connectionGoal.title}</a
             >
@@ -148,13 +149,13 @@
       <div class="pt-5 flex justify-between">
         <Button
           on:click={goBackToSearchLearningGoal}
-          content="Terug naar verbinding zoeken"
+          content={$t("back-to-connection-search")}
         />
 
         <Button
           isDisabled={buttonDisabled || !hasCurriculumProfile}
           isSubmit={true}
-          content="Verbinding aanmaken"
+          content={$t("create-connection")}
           color="primary"
         />
       </div>

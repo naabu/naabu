@@ -8,6 +8,7 @@
   import { goto } from "$app/navigation";
   import MainTabs from "$lib/Internals/Tabs/revision.svelte";
   import Button from "../Button/Button.svelte";
+  import { t } from "svelte-intl-precompile";
   export let revisionOld;
   export let revisionNew;
   export let goBackRevision;
@@ -64,18 +65,18 @@
 
               for (let i3 = 0; i3 < quizNew.answers.length; i3++) {
                 answerTextNew.push(quizNew.answers[i3].answer);
-                let correct = "Goede antwoord";
+                let correct = $t("correct-answer");
                 if (!quizNew.answers[i3].correct) {
-                  correct = "Fout antwoord";
+                  correct = $t("wrong-answer");
                 }
                 answerCorrectNew.push(correct);
               }
 
               for (let i3 = 0; i3 < quizOld.answers.length; i3++) {
                 answerTextOld.push(quizOld.answers[i3].answer);
-                let correct = "Goede antwoord";
+                let correct = $t("correct-answer");
                 if (quizNew.answers[i3] && !quizNew.answers[i3].correct) {
-                  correct = "Fout antwoord";
+                  correct = $t("wrong-answer");
                 }
                 answerCorrectOld.push(correct);
               }
@@ -153,7 +154,7 @@
   <div class="max-w-7xl flex mt-3 justify-end">
     <Button
       dataTest="discuss-revision-button"
-      content="Overleg deze wijzigingen"
+      content={$t("discuss-changes-revision")}
       size="small"
       on:click={createPostFromRevision}
     />
@@ -166,7 +167,7 @@
             <div class="flex space-x-3">
               <div class="min-w-0 flex-1">
                 <p class="text-sm font-medium text-gray-900">
-                  Verschil tussen versies
+                  {$t("difference-between-versions")}
                 </p>
               </div>
               <div class="flex-shrink-0 self-center flex" />
@@ -181,7 +182,8 @@
                 </a>
                 (<a
                   class="underline"
-                  href="/revisie/{revisionOld.revisionId}/wijzigen">edit</a
+                  href="/revisie/{revisionOld.revisionId}/wijzigen"
+                  >{$t("edit")}</a
                 >)
                 <div>
                   {#if revisionOld.revisionAuthorId && revisionOld.curriculumProfile}
@@ -198,7 +200,7 @@
                       <a
                         class="underline"
                         href="/revisie/{revisionOld.revisionId}/diff/{goBackRevision.revisionId}"
-                        >← Oudere bewerking</a
+                        >{$t("older-version")}</a
                       >
                     </div>
                   {/if}
@@ -213,7 +215,8 @@
                 >
                 (<a
                   class="underline"
-                  href="/revisie/{revisionNew.revisionId}/wijzigen">edit</a
+                  href="/revisie/{revisionNew.revisionId}/wijzigen"
+                  >{$t("edit")}</a
                 >)
                 <div>
                   {#if revisionNew.revisionAuthorId && revisionNew.curriculumProfile}
@@ -230,7 +233,7 @@
                       <a
                         class="underline"
                         href="/revisie/{goForwardRevision.revisionId}/diff/{revisionNew.revisionId}"
-                        >Nieuwere bewerking →</a
+                        >{$t("newer-version")}</a
                       >
                     </div>
                   {/if}
@@ -244,88 +247,88 @@
   </div>
 
   <StringDiff
-    title="Titel"
+    titleTranslationKey="title"
     bind:old={revisionOld.title}
     bind:neww={revisionNew.title}
   />
 
   <StringDiff
-    title="Omschrijving"
+    titleTranslationKey="description"
     bind:old={revisionOld.description}
     bind:neww={revisionNew.description}
   />
 
   <StringDiff
-    title="Onderwerp"
+    titleTranslationKey="topic"
     bind:old={revisionOld.unitopic}
     bind:neww={revisionNew.unitopic}
   />
 
   <StringDiff
-    title="from Text"
+    titleTranslationKey="from-text"
     bind:old={revisionOld.fromText}
     bind:neww={revisionNew.fromText}
   />
 
   <ArrayDiff
-    title="Onderwerpen"
+    titleTranslationKey="topics"
     bind:old={revisionOld.multitopics}
     bind:neww={revisionNew.multitopics}
   />
 
   <ArrayDiff
-    title="Werkwoorden"
+    titleTranslationKey="verbs"
     bind:old={revisionOld.selectedVerbs}
     bind:neww={revisionNew.selectedVerbs}
   />
 
   <ArrayDiff
-    title="Bloom's taxonomy"
+    titleTranslationKey="blooms-taxonomy"
     bind:old={revisionOld.taxonomy_bloom}
     bind:neww={revisionNew.taxonomy_bloom}
   />
 
   <StringDiff
-    title="Solo's taxonomy"
+    titleTranslationKey="solo-taxonomy"
     bind:old={revisionOld.taxonomy_solo}
     bind:neww={revisionNew.taxonomy_solo}
   />
 
   <StringDiff
-    title="Solo's taxonomy"
+    titleTranslationKey="goal"
     bind:old={revisionOld.goals}
     bind:neww={revisionNew.goals}
   />
 
   <ArrayDiff
-    title="Battles"
+    titleTranslationKey="tests"
     bind:old={revisionOld.battleNames}
     bind:neww={revisionNew.battleNames}
   />
 
   {#each battlesDiff as battle}
     {#if battle.differs}
-      <b>Veldslag {battle.name}</b>
+      <b>{$t("test")} {battle.name}</b>
     {/if}
 
     <ArrayDiff
-      title="Quizzes"
+      titleTranslationKey="quizzes"
       bind:old={battle.oldQuizIds}
       bind:neww={battle.newQuizIds}
     />
     {#each battle.quizzes as quizz, i}
       {#if quizz.quizzDiffers}
-        <b>Quizz {quizz.quizId}</b>
+        <b>{$t("quiz")} {quizz.quizId}</b>
       {/if}
       <!-- bind:differs={battle.quizzes[i].differsQuestion} -->
       <StringDiff
-        title="Vraag"
+        titleTranslationKey="question"
         bind:old={quizz.oldQuestion}
         bind:neww={quizz.newQuestion}
       />
       <!--       bind:differs={battle.quizzes[i].differsAnswers} -->
       <ArrayDiff
-        title="Antwoorden"
+        titleTranslationKey="answers"
         bind:old={quizz.oldAnswerText}
         bind:neww={quizz.newAnswerText}
         bind:old2={quizz.oldAnswerCorrect}
@@ -334,5 +337,5 @@
     {/each}
   {/each}
 {:else}
-  <div class="mt-4">Loading...</div>
+  <div class="mt-4">{$t("loading")}</div>
 {/if}

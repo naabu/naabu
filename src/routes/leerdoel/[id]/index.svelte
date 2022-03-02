@@ -4,6 +4,7 @@
   import { getStores, session, page } from "$app/stores";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
+  import { t } from "svelte-intl-precompile";
 
   let firebase;
 
@@ -32,15 +33,15 @@
     breadcrumbs = [
       {
         url: "/curriculum",
-        value: "Curriculum",
+        value: $t("curriciulum"),
       },
       {
         url: "/leerdoel/" + goal.id,
-        value: "Leerdoel: " + goal.title,
+        value: $t("goal") + ": " + goal.title,
       },
       {
         url: $page.path,
-        value: "Overview",
+        value: $t("overview"),
       },
     ];
   }
@@ -52,6 +53,6 @@
 
     <Show bind:goal />
   {:else}
-    Leerdoel niet gevonden
+    {$t("goals-not-found")}
   {/if}
 {/if}

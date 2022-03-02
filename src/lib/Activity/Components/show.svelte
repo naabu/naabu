@@ -8,6 +8,7 @@
   import { hasSpecialClaims } from "$lib/Internals/User/helper.js";
   import ShowPlugins from "$lib/Internals/Plugin/Show.svelte";
   import { goto } from "$app/navigation";
+  import { t } from "svelte-intl-precompile";
   export let firebase;
   export let activity;
   export let showFeedback = true;
@@ -40,15 +41,9 @@
   }
 
   let notificationText = {
-    title: "We ondersteunen niet fullscreen modus",
-    description:
-      "Omdat de video's interactief zijn werkt dit nog niet goed genoeg",
+    title: $t("no-support-fullscreen"),
+    description: $t("reason-for-no-fullscreen-support"),
   };
-
-  let activityHasEnded = false;
-  let videoHasEnded = false;
-  let mounted = false;
-  $: activityHasEnded = videoHasEnded;
 
   let y;
 
@@ -132,8 +127,9 @@
     {#if activity.plugins && activity.plugins.length > 0}
       <ShowPlugins bind:object={activity} bind:finished={pluginFinished} />
     {/if}
-    {pluginFinished}
   {:else}
-    <p>Activiteit niet gevonden</p>
+    <p>
+      {$t("activity-not-found")}
+    </p>
   {/if}
 </div>

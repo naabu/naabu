@@ -4,6 +4,7 @@
   import Form from "$lib/Module/Map/Components/form.svelte";
   import ShowBreadcrumb from "$lib/Internals/Breadcrumb/show.svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
+  import { t } from "svelte-intl-precompile";
   import {
     getMapSaveData,
     updateActivities,
@@ -19,15 +20,15 @@
   let breadcrumbs = [
     {
       url: "/beheer",
-      value: "Beheer",
+      value: $t("management"),
     },
     {
       url: "/beheer/kaart",
-      value: "Kaarten",
+      value: $t("maps"),
     },
     {
       url: "/beheer/kaart/" + $page.params.id + "/wijzigen",
-      value: "Kaart wijzigen",
+      value: $t("update-map"),
     },
   ];
 
@@ -67,10 +68,10 @@
     try {
       await ref.update(data);
       alert.success = true;
-      alert.successTitle = "Kaart gewijzigd";
+      alert.successTitle = $t("map-updated");
       alert.successMessage = "id: " + ref.id;
     } catch (e) {
-      console.error("Error adding documfent: ", e);
+      console.error($t("error-adding-document") + ": ", e);
       alert.error = true;
       alert.errorCode = e.code;
       alert.errorMessage = e.message;
@@ -94,10 +95,10 @@
         <div class="flex-1 min-w-0">
           <div>
             <h3 class="text-lg leading-6 font-medium text-gray-900">
-              Kaart wijzigen
+              {$t("update-map")}
             </h3>
             <p class="mt-1 max-w-2xl text-sm text-gray-500">
-              Wijzig hier je kaart
+              {$t("update-map-description")}
             </p>
           </div>
         </div>
@@ -112,7 +113,7 @@
       <div class="">
         <div class="pt-5">
           <div class="flex justify-end">
-            <Button isSubmit={true} color="primary" content="Kaart wijzigen" />
+            <Button isSubmit={true} color="primary" content={$t("update-map")} />
           </div>
         </div>
       </div>

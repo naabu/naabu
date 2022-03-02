@@ -1,12 +1,10 @@
 <script>
-  // import firebase from "firebase/app";
-  // import { getFirebaseFirestore } from "$lib/firebase.js";
-  // import { collection, addDoc } from "firebase/firestore";
   import { getStores, session, page } from "$app/stores";
   import Transition from "svelte-class-transition";
   import { onMount } from "svelte";
   import { hasSpecialClaims } from "$lib/Internals/User/helper.js";
   import Button from "$lib/Internals/Button/Button.svelte";
+  import { t } from "svelte-intl-precompile";
 
   export let activity;
   export let moduleId = null;
@@ -125,11 +123,11 @@
                 class="text-lg leading-6 font-medium text-gray-900"
                 id="modal-title"
               >
-                Avontuur voltooid!
+                {$t("activity-completed")}
               </h3>
               <div class="mt-2">
                 <p class="text-sm text-gray-500">
-                  Wat vond je van dit avontuur?
+                  {$t("activity-completed-question")}
                 </p>
               </div>
             </div>
@@ -140,7 +138,7 @@
             <Button
               isFullWidth={true}
               dataTest="too-easy"
-              content="Te makkelijk"
+              content="{$t("too-easy")}"
               size="large"
               on:click={() => storeFeedback(-0.5)}
             />
@@ -149,7 +147,7 @@
               isFullWidth={true}
               color="primary"
               dataTest="just-right"
-              content="Precies goed"
+              content="{$t("just-right")}"
               size="large"
               on:click={() => storeFeedback(1.0)}
             />
@@ -157,7 +155,7 @@
               extraClasses={["mt-3 sm:mt-0"]}
               isFullWidth={true}
               dataTest="too-difficult"
-              content="Te moeilijk"
+              content="{$t("too-difficult")}"
               size="large"
               on:click={() => storeFeedback(-1.0)}
             />

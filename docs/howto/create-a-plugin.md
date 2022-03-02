@@ -7,18 +7,22 @@ permalink: /how-to-guides/create-plugin
 
 # Guide to create a plugin.
 
-1. Create a directory in the ``plugin`` folder with your plugin-id.
+## Step 1
+Create a directory in the ``plugin`` folder with your plugin-id.
 
-2. Create a ``config.js``, ``Form.svelte`` a ``Render.svelte`` file.
+## Step 2
+Create a ``config.js``, ``Form.svelte`` a ``Render.svelte`` file.
 
-3. Create sensible [config](/references/plugin/) for your plugin.
+## Step 3
+Create sensible [config](/naabu/references/plugin/) for your plugin.
 
-4. Create your ``Form.svelte``:
+## Step 4
+Create your ``Form.svelte``:
 
 Set values in the data. You can use the [Storybook components](/naabu/references/storybook/index.html?path=/story/form-stories--form-example-1) but also create custom Svelte code.
 For example:
 
-```
+```js
 <script>
 export let data;
 </script>
@@ -28,12 +32,13 @@ export let data;
 </FormField>
 ```
 
-5. Create your ``Render.svelte``:
+## Step 5
+Create your ``Render.svelte``:
 
 Export the data and use the data to render your plugin.
 
 For example:
-```
+```js
 <script>
   export let data;
 </script>
@@ -46,7 +51,7 @@ For example:
 In the ``Render.svelte`` you need top dispatch the ``end`` event when plugin is complete:
 
 For example, with a button:
-```
+```js
 import { createEventDispatcher } from "svelte";
 const dispatch = createEventDispatcher();
 
@@ -59,10 +64,12 @@ function end() {
 ```
 
 
-6. To enable the button register the plugin in the ``plugin.js`` file:
+## Step 6
+
+To enable the button register the plugin in the ``plugin.js`` file:
 
 Enable the plugin configuration:
-```
+```js
 export async function loadConfigAllPlugins() {
 let plugins = [];
   plugins.push((await import("@plugins/<YOUR-PLUGIN-ID>/config.js")).default);
@@ -71,7 +78,7 @@ let plugins = [];
 ```
 
 Enable the Form.svelte and Render.svelte:
-```
+```js
 export async function loadPluginComponent(pluginId, svelteComponent = "Render") {
   ...
   if (pluginId == "<YOUR-PLUGIN-ID>") {

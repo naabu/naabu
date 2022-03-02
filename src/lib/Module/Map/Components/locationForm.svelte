@@ -1,14 +1,9 @@
 <script>
-  import { getStores, session, page } from "$app/stores";
   import { onMount } from "svelte";
-  import {
-    getAlgoliaSearchClient,
-    getGoalIndex,
-  } from "$lib/Internals/Algolia/algolia";
-  import { autocomplete, getAlgoliaResults } from "@algolia/autocomplete-js";
   import "@algolia/autocomplete-theme-classic";
   import VerwijderDialog from "$lib/Internals/Misc/dialog.svelte";
   import Button from "$lib/Internals/Button/Button.svelte";
+  import { t } from "svelte-intl-precompile";
 
   export let locations = [];
   export let selectedIndex = 0;
@@ -134,7 +129,7 @@
           for="title"
           class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
         >
-          Name
+          {$t("name")}
         </label>
         <div class="mt-1 sm:mt-0 sm:col-span-2">
           <textarea
@@ -146,14 +141,14 @@
           />
         </div>
         <label
-          for="positionX"
+          for="textPositionX"
           class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
         >
-          tekst position X
+          {$t("text-position-x")}
         </label>
         <div class="mt-1 sm:mt-0 sm:col-span-2">
           <textarea
-            id="positionX"
+            id="textPositionX"
             name="title"
             rows="1"
             bind:value={locations[selectedIndex].textPositionX}
@@ -161,15 +156,15 @@
           />
         </div>
         <label
-          for="positionX"
+          for="textPositionY"
           class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
         >
-          tekst position Y
+          {$t("text-position-y")}
         </label>
 
         <div class="mt-1 sm:mt-0 sm:col-span-2">
           <textarea
-            id="positionX"
+            id="textPositionY"
             name="title"
             rows="1"
             bind:value={locations[selectedIndex].textPositionY}
@@ -177,14 +172,14 @@
           />
         </div>
         <label
-          for="positionX"
+          for="markerPositionX"
           class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
         >
-          marker position X
+          {$t("marker-position-x")}
         </label>
         <div class="mt-1 sm:mt-0 sm:col-span-2">
           <textarea
-            id="positionX"
+            id="markerPositionX"
             name="title"
             rows="1"
             bind:value={locations[selectedIndex].markerPositionX}
@@ -192,15 +187,15 @@
           />
         </div>
         <label
-          for="positionX"
+          for="markerPositionY"
           class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
         >
-          marker position Y
+          {$t("marker-position-y")}
         </label>
 
         <div class="mt-1 sm:mt-0 sm:col-span-2">
           <textarea
-            id="positionX"
+            id="markerPositionY"
             name="title"
             rows="1"
             bind:value={locations[selectedIndex].markerPositionY}
@@ -215,14 +210,14 @@
             class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
           />
           <label class="font-medium text-gray-700" for="answers_check"
-            >Start locatie op kaart</label
+            >{$t("start-location-on-the-map")}</label
           >
         </div>
         <label
           for="accessLocations"
           class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
         >
-          Toegang tot locaties
+          {$t("access-to-locations")}
         </label>
 
         <div class="mt-1 sm:mt-0 sm:col-span-2">
@@ -245,7 +240,7 @@
       <Button
         dataTest="remove-location-button"
         on:click={() => removeLocationButtonFunction()}
-        content="Locatie verwijderen"
+        content={$t("remove-location")}
         size="small"
       />
     </div>

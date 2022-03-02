@@ -1,24 +1,9 @@
-<!-- <script context="module" >
-  import { initFirebase } from "$lib/firebase";
-
-  export async function load({session}) {
-    let firebase = await initFirebase(session.environment);
-    return {
-      props: {
-        firebase: firebase
-      },
-    };
-  }
-</script> -->
-
 <script>
- // import firebase from "firebase/app";
-	// import { getFirebaseFirestore } from "$lib/firebase.js";	
-	// import {doc, getDoc, collection, query, where, getDocs, orderBy, limit} from "firebase/firestore";
 	import Dashboard from '$lib/Activity/Components/dashboard.svelte';
   import { onMount } from 'svelte';
   import { getStores, session, page } from "$app/stores"
   import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { t } from "svelte-intl-precompile";
 
   let firebase;
 
@@ -28,15 +13,15 @@
   let breadcrumbs = [ 
     {
       url: '/beheer',
-      value: 'Beheer'
+      value: $t("management")
     },
     {
       url: '/beheer/activiteit',
-      value: 'Activiteit'
+      value: $t("activity")
     },
     {
       url: "/beheer/activiteit/" + $page.params.id + "/dashboard",
-      value: 'Activiteit dashboard'
+      value: $t("activity-dashboard")
     },
   ];
 

@@ -3,6 +3,7 @@
   import GetModuleData from "$lib/Module/Data/getModuleData.svelte";
   import { getStores, session, page } from "$app/stores";
   import { filterSelectedActivities, getUserModule } from "$lib/Module/Components/helper";
+  import { t } from "svelte-intl-precompile";
 
   let module;
   let firebase;
@@ -50,14 +51,14 @@
     data-test="back-to-course-button"
     href="/module/{$page.params.moduleId}"
     class="font-medium hover:underline text-indigo-600 hover:text-indigo-500"
-    ><span aria-hidden="true">&#8592;</span> Ga terug naar leskaart</a
+    ><span aria-hidden="true">&#8592;</span>{$t("go-back-to-map")}</a
   >
   {#if userModule && userModule.newUnlockedLocation}
     <span
       data-test="new-location-unlocked"
       class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800"
     >
-      Nieuwe locatie ontgrendeld!
+    {$t("new-location-unlocked")}
     </span>
   {/if}
 </div>

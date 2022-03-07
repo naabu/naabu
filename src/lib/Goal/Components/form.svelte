@@ -10,6 +10,7 @@
   import Tabs from "$lib/Internals/Tabs/tabs.svelte";
   import FormField from "$lib/Internals/FormFields/FormField.svelte";
   import { t } from "svelte-intl-precompile";
+  import Button from "$lib/Internals/Button/Button.svelte";
 
   export let goal;
 
@@ -172,30 +173,32 @@
   }
 
   function generateGoalTitle() {
+    goal.suggestedTitles = [];
     if (goal.selectedVerbs && goal.selectedVerbs.length > 0) {
-      goal.title = "Ik kan ";
+      let title = $t("i-can");
       if (
         goal.unitopic &&
         goal.unitopic.length > 0 &&
         goal.taxonomy_solo.includes("solo-1")
       ) {
-        goal.title += goal.unitopic + " ";
+        title += goal.unitopic + " ";
       }
 
       if (goal.taxonomy_solo.includes("solo-2")) {
-        goal.title += generateMulti(goal.multitopics);
+        title += generateMulti(goal.multitopics);
       }
       if (goal.taxonomy_solo.includes("solo-3")) {
-        goal.title += generateMulti(goal.multitopics);
+        title += generateMulti(goal.multitopics);
       }
       if (goal.taxonomy_solo.includes("solo-4")) {
-        goal.title += generateMulti(goal.multitopics);
+        title += generateMulti(goal.multitopics);
       }
-      goal.title += generateMulti(goal.selectedVerbs);
+      title += generateMulti(goal.selectedVerbs);
 
       if (goal.fromText && goal.fromText.length > 0) {
-        goal.title += goal.fromText;
+        title += goal.fromText;
       }
+      goal.suggestedTitles = [...goal.suggestedTitles, title];
     }
   }
 
@@ -342,10 +345,7 @@
   </div>
 </FieldSet>
 
-<FieldSet
-  title={$t("goal")}
-  description={$t("goal-description")}
->
+<FieldSet title={$t("goal")} description={$t("goal-description")}>
   <FormField title={$t("select-verb-description")}>
     <Select
       bind:value={goal.selectedVerbs}
@@ -354,12 +354,23 @@
       multiple={true}
     />
   </FormField>
-  <FormField
-    title={$t("from_where-learning-goal")}
-    forId="from_text"
-  >
+  <FormField title={$t("from_where-learning-goal")} forId="from_text">
     <TextInput bind:value={goal.fromText} id="from_text" />
   </FormField>
+  {#if goal.suggestedTitles && goal.suggestedTitles.length > 0}
+    <FieldSet title={$t("goal-suggested-titles")}>
+      {#each goal.suggestedTitles as suggestedTitle}
+        <FormField labelPosition="left">
+          <TextInput bind:value={suggestedTitle} />
+          <Button
+            on:click={() => (goal.title = suggestedTitle)}
+            content={$t("apply")}
+          />
+        </FormField>
+      {/each}
+    </FieldSet>
+  {/if}
+
   <FormField title={$t("title")} forId="title-textarea">
     <Textarea bind:value={goal.title} id="title-textarea" />
   </FormField>
@@ -369,22 +380,22 @@
       <div class="ml-4 mt-2 text-sm text-gray-500">
         <ul class="list-disc">
           <li>
-            {$t("try-the-worlds")} <a
-              class="underline"
-              href="/beheer/leerdoel/woorden-bloom"
+            {$t("try-the-worlds")}
+            <a class="underline" href="/beheer/leerdoel/woorden-bloom"
               >{$t("blooms-taxonomy")}</a
-            > {$t("to-describe-the-goal")}
+            >
+            {$t("to-describe-the-goal")}
           </li>
           <li>
             {$t("describe-text-goal")}
-             (<a
+            (<a
               class="underline"
               href="https://www.leroyseijdel.nl/doelen-stellen/smart-leerdoelen-voorbeelden/"
               >{$t("smart")}</a
             >)
           </li>
           <li>
-          {$t("take-into-account-solo")}
+            {$t("take-into-account-solo")}
           </li>
         </ul>
         <br />
@@ -395,7 +406,7 @@
           </li>
           <li>
             {$t("example-goal-2")}
-            </li>
+          </li>
           <li>
             {$t("example-goal-3")}
           </li>

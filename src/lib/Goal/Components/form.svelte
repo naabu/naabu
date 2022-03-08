@@ -9,7 +9,7 @@
   import Textarea from "$lib/Internals/FormFields/Textarea.svelte";
   import Tabs from "$lib/Internals/Tabs/tabs.svelte";
   import FormField from "$lib/Internals/FormFields/FormField.svelte";
-  import { t } from "svelte-intl-precompile";
+  import { t, locale } from "svelte-intl-precompile";
   import Button from "$lib/Internals/Button/Button.svelte";
 
   export let goal;
@@ -160,9 +160,11 @@
       let slicedArray = arrayValues.slice(0, arrayValues.length - 1);
       output += slicedArray.join(", ");
       if (arrayValues.length > 2) {
-        output += ", en " + arrayValues[arrayValues.length - 1] + " ";
+        output +=
+          ", " + $t("and") + " " + arrayValues[arrayValues.length - 1] + " ";
       } else if (arrayValues.length > 1) {
-        output += " en " + arrayValues[arrayValues.length - 1] + " ";
+        output +=
+          " " + $t("and") + " " + arrayValues[arrayValues.length - 1] + " ";
       }
     } else if (arrayValues.length > 0) {
       {
@@ -172,32 +174,62 @@
     return output;
   }
 
+  function generateBeginning() {
+    let title = $t("i-can") + " ";
+    return title;
+  }
+
+  function generateTopics() {
+    let topics = "";
+    if (
+      goal.unitopic &&
+      goal.unitopic.length > 0 &&
+      goal.taxonomy_solo.includes("solo-1")
+    ) {
+      topics += goal.unitopic + " ";
+    }
+
+    if (goal.taxonomy_solo.includes("solo-2")) {
+      topics += generateMulti(goal.multitopics);
+    }
+    if (goal.taxonomy_solo.includes("solo-3")) {
+      topics += generateMulti(goal.multitopics);
+    }
+    if (goal.taxonomy_solo.includes("solo-4")) {
+      topics += generateMulti(goal.multitopics);
+    }
+    return topics;
+  }
+
+  function generateVerbs() {
+    let verbs = "";
+    verbs = generateMulti(goal.selectedVerbs);
+    return verbs;
+  }
+
+  function generateFromText() {
+    let fromText = "";
+    if (goal.fromText && goal.fromText.length > 0) {
+      fromText = goal.fromText;
+    }
+    return fromText;
+  }
+
   function generateGoalTitle() {
     goal.suggestedTitles = [];
+    console.log($locale);
+    let title = "";
+    title += generateBeginning();
+    if ($locale == "en") {
+      title += generateVerbs();
+      title += generateTopics();
+    } else if ($locale === "nl") {
+      title += generateTopics();
+      title += generateVerbs();
+    }
+    title += generateFromText();
+
     if (goal.selectedVerbs && goal.selectedVerbs.length > 0) {
-      let title = $t("i-can");
-      if (
-        goal.unitopic &&
-        goal.unitopic.length > 0 &&
-        goal.taxonomy_solo.includes("solo-1")
-      ) {
-        title += goal.unitopic + " ";
-      }
-
-      if (goal.taxonomy_solo.includes("solo-2")) {
-        title += generateMulti(goal.multitopics);
-      }
-      if (goal.taxonomy_solo.includes("solo-3")) {
-        title += generateMulti(goal.multitopics);
-      }
-      if (goal.taxonomy_solo.includes("solo-4")) {
-        title += generateMulti(goal.multitopics);
-      }
-      title += generateMulti(goal.selectedVerbs);
-
-      if (goal.fromText && goal.fromText.length > 0) {
-        title += goal.fromText;
-      }
       goal.suggestedTitles = [...goal.suggestedTitles, title];
     }
   }
@@ -358,17 +390,17 @@
     <TextInput bind:value={goal.fromText} id="from_text" />
   </FormField>
   {#if goal.suggestedTitles && goal.suggestedTitles.length > 0}
-    <FieldSet title={$t("goal-suggested-titles")}>
-      {#each goal.suggestedTitles as suggestedTitle}
-        <FormField labelPosition="left">
-          <TextInput bind:value={suggestedTitle} />
+    {#each goal.suggestedTitles as suggestedTitle}
+      <FormField title={$t("goal-suggested-title")} labelPosition="left">
+        <span>
+          {suggestedTitle}
           <Button
             on:click={() => (goal.title = suggestedTitle)}
             content={$t("apply")}
           />
-        </FormField>
-      {/each}
-    </FieldSet>
+        </span>
+      </FormField>
+    {/each}
   {/if}
 
   <FormField title={$t("title")} forId="title-textarea">

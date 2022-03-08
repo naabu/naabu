@@ -5,3 +5,4 @@ COPY firebase.json firestore.rules firestore.indexes.json /var/www/
 COPY scripts/ /var/www/scripts/
 RUN cp /usr/local/package.json /var/www/package.json
 WORKDIR /var/www/
+

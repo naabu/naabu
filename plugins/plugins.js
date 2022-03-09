@@ -2,6 +2,7 @@ export async function loadConfigAllPlugins() {
   let plugins = [];
   plugins.push((await import("@plugins/vimeo-player/config.js")).default);
   plugins.push((await import("@plugins/multiple-choice/config.js")).default);
+  plugins.push((await import("@plugins/exponential-simulator/config.js")).default);
   return plugins;
 }
 
@@ -24,6 +25,15 @@ export async function loadPluginComponent(pluginId, svelteComponent = "Render") 
     }
     else if (svelteComponent === "Form") {
       return (await import("@plugins/multiple-choice/Form.svelte")).default;
+    }
+  }
+
+  if (pluginId == "exponential-simulator") {
+    if (svelteComponent === "Render") {
+      return (await import("@plugins/exponential-simulator/Render.svelte")).default;
+    }
+    else if (svelteComponent === "Form") {
+      return (await import("@plugins/exponential-simulator/Form.svelte")).default;
     }
   }
 }

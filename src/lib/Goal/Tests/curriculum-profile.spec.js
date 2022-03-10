@@ -32,14 +32,7 @@ test('Test flow for creating and editing learning goals @goal', async ({ page, d
   await page.click('[data-test=curriculum-menu]');
   await page.click('[data-test=create-goal-link]');
   await page.click('[data-test=create-curriculum-profile-message]');
-  // const [popup] = await Promise.all([
-  //   page.waitForEvent('popup'),
-  //   page.click('#linkGoogleButton')
-  // ]);
-  // await popup.waitForLoadState();
-  // await popup.click('#add-account-button');
-  // await popup.click('#autogen-button');
-  // await popup.click('#sign-in');
+  
   await expect(page.locator('#linkGoogleButton')).not.toBeVisible();
   // Fil in curriculum profile.
   await page.fill('#fullname', 'John Doe');
@@ -49,10 +42,23 @@ test('Test flow for creating and editing learning goals @goal', async ({ page, d
   await page.click('[data-test=submit-button]');
 });
 
-test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {
-  printMessages(page, showAllConsole);
+
+async function clearData(page, domain) {
+  await page.goto(domain + '/cypress/user/deletegoalsnoprofile2@example.com/password/login');
+  await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/curriculumProfile/clear');
   await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/user/clear');
   await page.waitForSelector('[data-test=complete]');
+}
+
+test.beforeEach(async ({ page, domain, showAllConsole }, testInfo) => {
+  printMessages(page, showAllConsole);
+  await clearData(page, domain)
+});
+
+
+test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {
+  printMessages(page, showAllConsole);
+  await clearData(page, domain)
 });

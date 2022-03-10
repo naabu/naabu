@@ -9,7 +9,8 @@
   import Textarea from "$lib/Internals/FormFields/Textarea.svelte";
   import Tabs from "$lib/Internals/Tabs/tabs.svelte";
   import FormField from "$lib/Internals/FormFields/FormField.svelte";
-  import { t } from "svelte-intl-precompile";
+  import { t, locale } from "svelte-intl-precompile";
+  import Button from "$lib/Internals/Button/Button.svelte";
 
   export let goal;
 
@@ -159,9 +160,11 @@
       let slicedArray = arrayValues.slice(0, arrayValues.length - 1);
       output += slicedArray.join(", ");
       if (arrayValues.length > 2) {
-        output += ", en " + arrayValues[arrayValues.length - 1] + " ";
+        output +=
+          ", " + $t("and") + " " + arrayValues[arrayValues.length - 1] + " ";
       } else if (arrayValues.length > 1) {
-        output += " en " + arrayValues[arrayValues.length - 1] + " ";
+        output +=
+          " " + $t("and") + " " + arrayValues[arrayValues.length - 1] + " ";
       }
     } else if (arrayValues.length > 0) {
       {
@@ -171,31 +174,64 @@
     return output;
   }
 
+  function generateBeginning() {
+    let title = $t("i-can") + " ";
+    return title;
+  }
+
+  function generateTopics() {
+    let topics = "";
+    if (
+      goal.unitopic &&
+      goal.unitopic.length > 0 &&
+      goal.taxonomy_solo.includes("solo-1")
+    ) {
+      topics += goal.unitopic + " ";
+    }
+
+    if (goal.taxonomy_solo.includes("solo-2")) {
+      topics += generateMulti(goal.multitopics);
+    }
+    if (goal.taxonomy_solo.includes("solo-3")) {
+      topics += generateMulti(goal.multitopics);
+    }
+    if (goal.taxonomy_solo.includes("solo-4")) {
+      topics += generateMulti(goal.multitopics);
+    }
+    return topics;
+  }
+
+  function generateVerbs() {
+    let verbs = "";
+    verbs = generateMulti(goal.selectedVerbs);
+    return verbs;
+  }
+
+  function generateFromText() {
+    let fromText = "";
+    if (goal.fromText && goal.fromText.length > 0) {
+      fromText = goal.fromText;
+    }
+    return fromText;
+  }
+
   function generateGoalTitle() {
+    goal.suggestedTitles = [];
+    console.log($locale);
+    let title = "";
+    title += generateBeginning();
+    if ($locale === "nl") {
+      title += generateTopics();
+      title += generateVerbs();
+    }
+    else {
+      title += generateVerbs();
+      title += generateTopics();
+    } 
+    title += generateFromText();
+
     if (goal.selectedVerbs && goal.selectedVerbs.length > 0) {
-      goal.title = "Ik kan ";
-      if (
-        goal.unitopic &&
-        goal.unitopic.length > 0 &&
-        goal.taxonomy_solo.includes("solo-1")
-      ) {
-        goal.title += goal.unitopic + " ";
-      }
-
-      if (goal.taxonomy_solo.includes("solo-2")) {
-        goal.title += generateMulti(goal.multitopics);
-      }
-      if (goal.taxonomy_solo.includes("solo-3")) {
-        goal.title += generateMulti(goal.multitopics);
-      }
-      if (goal.taxonomy_solo.includes("solo-4")) {
-        goal.title += generateMulti(goal.multitopics);
-      }
-      goal.title += generateMulti(goal.selectedVerbs);
-
-      if (goal.fromText && goal.fromText.length > 0) {
-        goal.title += goal.fromText;
-      }
+      goal.suggestedTitles = [...goal.suggestedTitles, title];
     }
   }
 
@@ -342,10 +378,7 @@
   </div>
 </FieldSet>
 
-<FieldSet
-  title={$t("goal")}
-  description={$t("goal-description")}
->
+<FieldSet title={$t("goal")} description={$t("goal-description")}>
   <FormField title={$t("select-verb-description")}>
     <Select
       bind:value={goal.selectedVerbs}
@@ -354,12 +387,23 @@
       multiple={true}
     />
   </FormField>
-  <FormField
-    title={$t("from_where-learning-goal")}
-    forId="from_text"
-  >
+  <FormField title={$t("from_where-learning-goal")} forId="from_text">
     <TextInput bind:value={goal.fromText} id="from_text" />
   </FormField>
+  {#if goal.suggestedTitles && goal.suggestedTitles.length > 0}
+    {#each goal.suggestedTitles as suggestedTitle}
+      <FormField title={$t("goal-suggested-title")} labelPosition="left">
+        <span>
+          {suggestedTitle}
+          <Button
+            on:click={() => (goal.title = suggestedTitle)}
+            content={$t("apply")}
+          />
+        </span>
+      </FormField>
+    {/each}
+  {/if}
+
   <FormField title={$t("title")} forId="title-textarea">
     <Textarea bind:value={goal.title} id="title-textarea" />
   </FormField>
@@ -369,22 +413,22 @@
       <div class="ml-4 mt-2 text-sm text-gray-500">
         <ul class="list-disc">
           <li>
-            {$t("try-the-worlds")} <a
-              class="underline"
-              href="/beheer/leerdoel/woorden-bloom"
+            {$t("try-the-worlds")}
+            <a class="underline" href="/beheer/leerdoel/woorden-bloom"
               >{$t("blooms-taxonomy")}</a
-            > {$t("to-describe-the-goal")}
+            >
+            {$t("to-describe-the-goal")}
           </li>
           <li>
             {$t("describe-text-goal")}
-             (<a
+            (<a
               class="underline"
               href="https://www.leroyseijdel.nl/doelen-stellen/smart-leerdoelen-voorbeelden/"
               >{$t("smart")}</a
             >)
           </li>
           <li>
-          {$t("take-into-account-solo")}
+            {$t("take-into-account-solo")}
           </li>
         </ul>
         <br />
@@ -395,7 +439,7 @@
           </li>
           <li>
             {$t("example-goal-2")}
-            </li>
+          </li>
           <li>
             {$t("example-goal-3")}
           </li>

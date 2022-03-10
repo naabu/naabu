@@ -23,7 +23,7 @@
       </FormField>
     {/if}
 
-    <FormField title="Institutie" forId="institution">
+    <FormField title={$t("institution")} forId="institution">
       <TextInput
         bind:value={curriculumProfile.institution}
         id="institution"

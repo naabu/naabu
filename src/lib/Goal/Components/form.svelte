@@ -220,13 +220,14 @@
     console.log($locale);
     let title = "";
     title += generateBeginning();
-    if ($locale == "en") {
-      title += generateVerbs();
-      title += generateTopics();
-    } else if ($locale === "nl") {
+    if ($locale === "nl") {
       title += generateTopics();
       title += generateVerbs();
     }
+    else {
+      title += generateVerbs();
+      title += generateTopics();
+    } 
     title += generateFromText();
 
     if (goal.selectedVerbs && goal.selectedVerbs.length > 0) {

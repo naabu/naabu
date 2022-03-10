@@ -65,6 +65,7 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
   await page.click('#bloom2-2');
   await page.selectOption('select#select-verbs', ['describe', 'show']);
   await page.fill('#from_text', 'from a work sheet');
+  await page.waitForTimeout(2000);
   await page.click('[data-test=apply-button]');
   await expect(page.locator('#title-textarea')).toHaveValue('I can describe and show subject 1 from a work sheet');
   await page.fill('#title-textarea', 'I can describe and show subject 1 from a work sheet with extra info');
@@ -95,6 +96,7 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
   await page.click('#bloom2-3');
   await page.selectOption('select#select-verbs', ['investigate', 'adjust']);
   await page.fill('#from_text', 'from your head without a calculator');
+  await page.waitForTimeout(2000);
   await page.click('[data-test=apply-button]');
   await page.fill('#description', 'Vital to learn this early');
   await page.fill('#quiz_question', 'Weet jij het antwoord? $$1+1=$$..');

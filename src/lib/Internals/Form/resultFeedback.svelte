@@ -48,7 +48,7 @@
             <Button
               on:click={() => (alert.success = false)}
               size="very-small"
-              content="Sluiten"
+              content={$t("close")}
               color="greenAlert"
             />
           </div>

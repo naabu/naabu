@@ -217,7 +217,6 @@
 
   function generateGoalTitle() {
     goal.suggestedTitles = [];
-    console.log($locale);
     let title = "";
     title += generateBeginning();
     if ($locale === "nl") {

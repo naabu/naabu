@@ -18,6 +18,7 @@
   export let value;
   export let options = [];
   export let multiple = false;
+  export let required = false;
 
   let classes = [
     "block",
@@ -44,6 +45,7 @@
     {id}
     name={id}
     class={classes.join(" ")}
+    {required}
   >
     {#each options as option}
       <option value={option.value}>{option.content}</option>
@@ -56,6 +58,7 @@
     {id}
     name={id}
     class={classes.join(" ")}
+    {required}
   >
     {#each options as option}
       <option value={option.value} class:selected={option.selected}

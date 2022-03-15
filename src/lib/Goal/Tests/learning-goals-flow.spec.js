@@ -63,8 +63,12 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
   await page.fill('#uni_topic_name', 'subject 1');
   await page.click('#bloom1-1');
   await page.click('#bloom2-2');
-  await page.selectOption('select#select-verbs', ['describing', 'showing']);
+  await page.selectOption('select#select-verbs', ['describe', 'show']);
   await page.fill('#from_text', 'from a work sheet');
+  await page.waitForTimeout(2000);
+  await page.click('[data-test=apply-button]');
+  await expect(page.locator('#title-textarea')).toHaveValue('I can describe and show subject 1 from a work sheet');
+  await page.fill('#title-textarea', 'I can describe and show subject 1 from a work sheet with extra info');
   await page.fill('#description', 'Important learning goal for reasons');
   await page.fill('#test_name', 'Battle 1');
   await page.click('[data-test=add-battle-button]');
@@ -79,7 +83,7 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
   await page.fill('#answeranswer', '1');
   await page.check('#answers_check');
   await page.click('[data-test=create-goal-submit-button]');
-  await expect(page.locator('div#svelte')).toContainText('Ik kan subject 1 describing en showing from a work sheet');
+  await expect(page.locator('div#svelte')).toContainText('Title: I can describe and show subject 1 from a work sheet with extra info');
 
   // Edit goal page.
   await page.click('[data-test=tabs-sub-edit]');
@@ -90,8 +94,10 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
   await page.click('[data-test=add-multi-topic-button]');
   await page.click('#bloom1-3');
   await page.click('#bloom2-3');
-  await page.selectOption('select#select-verbs', ['investigating', 'adjusting']);
+  await page.selectOption('select#select-verbs', ['investigate', 'adjust']);
   await page.fill('#from_text', 'from your head without a calculator');
+  await page.waitForTimeout(2000);
+  await page.click('[data-test=apply-button]');
   await page.fill('#description', 'Vital to learn this early');
   await page.fill('#quiz_question', 'Weet jij het antwoord? $$1+1=$$..');
   await page.click('[data-test=A1]');
@@ -128,8 +134,8 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
 
   await page.click('[data-test=revision-index-0]');
   await page.waitForSelector('[data-test=title-old]');
-  await expect(page.locator('[data-test=title-old]')).toContainText("Ik kan subject 1 describing en showing from a work sheet");
-  await expect(page.locator('[data-test=title-new]')).toContainText("Ik kan subject 1 en subject 2 investigating en adjusting from your head without a calculator");
+  await expect(page.locator('[data-test=title-old]')).toContainText("I can describe and show subject 1 from a work sheet");
+  await expect(page.locator('[data-test=title-new]')).toContainText("I can investigate and adjust subject 1 and subject 2 from your head without a calculator");
   await expect(page.locator('[data-test=description-old]')).toContainText("Important learning goal for reasons");
   await expect(page.locator('[data-test=description-new]')).toContainText("Vital to learn this early");
 
@@ -138,10 +144,10 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
   await expect(page.locator('[data-test=topics-new] > [data-test=new-index0]')).toContainText('subject 1');
 
   await expect(page.locator('[data-test=topics-new] > [data-test=new-index1]')).toContainText('subject 2');
-  await expect(page.locator('[data-test=verbs-old] > [data-test=old-index0]')).toContainText('describing');
-  await expect(page.locator('[data-test=verbs-old] > [data-test=old-index1]')).toContainText('showing');
-  await expect(page.locator('[data-test=verbs-new] > [data-test=new-index0]')).toContainText('investigating');
-  await expect(page.locator('[data-test=verbs-new] > [data-test=new-index1]')).toContainText('adjusting');
+  await expect(page.locator('[data-test=verbs-old] > [data-test=old-index0]')).toContainText('describe');
+  await expect(page.locator('[data-test=verbs-old] > [data-test=old-index1]')).toContainText('show');
+  await expect(page.locator('[data-test=verbs-new] > [data-test=new-index0]')).toContainText('investigate');
+  await expect(page.locator('[data-test=verbs-new] > [data-test=new-index1]')).toContainText('adjust');
   await expect(page.locator('[data-test=blooms-taxonomy-old] > [data-test=old-index0]')).toContainText('bloom1-1');
   await expect(page.locator('[data-test=blooms-taxonomy-old] > [data-test=old-index1]')).toContainText('bloom2-2');
 
@@ -185,17 +191,14 @@ test('Test flow for learning goals @goal', async ({ page, domain, showAllConsole
   await expect(page.locator('div#svelte')).toContainText('Answers');
   await page.waitForTimeout(1000);
   await page.click('[data-test="profile-link"]');
-  await expect(page.locator('div#svelte')).toContainText('Ik kan subject 1 en subject 2 investigating en adjusting from your he…');
-  await expect(page.locator('div#svelte')).toContainText('Ik kan subject 1 describing en showing from a work sheet');
+  await expect(page.locator('div#svelte')).toContainText('I can investigate and adjust subject 1 and subject 2 from your ');
+  await expect(page.locator('div#svelte')).toContainText('I can describe and show subject 1 from a work sheet with extra info');
   await expect(page.locator('div#svelte')).toContainText('New title');
   await expect(page.locator('div#svelte')).toContainText('Discuss revision');
 });
 
 test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {
   printMessages(page, showAllConsole);
-  // await expect(page.locator()).toContainText();
-  // await page.click();
-  // await page.fill('', '');
   await page.goto(domain + '/cypress/user/logout');
   await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/user/deletegoalsnoprofile@example.com/password/login');

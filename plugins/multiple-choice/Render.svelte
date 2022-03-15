@@ -10,11 +10,13 @@
     data.selectedAnswer = null;
   }
 
+  const dispatch = createEventDispatcher();
+  
   export function observeParent() {
     dispatch("observeParent");
   }
 
-  const dispatch = createEventDispatcher();
+
 
   function checkCorrectAnswer(quiz) {
     if (quiz.answers[quiz.selectedAnswer].correct === true) {

@@ -1,7 +1,6 @@
 <script>
   import { getStores, session, page } from "$app/stores";
   import ShowBreadcrumb from "$lib/Internals/Breadcrumb/show.svelte";
-  import { onMount } from "svelte";
   import Notification from "$lib/Internals/Misc/notification.svelte";
   import DifficultyFeedback from "$lib/Activity/Components/feedbackDifficulty.svelte";
   import BattleFight from "$lib/Goal/Components/battleFight.svelte";
@@ -91,10 +90,6 @@
       y = 0;
     }
   }
-
-  onMount(async () => {
-    mounted = true;
-  });
 </script>
 
 <svelte:window bind:scrollY={y} />

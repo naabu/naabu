@@ -185,7 +185,7 @@
     <div class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
       <div class="max-w-none mx-auto">
         <div
-          class="interruption-container bg-white overflow-hidden sm:rounded-lg sm:shadow"
+          class="interruption-container bg-white overflow-hidden sm:rounded-lg sm:shadow p-4"
         >
           <slot name="interruption" />
         </div>

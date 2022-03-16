@@ -4,21 +4,77 @@
   import * as knobby from "svelte-knobby";
   import { spring } from "svelte/motion";
   import Wall from "./Wall.svelte";
-  import { center_of_mass, create_star, update, SIZE } from "./astrophysics.js";
+  import { center_of_mass, create_star, SIZE } from "./astrophysics.js";
+  import { createBall, update } from "./custom-physics.js";
+  import { t } from "svelte-intl-precompile";
+  import Button from "$lib/Internals/Button/Button.svelte";
 
   const target = spring();
   let viewOffset;
-  let balls = [create_star()];
+  let balls = [];
+  let tryNumberOfBalls = 1;
 
-	const sphere = new THREE.SphereGeometry(1, 32, 32);
-	const material = new THREE.MeshStandardMaterial({ emissive: 0xffffdd });
+  let checkFramesLimit = 300;
+  let checkFramesCount = 0;
+  let cubeFull = false;
+  let numberOfSteps = 0;
 
+
+  function reset() {
+    balls = [];
+    tryNumberOfBalls = 1;
+    numberOfSteps = 0;
+  }
+
+  function multiply() {
+    tryNumberOfBalls = tryNumberOfBalls * 2;
+    numberOfSteps = numberOfSteps + 1;
+  }
+
+  function addBalls() {
+    if (checkFramesCount > checkFramesLimit) {
+      cubeFull = true;
+    }
+    checkFramesCount++;
+
+    if (checkFramesCount % 5 === 0) {
+      for (let i = 0; i < 20; i++) {
+        if (balls.length < tryNumberOfBalls) {
+          let newBall = createBall(balls);
+          if (newBall !== null) {
+            balls = [...balls, newBall];
+            checkFramesCount = 0;
+          }
+        }
+      }
+    }
+  }
+
+  const sphere = new THREE.SphereGeometry(1, 32, 32);
+
+  const material = new THREE.MeshMatcapMaterial();
   SC.onFrame(() => {
-		balls = update(balls, 4);
-    console.log(balls);
-	});
-
+    if (!cubeFull && balls.length < tryNumberOfBalls) {
+      addBalls();
+    }
+    if (balls) {
+      balls = update(balls);
+    }
+  });
 </script>
+
+<div>
+  <div>
+    {$t("steps")}: {numberOfSteps}
+  </div>
+  <div>
+    {$t("number-of-balls")}: {balls.length}
+    {$t("of") + " " + tryNumberOfBalls}
+  </div>
+</div>
+
+<Button content={$t("multiply")} color="primary" size="large" on:click={multiply} />
+<Button content={$t("reset")} size="large" on:click={reset} />
 
 <SC.Canvas
   width="700"
@@ -40,7 +96,7 @@
   <Wall position={[0, 0, +SIZE]} rotation={[-Math.PI / 2, 0, 0]} />
 
   {#each balls as bal}
-    <SC.Mesh geometry={sphere} {material} position={bal.coords} scale={1} />
+    <SC.Mesh geometry={sphere} {material} position={bal.coords} scale={0.5} />
   {/each}
 
   <SC.PerspectiveCamera position={[-20, 20, 40]} bind:viewOffset />

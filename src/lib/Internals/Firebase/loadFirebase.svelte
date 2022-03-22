@@ -59,7 +59,6 @@
         await fb.firestore().useEmulator("firebase", 5012);
       }
     }
-
     return fb;
   }
 </script>

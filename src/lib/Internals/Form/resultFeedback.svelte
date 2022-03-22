@@ -2,11 +2,13 @@
   import { getStores, page } from "$app/stores";
   import Button from "../Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
-
+  import DOMPurify from 'dompurify';
+  
   export let alert = {
     success: false,
     successTitle: "",
     successMessage: "",
+    successCanClose: true,
     error: false,
     errorCode: "",
     errorMessage: "",
@@ -40,17 +42,19 @@
         </h3>
         <div class="mt-2 text-sm text-green-700">
           <p>
-            {alert.successMessage}
+            {@html DOMPurify.sanitize(alert.successMessage)}
           </p>
         </div>
         <div class="mt-4">
           <div class="-mx-2 -my-1.5 flex">
+            {#if alert.successCanClose}
             <Button
               on:click={() => (alert.success = false)}
               size="very-small"
               content={$t("close")}
               color="greenAlert"
             />
+            {/if}
           </div>
         </div>
       </div>

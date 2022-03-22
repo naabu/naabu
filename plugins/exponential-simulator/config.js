@@ -1,7 +1,7 @@
 const config = {
-  id: "classify-drag-and-drop",
-  name: "classify-drag-and-drop-name",
-  description: "classify-drag-and-drop-description",
+  id: "exponential-simulator",
+  name: "exponential-simulator-name",
+  description: "exponential-simulator-description",
   canBeInterrupted: false,
   canInterrupt: true,
   canObserve: false,

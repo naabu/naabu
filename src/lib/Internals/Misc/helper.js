@@ -1,6 +1,5 @@
 import katex from 'katex';
 import DiffMatchPatch from "diff-match-patch";
-import { t } from "svelte-intl-precompile";
 
 export function getDiffStrings(string1, string2) {
   const dmp = new DiffMatchPatch();

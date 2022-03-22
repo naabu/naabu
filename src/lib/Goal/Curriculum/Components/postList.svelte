@@ -3,6 +3,7 @@
   import { getDateString, truncate } from "$lib/Internals/Misc/helper";
   import { sortOnCreatedAt } from "$lib/Internals/Revision/helper";
   import { t } from "svelte-intl-precompile";
+  import DOMPurify from 'dompurify';
   export let curriculumProfile;
 
   $: if (curriculumProfile.postList) {
@@ -67,9 +68,9 @@
                           href="/overleg/{post.goalId}/{post.talkId}/{post.postId}"
                         >
                           {#if post.type === "post" && post.postTitle}
-                            {@html truncate(post.postTitle, 70)}
+                            {@html DOMPurify.sanitize(truncate(post.postTitle, 70))}
                           {:else}
-                            {@html truncate(post.replyText, 70)}
+                            {@html DOMPurify.sanitize(truncate(post.replyText, 70))}
                           {/if}
                         </a>
                       </div>
@@ -81,7 +82,7 @@
                           <a
                             class="underline"
                             href="/overleg/{post.goalId}/{post.talkId}"
-                            >{@html truncate(post.goalTitle, 70)}</a
+                            >{@html DOMPurify.sanitize(truncate(post.goalTitle, 70))}</a
                           >
                         </div>
                       {/if}

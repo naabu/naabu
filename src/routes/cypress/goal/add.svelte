@@ -2,6 +2,7 @@
   import { getStores, session, page } from "$app/stores";
   import { onMount } from "svelte";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import DOMPurify from 'dompurify';
   let firebase;
   let resetDone = false;
   let mounted = false;
@@ -103,7 +104,7 @@
 
 {#if $session.environment === "cypress" || $session.environment === "test" || $session.environment === "development"}
   Now setting up the learning goals
-  {@html feedbackstring}
+  {@html DOMPurify.sanitize(feedbackstring)}
 
   {#if resetDone}
     <div data-test="complete">learning goal ready for testing</div>

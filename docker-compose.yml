@@ -17,6 +17,7 @@ services:
       - 9229:9229
       - 24678:24678
       - 6006:6006
+      - 9005:9005
     networks:
       - internal_network
 
@@ -29,11 +30,13 @@ services:
       - firebase_functions_node_modules:/var/www/functions/node_modules/
       - ./firestore.rules:/var/www/firestore.rules
       - ./firebase.json:/var/www/firebase.json
+      - ./.firebaserc:/var/www/.firebaserc
       - ./firestore.indexes.json:/var/www/firestore.indexes.json
       - ./scripts/:/var/www/scripts/
       - ./config/:/var/www/config/
       - ./dockerfiles/firebase/core/package.json:/var/www/package.json
       - ./data/:/var/www/data/
+      - ./public:/var/www/public/
     environment:
       - environment=development
     ports:
@@ -43,7 +46,6 @@ services:
       - 5014:5014
       - 4500:4500
       - 4400:4400
-      - 9005:9005
     networks:
       - internal_network
   

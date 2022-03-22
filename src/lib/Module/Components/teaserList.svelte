@@ -1,5 +1,6 @@
 <script>
   import { t } from "svelte-intl-precompile";
+  import DOMPurify from 'dompurify';
   export let modules;
 </script>
 
@@ -35,7 +36,7 @@
                   <div
                     class="flex-shrink-0 w-full aspect-w-1 aspect-h-1 rounded-lg overflow-hidden sm:aspect-none sm:w-40 sm:h-40"
                   >
-                    {@html module.moduleSvg}
+                    {@html DOMPurify.sanitize(module.moduleSvg)}
                   </div>
 
                   <div class="mt-6 sm:mt-0 sm:ml-6">

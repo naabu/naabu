@@ -4,6 +4,7 @@
     getAlgoliaSearchClient,
     getGoalIndex,
   } from "$lib/Internals/Algolia/algolia";
+  import DOMPurify from 'dompurify';
   import { getStores, session } from "$app/stores";
 
   import { truncate } from "$lib/Internals/Misc/helper";
@@ -115,7 +116,7 @@
                 </td>
                 <td class="px-6 py-4">
                   <div class="text-sm text-gray-900">
-                    {#if hit.description}{@html hit.description}{:else}
+                    {#if hit.description}{@html DOMPurify.sanitize(hit.description)}{:else}
                       {$t("no-description")}
                     {/if}
                   </div>

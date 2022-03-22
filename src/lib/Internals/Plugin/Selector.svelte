@@ -103,9 +103,9 @@
             <div class="col-span-1 flex">
               <div class="flex-1 px-4 py-2 text-sm truncate">
                 <p class="text-gray-900 font-medium">
-                  {pluginOption.name}
+                  {$t(pluginOption.name)}
                 </p>
-                <AdditionalFormText content={pluginOption.description} />
+                <AdditionalFormText content={$t(pluginOption.description)} />
               </div>
               <div class="flex-shrink-0 pr-2">
                 <Button

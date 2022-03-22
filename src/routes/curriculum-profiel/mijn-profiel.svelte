@@ -54,7 +54,7 @@
 
 <ContainerBreadcrumpPageTitle
   bind:breadcrumbs
-  title={$t("my-curriciulum-profile")}
+  title={$t("my-curriculum-profile")}
 />
 
 {#if mounted}

@@ -21,6 +21,7 @@ exports.ssr = functions.
   https.onRequest(async (request, response) => {
     process.env.environment = helper.environment;
     process.env.defaultMapId = helper.defaultMapId;
+    process.env.defaultLanguage = helper.defaultLanguage;
     functions.logger.info(functions.firestore);
     process.env.fb = require('firebase');
     functions.logger.info("Initializing SvelteKit SSR Handler");

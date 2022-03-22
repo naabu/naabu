@@ -4,6 +4,7 @@
   import MarginDecorator from "$lib/Internals/Story/MarginDecorator.svelte";
   import GreyBackgroundDecorator from "$lib/Internals/Story/GreyBackgroundDecorator.svelte";
   import PositionOnBottom from "../Story/PositionOnBottom.svelte";
+  import DOMPurify from 'dompurify';
 </script>
 
 <!-- More on default export: https://storybook.js.org/docs/react/writing-stories/introduction#default-export -->
@@ -53,7 +54,7 @@
   <MarginDecorator>
     <Button {...args} on:click={args.onClick}>
       {#if args.svelteSlot}
-        {@html args.svelteSlot}
+        {@html DOMPurify.sanitize(args.svelteSlot)}
       {:else}
         {args.content}
       {/if}

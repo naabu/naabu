@@ -13,6 +13,7 @@
   import AdditionalFormText from "$lib/Internals/FormFields/AdditionalFormText.svelte";
   import PluginForm from "$lib/Internals/Plugin/Form.svelte";
   import { t } from "svelte-intl-precompile";
+  import DOMPurify from 'dompurify';
 
   const dispatch = createEventDispatcher();
 
@@ -87,7 +88,7 @@
       </div>
 
       {#if activity.description}
-        {@html activity.description}
+        {@html DOMPurify.sanitize(activity.description)}
       {/if}
     </svelte:fragment>
   </FormField>

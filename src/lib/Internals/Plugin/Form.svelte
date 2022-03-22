@@ -151,8 +151,8 @@
 
 {#each plugins as plugin, mainPluginIndex}
   <FieldSet
-    title={plugin.currentPlugin.pluginConfig.name}
-    description={plugin.currentPlugin.pluginConfig.description}
+    title={$t(plugin.currentPlugin.pluginConfig.name)}
+    description={$t(plugin.currentPlugin.pluginConfig.description)}
     layout="two-column-full-width-cards"
   >
     <div slot="top">

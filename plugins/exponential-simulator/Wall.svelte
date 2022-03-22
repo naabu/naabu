@@ -2,7 +2,7 @@
 <script>
 	import * as THREE from 'three';
 	import * as SC from 'svelte-cubed';
-	import { SIZE } from './astrophysics';
+	import { SIZE } from './custom-physics.js';
 	/** @type {import('svelte-cubed').Position} */
 	export let position;
 	/** @type {import('svelte-cubed').Rotation} */

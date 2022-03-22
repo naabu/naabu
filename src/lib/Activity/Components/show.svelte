@@ -8,6 +8,7 @@
   import ShowPlugins from "$lib/Internals/Plugin/Show.svelte";
   import { goto } from "$app/navigation";
   import { t } from "svelte-intl-precompile";
+  import DOMPurify from 'dompurify';
   export let firebase;
   export let activity;
   export let showFeedback = true;
@@ -116,7 +117,7 @@
       {/if}
     </h1>
     {#if activity.description}
-      {@html activity.description}
+      {@html DOMPurify.sanitize(activity.description)}
     {/if}
 
     {#if activity.plugins && activity.plugins.length > 0}

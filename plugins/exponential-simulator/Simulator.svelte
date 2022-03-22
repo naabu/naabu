@@ -4,31 +4,101 @@
   import * as knobby from "svelte-knobby";
   import { spring } from "svelte/motion";
   import Wall from "./Wall.svelte";
-  import { center_of_mass, create_star, SIZE } from "./astrophysics.js";
-  import { createBall, update } from "./custom-physics.js";
+  import { createBall, update, SIZE } from "./custom-physics.js";
   import { t } from "svelte-intl-precompile";
   import Button from "$lib/Internals/Button/Button.svelte";
+  import TextInput from "$lib/Internals/FormFields/TextInput.svelte";
+  import FormField from "$lib/Internals/FormFields/FormField.svelte";
+  import NumberInput from "$lib/Internals/FormFields/NumberInput.svelte";
+  import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
 
   const target = spring();
+  export let answer;
   let viewOffset;
   let balls = [];
   let tryNumberOfBalls = 1;
+  let successAlert = {
+    success: true,
+    successTitle: $t("right-answer-is") + answer,
+    successMessage: $t("success-exercise"),
+    successCanClose: false,
+  };
 
-  let checkFramesLimit = 300;
+  $: if (hasEstimation) {
+    let estimationBalls = Math.pow(2, estimation);
+    let message = "";
+    if (estimation > 29) {
+      message =
+        $t("with-your-estimation-of") +
+        estimation +
+        " " +
+        $t("steps-short") +
+        $t("it-would-generate") +
+        estimationBalls +
+        " " +
+        $t("balls").toLowerCase() +
+        "! </br>" +
+        $t("if-balls-size-ping-pong-ball-it-would-fill-the") +
+        " ";
+    }
+    if (estimation > 280) {
+      message += $t("fill-size-of-universe");
+    }
+    else if (estimation > 195) {
+      message += $t("the-milky-way");
+    }
+    else if (estimation > 103) {
+      message += $t("the-sun");
+    } else if (estimation > 80) {
+      message += $t("fill-world");
+    }
+    else if (estimation > 29) {
+      message += $t("boeing-everett-factory");
+    } else if (answer == estimation) {
+      message = $t("perfect-estimation");
+    } else {
+      message = $t("pretty-close-estimation");
+    }
+    successAlert.successMessage = message;
+  }
+
+  let checkFramesLimit = 60;
   let checkFramesCount = 0;
   let cubeFull = false;
   let numberOfSteps = 0;
-
+  let hasEstimation = false;
+  let estimation = 1;
+  let userAnswer = 1;
+  let showFinalFeedback = false;
 
   function reset() {
     balls = [];
     tryNumberOfBalls = 1;
     numberOfSteps = 0;
+    cubeFull = false;
+    checkFramesCount = 0;
   }
 
   function multiply() {
     tryNumberOfBalls = tryNumberOfBalls * 2;
     numberOfSteps = numberOfSteps + 1;
+  }
+
+  function addControls() {
+    hasEstimation = true;
+  }
+
+  function simulationComplete() {
+    reset();
+    hasEstimation = false;
+    hasEstimation = false;
+    dispatch("end");
+  }
+
+  function addFinalFeedback() {
+    showFinalFeedback = true;
   }
 
   function addBalls() {
@@ -64,6 +134,12 @@
 </script>
 
 <div>
+  {#if hasEstimation}
+    <div>
+      {$t("your-estimation")}: {estimation}
+      {$t("steps-short")}
+    </div>
+  {/if}
   <div>
     {$t("steps")}: {numberOfSteps}
   </div>
@@ -73,8 +149,38 @@
   </div>
 </div>
 
-<Button content={$t("multiply")} color="primary" size="large" on:click={multiply} />
-<Button content={$t("reset")} size="large" on:click={reset} />
+{#if hasEstimation}
+  <Button
+    content={$t("multiply")}
+    color="primary"
+    size="large"
+    on:click={multiply}
+  />
+  <Button content={$t("reset")} size="large" on:click={reset} />
+
+  {#if cubeFull && !showFinalFeedback}
+    <FormField title={$t("what-is-good-answer")} forId="realanswer">
+      <NumberInput min="1" max="300" id="realanswer" bind:value={userAnswer} />
+      <Button content={$t("check")} on:click={addFinalFeedback} />
+    </FormField>
+  {:else if showFinalFeedback}
+    <ResultFeedback bind:alert={successAlert} />
+    <Button content={$t("continue")} on:click={simulationComplete}/>
+  {/if}
+
+  <div>
+    {#if cubeFull}
+      {$t("cube-full")}
+    {:else}
+      {$t("cube-not-full")}
+    {/if}
+  </div>
+{:else}
+  <FormField title={$t("give-estimation")} forId="estimation">
+    <NumberInput min="1" max="300" id="estimation" bind:value={estimation} />
+    <Button content={$t("check")} on:click={addControls} />
+  </FormField>
+{/if}
 
 <SC.Canvas
   width="700"

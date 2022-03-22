@@ -2,6 +2,7 @@
   import { getStores, session } from "$app/stores";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { t } from "svelte-intl-precompile";
+  import DOMPurify from 'dompurify';
   export let collection;
   export let userCheck = true;
   export let fieldUserId = "authorId";
@@ -127,7 +128,7 @@
 
 {#if $session.environment === "cypress" || $session.environment === "test" || $session.environment === "development"}
   {$t("clearing-collection", { values: { collection: collection } })}
-  {@html feedbackstring}
+  {@html DOMPurify.sanitize(feedbackstring)}
 
   {#if resetDone && showComplete}
     <div data-test="complete">

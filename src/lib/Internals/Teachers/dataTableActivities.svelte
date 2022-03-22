@@ -2,6 +2,7 @@
   import { getDifficultyToString, getTypeText } from "$lib/Activity/Components/helper";
   import { truncate } from "$lib/Internals/Misc/helper";
   import { getStores, page } from "$app/stores";
+  import DOMPurify from 'dompurify';
   import { t } from "svelte-intl-precompile";
 
   export let activities;
@@ -50,10 +51,10 @@
                       {getTypeText(activity.type, $t)} <br />
                     {/if}
                     {#if activity.title}{activity.title}<br />{/if}
-                    {#if activity.descriptionRaw}{@html truncate(
+                    {#if activity.descriptionRaw}{@html DOMPurify.sanitize(truncate(
                         activity.descriptionRaw,
                         60
-                      )}<br />{/if}
+                      ))}<br />{/if}
                     {#if activity.difficulty}{getDifficultyToString(
                         activity.difficulty, $t
                       )}<br />{/if}

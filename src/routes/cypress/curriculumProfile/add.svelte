@@ -2,6 +2,7 @@
   import { getStores, session, page } from "$app/stores";
   import { onMount } from "svelte";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import DOMPurify from 'dompurify';
   let firebase;
   let mounted = false;
   let db;
@@ -64,7 +65,7 @@
 
 {#if $session.environment === "cypress" || $session.environment === "test" || $session.environment === "development"}
   Now setting up the curriculumProfile
-  {@html feedbackstring}
+  {@html DOMPurify.sanitize(feedbackstring)}
 
   {#if ready}
     <div data-test="complete">CurriciulumProfile ready for testing</div>

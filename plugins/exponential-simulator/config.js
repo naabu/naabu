@@ -1,7 +1,7 @@
 const config = {
   id: "exponential-simulator",
-  name: "Exponential simulator",
-  description: "Fancy 3d simulator to lean exponential connections",
+  name: "exponential-simulator-name",
+  description: "exponential-simulator-description",
   canBeInterrupted: false,
   canInterrupt: true,
   canObserve: false,

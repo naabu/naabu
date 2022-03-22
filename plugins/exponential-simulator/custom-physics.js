@@ -1,4 +1,4 @@
-export const SIZE = 10;
+export const SIZE = 9.5;
 export const ballRadius = .75;
 
 function randomIntFromInterval(min, max) { // min and max included 

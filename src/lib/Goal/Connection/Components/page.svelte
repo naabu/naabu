@@ -9,6 +9,7 @@
     formatActivityValue,
     sortOnCreatedAt,
   } from "$lib/Internals/Revision/helper";
+  import DOMPurify from "dompurify";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
 
   import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
@@ -292,7 +293,7 @@
                   data-test="field-{field.title}"
                   class="mt-1 text-sm text-gray-900"
                 >
-                  {@html field.value}
+                  {@html DOMPurify.sanitize(field.value)}
                 </dd>
               </div>
             {/each}
@@ -627,19 +628,21 @@
                                 <div class="text-gray-900">
                                   <div>
                                     {formatActivityKeys(difference.keys, $t)}
-                                    {@html getDiffStrings(
-                                      "" +
-                                        formatActivityValue(
-                                          difference,
-                                          difference.oldValue,
-                                          $t
-                                        ),
-                                      "" +
-                                        formatActivityValue(
-                                          difference,
-                                          difference.newValue,
-                                          $t
-                                        )
+                                    {@html DOMPurify.sanitize(
+                                      getDiffStrings(
+                                        "" +
+                                          formatActivityValue(
+                                            difference,
+                                            difference.oldValue,
+                                            $t
+                                          ),
+                                        "" +
+                                          formatActivityValue(
+                                            difference,
+                                            difference.newValue,
+                                            $t
+                                          )
+                                      )
                                     )}
                                   </div>
                                 </div>

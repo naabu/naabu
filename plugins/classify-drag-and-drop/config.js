@@ -1,7 +1,7 @@
 const config = {
   id: "classify-drag-and-drop",
-  name: "Classify drag and drop",
-  description: "Classify the items",
+  name: "classify-drag-and-drop-name",
+  description: "classify-drag-and-drop-description",
   canBeInterrupted: false,
   canInterrupt: true,
   canObserve: false,

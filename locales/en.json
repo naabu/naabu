@@ -553,5 +553,7 @@
   "worksheets": "Worksheets",
   "wrong-answer": "Wrong answer",
   "yes": "Yes",
+  "youtube-player-name": "YouTube player",
+  "youtube-player-description": "Play videos from YouTube and interrupt with other plugins",
   "your-estimation": "Your estimation: "
 }

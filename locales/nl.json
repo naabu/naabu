@@ -124,6 +124,7 @@
   "convince": "Overtuig",
   "convincing": "Overtuigen",
   "convincing-plural": "overtuigen",
+  "copy-youtube-link": "Kopier de link van de YouTube video",
   "correct": "Correct",
   "correct-answer": "Goed antwoord",
   "could-not-login": "We konden niet inloggen",
@@ -240,6 +241,7 @@
   "fill-size-of-universe": "",
   "fill-world": "de aarde",
   "first-and-last-name": "Volledige naam (voor en achternaam)",
+  "for-example-youtube-link": "Bijvoorbeeld: https://www.youtube.com/watch?v=okpg-lVWLbE",
   "forgot-to-login-message": "Misschien ben je vergeten in te loggen?",
   "formulate": "Formuleer",
   "formulating-plural": "formuleren",
@@ -286,6 +288,7 @@
   "interpreting-plural": "interpreteren",
   "interruption": "Onderbreking",
   "interview": "Interview",
+  "invalid-youtube-link": "Voer een geldig YouTube link toe",
   "investigating-plural": "onderzoeken",
   "it-would-generate": "",
   "items": "Items",
@@ -533,6 +536,7 @@
   "update-preview": "Update preview",
   "update-your-module": "Wijzig je module",
   "user-id": "Gebruikers id",
+  "valid-youtube-link": "Je hebt een geldig YouTube link toegevoegd",
   "verbs": "Werkwoorden",
   "very-difficult": "Heel moeilijk",
   "very-easy": "Heel makkelijk",
@@ -553,5 +557,8 @@
   "worksheets": "Werkblad",
   "wrong-answer": "Fout antwoord",
   "yes": "Ja",
-  "your-estimation": "Jouw schatting:"
+  "your-estimation": "Jouw schatting:",
+  "youtube-link": "YouTube link",
+  "youtube-player-description": "Bekijk videos uit YouTube en onderbreek ze met andere plugins",
+  "youtube-player-name": "YouTube video"
 }

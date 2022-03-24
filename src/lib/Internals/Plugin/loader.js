@@ -21,7 +21,7 @@ export async function loadPluginConfig(pluginId) {
   return null;
 }
 
-export async function loadPluginRecursively(plugin, view = "render") {
+export async function loadPluginRecursively(plugin, view = "render", topLevel = true) {
   for (let i = 0; i < plugin.plugins.length; i++) {
     let childPlugin = plugin.plugins[i];
     if (childPlugin !== null && childPlugin.pluginId) {
@@ -50,12 +50,13 @@ export async function loadPluginRecursively(plugin, view = "render") {
       if (!plugin.plugins[i].breadcrumb) {
         plugin.plugins[i].breadcrumb = [];
       }
-      if (!plugin.plugins[i].currentPlugin) {
-        plugin.plugins[i].currentPlugin = plugin.plugins[i];
+
+      if (!topLevel && !plugin.plugins[i].parentPlugin) {
+        plugin.plugins[i].parentPlugin = plugin;
       }
 
       if (childPlugin.plugins) {
-        await loadPluginRecursively(childPlugin, view);
+        await loadPluginRecursively(childPlugin, view, false);
       }
     }
   }

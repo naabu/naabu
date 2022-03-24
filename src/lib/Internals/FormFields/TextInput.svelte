@@ -5,6 +5,7 @@
   export let required = false;
   export let dataTest = "inputText";
   export let autocomplete = "off";
+  export let pattern;
   let classes = inputClasses().join(" ");
 </script>
 
@@ -18,5 +19,6 @@
   name={id}
   {id}
   {autocomplete}
+  {pattern}
   class={classes}
 />

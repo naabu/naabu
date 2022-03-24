@@ -1,7 +1,7 @@
 const config = {
-  id: "vimeo-player",
-  name: "vimeo-player-name",
-  description: "vimeo-player-description",
+  id: "youtube-player",
+  name: "youtube-player-name",
+  description: "youtube-player-description",
   canBeInterrupted: true,
   canBeObserved: true,
   canInterrupt: false,

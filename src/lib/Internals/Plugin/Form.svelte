@@ -106,7 +106,7 @@
                   ]
                 ) {
                   fieldString.push(
-                    interruptionFields[i].name +
+                    $t(interruptionFields[i].name) +
                       ": " +
                       plugins[i].currentPlugin.plugins[i2].interruptionData[
                         interruptionFields[i].id
@@ -117,7 +117,7 @@
             }
             let interruptionString = fieldString.join(", ");
             pluginTable.push([
-              plugins[i].currentPlugin.plugins[i2].pluginConfig.name,
+              $t(plugins[i].currentPlugin.plugins[i2].pluginConfig.name),
               interruptionString,
             ]);
           }
@@ -128,9 +128,6 @@
         }
       }
       plugins[i].pluginTable = pluginTable;
-
-      //   [ [ colunn1, column2 ],
-      // [row 2],   ]
     }
   }
 
@@ -168,8 +165,9 @@
           on:click={() => goBack(plugin)}
         />
         <AdditionalFormText
-          content="{$t("parent")} : {plugin.breadcrumb[plugin.breadcrumb.length - 1]
-            .pluginConfig.name}"
+          content="{$t('parent')} : {$t(
+            plugin.breadcrumb[plugin.breadcrumb.length - 1].pluginConfig.name
+          )}"
         />
       {/if}
     </div>

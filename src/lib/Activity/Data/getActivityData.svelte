@@ -36,6 +36,9 @@
         };
         await loadPluginRecursively(loadPluginsObject, loadComponent);
         object.plugins = loadPluginsObject.plugins;
+        for (let i = 0; i < object.plugins.length; i++) {
+          object.plugins[i].currentPlugin = object.plugins[i];
+        }
       } else {
         cloneActivity = JSON.parse(JSON.stringify(object));
       }

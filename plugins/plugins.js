@@ -1,10 +1,10 @@
 export async function loadConfigAllPlugins() {
   let plugins = [];
+  plugins.push((await import("@plugins/youtube-player/config.js")).default);
   plugins.push((await import("@plugins/vimeo-player/config.js")).default);
   plugins.push((await import("@plugins/multiple-choice/config.js")).default);
-  plugins.push((await import("@plugins/exponential-simulator/config.js")).default);
   plugins.push((await import("@plugins/classify-drag-and-drop/config.js")).default);
-  plugins.push((await import("@plugins/youtube-player/config.js")).default);
+  plugins.push((await import("@plugins/exponential-simulator/config.js")).default);
   return plugins;
 }
 

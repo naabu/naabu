@@ -11,12 +11,6 @@ export function getDiffStrings(string1, string2) {
 export function renderKatexOutput(rawInput) {
   if (rawInput) {
     let output = rawInput;
-
-    // ((.|\r\n|\r|\n)+?)\$\$  - Before
-
-    // output = output.replace(/\$\$((.|\r\n|\r|\n)+?)\$\$/g, function (match, contents) {
-    //   return contents.replace(/(?:\r\n|\r|\n)/g, '<br>');
-    // });
     output = output.replace(/\$\$((.|\r\n|\r|\n)+?)\$\$/g, function (match, contents) {
       let html = contents;
       contents = contents.replace(/(\r\n|\r|\n)/g, ' ');

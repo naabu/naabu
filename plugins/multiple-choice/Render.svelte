@@ -16,8 +16,6 @@
     dispatch("observeParent");
   }
 
-
-
   function checkCorrectAnswer(quiz) {
     if (quiz.answers[quiz.selectedAnswer].correct === true) {
       quiz.feedback =

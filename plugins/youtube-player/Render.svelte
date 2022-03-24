@@ -1,6 +1,5 @@
 <script>
   import Button from "$lib/Internals/Button/Button.svelte";
-  import Player from "@vimeo/player";
   import { onMount } from "svelte";
   import { createEventDispatcher } from "svelte";
   import { t } from "svelte-intl-precompile";
@@ -9,15 +8,15 @@
   export let data;
   export let interruptions = [];
   let interrupted = false;
-
   let isObserved = false;
+  let isApiReady = false;
 
   export function advance() {
     if (player) {
       lastActiveInterruption = activeInterruption;
       activeInterruption = null;
       hideVideoIframe = false;
-      player.play();
+      player.playVideo();
       interrupted = false;
     }
   }
@@ -40,7 +39,7 @@
   let y;
   let videoHasEnded = false;
   let initialized = false;
-  let lastVimeoId = null;
+  let lastYoutubeId = null;
 
   function end() {
     dispatch("end");
@@ -50,72 +49,52 @@
     end();
   }
 
-  $: if (mounted && data.video.vimeoId) {
-    initializeVideoPlayer();
+  $: if (mounted && data.video.youtubeId && isApiReady) {
     initialized = true;
   }
 
   $: (async () => {
     if (
       initialized &&
-      data.video.vimeoId &&
-      lastVimeoId !== data.video.vimeoId
+      data.video.youtubeId &&
+      lastYoutubeId !== data.video.youtubeId
     ) {
-      iframe = document.querySelector("#vimeoVideo iframe");
+      iframe = document.querySelector("#youtubeVideo iframe");
       if (iframe !== null) {
         player = new Player(iframe);
-        lastVimeoId = data.video.vimeoId;
-        await player.loadVideo(data.video.vimeoId);
+        lastYoutubeId = data.video.youtubeId;
+        await player.loadVideo(data.video.youtubeId);
       }
     }
   })();
 
   function initializeVideoPlayer() {
-    if ((element = document.getElementById("vimeoVideo"))) {
-      iframe = document.querySelector("#vimeoVideo iframe");
+    if ((element = document.getElementById("youtubeVideo"))) {
+      iframe = document.querySelector("#youtubeVideo iframe");
       if (iframe === null) {
-        let vimeoOptions = {
-          id: data.video.vimeoId,
-          controls: true,
-          quality: "720p",
-          playsinline: true,
+        let youtubeOptions = {
+          videoId: data.video.youtubeId,
+          playerVars: {
+            playsinline: 1,
+          },
+          events: {
+            onReady: onPlayerReady,
+          },
         };
-        lastVimeoId = data.video.vimeoId;
-        player = new Player("vimeoVideo", vimeoOptions);
+        lastYoutubeId = data.video.youtubeId;
+        player = new YT.Player("youtubeIframe", youtubeOptions);
       }
-
-      player.ready().then(function () {
-        iframe = document.querySelector("#vimeoVideo iframe");
-        iframe.setAttribute("data-test", "vimeo-iframe");
-
-        setInterval(checkTime, 10);
-
-        player.on("play", function (videoData) {
-          endVideoInSeconds = videoData.duration - 7;
-        });
-
-        player.on("fullscreenchange", function () {
-          scrollABitToTheTop();
-          displayNotification = true;
-          if (
-            document.fullscreenElement ||
-            document.mozFullScreenElement ||
-            document.webkitFullscreenElement ||
-            document.msFullscreenElement
-          ) {
-            if (document.exitFullscreen) {
-              document.exitFullscreen();
-            } else if (document.mozCancelFullScreen) {
-              document.mozCancelFullScreen();
-            } else if (document.webkitExitFullscreen) {
-              document.webkitExitFullscreen();
-            } else if (document.msExitFullscreen) {
-              document.msExitFullscreen();
-            }
-          }
-        });
-      });
     }
+  }
+
+  function onPlayerReady(event) {
+    let videoDuration = event.target.getDuration();
+    endVideoInSeconds = videoDuration - 3;
+
+    iframe = document.querySelector("#youtubeVideo iframe");
+    iframe.setAttribute("data-test", "youtube-iframe");
+
+    setInterval(checkTime, 10);
   }
 
   async function checkTime() {
@@ -137,7 +116,7 @@
         (lastActiveInterruption === null ||
           lastActiveInterruption.order !== interruption.order)
       ) {
-        player.pause();
+        player.pauseVideo();
         activeInterruption = interruption;
         hideVideoIframe = true;
         dispatch("interrupt", { interruption: interruption });
@@ -161,8 +140,26 @@
 
   onMount(async () => {
     mounted = true;
+    try {
+      if (YT.loaded) {
+        initializeVideoPlayer();
+      }
+    } catch (e) {}
+  });
+
+  window.addEventListener("iframeApiReady", function (e) {
+    initializeVideoPlayer();
   });
 </script>
+
+<svelte:head>
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    function onYouTubePlayerAPIReady() {
+      window.dispatchEvent(new Event("iframeApiReady"));
+    }
+  </script>
+</svelte:head>
 
 <div
   class:displaynone={hideVideoIframe || isObserved === false}
@@ -177,7 +174,9 @@
 </div>
 
 <div class:displaynone={hideVideoIframe} class="video mt-4">
-  <div id="vimeoVideo" />
+  <div id="youtubeVideo">
+    <div id="youtubeIframe" />
+  </div>
 </div>
 
 <div class:displaynone={!hideVideoIframe}>
@@ -202,7 +201,7 @@
     top: 0;
   }
 
-  #vimeoVideo :global(iframe) {
+  #youtubeVideo :global(iframe) {
     position: absolute;
     left: 0;
     top: 0;

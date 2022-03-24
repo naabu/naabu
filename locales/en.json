@@ -124,6 +124,7 @@
   "convince": "Convince",
   "convincing": "Convincing",
   "convincing-plural": "convince",
+  "copy-youtube-link": "Copy the link of the YouTube video",
   "correct": "Correct",
   "correct-answer": "Correct answer",
   "could-not-login": "could not login",
@@ -240,6 +241,7 @@
   "fill-size-of-universe": "the observable universe",
   "fill-world": "the world",
   "first-and-last-name": "First and last name",
+  "for-example-youtube-link": "For example: https://www.youtube.com/watch?v=okpg-lVWLbE",
   "forgot-to-login-message": "Maybe you forgot to login?",
   "formulate": "Formulate",
   "formulating-plural": "formulate",
@@ -286,6 +288,7 @@
   "interpreting-plural": "interpret",
   "interruption": "Interruption",
   "interview": "Interview",
+  "invalid-youtube-link": "Add a correct YouTube link",
   "investigating-plural": "investigate",
   "it-would-generate": " it would generate ",
   "items": "Items",
@@ -533,6 +536,7 @@
   "update-preview": "Update preview",
   "update-your-module": "Edit your module",
   "user-id": "User id",
+  "valid-youtube-link": "You added a valid YouTube link",
   "verbs": "Verbs",
   "very-difficult": "Very difficult",
   "very-easy": "Very easy",
@@ -553,7 +557,8 @@
   "worksheets": "Worksheets",
   "wrong-answer": "Wrong answer",
   "yes": "Yes",
-  "youtube-player-name": "YouTube player",
+  "your-estimation": "Your estimation: ",
+  "youtube-link": "YouTube link",
   "youtube-player-description": "Play videos from YouTube and interrupt with other plugins",
-  "your-estimation": "Your estimation: "
+  "youtube-player-name": "YouTube player"
 }

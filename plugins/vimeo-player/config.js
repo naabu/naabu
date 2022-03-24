@@ -6,8 +6,8 @@ const config = {
   canBeObserved: true,
   canInterrupt: false,
   canObserve: false,
-  storage: [{ id: "video", name: "Video" }],
-  interruptionFields: [{ id: "timeInVideo", name: "Tijd in video" }],
+  storage: [{ id: "video", name: "video" }],
+  interruptionFields: [{ id: "timeInVideo", name: "time-in-video" }],
 }
 
 export default config;

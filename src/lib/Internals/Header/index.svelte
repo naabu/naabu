@@ -23,19 +23,19 @@
     }
   }
 
-  $: if ($page && $page.path) {
+  $: if ($page && $page.url.pathname) {
     mainMenuLinks = [
       {
         url: "/",
         content: $t("the-journey"),
         datacy: "de-reis-menu",
-        isActive: $page.path === "/" ? true : false,
+        isActive: $page.url.pathname === "/" ? true : false,
       },
       {
         url: "/curriculum",
         content: $t("curriculum"),
         datacy: "curriculum-menu",
-        isActive: $page.path === "/curriculum" ? true : false,
+        isActive: $page.url.pathname === "/curriculum" ? true : false,
       },
     ];
   }

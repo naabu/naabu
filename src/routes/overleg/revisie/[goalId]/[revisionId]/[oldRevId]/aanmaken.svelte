@@ -28,7 +28,7 @@
         value: $t("difference-versions"),
       },
       {
-        url: $page.path,
+        url: $page.url.pathname,
         value: $t("overview-difference-revisions"),
       },
     ];

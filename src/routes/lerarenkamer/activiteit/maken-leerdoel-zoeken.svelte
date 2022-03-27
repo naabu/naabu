@@ -10,7 +10,7 @@
 
   let activityId = $page.query.get("activityId");
 
-  let menuitems = getTeacherMenuitems($page.path, $t);
+  let menuitems = getTeacherMenuitems($page.url.pathname, $t);
   let firebase;
   let db;
 

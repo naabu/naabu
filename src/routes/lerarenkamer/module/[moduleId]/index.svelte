@@ -18,7 +18,7 @@
   const timeAgo = new TimeAgo($locale);
 
   $: if (module) {
-    menuitems = getTeacherMenuitems($page.path, $t);
+    menuitems = getTeacherMenuitems($page.url.pathname, $t);
   }
 
   $: (async () => {

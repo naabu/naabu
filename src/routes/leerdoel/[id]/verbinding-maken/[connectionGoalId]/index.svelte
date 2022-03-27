@@ -22,7 +22,7 @@
         value: $t("search-connection-goal"),
       },
       {
-        url: $page.path,
+        url: $page.url.pathname,
         value: $t("connection-information"),
       },
     ];

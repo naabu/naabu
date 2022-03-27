@@ -12,9 +12,7 @@ const config = {
   }),
 
   kit: {
-    ssr: false,
     adapter: firebaseAdapter(),
-    target: '#svelte',
     vite: {
       plugins: [
         precompileIntl('locales'),

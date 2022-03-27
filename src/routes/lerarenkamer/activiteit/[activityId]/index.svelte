@@ -22,7 +22,7 @@
   const timeAgo = new TimeAgo($locale);
 
   $: if (activity) {
-    menuitems = getTeacherMenuitems($page.path, $t, activity.status);
+    menuitems = getTeacherMenuitems($page.url.pathname, $t, activity.status);
   }
 
   $: (async () => {

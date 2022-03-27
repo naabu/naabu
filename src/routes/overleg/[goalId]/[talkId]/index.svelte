@@ -50,7 +50,7 @@
         value: $t("goal") + ": " + goal.title,
       },
       {
-        url: $page.path,
+        url: $page.url.pathname,
         value: $t("overview"),
       },
     ];

@@ -5,7 +5,7 @@
   import { getTeacherMenuitems } from "$lib/Internals/Teachers/helper";
   import { t } from "svelte-intl-precompile";
   
-  let menuitems = getTeacherMenuitems($page.path, $t);
+  let menuitems = getTeacherMenuitems($page.url.pathname, $t);
 </script>
 
 <Sidebar bind:menuitems>

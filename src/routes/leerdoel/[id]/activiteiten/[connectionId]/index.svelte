@@ -23,7 +23,7 @@
         value: $t("activities"),
       },
       {
-        url: $page.path,
+        url: $page.url.pathname,
         value: $t("activity-page"),
       },
     ];

@@ -14,10 +14,13 @@ export function getSession(request) {
 	};
 }
 
-export const handle = async ({ request, resolve }) => {
-	if (request.query.has('_method')) {
-		request.method = request.query.get('_method').toUpperCase();
+/** @type {import('@sveltejs/kit').Handle} */
+export async function handle({ event, resolve }) {
+	if (event.url.searchParams.has('_method')) {
+		event.method = event.url.searchParams.get('_method').toUpperCase();
 	}
-	const response = await resolve(request);
+	const response = await resolve(event, {
+    ssr: false,
+  });
 	return response;
 };

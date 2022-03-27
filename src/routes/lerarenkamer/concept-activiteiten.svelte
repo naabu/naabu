@@ -6,7 +6,7 @@
   import GetActivityListData from "$lib/Activity/Data/getActivityListData.svelte";
   import { t } from "svelte-intl-precompile";
 
-  let menuitems = getTeacherMenuitems($page.path, $t);
+  let menuitems = getTeacherMenuitems($page.url.pathname, $t);
   let activities;
   let firebase;
 </script>

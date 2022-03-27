@@ -2,9 +2,10 @@
   import DataTableActivities from "$lib/Internals/Teachers/dataTableActivities.svelte";
   import { getDefaultAlertValues, truncate } from "$lib/Internals/Misc/helper";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
-  import Button from "../Button/Button.svelte";
-  import VerwijderDialog from "$lib/Internals/Misc/dialog.svelte";
+  import Button from "$lib/Internals//Button/Button.svelte";
+  import RemoveDialog from "$lib/Internals/Misc/RemoveDialog.svelte";
   import { t } from "svelte-intl-precompile";
+  import ShareDialog from "$lib/Activity/Components/ShareDialog.svelte";
   let deleteActivityToggle = false;
   export let firebase;
 
@@ -41,18 +42,36 @@
       }
     }
   }
+
+  let dialogActivityId;
+  let shareToggle = false;
+
+  function toggleShare(activityId) {
+    dialogActivityId = activityId;
+    console.log(dialogActivityId);
+    shareToggle = true;
+  }
 </script>
+
+<ShareDialog bind:activityId={dialogActivityId} bind:toggle={shareToggle} />
+
 
 <ResultFeedback bind:alert />
 
-<VerwijderDialog
+<RemoveDialog
   bind:toggle={deleteActivityToggle}
   on:ok={removeDraft}
   on:cancel={cancelDelete}
 />
 
 <DataTableActivities bind:activities let:activityId let:index>
-  <span slot="cta">
+  <span slot="cta" let:activityId>
+    <Button
+      content={$t("share")}
+      color="primary"
+      size="very-small"
+      on:click={() => toggleShare(activityId)}
+    />
     <Button
       color="lightRed"
       size="tiny"

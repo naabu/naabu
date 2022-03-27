@@ -1,12 +1,26 @@
 <script>
-  import { getDifficultyToString, getTypeText } from "$lib/Activity/Components/helper";
+  import {
+    getDifficultyToString,
+    getTypeText,
+  } from "$lib/Activity/Components/helper";
   import { truncate } from "$lib/Internals/Misc/helper";
   import { getStores, page } from "$app/stores";
-  import DOMPurify from 'dompurify';
+  import DOMPurify from "dompurify";
   import { t } from "svelte-intl-precompile";
 
   export let activities;
+
+  import ShareDialog from "$lib/Activity/Components/ShareDialog.svelte";
+  let dialogActivityId;
+  let shareToggle = false;
+
+  function toggleShare(activityId) {
+    dialogActivityId = activityId;
+    shareToggle = true;
+  }
 </script>
+
+<ShareDialog bind:activityId={dialogActivityId} bind:toggle={shareToggle} />
 
 <div class="flex flex-col">
   <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -51,12 +65,12 @@
                       {getTypeText(activity.type, $t)} <br />
                     {/if}
                     {#if activity.title}{activity.title}<br />{/if}
-                    {#if activity.descriptionRaw}{@html DOMPurify.sanitize(truncate(
-                        activity.descriptionRaw,
-                        60
-                      ))}<br />{/if}
+                    {#if activity.descriptionRaw}{@html DOMPurify.sanitize(
+                        truncate(activity.descriptionRaw, 60)
+                      )}<br />{/if}
                     {#if activity.difficulty}{getDifficultyToString(
-                        activity.difficulty, $t
+                        activity.difficulty,
+                        $t
                       )}<br />{/if}
                     {#if activity.video.vimeoId}<a
                         class="underline"

@@ -143,7 +143,6 @@
               on:click={() => storeFeedback(-0.5)}
             />
             <Button
-              extraClasses={["mt-3 sm:mt-0"]}
               isFullWidth={true}
               color="primary"
               dataTest="just-right"
@@ -152,7 +151,6 @@
               on:click={() => storeFeedback(1.0)}
             />
             <Button
-              extraClasses={["mt-3 sm:mt-0"]}
               isFullWidth={true}
               dataTest="too-difficult"
               content="{$t("too-difficult")}"

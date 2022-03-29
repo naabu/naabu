@@ -8,7 +8,7 @@
   } from "$lib/Internals/Algolia/algolia";
   import { autocomplete, getAlgoliaResults } from "@algolia/autocomplete-js";
   import "@algolia/autocomplete-theme-classic";
-  import VerwijderDialog from "$lib/Internals/Misc/dialog.svelte";
+  import RemoveDialog from "$lib/Internals/Misc/RemoveDialog.svelte";
   import { generatePathsForMap } from "$lib/Module/Map/Components/helper";
   import Button from "$lib/Internals/Button/Button.svelte";
   import Checkbox from "$lib/Internals/FormFields/Checkbox.svelte";
@@ -254,7 +254,7 @@
 
 </script>
 
-<VerwijderDialog bind:toggle={deleteLocationToggle} on:ok={deleteLocation} />
+<RemoveDialog bind:toggle={deleteLocationToggle} on:ok={deleteLocation} />
 
 <div>
   <Tabs mainTabs={locationTabs} bind:mainSelected={selectedIndex}>

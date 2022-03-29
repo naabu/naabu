@@ -1,7 +1,7 @@
 <script>
   import { onMount } from "svelte";
   import "@algolia/autocomplete-theme-classic";
-  import VerwijderDialog from "$lib/Internals/Misc/dialog.svelte";
+  import RemoveDialog from "$lib/Internals/Misc/RemoveDialog.svelte";
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
 
@@ -89,7 +89,7 @@
   onMount(() => {});
 </script>
 
-<VerwijderDialog bind:toggle={deleteLocationToggle} on:ok={deleteLocation} />
+<RemoveDialog bind:toggle={deleteLocationToggle} on:ok={deleteLocation} />
 <div class="space-y-3 sm:space-y-2">
   <div>
     <div class="block tabs">

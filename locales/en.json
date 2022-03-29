@@ -330,6 +330,7 @@
   "modify": "Modify",
   "module": "Module",
   "module-created-success": "Module successfully created",
+  "module-removed": "Module removed",
   "module-updated-succes": "Updated module",
   "modules": "Course modules",
   "modules-not-found": "No course modules found",

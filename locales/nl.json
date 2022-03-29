@@ -330,6 +330,7 @@
   "modify": "Wijzigen",
   "module": "Module",
   "module-created-success": "Module succesvol aangemaakt",
+  "module-removed": "Module verwijderd",
   "module-updated-succes": "Module gewijzigd",
   "modules": "Lesmodules",
   "modules-not-found": "Geen lesmodules gevonden",

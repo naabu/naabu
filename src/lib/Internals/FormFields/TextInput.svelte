@@ -6,6 +6,7 @@
   export let dataTest = "inputText";
   export let autocomplete = "off";
   export let pattern;
+  export let disabled;
   let classes = inputClasses().join(" ");
 </script>
 
@@ -15,6 +16,7 @@
   on:keyup
   bind:value
   {required}
+  {disabled}
   data-test={dataTest}
   name={id}
   {id}

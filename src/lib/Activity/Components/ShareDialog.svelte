@@ -39,7 +39,7 @@
   }
 </script>
 
-<Notification bind:displayNotification bind:notificationText time="400000" />
+<Notification bind:displayNotification bind:notificationText time="4000" />
 
 
 <Dialog bind:toggle>

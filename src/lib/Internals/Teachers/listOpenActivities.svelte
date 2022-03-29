@@ -2,23 +2,15 @@
   import DataTableActivities from "$lib/Internals/Teachers/dataTableActivities.svelte";
   import { getStatusText } from "$lib/Goal/Connection/Components/helper";
   import { t } from "svelte-intl-precompile";
-  import ShareDialog from "$lib/Activity/Components/ShareDialog.svelte";
-  import Button from "$lib/Internals//Button/Button.svelte";
 
+  export let firebase;
   export let activities = [];
-  let dialogActivityId;
-  let shareToggle = false;
-
-  function toggleShare(activityId) {
-    dialogActivityId = activityId;
-    shareToggle = true;
-  }
 </script>
 
-<ShareDialog bind:activityId={dialogActivityId} bind:toggle={shareToggle} />
 
 <DataTableActivities
   bind:activities
+  bind:firebase
   let:goalId
   let:connectionId
   let:connectionStatus
@@ -50,11 +42,5 @@
     >
       {$t("connection-with-goal")}
     </a>
-    <Button
-      content={$t("share")}
-      color="primary"
-      size="very-small"
-      on:click={() => toggleShare(activityId)}
-    />
   </svelte:fragment>
 </DataTableActivities>

@@ -251,7 +251,7 @@
         <div class="flex">
           {#if connection.type === "goal-activity"}
             <div class="ml-auto">
-              {#if isTeacher}
+              {#if isTeacher && !connection.archive}
                 <a
                   data-test="edit-activity-page-link"
                   href="/lerarenkamer/activiteit/{connection.linkId}"
@@ -260,12 +260,21 @@
                   {$t("change-activity")}
                 </a>
               {/if}
-              <a
-                href="/activiteit/{connection.linkId}?redirect={$page.url.pathname}"
-                class="font-medium text-indigo-600 hover:text-indigo-500"
-              >
-                {$t("show-activity")}
-              </a>
+              {#if !connection.archive}
+                <a
+                  href="/activiteit/{connection.linkId}?redirect={$page.url
+                    .pathname}"
+                  class="font-medium text-indigo-600 hover:text-indigo-500"
+                >
+                  {$t("show-activity")}
+                </a>
+              {:else}
+                <div
+                  class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800"
+                >
+                  {$t("archived")}
+                </div>
+              {/if}
             </div>
           {:else}
             <a
@@ -304,55 +313,57 @@
 
     <div class="flex">
       <div class="ml-auto mt-4">
-        {#if connection.status === "in-progress"}
-          <Button
-            color="primary"
-            isDisabled={!delayDone}
-            on:click={() => changeStatus("in-progress", "needs-approval")}
-            dataTest="ready-to-publish-button"
-            content={$t("activity-ready-to-publish")}
-          />
-        {/if}
-        {#if connection.status === "needs-approval"}
-          <Button
-            isDisabled={!delayDone}
-            on:click={() => changeStatus("needs-approval", "needs-work")}
-            content={$t("needs-work")}
-          />
-          <Button
-            color="primary"
-            isDisabled={!delayDone}
-            on:click={() => changeStatus("needs-approval", "published")}
-            content={$t("activity-publish")}
-          />
-        {/if}
-        {#if connection.status === "needs-work"}
-          <Button
-            isDisabled={!delayDone}
-            on:click={() => changeStatus("needs-work", "in-trash")}
-            content={$t("activity-in-trash")}
-          />
-          <Button
-            color="primary"
-            isDisabled={!delayDone}
-            on:click={() => changeStatus("needs-work", "in-progress")}
-            content={$t("work-on-activity")}
-          />
-        {/if}
-        {#if connection.status === "published"}
-          <Button
-            isDisabled={!delayDone}
-            on:click={() => changeStatus("published", "needs-work")}
-            content={$t("activity-unpublish-action")}
-          />
-        {/if}
-        {#if connection.status === "in-trash"}
-          <Button
-            color="primary"
-            isDisabled={!delayDone}
-            on:click={() => changeStatus("in-trash", "needs-work")}
-            content={$t("activity-from-trash-to-backlog")}
-          />
+        {#if !connection.archive}
+          {#if connection.status === "in-progress"}
+            <Button
+              color="primary"
+              isDisabled={!delayDone}
+              on:click={() => changeStatus("in-progress", "needs-approval")}
+              dataTest="ready-to-publish-button"
+              content={$t("activity-ready-to-publish")}
+            />
+          {/if}
+          {#if connection.status === "needs-approval"}
+            <Button
+              isDisabled={!delayDone}
+              on:click={() => changeStatus("needs-approval", "needs-work")}
+              content={$t("needs-work")}
+            />
+            <Button
+              color="primary"
+              isDisabled={!delayDone}
+              on:click={() => changeStatus("needs-approval", "published")}
+              content={$t("activity-publish")}
+            />
+          {/if}
+          {#if connection.status === "needs-work"}
+            <Button
+              isDisabled={!delayDone}
+              on:click={() => changeStatus("needs-work", "in-trash")}
+              content={$t("activity-in-trash")}
+            />
+            <Button
+              color="primary"
+              isDisabled={!delayDone}
+              on:click={() => changeStatus("needs-work", "in-progress")}
+              content={$t("work-on-activity")}
+            />
+          {/if}
+          {#if connection.status === "published"}
+            <Button
+              isDisabled={!delayDone}
+              on:click={() => changeStatus("published", "needs-work")}
+              content={$t("activity-unpublish-action")}
+            />
+          {/if}
+          {#if connection.status === "in-trash"}
+            <Button
+              color="primary"
+              isDisabled={!delayDone}
+              on:click={() => changeStatus("in-trash", "needs-work")}
+              content={$t("activity-from-trash-to-backlog")}
+            />
+          {/if}
         {/if}
       </div>
     </div>
@@ -652,6 +663,44 @@
                         </div>
                       </div>
                     </div>
+                  {:else if update.type === "activity-removed"}
+                    <div>
+                      <div class="relative px-1">
+                        <div
+                          class="h-8 w-8 bg-gray-100 rounded-full ring-8 ring-white flex items-center justify-center"
+                        >
+                          <svg
+                            class="h-5 w-5 text-gray-500"
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                            aria-hidden="true"
+                          >
+                            <path
+                              fill-rule="evenodd"
+                              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
+                              clip-rule="evenodd"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="min-w-0 flex-1 py-1.5">
+                      <div
+                        data-test="connection-write-by-teacher-update-content-{i}"
+                        class="text-sm text-gray-500"
+                      >
+                        {$t("activity-removed-connection-archived")}
+                        <span class="whitespace-nowrap"
+                          >{formatToTimeAgo(
+                            update.createdAt,
+                            firebase,
+                            timeAgo,
+                            $t
+                          )}</span
+                        >
+                      </div>
+                    </div>
                   {/if}
                 </div>
               </div>
@@ -664,7 +713,7 @@
 
   <div class="max-w-lg mx-auto px-6 mt-12 mb-32">
     <form on:submit|preventDefault={formSubmit}>
-      <FormField title="Reageren" forId="comment" labelPosition="top">
+      <FormField title={$t("reaction")} forId="comment" labelPosition="top">
         <Textarea id="comment" rows="3" bind:value={newCommentText} />
         <svelte:fragment slot="after">
           <div class="mt-3">

@@ -12,7 +12,7 @@
   export let firebase;
   export let activity;
   export let showFeedback = true;
-  let pluginFinished = false;
+  export let pluginFinished = false;
 
   $: if (pluginFinished && showFeedback) {
     toggleFeedback = true;

@@ -2,11 +2,15 @@
   import DataTableActivities from "$lib/Internals/Teachers/dataTableActivities.svelte";
   import { getStatusText } from "$lib/Goal/Connection/Components/helper";
   import { t } from "svelte-intl-precompile";
+
+  export let firebase;
   export let activities = [];
 </script>
 
+
 <DataTableActivities
   bind:activities
+  bind:firebase
   let:goalId
   let:connectionId
   let:connectionStatus
@@ -30,11 +34,13 @@
       {$t("unknown")}
     {/if}
   </th>
-  <a
-    slot="cta"
-    href="/leerdoel/{goalId}/activiteiten/{connectionId}"
-    class=" underline text-indigo-600 hover:text-indigo-900 text-right text-sm font-medium"
-  >
-    {$t("connection-with-goal")}
-  </a>
+
+  <svelte:fragment slot="cta" let:activityId>
+    <a
+      href="/leerdoel/{goalId}/activiteiten/{connectionId}"
+      class=" underline text-indigo-600 hover:text-indigo-900 text-right text-sm font-medium"
+    >
+      {$t("connection-with-goal")}
+    </a>
+  </svelte:fragment>
 </DataTableActivities>

@@ -8,7 +8,7 @@
   import { t } from "svelte-intl-precompile";
 
   let firebase;
-
+  let goalMounted = false;
   let battleCol;
   let mounted = false;
   let goal;
@@ -19,7 +19,6 @@
     if ($firebaseStore) {
       firebase = $firebaseStore;
       firebaseInitialized = true;
-      // mounted = true;
     }
   })();
 
@@ -38,6 +37,9 @@
         goal.battles = [...goal.battles, battleObject];
       });
       previousBattles = [...goal.battles];
+    }
+    else if (!goal && goalMounted && !mounted) {
+      mounted = true;
     }
   })();
 
@@ -61,9 +63,9 @@
   }
 </script>
 
-<GetGoalData bind:firebase bind:goal />
-
-{#if goal && mounted}
+<GetGoalData bind:mounted={goalMounted} bind:firebase bind:goal />
+{#if mounted}
+  {#if goal}
   <ContainerBreadcrumpPageTitle bind:breadcrumbs title={goal.title} />
   <EditGoal
     bind:goal
@@ -71,6 +73,9 @@
     bind:battleCol
     bind:firebase
   />
+  {:else}
+    {$t("goals-not-found")}
+  {/if}
 {:else}
   {$t("loading")}
 {/if}

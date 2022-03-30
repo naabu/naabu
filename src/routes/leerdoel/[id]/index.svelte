@@ -55,4 +55,6 @@
   {:else}
     {$t("goals-not-found")}
   {/if}
+{:else}
+  {$t("loading")}
 {/if}

@@ -1,7 +1,7 @@
 <script>
   import Button from "$lib/Internals/Button/Button.svelte";
 
-  import VerwijderDialog from "$lib/Internals/Misc/dialog.svelte";
+  import RemoveDialog from "$lib/Internals/Misc/RemoveDialog.svelte";
   import { renderKatexOutput } from "$lib/Internals/Misc/helper.js";
   import Textarea from "$lib/Internals/FormFields/Textarea.svelte";
   import Checkbox from "../../Internals/FormFields/Checkbox.svelte";
@@ -110,7 +110,7 @@
   }
 </script>
 
-<VerwijderDialog bind:toggle={deleteQuizToggle} on:ok={deleteQuiz} />
+<RemoveDialog bind:toggle={deleteQuizToggle} on:ok={deleteQuiz} />
 
 <div>
   <Tabs mainTabs={questionTabs} bind:mainSelected={selectedQuizIndex}>

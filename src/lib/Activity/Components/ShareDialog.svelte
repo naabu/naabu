@@ -18,7 +18,7 @@
   };
 
   $: {
-    link = $page.host + "/a/" + activityId;
+    link = $page.url.origin + "/a/" + activityId;
     if (externalLink.length > 0) {
       if (
         !externalLink.startsWith("http://") &&

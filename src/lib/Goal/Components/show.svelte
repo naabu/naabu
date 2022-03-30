@@ -10,9 +10,11 @@
   {$t("title")}: {goal.title}
 </div>
 
-<div class="mt-8">
-  {$t("description")}: {goal.description}
-</div>
+{#if goal.description}
+  <div class="mt-8">
+    {$t("description")}: {goal.description}
+  </div>
+{/if}
 
 <div class="mt-16">
   <!-- <b> TODO: change later </b> -->

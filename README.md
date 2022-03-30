@@ -1,10 +1,4 @@
-
-Documentation can be found here:
-
-[https://naabu.github.io/naabu/](https://naabu.github.io/naabu/)
-
-## Intro
-Features:
+## Features
 - Interactive learning activities
 - Course modules to create lesson plans
 - Learning goals wiki system
@@ -15,15 +9,17 @@ Features:
 - Svelte Cubed 3d exponential growth exercise
 - Smart learning algorithms
 
-Stack:
+## Stack
 - [SvelteKit](https://kit.svelte.dev/) frontend
 - [Firebase](https://firebase.google.com/) backend
 - [Algolia Search](https://www.algolia.com)
 - [Tailwind CSS](https://tailwindcss.com/)
 
-
 # Need help
+[Documentation](https://naabu.github.io/naabu/)
+
 For support questions use the issue queue or reach out by [Discord](https://discord.gg/tz2CSSrBgt)
+
 
 ## Roadmap
 2022:

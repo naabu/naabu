@@ -134,6 +134,28 @@
     plugins = plugins;
   }
 
+  function upMainPlugin(mainPluginIndex) {
+    if (mainPluginIndex > 0) {
+      plugins.splice(
+        mainPluginIndex - 1,
+        0,
+        plugins.splice(mainPluginIndex, 1)[0]
+      );
+      plugins = plugins;
+    }
+  }
+
+  function downMainPlugin(mainPluginIndex) {
+    if (mainPluginIndex < plugins.length - 1) {
+      plugins.splice(
+        mainPluginIndex + 1,
+        0,
+        plugins.splice(mainPluginIndex, 1)[0]
+      );
+    }
+    plugins = plugins;
+  }
+
   function deleteInterruptionPlugin(mainPluginIndex, pluginIndex) {
     if (plugins[mainPluginIndex].currentPlugin === null) {
       plugins[mainPluginIndex].plugins.splice(pluginIndex, 1);
@@ -171,26 +193,74 @@
     </div>
     {#if !plugin.breadcrumb[plugin.breadcrumb.length - 1]}
       <div class="flex justify-end">
-        <Button
-          on:click={() => deleteMainPlugin(mainPluginIndex)}
-          color="whitePrimaryIcon"
-          size="icon-square-small"
-        >
-          <span class="sr-only">{$t("close")}</span>
-          <svg
-            class="h-5 w-5"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 20 20"
-            fill="currentColor"
-            aria-hidden="true"
+        <div>
+          {#if mainPluginIndex !== 0}
+            <Button
+              color="whiteFullIconNoFocus"
+              size="icon-square-small"
+              on:click={() => upMainPlugin(mainPluginIndex)}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M5 15l7-7 7 7"
+                />
+              </svg>
+            </Button>
+          {/if}
+          {#if mainPluginIndex != plugins.length - 1}
+            <!-- Show down icon -->
+            <Button
+              color="whiteFullIconNoFocus"
+              size="icon-square-small"
+              on:click={() => downMainPlugin(mainPluginIndex)}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-6 w-6"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M19 9l-7 7-7-7"
+                />
+              </svg>
+            </Button>
+          {/if}
+
+          <Button
+            on:click={() => deleteMainPlugin(mainPluginIndex)}
+            color="whiteFullIconNoFocus"
+            size="icon-square-small"
           >
-            <path
-              fill-rule="evenodd"
-              d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-              clip-rule="evenodd"
-            />
-          </svg>
-        </Button>
+            <span class="sr-only">{$t("close")}</span>
+            <svg
+              class="h-5 w-5"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+              aria-hidden="true"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </Button>
+        </div>
       </div>
     {/if}
 

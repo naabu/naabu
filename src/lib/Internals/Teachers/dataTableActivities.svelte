@@ -3,16 +3,54 @@
     getDifficultyToString,
     getTypeText,
   } from "$lib/Activity/Components/helper";
-  import { truncate } from "$lib/Internals/Misc/helper";
+  import { getDefaultAlertValues, truncate } from "$lib/Internals/Misc/helper";
   import { getStores, page } from "$app/stores";
   import DOMPurify from "dompurify";
   import { t } from "svelte-intl-precompile";
-
-  export let activities;
-
+  import ResultFeedback from "../Form/resultFeedback.svelte";
+  import RemoveDialog from "../Misc/RemoveDialog.svelte";
+  import Button from "../Button/Button.svelte";
   import ShareDialog from "$lib/Activity/Components/ShareDialog.svelte";
+  export let firebase;
+  export let activities;
+  let deleteActivityToggle = false;
+
+  let activityDeleteId = null;
+  let activityDeleteIndex = null;
+
   let dialogActivityId;
   let shareToggle = false;
+
+  function toggleDeleteActivity(activityId, index) {
+    activityDeleteId = activityId;
+    activityDeleteIndex = index;
+    deleteActivityToggle = true;
+  }
+
+  function cancelDelete() {
+    activityDeleteId = null;
+    activityDeleteIndex = null;
+  }
+
+  let alert = getDefaultAlertValues();
+
+  async function removeDraft() {
+    if (activityDeleteId !== null && activityDeleteIndex !== null) {
+      let db = await firebase.firestore();
+      try {
+        await db.collection("activities").doc(activityDeleteId).delete();
+        alert.successTitle = $t("activity-removed");
+        alert.successMessage = "";
+        alert.success = true;
+        activities.splice(activityDeleteIndex, 1);
+        activities = activities;
+      } catch (error) {
+        console.log(error);
+        alert.errorMessage = $t("error-while-removing");
+        alert.error = true;
+      }
+    }
+  }
 
   function toggleShare(activityId) {
     dialogActivityId = activityId;
@@ -20,7 +58,15 @@
   }
 </script>
 
+<ResultFeedback bind:alert />
+
 <ShareDialog bind:activityId={dialogActivityId} bind:toggle={shareToggle} />
+
+<RemoveDialog
+  bind:toggle={deleteActivityToggle}
+  on:ok={removeDraft}
+  on:cancel={cancelDelete}
+/>
 
 <div class="flex flex-col">
   <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -96,12 +142,27 @@
                     class="mr-1 underline text-indigo-600 hover:text-indigo-900"
                     >{$t("edit")}</a
                   >
+
                   <slot
                     name="cta"
                     activityId={activity.id}
                     {index}
                     goalId={activity.goalId}
                     connectionId={activity.connectionId}
+                  />
+
+                  <Button
+                    content={$t("share")}
+                    color="primary"
+                    size="very-small"
+                    on:click={() => toggleShare(activity.id)}
+                  />
+
+                  <Button
+                    color="lightRed"
+                    size="tiny"
+                    content={$t("removing")}
+                    on:click={() => toggleDeleteActivity(activity.id, index)}
                   />
                 </td>
               </tr>

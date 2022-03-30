@@ -4,18 +4,10 @@
   import Button from "$lib/Internals//Button/Button.svelte";
   import ShareDialog from "$lib/Activity/Components/ShareDialog.svelte";
   export let activities = [];
-  let dialogActivityId;
-  let shareToggle = false;
-
-  function toggleShare(activityId) {
-    dialogActivityId = activityId;
-    shareToggle = true;
-  }
+  export let firebase;
 </script>
 
-<ShareDialog bind:activityId={dialogActivityId} bind:toggle={shareToggle} />
-
-<DataTableActivities bind:activities let:goalId let:connectionId>
+<DataTableActivities bind:firebase bind:activities let:goalId let:connectionId>
   <svelte:fragment slot="cta" let:activityId>
     <a
       href="/leerdoel/{goalId}/activiteiten/{connectionId}"
@@ -23,11 +15,5 @@
     >
       {$t("connection-with-goal")}
     </a>
-    <Button
-      content={$t("share")}
-      color="primary"
-      size="very-small"
-      on:click={() => toggleShare(activityId)}
-    />
   </svelte:fragment>
 </DataTableActivities>

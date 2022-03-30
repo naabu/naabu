@@ -4,7 +4,7 @@ const helper = require('../helper');
 exports.updateActivityConnectionStatus = functions.firestore.document("connections/{connectionId}")
   .onUpdate(async (change, context) => {
     const connection = change.after.data();
-    if (connection.type === 'goal-activity') {
+    if (!connection.archive && connection.type === 'goal-activity') {
       const fb = helper.getFirebaseApp();
       let db = fb.firestore();
 

@@ -116,6 +116,17 @@
     "focus:ring-indigo-500",
   ];
 
+  let whitePrimaryIconNoFocus = [
+    "bg-white",
+    "text-gray-400",
+    "hover:text-gray-500",
+    "focus:outline-none",
+    "hover:ring-2",
+    "hover:ring-inset",
+    "hover:ring-indigo-500",
+  ];
+
+
   let greenAlert = [
     "bg-green-50",
     "text-green-800",
@@ -153,6 +164,9 @@
         break;
       case "whiteFullIcon":
         classes = [...classes, ...whiteFullIcon];
+        break;
+      case "whiteFullIconNoFocus":
+        classes = [...classes, ...whitePrimaryIconNoFocus];
         break;
       case "greenAlert":
         classes = [...classes, ...greenAlert];

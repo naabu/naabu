@@ -21,6 +21,7 @@
         "warning",
         "whitePrimaryIcon",
         "whiteFullIcon",
+        "whiteFullIconNoFocus",
         "blueWhiteIcon",
         "lightRed",
       ],
@@ -169,6 +170,17 @@
 />
 
 <Story
+  name="whitePrimaryIcon Square No Focus"
+  args={{
+    color: "whitePrimaryIconNoFocus",
+    size: "icon-square",
+    svelteSlot:
+      '<span class="sr-only">Open sidebar</span>\r\n        <svg\r\n          class="h-6 w-6"\r\n          xmlns="http://www.w3.org/2000/svg"\r\n          fill="none"\r\n          viewBox="0 0 24 24"\r\n          stroke="currentColor"\r\n          aria-hidden="true"\r\n        >\r\n          <path\r\n            stroke-linecap="round"\r\n            stroke-linejoin="round"\r\n            stroke-width="2"\r\n            d="M4 6h16M4 12h16M4 18h16"\r\n          />\r\n        </svg>',
+  }}
+/>
+
+
+<Story
   name="whiteFullIcon Round"
   args={{
     color: "whiteFullIcon",
@@ -178,6 +190,7 @@
   }}
   decorators={[() => GreyBackgroundDecorator]}
 />
+
 
 <Story
   name="Green alert button"

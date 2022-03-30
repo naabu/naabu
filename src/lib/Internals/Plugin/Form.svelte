@@ -73,9 +73,7 @@
     if (topPlugin.breadcrumb) {
       let parentPlugin = topPlugin.breadcrumb.pop();
       topPlugin.currentPlugin = parentPlugin;
-      if (topPlugin.breadcrumb.length == 0) {
-        topPlugin.currentPlugin = topPlugin;
-      } else {
+      if (topPlugin.breadcrumb.length != 0) {
         topPlugin.currentPlugin.parentPlugin =
           topPlugin.breadcrumb[topPlugin.breadcrumb.length - 1];
       }
@@ -99,18 +97,17 @@
                 plugins[i].currentPlugin.plugins[i2].parentPlugin.pluginConfig
                   .interruptionFields;
 
-              for (let i = 0; i < interruptionFields.length; i++) {
+              for (let i3 = 0; i3 < interruptionFields.length; i3++) {
                 if (
-                  plugins[i].currentPlugin.plugins[i2].interruptionData &&
                   plugins[i].currentPlugin.plugins[i2].interruptionData[
-                    interruptionFields[i].id
+                    interruptionFields[i3].id
                   ]
                 ) {
                   fieldString.push(
-                    $t(interruptionFields[i].name) +
+                    $t(interruptionFields[i3].name) +
                       ": " +
                       plugins[i].currentPlugin.plugins[i2].interruptionData[
-                        interruptionFields[i].id
+                        interruptionFields[i3].id
                       ]
                   );
                 }

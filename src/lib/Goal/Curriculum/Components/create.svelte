@@ -39,7 +39,7 @@
   //   redirect();
   // }
 
-  let redirectUrl = $page.query.get("redirect");
+  let redirectUrl = $page.url.searchParams.get("redirect");
 
   function getDefaultAlertValues() {
     return {

@@ -24,6 +24,11 @@ const config = {
         alias: {
           '@plugins': path.resolve('./plugins')
         }
+      },
+      server: {
+        fs: {
+          allow: ["locales", "plugins"]
+        }
       }
     }
   }

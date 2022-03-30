@@ -12,7 +12,7 @@
   let confirmToggle = false;
 
   $: {
-    link = $page.query.get("link");
+    link = $page.url.searchParams.get("link");
   }
 
   function goTolink() {

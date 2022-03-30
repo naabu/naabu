@@ -10,6 +10,7 @@
   let menuitems = getTeacherMenuitems($page.path, $t, "draft");
   let firebase;
   let goal;
+  let mounted;
 
   $: (async () => {
     if ($firebaseStore) {
@@ -18,7 +19,12 @@
   })();
 </script>
 
-<GetGoalData bind:firebase bind:goal bind:goalId={$page.params.goalId} />
+<GetGoalData
+  bind:firebase
+  bind:goal
+  bind:mounted
+  bind:goalId={$page.params.goalId}
+/>
 <Sidebar bind:menuitems>
   <span slot="title">{$t("create-activity")}</span>
 
@@ -27,12 +33,18 @@
     slot="status"
     class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800"
   >
-  {$t("draft")}
+    {$t("draft")}
   </span>
 
   <span slot="content">
-    {#if firebase && goal}
-      <CreateActivity bind:firebase bind:goal />
+    {#if mounted}
+      {#if firebase && goal}
+        <CreateActivity bind:firebase bind:goal />
+      {:else}
+        {$t("goals-not-found")}
+      {/if}
+    {:else}
+      {$t("loading")}
     {/if}
   </span>
 </Sidebar>

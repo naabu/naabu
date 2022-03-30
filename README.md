@@ -1,13 +1,13 @@
 ## Features
-- Interactive learning activities
+- ✍ Interactive learning activities
 - 📚 Course modules to create lesson plans
-- Learning goals wiki system
+- 👪 Learning goals wiki system
 - 🔧 Plugin system to easy create your own activities in Svelte
-- Interactive YouTube and Vimeo players
-- 📆 Multiple choice questions
-- Classify drag and drop widget
-- 📈 Svelte Cubed 3d exponential growth exercise
-- Smart learning algorithms
+- 📺 Interactive YouTube and Vimeo players
+- ✅ Multiple choice questions
+- 📐 Classify drag and drop widget
+- ⤴  Svelte Cubed 3d exponential growth exercise
+- 📎 Smart learning algorithms
 
 ## Stack
 - [SvelteKit](https://kit.svelte.dev/) frontend

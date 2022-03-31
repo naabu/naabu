@@ -1,5 +1,5 @@
 import preprocess from "svelte-preprocess";
-import firebaseAdapter from "svelte-adapter-firebase";
+import firebaseAdapter from "./adapter/src/index.js";
 import path from 'path'
 import precompileIntl from "svelte-intl-precompile/sveltekit-plugin.js";
 

@@ -1,0 +1,23 @@
+{
+	"hosting": [
+		{
+			"target": "app",
+			"public": "app",
+			"rewrites": [
+				{
+					"source": "**",
+					"run": {
+						"serviceId": "some-service"
+					}
+				}
+			]
+		},
+		{
+			"target": "blog",
+			"public": "blog"
+		}
+	],
+	"functions": {
+		"source": "functions"
+	}
+}

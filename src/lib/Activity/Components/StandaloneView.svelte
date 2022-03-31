@@ -22,8 +22,6 @@
   }
 </script>
 
-Hello Twitch!
-
 {#if activity}
   <ShowActivity
     bind:activity

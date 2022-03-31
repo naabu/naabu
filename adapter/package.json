@@ -1,0 +1,72 @@
+{
+  "name": "svelte-adapter-firebase",
+  "description": "Adapter for Svelte apps that integrates a Firebase Hosting Website with Cloud Functions or Cloud Run for server side rendering.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/jthegedus/svelte-adapter-firebase.git"
+  },
+  "homepage": "https://github.com/jthegedus/svelte-adapter-firebase#readme",
+  "bugs": {
+    "url": "https://github.com/jthegedus/svelte-adapter-firebase/issues"
+  },
+  "author": "James Hegedus <jthegedus@hey.com>",
+  "license": "MIT",
+  "keywords": [
+    "svelte",
+    "sveltekit",
+    "sveltekit-adapter",
+    "firebase",
+    "cloud-functions",
+    "cloud-run",
+    "serverless",
+    "ssr"
+  ],
+  "version": "0.13.1",
+  "type": "module",
+  "exports": {
+    ".": {
+      "import": "./src/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "src/index.js",
+  "types": "src/index.d.ts",
+  "files": [
+    "src"
+  ],
+  "engines": {
+    "node": "^14.13.1 || >= 16"
+  },
+  "dependencies": {
+    "esbuild": "^0.12.28"
+  },
+  "peerDependencies": {
+    "@sveltejs/kit": "^1.0.0-next.180"
+  },
+  "devDependencies": {
+    "@sveltejs/kit": "^1.0.0-next.180",
+    "@types/express": "^4.17.13",
+    "@types/node": "^14.17.15",
+    "ava": "^3.15.0",
+    "firebase-functions": "^3.15.5",
+    "xo": "^0.44.0"
+  },
+  "scripts": {
+    "fix": "xo --fix",
+    "test": "xo && ava"
+  },
+  "ava": {
+    "files": [
+      "tests/unit/**/*"
+    ]
+  },
+  "xo": {
+    "ignores": [
+      "tests/end-to-end",
+      "tests/integration"
+    ],
+    "rules": {
+      "unicorn/prefer-node-protocol": "off"
+    }
+  }
+}

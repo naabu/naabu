@@ -62,7 +62,7 @@
         value: $t("overview"),
       },
       {
-        url: $page.path,
+        url: $page.url.pathname,
         value: post.title,
       },
     ];

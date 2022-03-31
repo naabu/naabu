@@ -133,7 +133,7 @@
                   class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                 >
                   <a
-                    href="/activiteit/{activity.id}?redirect={$page.path}"
+                    href="/activiteit/{activity.id}?redirect={$page.url.pathname}"
                     class="mr-1 underline text-indigo-600 hover:text-indigo-900"
                     >{$t("show")}</a
                   >

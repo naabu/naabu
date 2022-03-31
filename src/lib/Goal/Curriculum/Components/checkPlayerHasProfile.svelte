@@ -18,7 +18,7 @@
   }
   let type = "goal";
 
-  $: if ($page.path.startsWith("/overleg")) {
+  $: if ($page.url.pathname.startsWith("/overleg")) {
     type = "discuss";
   }
 </script>
@@ -47,7 +47,7 @@
 
           <a
             data-test="create-curriculum-profile-message"
-            href="/curriculum-profiel/maken?redirect={$page.path}"
+            href="/curriculum-profiel/maken?redirect={$page.url.pathname}"
             class="font-medium underline text-yellow-700 hover:text-yellow-600"
           >
             {#if type === "goal"}

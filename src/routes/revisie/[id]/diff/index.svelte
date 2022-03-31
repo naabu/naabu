@@ -37,7 +37,7 @@
     breadcrumbs = [
       ...breadcrumbs,
       {
-        url: $page.path,
+        url: $page.url.pathname,
         value: $t("difference-versions"),
       },
     ];
@@ -63,7 +63,7 @@
   }
 
   $: if (revisionNew && revisionNew.revisionType === "activity") {
-    menuitems = getTeacherMenuitems($page.path, $t, latestRevisionStatus);
+    menuitems = getTeacherMenuitems($page.url.pathname, $t, latestRevisionStatus);
   }
 
   $: (async () => {

@@ -8,9 +8,9 @@
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { t } from "svelte-intl-precompile";
 
-  let activityId = $page.query.get("activityId");
+  let activityId = $page.url.searchParams.get("activityId");
 
-  let menuitems = getTeacherMenuitems($page.path, $t);
+  let menuitems = getTeacherMenuitems($page.url.pathname, $t);
   let firebase;
   let db;
 

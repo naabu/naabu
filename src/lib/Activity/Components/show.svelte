@@ -60,7 +60,7 @@
         );
       }, 2000);
     } else {
-      if ($page.path.includes("beheer")) {
+      if ($page.url.pathname.includes("beheer")) {
         await goto("/beheer/activiteit");
       } else {
         setTimeout(async () => {

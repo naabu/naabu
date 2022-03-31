@@ -109,7 +109,7 @@
         <svelte:fragment slot="after">
           <div class="mt-4 flex justify-between">
             <AdditionalFormText
-              content="Hou het vriendelijk en proffesioneel"
+              content={$t("keep-it-friendly-and-professional")}
             />
             <Button
               dataTest="post-button"

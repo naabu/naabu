@@ -26,7 +26,7 @@
         value: capitalizeFirstLetter($page.params.connectionType),
       },
       {
-        url: $page.path,
+        url: $page.url.pathname,
         value: capitalizeFirstLetter($page.params.connectionType) + " connectie pagina",
       },
     ];

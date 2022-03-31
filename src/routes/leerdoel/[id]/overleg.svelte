@@ -43,7 +43,7 @@
         value: $t("curriculum"),
       },
       {
-        url: $page.path,
+        url: $page.url.pathname,
         value: $t("goal-discuss-page-load"),
       },
     ];

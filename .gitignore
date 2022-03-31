@@ -8,7 +8,6 @@ data/
 node_modules
 docs/references/storybook/
 
-
 #build directory
 .svelte-kit/
 public

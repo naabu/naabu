@@ -10,12 +10,12 @@
   let redirect;
 
   $: {
-    redirect = $page.query.get("redirect");
+    redirect = $page.url.searchParams.get("redirect");
   }
 
   function goBack() {
-    if ($page.query.get("redirect")) {
-      goto($page.query.get("redirect"));
+    if ($page.url.searchParams.get("redirect")) {
+      goto($page.url.searchParams.get("redirect"));
     }
   }
 </script>

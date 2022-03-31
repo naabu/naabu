@@ -262,7 +262,8 @@
               {/if}
               {#if !connection.archive}
                 <a
-                  href="/activiteit/{connection.linkId}?redirect={$page.path}"
+                  href="/activiteit/{connection.linkId}?redirect={$page.url
+                    .pathname}"
                   class="font-medium text-indigo-600 hover:text-indigo-500"
                 >
                   {$t("show-activity")}

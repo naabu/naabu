@@ -7,7 +7,7 @@
   import { getTeacherMenuitems } from "$lib/Internals/Teachers/helper";
   import GetGoalData from "$lib/Goal/Data/getGoalData.svelte";
   import { t } from "svelte-intl-precompile";
-  let menuitems = getTeacherMenuitems($page.path, $t, "draft");
+  let menuitems = getTeacherMenuitems($page.url.pathname, $t, "draft");
   let firebase;
   let goal;
   let mounted;

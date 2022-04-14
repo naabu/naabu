@@ -1,0 +1,41 @@
+<script>
+  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { loadPluginDataFromFirestore } from "../Plugin/loader";
+
+  export let firebase;
+  export let dashboardItems;
+  export let mounted = false;
+  export let svelteComponent = "render";
+  export let db;
+
+  $: (async () => {
+    if ($firebaseStore) {
+      firebase = $firebaseStore;
+      await retrieveFirestoreData();
+      mounted = true;
+    }
+  })();
+
+  async function retrieveFirestoreData() {
+    db = await firebase.firestore();
+    let ref = db.collection("dashboardItems");
+    const querySnapshot = await ref.get();
+    querySnapshot.forEach((doc) => {
+      let dashboardItem = doc.data();
+      dashboardItem.id = doc.id;
+      dashboardItem.modelProcessed = false;
+      dashboardItems = [...dashboardItems, dashboardItem];
+    });
+    for (let i = 0; i < dashboardItems.length; i++) {
+      let dashboardItem = dashboardItems[i];
+      dashboardItem.modelPlugins = await loadPluginDataFromFirestore(
+        dashboardItem.modelPlugins,
+        svelteComponent
+      );
+      dashboardItem.feedbackPlugins = await loadPluginDataFromFirestore(
+        dashboardItem.feedbackPlugins,
+        svelteComponent
+      );
+    }
+  }
+</script>

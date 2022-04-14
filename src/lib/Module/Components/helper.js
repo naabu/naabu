@@ -54,6 +54,7 @@ export function formatMapObject(module, keepMap = false, formatPoints = true, mo
     moduleName: module.moduleName,
     moduleDescription: module.moduleDescription,
     moduleSvg: module.moduleSvg,
+    moduleDashboardPlugins: module.moduleDashboardPlugins,
   }
 
   let map;

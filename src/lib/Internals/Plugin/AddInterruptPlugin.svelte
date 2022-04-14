@@ -4,6 +4,7 @@
   import PluginSelector from "$lib/Internals/Plugin/Selector.svelte";
   import { createEventDispatcher } from "svelte";
   import { t } from "svelte-intl-precompile";
+  export let filterType;
   
   export let canBeInterrupted = false;
 
@@ -17,6 +18,7 @@
 
 <PluginSelector
   bind:toggle={showPluginSelector}
+  bind:filterType
   filterInterrupt={true}
   on:add={addPlugin}
 />

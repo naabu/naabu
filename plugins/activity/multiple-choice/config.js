@@ -6,6 +6,7 @@ const config = {
   canInterrupt: true,
   canObserve: true,
   storage: [{ id: "quizzes", name: "Quizzes" }],
+  type: "activity",
 }
 
 export default config;

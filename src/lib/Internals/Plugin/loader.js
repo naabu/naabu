@@ -10,6 +10,18 @@ export async function loadPlugin(pluginId, svelteComponent = "Render") {
   return await loadPluginComponent(pluginId, svelteComponent);
 }
 
+export async function loadPluginDataFromFirestore(pluginsJson, svelteComponent = "Render") {
+  let plugins = JSON.parse(pluginsJson);
+  let loadPluginsObject = {
+    plugins: plugins,
+  };
+  await loadPluginRecursively(loadPluginsObject, svelteComponent);
+  plugins = loadPluginsObject.plugins;
+  for (let i = 0; i < plugins.length; i++) {
+    plugins[i].currentPlugin = plugins[i];
+  }
+  return plugins;
+}
 
 export async function loadPluginConfig(pluginId) {
   let pluginsConfig = await loadPluginsConfiguration();

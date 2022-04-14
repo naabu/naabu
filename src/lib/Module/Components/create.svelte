@@ -7,6 +7,7 @@
   import { getStores, session } from "$app/stores";
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
+  import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
   export let firebase;
 
   let y;
@@ -19,6 +20,7 @@
     moduleName: "",
     moduleDescription: "",
     moduleSvg: "",
+    moduleDashboardPlugins: [],
   };
   let allMaps = [];
 
@@ -38,8 +40,11 @@
     });
   });
 
+  $: console.log(module);
   async function createModule() {
     let data = formatMapObject(module, false, true, false);
+    console.log(module);
+    data.moduleDashboardPlugins = getPluginDataFromForm(module.moduleDashboardPlugins);
     alert = getDefaultAlertValues();
     data.authorId = $session.user.uid;
     data.createdAt = firebase.firestore.Timestamp.now().seconds;

@@ -11,13 +11,18 @@
   }
 
   const dispatch = createEventDispatcher();
-  
+
   export function observeParent() {
     dispatch("observeParent");
   }
 
   function checkCorrectAnswer(quiz) {
     if (quiz.answers[quiz.selectedAnswer].correct === true) {
+      // User specified the correct answer.
+      // Store this result to use in the models for the dashboard.
+      // Indicator of performance
+      // Correct means the student is providing evidence
+      // That it has learned the learning goal.=
       quiz.feedback =
         "<div data-test='correct-feedback' class='text-green-700 font-bold'>" +
         $t("correct") +
@@ -30,6 +35,11 @@
         "</div>";
       quiz.false = true;
     }
+
+    dispatch("exerciseAttempt", {
+      isCorrect: quiz.answers[quiz.selectedAnswer].correct,
+      answerGiven: quiz.answers[quiz.selectedAnswer].answer,
+    });
     return quiz;
   }
 

@@ -6,12 +6,15 @@
   let ready = false;
 
   function getData(title, difficulity, goalId, hasQuiz = false) {
+    firebase = $firebaseStore;
     let data = {
       authorId: $session.user.uid,
       connectionId: "connection_" + title.replace(/ +/g, ""),
       connectionStatus: "published",
       description: "test",
       descriptionRaw: "test",
+      latestRevisionCreatedAt: firebase.firestore.Timestamp.now().seconds,
+      latestRevisionId: "test-revision",
       difficulty: difficulity,
       quizzes: [],
       goalId: goalId,

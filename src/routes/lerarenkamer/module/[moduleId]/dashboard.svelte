@@ -1,5 +1,5 @@
 <script>
-  import EditModule from "$lib/Module/Components/edit.svelte";
+  import DashboardModule from "$lib/Module/Components/dashboard.svelte";
   import { firebaseStore } from "$lib/Internals/Firebase/store";
   import { getStores, page } from "$app/stores";
   import Sidebar from "$lib/Internals/Containers/sidebar.svelte";
@@ -9,10 +9,13 @@
   import nl from "javascript-time-ago/locale/nl.json";
   import en from "javascript-time-ago/locale/en.json";
   import { t, locale } from "svelte-intl-precompile";
+  import GetDashboardItemListData from "$lib/Internals/DashboardItem/GetDashboardItemListData.svelte";
 
   let menuitems;
   let firebase;
   let module;
+  let mounted = false;
+  let dashboardItems = [];
   TimeAgo.addLocale(en);
   TimeAgo.addLocale(nl);
   const timeAgo = new TimeAgo($locale);
@@ -28,14 +31,15 @@
   })();
 </script>
 
-<GetModuleData bind:firebase bind:module loadComponent={"form"} />
+<GetModuleData bind:firebase bind:module />
 
+<GetDashboardItemListData bind:dashboardItems bind:mounted bind:firebase />
 <Sidebar bind:menuitems>
-  <span slot="title">{$t("update-module")}</span>
+  <span slot="title">{$t("module-dashboard")}</span>
 
   <span slot="content">
-    {#if firebase && module}
-      <EditModule bind:firebase bind:module />
+    {#if firebase && module && mounted}
+      <DashboardModule bind:firebase bind:module bind:dashboardItems />
     {/if}
   </span>
 </Sidebar>

@@ -13,6 +13,7 @@
   const dispatch = createEventDispatcher();
 
   export let toggle = true;
+  export let filterType = "activity";
   export let filterInterrupt = false;
   let pluginsConfiguration = [];
 
@@ -25,7 +26,10 @@
   $: if (pluginsConfiguration && pluginsConfiguration.length > 0) {
     pluginsToSelect = [];
     for (let i = 0; i < pluginsConfiguration.length; i++) {
-      if (!filterInterrupt || pluginsConfiguration[i].canInterrupt) {
+      if (
+        pluginsConfiguration[i].type === filterType &&
+        (!filterInterrupt || pluginsConfiguration[i].canInterrupt)
+      ) {
         pluginsToSelect.push({
           name: pluginsConfiguration[i].name,
           description: pluginsConfiguration[i].description,
@@ -69,7 +73,7 @@
         <div class="px-4 sm:px-6">
           <div class="flex items-start justify-between">
             <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">
-              {$t("add-new-plugins-text")} 
+              {$t("add-new-plugins-text")}
             </h2>
             <div class="ml-3 h-7 flex items-center">
               <button
@@ -111,7 +115,7 @@
                 <Button
                   dataTest="plugin-option-{pluginOption.value.id}"
                   on:click={() => addPlugin(pluginOption.value)}
-                  content={$t("add-to-activity")}
+                  content={$t("add")}
                 />
               </div>
             </div>

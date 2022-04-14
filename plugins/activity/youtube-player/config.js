@@ -8,6 +8,7 @@ const config = {
   canObserve: false,
   storage: [{ id: "video", name: "video" }],
   interruptionFields: [{ id: "timeInVideo", name: "time-in-video" }],
+  type: "activity",
 }
 
 export default config;

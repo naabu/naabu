@@ -6,6 +6,7 @@ const config = {
   canInterrupt: true,
   canObserve: false,
   storage: [],
+  type: "activity",
 }
 
 export default config;

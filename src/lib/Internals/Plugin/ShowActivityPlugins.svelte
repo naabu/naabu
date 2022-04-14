@@ -1,13 +1,17 @@
 <script>
   import { loadPluginRecursively } from "$lib/Internals/Plugin/loader";
+  import { createEventDispatcher } from "svelte";
   export let object;
   export let finished = false;
+  export let firebase;
   let loaded = false;
   let currentPlugin = null;
   let advance;
   let observe;
   let currentPluginIndex = 0;
   let interruptionPlugin = null;
+  $:console.log(object);
+  const dispatch = createEventDispatcher();
 
   $: (async () => {
     if (!loaded) {
@@ -31,6 +35,10 @@
 
   async function setDataCurrentPlugin() {
     let newCurrentPlugin = object.plugins[currentPluginIndex];
+    newCurrentPlugin.exerciseAttemptNumber = 1;
+
+    newCurrentPlugin.exerciseStartTime = firebase.firestore.Timestamp.now().seconds;
+
     if (newCurrentPlugin.pluginConfig.canBeInterrupted) {
       newCurrentPlugin.interruptions = [];
       if (newCurrentPlugin.plugins) {
@@ -42,6 +50,9 @@
               order: newCurrentPlugin.plugins[i].order,
             },
           ];
+          newCurrentPlugin.plugins[i].exerciseAttemptNumber= 1;
+          newCurrentPlugin.plugins[i].exerciseStartTime = firebase.firestore.Timestamp.now().seconds;
+          console.log(newCurrentPlugin);
         }
       }
     }
@@ -92,6 +103,34 @@
     }
   }
 
+  function exerciseAttempt(event, pluginFired) {
+    console.log(pluginFired);
+    let isCorrect = false;
+    if (event.detail.isCorrect) {
+      isCorrect = event.detail.isCorrect;
+    }
+
+    let currentTime = firebase.firestore.Timestamp.now().seconds;
+
+    let answerGiven = "";
+    if (event.detail.answerGiven) {
+      answerGiven = event.detail.answerGiven;
+    }
+
+    let lowLevelDataObject = {
+      exerciseAnswerGiven: answerGiven,
+      exerciseAttemptNumber: pluginFired.exerciseAttemptNumber,
+      exerciseData: JSON.stringify(pluginFired.data),
+      exerciseStartTime: pluginFired.exerciseStartTime,
+      exerciseTimeIn: currentTime - pluginFired.exerciseStartTime,
+      exerciseIsCorrect: isCorrect,
+    };
+
+    dispatch("lowLevelData", { lowLevelData: lowLevelDataObject });
+
+    pluginFired.exerciseAttemptNumber = pluginFired.exerciseAttemptNumber + 1;
+  }
+
   function observeComplete() {}
 </script>
 
@@ -105,6 +144,7 @@
         on:interrupt={handleInteruptPlugin}
         on:end={handleEndPlugin}
         on:observeComplete={observeComplete}
+        on:exerciseAttempt={(event) => exerciseAttempt(event, currentPlugin)}
         bind:advance
         bind:observe
       >
@@ -117,6 +157,8 @@
                 canObserve={true}
                 on:end={handleInterruptionEndPlugin}
                 on:observeParent={observeParent}
+                on:exerciseAttempt={(event) =>
+                  exerciseAttempt(event, interruptionPlugin)}
               />
             {:else}
               <svelte:component
@@ -124,6 +166,8 @@
                 bind:data={interruptionPlugin.data}
                 on:end={handleInterruptionEndPlugin}
                 on:observeParent={observeParent}
+                on:exerciseAttempt={(event) =>
+                  exerciseAttempt(event, interruptionPlugin)}
               />
             {/if}
           {/if}
@@ -134,6 +178,7 @@
         this={currentPlugin.component}
         bind:data={currentPlugin.data}
         on:end={handleEndPlugin}
+        on:exerciseAttempt={(event) => exerciseAttempt(event, currentPlugin)}
       />{/if}
   {/if}
 {/if}

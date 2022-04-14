@@ -4,7 +4,8 @@
   import PluginSelector from "$lib/Internals/Plugin/Selector.svelte";
   import { createEventDispatcher } from "svelte";
   import { t } from "svelte-intl-precompile";
-  
+  export let filterType;
+
   const dispatch = createEventDispatcher();
   export let showPluginSelector = false;
 
@@ -13,10 +14,16 @@
   }
 </script>
 
-<PluginSelector bind:toggle={showPluginSelector} on:add={addPlugin} />
+<PluginSelector
+  bind:filterType
+  bind:toggle={showPluginSelector}
+  on:add={addPlugin}
+/>
 
 <FormField>
-  <Button 
-  dataTest = "add-plugin-button"
-  content={$t("add-plugin-button")} on:click={() => (showPluginSelector = true)} />
+  <Button
+    dataTest="add-plugin-button"
+    content={$t("add-plugin-button")}
+    on:click={() => (showPluginSelector = true)}
+  />
 </FormField>

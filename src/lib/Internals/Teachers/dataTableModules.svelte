@@ -104,6 +104,12 @@
                 <td
                   class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                 >
+                    <a
+                    data-test="module-dashboard-button-{index}"
+                    href="/lerarenkamer/module/{module.id}/dashboard"
+                    class="mr-1 underline text-indigo-600 hover:text-indigo-900"
+                    >{$t("dashboard")}</a
+                  >
                   <a
                     data-test="module-edit-button-{index}"
                     href="/lerarenkamer/module/{module.id}"

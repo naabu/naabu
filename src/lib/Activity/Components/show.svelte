@@ -97,6 +97,7 @@
   function lowLevelData(event) {
     let lowLevelDataObject = event.detail.lowLevelData;
     lowLevelDataObject.activityId = activity.id;
+    lowLevelDataObject.activityTitle = activity.title;
     lowLevelDataObject.activityAuthorId = activity.authorId;
     lowLevelDataObject.activityType = activity.type;
     lowLevelDataObject.activityDifficulty = activity.difficulty;

@@ -135,7 +135,8 @@ service cloud.firestore {
     }
 
     match /lowLevelData/{lowLevelDataId} {
-      allow create: if (request.auth.uid == request.resource.data.studentId);
+      allow read: if true
+      allow create: if (request.auth.uid == request.resource.data.studentId)
     }
 
     match /dashboardItems/{dashboardItemId} {

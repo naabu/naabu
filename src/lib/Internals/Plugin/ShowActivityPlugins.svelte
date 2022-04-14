@@ -10,7 +10,7 @@
   let observe;
   let currentPluginIndex = 0;
   let interruptionPlugin = null;
-  $:console.log(object);
+  
   const dispatch = createEventDispatcher();
 
   $: (async () => {
@@ -50,8 +50,10 @@
               order: newCurrentPlugin.plugins[i].order,
             },
           ];
-          newCurrentPlugin.plugins[i].exerciseAttemptNumber= 1;
-          newCurrentPlugin.plugins[i].exerciseStartTime = firebase.firestore.Timestamp.now().seconds;
+          newCurrentPlugin.plugins[i].exerciseAttemptNumber = 1;
+          newCurrentPlugin.plugins[
+            i
+          ].exerciseStartTime = firebase.firestore.Timestamp.now().seconds;
           console.log(newCurrentPlugin);
         }
       }
@@ -75,6 +77,7 @@
           currentPlugin.plugins[i].order === event.detail.interruption.order
         ) {
           interruptionPlugin = currentPlugin.plugins[i];
+          interruptionPlugin.interuptionId = i + 1;
           let canObserve = false;
           if (currentPlugin.pluginConfig.canBeObserved) {
             canObserve = true;
@@ -104,6 +107,7 @@
   }
 
   function exerciseAttempt(event, pluginFired) {
+    console.log(event);
     console.log(pluginFired);
     let isCorrect = false;
     if (event.detail.isCorrect) {
@@ -124,7 +128,13 @@
       exerciseStartTime: pluginFired.exerciseStartTime,
       exerciseTimeIn: currentTime - pluginFired.exerciseStartTime,
       exerciseIsCorrect: isCorrect,
+      type: "exercise",
     };
+
+    if (interruptionPlugin !== null && interruptionPlugin.interuptionId) {
+      lowLevelDataObject.isInterruption = true;
+      lowLevelDataObject.interruptionId = interruptionPlugin.interuptionId;
+    }
 
     dispatch("lowLevelData", { lowLevelData: lowLevelDataObject });
 

@@ -11,20 +11,41 @@
   export let firebase;
   export let module;
   export let dashboardItems;
-
-  $: console.log(dashboardItems);
+  let dataRetrieved = false;
+  let lowLevelDataSet = [];
 
   $: (async () => {
-    for (let i = 0; i < dashboardItems.length; i++) {
-      for (let i2 = 0; i2 < dashboardItems[i].modelPlugins.length; i2++) {
-        if (
-          !dashboardItems[i].modelProcessed &&
-          dashboardItems[i].modelPlugins[i2].calculate
-        ) {
-          dashboardItems[i].modelData = await dashboardItems[i].modelPlugins[
-            i2
-          ].calculate();
-          dashboardItems[i].modelProcessed = true;
+    if (firebase && module) {
+      exampleQueryExcercise();
+    }
+  })();
+
+  async function exampleQueryExcercise() {
+    let db = firebase.firestore();
+    let ref = db.collection("lowLevelData").where("moduleId", "==", module.id);
+    const querySnapshot = await ref.get();
+    lowLevelDataSet = [];
+    querySnapshot.forEach((doc) => {
+      let lowLevelData = doc.data();
+      lowLevelData.id = doc.id;
+      lowLevelDataSet = [...lowLevelDataSet, lowLevelData];
+    });
+    dataRetrieved = true;
+  }
+
+  $: (async () => {
+    if (dataRetrieved) {
+      for (let i = 0; i < dashboardItems.length; i++) {
+        for (let i2 = 0; i2 < dashboardItems[i].modelPlugins.length; i2++) {
+          if (
+            !dashboardItems[i].modelProcessed &&
+            dashboardItems[i].modelPlugins[i2].calculate
+          ) {
+            dashboardItems[i].modelData = await dashboardItems[i].modelPlugins[
+              i2
+            ].calculate(lowLevelDataSet);
+            dashboardItems[i].modelProcessed = true;
+          }
         }
       }
     }

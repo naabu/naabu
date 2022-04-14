@@ -43,7 +43,6 @@
     let ref = db.collection("modules").doc(moduleId);
     let snap = await ref.get();
     if (snap.exists) {
-      console.log("here?");
       let object = snap.data();
       object.id = ref.id;
       if (object.paths) {

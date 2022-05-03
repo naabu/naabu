@@ -22,7 +22,7 @@
 
   async function exampleQueryExcercise() {
     let db = firebase.firestore();
-    let ref = db.collection("lowLevelData").where("moduleId", "==", module.id);
+    let ref = db.collection("lowLevelData").where("moduleId", "==", module.id).orderBy("time");
     const querySnapshot = await ref.get();
     lowLevelDataSet = [];
     querySnapshot.forEach((doc) => {

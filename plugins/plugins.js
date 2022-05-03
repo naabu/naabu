@@ -6,7 +6,9 @@ export async function loadConfigAllPlugins() {
   plugins.push((await import("@plugins/activity/classify-drag-and-drop/config.js")).default);
   plugins.push((await import("@plugins/activity/exponential-simulator/config.js")).default);
   plugins.push((await import("@plugins/dashboard/feedback/data-table/config.js")).default);
+  plugins.push((await import("@plugins/dashboard/feedback/learning-graph/config.js")).default);
   plugins.push((await import("@plugins/dashboard/models/analytics/config.js")).default);
+  plugins.push((await import("@plugins/dashboard/models/bkt/config.js")).default);
   return plugins;
 }
 
@@ -69,6 +71,15 @@ export async function loadPluginComponent(pluginId, svelteComponent = "Render") 
     }
   }
 
+  if (pluginId == "learning-graph") {
+    if (svelteComponent === "Render") {
+      return (await import("@plugins/dashboard/feedback/learning-graph/Render.svelte")).default;
+    }
+    else if (svelteComponent === "Form") {
+      return (await import("@plugins/dashboard/feedback/learning-graph/Form.svelte")).default;
+    }
+  }
+
   if (pluginId == "analytics") {
     if (svelteComponent === "Render") {
       return (await import("@plugins/dashboard/models/analytics/Render.svelte")).default;
@@ -76,6 +87,13 @@ export async function loadPluginComponent(pluginId, svelteComponent = "Render") 
     else if (svelteComponent === "Form") {
       return (await import("@plugins/dashboard/models/analytics/Form.svelte")).default;
     }
-
+  }
+  if (pluginId == "bkt") {
+    if (svelteComponent === "Render") {
+      return (await import("@plugins/dashboard/models/bkt/Render.svelte")).default;
+    }
+    else if (svelteComponent === "Form") {
+      return (await import("@plugins/dashboard/models/bkt/Form.svelte")).default;
+    }
   }
 }

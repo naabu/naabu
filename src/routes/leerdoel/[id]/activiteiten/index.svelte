@@ -5,7 +5,6 @@
 
 <ConnectionListContainer
   connectionType="goal-activity"
-  status="published"
   let:urlType
   let:goal
   let:connections

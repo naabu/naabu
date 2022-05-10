@@ -18,15 +18,25 @@
       },
 
       {
-        value: "adventures",
+        value: "activities",
         text: $t("activities"),
-        url: "/leerdoel/" + objectId + "/avonturen",
+        url: "/leerdoel/" + objectId + "/activiteiten",
       },
       {
-        value: "connections",
-        text: $t("connections"),
-        url: "/leerdoel/" + objectId + "/verbindingen",
+        value: "assessments",
+        text: $t("assessments"),
+        url: "/leerdoel/" + objectId + "/assessments",
       },
+      {
+        value: "knowledge-components",
+        text: $t("knowledge-components"),
+        url: "/leerdoel/" + objectId + "/knowledge-components",
+      },
+      // {
+      //   value: "connections",
+      //   text: $t("connections"),
+      //   url: "/leerdoel/" + objectId + "/verbindingen",
+      // },
       {
         value: "talk",
         text: $t("discuss"),

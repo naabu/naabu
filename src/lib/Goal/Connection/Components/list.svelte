@@ -8,7 +8,7 @@
   import nl from "javascript-time-ago/locale/nl.json";
   import en from "javascript-time-ago/locale/en.json";
 
-  import { t, locale  } from "svelte-intl-precompile";
+  import { t, locale } from "svelte-intl-precompile";
   import {
     compareTimeLeftToApprove,
     compareTimeLeftToNeedsWork,
@@ -93,29 +93,12 @@
                 >
                   {$t("last-update")}
                 </th>
-                {#if status === "needs-work"}
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    {$t("time-for-trash")}
-                  </th>
-                {:else if status === "in-progress"}
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    {$t("time-for-approval")}
-                  </th>
-                {:else if status === "needs-approval"}
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    {$t("time-for-needs-work")}
-                  </th>
-                {/if}
-
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  {$t("status")}
+                </th>
                 <th scope="col" class="relative px-6 py-3">
                   <span class="sr-only">{$t("edit")}</span>
                 </th>
@@ -150,43 +133,11 @@
                       )}
                     </div>
                   </td>
-                  {#if status === "needs-work"}
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">
-                        {formatToTimeLeft(
-                          serverTimestamp,
-                          connection.timeInFutureToTrash,
-                          firebase,
-                          timeAgo,
-                          $t
-                        )}
-                      </div>
-                    </td>
-                  {:else if status === "in-progress"}
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">
-                        {formatToTimeLeft(
-                          serverTimestamp,
-                          connection.timeInFutureToApprove,
-                          firebase,
-                          timeAgo,
-                          $t
-                        )}
-                      </div>
-                    </td>
-                  {:else if status === "needs-approval"}
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">
-                        {formatToTimeLeft(
-                          serverTimestamp,
-                          connection.timeInFutureToNeedsWork,
-                          firebase,
-                          timeAgo,
-                          $t
-                        )}
-                      </div>
-                    </td>
-                  {/if}
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">
+                      {$t(connection.status)}
+                    </div>
+                  </td>
 
                   <td
                     class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"

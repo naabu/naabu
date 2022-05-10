@@ -57,6 +57,12 @@ service cloud.firestore {
         allow read, write, delete: if true
       }
     }
+
+    match /assessments/{assessmentId} {
+      allow read: if true
+      allow create, update: if get(/databases/$(database)/documents/players/$(request.auth.uid)).data.curriculumProfileId is string
+      allow delete: if (request.auth.token.canDeleteGoals)
+    }
     
     match /curriculumProfile/{curriculumProfileId} {
       allow read: if true

@@ -81,7 +81,7 @@
           id="search"
           name="search"
           class="pr-3 block w-full bg-white border border-gray-300 rounded-md py-2 pl-10 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          placeholder="{$t('search')}}"
+          placeholder="{$t('search')}"
           type="search"
           bind:value={query}
           on:keyup={search}

@@ -17,14 +17,24 @@
       url: "/leerdoel/" + goal.id + "/activiteiten",
     },
     {
-      value: "connections",
-      text: $t("connections"),
-      url: "/leerdoel/" + goal.id + "/verbindingen",
+      value: "assessments",
+      text: $t("assessments"),
+      url: "/leerdoel/" + goal.id + "/assessments",
     },
+    {
+      value: "knowledge-components",
+      text: $t("knowledge-components"),
+      url: "/leerdoel/" + goal.id + "/knowledge-components",
+    },
+    // {
+    //   value: "connections",
+    //   text: $t("connections"),
+    //   url: "/leerdoel/" + goal.id + "/verbindingen",
+    // },
     {
       value: "talk",
       text: $t("discuss"),
-      url: "/overleg/" +  goal.id + "/" + goal.talkId,
+      url: "/overleg/" + goal.id + "/" + goal.talkId,
     },
   ];
 

@@ -8,7 +8,6 @@
   export let connections;
   export let mounted = false;
   export let type;
-  export let status;
   export let goalId;
 
   $: (async () => {
@@ -21,6 +20,6 @@
 
   async function retrieveFirestoreData() {
     let db = await firebase.firestore();
-    connections = await queryConnections(db, type, status, goalId);
+    connections = await queryConnections(db, type, goalId);
   }
 </script>

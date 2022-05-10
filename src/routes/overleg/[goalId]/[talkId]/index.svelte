@@ -31,6 +31,7 @@
 
       let postsRef = db.collection("talk").doc(talk.id).collection("posts");
       let postsSnap = await postsRef.get();
+      posts = [];
       postsSnap.forEach((postDoc) => {
         let post = postDoc.data();
         post.id = postDoc.id;

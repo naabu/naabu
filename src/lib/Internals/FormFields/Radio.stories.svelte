@@ -45,18 +45,18 @@
     selectedValue: "summative",
     options: [
       {
-        label: "Formative assesments",
+        label: "Formative assessments",
         description: "Informal feedback while you are learning",
         value: "formative",
       },
       {
-        label: "Summative assesments",
+        label: "Summative assessments",
         description:
           "Formal feedback to compare where you stand against others",
         value: "summative",
       },
       {
-        label: "No assesments",
+        label: "No assessments",
         description: "For people that prefer not to be assessed",
         value: "none",
       },

@@ -17,6 +17,7 @@ function getFirebaseApp() {
 const APP_ID = functions.config().algolia.app;
 const ADMIN_KEY = functions.config().algolia.key;
 const client = algoliasearch(APP_ID, ADMIN_KEY);
+
 function getIndex(suffix, environment) {
   let index = suffix;
   if (environment === 'development') {
@@ -84,14 +85,17 @@ const defaultLanguage = functions.config().app.default_language;
 let goalIndexName = getIndex('goals', environment);
 let activityIndexName = getIndex('activities', environment);
 let mapIndexName = getIndex('maps', environment);
+let connectionIndexName = getIndex('connections', environment);
 const goalIndex = client.initIndex(goalIndexName);
 const activityIndex = client.initIndex(activityIndexName);
 const mapIndex = client.initIndex(mapIndexName);
+const connectionIndex = client.initIndex(connectionIndexName);
 
 exports.getFirebaseApp = getFirebaseApp;
 exports.goalIndex = goalIndex;
 exports.activityIndex = activityIndex;
 exports.mapIndex = mapIndex;
+exports.connectionIndex = connectionIndex;
 exports.environment = environment;
 exports.defaultLanguage = defaultLanguage;
 exports.shuffle = shuffle;

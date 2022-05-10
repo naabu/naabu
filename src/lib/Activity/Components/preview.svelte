@@ -1,23 +1,20 @@
 <script>
   import ShowActivity from "$lib/Activity/Components/show.svelte";
   import { getStores, session } from "$app/stores";
-  import MainTabs from "$lib/Internals/Tabs/goal.svelte";
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
-  import { getCurriculumProfile } from "$lib/Goal/Curriculum/Components/helper";
   import {
-    getActivitySaveData,
     getDifficultyToString,
     getTypeText,
   } from "$lib/Activity/Components/helper";
   import {
-    createRevision,
     getActivitySort,
     getDifferencesBetweenRevisions,
   } from "$lib/Internals/Revision/helper";
   import Button from "$lib/Internals/Button/Button.svelte";
   import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
   import { t } from "svelte-intl-precompile";
+  import { createUpdate } from "$lib/Internals/Update/helper";
   export let firebase;
   export let showActivity;
   export let activity;
@@ -102,7 +99,7 @@
                 connectionId: activity.connectionId,
               };
 
-              await createUpdate(updateData);
+              await createUpdate(db, $session, updateData);
             }
             goto(
               "/leerdoel/" +
@@ -116,17 +113,6 @@
         console.log(e);
       }
     }
-  }
-
-  async function createUpdate(updateData) {
-    if ($session.player.curriculumProfileId) {
-      updateData.curriculumProfile = await getCurriculumProfile(
-        db,
-        $session.player.curriculumProfileId
-      );
-    }
-    let updatesColRef = db.collection("updates");
-    await updatesColRef.add(updateData);
   }
 
   async function openActivity() {
@@ -153,7 +139,7 @@
         if (activity.plugins) {
           activity.plugins = getPluginDataFromForm(activity.plugins);
         }
-        
+
         let differences = getDifferencesBetweenRevisions(
           {},
           activity,
@@ -167,7 +153,7 @@
           createdAt: firebase.firestore.Timestamp.now().seconds,
           connectionId: result.id,
         };
-        await createUpdate(updateData);
+        await createUpdate(db, $session, updateData);
 
         goto("/leerdoel/" + activity.goalId + "/activiteiten/" + result.id);
       } catch (e) {
@@ -213,5 +199,4 @@
   </div>
 {:else}
   {$t("login-to-connect-activity")}
-  
 {/if}

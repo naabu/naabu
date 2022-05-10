@@ -4,11 +4,13 @@
   export let object;
   export let finished = false;
   export let firebase;
+  export let currentPluginIndex = 0;
+  let plugins;
   let loaded = false;
   let currentPlugin = null;
   let advance;
   let observe;
-  let currentPluginIndex = 0;
+
   let interruptionPlugin = null;
   
   const dispatch = createEventDispatcher();
@@ -20,21 +22,28 @@
     }
   })();
 
+  $: (async () => {
+    if (loaded && object.plugins) {
+      await loadPluginComponents();
+    }
+  })();
+
+
   async function loadPluginComponents() {
     if (object && object.plugins) {
       let loadPluginsObject = {
         plugins: object.plugins,
       };
       await loadPluginRecursively(loadPluginsObject);
-      object.plugins = loadPluginsObject.plugins;
-      if (object.plugins.length > 0) {
+      plugins = loadPluginsObject.plugins;
+      if (plugins.length > 0) {
         await setDataCurrentPlugin();
       }
     }
   }
 
   async function setDataCurrentPlugin() {
-    let newCurrentPlugin = object.plugins[currentPluginIndex];
+    let newCurrentPlugin = plugins[currentPluginIndex];
     newCurrentPlugin.exerciseAttemptNumber = 1;
 
     newCurrentPlugin.exerciseStartTime = firebase.firestore.Timestamp.now().seconds;
@@ -54,7 +63,6 @@
           newCurrentPlugin.plugins[
             i
           ].exerciseStartTime = firebase.firestore.Timestamp.now().seconds;
-          console.log(newCurrentPlugin);
         }
       }
     }
@@ -62,7 +70,7 @@
   }
 
   async function handleEndPlugin() {
-    if (object.plugins.length > currentPluginIndex + 1) {
+    if (plugins.length > currentPluginIndex + 1) {
       currentPluginIndex = currentPluginIndex + 1;
       await setDataCurrentPlugin();
     } else {
@@ -107,8 +115,6 @@
   }
 
   function exerciseAttempt(event, pluginFired) {
-    console.log(event);
-    console.log(pluginFired);
     let isCorrect = false;
     if (event.detail.isCorrect) {
       isCorrect = event.detail.isCorrect;

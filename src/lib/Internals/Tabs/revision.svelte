@@ -17,10 +17,20 @@
       url: "/leerdoel/" + revision.goalId + "/activiteiten",
     },
     {
-      value: "connections",
-      text: $t("connections"),
-      url: "/leerdoel/" + revision.goalId + "/verbindingen",
+      value: "assessments",
+      text: $t("assessments"),
+      url: "/leerdoel/" + revision.goalId + "/assessments",
     },
+    {
+      value: "knowledge-components",
+      text: $t("knowledge-components"),
+      url: "/leerdoel/" + revision.goalId + "/knowledge-components",
+    },
+    // {
+    //   value: "connections",
+    //   text: $t("connections"),
+    //   url: "/leerdoel/" + revision.goalId + "/verbindingen",
+    // },
     {
       value: "talk",
       text: $t("discuss"),

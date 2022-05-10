@@ -15,10 +15,8 @@
   });
 
   async function storeLowLevelObject(lowLevelDataObject) {
-    console.log(lowLevelDataObject);
     let collectionRef = db.collection("lowLevelData");
     let result = await collectionRef.add(lowLevelDataObject);
-    console.log(result);
   }
 
   async function lowLevelData(event) {

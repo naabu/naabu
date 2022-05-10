@@ -40,10 +40,8 @@
     });
   });
 
-  $: console.log(module);
   async function createModule() {
     let data = formatMapObject(module, false, true, false);
-    console.log(module);
     data.moduleDashboardPlugins = getPluginDataFromForm(module.moduleDashboardPlugins);
     alert = getDefaultAlertValues();
     data.authorId = $session.user.uid;

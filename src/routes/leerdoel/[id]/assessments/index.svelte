@@ -1,18 +1,17 @@
 <script>
   import ConnectionListContainer from "$lib/Internals/Containers/connectionListContainer.svelte";
-  import GoalActivityList from "$lib/Goal/Connection/Data/goalActivityList.svelte";
+  import GoalAssessmentList from "$lib/Goal/Connection/Data/goalAssessmentList.svelte";
 </script>
 
 <ConnectionListContainer
-  connectionType="goal-activity"
-  status="needs-approval"
+  connectionType="goal-assessment"
   let:urlType
   let:goal
   let:connections
   let:firebase
   let:status
 >
-  <GoalActivityList
+  <GoalAssessmentList
     {urlType}
     goalId={goal.id}
     {connections}

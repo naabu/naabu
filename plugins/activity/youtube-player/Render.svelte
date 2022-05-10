@@ -9,7 +9,7 @@
   export let interruptions = [];
   let interrupted = false;
   let isObserved = false;
-  let isApiReady = false;
+  let youTubeIframeReady = false;
 
   export function advance() {
     if (player) {
@@ -49,7 +49,7 @@
     end();
   }
 
-  $: if (mounted && data.video.youtubeId && isApiReady) {
+  $: if (mounted && data.video && data.video.youtubeId) {
     initialized = true;
   }
 
@@ -57,13 +57,18 @@
     if (
       initialized &&
       data.video.youtubeId &&
-      lastYoutubeId !== data.video.youtubeId
+      lastYoutubeId !== data.video.youtubeId &&
+      youTubeIframeReady
     ) {
+      console.log("trigger?");
       iframe = document.querySelector("#youtubeVideo iframe");
-      if (iframe !== null) {
-        player = new Player(iframe);
+      if (iframe !== null && player) {
+        console.log(player);
         lastYoutubeId = data.video.youtubeId;
-        await player.loadVideo(data.video.youtubeId);
+        await player.pauseVideo();
+        await player.loadVideoById(data.video.youtubeId);
+      } else {
+        initializeVideoPlayer();
       }
     }
   })();
@@ -71,7 +76,7 @@
   function initializeVideoPlayer() {
     if ((element = document.getElementById("youtubeVideo"))) {
       iframe = document.querySelector("#youtubeVideo iframe");
-      if (iframe === null) {
+      if (iframe === null && data.video && data.video.youtubeId) {
         let youtubeOptions = {
           videoId: data.video.youtubeId,
           playerVars: {
@@ -84,6 +89,7 @@
         lastYoutubeId = data.video.youtubeId;
         player = new YT.Player("youtubeIframe", youtubeOptions);
       }
+      console.log(player);
     }
   }
 
@@ -148,6 +154,7 @@
   });
 
   window.addEventListener("iframeApiReady", function (e) {
+    youTubeIframeReady = true;
     initializeVideoPlayer();
   });
 </script>

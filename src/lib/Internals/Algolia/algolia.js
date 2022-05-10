@@ -37,6 +37,10 @@ export function getMapIndex(environment = 'development') {
   return getIndex("maps", environment);
 }
 
+export function getConnectionIndex(environment = 'development') {
+  return getIndex("connections", environment);
+}
+
 
 
 

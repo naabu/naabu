@@ -57,7 +57,7 @@
   }
 </script>
 
-<div class="fixed inset-y-16 right-0 pl-10 max-w-full flex z-20">
+<div class="fixed inset-y-16 right-0 max-w-full flex z-20">
   <Transition
     {toggle}
     inTransition="transform transition ease-in-out duration-500 sm:duration-700"

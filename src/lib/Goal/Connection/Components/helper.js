@@ -1,20 +1,5 @@
-export function getStatusText(status, $t) {
-  switch (status) {
-    case "published":
-      return $t("published");
-    case "needs-approval":
-      return $t("needs-approval");
-    case "in-progress":
-      return $t("in-progress");
-    case "needs-work":
-      return $t("needs-work");
-    case "in-trash":
-      return $t("in-trash");;
-  }
-}
-
-export async function queryConnections(db, type, status, sourceId) {
-  let ref = db.collection("connections").where("sourceId", "==", sourceId).where("type", "==", type).where("status", "==", status);
+export async function queryConnections(db, type, sourceId) {
+  let ref = db.collection("connections").where("sourceId", "==", sourceId).where("type", "==", type);
   let snapshot = await ref.get();
   let connections = [];
   snapshot.forEach(doc => {

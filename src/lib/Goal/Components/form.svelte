@@ -447,31 +447,3 @@
     </svelte:fragment>
   </FormField>
 </FieldSet>
-
-<FieldSet
-  title={$t("tests")}
-  description={$t("student-evidence-goal-description")}
->
-  <div>
-    {#if goal.battles}
-      <BattleListForm
-        bind:battles={goal.battles}
-        bind:index={selectedBattleIndex}
-      />
-    {/if}
-
-    <Tabs
-      id="battle"
-      mainTabs={battleTabs}
-      mainSelected={selectedBattleIndex}
-    />
-
-    {#if goal.battles && goal.battles.length > 0}
-      <QuizForm
-        bind:quizzes={goal.battles[selectedBattleIndex].quizzes}
-        bind:selectedQuizIndex
-        bind:selectedFieldIndex
-      />
-    {/if}
-  </div>
-</FieldSet>

@@ -12,8 +12,6 @@ import { goto } from "$app/navigation";
 
   let closest;
 
-  $: console.log(closest);
-
   let students;
 
   $: {
@@ -69,7 +67,6 @@ import { goto } from "$app/navigation";
 
     <Pancake.Svg>
       {#each students as student}
-        {console.log("here?")}
         <Pancake.SvgLine data={student.data} let:d>
           <path class="data" {d} />
         </Pancake.SvgLine>

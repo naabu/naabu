@@ -6,14 +6,13 @@
   export let update;
   export let i;
   export let feedLength;
+  export let showConnectionInfo;
 </script>
 
-<UpdateContentSingleLine bind:i bind:feedLength bind:update>
+<UpdateContentSingleLine bind:i bind:feedLength bind:update bind:showConnectionInfo>
   <svelte:fragment slot="icon">
     <StatusChangedIcon />
   </svelte:fragment>
-
-  <div data-test="status-changed-content-{i}" class="text-sm text-gray-500">
     <a
       href="/curriculum-profiel/{update.curriculumProfile.id}"
       class="font-medium text-gray-900">{update.curriculumProfile.fullname}</a
@@ -25,5 +24,4 @@
         {update.createdAtTimeAgo}
       {/if}</span
     >
-  </div>
 </UpdateContentSingleLine>

@@ -7,6 +7,8 @@
   import StatusChangeByUser from "$lib/Update/Updates/StatusChangeByUser.svelte";
   export let updates;
   let feedLength = 0;
+  export let showConnectionInfo = null;
+  $:console.log(showConnectionInfo);
   $: feedLength = updates.length;
 </script>
 
@@ -16,17 +18,17 @@
       <ul class="-mb-8">
         {#each updates as update, i}
           {#if update.type === "comment"}
-            <Comment bind:update {i} {feedLength} />
+            <Comment bind:update {i} {feedLength} bind:showConnectionInfo />
           {:else if update.type === "comment-teacher"}
-            <CommentTeacher bind:update {i} {feedLength} />
+            <CommentTeacher bind:update {i} {feedLength} bind:showConnectionInfo />
           {:else if update.type === "status-change-by-user"}
-            <StatusChangeByUser bind:update {i} {feedLength} />
+            <StatusChangeByUser bind:update {i} {feedLength} bind:showConnectionInfo/>
           {:else if update.type === "created-teacher"}
-            <CreatedTeacher bind:update {i} {feedLength} />
+            <CreatedTeacher bind:update {i} {feedLength} bind:showConnectionInfo />
           {:else if update.type === "activity-updated-teacher"}
-            <ActivityUpdatedTeacher bind:update {i} {feedLength} />
+            <ActivityUpdatedTeacher bind:update {i} {feedLength} bind:showConnectionInfo/>
           {:else if update.type === "activity-removed"}
-            <ActivityRemoved bind:update {i} {feedLength} />
+            <ActivityRemoved bind:update {i} {feedLength} bind:showConnectionInfo/>
           {/if}
         {/each}
       </ul>

@@ -37,11 +37,14 @@
   let filters = "";
 
   $: (async () => {
-    filters = filters + "type:" + connectionType
-    if (status !== "all") {
-      filters = "status:" + status;
+    if (goal) {
+      filters = "type:" + connectionType + ' AND sourceId:' + goal.id;
+      if (status !== "all") {
+        filters += " AND status:" + status;
+      }
+      console.log(filters);
+      await search();
     }
-    await search();
   })();
 
   let hits;
@@ -64,6 +67,7 @@
         filters: filters,
       });
       connections = result.hits;
+      console.log(connections);
     }
   }
 
@@ -73,13 +77,11 @@
         selectedTab = "activities";
         urlType = "activiteiten";
         valueUrlConnectionType = $t("activities");
-      }
-      else if (connectionType === "goal-assessment") {
+      } else if (connectionType === "goal-assessment") {
         selectedTab = "assessments";
         urlType = "assessments";
         valueUrlConnectionType = $t("assessments");
-      }
-      else {
+      } else {
         selectedTab = "connections";
         if (connectionType === "goal-prerequisites") {
           urlType = "voorkennis";

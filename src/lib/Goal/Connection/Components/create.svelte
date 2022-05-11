@@ -44,6 +44,8 @@
       linkId: connectionGoal.id,
       authorId: $session.user.uid,
       status: "in-progress",
+      sourceType: "goal",
+      linkType: "goal",
       title: connectionGoal.title,
       createdAt: serverTimestamp,
       modifiedAt: serverTimestamp,

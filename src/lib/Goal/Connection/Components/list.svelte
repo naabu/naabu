@@ -23,6 +23,15 @@
   let daysToSendToApproval = 2 * 86400;
   let daysToSendToNeedsWork = 3 * 86400;
 
+  $: if (connections) {
+    for (let i = 0; i < connections.length; i++) {
+      connections[i].connectionToLinkId = connections[i].linkId;
+      if (connections[i].type === "goal-activity") {
+        connections[i].connectionToLinkId = connections[i].id;
+      }
+    }
+  }
+
   $: if (status === "needs-work") {
     for (let i = 0; i < connections.length; i++) {
       let connection = connections[i];
@@ -143,7 +152,7 @@
                     class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                   >
                     <a
-                      href="/leerdoel/{goalId}/{urlType}/{connection.id}"
+                      href="/leerdoel/{goalId}/{urlType}/{connection.connectionToLinkId}"
                       class="text-indigo-600 hover:text-indigo-900"
                       >{$t("history")}</a
                     >

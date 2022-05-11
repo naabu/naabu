@@ -29,6 +29,8 @@
       inProgressAt: timestamp,
       lastUpdatesAt: timestamp,
       linkId: activityId,
+      sourceType: "goal",
+      linkType: "activity",
       modifiedAt: timestamp,
       publishedAt: timestamp,
       status: "published",

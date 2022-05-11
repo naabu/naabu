@@ -30,6 +30,8 @@
       type: "goal-activity",
       sourceId: activity.goalId,
       linkId: activity.id,
+      sourceType: "goal",
+      linkType: "activity",
       updatedAt: firebase.firestore.Timestamp.now().seconds,
       inProgressAt: firebase.firestore.Timestamp.now().seconds,
       authorId: $session.user.uid,
@@ -97,6 +99,11 @@
                 authorId: $session.user.uid,
                 createdAt: firebase.firestore.Timestamp.now().seconds,
                 connectionId: activity.connectionId,
+                connectionSourceId: connection.sourceId,
+                connectionLinkId: connection.linkId,
+                connectionType: connection.type,
+                connectionSourceType: connection.sourceType,
+                connectionLinkType: connection.linkType,
               };
 
               await createUpdate(db, $session, updateData);
@@ -152,6 +159,11 @@
           authorId: $session.user.uid,
           createdAt: firebase.firestore.Timestamp.now().seconds,
           connectionId: result.id,
+          connectionSourceId: connection.sourceId,
+          connectionLinkId: connection.linkId,
+          connectionType: connection.type,
+          connectionSourceType: connection.sourceType,
+          connectionLinkType: connection.linkType,
         };
         await createUpdate(db, $session, updateData);
 

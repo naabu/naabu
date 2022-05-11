@@ -9,6 +9,7 @@
   import { t } from "svelte-intl-precompile";
 
   let firebase;
+  let loaded = false;
 
   let db;
   let displayNotification = false;
@@ -27,12 +28,7 @@
   async function trigger() {
     // We can put data in the firestore collection Name + timestamp.
     let docRef = db.collection("triggers").doc("data-export");
-    let snap = await docRef.get();
-    if (snap.exists) {
-      docRef.update({ lastTriggerTimestamp: Date.now() });
-    } else {
-      docRef.set({ lastTriggerTimestamp: Date.now() });
-    }
+    await docRef.set({ lastTriggerTimestamp: Date.now() });
   }
 
   async function exportActivityData() {
@@ -59,10 +55,18 @@
     }
   }
 
-  onMount(async () => {
-    firebase = await initFirebase($session.environment);
-    db = await firebase.firestore();
-  });
+  async function runMigrations() {
+    let docRef = db.collection("triggers").doc("run-migration");
+    await docRef.set({ lastTriggerTimestamp: Date.now() });
+  }
+
+  $: (async () => {
+    if ($firebaseStore) {
+      firebase = $firebaseStore;
+      db = await firebase.firestore();
+      loaded = true;
+    }
+  })();
 </script>
 
 <Notification bind:displayNotification bind:notificationText time="4000" />
@@ -72,10 +76,15 @@
 <br />
 
 {#if $session.user && $session.user.idTokenResult.claims.canDebugDevelopment}
-  <Button on:click={trigger} color="primary" content={$t("trigger-functions")} />
+  <Button
+    on:click={trigger}
+    color="primary"
+    content={$t("trigger-functions")}
+  />
   <Button
     on:click={exportActivityData}
     content={$t("get-activities-export-json")}
   />
   <Button on:click={exportGoalData} content={$t("goals-export-json")} />
+  <Button on:click={runMigrations} content={$t("run-migrations")} />
 {/if}

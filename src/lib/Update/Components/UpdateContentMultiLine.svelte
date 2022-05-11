@@ -1,9 +1,11 @@
 <script>
   import Update from "$lib/Update/Components/Update.svelte";
   import { t } from "svelte-intl-precompile";
+  import LinkComponent from "$lib/Update/Components/LinkComponent.svelte";
   export let i = 0;
   export let feedLength = 1;
   export let update;
+  export let showConnectionInfo;
 </script>
 
 {#if update}
@@ -20,6 +22,10 @@
             >{update.curriculumProfile.fullname}</a
           >
           <slot name="aftername" />
+
+          <slot name="connectionInfo">
+            <LinkComponent bind:showConnectionInfo bind:update/>
+          </slot>
         {:else}
           <span class="font-medium text-gray-900">{$t("teacher")}</span>
         {/if}

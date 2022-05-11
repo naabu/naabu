@@ -146,6 +146,11 @@
         authorId: $session.user.uid,
         createdAt: firebase.firestore.Timestamp.now().seconds,
         connectionId: connection.id,
+        connectionSourceId: connection.sourceId,
+        connectionLinkId: connection.linkId,
+        connectionType: connection.type,
+        connectionSourceType: connection.sourceType,
+        connectionLinkType: connection.linkType,
       };
 
       data.curriculumProfile = await getCurriculumProfile(
@@ -189,6 +194,12 @@
           authorId: $session.user.uid,
           createdAt: firebase.firestore.Timestamp.now().seconds,
           connectionId: connection.id,
+          connectionSourceId: connection.sourceId,
+          connectionLinkId: connection.linkId,
+          connectionType: connection.type,
+          connectionSourceType: connection.sourceType,
+          connectionLinkType:  connection.linkType,
+          curriculumProfile: curriculumProfileData,
         };
 
         if (hasCurriculumProfile) {
@@ -199,6 +210,11 @@
           type: "comment",
           content: newCommentText,
           connectionId: connection.id,
+          connectionSourceId: connection.sourceId,
+          connectionLinkId: connection.linkId,
+          connectionType: connection.type,
+          connectionSourceType: connection.sourceType,
+          connectionLinkType:  connection.linkType,
           curriculumProfile: curriculumProfileData,
           createdAt: firebase.firestore.Timestamp.now().seconds,
         };

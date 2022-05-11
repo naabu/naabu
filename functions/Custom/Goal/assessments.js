@@ -15,6 +15,8 @@ exports.createConnectionAssessment = functions.firestore.document('assessments/{
       type: "goal-assessment",
       sourceId: assessment.goalId,
       linkId: snap.id,
+      sourceType: "goal",
+      linkType: "assessment",
       updatedAt: snap['_createTime']._seconds,
       modifiedAt: snap['_createTime']._seconds,
       lastUpdatesAt: snap['_createTime']._seconds,
@@ -51,6 +53,11 @@ exports.updateForAssessmentConnectionCreate = functions.firestore.document('conn
           authorId: connection.authorId,
           createdAt: snap['_createTime']._seconds,
           connectionId: snap.id,
+          connectionSourceId: connection.sourceId,
+          connectionLinkId: connection.linkId,
+          connectionSourceType: connection.sourceType,
+          connectionLinkType: connection.linkType,
+          connectionType: connection.type,
         };
   
         await db.collection("updates").add(updateData);

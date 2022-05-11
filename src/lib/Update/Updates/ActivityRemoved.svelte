@@ -6,9 +6,10 @@
   export let update;
   export let i;
   export let feedLength;
+  export let showConnectionInfo;
 </script>
 
-<UpdateContentSingleLine bind:i bind:feedLength bind:update>
+<UpdateContentSingleLine bind:i bind:feedLength bind:update bind:showConnectionInfo>
   <svelte:fragment slot="icon">
     <RemovedIcon />
   </svelte:fragment>

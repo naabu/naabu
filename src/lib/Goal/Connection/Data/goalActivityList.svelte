@@ -45,4 +45,8 @@
   >
     {getDifficulty(connection)}
   </td>
+
+  <svelte:fragment slot="not-found">
+    {$t("no-activities-found")}
+  </svelte:fragment>
 </ConnectionList>

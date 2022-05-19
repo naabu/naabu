@@ -166,5 +166,7 @@
     </div>
   </div>
 {:else}
-  {$t("no-connection-found")}
+  <slot name="not-found">
+    {$t("no-connection-found")}
+  </slot>
 {/if}

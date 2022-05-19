@@ -38,7 +38,7 @@
 
   $: (async () => {
     if (goal) {
-      filters = "type:" + connectionType + ' AND sourceId:' + goal.id;
+      filters = "type:" + connectionType + " AND sourceId:" + goal.id;
       if (status !== "all") {
         filters += " AND status:" + status;
       }
@@ -72,6 +72,7 @@
   }
 
   $: if (goal) {
+    console.log(connectionType);
     if (connectionType) {
       if (connectionType === "goal-activity") {
         selectedTab = "activities";
@@ -81,6 +82,10 @@
         selectedTab = "assessments";
         urlType = "assessments";
         valueUrlConnectionType = $t("assessments");
+      } else if (connectionType === "goal-model") {
+        selectedTab = "models";
+        urlType = "models";
+        valueUrlConnectionType = $t("models");
       } else {
         selectedTab = "connections";
         if (connectionType === "goal-prerequisites") {
@@ -138,7 +143,7 @@
 {#if mounted && goal}
   <ContainerBreadcrumpPageTitle bind:breadcrumbs title={goal.title} />
   <MainTabs bind:goal mainSelected={selectedTab} />
-  {#if connectionType !== "goal-activity" && connectionType !== "goal-assessment" && connectionType !== "goal-knowledge-component"}
+  {#if connectionType !== "goal-activity" && connectionType !== "goal-assessment" && connectionType !== "goal-knowledge-component"  && connectionType !== "goal-model"}
     <LearningGoalConnectionsTabs bind:goal mainSelected={connectionType} />
   {/if}
 

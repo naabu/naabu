@@ -6,15 +6,6 @@
   export let connections;
   export let firebase;
   export let status;
-
-  function getDifficulty(connection) {
-    for (let i = 0; i < connection.fields.length; i++) {
-      if (connection.fields[i].title === $t("difficulty")) {
-        return connection.fields[i].value;
-      }
-    }
-    return "";
-  }
 </script>
 
 <ConnectionList
@@ -26,12 +17,12 @@
   let:connection
 >
   <div slot="createButton" class="mt-8 mb-8 flex">
-    <a class="underline ml-auto" href="/leerdoel/{goalId}/create-assessment">
-      {$t("create-new-assessment")}</a
+    <a class="underline ml-auto" href="/leerdoel/{goalId}/create-model">
+      {$t("create-new-model")}</a
     >
   </div>
 
   <svelte:fragment slot="not-found">
-    {$t("no-assessments-found")}
+    {$t("no-models-found")}
   </svelte:fragment>
 </ConnectionList>

@@ -1,27 +1,26 @@
 const functions = require('firebase-functions');
 const helper = require('../helper');
 
-
-exports.createConnectionAssessment = functions.firestore.document('assessments/{assessmentId}')
+exports.createConnectionModel = functions.firestore.document('models/{modelId}')
   .onCreate(async (snap, context) => {
     const fb = helper.getFirebaseApp();
     let db = fb.firestore();
-    let assessment = snap.data();
+    let model = snap.data();
     let connectionData = {
-      type: "goal-assessment",
-      sourceId: assessment.goalId,
+      type: "goal-model",
+      sourceId: model.goalId,
       linkId: snap.id,
       sourceType: "goal",
-      linkType: "assessment",
+      linkType: "model",
       updatedAt: snap['_createTime']._seconds,
       modifiedAt: snap['_createTime']._seconds,
       lastUpdatesAt: snap['_createTime']._seconds,
-      authorId: assessment.authorId,
-      title: assessment.title,
+      authorId: model.authorId,
+      title: model.title,
       fields: [
         {
           title: "description",
-          value: assessment.description,
+          value: model.description,
         },
       ],
       status: "in-progress",
@@ -31,21 +30,21 @@ exports.createConnectionAssessment = functions.firestore.document('assessments/{
   });
 
 
-exports.updateForAssessmentConnectionCreate = functions.firestore.document('connections/{connectionId}')
+exports.updateForModelConnectionCreate = functions.firestore.document('connections/{connectionId}')
   .onCreate(async (snap, context) => {
     const fb = helper.getFirebaseApp();
     let db = fb.firestore();
 
     let connection = snap.data();
 
-    if (connection.type === "goal-assessment") {
-      let assessmentRef =  db.collection("assessments").doc(connection.linkId);
-      let assessmentSnap = await assessmentRef.get();
-      if (assessmentSnap.exists) {
-        let assessment = assessmentSnap.data();
+    if (connection.type === "goal-model") {
+      let modelRef =  db.collection("model").doc(connection.linkId);
+      let modelSnap = await modelRef.get();
+      if (modelSnap.exists) {
+        let model = modelSnap.data();
         let updateData = {
-          type: "created-assessment",
-          assessment: assessment,
+          type: "created-model",
+          model: model,
           authorId: connection.authorId,
           createdAt: snap['_createTime']._seconds,
           connectionId: snap.id,

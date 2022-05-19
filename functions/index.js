@@ -16,6 +16,7 @@ exports.connectionSearchIndex = require("./Custom/Connection/searchIndex.js");
 exports.module = require('./Custom/Module/module.js');
 exports.user = require('./Custom/User/addCustomClaims.js');
 exports.goalAssessment = require('./Custom/Goal/assessments.js');
+exports.goalModel = require('./Custom/Goal/models.js');
 
 exports.ssr = functions.
   runWith({

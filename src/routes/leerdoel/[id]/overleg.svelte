@@ -6,21 +6,16 @@
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
   import { t } from "svelte-intl-precompile";
 
-  ;
-
   let goal;
-  let mounted = false;
 
   $: (async () => {
     if ($firebase) {
-      firebase = $firebase;
       await retrieveFirestoreData();
-      mounted = true;
     }
   })();
 
   async function retrieveFirestoreData() {
-    let db = await firebase.firestore();
+    let db = $firebase.firestore();
     let ref = db.collection("goals").doc($page.params.id);
     let snap = await ref.get();
     if (snap.exists) {

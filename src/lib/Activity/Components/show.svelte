@@ -11,13 +11,6 @@
   import { firebase } from "$lib/Internals/Firebase/store";
 
   import { createEventDispatcher } from "svelte";
-  let firebase;
-  $: (async () => {
-    if ($firebase) {
-      firebase = $firebase;
-    }
-  })();
-
   export let activity;
   export let showFeedback = true;
   export let pluginFinished = false;

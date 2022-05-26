@@ -12,7 +12,6 @@
   import Button from "$lib/Internals/Button/Button.svelte";
   import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
   import { t } from "svelte-intl-precompile";
-  ;
   export let goal;
   let draftId;
 

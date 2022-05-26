@@ -4,7 +4,7 @@
   import CreatePostForm from "$lib/Goal/Talk/Components/createPost.svelte";
   import MainTabs from "$lib/Internals/Tabs/talk.svelte";
   import { t } from "svelte-intl-precompile";
-  ;
+ 
   export let talk;
   export let posts;
   export let goalId;

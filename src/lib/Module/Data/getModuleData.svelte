@@ -4,7 +4,7 @@
   import { firebase } from "$lib/Internals/Firebase/store";
   import { getUserModule } from "$lib/Module/Components/helper";
   import { loadPluginRecursively } from "$lib/Internals/Plugin/loader";
-  ;
+ 
   export let module;
   export let mounted = false;
   export let moduleId = $page.params.moduleId;
@@ -14,7 +14,7 @@
 
   $: (async () => {
     if ($firebase) {
-      firebase = $firebase;
+     $firebase = $firebase;
       await retrieveFirestoreData();
       mounted = true;
     }
@@ -29,7 +29,7 @@
       $session.player.id
     ) {
       userModule = await getUserModule(
-        firebase,
+       $firebase,
         module.id,
         module,
         $session.player
@@ -39,7 +39,7 @@
   })();
 
   async function retrieveFirestoreData() {
-    let db = await firebase.firestore();
+    let db = await $firebase.firestore();
     let ref = db.collection("modules").doc(moduleId);
     let snap = await ref.get();
     if (snap.exists) {

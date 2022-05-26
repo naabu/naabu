@@ -13,7 +13,7 @@
   import { t } from "svelte-intl-precompile";
 
   export let battleCol;
-  ;
+ 
 
   let y;
 
@@ -69,7 +69,7 @@
   });
 
   async function editGoal() {
-    const db = await firebase.firestore();
+    const db = await $firebase.firestore();
     let data = getGoalSaveData(revision, $session.serverFirestoreTimeStamp);
 
     alert = getDefaultAlertValues();
@@ -101,7 +101,7 @@
           revision,
           data,
           $session.user.uid,
-          firebase
+         $firebase
         );
 
         alert.success = true;

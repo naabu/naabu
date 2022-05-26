@@ -3,7 +3,7 @@
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
 
   export let goal;
-  ;
+ 
   export let breadcrumbs;
 </script>
 

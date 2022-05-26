@@ -6,7 +6,7 @@
   import GetGoalData from "$lib/Goal/Data/getGoalData.svelte";
   import { t } from "svelte-intl-precompile";
 
-  ;
+ 
 
   let goal;
   let talk;
@@ -15,14 +15,14 @@
 
   $: (async () => {
     if ($firebase) {
-      firebase = $firebase;
+     $firebase = $firebase;
       await retrieveFirestoreData();
       mounted = true;
     }
   })();
 
   async function retrieveFirestoreData() {
-    let db = await firebase.firestore();
+    let db = await $firebase.firestore();
     let ref = db.collection("talk").doc($page.params.talkId);
     let snap = await ref.get();
     if (snap.exists) {

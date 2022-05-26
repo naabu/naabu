@@ -5,7 +5,7 @@
   import { getStores, page } from "$app/stores";
   export let activity;
   let module;
-  ;
+ 
   let locationId = $page.params.locationId;
 </script>
 

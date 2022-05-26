@@ -7,7 +7,7 @@
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/Components/helper";
   import { t } from "svelte-intl-precompile";
 
-  ;
+ 
   let revision;
   let talk;
   let goal;
@@ -36,14 +36,14 @@
 
   $: (async () => {
     if ($firebase) {
-      firebase = $firebase;
+     $firebase = $firebase;
       await retrieveFirestoreData();
       mounted = true;
     }
   })();
 
   async function retrieveFirestoreData() {
-    let db = await firebase.firestore();
+    let db = await $firebase.firestore();
     let refG = db.collection("goals").doc($page.params.goalId);
     let snapG = await refG.get();
     if (snapG.exists) {

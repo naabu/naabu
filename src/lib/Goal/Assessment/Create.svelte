@@ -1,5 +1,5 @@
 <script>
-  // import firebase from "firebase/app";
+  // import$firebase from "firebase/app";
   import { getStores, session } from "$app/stores";
   import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
   import AssessmentForm from "$lib/Goal/Assessment/Form.svelte";
@@ -9,18 +9,14 @@
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
   import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
-
-  ;
+  import { firebase } from "$lib/Internals/Firebase/store";
   export let goal;
 
   let y;
-  let db;
   let buttonDisabled = false;
   let hasCurriculumProfile;
 
-  onMount(async () => {
-    db = await firebase.firestore();
-  });
+
 
   let assessment = {
     title: "",

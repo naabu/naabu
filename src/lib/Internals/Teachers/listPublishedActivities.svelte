@@ -4,7 +4,7 @@
   import Button from "$lib/Internals//Button/Button.svelte";
   import ShareDialog from "$lib/Activity/Components/ShareDialog.svelte";
   export let activities = [];
-  ;
+ 
 </script>
 
 <DataTableActivities  bind:activities let:goalId let:connectionId>

@@ -3,7 +3,7 @@
   import { getStores, session, page } from "$app/stores";
   import { firebase } from "$lib/Internals/Firebase/store";
 
-  ;
+ 
 
   export let goal;
   export let mounted = false;
@@ -11,14 +11,14 @@
 
   $: (async () => {
     if ($firebase) {
-      firebase = $firebase;
+     $firebase = $firebase;
       await retrieveFirestoreData();
       mounted = true;
     }
   })();
 
   async function retrieveFirestoreData() {
-    let db = await firebase.firestore();
+    let db = await $firebase.firestore();
     let ref = db.collection("goals").doc(goalId);
     let snap = await ref.get();
     if (snap.exists) {

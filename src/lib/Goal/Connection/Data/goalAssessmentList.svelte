@@ -4,7 +4,7 @@
   export let urlType;
   export let goalId;
   export let connections;
-  ;
+ 
   export let status;
 
   function getDifficulty(connection) {

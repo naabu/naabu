@@ -18,7 +18,7 @@
   let menuitems;
 
   let goal;
-  ;
+ 
   let breadcrumbs;
   let revisions;
   let toggleShowAllHistory = false;
@@ -70,14 +70,14 @@
 
   $: (async () => {
     if ($firebase) {
-      firebase = $firebase;
+     $firebase = $firebase;
       await retrieveFirestoreData();
       mounted = true;
     }
   })();
 
   async function retrieveFirestoreData() {
-    let db = await firebase.firestore();
+    let db = await $firebase.firestore();
     let newRef = db.collection("revisions").doc($page.params.id);
     let newSnap = await newRef.get();
     if (newSnap.exists) {

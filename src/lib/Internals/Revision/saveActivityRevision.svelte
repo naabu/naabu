@@ -8,23 +8,23 @@
 
 
   export let revision;
-  ;
+ 
   export let latestRevisionId;
   let activity;
 
   async function save() {
-    let db = await firebase.firestore();
+    let db = await $firebase.firestore();
     if ($session.user) {
       let activityData = getActivitySaveData(activity);
       let resultRevision = await createRevision(
-        firebase,
+       $firebase,
         activity,
         activityData,
         $session.user.uid
       );
 
       activityData.latestRevisionId = resultRevision.id;
-      activityData.latestRevisionCreatedAt = firebase.firestore.Timestamp.now().seconds;
+      activityData.latestRevisionCreatedAt =$firebase.firestore.Timestamp.now().seconds;
 
       if (activity.latestRevisionId) {
         activityData.previousRevisionId = activity.latestRevisionId;
@@ -32,7 +32,7 @@
 
       activityData.authorId = $session.user.uid;
       delete activityData.status;
-      let db = firebase.firestore();
+      let db =$firebase.firestore();
 
       let ref = db.collection("activities").doc(activity.id);
       try {

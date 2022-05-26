@@ -8,7 +8,7 @@
   import { t } from "svelte-intl-precompile";
   import ShowDashboardPlugins from "$lib/Internals/Plugin/ShowDashboardPlugins.svelte";
 
-  ;
+ 
   export let module;
   export let dashboardItems;
   let dataRetrieved = false;
@@ -21,7 +21,7 @@
   })();
 
   async function exampleQueryExcercise() {
-    let db = firebase.firestore();
+    let db =$firebase.firestore();
     let ref = db.collection("lowLevelData").where("moduleId", "==", module.id).orderBy("time");
     const querySnapshot = await ref.get();
     lowLevelDataSet = [];

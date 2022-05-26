@@ -9,7 +9,7 @@
   import { loadPluginDataFromFirestore } from "$lib/Internals/Plugin/loader";
   import Button from "$lib/Internals/Button/Button.svelte";
   export let assessment;
-  ;
+ 
 
   let currentPluginIndex = 0;
   let renderAssessment = {

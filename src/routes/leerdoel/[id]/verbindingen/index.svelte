@@ -6,7 +6,7 @@
   import { t } from "svelte-intl-precompile";
   
   let goal;
-  ;
+ 
   let breadcrumbs;
 
   $: if (goal) {

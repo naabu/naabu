@@ -8,7 +8,7 @@
   import GetDashboardItemListData from "$lib/Internals/DashboardItem/GetDashboardItemListData.svelte";
 
   let dashboardItems = [];
-  ;
+ 
   let mounted = false;
   let db;
 

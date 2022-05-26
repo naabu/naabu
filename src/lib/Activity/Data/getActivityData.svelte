@@ -4,7 +4,7 @@
   import { firebase } from "$lib/Internals/Firebase/store";
   import { loadPluginRecursively } from "$lib/Internals/Plugin/loader";
 
-  ;
+ 
 
   export let activity;
   export let cloneActivity;
@@ -14,14 +14,14 @@
 
   $: (async () => {
     if ($firebase) {
-      firebase = $firebase;
+     $firebase = $firebase;
       await retrieveFirestoreData();
       mounted = true;
     }
   })();
 
   async function retrieveFirestoreData() {
-    let db = await firebase.firestore();
+    let db = await $firebase.firestore();
     let ref = db.collection("activities").doc(activityId);
     let snap = await ref.get();
     if (snap.exists) {

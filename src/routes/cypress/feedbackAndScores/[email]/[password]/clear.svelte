@@ -3,7 +3,7 @@
   import { getStores, session, page } from "$app/stores";
   import { firebase } from "$lib/Internals/Firebase/store";
   let oldUser = null;
-  ;
+ 
   let auth;
   let resetFeedback = false;
   let resetUserGoalScore = false;
@@ -17,8 +17,8 @@
 
   $: (async () => {
     if ($firebase) {
-      firebase = $firebase;
-      auth = await firebase.auth();
+     $firebase = $firebase;
+      auth = await$firebase.auth();
     }
   })();
 </script>

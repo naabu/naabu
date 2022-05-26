@@ -3,7 +3,7 @@
   import { onMount } from "svelte";
   import { firebase } from "$lib/Internals/Firebase/store";
   import DOMPurify from 'dompurify';
-  ;
+ 
   let mounted = false;
   let db;
   let feedbackstring = "<br> feedback: <br>";
@@ -56,8 +56,8 @@
 
   $: (async () => {
     if ($firebase) {
-      firebase = $firebase;
-      db = await firebase.firestore();
+     $firebase = $firebase;
+      db = await $firebase.firestore();
       mounted = true;
     }
   })();

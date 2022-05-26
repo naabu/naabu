@@ -7,11 +7,11 @@
   import { t } from "svelte-intl-precompile";
 
   let menuitems = getTeacherMenuitems($page.url.pathname, $t);
-  ;
+ 
 
   $: (async () => {
     if ($firebase) {
-      firebase = $firebase;
+     $firebase = $firebase;
     }
   })();
 </script>
@@ -19,7 +19,7 @@
 <Sidebar bind:menuitems>
   <span slot="title">{$t("create-module")}</span>
   <span slot="content">
-    {#if firebase}
+    {#if$firebase}
       <CreateModule  />
     {/if}
   </span>

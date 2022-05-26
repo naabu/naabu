@@ -8,10 +8,18 @@
   import Button from "../Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
 
-  ;
+ 
   let loaded = false;
 
   let db;
+
+  $: (async () => {
+    if ($firebase) {
+      db = $firebase.firestore()
+    }
+  })();
+
+
   let displayNotification = false;
   let notificationText = {
     title: $t("export-success-copy"),
@@ -62,8 +70,8 @@
 
   $: (async () => {
     if ($firebase) {
-      firebase = $firebase;
-      db = await firebase.firestore();
+     $firebase = $firebase;
+      db = await $firebase.firestore();
       loaded = true;
     }
   })();

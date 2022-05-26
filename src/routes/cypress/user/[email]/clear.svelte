@@ -2,11 +2,11 @@
   import { getStores, session, page } from "$app/stores";
   import { onMount } from "svelte";
   import { firebase } from "$lib/Internals/Firebase/store";
-  ;
+ 
 
   $: (async () => {
     if ($firebase) {
-      firebase = $firebase;
+     $firebase = $firebase;
       if (
         ($session.environment === "cypress" ||
         $session.environment === "test"||
@@ -16,7 +16,7 @@
       ) {
         let email = $page.params.email;
         if ($session.user.email === email) {
-          await firebase.auth().currentUser.delete();
+          await$firebase.auth().currentUser.delete();
         }
         else {
           console.error("trying to delete a wrong user");

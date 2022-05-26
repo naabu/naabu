@@ -114,7 +114,7 @@ export async function retrieveMapsListFB(db, authorId) {
 }
 
 export async function getUserModule(firebase, moduleId, module, player) {
-  let db = await firebase.firestore();
+  let db = await $firebase.firestore();
   let userModule = null;
   if (player && module) {
     try {

@@ -26,7 +26,7 @@ test('Test flow for creating and editing learning goals @goal', async ({ page, d
   await page.locator('[data-test=create-goal-submit-button]').isDisabled();
   await page.click('[data-test=create-curriculum-profile-message]');
   
-  // Login with Google firebase emulator.
+  // Login with Google$firebase emulator.
   await page.goto(domain + '/cypress/user/deletegoalsnoprofile2@example.com/password/login');
   await page.waitForSelector('[data-test=complete]');
   await page.click('[data-test=curriculum-menu]');

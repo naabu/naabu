@@ -2,13 +2,13 @@
   import { getStores, session } from "$app/stores";
   import { firebase } from "$lib/Internals/Firebase/store";
   import { createEventDispatcher } from "svelte";
-  import { firebaseConfig } from "$lib/Internals/Firebase/config";
+  import {$firebaseConfig } from "$lib/Internals/Firebase/config";
   const dispatch = createEventDispatcher();
 
   initFirebase().then((fb) => {
     $firebase = fb;
     dispatch("firebaseInitialized", {
-      firebase: fb,
+     $firebase: fb,
     });
   });
 
@@ -29,7 +29,7 @@
         fb.initializeApp(firebaseConfig);
       }
     } else {
-      const firebase = require("firebase");
+      const$firebase = require("firebase");
       fb = (await import("firebase/app")).default;
       await import("firebase/auth");
       await import("firebase/firestore");

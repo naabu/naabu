@@ -10,7 +10,7 @@
 
   let connection = null;
   let model = null;
-  ;
+ 
   let timer;
   let timeout = false;
   let goal;
@@ -36,7 +36,7 @@
   $: (async () => {
     if ($firebase && !loaded) {
       loaded = true;
-      firebase = $firebase;
+     $firebase = $firebase;
 
       timer = setInterval(retrieveConnection, 500);
       await retrieveModel();
@@ -48,7 +48,7 @@
   })();
 
   async function retrieveModel() {
-    let db = await firebase.firestore();
+    let db = await $firebase.firestore();
     let ref = db.collection("models").doc($page.params.modelId);
     let snap = await ref.get();
     if (snap.exists) {
@@ -58,7 +58,7 @@
   }
 
   async function retrieveConnection() {
-    let db = await firebase.firestore();
+    let db = await $firebase.firestore();
     let ref = db
       .collection("connections")
       .where("type", "==", "goal-model")

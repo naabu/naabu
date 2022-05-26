@@ -8,13 +8,13 @@
   import GetGoalData from "$lib/Goal/Data/getGoalData.svelte";
   import { t } from "svelte-intl-precompile";
   let menuitems = getTeacherMenuitems($page.url.pathname, $t, "draft");
-  ;
+ 
   let goal;
   let mounted;
 
   $: (async () => {
     if ($firebase) {
-      firebase = $firebase;
+     $firebase = $firebase;
     }
   })();
 </script>
@@ -38,7 +38,7 @@
 
   <span slot="content">
     {#if mounted}
-      {#if firebase && goal}
+      {#if$firebase && goal}
         <CreateActivity  bind:goal />
       {:else}
         {$t("goals-not-found")}

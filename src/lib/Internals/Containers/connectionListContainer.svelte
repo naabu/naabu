@@ -28,7 +28,7 @@
   ];
 
   let goal;
-  ;
+ 
   let connections;
   let connectionIndexName = getConnectionIndex($session.environment);
   let connectionIndex;

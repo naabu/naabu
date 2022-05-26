@@ -10,7 +10,7 @@ export function hasSpecialClaims(user) {
 
 export async function getPlayer(firebase, user) {
   let player;
-  let db = await firebase.firestore();
+  let db = await $firebase.firestore();
   let ref = db.collection("players").doc(user.uid);
   let snap = await ref.get();
   if (snap.exists) {
@@ -41,7 +41,7 @@ export async function loginUser(firebase, newUser) {
     user.idTokenResult = await user.getIdTokenResult();
     player = await getPlayer(firebase, user);
   } else {
-    firebase
+   $firebase
       .auth()
       .signInAnonymously()
       .then(() => {})

@@ -6,21 +6,21 @@
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
   import { t } from "svelte-intl-precompile";
 
-  ;
+ 
 
   let curriculumProfile;
   let mounted = false;
 
   $: (async () => {
     if ($firebase) {
-      firebase = $firebase;
+     $firebase = $firebase;
       await retrieveFirestoreData();
       mounted = true;
     }
   })();
   
   async function retrieveFirestoreData() {
-    let db = await firebase.firestore();
+    let db = await $firebase.firestore();
     if ($session.user && $session.player.curriculumProfileId) {
       let ref = db
         .collection("curriculumProfile")

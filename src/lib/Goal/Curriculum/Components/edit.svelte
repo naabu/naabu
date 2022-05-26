@@ -6,7 +6,7 @@
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
-  ;
+ 
   export let curriculumProfile;
 
   let buttonDisabled = false;
@@ -45,9 +45,7 @@
     }, 5000);
   }
 
-  onMount(async () => {
-    db = await firebase.firestore();
-  });
+
 </script>
 
 <svelte:window bind:scrollY={y} />

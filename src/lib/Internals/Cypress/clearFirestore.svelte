@@ -14,7 +14,7 @@
   export let uid = null;
   export let titleCheck = false;
   export let title = null;
-  ;
+ 
   export let resetDone = false;
 
   export let showComplete = true;
@@ -119,8 +119,8 @@
 
   $: (async () => {
     if ($firebase) {
-      firebase = $firebase;
-      db = await firebase.firestore();
+     $firebase = $firebase;
+      db = await $firebase.firestore();
       mounted = true;
     }
   })();

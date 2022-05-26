@@ -2,7 +2,7 @@
   import ShowActivity from "$lib/Activity/Components/show.svelte";
   import { getStores, session } from "$app/stores";
   import { onMount } from "svelte";
-  ;
+ 
   export let activity;
   export let module;
   export let locationId;
@@ -11,7 +11,7 @@
 
 
   async function storeLowLevelObject(lowLevelDataObject) {
-    let db = await firebase.firestore();
+    let db = await $firebase.firestore();
     let collectionRef = db.collection("lowLevelData");
     let result = await collectionRef.add(lowLevelDataObject);
   }

@@ -16,16 +16,16 @@
       value: $t("create-goal"),
     },
   ];
-  ;
+ 
 
   $: (async () => {
     if ($firebase) {
-      firebase = $firebase;
+     $firebase = $firebase;
     }
   })();
 </script>
 
-{#if firebase}
+{#if$firebase}
   <ContainerBreadcrumpPageTitle bind:breadcrumbs title={$t("create-goal")} />
   <CreateGoal  />
 {/if}

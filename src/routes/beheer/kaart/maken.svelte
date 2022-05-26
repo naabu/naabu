@@ -4,15 +4,15 @@
   import { getStores, session} from "$app/stores"
   import { onMount } from 'svelte';
   
-  ;
+ 
 
   $: (async () => {
     if ($firebase) {
-      firebase = $firebase;
+     $firebase = $firebase;
     }
   })();
 </script>
 
-{#if firebase}
+{#if$firebase}
   <CreateMap />
 {/if}

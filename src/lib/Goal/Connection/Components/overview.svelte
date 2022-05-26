@@ -5,7 +5,7 @@
   import GetConnectionListsData from "$lib/Goal/Connection/Data/getConnectionListsData.svelte";
   import { t } from "svelte-intl-precompile";
   export let goal;
-  ;
+ 
   let mounted;
   let prerequisitesConnections;
   let specializationConnections;

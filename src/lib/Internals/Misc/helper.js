@@ -65,15 +65,15 @@ export function truncate(str, n) {
   }
 };
 
-export function formatToTimeAgo(timestamp, firebase, timeAgo, $t) {
+export function formatToTimeAgo(timestamp,$firebase, timeAgo, $t) {
   if (timestamp) {
-    let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
+    let serverTimestamp =$firebase.firestore.Timestamp.now().seconds;
     return timeAgo.format(timestamp * 1000, { now: serverTimestamp * 1000 });
   }
   return $t("unknown");
 }
 
-export function formatToTimeLeft(timestamp, futureTime, firebase, timeAgo, $t) {
+export function formatToTimeLeft(timestamp, futureTime,$firebase, timeAgo, $t) {
   if (timestamp && futureTime) {
     return timeAgo.format(futureTime * 1000, { now: timestamp * 1000 });
   }

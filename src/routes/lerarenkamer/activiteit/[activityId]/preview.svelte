@@ -3,7 +3,7 @@
   import GetActivityData from "$lib/Activity/Data/getActivityData.svelte";
   import { t } from "svelte-intl-precompile";
 
-  ;
+ 
   let activity;
   let showActivity;
 </script>

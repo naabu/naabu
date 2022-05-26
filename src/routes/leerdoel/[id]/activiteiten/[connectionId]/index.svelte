@@ -12,7 +12,7 @@
   let connection;
   let isTeacher = false;
 
-  ;
+ 
   let breadcrumbs;
 
   $: if (goal) {

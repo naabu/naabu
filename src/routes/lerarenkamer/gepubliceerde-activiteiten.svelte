@@ -8,7 +8,7 @@
 
   let menuitems = getTeacherMenuitems($page.url.pathname, $t);
   let activities;
-  ;
+ 
 </script>
 
 <GetActivityListData  bind:activities status="published" />

@@ -5,7 +5,7 @@
   import { getStores, session } from "$app/stores";
   import ShowBreadcrumb from "$lib/Internals/Breadcrumb/show.svelte";
   import { t } from "svelte-intl-precompile";
-  ;
+ 
 
   let breadcrumbs = [
     {
@@ -24,12 +24,12 @@
 
   $: (async () => {
     if ($firebase) {
-      firebase = $firebase;
+     $firebase = $firebase;
     }
   })();
 </script>
 
-{#if firebase}
+{#if$firebase}
   <ShowBreadcrumb bind:breadcrumbs />
   <CreateGoal  />
 {/if}

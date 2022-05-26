@@ -1,23 +1,20 @@
 <script>
   import { firebase } from "$lib/Internals/Firebase/store";
   import { loadPluginDataFromFirestore } from "../Plugin/loader";
-
-  ;
   export let dashboardItems;
   export let mounted = false;
   export let svelteComponent = "render";
-  export let db;
 
   $: (async () => {
     if ($firebase) {
-      firebase = $firebase;
+     $firebase = $firebase;
       await retrieveFirestoreData();
       mounted = true;
     }
   })();
 
   async function retrieveFirestoreData() {
-    db = await firebase.firestore();
+    let db = await $firebase.firestore();
     let ref = db.collection("dashboardItems");
     const querySnapshot = await ref.get();
     querySnapshot.forEach((doc) => {

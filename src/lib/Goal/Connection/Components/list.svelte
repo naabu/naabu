@@ -14,11 +14,11 @@
     compareTimeLeftToNeedsWork,
     compareTimeLeftToTrash,
   } from "$lib/Goal/Connection/Components/helper";
-  ;
+ 
   export let goalId;
   export let urlType;
   export let status;
-  let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
+  let serverTimestamp =$firebase.firestore.Timestamp.now().seconds;
   let daysToSendToTrash = 100 * 86400;
   let daysToSendToApproval = 2 * 86400;
   let daysToSendToNeedsWork = 3 * 86400;
@@ -60,7 +60,7 @@
   }
 
   function setServerTimeInFunction() {
-    serverTimestamp = firebase.firestore.Timestamp.now().seconds;
+    serverTimestamp =$firebase.firestore.Timestamp.now().seconds;
   }
 
   setInterval(setServerTimeInFunction, 3000);
@@ -126,7 +126,7 @@
                     <div class="text-sm text-gray-900">
                       {formatToTimeAgo(
                         connection.modifiedAt,
-                        firebase,
+                       $firebase,
                         timeAgo,
                         $t
                       )}
@@ -136,7 +136,7 @@
                     <div class="text-sm text-gray-900">
                       {formatToTimeAgo(
                         connection.lastUpdatesAt,
-                        firebase,
+                       $firebase,
                         timeAgo,
                         $t
                       )}

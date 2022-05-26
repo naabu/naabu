@@ -2,7 +2,7 @@
   import DataTableActivities from "$lib/Internals/Teachers/dataTableActivities.svelte";
   import { t } from "svelte-intl-precompile";
 
-  ;
+ 
   export let activities = [];
 </script>
 

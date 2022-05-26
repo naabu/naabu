@@ -11,7 +11,7 @@
   TimeAgo.addLocale(en);
   TimeAgo.addLocale(nl);
   const timeAgo = new TimeAgo($locale);
-  ;
+ 
   export let toggle = true;
   export let activeRevisionId;
 </script>
@@ -78,7 +78,7 @@
                 <p class="text-base font-medium text-gray-900">
                   {formatToTimeAgo(
                     revision.revisionCreatedAt,
-                    firebase,
+                   $firebase,
                     timeAgo, $t
                   )}
                 </p>
@@ -99,7 +99,7 @@
                 <p class="text-base font-medium text-gray-900">
                   {formatToTimeAgo(
                     revision.revisionCreatedAt,
-                    firebase,
+                   $firebase,
                     timeAgo, $t
                   )}
                 </p>

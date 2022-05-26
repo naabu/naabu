@@ -1,5 +1,5 @@
 <script>
-  // import firebase from "firebase/app";
+  // import$firebase from "firebase/app";
   import { getStores, session } from "$app/stores";
   import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
   import ModelForm from "$lib/Goal/Model/Form.svelte";
@@ -9,10 +9,10 @@
   import Button from "$lib/Internals/Button/Button.svelte";
   import { firebase } from "$lib/Internals/Firebase/store";
   import { t } from "svelte-intl-precompile";
-  ;
+ 
   $: (async () => {
     if ($firebase) {
-      firebase = $firebase;
+     $firebase = $firebase;
     }
   })();
 
@@ -47,7 +47,7 @@
 
       alert = getDefaultAlertValues();
       try {
-        let db = await firebase.firestore();
+        let db = await $firebase.firestore();
         let result = await db.collection("models").doc(model.id).set(data);
         alert.success = true;
         alert.successTitle = $t("model-saved");

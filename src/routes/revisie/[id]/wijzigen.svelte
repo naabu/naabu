@@ -7,7 +7,7 @@
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/Components/helper";
   import { t } from "svelte-intl-precompile";
 
-  ;
+ 
   let ref;
   let battleCol;
   let goal;
@@ -30,8 +30,8 @@
   $: (async () => {
     if ($firebase && !mounted) {
       mounted = true;
-      firebase = $firebase;
-      let db = await firebase.firestore();
+     $firebase = $firebase;
+      let db = await $firebase.firestore();
       ref = db.collection("revisions").doc($page.params.id);
       battleCol = db.collection("revisions/" + $page.params.id + "/battles");
       let snap = await ref.get();
@@ -48,7 +48,7 @@
   })();
 </script>
 
-{#if firebase && ref && goal}
+{#if$firebase && ref && goal}
   <ContainerBreadcrumpPageTitle bind:breadcrumbs title={goal.title} />
   <EditRevision bind:revisionRef={ref} bind:battleCol  />
 {/if}

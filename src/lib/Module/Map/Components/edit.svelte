@@ -13,7 +13,7 @@
 
   let y;
   export let ref;
-  ;
+ 
   let snap;
   let map;
 

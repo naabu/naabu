@@ -1,7 +1,7 @@
 <script>
   import { getStores, session, page } from "$app/stores";
   import { firebase } from "$lib/Internals/Firebase/store";
-  ;
+ 
   let mapCreated = false;
   let ready = false;
 
@@ -52,7 +52,7 @@
 
   $: (async () => {
     if ($firebase) {
-      firebase = $firebase;
+     $firebase = $firebase;
       if (
         ($session.environment === "cypress" ||
         $session.environment === "test"||
@@ -62,7 +62,7 @@
         !mapCreated
       ) {
         mapCreated = true;
-        let db = await firebase.firestore();
+        let db = await $firebase.firestore();
 
         try {
           await db.collection("maps").doc($page.params.mapId).set(getMapData());

@@ -5,7 +5,7 @@
   import GetModuleData from "$lib/Module/Data/getModuleData.svelte";
   import { t } from "svelte-intl-precompile";
 
-  ;
+ 
   let module;
   let userModule;
 
@@ -28,7 +28,7 @@
   $: if (userModule && !done) {
     done = true;
     userModule.newUnlockedLocation = false;
-    let db = firebase.firestore();
+    let db =$firebase.firestore();
     let userModuleRef = db
       .collection("modules/" + $page.params.moduleId + "/players")
       .doc(userModule.id);

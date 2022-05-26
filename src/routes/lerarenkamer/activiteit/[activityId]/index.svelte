@@ -14,7 +14,7 @@
   import { t, locale } from "svelte-intl-precompile";
 
   let menuitems;
-  ;
+ 
   let activity;
   let previousActivity;
   TimeAgo.addLocale(en);
@@ -51,7 +51,7 @@
             {$t("last-change-was-on")}
             {formatToTimeAgo(
               activity.latestRevisionCreatedAt,
-              firebase,
+             $firebase,
               timeAgo,
               $t
             )}</time
@@ -67,13 +67,13 @@
     data-test="concept-status"
     class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800"
   >
-    {#if firebase && activity}
+    {#if$firebase && activity}
       {getStatusTranslation(activity.status, $t)}
     {/if}
   </span>
 
   <span slot="content">
-    {#if firebase && activity}
+    {#if$firebase && activity}
       <EditActivity  bind:activity bind:previousActivity />
     {/if}
   </span>

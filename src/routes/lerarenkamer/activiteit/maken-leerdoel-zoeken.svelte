@@ -11,13 +11,13 @@
   let activityId = $page.url.searchParams.get("activityId");
 
   let menuitems = getTeacherMenuitems($page.url.pathname, $t);
-  ;
+ 
   let db;
 
   $: (async () => {
     if ($firebase) {
-      firebase = $firebase;
-      db = await firebase.firestore();
+     $firebase = $firebase;
+      db = await $firebase.firestore();
     }
   })();
 

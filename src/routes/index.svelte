@@ -3,7 +3,7 @@
   import { firebase } from "$lib/Internals/Firebase/store";
   import { t } from "svelte-intl-precompile";
   
-  ;
+ 
   let mounted = false;
   let modules = null;
 
@@ -11,14 +11,14 @@
 
   $: (async () => {
     if ($firebase) {
-      firebase = $firebase;
+     $firebase = $firebase;
       await retrieveAllModules();
       mounted = true;
     }
   })();
 
   async function retrieveAllModules() {
-    let db = firebase.firestore();
+    let db =$firebase.firestore();
     let collectionRef = db.collection("modules");
     let querySnapshot = await collectionRef.get();
     modules = [];

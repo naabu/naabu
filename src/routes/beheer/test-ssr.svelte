@@ -5,7 +5,7 @@
        = await initFirebase(session.environment, session.fb);
       return {
         props: {
-          firebase: firebase
+         $firebase:$firebase
         },
       };
     }
@@ -14,7 +14,7 @@
 <script>
 import { login } from "$lib/Internals/Firebase/helper";
 
-    ;
+   
     login(firebase);
 </script>
 

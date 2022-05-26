@@ -6,7 +6,7 @@
   import { t } from "svelte-intl-precompile";
 
   let module;
-  ;
+ 
 
   let userModule = null;
   let filteredActivities;
@@ -26,7 +26,7 @@
       if (timer == null) {
         timer = setInterval(async () => {
           userModule = await getUserModule(
-            firebase,
+           $firebase,
             module.id,
             module,
             $session.player

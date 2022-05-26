@@ -21,8 +21,8 @@
     toggleFeedback = true;
   }
 
-  $: if (activity && firebase && activityStartTime == null) {
-    activityStartTime = firebase.firestore.Timestamp.now().seconds;
+  $: if (activity &&$firebase && activityStartTime == null) {
+    activityStartTime =$firebase.firestore.Timestamp.now().seconds;
   }
 
   let displayNotification = false;
@@ -104,7 +104,7 @@
     lowLevelDataObject.activityRevisionCreatedAt =
       activity.latestRevisionCreatedAt;
     lowLevelDataObject.activityStartTime = activityStartTime;
-    lowLevelDataObject.time = firebase.firestore.Timestamp.now().seconds;
+    lowLevelDataObject.time =$firebase.firestore.Timestamp.now().seconds;
     lowLevelDataObject.activityTimeIn =
       lowLevelDataObject.time - activityStartTime;
     lowLevelDataObject.goalId = activity.goalId;

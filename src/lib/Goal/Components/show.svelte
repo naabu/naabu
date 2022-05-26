@@ -11,7 +11,7 @@
   import { sortOnCreatedAt } from "$lib/Internals/Revision/helper";
   import { formatToTimeAgo } from "$lib/Internals/Misc/helper";
 
-  ;
+ 
   let updates;
   let collectUpdates = true;
   let loaded = false;
@@ -19,7 +19,7 @@
 
   $: (async () => {
     if ($firebase && !loaded) {
-      firebase = $firebase;
+     $firebase = $firebase;
       TimeAgo.addLocale(en);
       TimeAgo.addLocale(nl);
       timeAgo = new TimeAgo($locale);
@@ -34,7 +34,7 @@
       for (let i = 0; i < updates.length; i++) {
         updates[i].createdAtTimeAgo = formatToTimeAgo(
           updates[i].createdAt,
-          firebase,
+         $firebase,
           timeAgo,
           $t
         );
@@ -44,7 +44,7 @@
 
   async function retrieveFirestoreData() {
     if (collectUpdates) {
-      let db = await firebase.firestore();
+      let db = await $firebase.firestore();
       updates = [];
       let updatesCol = db
         .collection("updates")

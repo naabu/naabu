@@ -9,7 +9,7 @@
   import { t } from "svelte-intl-precompile";
 
   let connection = null;
-  ;
+ 
   let timer;
   let timeout = false;
   let goal;
@@ -36,7 +36,7 @@
   $: (async () => {
     if ($firebase && !loaded) {
       loaded = true;
-      firebase = $firebase;
+     $firebase = $firebase;
       timer = setInterval(retrieveFirestoreData, 500);
       setTimeout(() => {
         clearInterval(timer);
@@ -46,7 +46,7 @@
   })();
 
   async function retrieveFirestoreData() {
-    let db = await firebase.firestore();
+    let db = await $firebase.firestore();
     let ref = db
       .collection("connections")
       .where("type", "==", "goal-assessment")

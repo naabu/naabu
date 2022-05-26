@@ -2,7 +2,6 @@
   import ShowActivity from "$lib/Activity/Components/show.svelte";
   import { getStores, session } from "$app/stores";
   import { goto } from "$app/navigation";
-  import { onMount } from "svelte";
   import {
     getDifficultyToString,
     getTypeText,
@@ -15,13 +14,12 @@
   import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
   import { t } from "svelte-intl-precompile";
   import { createUpdate } from "$lib/Internals/Update/helper";
-  ;
+  import { firebase } from "$lib/Internals/Firebase/store";
+
   export let showActivity;
   export let activity;
 
   let buttonDisabled = false;
-
-  let db;
 
   let connectionData;
 
@@ -32,8 +30,8 @@
       linkId: activity.id,
       sourceType: "goal",
       linkType: "activity",
-      updatedAt: firebase.firestore.Timestamp.now().seconds,
-      inProgressAt: firebase.firestore.Timestamp.now().seconds,
+      updatedAt:$firebase.firestore.Timestamp.now().seconds,
+      inProgressAt:$firebase.firestore.Timestamp.now().seconds,
       authorId: $session.user.uid,
       title: activity.title,
       fields: [
@@ -53,15 +51,14 @@
     };
   }
 
-  onMount(async () => {
-    db = await firebase.firestore();
-  });
+
 
   function goBackToActivityEdit() {
     goto("/lerarenkamer/activiteit/" + activity.id);
   }
 
   async function updateConnection() {
+    let db = $firebase.firestore();
     buttonDisabled = true;
     if ($session.user.uid) {
       let connectionCollRef = db.collection("connections");
@@ -97,7 +94,7 @@
                 type: "activity-updated-teacher",
                 differences: differences,
                 authorId: $session.user.uid,
-                createdAt: firebase.firestore.Timestamp.now().seconds,
+                createdAt:$firebase.firestore.Timestamp.now().seconds,
                 connectionId: activity.connectionId,
                 connectionSourceId: connection.sourceId,
                 connectionLinkId: connection.linkId,
@@ -127,7 +124,7 @@
     if ($session.user.uid) {
       let connectionCollRef = db.collection("connections");
       try {
-        connectionData.createdAt = firebase.firestore.Timestamp.now().seconds;
+        connectionData.createdAt =$firebase.firestore.Timestamp.now().seconds;
         connectionData.status = "in-progress";
         connectionData.lastRevisionId = activity.latestRevisionId;
         let result = await connectionCollRef.add(connectionData);
@@ -157,7 +154,7 @@
           type: "created-teacher",
           differences: differences,
           authorId: $session.user.uid,
-          createdAt: firebase.firestore.Timestamp.now().seconds,
+          createdAt:$firebase.firestore.Timestamp.now().seconds,
           connectionId: result.id,
           connectionSourceId: connection.sourceId,
           connectionLinkId: connection.linkId,

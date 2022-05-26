@@ -3,13 +3,12 @@
   import { getStores, session, page } from "$app/stores";
   import { goto } from "$app/navigation";
   import CurriculumTabs from "$lib/Internals/Tabs/curriculum.svelte";
-  import { onMount } from "svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import { login } from "$lib/Internals/Firebase/helper";
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
-
-  ;
+  import { firebase } from "$lib/Internals/Firebase/store";
+ 
 
   let curriculumProfile = {
     fullname: "",
@@ -32,7 +31,6 @@
     }
   }
   let y;
-  let db;
   let alert = getDefaultAlertValues();
 
   // $: if ($session.player && $session.player.curriculumProfileId) {
@@ -68,6 +66,7 @@
   }
 
   async function createCurriculumProfile() {
+    let db = $firebase.firestore();
     buttonDisabled = true;
     let data = curriculumProfile;
     delete data.id;
@@ -102,9 +101,7 @@
     }, 5000);
   }
 
-  onMount(async () => {
-    db = await firebase.firestore();
-  });
+
 
   async function signInWithGoogle() {
     let result = await login(firebase, $t);

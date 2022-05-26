@@ -4,7 +4,7 @@
   import { getStores, page } from "$app/stores";
   import { t } from "svelte-intl-precompile";
 
-  ;
+ 
   let revisions;
 </script>
 

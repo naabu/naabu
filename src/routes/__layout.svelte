@@ -14,7 +14,7 @@
   import "../app.css";
   import LoadFirebase from "$lib/Internals/Firebase/loadFirebase.svelte";
   import { loginUser } from "$lib/Internals/User/helper";
-  ;
+ 
 
   let config = {
     fallbackLocale: 'en',
@@ -27,11 +27,11 @@
   init(config);
 
   function handleLoginEvent(event) {
-    firebase = $firebase;
+   $firebase = $firebase;
     if (firebase) {
-      let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
+      let serverTimestamp =$firebase.firestore.Timestamp.now().seconds;
       $session.serverFirestoreTimeStamp = serverTimestamp;
-      firebase.auth().onAuthStateChanged(async (newUser) => {
+     $firebase.auth().onAuthStateChanged(async (newUser) => {
         let userPlayer = await loginUser(firebase, newUser);
         $session.user = userPlayer.user;
         $session.player = userPlayer.player;

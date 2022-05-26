@@ -8,7 +8,7 @@
 
   let goal;
   let connectionGoal;
-  ;
+ 
   let breadcrumbs;
   let mounted;
 

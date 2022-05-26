@@ -5,6 +5,7 @@
   import { hasSpecialClaims } from "$lib/Internals/User/helper.js";
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
+  import { firebase } from "$lib/Internals/Firebase/store";
 
   export let activity;
   export let moduleId = null;
@@ -20,14 +21,9 @@
 
   export let toggle = false;
   export let feedbackEnded = false;
-  ;
-  let db;
-
-  onMount(async () => {
-    db = await firebase.firestore();
-  });
-
+ 
   async function storeFeedback(label) {
+    let db = $firebase.firestore()
     let data = {
       time: Date.now(),
       activityId: activity.id,

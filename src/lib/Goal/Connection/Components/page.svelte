@@ -25,14 +25,13 @@
   import FormField from "$lib/Internals/FormFields/FormField.svelte";
   import AdditionalFormText from "$lib/Internals/FormFields/AdditionalFormText.svelte";
   import { t, locale } from "svelte-intl-precompile";
-
-  ;
+  import { firebase } from "$lib/Internals/Firebase/store";
+ 
   export let goal;
   export let connection;
 
   let newCommentText;
   let buttonDisabled = true;
-  let db;
   let timeAgo;
   let delayDone = false;
   let timer;
@@ -78,7 +77,7 @@
     for (let i = 0; i < updates.length; i++) {
       updates[i].createdAtTimeAgo = formatToTimeAgo(
         updates[i].createdAt,
-        firebase,
+       $firebase,
         timeAgo,
         $t
       );
@@ -95,17 +94,19 @@
   }
 
   let alert = getDefaultAlertValues();
+  let db;
+  
   onMount(async () => {
     TimeAgo.addLocale(en);
     TimeAgo.addLocale(nl);
     timeAgo = new TimeAgo($locale);
-    db = await firebase.firestore();
+    db = await $firebase.firestore();
   });
 
   async function changeStatus(checkStatus, changeStatus) {
     if (connection.status === checkStatus) {
       delayDone = false;
-      let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
+      let serverTimestamp =$firebase.firestore.Timestamp.now().seconds;
       let data = {
         status: changeStatus,
         modifiedAt: serverTimestamp,
@@ -144,7 +145,7 @@
         type: "status-change-by-user",
         content: connection.status,
         authorId: $session.user.uid,
-        createdAt: firebase.firestore.Timestamp.now().seconds,
+        createdAt:$firebase.firestore.Timestamp.now().seconds,
         connectionId: connection.id,
         connectionSourceId: connection.sourceId,
         connectionLinkId: connection.linkId,
@@ -192,7 +193,7 @@
           type: "comment-teacher",
           content: newCommentText,
           authorId: $session.user.uid,
-          createdAt: firebase.firestore.Timestamp.now().seconds,
+          createdAt:$firebase.firestore.Timestamp.now().seconds,
           connectionId: connection.id,
           connectionSourceId: connection.sourceId,
           connectionLinkId: connection.linkId,
@@ -216,7 +217,7 @@
           connectionSourceType: connection.sourceType,
           connectionLinkType: connection.linkType,
           curriculumProfile: curriculumProfileData,
-          createdAt: firebase.firestore.Timestamp.now().seconds,
+          createdAt:$firebase.firestore.Timestamp.now().seconds,
         };
       }
 

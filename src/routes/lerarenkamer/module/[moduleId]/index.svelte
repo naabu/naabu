@@ -11,7 +11,7 @@
   import { t, locale } from "svelte-intl-precompile";
 
   let menuitems;
-  ;
+ 
   let module;
   TimeAgo.addLocale(en);
   TimeAgo.addLocale(nl);
@@ -23,7 +23,7 @@
 
   $: (async () => {
     if ($firebase) {
-      firebase = $firebase;
+     $firebase = $firebase;
     }
   })();
 </script>
@@ -34,7 +34,7 @@
   <span slot="title">{$t("update-module")}</span>
 
   <span slot="content">
-    {#if firebase && module}
+    {#if$firebase && module}
       <EditModule  bind:module />
     {/if}
   </span>

@@ -7,7 +7,7 @@
   import { firebase } from "$lib/Internals/Firebase/store";
   import { t } from "svelte-intl-precompile";
   let goal;
-  ;
+ 
   let breadcrumbs;
   let listLinkedGoalIds;
   let mounted = false;
@@ -26,14 +26,14 @@
 
   $: (async () => {
     if ($firebase) {
-      firebase = $firebase;
+     $firebase = $firebase;
       await retrieveFirestoreData();
       mounted = true;
     }
   })();
 
   async function retrieveFirestoreData() {
-    let db = await firebase.firestore();
+    let db = await $firebase.firestore();
     let collections = [
       "prerequisites",
       "deeperunderstandings",

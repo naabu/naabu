@@ -1,8 +1,8 @@
 <script>
   import { getStores, session } from "$app/stores";
   import ActivityForm from "$lib/Activity/Components/form.svelte";
-  import { onMount } from "svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import {
     getActivitySaveData,
     getDefaultEmptyActivity,
@@ -66,7 +66,6 @@
     activity.goalTitle = goal.title;
   }
 
-  let db;
   let buttonDisabled = false;
   let alert = getDefaultAlertValues();
 
@@ -80,11 +79,8 @@
     };
   }
 
-  onMount(async () => {
-    db = await firebase.firestore();
-  });
-
   async function createActivity() {
+    let db = await $firebase.firestore();
     if ($session.user) {
       let activityData = getActivitySaveData(activity);
 
@@ -98,7 +94,7 @@
         activity.id = result.id;
 
         let resultRevision = await createRevision(
-          firebase,
+          $firebase,
           activity,
           activityData,
           $session.user.uid
@@ -106,7 +102,7 @@
 
         activityData = {
           latestRevisionId: resultRevision.id,
-          latestRevisionCreatedAt: firebase.firestore.Timestamp.now().seconds,
+          latestRevisionCreatedAt: $firebase.firestore.Timestamp.now().seconds,
         };
         await collectionRef.doc(activity.id).update(activityData);
         goto("/lerarenkamer/activiteit/" + activity.id + "/preview");

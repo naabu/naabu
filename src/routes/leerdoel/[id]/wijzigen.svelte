@@ -7,7 +7,7 @@
   import GetGoalData from "$lib/Goal/Data/getGoalData.svelte";
   import { t } from "svelte-intl-precompile";
 
-  ;
+ 
   let goalMounted = false;
   let battleCol;
   let mounted = false;
@@ -17,15 +17,15 @@
 
   $: (async () => {
     if ($firebase) {
-      firebase = $firebase;
-      firebaseInitialized = true;
+     $firebase = $firebase;
+     $firebaseInitialized = true;
     }
   })();
 
   $: (async () => {
     if (firebaseInitialized && goal && !mounted) {
       mounted = true;
-      let db = await firebase.firestore();
+      let db = await $firebase.firestore();
       battleCol = db.collection("goals/" + $page.params.id + "/battles");
       const querySnapshot = await battleCol.get();
       if (!goal.battles) {

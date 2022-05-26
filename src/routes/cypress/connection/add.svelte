@@ -1,12 +1,12 @@
 <script>
   import { getStores, session } from "$app/stores";
   import { firebase } from "$lib/Internals/Firebase/store";
-  ;
+ 
   let created = false;
   let ready = false;
 
   function getData(activityId, goalId, connectionType = "goal-activity") {
-    let timestamp = firebase.firestore.FieldValue.serverTimestamp();
+    let timestamp =$firebase.firestore.FieldValue.serverTimestamp();
     let data = {
       authorId: $session.user.uid,
       createdAt: timestamp,
@@ -44,7 +44,7 @@
 
   $: (async () => {
     if ($firebase) {
-      firebase = $firebase;
+     $firebase = $firebase;
       if (
         ($session.environment === "cypress" ||
         $session.environment === "test" ||
@@ -54,7 +54,7 @@
         !created
       ) {
         created = true;
-        let db = await firebase.firestore();
+        let db = await $firebase.firestore();
 
         try {
           await db

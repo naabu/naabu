@@ -8,7 +8,7 @@
   let menuitems = getTeacherMenuitems($page.url.pathname, $t);
   let modules = [];
   let ready = false;
-  ;
+ 
 </script>
 
 <GetMapsListData bind:modules bind:mounted={ready}  />

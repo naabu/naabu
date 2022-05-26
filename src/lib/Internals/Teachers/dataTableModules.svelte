@@ -12,7 +12,7 @@
   import Button from "../Button/Button.svelte";
   import RemoveDialog from "$lib/Internals/Misc/RemoveDialog.svelte";
   export let modules;
-  ;
+ 
 
   let moduleDeleteId = null;
   let moduleDeleteIndex = null;
@@ -31,7 +31,7 @@
 
   async function removeModule() {
     if (moduleDeleteId !== null && moduleDeleteIndex !== null) {
-      let db = await firebase.firestore();
+      let db = await $firebase.firestore();
       try {
         await db.collection("modules").doc(moduleDeleteId).delete();
         alert.successTitle = $t("module-removed");
@@ -98,7 +98,7 @@
                 </td>
                 <td class="px-6 py-4">
                   <div class="text-sm text-gray-900">
-                    {formatToTimeAgo(module.modifiedAt, firebase, timeAgo, $t)}
+                    {formatToTimeAgo(module.modifiedAt,$firebase, timeAgo, $t)}
                   </div>
                 </td>
                 <td

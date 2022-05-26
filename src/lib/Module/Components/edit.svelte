@@ -9,7 +9,7 @@
   import { t } from "svelte-intl-precompile";
   import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
 
-  ;
+ 
 
   export let module;
   let y;
@@ -20,7 +20,7 @@
   let allMaps = [];
 
   onMount(async () => {
-    db = await firebase.firestore();
+    db = await $firebase.firestore();
     let querySnapshot = await db.collection("maps").get();
     allMaps = [];
     querySnapshot.forEach((doc) => {
@@ -43,7 +43,7 @@
     );
     alert = getDefaultAlertValues();
     data.authorId = $session.user.uid;
-    data.modifiedAt = firebase.firestore.Timestamp.now().seconds;
+    data.modifiedAt =$firebase.firestore.Timestamp.now().seconds;
     try {
       let moduleRef = db.collection("modules").doc(module.id);
       await moduleRef.set(data);

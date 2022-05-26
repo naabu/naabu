@@ -1,5 +1,5 @@
 <script>
-  // import firebase from "firebase/app";
+  // import$firebase from "firebase/app";
   import { getStores, session } from "$app/stores";
   import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
   import ModelForm from "$lib/Goal/Model/Form.svelte";
@@ -9,7 +9,7 @@
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
 
-  ;
+ 
   export let goal;
 
   let y;
@@ -72,7 +72,7 @@
 
       alert = getDefaultAlertValues();
       try {
-        let db = await firebase.firestore();
+        let db = await $firebase.firestore();
         let result = await db.collection("models").add(data);
         alert.success = true;
         alert.successTitle = $t("model-created");

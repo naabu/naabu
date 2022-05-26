@@ -9,7 +9,7 @@
   import Button from "../Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
 
-  $: firebase = $firebase;
+  $:$firebase = $firebase;
 
   let openMenu = false;
   let openUserMenu = false;
@@ -41,7 +41,7 @@
   }
 
   async function logout() {
-    await firebase.auth().signOut();
+    await$firebase.auth().signOut();
     openUserMenu = false;
   }
 </script>

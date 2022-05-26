@@ -1,5 +1,5 @@
 <script>
-  // import firebase from "firebase/app";
+  // import$firebase from "firebase/app";
   // import { getFirebaseFirestore } from "$lib/firebase";
   // import { collection, getDoc, updateDoc, query, getDocs, doc } from "firebase/firestore";
   import { getStores, session, page } from "$app/stores";
@@ -16,7 +16,7 @@
   import { t } from "svelte-intl-precompile";
 
   export let battleCol;
-  ;
+ 
   export let previousBattles = [];
   let hasCurriculumProfile;
   let y;
@@ -37,7 +37,7 @@
   }
 
   async function editGoal() {
-    const db = await firebase.firestore();
+    const db = await $firebase.firestore();
     let data = getGoalSaveData(goal, $session.serverFirestoreTimeStamp);
     alert = getDefaultAlertValues();
     try {
@@ -78,7 +78,7 @@
 
       data.authorId = $session.player.curriculumProfileId;
       data.goalId = goalRef.id;
-      await createGoalRevision(db, goal, data, $session.user.uid, firebase);
+      await createGoalRevision(db, goal, data, $session.user.uid,$firebase);
 
       alert.success = true;
       alert.successTitle = $t("goal-change");

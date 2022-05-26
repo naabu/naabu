@@ -9,7 +9,7 @@
   let goal;
   let connection;
 
-  ;
+ 
   let breadcrumbs;
 
   function capitalizeFirstLetter(string) {

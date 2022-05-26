@@ -1,7 +1,7 @@
 <script>
   import DataTableActivities from "$lib/Internals/Teachers/dataTableActivities.svelte";
 
-  ;
+ 
 
   export let activities = [];
 </script>

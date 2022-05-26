@@ -1,14 +1,12 @@
 <script>
-  // import$firebase from "firebase/app";
   import { getStores, session } from "$app/stores";
   import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
   import ModelForm from "$lib/Goal/Model/Form.svelte";
-  import { onMount } from "svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import { goto } from "$app/navigation";
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
-
+  import { firebase } from "$lib/Internals/Firebase/store";
  
   export let goal;
 

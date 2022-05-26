@@ -1,5 +1,5 @@
 export async function getMap(firebase, mapId) {
-  let db = await $firebase.firestore();
+  let db = await firebase.firestore();
   let ref = db.collection("maps").doc(mapId);
   let snap = await ref.get();
   let map = null;
@@ -11,7 +11,7 @@ export async function getMap(firebase, mapId) {
 }
 
 export async function getUserMap(firebase, mapId, map, player) {
-  let db = await $firebase.firestore();
+  let db = await firebase.firestore();
   let userMap = null;
   if (player && map) {
     let userMapRef = db
@@ -98,7 +98,7 @@ export function getMapSaveData(map, formatPoints = true) {
 }
 
 export async function updateActivities(firebase, map) {
-  let db = await $firebase.firestore();
+  let db = await firebase.firestore();
   for (let i = 0; i < map.locations.length; i++) {
     for (let i2 = 0; i2 < map.locations[i].goals.length; i2++) {
       let goalId;

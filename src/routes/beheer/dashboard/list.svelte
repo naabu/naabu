@@ -6,11 +6,16 @@
   import { t } from "svelte-intl-precompile";
   import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
   import GetDashboardItemListData from "$lib/Internals/DashboardItem/GetDashboardItemListData.svelte";
+  import { firebase } from "$lib/Internals/Firebase/store";
 
   let dashboardItems = [];
- 
+
   let mounted = false;
   let db;
+
+  $: if ($firebase) {
+    db = $firebase.firestore();
+  }
 
   let newDashboardItem = {
     feedbackPlugins: [],
@@ -66,7 +71,6 @@
 <GetDashboardItemListData
   bind:dashboardItems
   bind:mounted
-  
   bind:db
   svelteComponent="Form"
 />

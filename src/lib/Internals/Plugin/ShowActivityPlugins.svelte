@@ -1,9 +1,10 @@
 <script>
   import { loadPluginRecursively } from "$lib/Internals/Plugin/loader";
   import { createEventDispatcher } from "svelte";
+  import { firebase } from "$lib/Internals/Firebase/store";
   export let object;
   export let finished = false;
- 
+
   export let currentPluginIndex = 0;
   let plugins;
   let loaded = false;
@@ -12,7 +13,7 @@
   let observe;
 
   let interruptionPlugin = null;
-  
+
   const dispatch = createEventDispatcher();
 
   $: (async () => {
@@ -27,7 +28,6 @@
       await loadPluginComponents();
     }
   })();
-
 
   async function loadPluginComponents() {
     if (object && object.plugins) {
@@ -46,7 +46,7 @@
     let newCurrentPlugin = plugins[currentPluginIndex];
     newCurrentPlugin.exerciseAttemptNumber = 1;
 
-    newCurrentPlugin.exerciseStartTime =$firebase.firestore.Timestamp.now().seconds;
+    newCurrentPlugin.exerciseStartTime = $firebase.firestore.Timestamp.now().seconds;
 
     if (newCurrentPlugin.pluginConfig.canBeInterrupted) {
       newCurrentPlugin.interruptions = [];
@@ -62,7 +62,7 @@
           newCurrentPlugin.plugins[i].exerciseAttemptNumber = 1;
           newCurrentPlugin.plugins[
             i
-          ].exerciseStartTime =$firebase.firestore.Timestamp.now().seconds;
+          ].exerciseStartTime = $firebase.firestore.Timestamp.now().seconds;
         }
       }
     }
@@ -120,7 +120,7 @@
       isCorrect = event.detail.isCorrect;
     }
 
-    let currentTime =$firebase.firestore.Timestamp.now().seconds;
+    let currentTime = $firebase.firestore.Timestamp.now().seconds;
 
     let answerGiven = "";
     if (event.detail.answerGiven) {

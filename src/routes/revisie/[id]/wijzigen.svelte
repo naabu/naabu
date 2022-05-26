@@ -30,7 +30,7 @@
   $: (async () => {
     if ($firebase && !mounted) {
       mounted = true;
-     $firebase = $firebase;
+     
       let db = await $firebase.firestore();
       ref = db.collection("revisions").doc($page.params.id);
       battleCol = db.collection("revisions/" + $page.params.id + "/battles");
@@ -48,7 +48,7 @@
   })();
 </script>
 
-{#if$firebase && ref && goal}
+{#if $firebase && ref && goal}
   <ContainerBreadcrumpPageTitle bind:breadcrumbs title={goal.title} />
   <EditRevision bind:revisionRef={ref} bind:battleCol  />
 {/if}

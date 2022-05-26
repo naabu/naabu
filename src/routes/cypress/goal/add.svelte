@@ -95,7 +95,7 @@
 
   $: (async () => {
     if ($firebase) {
-     $firebase = $firebase;
+     
       db = await $firebase.firestore();
       mounted = true;
     }

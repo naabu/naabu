@@ -6,7 +6,7 @@
   let ready = false;
 
   function getData(title, difficulity, goalId, hasQuiz = false) {
-   $firebase = $firebase;
+   
     let data = {
       authorId: $session.user.uid,
       connectionId: "connection_" + title.replace(/ +/g, ""),
@@ -37,7 +37,7 @@
 
   $: (async () => {
     if ($firebase) {
-     $firebase = $firebase;
+     
       if (
         ($session.environment === "cypress" ||
         $session.environment === "test" ||

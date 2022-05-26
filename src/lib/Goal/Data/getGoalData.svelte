@@ -3,15 +3,12 @@
   import { getStores, session, page } from "$app/stores";
   import { firebase } from "$lib/Internals/Firebase/store";
 
- 
-
   export let goal;
   export let mounted = false;
   export let goalId = $page.params.id;
 
   $: (async () => {
     if ($firebase) {
-     $firebase = $firebase;
       await retrieveFirestoreData();
       mounted = true;
     }

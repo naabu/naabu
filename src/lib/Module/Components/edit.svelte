@@ -8,8 +8,7 @@
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
   import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
-
- 
+  import { firebase } from "$lib/Internals/Firebase/store";
 
   export let module;
   let y;
@@ -43,7 +42,7 @@
     );
     alert = getDefaultAlertValues();
     data.authorId = $session.user.uid;
-    data.modifiedAt =$firebase.firestore.Timestamp.now().seconds;
+    data.modifiedAt = $firebase.firestore.Timestamp.now().seconds;
     try {
       let moduleRef = db.collection("modules").doc(module.id);
       await moduleRef.set(data);

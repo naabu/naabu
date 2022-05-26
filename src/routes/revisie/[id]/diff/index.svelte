@@ -68,7 +68,7 @@
 
   $: (async () => {
     if ($firebase) {
-     $firebase = $firebase;
+     
       await retrieveFirestoreData();
       mounted = true;
     }

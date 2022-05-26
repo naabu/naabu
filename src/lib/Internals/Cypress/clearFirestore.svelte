@@ -37,7 +37,7 @@
         if (idCheck && ids && ids.length > 0) {
           clearCollection = db
             .collection(collection)
-            .where(firebase.firestore.FieldPath.documentId(), "in", ids);
+            .where($firebase.firestore.FieldPath.documentId(), "in", ids);
         }
         if (titleCheck && title !== null) {
           clearCollection = db
@@ -76,7 +76,7 @@
             .collection(collection)
             .doc(docRefArray[i])
             .collection(subcollection)
-            .where(firebase.firestore.FieldPath.documentId(), "in", ids);
+            .where($firebase.firestore.FieldPath.documentId(), "in", ids);
 
           let subQuerySnapshot = await subcollectionQuery.get();
           let subDocRefArray = [];
@@ -119,7 +119,7 @@
 
   $: (async () => {
     if ($firebase) {
-     $firebase = $firebase;
+     
       db = await $firebase.firestore();
       mounted = true;
     }

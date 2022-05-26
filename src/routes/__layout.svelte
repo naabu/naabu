@@ -1,10 +1,9 @@
 <script context="module">
-  import { addMessages, init } from 'svelte-intl-precompile';
-  import en from '$locales/en.js';
-  import nl from '$locales/nl.js';
-  addMessages('en', en);
-  addMessages('nl', nl);
-
+  import { addMessages, init } from "svelte-intl-precompile";
+  import en from "$locales/en.js";
+  import nl from "$locales/nl.js";
+  addMessages("en", en);
+  addMessages("nl", nl);
 </script>
 
 <script>
@@ -14,11 +13,10 @@
   import "../app.css";
   import LoadFirebase from "$lib/Internals/Firebase/loadFirebase.svelte";
   import { loginUser } from "$lib/Internals/User/helper";
- 
 
   let config = {
-    fallbackLocale: 'en',
-  }
+    fallbackLocale: "en",
+  };
 
   if ($session.defaultLanguage) {
     config.initialLocale = $session.defaultLanguage;
@@ -27,12 +25,12 @@
   init(config);
 
   function handleLoginEvent(event) {
-   $firebase = $firebase;
-    if (firebase) {
-      let serverTimestamp =$firebase.firestore.Timestamp.now().seconds;
+    console.log($firebase);
+    if ($firebase) {
+      let serverTimestamp = $firebase.firestore.Timestamp.now().seconds;
       $session.serverFirestoreTimeStamp = serverTimestamp;
-     $firebase.auth().onAuthStateChanged(async (newUser) => {
-        let userPlayer = await loginUser(firebase, newUser);
+      $firebase.auth().onAuthStateChanged(async (newUser) => {
+        let userPlayer = await loginUser($firebase, newUser);
         $session.user = userPlayer.user;
         $session.player = userPlayer.player;
         if (userPlayer.player && userPlayer.player.currentMapId) {

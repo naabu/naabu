@@ -24,12 +24,12 @@
 
   $: (async () => {
     if ($firebase) {
-     $firebase = $firebase;
+     
     }
   })();
 </script>
 
-{#if$firebase}
+{#if $firebase}
   <ShowBreadcrumb bind:breadcrumbs />
   <CreateGoal  />
 {/if}

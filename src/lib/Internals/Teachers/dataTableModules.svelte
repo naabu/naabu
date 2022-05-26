@@ -1,18 +1,14 @@
 <script>
-  import {
-    getDifficultyToString,
-    getTypeText,
-  } from "$lib/Activity/Components/helper";
   import { formatToTimeAgo } from "$lib/Internals/Misc/helper";
   import nl from "javascript-time-ago/locale/nl.json";
   import en from "javascript-time-ago/locale/en.json";
-  import { getStores, page } from "$app/stores";
   import TimeAgo from "javascript-time-ago";
   import { t, locale } from "svelte-intl-precompile";
   import Button from "../Button/Button.svelte";
   import RemoveDialog from "$lib/Internals/Misc/RemoveDialog.svelte";
+  import { firebase } from "$lib/Internals/Firebase/store";
+  
   export let modules;
- 
 
   let moduleDeleteId = null;
   let moduleDeleteIndex = null;

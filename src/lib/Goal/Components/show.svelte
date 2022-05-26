@@ -30,7 +30,7 @@
   })();
 
   function updateTimeAgo() {
-    if (firebase && updates) {
+    if ($firebase && updates) {
       for (let i = 0; i < updates.length; i++) {
         updates[i].createdAtTimeAgo = formatToTimeAgo(
           updates[i].createdAt,

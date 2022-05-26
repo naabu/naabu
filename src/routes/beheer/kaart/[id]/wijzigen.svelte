@@ -9,13 +9,13 @@
 
   $: (async () => {
     if ($firebase) {
-     $firebase = $firebase;
+     
       const db = await $firebase.firestore();
       ref = db.collection("maps").doc($page.params.id);
     }
   })();
 </script>
 
-{#if$firebase && ref}
+{#if $firebase && ref}
   <Edit bind:ref  />
 {/if}

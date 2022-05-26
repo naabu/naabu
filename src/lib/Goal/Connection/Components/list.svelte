@@ -7,7 +7,7 @@
   import TimeAgo from "javascript-time-ago";
   import nl from "javascript-time-ago/locale/nl.json";
   import en from "javascript-time-ago/locale/en.json";
-
+  import { firebase } from "$lib/Internals/Firebase/store";
   import { t, locale } from "svelte-intl-precompile";
   import {
     compareTimeLeftToApprove,

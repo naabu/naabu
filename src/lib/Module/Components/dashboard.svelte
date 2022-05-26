@@ -1,21 +1,15 @@
 <script>
-  import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
-  import { onMount } from "svelte";
-  import { getDefaultAlertValues } from "$lib/Internals/Misc/helper";
-  import { formatMapObject } from "$lib/Module/Components/helper";
-  import { getStores, session } from "$app/stores";
-  import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
   import ShowDashboardPlugins from "$lib/Internals/Plugin/ShowDashboardPlugins.svelte";
+  import { firebase } from "$lib/Internals/Firebase/store";
 
- 
   export let module;
   export let dashboardItems;
   let dataRetrieved = false;
   let lowLevelDataSet = [];
 
   $: (async () => {
-    if (firebase && module) {
+    if ($firebase && module) {
       exampleQueryExcercise();
     }
   })();

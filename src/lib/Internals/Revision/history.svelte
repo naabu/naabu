@@ -7,6 +7,7 @@
   import Transition from "svelte-class-transition";
   import Button from "../Button/Button.svelte";
   import { t, locale } from "svelte-intl-precompile";
+  import { firebase } from "$lib/Internals/Firebase/store";
 
   TimeAgo.addLocale(en);
   TimeAgo.addLocale(nl);

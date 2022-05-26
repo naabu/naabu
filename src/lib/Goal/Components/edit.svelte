@@ -1,13 +1,11 @@
 <script>
-  // import$firebase from "firebase/app";
-  // import { getFirebaseFirestore } from "$lib/firebase";
-  // import { collection, getDoc, updateDoc, query, getDocs, doc } from "firebase/firestore";
-  import { getStores, session, page } from "$app/stores";
+import { getStores, session, page } from "$app/stores";
   import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
   import GoalForm from "$lib/Goal/Components/form.svelte";
   import { onMount } from "svelte";
   import MainTabs from "$lib/Internals/Tabs/goal.svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import {
     createGoalRevision,
     getGoalSaveData,

@@ -104,7 +104,8 @@
 
 
   async function signInWithGoogle() {
-    let result = await login(firebase, $t);
+    let fb = $firebase;
+    let result = await login(fb, $t);
     if (result !== null) {
       $session.user = result.user;
       $session.player = result.player;

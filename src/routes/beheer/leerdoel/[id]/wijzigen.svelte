@@ -10,7 +10,7 @@
 
   $: (async () => {
     if ($firebase) {
-     $firebase = $firebase;
+     
       let db = await $firebase.firestore();
       ref = db.collection("goals").doc($page.params.id);
       battleCol = db.collection("goals/" + $page.params.id + "/battles");
@@ -18,6 +18,6 @@
   })();
 </script>
 
-{#if$firebase && ref}
+{#if $firebase && ref}
   <EditGoal bind:goalRef={ref} bind:battleCol  />
 {/if}

@@ -15,7 +15,7 @@
 
   $: (async () => {
     if ($firebase) {
-     $firebase = $firebase;
+     
       if (
         ($session.environment === "cypress" ||
         $session.environment === "test"||

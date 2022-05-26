@@ -57,7 +57,7 @@
       alert.successTitle = $t("map-created");
       alert.successMessage = "id: " + result.id;
       map.id = result.id;
-      updateActivities(firebase, map);
+      updateActivities($firebase, map);
     } catch (e) {
       alert.error = true;
       alert.errorCode = e.code;

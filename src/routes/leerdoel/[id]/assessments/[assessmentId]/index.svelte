@@ -36,7 +36,7 @@
   $: (async () => {
     if ($firebase && !loaded) {
       loaded = true;
-     $firebase = $firebase;
+     
       timer = setInterval(retrieveFirestoreData, 500);
       setTimeout(() => {
         clearInterval(timer);

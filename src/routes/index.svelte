@@ -2,23 +2,20 @@
   import ModuleTeaserList from "$lib/Module/Components/teaserList.svelte";
   import { firebase } from "$lib/Internals/Firebase/store";
   import { t } from "svelte-intl-precompile";
-  
- 
+
   let mounted = false;
   let modules = null;
 
-  export let radioDefaultValue = "map";
-
   $: (async () => {
     if ($firebase) {
-     $firebase = $firebase;
+      
       await retrieveAllModules();
       mounted = true;
     }
   })();
 
   async function retrieveAllModules() {
-    let db =$firebase.firestore();
+    let db = $firebase.firestore();
     let collectionRef = db.collection("modules");
     let querySnapshot = await collectionRef.get();
     modules = [];

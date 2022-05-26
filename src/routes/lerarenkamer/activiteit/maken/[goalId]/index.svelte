@@ -14,7 +14,7 @@
 
   $: (async () => {
     if ($firebase) {
-     $firebase = $firebase;
+     
     }
   })();
 </script>
@@ -38,7 +38,7 @@
 
   <span slot="content">
     {#if mounted}
-      {#if$firebase && goal}
+      {#if $firebase && goal}
         <CreateActivity  bind:goal />
       {:else}
         {$t("goals-not-found")}

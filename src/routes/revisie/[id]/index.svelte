@@ -7,7 +7,6 @@
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/Components/helper";
   import { t } from "svelte-intl-precompile";
 
- 
   let db;
   let revision = null;
   let mounted = false;
@@ -44,7 +43,7 @@
 
   $: (async () => {
     if ($firebase) {
-     $firebase = $firebase;
+     
       db = await $firebase.firestore();
       mounted = true;
       await retrieveFirestoreData();

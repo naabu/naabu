@@ -5,10 +5,10 @@
   import { t } from "svelte-intl-precompile";
 
   async function loginTeacher() {
-     = $firebase;
-    if (firebase) {
+    if ($firebase) {
       try {
-        let result = await login(firebase, $t);
+        let fb = $firebase;
+        let result = await login(fb, $t);
         if (result !== null) {
           $session.user = result.user;
           $session.player = result.player;

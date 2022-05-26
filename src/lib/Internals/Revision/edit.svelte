@@ -11,7 +11,7 @@
   } from "$lib/Goal/Components/helper";
   import Button from "../Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
-
+  import { firebase } from "$lib/Internals/Firebase/store";
   export let battleCol;
  
 

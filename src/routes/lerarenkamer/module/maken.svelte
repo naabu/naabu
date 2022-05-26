@@ -11,7 +11,7 @@
 
   $: (async () => {
     if ($firebase) {
-     $firebase = $firebase;
+     
     }
   })();
 </script>
@@ -19,7 +19,7 @@
 <Sidebar bind:menuitems>
   <span slot="title">{$t("create-module")}</span>
   <span slot="content">
-    {#if$firebase}
+    {#if $firebase}
       <CreateModule  />
     {/if}
   </span>

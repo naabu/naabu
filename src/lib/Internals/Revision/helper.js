@@ -323,10 +323,10 @@ export function getNextAndPreviousRevisions(revisionList, revisionId) {
 
 
 export async function createRevision(firebase, activity, activitySaveData, userId) {
-  let db = await $firebase.firestore();
+  let db = await firebase.firestore();
   let revisionData = {
     revisionType: "activity",
-    revisionCreatedAt:$firebase.firestore.Timestamp.now().seconds,
+    revisionCreatedAt: firebase.firestore.Timestamp.now().seconds,
     revisionSourceId: activity.id,
     revisionAuthorId: userId,
   };

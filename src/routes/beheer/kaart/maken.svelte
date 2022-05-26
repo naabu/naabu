@@ -8,11 +8,11 @@
 
   $: (async () => {
     if ($firebase) {
-     $firebase = $firebase;
+     
     }
   })();
 </script>
 
-{#if$firebase}
+{#if $firebase}
   <CreateMap />
 {/if}

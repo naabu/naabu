@@ -10,7 +10,8 @@
   import FormField from "$lib/Internals/FormFields/FormField.svelte";
   import AdditionalFormText from "$lib/Internals/FormFields/AdditionalFormText.svelte";
   import { t } from "svelte-intl-precompile";
- 
+  import { firebase } from "$lib/Internals/Firebase/store";
+  
   export let talk;
   export let goalId;
   export let revision;

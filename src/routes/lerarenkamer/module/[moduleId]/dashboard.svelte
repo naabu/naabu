@@ -26,7 +26,7 @@
 
   $: (async () => {
     if ($firebase) {
-     $firebase = $firebase;
+     
     }
   })();
 </script>
@@ -38,7 +38,7 @@
   <span slot="title">{$t("module-dashboard")}</span>
 
   <span slot="content">
-    {#if$firebase && module && mounted}
+    {#if $firebase && module && mounted}
       <DashboardModule  bind:module bind:dashboardItems />
     {/if}
   </span>

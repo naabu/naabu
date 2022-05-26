@@ -9,9 +9,7 @@
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
 
-  export let firebase;
-  
-  $:console.log(firebase);
+  ;
   export let goal;
 
   let y;
@@ -21,10 +19,30 @@
   let model = {
     title: "",
     description: "",
-    problemState: "",
-    solutionState: "",
+    statesKCArray: [],
     goalId: "",
   };
+
+  $: if (model && model.statesKCArray && model.statesKCArray.length == 0) {
+    model.statesKCArray.push({
+      type: "state",
+      label: $t("problem"),
+      abstract: model.problemState,
+      example: "",
+    });
+    model.statesKCArray.push({
+      type: "kc",
+      abstract: "",
+      label: $t("knowledge_component") + " 1",
+      activities: [],
+    });
+    model.statesKCArray.push({
+      type: "state",
+      label: $t("solution"),
+      abstract: model.solutionState,
+      example: "",
+    });
+  }
 
   $: if (goal) {
     model.goalId = goal.id;
@@ -47,8 +65,7 @@
       let data = {
         title: model.title,
         description: model.description,
-        problemState: model.problemState,
-        solutionState: model.solutionState,
+        statesKCArray: model.statesKCArray,
         goalId: model.goalId,
         authorId: $session.user.uid,
       };
@@ -60,7 +77,7 @@
         alert.success = true;
         alert.successTitle = $t("model-created");
         alert.successMessage = "id: " + result.id;
-        await goto("/leerdoel/" + model.goalId + "/model/" + result.id);
+        await goto("/leerdoel/" + model.goalId + "/models/" + result.id);
       } catch (e) {
         console.error("Error adding document: ", e);
         alert.error = true;
@@ -86,17 +103,19 @@
   <ResultFeedback bind:alert />
   <CheckPlayerHasProfile bind:hasCurriculumProfile />
 
-  <form class="mt-8 space-y-8" on:submit|preventDefault={formSubmit}>
-    <ModelForm bind:model />
-    <div class="pt-5">
-      <div class="flex justify-end">
-        <Button
-          content={$t("create-model")}
-          isDisabled={buttonDisabled || !hasCurriculumProfile}
-          isSubmit={true}
-          color="primary"
-        />
+  {#if model && goal}
+    <form class="mt-8 space-y-8" on:submit|preventDefault={formSubmit}>
+      <ModelForm bind:model />
+      <div class="pt-5">
+        <div class="flex justify-end">
+          <Button
+            content={$t("create-model")}
+            isDisabled={buttonDisabled || !hasCurriculumProfile}
+            isSubmit={true}
+            color="primary"
+          />
+        </div>
       </div>
-    </div>
-  </form>
+    </form>
+  {/if}
 </div>

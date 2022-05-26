@@ -4,7 +4,7 @@
   export let urlType;
   export let goalId;
   export let connections;
-  export let firebase;
+  ;
   export let status;
 </script>
 
@@ -12,7 +12,7 @@
   bind:urlType
   bind:goalId
   bind:connections
-  bind:firebase
+  
   bind:status
   let:connection
 >

@@ -5,18 +5,18 @@
   import ListGoals from "$lib/Goal/Components/list.svelte";
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import { t } from "svelte-intl-precompile";
 
   let activityId = $page.url.searchParams.get("activityId");
 
   let menuitems = getTeacherMenuitems($page.url.pathname, $t);
-  let firebase;
+  ;
   let db;
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
+      firebase = $firebase;
       db = await firebase.firestore();
     }
   })();

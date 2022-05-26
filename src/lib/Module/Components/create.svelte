@@ -8,7 +8,7 @@
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
   import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
-  export let firebase;
+  ;
 
   let y;
   let db;

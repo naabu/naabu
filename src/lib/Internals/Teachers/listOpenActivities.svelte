@@ -2,14 +2,14 @@
   import DataTableActivities from "$lib/Internals/Teachers/dataTableActivities.svelte";
   import { t } from "svelte-intl-precompile";
 
-  export let firebase;
+  ;
   export let activities = [];
 </script>
 
 
 <DataTableActivities
   bind:activities
-  bind:firebase
+  
   let:goalId
   let:connectionId
   let:connectionStatus

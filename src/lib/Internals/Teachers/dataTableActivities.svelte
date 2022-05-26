@@ -11,7 +11,7 @@
   import RemoveDialog from "../Misc/RemoveDialog.svelte";
   import Button from "../Button/Button.svelte";
   import ShareDialog from "$lib/Activity/Components/ShareDialog.svelte";
-  export let firebase;
+  ;
   export let activities;
   let deleteActivityToggle = false;
 

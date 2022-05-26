@@ -15,7 +15,7 @@
   import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
   import { t } from "svelte-intl-precompile";
   import { createUpdate } from "$lib/Internals/Update/helper";
-  export let firebase;
+  ;
   export let showActivity;
   export let activity;
 
@@ -177,7 +177,7 @@
 
 {#if showActivity}
   <ShowActivity
-    bind:firebase
+    
     bind:activity={showActivity}
     showFeedback={false}
   />

@@ -1,6 +1,4 @@
 <script>
-  // import { getFirebaseFirestore } from "$lib/firebase.js";
-  // import { collection, addDoc, setDoc, doc } from "firebase/firestore";
   import { getStores, session } from "$app/stores";
   import ActivityForm from "$lib/Activity/Components/form.svelte";
   import { onMount } from "svelte";
@@ -14,7 +12,7 @@
   import Button from "$lib/Internals/Button/Button.svelte";
   import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
   import { t } from "svelte-intl-precompile";
-  export let firebase;
+  ;
   export let goal;
   let draftId;
 

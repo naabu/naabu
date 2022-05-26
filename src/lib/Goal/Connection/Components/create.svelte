@@ -5,7 +5,7 @@
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
   import MainTabs from "$lib/Internals/Tabs/goal.svelte";
-  export let firebase;
+  ;
   export let goal;
   export let connectionGoal;
   let hasCurriculumProfile = false;

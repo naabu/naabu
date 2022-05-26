@@ -8,7 +8,7 @@
   import GetDashboardItemListData from "$lib/Internals/DashboardItem/GetDashboardItemListData.svelte";
 
   let dashboardItems = [];
-  let firebase;
+  ;
   let mounted = false;
   let db;
 
@@ -66,7 +66,7 @@
 <GetDashboardItemListData
   bind:dashboardItems
   bind:mounted
-  bind:firebase
+  
   bind:db
   svelteComponent="Form"
 />

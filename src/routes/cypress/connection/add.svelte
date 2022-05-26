@@ -1,7 +1,7 @@
 <script>
   import { getStores, session } from "$app/stores";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
-  let firebase;
+  import { firebase } from "$lib/Internals/Firebase/store";
+  ;
   let created = false;
   let ready = false;
 
@@ -43,8 +43,8 @@
   }
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
+      firebase = $firebase;
       if (
         ($session.environment === "cypress" ||
         $session.environment === "test" ||

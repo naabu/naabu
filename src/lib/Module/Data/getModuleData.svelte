@@ -1,10 +1,10 @@
 <script>
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import { getUserModule } from "$lib/Module/Components/helper";
   import { loadPluginRecursively } from "$lib/Internals/Plugin/loader";
-  export let firebase;
+  ;
   export let module;
   export let mounted = false;
   export let moduleId = $page.params.moduleId;
@@ -13,8 +13,8 @@
   export let loadComponent = "render";
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
+      firebase = $firebase;
       await retrieveFirestoreData();
       mounted = true;
     }

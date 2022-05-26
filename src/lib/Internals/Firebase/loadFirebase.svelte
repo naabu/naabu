@@ -1,12 +1,12 @@
 <script>
   import { getStores, session } from "$app/stores";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import { createEventDispatcher } from "svelte";
   import { firebaseConfig } from "$lib/Internals/Firebase/config";
   const dispatch = createEventDispatcher();
 
   initFirebase().then((fb) => {
-    $firebaseStore = fb;
+    $firebase = fb;
     dispatch("firebaseInitialized", {
       firebase: fb,
     });

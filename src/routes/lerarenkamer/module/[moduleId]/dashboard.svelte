@@ -1,6 +1,6 @@
 <script>
   import DashboardModule from "$lib/Module/Components/dashboard.svelte";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import { getStores, page } from "$app/stores";
   import Sidebar from "$lib/Internals/Containers/sidebar.svelte";
   import { getTeacherMenuitems } from "$lib/Internals/Teachers/helper";
@@ -12,7 +12,7 @@
   import GetDashboardItemListData from "$lib/Internals/DashboardItem/GetDashboardItemListData.svelte";
 
   let menuitems;
-  let firebase;
+  ;
   let module;
   let mounted = false;
   let dashboardItems = [];
@@ -25,21 +25,21 @@
   }
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
+      firebase = $firebase;
     }
   })();
 </script>
 
-<GetModuleData bind:firebase bind:module />
+<GetModuleData  bind:module />
 
-<GetDashboardItemListData bind:dashboardItems bind:mounted bind:firebase />
+<GetDashboardItemListData bind:dashboardItems bind:mounted  />
 <Sidebar bind:menuitems>
   <span slot="title">{$t("module-dashboard")}</span>
 
   <span slot="content">
     {#if firebase && module && mounted}
-      <DashboardModule bind:firebase bind:module bind:dashboardItems />
+      <DashboardModule  bind:module bind:dashboardItems />
     {/if}
   </span>
 </Sidebar>

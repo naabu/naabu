@@ -2,7 +2,7 @@
     import { initFirebase } from "$lib/Internals/Firebase/loadFirebase.svelte";
   
     export async function load({session}) {
-      let firebase = await initFirebase(session.environment, session.fb);
+       = await initFirebase(session.environment, session.fb);
       return {
         props: {
           firebase: firebase
@@ -14,7 +14,7 @@
 <script>
 import { login } from "$lib/Internals/Firebase/helper";
 
-    export let firebase;
+    ;
     login(firebase);
 </script>
 

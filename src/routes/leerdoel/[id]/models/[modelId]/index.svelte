@@ -4,16 +4,17 @@
   import ConnectionTemplate from "$lib/Internals/Containers/connectionTemplate.svelte";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/Components/helper";
   import GetGoalData from "$lib/Goal/Data/getGoalData.svelte";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import { t } from "svelte-intl-precompile";
+  import ModelConnectionPage from "$lib/Goal/Model/ConnectionPage.svelte";
 
   let connection = null;
-  let firebase;
+  let model = null;
+  ;
   let timer;
   let timeout = false;
   let goal;
   let loaded = false;
-
   let breadcrumbs;
 
   $: if (goal) {
@@ -33,10 +34,12 @@
   }
 
   $: (async () => {
-    if ($firebaseStore && !loaded) {
+    if ($firebase && !loaded) {
       loaded = true;
-      firebase = $firebaseStore;
-      timer = setInterval(retrieveFirestoreData, 500);
+      firebase = $firebase;
+
+      timer = setInterval(retrieveConnection, 500);
+      await retrieveModel();
       setTimeout(() => {
         clearInterval(timer);
         timeout = true;
@@ -44,7 +47,17 @@
     }
   })();
 
-  async function retrieveFirestoreData() {
+  async function retrieveModel() {
+    let db = await firebase.firestore();
+    let ref = db.collection("models").doc($page.params.modelId);
+    let snap = await ref.get();
+    if (snap.exists) {
+      model = snap.data();
+      model.id = $page.params.modelId;
+    }
+  }
+
+  async function retrieveConnection() {
     let db = await firebase.firestore();
     let ref = db
       .collection("connections")
@@ -63,11 +76,13 @@
   }
 </script>
 
-<GetGoalData bind:firebase bind:goal />
+<GetGoalData  bind:goal />
 
-{#if connection !== null}
-  <ConnectionTemplate bind:goal bind:firebase bind:breadcrumbs>
-    <ConnectionPage bind:goal bind:firebase bind:connection />
+{#if connection !== null && model !== null}
+  <ConnectionTemplate bind:goal  bind:breadcrumbs>
+    <ConnectionPage bind:goal  bind:connection>
+      <ModelConnectionPage bind:model bind:connection />
+    </ConnectionPage>
   </ConnectionTemplate>
 {:else if timeout}
   Could not find connection, please reload the page.

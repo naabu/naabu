@@ -4,12 +4,12 @@
   import personIcon from "$lib/Internals/Header/person-icon.svg";
   import Transition from "svelte-class-transition";
   import { getStores, session, page } from "$app/stores";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import { login } from "$lib/Internals/Firebase/helper";
   import Button from "../Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
 
-  $: firebase = $firebaseStore;
+  $: firebase = $firebase;
 
   let openMenu = false;
   let openUserMenu = false;

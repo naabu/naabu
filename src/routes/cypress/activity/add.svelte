@@ -1,12 +1,12 @@
 <script>
   import { getStores, session } from "$app/stores";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
-  let firebase;
+  import { firebase } from "$lib/Internals/Firebase/store";
+  ;
   let created = false;
   let ready = false;
 
   function getData(title, difficulity, goalId, hasQuiz = false) {
-    firebase = $firebaseStore;
+    firebase = $firebase;
     let data = {
       authorId: $session.user.uid,
       connectionId: "connection_" + title.replace(/ +/g, ""),
@@ -36,8 +36,8 @@
   }
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
+      firebase = $firebase;
       if (
         ($session.environment === "cypress" ||
         $session.environment === "test" ||

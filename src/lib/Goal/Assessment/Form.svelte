@@ -9,7 +9,7 @@
   import { loadPluginDataFromFirestore } from "$lib/Internals/Plugin/loader";
   import Button from "$lib/Internals/Button/Button.svelte";
   export let assessment;
-  export let firebase;
+  ;
 
   let currentPluginIndex = 0;
   let renderAssessment = {
@@ -46,7 +46,7 @@
 
 {#if renderAssessment.plugins && renderAssessment.plugins.length > 0}
   <ShowPlugins
-    bind:firebase
+    
     bind:object={renderAssessment}
     bind:finished={pluginFinished}
     bind:currentPluginIndex

@@ -2,18 +2,18 @@
   import History from "$lib/Goal/Components/history.svelte";
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
   import { t } from "svelte-intl-precompile";
 
-  let firebase;
+  ;
 
   let goal;
   let mounted = false;
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
+      firebase = $firebase;
       await retrieveFirestoreData();
       mounted = true;
     }
@@ -50,5 +50,5 @@
 {#if mounted}
   <ContainerBreadcrumpPageTitle bind:breadcrumbs title={goal.title} />
 
-  <History bind:goal bind:firebase />
+  <History bind:goal  />
 {/if}

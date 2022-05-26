@@ -3,13 +3,13 @@
   import GetActivityData from "$lib/Activity/Data/getActivityData.svelte";
   import { t } from "svelte-intl-precompile";
 
-  let firebase;
+  ;
   let activity;
 </script>
 
-<GetActivityData bind:firebase bind:activity />
+<GetActivityData  bind:activity />
 {#if activity}
-  <LookAtActivity bind:firebase bind:activity />
+  <LookAtActivity  bind:activity />
 {:else}
 {$t("loading")}
 {/if}

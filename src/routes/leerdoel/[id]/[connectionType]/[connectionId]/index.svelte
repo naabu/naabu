@@ -9,7 +9,7 @@
   let goal;
   let connection;
 
-  let firebase;
+  ;
   let breadcrumbs;
 
   function capitalizeFirstLetter(string) {
@@ -33,9 +33,9 @@
   }
 </script>
 
-<GetGoalData bind:firebase bind:goal />
-<GetConnectionData bind:firebase bind:connection />
+<GetGoalData  bind:goal />
+<GetConnectionData  bind:connection />
 
-<ConnectionTemplate bind:goal bind:firebase bind:breadcrumbs>
-  <ConnectionPage bind:goal bind:firebase bind:connection />
+<ConnectionTemplate bind:goal  bind:breadcrumbs>
+  <ConnectionPage bind:goal  bind:connection />
 </ConnectionTemplate>

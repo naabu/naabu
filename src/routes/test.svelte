@@ -3,7 +3,7 @@
   import { getStores, session, page } from "$app/stores";
   import Firebase from "$lib/Internals/Firebase/loadFirebase.svelte";
 
-  export let firebase;
+  ;
 
   onMount(async () => {
     await retrieveFirestoreData();

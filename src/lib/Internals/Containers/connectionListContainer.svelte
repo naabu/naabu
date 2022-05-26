@@ -6,7 +6,7 @@
   import MainTabs from "$lib/Internals/Tabs/goal.svelte";
   import LearningGoalConnectionsTabs from "$lib/Internals/Tabs/learningGoalConnections.svelte";
   import ConnectionStatusTabs from "$lib/Internals/Tabs/connectionStatus.svelte";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/Components/helper";
   import ConnectionLinkList from "$lib/Goal/Connection/Components/connectionLinkList.svelte";
   import { t } from "svelte-intl-precompile";
@@ -28,7 +28,7 @@
   ];
 
   let goal;
-  let firebase;
+  ;
   let connections;
   let connectionIndexName = getConnectionIndex($session.environment);
   let connectionIndex;
@@ -138,7 +138,7 @@
   }
 </script>
 
-<GetGoalData bind:goal bind:firebase />
+<GetGoalData bind:goal  />
 
 {#if mounted && goal}
   <ContainerBreadcrumpPageTitle bind:breadcrumbs title={goal.title} />

@@ -9,12 +9,12 @@
 
 <script>
   import { getStores, session } from "$app/stores";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import Header from "$lib/Internals/Header/index.svelte";
   import "../app.css";
   import LoadFirebase from "$lib/Internals/Firebase/loadFirebase.svelte";
   import { loginUser } from "$lib/Internals/User/helper";
-  let firebase;
+  ;
 
   let config = {
     fallbackLocale: 'en',
@@ -27,7 +27,7 @@
   init(config);
 
   function handleLoginEvent(event) {
-    firebase = $firebaseStore;
+    firebase = $firebase;
     if (firebase) {
       let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
       $session.serverFirestoreTimeStamp = serverTimestamp;

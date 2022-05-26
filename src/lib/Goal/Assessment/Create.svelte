@@ -10,7 +10,7 @@
   import { t } from "svelte-intl-precompile";
   import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
 
-  export let firebase;
+  ;
   export let goal;
 
   let y;
@@ -88,7 +88,7 @@
   <CheckPlayerHasProfile bind:hasCurriculumProfile />
 
   <form class="mt-8 space-y-8" on:submit|preventDefault={formSubmit}>
-    <AssessmentForm bind:assessment bind:firebase />
+    <AssessmentForm bind:assessment  />
     <div class="pt-5">
       <div class="flex justify-end">
         <Button

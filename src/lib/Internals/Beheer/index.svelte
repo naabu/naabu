@@ -4,11 +4,11 @@
   import { getStores, page, session } from "$app/stores";
   import { onMount } from "svelte";
   import Notification from "$lib/Internals/Misc/notification.svelte";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import Button from "../Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
 
-  let firebase;
+  ;
   let loaded = false;
 
   let db;
@@ -61,8 +61,8 @@
   }
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
+      firebase = $firebase;
       db = await firebase.firestore();
       loaded = true;
     }

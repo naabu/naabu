@@ -5,7 +5,7 @@
   import GetModuleData from "$lib/Module/Data/getModuleData.svelte";
   import { t } from "svelte-intl-precompile";
 
-  let firebase;
+  ;
   let module;
   let userModule;
 
@@ -36,7 +36,7 @@
   }
 </script>
 
-<GetModuleData bind:firebase bind:module bind:userModule />
+<GetModuleData  bind:module bind:userModule />
 {#if module && module.mapId}
   <Show bind:map={module} bind:userMap={userModule} isModule="true" />
 {:else}

@@ -6,7 +6,7 @@
   import { t } from "svelte-intl-precompile";
 
   let module;
-  let firebase;
+  ;
 
   let userModule = null;
   let filteredActivities;
@@ -42,7 +42,7 @@
 
 <GetModuleData
   bind:module
-  bind:firebase
+  
   bind:userModule
   loadUserModule={true}
 />

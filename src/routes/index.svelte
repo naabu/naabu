@@ -1,17 +1,17 @@
 <script>
   import ModuleTeaserList from "$lib/Module/Components/teaserList.svelte";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import { t } from "svelte-intl-precompile";
   
-  let firebase;
+  ;
   let mounted = false;
   let modules = null;
 
   export let radioDefaultValue = "map";
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
+      firebase = $firebase;
       await retrieveAllModules();
       mounted = true;
     }

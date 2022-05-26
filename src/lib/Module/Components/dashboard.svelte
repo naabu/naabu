@@ -8,7 +8,7 @@
   import { t } from "svelte-intl-precompile";
   import ShowDashboardPlugins from "$lib/Internals/Plugin/ShowDashboardPlugins.svelte";
 
-  export let firebase;
+  ;
   export let module;
   export let dashboardItems;
   let dataRetrieved = false;

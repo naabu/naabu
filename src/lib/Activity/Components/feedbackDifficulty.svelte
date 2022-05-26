@@ -20,7 +20,7 @@
 
   export let toggle = false;
   export let feedbackEnded = false;
-  export let firebase;
+  ;
   let db;
 
   onMount(async () => {

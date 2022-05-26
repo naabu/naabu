@@ -4,7 +4,7 @@
   import CreatePostForm from "$lib/Goal/Talk/Components/createPost.svelte";
   import MainTabs from "$lib/Internals/Tabs/talk.svelte";
   import { t } from "svelte-intl-precompile";
-  export let firebase;
+  ;
   export let talk;
   export let posts;
   export let goalId;
@@ -17,7 +17,7 @@
     <MainTabs bind:objectId={goalId} talkType={talk.type} talkId={talk.id} />
   {/if}
 
-  <CreatePostForm bind:firebase bind:goalId bind:talk />
+  <CreatePostForm  bind:goalId bind:talk />
   <div class="mt-4 ml-auto mr-auto max-w-xl">
     <h1 class="sr-only">{$t("recent-posts")}</h1>
     <ul role="list" class="space-y-4">

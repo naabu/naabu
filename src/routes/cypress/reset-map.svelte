@@ -1,8 +1,8 @@
 <script>
   import { getStores, session, page } from "$app/stores";
   import { onMount } from "svelte";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
-  let firebase;
+  import { firebase } from "$lib/Internals/Firebase/store";
+  ;
   let playerMapDeleted = false;
   let mounted = false;
   let db;
@@ -34,8 +34,8 @@
   }
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
+      firebase = $firebase;
       db = await firebase.firestore();
       mounted = true;
     }

@@ -17,7 +17,7 @@
   export let goalId;
   sortOnCreatedAt(replies);
   replies.reverse();
-  export let firebase;
+  ;
   let newReplyText = "";
   let buttonDisabled = false;
   let db;

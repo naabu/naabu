@@ -3,15 +3,21 @@
   import ShowBreadcrumb from "$lib/Internals/Breadcrumb/show.svelte";
   import Notification from "$lib/Internals/Misc/notification.svelte";
   import DifficultyFeedback from "$lib/Activity/Components/feedbackDifficulty.svelte";
-  import BattleFight from "$lib/Goal/Components/battleFight.svelte";
   import { hasSpecialClaims } from "$lib/Internals/User/helper.js";
   import ShowPlugins from "$lib/Internals/Plugin/ShowActivityPlugins.svelte";
   import { goto } from "$app/navigation";
   import { t } from "svelte-intl-precompile";
   import DOMPurify from "dompurify";
+  import { firebase } from "$lib/Internals/Firebase/store";
 
-  import {createEventDispatcher} from "svelte";
-  export let firebase;
+  import { createEventDispatcher } from "svelte";
+  let firebase;
+  $: (async () => {
+    if ($firebase) {
+      firebase = $firebase;
+    }
+  })();
+
   export let activity;
   export let showFeedback = true;
   export let pluginFinished = false;
@@ -102,13 +108,15 @@
     lowLevelDataObject.activityType = activity.type;
     lowLevelDataObject.activityDifficulty = activity.difficulty;
     lowLevelDataObject.activityRevisionId = activity.latestRevisionId;
-    lowLevelDataObject.activityRevisionCreatedAt = activity.latestRevisionCreatedAt;
+    lowLevelDataObject.activityRevisionCreatedAt =
+      activity.latestRevisionCreatedAt;
     lowLevelDataObject.activityStartTime = activityStartTime;
     lowLevelDataObject.time = firebase.firestore.Timestamp.now().seconds;
-    lowLevelDataObject.activityTimeIn = lowLevelDataObject.time - activityStartTime;
+    lowLevelDataObject.activityTimeIn =
+      lowLevelDataObject.time - activityStartTime;
     lowLevelDataObject.goalId = activity.goalId;
 
-    dispatch("lowLevelData", { lowLevelData: lowLevelDataObject })
+    dispatch("lowLevelData", { lowLevelData: lowLevelDataObject });
   }
 </script>
 
@@ -123,11 +131,8 @@
       bind:toggle={toggleFeedback}
       bind:feedbackEnded
       bind:activity
-      bind:firebase
+      
     />
-  {/if}
-  {#if activity && activity.battles}
-    <BattleFight bind:toggle={fightToggle} bind:activity bind:firebase />
   {/if}
   {#if activity}
     <h1 class="text-lg leading-6 font-medium text-gray-900">
@@ -141,7 +146,7 @@
 
     {#if activity.plugins && activity.plugins.length > 0}
       <ShowPlugins
-        bind:firebase
+        
         bind:object={activity}
         bind:finished={pluginFinished}
         on:lowLevelData={lowLevelData}

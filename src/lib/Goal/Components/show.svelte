@@ -1,5 +1,5 @@
 <script>
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
 
   import nl from "javascript-time-ago/locale/nl.json";
   import en from "javascript-time-ago/locale/en.json";
@@ -11,15 +11,15 @@
   import { sortOnCreatedAt } from "$lib/Internals/Revision/helper";
   import { formatToTimeAgo } from "$lib/Internals/Misc/helper";
 
-  export let firebase;
+  ;
   let updates;
   let collectUpdates = true;
   let loaded = false;
   let timeAgo;
 
   $: (async () => {
-    if ($firebaseStore && !loaded) {
-      firebase = $firebaseStore;
+    if ($firebase && !loaded) {
+      firebase = $firebase;
       TimeAgo.addLocale(en);
       TimeAgo.addLocale(nl);
       timeAgo = new TimeAgo($locale);

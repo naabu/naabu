@@ -1,13 +1,13 @@
 <script>
   import Show from "$lib/Internals/Revision/show.svelte";
   import { getStores, page } from "$app/stores";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import { getNextAndPreviousRevisions } from "$lib/Internals/Revision/helper";
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/Components/helper";
   import { t } from "svelte-intl-precompile";
 
-  let firebase;
+  ;
   let db;
   let revision = null;
   let mounted = false;
@@ -43,8 +43,8 @@
   }
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
+      firebase = $firebase;
       db = await firebase.firestore();
       mounted = true;
       await retrieveFirestoreData();

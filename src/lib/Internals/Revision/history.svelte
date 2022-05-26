@@ -11,7 +11,7 @@
   TimeAgo.addLocale(en);
   TimeAgo.addLocale(nl);
   const timeAgo = new TimeAgo($locale);
-  export let firebase;
+  ;
   export let toggle = true;
   export let activeRevisionId;
 </script>

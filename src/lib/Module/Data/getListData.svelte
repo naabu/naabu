@@ -1,16 +1,16 @@
 <script>
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import { retrieveMapsListFB } from "$lib/Module/Components/helper";
 
-  export let firebase;
+  ;
   export let modules;
   export let mounted = false;
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
+      firebase = $firebase;
       await retrieveFirestoreData();
       mounted = true;
     }

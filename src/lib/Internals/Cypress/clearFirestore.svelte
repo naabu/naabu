@@ -1,6 +1,6 @@
 <script>
   import { getStores, session } from "$app/stores";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import { t } from "svelte-intl-precompile";
   import DOMPurify from 'dompurify';
   export let collection;
@@ -14,7 +14,7 @@
   export let uid = null;
   export let titleCheck = false;
   export let title = null;
-  let firebase;
+  ;
   export let resetDone = false;
 
   export let showComplete = true;
@@ -118,8 +118,8 @@
   })();
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
+      firebase = $firebase;
       db = await firebase.firestore();
       mounted = true;
     }

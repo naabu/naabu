@@ -1,20 +1,20 @@
 <script>
   import Post from "$lib/Goal/Talk/Components/post.svelte";
   import { getStores, page } from "$app/stores";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
   import GetGoalData from "$lib/Goal/Data/getGoalData.svelte";
   import { t } from "svelte-intl-precompile";
 
-  let firebase;
+  ;
   let goal;
   let mounted = false;
   let post;
   let replies = [];
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
+      firebase = $firebase;
       await retrieveFirestoreData();
       mounted = true;
     }
@@ -72,7 +72,7 @@
 <GetGoalData
   bind:goal
   bind:goalId={$page.params.goalId}
-  bind:firebase
+  
   bind:mounted
 />
 {#if mounted}
@@ -85,6 +85,6 @@
     bind:replies
     bind:talkId={$page.params.talkId}
     bind:goalId={$page.params.goalId}
-    bind:firebase
+    
   />
 {/if}

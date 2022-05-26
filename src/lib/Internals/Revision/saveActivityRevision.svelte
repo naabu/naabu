@@ -8,7 +8,7 @@
 
 
   export let revision;
-  export let firebase;
+  ;
   export let latestRevisionId;
   let activity;
 

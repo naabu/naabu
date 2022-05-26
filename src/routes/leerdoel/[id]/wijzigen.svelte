@@ -2,22 +2,22 @@
   import EditGoal from "$lib/Goal/Components/edit.svelte";
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
   import GetGoalData from "$lib/Goal/Data/getGoalData.svelte";
   import { t } from "svelte-intl-precompile";
 
-  let firebase;
+  ;
   let goalMounted = false;
   let battleCol;
   let mounted = false;
   let goal;
   let previousBattles;
-  let firebaseInitialized = false;
+  Initialized = false;
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
+      firebase = $firebase;
       firebaseInitialized = true;
     }
   })();
@@ -63,7 +63,7 @@
   }
 </script>
 
-<GetGoalData bind:mounted={goalMounted} bind:firebase bind:goal />
+<GetGoalData bind:mounted={goalMounted}  bind:goal />
 {#if mounted}
   {#if goal}
   <ContainerBreadcrumpPageTitle bind:breadcrumbs title={goal.title} />
@@ -71,7 +71,7 @@
     bind:goal
     bind:previousBattles
     bind:battleCol
-    bind:firebase
+    
   />
   {:else}
     {$t("goals-not-found")}

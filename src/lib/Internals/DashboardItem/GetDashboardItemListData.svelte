@@ -1,16 +1,16 @@
 <script>
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import { loadPluginDataFromFirestore } from "../Plugin/loader";
 
-  export let firebase;
+  ;
   export let dashboardItems;
   export let mounted = false;
   export let svelteComponent = "render";
   export let db;
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
+      firebase = $firebase;
       await retrieveFirestoreData();
       mounted = true;
     }

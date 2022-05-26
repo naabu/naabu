@@ -3,7 +3,7 @@
   import { createEventDispatcher } from "svelte";
   export let object;
   export let finished = false;
-  export let firebase;
+  ;
   export let currentPluginIndex = 0;
   let plugins;
   let loaded = false;
@@ -141,6 +141,8 @@
       lowLevelDataObject.isInterruption = true;
       lowLevelDataObject.interruptionId = interruptionPlugin.interuptionId;
     }
+    console.log("low level data");
+    console.log(lowLevelDataObject);
 
     dispatch("lowLevelData", { lowLevelData: lowLevelDataObject });
 

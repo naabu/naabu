@@ -8,7 +8,7 @@
 
   let goal;
   let connectionGoal;
-  let firebase;
+  ;
   let breadcrumbs;
   let mounted;
 
@@ -29,15 +29,15 @@
   }
 </script>
 
-<ConnectionTemplate bind:goal bind:firebase bind:breadcrumbs>
+<ConnectionTemplate bind:goal  bind:breadcrumbs>
   <GetGoalData
     bind:goal={connectionGoal}
     bind:goalId={$page.params.connectionGoalId}
-    bind:firebase
+    
     bind:mounted
   />
 
   {#if mounted && goal && connectionGoal}
-    <CreateConnection bind:goal bind:connectionGoal bind:firebase />
+    <CreateConnection bind:goal bind:connectionGoal  />
   {/if}
 </ConnectionTemplate>

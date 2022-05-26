@@ -3,14 +3,14 @@
   import GetActivityData from "$lib/Activity/Data/getActivityData.svelte";
   import { t } from "svelte-intl-precompile";
 
-  let firebase;
+  ;
   let activity;
   let mounted;
 </script>
 
-<GetActivityData bind:firebase bind:activity bind:mounted />
+<GetActivityData  bind:activity bind:mounted />
 {#if activity}
-  <StandaloneViewActivity bind:firebase bind:activity />
+  <StandaloneViewActivity  bind:activity />
 {:else if !mounted}
   {$t("loading")}
 {:else}

@@ -17,7 +17,7 @@
   let y;
   export let previousActivity;
   export let activity;
-  export let firebase;
+  ;
 
   let db;
 

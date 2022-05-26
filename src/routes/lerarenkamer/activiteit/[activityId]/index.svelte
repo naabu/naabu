@@ -1,6 +1,6 @@
 <script>
   import EditActivity from "$lib/Activity/Components/edit.svelte";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import { getStores, page } from "$app/stores";
   import Sidebar from "$lib/Internals/Containers/sidebar.svelte";
   import { getTeacherMenuitems } from "$lib/Internals/Teachers/helper";
@@ -14,7 +14,7 @@
   import { t, locale } from "svelte-intl-precompile";
 
   let menuitems;
-  let firebase;
+  ;
   let activity;
   let previousActivity;
   TimeAgo.addLocale(en);
@@ -26,13 +26,13 @@
   }
 
   $: (async () => {
-    if ($firebaseStore) {
+    if ($firebase) {
     }
   })();
 </script>
 
 <GetActivityData
-  bind:firebase
+  
   bind:activity
   bind:cloneActivity={previousActivity}
   loadComponent={"form"}
@@ -74,7 +74,7 @@
 
   <span slot="content">
     {#if firebase && activity}
-      <EditActivity bind:firebase bind:activity bind:previousActivity />
+      <EditActivity  bind:activity bind:previousActivity />
     {/if}
   </span>
 </Sidebar>

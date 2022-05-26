@@ -13,7 +13,7 @@
   import { t } from "svelte-intl-precompile";
 
   export let battleCol;
-  export let firebase;
+  ;
 
   let y;
 

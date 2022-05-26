@@ -2,17 +2,17 @@
   import CurriculumProfile from "$lib/Goal/Curriculum/Components/profile.svelte";
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
 
-  let firebase;
+  ;
 
   let curriculumProfile;
   let mounted = false;
   let isOwnProfile = false;
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
+      firebase = $firebase;
       await retrieveFirestoreData();
       mounted = true;
     }

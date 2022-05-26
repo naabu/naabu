@@ -3,12 +3,13 @@
   import ConnectionPage from "$lib/Goal/Connection/Components/page.svelte";
   import ConnectionTemplate from "$lib/Internals/Containers/connectionTemplate.svelte";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/Components/helper";
+  import AssessmentConnectionPage from "$lib/Goal/Assessment/ConnectionPage.svelte";
   import GetGoalData from "$lib/Goal/Data/getGoalData.svelte";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import { t } from "svelte-intl-precompile";
 
   let connection = null;
-  let firebase;
+  ;
   let timer;
   let timeout = false;
   let goal;
@@ -33,9 +34,9 @@
   }
 
   $: (async () => {
-    if ($firebaseStore && !loaded) {
+    if ($firebase && !loaded) {
       loaded = true;
-      firebase = $firebaseStore;
+      firebase = $firebase;
       timer = setInterval(retrieveFirestoreData, 500);
       setTimeout(() => {
         clearInterval(timer);
@@ -63,11 +64,13 @@
   }
 </script>
 
-<GetGoalData bind:firebase bind:goal />
+<GetGoalData  bind:goal />
 
 {#if connection !== null}
-  <ConnectionTemplate bind:goal bind:firebase bind:breadcrumbs>
-    <ConnectionPage bind:goal bind:firebase bind:connection />
+  <ConnectionTemplate bind:goal  bind:breadcrumbs>
+    <ConnectionPage bind:goal  bind:connection>
+      <AssessmentConnectionPage bind:connection />
+    </ConnectionPage>
   </ConnectionTemplate>
 {:else if timeout}
   Could not find connection, please reload the page.

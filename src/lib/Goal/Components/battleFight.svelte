@@ -11,7 +11,7 @@
   export let activity;
   export let toggle = false;
 
-  export let firebase;
+  ;
 
   let toggleResultScreen;
   let toggleRound;

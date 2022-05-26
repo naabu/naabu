@@ -14,7 +14,7 @@
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
 
-  export let firebase;
+  ;
 
   let y;
   let db;

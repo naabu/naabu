@@ -12,7 +12,7 @@
   import Button from "../Button/Button.svelte";
   import RemoveDialog from "$lib/Internals/Misc/RemoveDialog.svelte";
   export let modules;
-  export let firebase;
+  ;
 
   let moduleDeleteId = null;
   let moduleDeleteIndex = null;

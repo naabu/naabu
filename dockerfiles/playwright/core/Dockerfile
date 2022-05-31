@@ -1,4 +1,4 @@
-FROM mcr.microsoft.com/playwright:focal
+FROM mcr.microsoft.com/playwright:v1.22.2-focal
 RUN apt-get update; \
     apt-get install -y \
     curl \
@@ -8,12 +8,8 @@ RUN apt-get update; \
     libgconf-2-4 \
     wget \
     libu2f-udev;
-RUN wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-RUN apt install -y ./google-chrome-stable_current_amd64.deb
 RUN npx playwright install chrome && \
     npm set audit false
-COPY ./dockerfiles/playwright/core/package.json /var/www/package.json
-COPY ./dockerfiles/playwright/core/package-lock.json /var/www/package-lock.json
 WORKDIR /var/www/
-RUN npm ci
+RUN npm install @playwright/test@1.22.2
 CMD ["tail", "-f", "/dev/null"]

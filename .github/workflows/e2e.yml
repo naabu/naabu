@@ -21,4 +21,4 @@ jobs:
         run: dagger project update
 
       - name: Dagger do all
-        run: dagger do all --log-format plain
+        run: dagger do testRunContainers --log-format plain

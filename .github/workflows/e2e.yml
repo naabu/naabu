@@ -8,8 +8,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       packages: write
-    env:
-      NAABU_BRANCH_NAME: $GITHUB_REF_NAME
     steps:
       - uses: actions/checkout@v2
       - name: Login to GitHub Container Registry

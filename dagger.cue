@@ -136,7 +136,7 @@ dagger.#Plan & {
 
   client: {
     env: {
-      NAABU_BRANCH_NAME: string | *"master"
+      GITHUB_REF_NAME: string | *"master"
     }
   }
 	client: network: "unix:///var/run/docker.sock": connect: dagger.#Socket
@@ -181,24 +181,23 @@ dagger.#Plan & {
       svelteKitImageToLocalDockerRepo: cli.#Load & {
           image: buildImages.svelteKitBuild.image
           host:  client.network."unix:///var/run/docker.sock".connect
-          tag:   "sveltekit\(client.env.NAABU_BRANCH_NAME):latest"
+          tag:   "sveltekit-dagger:latest"
       }
       firebaseImageToLocalDockerRepo: cli.#Load & {
           image: buildImages.firebaseBuild.image
           host:  client.network."unix:///var/run/docker.sock".connect
-          tag:   "firebase\(client.env.NAABU_BRANCH_NAME):latest"
+          tag:   "firebase-dagger:latest"
       }
     }
     pushImages: {
       pushSvelteKitImage: docker.#Push & {
         image: buildImages.svelteKitBuild.image
-        dest: "ghcr.io/naabu/naabu_sveltekit:\(client.env.NAABU_BRANCH_NAME)"
+        dest: "ghcr.io/naabu/naabu_sveltekit:\(client.env.GITHUB_REF_NAME)"
       }
       pushFirebaseImage: docker.#Push & {
         image: buildImages.firebaseBuild.image
-        dest: "ghcr.io/naabu/naabu_firebase:\(client.env.NAABU_BRANCH_NAME)"
+        dest: "ghcr.io/naabu/naabu_firebase:\(client.env.GITHUB_REF_NAME)"
       }
-
     }
 	}
 }

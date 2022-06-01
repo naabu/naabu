@@ -1,0 +1,24 @@
+name: Build images and runs end to end tests
+
+on:
+  push:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    env:
+      NAABU_BRANCH_NAME: $GITHUB_REF_NAME
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Dagger
+        uses: dagger/dagger-for-github@v3
+        with:
+          install-only: true
+
+      - name: Dagger project update
+        run: dagger project update
+
+      - name: Dagger do all
+        run: dagger do all --log-format plain

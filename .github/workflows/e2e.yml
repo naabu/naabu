@@ -3,6 +3,10 @@ name: Build images and runs end to end tests
 on:
   push:
 
+env:
+  DAGGER_LOG_FORMAT: plain
+  DAGGER_CACHE_BASE: dagger-ci-build
+
 jobs:
   build-images:
     runs-on: ubuntu-latest
@@ -11,18 +15,30 @@ jobs:
     env:
       GITHUB_ACTOR: ${{ github.actor }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      DAGGER_CACHE_FROM: type=gha,scope=dagger-cache-naabu
-      DAGGER_CACHE_TO: type=gha,mode=max,scope=dagger-cache-naabu
     steps:
       - uses: actions/checkout@v2
+
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1
         with:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+
       - name: Checkout code
         uses: actions/checkout@v3
+      
+      - name: Sets env vars on push to main
+        run: |
+          echo "DAGGER_CACHE_TO=type=gha,mode=max,scope=${{env.DAGGER_CACHE_BASE}}-main" >> $GITHUB_ENV
+          echo "DAGGER_CACHE_FROM=type=gha,scope=${{env.DAGGER_CACHE_BASE}}-main" >> $GITHUB_ENV
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+
+      - name: Sets env vars on pull request
+        run: |
+          echo "DAGGER_CACHE_TO=type=gha,mode=max,scope=${{env.DAGGER_CACHE_BASE}}-${{github.event.number}}" >> $GITHUB_ENV
+          echo "DAGGER_CACHE_FROM=type=gha,scope=${{env.DAGGER_CACHE_BASE}}-main type=gha,scope=${{env.DAGGER_CACHE_BASE}}-${{github.event.number}}" >> $GITHUB_ENV
+        if: ${{ github.event_name == 'pull_request' }}
 
       - name: Install Dagger
         uses: dagger/dagger-for-github@v3

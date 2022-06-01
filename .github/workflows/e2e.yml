@@ -27,6 +27,9 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      
+      - name: Expose GitHub Runtime
+        uses: crazy-max/ghaction-github-runtime@v2
 
       - name: Checkout code
         uses: actions/checkout@v3

@@ -189,5 +189,16 @@ dagger.#Plan & {
           tag:   "firebase\(client.env.NAABU_BRANCH_NAME):latest"
       }
     }
+    pushImages: {
+      pushSvelteKitImage: docker.#Push & {
+        image: buildImages.svelteKitBuild.image
+        dest: "ghcr.io/naabu/naabu_sveltekit:\(client.env.NAABU_BRANCH_NAME)"
+      }
+      pushFirebaseImage: docker.#Push & {
+        image: buildImages.firebaseBuild.image
+        dest: "ghcr.io/naabu/naabu_firebase:\(client.env.NAABU_BRANCH_NAME)"
+      }
+
+    }
 	}
 }

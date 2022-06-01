@@ -4,11 +4,20 @@ on:
   push:
 
 jobs:
-  deploy:
+  build-images:
     runs-on: ubuntu-latest
+    permissions:
+      packages: write
     env:
       NAABU_BRANCH_NAME: $GITHUB_REF_NAME
     steps:
+      - uses: actions/checkout@v2
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout code
         uses: actions/checkout@v3
 
@@ -20,5 +29,8 @@ jobs:
       - name: Dagger project update
         run: dagger project update
 
-      - name: Dagger do all
+      - name: Building images
         run: dagger do testRunContainers --log-format plain
+    
+      - name: Pushing images
+        run: dagger do pushImages --log-format plain

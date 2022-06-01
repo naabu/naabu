@@ -11,6 +11,8 @@ jobs:
     env:
       GITHUB_ACTOR: ${{ github.actor }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      DAGGER_CACHE_FROM: type=gha,scope=dagger-cache-naabu
+      DAGGER_CACHE_TO: type=gha,mode=max,scope=dagger-cache-naabu
     steps:
       - uses: actions/checkout@v2
       - name: Login to GitHub Container Registry

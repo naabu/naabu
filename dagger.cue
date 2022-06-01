@@ -137,6 +137,8 @@ dagger.#Plan & {
   client: {
     env: {
       GITHUB_REF_NAME: string | *"master"
+      GITHUB_ACTOR: string
+      GITHUB_TOKEN: dagger.#Secret
     }
   }
 	client: network: "unix:///var/run/docker.sock": connect: dagger.#Socket
@@ -193,10 +195,18 @@ dagger.#Plan & {
       pushSvelteKitImage: docker.#Push & {
         image: buildImages.svelteKitBuild.image
         dest: "ghcr.io/naabu/naabu_sveltekit:\(client.env.GITHUB_REF_NAME)"
+        auth: {
+          username: client.env.GITHUB_ACTOR
+          secret: client.env.GITHUB_TOKEN
+        }
       }
       pushFirebaseImage: docker.#Push & {
         image: buildImages.firebaseBuild.image
         dest: "ghcr.io/naabu/naabu_firebase:\(client.env.GITHUB_REF_NAME)"
+        auth: {
+          username: client.env.GITHUB_ACTOR
+          secret: client.env.GITHUB_TOKEN
+        }
       }
     }
 	}

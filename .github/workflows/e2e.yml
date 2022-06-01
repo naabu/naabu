@@ -8,6 +8,9 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       packages: write
+    env:
+      GITHUB_ACTOR: ${{ github.actor }}
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
       - name: Login to GitHub Container Registry

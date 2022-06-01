@@ -163,31 +163,28 @@ dagger.#Plan & {
 	}
 
 	actions: {
-    all: {
+    buildImages: {
       svelteKitBuild: #SvelteKitBuild & {
         source: client.filesystem.".".read.contents
       }
       firebaseBuild: #FirebaseBuild & {
         source: client.filesystem.".".read.contents
       }
-
-      testRunContainers: #TestDockerRun & {
-        firebaseImage:  firebaseBuild.image
-        svelteKitImage: svelteKitBuild.image
-      }
     }
+
+    testRunContainers: #TestDockerRun & {
+      firebaseImage:  buildImages.firebaseBuild.image
+      svelteKitImage: buildImages.svelteKitBuild.image
+    }
+
     buildLocal: {
-      testRunContainers: #TestDockerRun & {
-        firebaseImage:  firebaseBuild.image
-        svelteKitImage: svelteKitBuild.image
-      }
       svelteKitImageToLocalDockerRepo: cli.#Load & {
-          image: svelteKitBuild.image
+          image: buildImages.svelteKitBuild.image
           host:  client.network."unix:///var/run/docker.sock".connect
           tag:   "sveltekit\(client.env.NAABU_BRANCH_NAME):latest"
       }
       firebaseImageToLocalDockerRepo: cli.#Load & {
-          image: firebaseBuild.image
+          image: buildImages.firebaseBuild.image
           host:  client.network."unix:///var/run/docker.sock".connect
           tag:   "firebase\(client.env.NAABU_BRANCH_NAME):latest"
       }

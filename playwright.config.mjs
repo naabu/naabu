@@ -1,12 +1,13 @@
 // playwright.config.js
 // @ts-check
 import { devices } from '@playwright/test';
+// const { devices } = require('@playwright/test');
 
 /** @type {import('@playwright/test').PlaywrightTestConfig<{ domain: string, showAllConsole: boolean }>} */
 const config = {
   forbidOnly: !!process.env.CI,
-  retries: process.env.CI ? 2 : 0,
-  timeout: 120000,
+  retries: process.env.CI ? 0 : 0,
+  timeout: 10000,
   workers: 1,
   use: {
     trace: 'retain-on-failure'
@@ -85,3 +86,4 @@ const config = {
 // };
 
 export default config;
+// module.exports = config;

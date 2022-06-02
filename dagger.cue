@@ -279,7 +279,7 @@ dagger.#Plan & {
           secret: client.env.GITHUB_TOKEN
         }
       }
-      pushFirebaseImage: docker.#Push & {
+      pushPlaywrightImage: docker.#Push & {
         image: buildImages.playwrightBuild.image
         dest: "ghcr.io/naabu/naabu_playwright:\(client.env.GITHUB_REF_NAME)"
         auth: {

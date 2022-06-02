@@ -111,9 +111,65 @@ import (
 	}
 }
 
+#PlaywrightBuild: {
+  source: dagger.#FS
+	image:  _build.output
+
+	_build: docker.#Build & {
+		steps: [
+			docker.#Pull & {
+				source: "mcr.microsoft.com/playwright:v1.22.2-focal"
+			},
+      docker.#Run & {
+				command: {
+					name: "apt-get"
+					args: ["update"]
+				}
+			},
+			docker.#Run & {
+				command: {
+					name: "apt-get"
+					args: ["install", "-y", "curl", "unzip", "xvfb", "libxi6", "libgconf-2-4", "wget", "libu2f-udev"]
+				}
+			},
+			docker.#Run & {
+				command: {
+					name: "npx"
+					args: ["playwright", "install", "chrome"]
+				}
+			},
+			docker.#Run & {
+				command: {
+					name: "npm"
+					args: ["set", "audit", "false"]
+				}
+			},
+			docker.#Run & {
+				command: {
+					name: "npm"
+					args: ["install", "@playwright/test@1.22.2"]
+				}
+				workdir: "/var/www/"
+			},
+      docker.#Copy & {
+				contents: source
+        include: ["src", "plugins", "playwright.config.js"]
+				dest: "/var/www"
+			},
+			docker.#Set & {
+				config: {
+					cmd: ["tail", "-f", "/dev/null"]
+					workdir: "/var/www"
+				}
+			},
+		]
+	}
+}
+
 #TestDockerRun: {
 	firebaseImage:  docker.#Image
 	svelteKitImage: docker.#Image
+  playwrightImage: docker.#Image
 	// _alpine: core.#Pull & {source: "alpine:3"}
 	printHelloFirebase: docker.#Run & {
 		input: firebaseImage
@@ -124,6 +180,14 @@ import (
 	}
 	printHelloSvelteKit: docker.#Run & {
 		input: svelteKitImage
+		command: {
+			name: "echo"
+			args: ["hello, world!"]
+		}
+	}
+
+  printHelloPlaywright: docker.#Run & {
+		input: playwrightImage
 		command: {
 			name: "echo"
 			args: ["hello, world!"]
@@ -170,11 +234,15 @@ dagger.#Plan & {
       firebaseBuild: #FirebaseBuild & {
         source: client.filesystem.".".read.contents
       }
+      playwrightBuild: #PlaywrightBuild & {
+        source: client.filesystem.".".read.contents
+      }
     }
 
     testRunContainers: #TestDockerRun & {
       firebaseImage:  buildImages.firebaseBuild.image
       svelteKitImage: buildImages.svelteKitBuild.image
+      playwrightImage: buildImages.playwrightBuild.image
     }
 
     buildLocal: {
@@ -187,6 +255,11 @@ dagger.#Plan & {
           image: buildImages.firebaseBuild.image
           host:  client.network."unix:///var/run/docker.sock".connect
           tag:   "firebase-dagger:latest"
+      }
+      playwrightImageToLocalDockerRepo: cli.#Load & {
+          image: buildImages.playwrightBuild.image
+          host:  client.network."unix:///var/run/docker.sock".connect
+          tag:   "playwright-dagger:latest"
       }
     }
     pushImages: {
@@ -201,6 +274,14 @@ dagger.#Plan & {
       pushFirebaseImage: docker.#Push & {
         image: buildImages.firebaseBuild.image
         dest: "ghcr.io/naabu/naabu_firebase:\(client.env.GITHUB_REF_NAME)"
+        auth: {
+          username: client.env.GITHUB_ACTOR
+          secret: client.env.GITHUB_TOKEN
+        }
+      }
+      pushFirebaseImage: docker.#Push & {
+        image: buildImages.playwrightBuild.image
+        dest: "ghcr.io/naabu/naabu_playwright:\(client.env.GITHUB_REF_NAME)"
         auth: {
           username: client.env.GITHUB_ACTOR
           secret: client.env.GITHUB_TOKEN

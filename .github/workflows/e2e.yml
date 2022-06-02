@@ -92,27 +92,27 @@ jobs:
           ls -lah
       - run: sed
           -e "s/<EXTRA>//"
-          -e "s/<GITHUB_SHA>/$GITHUB_REF_NAME/"
-          ci/actions-docker-compose.yml > sha-docker-compose.yml
+          -e "s/<GITHUB_REF_NAME>/$GITHUB_REF_NAME/"
+          ci/actions-docker-compose.yml > test.yml
 
-      - run: docker-compose -f sha-docker-compose.yml up -d --remove-orphans
+      - run: docker-compose -f test.yml up -d --remove-orphans
       - run: sleep 40
-      - run: docker-compose -f sha-docker-compose.yml logs sveltekit-test
-      - run: docker-compose -f sha-docker-compose.yml logs firebase
+      - run: docker-compose -f test.yml logs sveltekit-test
+      - run: docker-compose -f test.yml logs firebase
       - run: echo "running ping tests"
-      - run: docker-compose -f sha-docker-compose.yml exec -T playwright npx playwright test --project=docker --grep @ping
+      - run: docker-compose -f test.yml exec -T playwright npx playwright test --project=docker --grep @ping
       - run: echo "running playwright goal tests"
-      - run: docker-compose -f sha-docker-compose.yml exec -T playwright npx playwright test --project=docker --grep @goal
-      - run: docker-compose -f sha-docker-compose.yml logs sveltekit-test
-      - run: docker-compose -f sha-docker-compose.yml logs firebase
+      - run: docker-compose -f test.yml exec -T playwright npx playwright test --project=docker --grep @goal
+      - run: docker-compose -f test.yml logs sveltekit-test
+      - run: docker-compose -f test.yml logs firebase
       - run: echo "running playwright activity tests"
-      - run: docker-compose -f sha-docker-compose.yml exec -T playwright npx playwright test --project=docker --grep @activity
-      - run: docker-compose -f sha-docker-compose.yml logs sveltekit-test
-      - run: docker-compose -f sha-docker-compose.yml logs firebase
+      - run: docker-compose -f test.yml exec -T playwright npx playwright test --project=docker --grep @activity
+      - run: docker-compose -f test.yml logs sveltekit-test
+      - run: docker-compose -f test.yml logs firebase
       - run: echo "running playwright module tests"
-      - run: docker-compose -f sha-docker-compose.yml exec -T playwright npx playwright test --project=docker --grep @module
-      - run: docker-compose -f sha-docker-compose.yml logs sveltekit-test
-      - run: docker-compose -f sha-docker-compose.yml logs firebase
+      - run: docker-compose -f test.yml exec -T playwright npx playwright test --project=docker --grep @module
+      - run: docker-compose -f test.yml logs sveltekit-test
+      - run: docker-compose -f test.yml logs firebase
 
       - name: Archive production artifacts
         if: ${{ always() }}
@@ -124,7 +124,7 @@ jobs:
       
       - name: Display Firebase logs on failure
         if: ${{ failure() }}
-        run: docker-compose -f sha-docker-compose.yml logs firebase
+        run: docker-compose -f test.yml logs firebase
       - name: Display SvelteKit logs on failure
         if: ${{ failure() }}
-        run: docker-compose -f sha-docker-compose.yml logs sveltekit-test
+        run: docker-compose -f test.yml logs sveltekit-test

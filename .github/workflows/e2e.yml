@@ -121,6 +121,7 @@ jobs:
           name: playwright-traces
           path: |
             test-results
+            test.yml
       
       - name: Display Firebase logs on failure
         if: ${{ failure() }}

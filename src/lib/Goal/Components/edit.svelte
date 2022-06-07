@@ -73,7 +73,7 @@
             dataTest="edit-goal-submit-button"
             isSubmit={true}
             color="primary"
-            content={$t("publish-goals")}
+            content={$t("edit-goal")}
           />
         </div>
       </div>

@@ -7,7 +7,7 @@ import { devices } from '@playwright/test';
 const config = {
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 0 : 0,
-  timeout: 10000,
+  timeout: 120000,
   workers: 1,
   use: {
     trace: 'retain-on-failure'

@@ -6,7 +6,7 @@
 
   $: (async () => {
     if ($firebase) {
-     
+      {console.log("firebase is working")}
       if (
         ($session.environment === "cypress" ||
           $session.environment === "development" ||
@@ -17,7 +17,7 @@
         let email = $page.params.email;
         let password = $page.params.password;
         try {
-          let result = await$firebase
+          let result = await $firebase
             .auth()
             .createUserWithEmailAndPassword(email, password);
         } catch (error) {

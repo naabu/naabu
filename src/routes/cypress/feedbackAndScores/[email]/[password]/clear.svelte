@@ -17,8 +17,7 @@
 
   $: (async () => {
     if ($firebase) {
-     
-      auth = await$firebase.auth();
+      auth = await $firebase.auth();
     }
   })();
 </script>

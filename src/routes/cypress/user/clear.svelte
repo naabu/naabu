@@ -14,7 +14,7 @@
         $session.user &&
         !$session.user.isAnonymous
       ) {
-        await$firebase.auth().currentUser.delete();
+        await $firebase.auth().currentUser.delete();
       }
     }
   })();

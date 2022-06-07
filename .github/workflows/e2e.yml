@@ -3,10 +3,6 @@ name: Build images and runs end to end tests
 on:
   push:
 
-env:
-  DAGGER_LOG_FORMAT: plain
-  DAGGER_CACHE_BASE: dagger-ci-build
-
 jobs:
   build-images:
     runs-on: ubuntu-latest

@@ -153,7 +153,7 @@ import (
 			},
       docker.#Copy & {
 				contents: source
-        include: ["src", "plugins", "playwright.config.js"]
+        include: ["src", "plugins", "playwright.config.mjs"]
 				dest: "/var/www"
 			},
 			docker.#Set & {

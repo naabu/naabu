@@ -1,5 +1,5 @@
 import preprocess from "svelte-preprocess";
-import firebaseAdapter from "./adapter/src/index.js";
+import firebase from "svelte-adapter-firebase";
 import path from 'path'
 import precompileIntl from "svelte-intl-precompile/sveltekit-plugin.js";
 
@@ -12,7 +12,7 @@ const config = {
   }),
 
   kit: {
-    adapter: firebaseAdapter(),
+    adapter: firebase(),
     vite: {
       plugins: [
         precompileIntl('locales'),

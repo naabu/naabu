@@ -120,6 +120,7 @@
   }
 
   async function openActivity() {
+    let db = $firebase.firestore();
     buttonDisabled = true;
     if ($session.user.uid) {
       let connectionCollRef = db.collection("connections");
@@ -156,11 +157,11 @@
           authorId: $session.user.uid,
           createdAt:$firebase.firestore.Timestamp.now().seconds,
           connectionId: result.id,
-          connectionSourceId: connection.sourceId,
-          connectionLinkId: connection.linkId,
-          connectionType: connection.type,
-          connectionSourceType: connection.sourceType,
-          connectionLinkType: connection.linkType,
+          connectionSourceId: connectionData.sourceId,
+          connectionLinkId: connectionData.linkId,
+          connectionType: connectionData.type,
+          connectionSourceType: connectionData.sourceType,
+          connectionLinkType: connectionData.linkType,
         };
         await createUpdate(db, $session, updateData);
 

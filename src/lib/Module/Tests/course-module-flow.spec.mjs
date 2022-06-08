@@ -21,6 +21,7 @@ test('Create course modules @module', async ({ page, domain, showAllConsole }) =
   printMessages(page, showAllConsole);;
   // Load content needed for test.
   await page.goto(domain + '/cypress/user/deletegoalscoursemodule@example.com/password/login');
+
   await page.waitForSelector('[data-test=complete]');
   await page.goto(domain + '/cypress/user/logout');
   await page.waitForSelector('[data-test=complete]');
@@ -118,7 +119,7 @@ test('Create course modules @module', async ({ page, domain, showAllConsole }) =
   await page.click('[data-test=desktop-sidebar-menu] > [data-test=teacher-menu-modules]');
 
   // Click the action link.
-  let courseModule = await page.locator("xpath=(//text()[contains(., 'Test course module create')]/../../../td[3]/a)[1]");
+  let courseModule = await page.locator("xpath=(//text()[contains(., 'Test course module create')]/../../../td[3]/a)[2]");
   await courseModule.click();
 
   await page.waitForSelector('#name');

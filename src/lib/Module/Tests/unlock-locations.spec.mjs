@@ -48,8 +48,10 @@ test('Unlock location on map test @module', async ({ page, domain, showAllConsol
   let teaser = await page.locator('[data-test=activity-teaser-0]');
   await teaser.waitFor();
   await expect(teaser).toBeVisible({ timeout: 100000 });
+  await page.pause();
   await expect(teaser).toContainText('activity 11');
   await teaser.click();
+  await page.waitForTimeout(5000)
   await page.frameLocator('[data-test=vimeo-iframe]').locator(".play").scrollIntoViewIfNeeded();
   await page.frameLocator('[data-test=vimeo-iframe]').locator(".play").click();
   await page.locator('[data-test=quiz-question]').waitFor();
@@ -74,6 +76,7 @@ test('Unlock location on map test @module', async ({ page, domain, showAllConsol
   await expect(teaser).toBeVisible({ timeout: 100000 });
   await expect(teaser).toContainText('activity 12');
   await teaser.click();
+  await page.waitForTimeout(5000)
   await page.frameLocator('[data-test=vimeo-iframe]').locator(".play").scrollIntoViewIfNeeded();
   await page.frameLocator('[data-test=vimeo-iframe]').locator(".play").click();
   await page.waitForSelector('[data-test=too-easy]');
@@ -84,6 +87,7 @@ test('Unlock location on map test @module', async ({ page, domain, showAllConsol
   await expect(teaser).toBeVisible({ timeout: 100000 });
   await expect(teaser).toContainText('activity 13');
   await teaser.click();
+  await page.waitForTimeout(5000)
   await page.frameLocator('[data-test=vimeo-iframe]').locator(".play").scrollIntoViewIfNeeded();
   await page.frameLocator('[data-test=vimeo-iframe]').locator(".play").click();
   await page.waitForSelector('[data-test=too-easy]');

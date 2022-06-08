@@ -17,14 +17,12 @@
   export let goalId;
   sortOnCreatedAt(replies);
   replies.reverse();
-  export let firebase;
+ 
   let newReplyText = "";
   let buttonDisabled = false;
   let db;
   let hasCurriculumProfile;
-  onMount(async () => {
-    db = await firebase.firestore();
-  });
+
 
   let alert = getDefaultAlertValues();
 

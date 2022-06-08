@@ -1,10 +1,10 @@
 <script>
   import { onMount } from "svelte";
   import { getStores, session, page } from "$app/stores";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import { loadPluginRecursively } from "$lib/Internals/Plugin/loader";
 
-  export let firebase;
+ 
 
   export let activity;
   export let cloneActivity;
@@ -13,15 +13,14 @@
   export let loadComponent = "render";
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
       await retrieveFirestoreData();
       mounted = true;
     }
   })();
 
   async function retrieveFirestoreData() {
-    let db = await firebase.firestore();
+    let db = await $firebase.firestore();
     let ref = db.collection("activities").doc(activityId);
     let snap = await ref.get();
     if (snap.exists) {

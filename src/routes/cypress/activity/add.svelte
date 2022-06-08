@@ -1,17 +1,20 @@
 <script>
   import { getStores, session } from "$app/stores";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
-  let firebase;
+  import { firebase } from "$lib/Internals/Firebase/store";
+ 
   let created = false;
   let ready = false;
 
   function getData(title, difficulity, goalId, hasQuiz = false) {
+   
     let data = {
       authorId: $session.user.uid,
       connectionId: "connection_" + title.replace(/ +/g, ""),
       connectionStatus: "published",
       description: "test",
       descriptionRaw: "test",
+      latestRevisionCreatedAt:$firebase.firestore.Timestamp.now().seconds,
+      latestRevisionId: "test-revision",
       difficulty: difficulity,
       quizzes: [],
       goalId: goalId,
@@ -33,8 +36,8 @@
   }
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
+     
       if (
         ($session.environment === "cypress" ||
         $session.environment === "test" ||
@@ -44,7 +47,7 @@
         !created
       ) {
         created = true;
-        let db = await firebase.firestore();
+        let db = await $firebase.firestore();
 
         try {
           await db

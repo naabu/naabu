@@ -83,13 +83,11 @@ async function updateUserActivitiesForModule(module, uid, unlock = false, locati
   const fb = helper.getFirebaseApp();
   let db = fb.firestore();
   let startLocations = [];
-  // console.log(module);
   for (let i2 = 0; i2 < module.locations.length; i2++) {
     if (module.locations[i2].isStartLocation) {
       startLocations.push(module.locations[i2].id);
     }
   }
-
 
   let userModuleRef = db.collection('modules').doc(module.id).collection('players').doc(uid);
   let userModuleSnap = await userModuleRef.get();

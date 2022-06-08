@@ -1,16 +1,15 @@
 <script>
   import DataTableActivities from "$lib/Internals/Teachers/dataTableActivities.svelte";
-  import { getStatusText } from "$lib/Goal/Connection/Components/helper";
   import { t } from "svelte-intl-precompile";
 
-  export let firebase;
+ 
   export let activities = [];
 </script>
 
 
 <DataTableActivities
   bind:activities
-  bind:firebase
+  
   let:goalId
   let:connectionId
   let:connectionStatus
@@ -29,7 +28,7 @@
     class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
   >
     {#if connectionStatus}
-      {getStatusText(connectionStatus, $t)}
+      {$t(connectionStatus)}
     {:else}
       {$t("unknown")}
     {/if}

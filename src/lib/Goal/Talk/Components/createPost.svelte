@@ -1,6 +1,5 @@
 <script>
   import { getStores, session } from "$app/stores";
-  import { onMount } from "svelte";
   import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import { getDateString } from "$lib/Internals/Misc/helper";
@@ -11,7 +10,8 @@
   import FormField from "$lib/Internals/FormFields/FormField.svelte";
   import AdditionalFormText from "$lib/Internals/FormFields/AdditionalFormText.svelte";
   import { t } from "svelte-intl-precompile";
-  export let firebase;
+  import { firebase } from "$lib/Internals/Firebase/store";
+  
   export let talk;
   export let goalId;
   export let revision;
@@ -20,16 +20,11 @@
   let newPostTitle = "";
   let newPostText = "";
   let buttonDisabled = false;
-  let db;
 
   if (revision) {
     newPostTitle = $t("discuss-revision") + " " + getDateString(revision.createdAt);
     newPostText = "";
   }
-
-  onMount(async () => {
-    db = await firebase.firestore();
-  });
 
   let alert = getDefaultAlertValues();
 
@@ -44,6 +39,7 @@
   }
 
   async function createPost() {
+    let db = $firebase.firestore()
     if ($session.user) {
       let profileRef = db
         .collection("curriculumProfile")

@@ -18,6 +18,11 @@ exports.removeActivityArchiveConnection = functions.firestore.document('activiti
         content: snap.id,
         createdAt: timestampDelete,
         connectionId: connectionDoc.id,
+        connectionSourceId: connectionDoc.sourceId,
+        connectionSourceType: connection.sourceType,
+        connectionLinkId: connectionDoc.linkId,
+        connectionLinkType: connection.linkType,
+        connectionType: connectionDoc.type,
       };
       db.collection("updates").add(activityRemovedUpdateData)
     });

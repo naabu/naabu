@@ -1,13 +1,13 @@
 <script>
   import CreatePostForm from "$lib/Goal/Talk/Components/createPost.svelte";
   import { getStores, page } from "$app/stores";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import MainTabs from "$lib/Internals/Tabs/talk.svelte";
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/Components/helper";
   import { t } from "svelte-intl-precompile";
 
-  let firebase;
+ 
   let revision;
   let talk;
   let goal;
@@ -35,15 +35,15 @@
   }
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
+     
       await retrieveFirestoreData();
       mounted = true;
     }
   })();
 
   async function retrieveFirestoreData() {
-    let db = await firebase.firestore();
+    let db = await $firebase.firestore();
     let refG = db.collection("goals").doc($page.params.goalId);
     let snapG = await refG.get();
     if (snapG.exists) {
@@ -81,6 +81,6 @@
     goalId={$page.params.goalId}
     bind:talk
     bind:revision
-    bind:firebase
+    
   />
 {/if}

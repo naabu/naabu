@@ -1,12 +1,12 @@
 <script>
   import { getStores, session } from "$app/stores";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
-  let firebase;
+  import { firebase } from "$lib/Internals/Firebase/store";
+ 
   let created = false;
   let ready = false;
 
   function getData(activityId, goalId, connectionType = "goal-activity") {
-    let timestamp = firebase.firestore.FieldValue.serverTimestamp();
+    let timestamp =$firebase.firestore.FieldValue.serverTimestamp();
     let data = {
       authorId: $session.user.uid,
       createdAt: timestamp,
@@ -29,6 +29,8 @@
       inProgressAt: timestamp,
       lastUpdatesAt: timestamp,
       linkId: activityId,
+      sourceType: "goal",
+      linkType: "activity",
       modifiedAt: timestamp,
       publishedAt: timestamp,
       status: "published",
@@ -41,8 +43,8 @@
   }
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
+     
       if (
         ($session.environment === "cypress" ||
         $session.environment === "test" ||
@@ -52,7 +54,7 @@
         !created
       ) {
         created = true;
-        let db = await firebase.firestore();
+        let db = await $firebase.firestore();
 
         try {
           await db

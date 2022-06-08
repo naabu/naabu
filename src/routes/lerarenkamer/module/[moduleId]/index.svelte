@@ -1,6 +1,6 @@
 <script>
   import EditModule from "$lib/Module/Components/edit.svelte";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import { getStores, page } from "$app/stores";
   import Sidebar from "$lib/Internals/Containers/sidebar.svelte";
   import { getTeacherMenuitems } from "$lib/Internals/Teachers/helper";
@@ -9,9 +9,9 @@
   import nl from "javascript-time-ago/locale/nl.json";
   import en from "javascript-time-ago/locale/en.json";
   import { t, locale } from "svelte-intl-precompile";
-  
+
   let menuitems;
-  let firebase;
+ 
   let module;
   TimeAgo.addLocale(en);
   TimeAgo.addLocale(nl);
@@ -22,20 +22,20 @@
   }
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
+     
     }
   })();
 </script>
 
-<GetModuleData bind:firebase bind:module />
+<GetModuleData  bind:module loadComponent={"form"} />
 
 <Sidebar bind:menuitems>
   <span slot="title">{$t("update-module")}</span>
 
   <span slot="content">
-    {#if firebase && module}
-      <EditModule bind:firebase bind:module />
+    {#if $firebase && module}
+      <EditModule  bind:module />
     {/if}
   </span>
 </Sidebar>

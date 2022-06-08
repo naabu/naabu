@@ -1,5 +1,5 @@
 <script>
-  // import firebase from "firebase/app";
+  // import$firebase from "firebase/app";
   import { getStores, session, page } from "$app/stores";
   import Transition from "svelte-class-transition";
   import { onMount } from "svelte";
@@ -7,11 +7,12 @@
   import Button from "$lib/Internals/Button/Button.svelte";
   import RadioQuestion from "$lib/Internals/Quiz/RadioQuestion.svelte";
   import { t } from "svelte-intl-precompile";
+  import { firebase } from "$lib/Internals/Firebase/store";
 
   export let activity;
   export let toggle = false;
 
-  export let firebase;
+ 
 
   let toggleResultScreen;
   let toggleRound;
@@ -25,11 +26,6 @@
   let countdown;
   setDefaultValues();
 
-  let db;
-
-  onMount(async () => {
-    db = await firebase.firestore();
-  });
 
   function retrieveQuizFromBattles() {
     if (
@@ -145,6 +141,7 @@
   }
 
   async function storeBattleResult(score) {
+    let db = $firebase.firestore()
     let data = {
       time: Date.now(),
       activityId: activity.id,

@@ -34,6 +34,7 @@ export async function getPlayer(firebase, user) {
 }
 
 export async function loginUser(firebase, newUser) {
+  console.log(firebase);
   let user;
   let player;
   if (newUser) {
@@ -41,7 +42,7 @@ export async function loginUser(firebase, newUser) {
     user.idTokenResult = await user.getIdTokenResult();
     player = await getPlayer(firebase, user);
   } else {
-    firebase
+   firebase
       .auth()
       .signInAnonymously()
       .then(() => {})

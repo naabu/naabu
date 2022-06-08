@@ -1,10 +1,10 @@
 <script>
   import Show from "$lib/Activity/Components/show.svelte";
   import { getStores, page } from "$app/stores";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import { t } from "svelte-intl-precompile";
 
-  let firebase;
+ 
 
   let activity;
   let mounted = false;
@@ -20,15 +20,15 @@
   ];
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
+     
       await retrieveFirestoreData();
       mounted = true;
     }
   })();
 
   async function retrieveFirestoreData() {
-    let db = await firebase.firestore();
+    let db = await $firebase.firestore();
     let ref = db.collection("activities").doc($page.params.id);
     let snap = await ref.get();
     if (snap.exists) {
@@ -51,5 +51,5 @@
 </script>
 
 {#if mounted && activity}
-  <Show bind:activity bind:breadcrumbs bind:firebase />
+  <Show bind:activity bind:breadcrumbs  />
 {/if}

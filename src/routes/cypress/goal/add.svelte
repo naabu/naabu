@@ -1,9 +1,9 @@
 <script>
   import { getStores, session, page } from "$app/stores";
   import { onMount } from "svelte";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import DOMPurify from 'dompurify';
-  let firebase;
+ 
   let resetDone = false;
   let mounted = false;
   let db;
@@ -46,7 +46,7 @@
       let goalData1 = {
         title: "Cypress Test Goal 1",
         description: "This is a test goal for Cypress",
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        createdAt:$firebase.firestore.FieldValue.serverTimestamp(),
       };
       feedbackstring += "Set goal 1 <br>";
       await goalRef1.set(goalData1);
@@ -55,7 +55,7 @@
       let goalData2 = {
         title: "Cypress Test Goal 2",
         description: "This is a test goal for Cypress",
-        createdAt: firebase.firestore.FieldValue.serverTimestamp(),
+        createdAt:$firebase.firestore.FieldValue.serverTimestamp(),
       };
       feedbackstring += "Set goal 2 <br>";
       await goalRef2.set(goalData2);
@@ -94,9 +94,9 @@
   })();
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
-      db = await firebase.firestore();
+    if ($firebase) {
+     
+      db = await $firebase.firestore();
       mounted = true;
     }
   })();

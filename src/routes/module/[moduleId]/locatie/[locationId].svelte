@@ -4,10 +4,9 @@
   import { getStores, session, page } from "$app/stores";
   import { filterSelectedActivities, getUserModule } from "$lib/Module/Components/helper";
   import { t } from "svelte-intl-precompile";
+  import { firebase } from "$lib/Internals/Firebase/store";
 
   let module;
-  let firebase;
-
   let userModule = null;
   let filteredActivities;
   let timer = null;
@@ -26,7 +25,7 @@
       if (timer == null) {
         timer = setInterval(async () => {
           userModule = await getUserModule(
-            firebase,
+           $firebase,
             module.id,
             module,
             $session.player
@@ -42,7 +41,7 @@
 
 <GetModuleData
   bind:module
-  bind:firebase
+  
   bind:userModule
   loadUserModule={true}
 />

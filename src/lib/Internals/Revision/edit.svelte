@@ -11,9 +11,9 @@
   } from "$lib/Goal/Components/helper";
   import Button from "../Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
-
+  import { firebase } from "$lib/Internals/Firebase/store";
   export let battleCol;
-  export let firebase;
+ 
 
   let y;
 
@@ -69,7 +69,7 @@
   });
 
   async function editGoal() {
-    const db = await firebase.firestore();
+    const db = await $firebase.firestore();
     let data = getGoalSaveData(revision, $session.serverFirestoreTimeStamp);
 
     alert = getDefaultAlertValues();
@@ -101,7 +101,7 @@
           revision,
           data,
           $session.user.uid,
-          firebase
+         $firebase
         );
 
         alert.success = true;

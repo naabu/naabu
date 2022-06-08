@@ -1,30 +1,25 @@
 <script>
   import ShowActivity from "$lib/Activity/Components/show.svelte";
   import { getStores, session } from "$app/stores";
-  import MainTabs from "$lib/Internals/Tabs/goal.svelte";
   import { goto } from "$app/navigation";
-  import { onMount } from "svelte";
-  import { getCurriculumProfile } from "$lib/Goal/Curriculum/Components/helper";
   import {
-    getActivitySaveData,
     getDifficultyToString,
     getTypeText,
   } from "$lib/Activity/Components/helper";
   import {
-    createRevision,
     getActivitySort,
     getDifferencesBetweenRevisions,
   } from "$lib/Internals/Revision/helper";
   import Button from "$lib/Internals/Button/Button.svelte";
   import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
   import { t } from "svelte-intl-precompile";
-  export let firebase;
+  import { createUpdate } from "$lib/Internals/Update/helper";
+  import { firebase } from "$lib/Internals/Firebase/store";
+
   export let showActivity;
   export let activity;
 
   let buttonDisabled = false;
-
-  let db;
 
   let connectionData;
 
@@ -33,8 +28,10 @@
       type: "goal-activity",
       sourceId: activity.goalId,
       linkId: activity.id,
-      updatedAt: firebase.firestore.Timestamp.now().seconds,
-      inProgressAt: firebase.firestore.Timestamp.now().seconds,
+      sourceType: "goal",
+      linkType: "activity",
+      updatedAt:$firebase.firestore.Timestamp.now().seconds,
+      inProgressAt:$firebase.firestore.Timestamp.now().seconds,
       authorId: $session.user.uid,
       title: activity.title,
       fields: [
@@ -54,15 +51,14 @@
     };
   }
 
-  onMount(async () => {
-    db = await firebase.firestore();
-  });
+
 
   function goBackToActivityEdit() {
     goto("/lerarenkamer/activiteit/" + activity.id);
   }
 
   async function updateConnection() {
+    let db = $firebase.firestore();
     buttonDisabled = true;
     if ($session.user.uid) {
       let connectionCollRef = db.collection("connections");
@@ -98,11 +94,16 @@
                 type: "activity-updated-teacher",
                 differences: differences,
                 authorId: $session.user.uid,
-                createdAt: firebase.firestore.Timestamp.now().seconds,
+                createdAt:$firebase.firestore.Timestamp.now().seconds,
                 connectionId: activity.connectionId,
+                connectionSourceId: connection.sourceId,
+                connectionLinkId: connection.linkId,
+                connectionType: connection.type,
+                connectionSourceType: connection.sourceType,
+                connectionLinkType: connection.linkType,
               };
 
-              await createUpdate(updateData);
+              await createUpdate(db, $session, updateData);
             }
             goto(
               "/leerdoel/" +
@@ -118,23 +119,13 @@
     }
   }
 
-  async function createUpdate(updateData) {
-    if ($session.player.curriculumProfileId) {
-      updateData.curriculumProfile = await getCurriculumProfile(
-        db,
-        $session.player.curriculumProfileId
-      );
-    }
-    let updatesColRef = db.collection("updates");
-    await updatesColRef.add(updateData);
-  }
-
   async function openActivity() {
+    let db = $firebase.firestore();
     buttonDisabled = true;
     if ($session.user.uid) {
       let connectionCollRef = db.collection("connections");
       try {
-        connectionData.createdAt = firebase.firestore.Timestamp.now().seconds;
+        connectionData.createdAt =$firebase.firestore.Timestamp.now().seconds;
         connectionData.status = "in-progress";
         connectionData.lastRevisionId = activity.latestRevisionId;
         let result = await connectionCollRef.add(connectionData);
@@ -153,7 +144,7 @@
         if (activity.plugins) {
           activity.plugins = getPluginDataFromForm(activity.plugins);
         }
-        
+
         let differences = getDifferencesBetweenRevisions(
           {},
           activity,
@@ -164,10 +155,15 @@
           type: "created-teacher",
           differences: differences,
           authorId: $session.user.uid,
-          createdAt: firebase.firestore.Timestamp.now().seconds,
+          createdAt:$firebase.firestore.Timestamp.now().seconds,
           connectionId: result.id,
+          connectionSourceId: connectionData.sourceId,
+          connectionLinkId: connectionData.linkId,
+          connectionType: connectionData.type,
+          connectionSourceType: connectionData.sourceType,
+          connectionLinkType: connectionData.linkType,
         };
-        await createUpdate(updateData);
+        await createUpdate(db, $session, updateData);
 
         goto("/leerdoel/" + activity.goalId + "/activiteiten/" + result.id);
       } catch (e) {
@@ -179,7 +175,7 @@
 
 {#if showActivity}
   <ShowActivity
-    bind:firebase
+    
     bind:activity={showActivity}
     showFeedback={false}
   />
@@ -213,5 +209,4 @@
   </div>
 {:else}
   {$t("login-to-connect-activity")}
-  
 {/if}

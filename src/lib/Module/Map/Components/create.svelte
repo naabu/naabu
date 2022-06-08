@@ -2,13 +2,11 @@
   import MapForm from "$lib/Module/Map/Components/form.svelte";
   import ShowBreadcrumb from "$lib/Internals/Breadcrumb/show.svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
-  import { onMount } from "svelte";
   import { getMapSaveData } from "$lib/Module/Map/Components/helper";
   import { getStores, session } from "$app/stores";
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
-
-  export let firebase;
+  import { firebase } from "$lib/Internals/Firebase/store";
 
   let breadcrumbs = [
     {
@@ -26,7 +24,6 @@
   ];
 
   let y;
-  let db;
   let map = {
     title: "",
     image:
@@ -48,11 +45,8 @@
 
   let alert = getDefaultAlertValues();
 
-  onMount(async () => {
-    db = await firebase.firestore();
-  });
-
   async function createMap() {
+    let db = $firebase.firestore();
     let data = getMapSaveData(map);
     data.authorId = $session.user.uid;
     alert = getDefaultAlertValues();
@@ -63,7 +57,7 @@
       alert.successTitle = $t("map-created");
       alert.successMessage = "id: " + result.id;
       map.id = result.id;
-      updateActivities(firebase, map);
+      updateActivities($firebase, map);
     } catch (e) {
       alert.error = true;
       alert.errorCode = e.code;

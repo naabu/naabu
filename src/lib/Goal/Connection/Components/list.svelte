@@ -7,21 +7,30 @@
   import TimeAgo from "javascript-time-ago";
   import nl from "javascript-time-ago/locale/nl.json";
   import en from "javascript-time-ago/locale/en.json";
-
-  import { t, locale  } from "svelte-intl-precompile";
+  import { firebase } from "$lib/Internals/Firebase/store";
+  import { t, locale } from "svelte-intl-precompile";
   import {
     compareTimeLeftToApprove,
     compareTimeLeftToNeedsWork,
     compareTimeLeftToTrash,
   } from "$lib/Goal/Connection/Components/helper";
-  export let firebase;
+ 
   export let goalId;
   export let urlType;
   export let status;
-  let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
+  let serverTimestamp =$firebase.firestore.Timestamp.now().seconds;
   let daysToSendToTrash = 100 * 86400;
   let daysToSendToApproval = 2 * 86400;
   let daysToSendToNeedsWork = 3 * 86400;
+
+  $: if (connections) {
+    for (let i = 0; i < connections.length; i++) {
+      connections[i].connectionToLinkId = connections[i].linkId;
+      if (connections[i].type === "goal-activity") {
+        connections[i].connectionToLinkId = connections[i].id;
+      }
+    }
+  }
 
   $: if (status === "needs-work") {
     for (let i = 0; i < connections.length; i++) {
@@ -51,7 +60,7 @@
   }
 
   function setServerTimeInFunction() {
-    serverTimestamp = firebase.firestore.Timestamp.now().seconds;
+    serverTimestamp =$firebase.firestore.Timestamp.now().seconds;
   }
 
   setInterval(setServerTimeInFunction, 3000);
@@ -93,29 +102,12 @@
                 >
                   {$t("last-update")}
                 </th>
-                {#if status === "needs-work"}
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    {$t("time-for-trash")}
-                  </th>
-                {:else if status === "in-progress"}
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    {$t("time-for-approval")}
-                  </th>
-                {:else if status === "needs-approval"}
-                  <th
-                    scope="col"
-                    class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
-                  >
-                    {$t("time-for-needs-work")}
-                  </th>
-                {/if}
-
+                <th
+                  scope="col"
+                  class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  {$t("status")}
+                </th>
                 <th scope="col" class="relative px-6 py-3">
                   <span class="sr-only">{$t("edit")}</span>
                 </th>
@@ -134,7 +126,7 @@
                     <div class="text-sm text-gray-900">
                       {formatToTimeAgo(
                         connection.modifiedAt,
-                        firebase,
+                       $firebase,
                         timeAgo,
                         $t
                       )}
@@ -144,55 +136,23 @@
                     <div class="text-sm text-gray-900">
                       {formatToTimeAgo(
                         connection.lastUpdatesAt,
-                        firebase,
+                       $firebase,
                         timeAgo,
                         $t
                       )}
                     </div>
                   </td>
-                  {#if status === "needs-work"}
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">
-                        {formatToTimeLeft(
-                          serverTimestamp,
-                          connection.timeInFutureToTrash,
-                          firebase,
-                          timeAgo,
-                          $t
-                        )}
-                      </div>
-                    </td>
-                  {:else if status === "in-progress"}
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">
-                        {formatToTimeLeft(
-                          serverTimestamp,
-                          connection.timeInFutureToApprove,
-                          firebase,
-                          timeAgo,
-                          $t
-                        )}
-                      </div>
-                    </td>
-                  {:else if status === "needs-approval"}
-                    <td class="px-6 py-4 whitespace-nowrap">
-                      <div class="text-sm text-gray-900">
-                        {formatToTimeLeft(
-                          serverTimestamp,
-                          connection.timeInFutureToNeedsWork,
-                          firebase,
-                          timeAgo,
-                          $t
-                        )}
-                      </div>
-                    </td>
-                  {/if}
+                  <td class="px-6 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-900">
+                      {$t(connection.status)}
+                    </div>
+                  </td>
 
                   <td
                     class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                   >
                     <a
-                      href="/leerdoel/{goalId}/{urlType}/{connection.id}"
+                      href="/leerdoel/{goalId}/{urlType}/{connection.connectionToLinkId}"
                       class="text-indigo-600 hover:text-indigo-900"
                       >{$t("history")}</a
                     >
@@ -206,5 +166,7 @@
     </div>
   </div>
 {:else}
-  {$t("no-connection-found")}
+  <slot name="not-found">
+    {$t("no-connection-found")}
+  </slot>
 {/if}

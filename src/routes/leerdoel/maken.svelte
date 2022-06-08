@@ -1,7 +1,7 @@
 <script>
   import CreateGoal from "$lib/Goal/Components/create.svelte";
   import { onMount } from "svelte";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import { getStores, session } from "$app/stores";
   import { t } from "svelte-intl-precompile";
 
@@ -16,16 +16,15 @@
       value: $t("create-goal"),
     },
   ];
-  let firebase;
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
+      
     }
   })();
 </script>
 
-{#if firebase}
+{#if $firebase}
   <ContainerBreadcrumpPageTitle bind:breadcrumbs title={$t("create-goal")} />
-  <CreateGoal bind:firebase />
+  <CreateGoal />
 {/if}

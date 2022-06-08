@@ -2,7 +2,7 @@
   import ActivityDiff from "$lib/Internals/Revision/ActivityDiff.svelte";
   import GoalDiff from "$lib/Internals/Revision/goalDiff.svelte";
   import { getStores, page } from "$app/stores";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import { getNextAndPreviousRevisions } from "$lib/Internals/Revision/helper";
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/Components/helper";
@@ -17,7 +17,7 @@
   let menuitems;
 
   let goal;
-  let firebase;
+ 
   let breadcrumbs;
   let revisions;
   let toggleShowAllHistory = false;
@@ -67,15 +67,15 @@
   }
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
+     
       await retrieveFirestoreData();
       mounted = true;
     }
   })();
 
   async function retrieveFirestoreData() {
-    let db = await firebase.firestore();
+    let db = await $firebase.firestore();
     let newRef = db.collection("revisions").doc($page.params.id);
     let newSnap = await newRef.get();
     if (newSnap.exists) {
@@ -132,7 +132,7 @@
     {/if}
   {:else}
     <GetRevisionListData
-      bind:firebase
+      
       bind:revisions
       revisionType="activity"
       bind:sourceId={revisionNew.revisionSourceId}
@@ -172,14 +172,14 @@
         />
 
         <ShowRevisionHistory
-          bind:firebase
+          
           bind:revisions
           bind:toggle={toggleShowAllHistory}
           bind:activeRevisionId={revisionNew.revisionId}
         />
         {#if latestRevisionId && revisionNew.revisionId !== latestRevisionId}
           <SaveActivityRevision
-            bind:firebase
+            
             bind:latestRevisionId
             bind:revision={revisionNew}
           />

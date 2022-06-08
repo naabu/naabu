@@ -1,9 +1,9 @@
 <script>
   import ClearHelper from "$lib/Internals/Cypress/clearFirestore.svelte";
   import { getStores, session, page } from "$app/stores";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   let oldUser = null;
-  let firebase;
+ 
   let auth;
   let resetFeedback = false;
   let resetUserGoalScore = false;
@@ -16,9 +16,8 @@
   }
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
-      auth = await firebase.auth();
+    if ($firebase) {
+      auth = await $firebase.auth();
     }
   })();
 </script>

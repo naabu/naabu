@@ -23,5 +23,5 @@ For support questions use the issue queue or reach out by [Discord](https://disc
 
 ## Roadmap
 2022:
-- Q2: Implement [moment-to-moment learning curves](https://www.upenn.edu/learninganalytics/ryanbaker/GraphReplayBakerEtAlJLS08132013.pdf) dashboards.
+- Q2: Teacher dashboard plugins with [moment-to-moment learning curves](https://www.upenn.edu/learninganalytics/ryanbaker/GraphReplayBakerEtAlJLS08132013.pdf) dashboards.
 - Q3: More features for teachers to better control the teaching of course modules.

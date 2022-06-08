@@ -5,7 +5,7 @@
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
   export let activity;
-  export let firebase;
+ 
 
   let redirect;
 
@@ -21,7 +21,7 @@
 </script>
 
 {#if activity}
-  <ShowActivity bind:firebase bind:activity showFeedback={false} />
+  <ShowActivity  bind:activity showFeedback={false} />
 {/if}
 
 {#if redirect}

@@ -6,6 +6,7 @@
   import FormField from "$lib/Internals/FormFields/FormField.svelte";
   import FieldSet from "$lib/Internals/FormFields/FieldSet.svelte";
   import Textarea from "$lib/Internals/FormFields/Textarea.svelte";
+  import PluginForm from "$lib/Internals/Plugin/Form.svelte";
   import { t } from "svelte-intl-precompile";
 
   export let module;
@@ -44,6 +45,7 @@
 <FormField title={$t("svg-image")} forId="svg">
   <Textarea id="svg" rows="5" bind:value={module.moduleSvg} />
 </FormField>
+
 <FormField title={$t("map")} forId="maps">
   <Select
     id="maps"

@@ -13,7 +13,7 @@
 
   let y;
   export let ref;
-  export let firebase;
+ 
   let snap;
   let map;
 

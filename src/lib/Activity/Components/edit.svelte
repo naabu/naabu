@@ -1,6 +1,6 @@
 <script>
   import { getStores, session, page } from "$app/stores";
-  import { onMount } from "svelte";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import ActivityForm from "$lib/Activity/Components/form.svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import { getActivitySaveData } from "$lib/Activity/Components/helper";
@@ -17,13 +17,7 @@
   let y;
   export let previousActivity;
   export let activity;
-  export let firebase;
-
-  let db;
-
-  onMount(async () => {
-    db = await firebase.firestore();
-  });
+ 
 
   async function goBackToSearchGoals() {
     if (activity.id) {
@@ -49,13 +43,13 @@
       );
       if (differences.length > 0) {
         let resultRevision = await createRevision(
-          firebase,
+          $firebase,
           activity,
           activityData,
           $session.user.uid
         );
         activityData.latestRevisionId = resultRevision.id;
-        activityData.latestRevisionCreatedAt = firebase.firestore.Timestamp.now().seconds;
+        activityData.latestRevisionCreatedAt = $firebase.firestore.Timestamp.now().seconds;
 
         if (activity.latestRevisionId) {
           activityData.previousRevisionId = activity.latestRevisionId;
@@ -64,7 +58,7 @@
 
       activityData.authorId = $session.user.uid;
       alert = getDefaultAlertValues();
-      let db = firebase.firestore();
+      let db = $firebase.firestore();
 
       let ref = db.collection("activities").doc(activity.id);
       try {

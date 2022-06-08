@@ -5,12 +5,14 @@
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/Components/helper";
   import GetConnectionData from "$lib/Goal/Connection/Data/getConnectionData.svelte";
   import GetGoalData from "$lib/Goal/Data/getGoalData.svelte";
+  import ActivityConnectionPage from "$lib/Activity/Components/ConnectionPage.svelte";
   import { t } from "svelte-intl-precompile";
 
   let goal;
   let connection;
+  let isTeacher = false;
 
-  let firebase;
+ 
   let breadcrumbs;
 
   $: if (goal) {
@@ -30,13 +32,13 @@
   }
 </script>
 
-<GetGoalData bind:firebase bind:goal/>
-<GetConnectionData bind:firebase bind:connection/>
+<GetGoalData  bind:goal />
+<GetConnectionData  bind:connection />
 
-<ConnectionTemplate bind:goal bind:firebase bind:breadcrumbs>
-  <ConnectionPage
-    bind:goal
-    bind:firebase
-    bind:connection
-  />
-</ConnectionTemplate>
+{#if connection !== null}
+  <ConnectionTemplate bind:goal  bind:breadcrumbs>
+    <ConnectionPage bind:goal  bind:connection bind:isTeacher>
+      <ActivityConnectionPage bind:connection bind:isTeacher/>
+    </ConnectionPage>
+  </ConnectionTemplate>
+{/if}

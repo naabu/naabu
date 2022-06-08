@@ -1,14 +1,14 @@
 <script>
   import { getStores, session } from "$app/stores";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import { login } from "$lib/Internals/Firebase/helper";
   import { t } from "svelte-intl-precompile";
 
   async function loginTeacher() {
-    let firebase = $firebaseStore;
-    if (firebase) {
+    if ($firebase) {
       try {
-        let result = await login(firebase, $t);
+        let fb = $firebase;
+        let result = await login(fb, $t);
         if (result !== null) {
           $session.user = result.user;
           $session.player = result.player;
@@ -20,7 +20,7 @@
   }
 </script>
 
-{#if $firebaseStore}
+{#if $firebase}
   {#if $session.user}
     <slot />
   {:else}

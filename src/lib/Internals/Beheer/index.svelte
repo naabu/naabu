@@ -4,13 +4,22 @@
   import { getStores, page, session } from "$app/stores";
   import { onMount } from "svelte";
   import Notification from "$lib/Internals/Misc/notification.svelte";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import Button from "../Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
 
-  let firebase;
+ 
+  let loaded = false;
 
   let db;
+
+  $: (async () => {
+    if ($firebase) {
+      db = $firebase.firestore()
+    }
+  })();
+
+
   let displayNotification = false;
   let notificationText = {
     title: $t("export-success-copy"),
@@ -27,12 +36,7 @@
   async function trigger() {
     // We can put data in the firestore collection Name + timestamp.
     let docRef = db.collection("triggers").doc("data-export");
-    let snap = await docRef.get();
-    if (snap.exists) {
-      docRef.update({ lastTriggerTimestamp: Date.now() });
-    } else {
-      docRef.set({ lastTriggerTimestamp: Date.now() });
-    }
+    await docRef.set({ lastTriggerTimestamp: Date.now() });
   }
 
   async function exportActivityData() {
@@ -59,10 +63,18 @@
     }
   }
 
-  onMount(async () => {
-    firebase = await initFirebase($session.environment);
-    db = await firebase.firestore();
-  });
+  async function runMigrations() {
+    let docRef = db.collection("triggers").doc("run-migration");
+    await docRef.set({ lastTriggerTimestamp: Date.now() });
+  }
+
+  $: (async () => {
+    if ($firebase) {
+     
+      db = await $firebase.firestore();
+      loaded = true;
+    }
+  })();
 </script>
 
 <Notification bind:displayNotification bind:notificationText time="4000" />
@@ -72,10 +84,15 @@
 <br />
 
 {#if $session.user && $session.user.idTokenResult.claims.canDebugDevelopment}
-  <Button on:click={trigger} color="primary" content={$t("trigger-functions")} />
+  <Button
+    on:click={trigger}
+    color="primary"
+    content={$t("trigger-functions")}
+  />
   <Button
     on:click={exportActivityData}
     content={$t("get-activities-export-json")}
   />
   <Button on:click={exportGoalData} content={$t("goals-export-json")} />
+  <Button on:click={runMigrations} content={$t("run-migrations")} />
 {/if}

@@ -6,12 +6,12 @@
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
-  export let firebase;
+  import { firebase } from "$lib/Internals/Firebase/store";
+ 
   export let curriculumProfile;
 
   let buttonDisabled = false;
   let y;
-  let db;
   let alert = getDefaultAlertValues();
 
   function getDefaultAlertValues() {
@@ -28,6 +28,7 @@
     buttonDisabled = true;
     let data = curriculumProfile;
     alert = getDefaultAlertValues();
+    let db = $firebase.firestore();
     try {
       let profileRef = db.collection("curriculumProfile").doc(data.id);
       let result = await profileRef.set(data);
@@ -45,9 +46,7 @@
     }, 5000);
   }
 
-  onMount(async () => {
-    db = await firebase.firestore();
-  });
+
 </script>
 
 <svelte:window bind:scrollY={y} />

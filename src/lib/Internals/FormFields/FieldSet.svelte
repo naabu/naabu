@@ -10,6 +10,7 @@
   <div class="divide-y divide-gray-200 space-y-6 sm:space-y-5">
     {#if title || description}
       <div class="pt-8 sm:pt-10">
+        <slot name="top" />
         {#if title}
           <h3 class="text-lg leading-6 font-medium text-gray-900">{title}</h3>
         {/if}
@@ -27,7 +28,7 @@
   <div class="bg-white shadow px-4 py-5 sm:rounded-lg sm:p-6">
     <div class="md:grid md:grid-cols-3 md:gap-6">
       <div class="md:col-span-1">
-        <slot name="top"/>
+        <slot name="top" />
         {#if title || description}
           {#if title}
             <h3 class="text-lg leading-6 font-medium text-gray-900">{title}</h3>

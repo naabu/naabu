@@ -105,7 +105,5 @@
     <Textarea id="svg" rows="5" bind:value={activity.svg} />
   </FormField>
 
-  <FieldSet title="Plugins" description="{$t("add-plugin-text")}">
-    <PluginForm bind:plugins={activity.plugins} />
-  </FieldSet>
+  <PluginForm bind:plugins={activity.plugins} />
 </div>

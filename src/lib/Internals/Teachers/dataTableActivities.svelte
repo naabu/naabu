@@ -11,7 +11,8 @@
   import RemoveDialog from "../Misc/RemoveDialog.svelte";
   import Button from "../Button/Button.svelte";
   import ShareDialog from "$lib/Activity/Components/ShareDialog.svelte";
-  export let firebase;
+  import { firebase } from "$lib/Internals/Firebase/store";
+  
   export let activities;
   let deleteActivityToggle = false;
 
@@ -36,7 +37,7 @@
 
   async function removeDraft() {
     if (activityDeleteId !== null && activityDeleteIndex !== null) {
-      let db = await firebase.firestore();
+      let db = await $firebase.firestore();
       try {
         await db.collection("activities").doc(activityDeleteId).delete();
         alert.successTitle = $t("activity-removed");

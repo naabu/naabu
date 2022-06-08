@@ -8,10 +8,10 @@
   let menuitems = getTeacherMenuitems($page.url.pathname, $t);
   let modules = [];
   let ready = false;
-  let firebase;
+ 
 </script>
 
-<GetMapsListData bind:modules bind:mounted={ready} bind:firebase />
+<GetMapsListData bind:modules bind:mounted={ready}  />
 
 <Sidebar bind:menuitems>
   <span slot="cta-button">
@@ -27,7 +27,7 @@
 
   <span slot="content">
     {#if ready}
-      <ListModules bind:modules bind:firebase />
+      <ListModules bind:modules  />
     {:else}
       {$t("loading")}
     {/if}

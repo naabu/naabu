@@ -5,7 +5,7 @@
   import GetConnectionListsData from "$lib/Goal/Connection/Data/getConnectionListsData.svelte";
   import { t } from "svelte-intl-precompile";
   export let goal;
-  export let firebase;
+ 
   let mounted;
   let prerequisitesConnections;
   let specializationConnections;
@@ -17,7 +17,7 @@
   bind:goalId={goal.id}
   type="goal-prerequisites"
   status="published"
-  bind:firebase
+  
   bind:mounted
   bind:connections={prerequisitesConnections}
 />
@@ -26,7 +26,7 @@
   bind:goalId={goal.id}
   type="goal-specializations"
   status="published"
-  bind:firebase
+  
   bind:mounted
   bind:connections={bigideasConnections}
 />
@@ -35,7 +35,7 @@
   bind:goalId={goal.id}
   type="goal-deeperunderstandings"
   status="published"
-  bind:firebase
+  
   bind:mounted
   bind:connections={deeperunderstandingConnections}
 />
@@ -44,7 +44,7 @@
   bind:goalId={goal.id}
   type="goal-bigideas"
   status="published"
-  bind:firebase
+  
   bind:mounted
   bind:connections={deeperunderstandingConnections}
 />
@@ -65,7 +65,7 @@
   <ConnectionList
     urlType="voorkennis"
     bind:goalId={goal.id}
-    bind:firebase
+    
     bind:connections={prerequisitesConnections}
   />
 </div>
@@ -77,7 +77,7 @@
   <ConnectionList
     urlType="specialisatie"
     bind:goalId={goal.id}
-    bind:firebase
+    
     bind:connections={specializationConnections}
   />
 </div>
@@ -88,7 +88,7 @@
   <ConnectionList
     urlType="groot-idee"
     bind:goalId={goal.id}
-    bind:firebase
+    
     bind:connections={bigideasConnections}
   />
 </div>
@@ -101,7 +101,7 @@
   <ConnectionList
     urlType="dieper-inzicht"
     bind:goalId={goal.id}
-    bind:firebase
+    
     bind:connections={deeperunderstandingConnections}
   />
 </div>

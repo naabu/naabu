@@ -1,6 +1,6 @@
 <script>
   import { getStores, session } from "$app/stores";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import { t } from "svelte-intl-precompile";
   import DOMPurify from 'dompurify';
   export let collection;
@@ -14,7 +14,7 @@
   export let uid = null;
   export let titleCheck = false;
   export let title = null;
-  let firebase;
+ 
   export let resetDone = false;
 
   export let showComplete = true;
@@ -37,7 +37,7 @@
         if (idCheck && ids && ids.length > 0) {
           clearCollection = db
             .collection(collection)
-            .where(firebase.firestore.FieldPath.documentId(), "in", ids);
+            .where($firebase.firestore.FieldPath.documentId(), "in", ids);
         }
         if (titleCheck && title !== null) {
           clearCollection = db
@@ -76,7 +76,7 @@
             .collection(collection)
             .doc(docRefArray[i])
             .collection(subcollection)
-            .where(firebase.firestore.FieldPath.documentId(), "in", ids);
+            .where($firebase.firestore.FieldPath.documentId(), "in", ids);
 
           let subQuerySnapshot = await subcollectionQuery.get();
           let subDocRefArray = [];
@@ -118,9 +118,9 @@
   })();
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
-      db = await firebase.firestore();
+    if ($firebase) {
+     
+      db = await $firebase.firestore();
       mounted = true;
     }
   })();

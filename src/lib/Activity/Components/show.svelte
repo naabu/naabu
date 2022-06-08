@@ -3,19 +3,26 @@
   import ShowBreadcrumb from "$lib/Internals/Breadcrumb/show.svelte";
   import Notification from "$lib/Internals/Misc/notification.svelte";
   import DifficultyFeedback from "$lib/Activity/Components/feedbackDifficulty.svelte";
-  import BattleFight from "$lib/Goal/Components/battleFight.svelte";
   import { hasSpecialClaims } from "$lib/Internals/User/helper.js";
-  import ShowPlugins from "$lib/Internals/Plugin/Show.svelte";
+  import ShowPlugins from "$lib/Internals/Plugin/ShowActivityPlugins.svelte";
   import { goto } from "$app/navigation";
   import { t } from "svelte-intl-precompile";
-  import DOMPurify from 'dompurify';
-  export let firebase;
+  import DOMPurify from "dompurify";
+  import { firebase } from "$lib/Internals/Firebase/store";
+
+  import { createEventDispatcher } from "svelte";
   export let activity;
   export let showFeedback = true;
   export let pluginFinished = false;
+  const dispatch = createEventDispatcher();
+  let activityStartTime = null;
 
   $: if (pluginFinished && showFeedback) {
     toggleFeedback = true;
+  }
+
+  $: if (activity &&$firebase && activityStartTime == null) {
+    activityStartTime =$firebase.firestore.Timestamp.now().seconds;
   }
 
   let displayNotification = false;
@@ -50,6 +57,7 @@
   let userHasSpecialClaims = hasSpecialClaims($session.user);
 
   async function endActivity() {
+    activityStartTime = null;
     if (!userHasSpecialClaims) {
       setTimeout(async () => {
         await goto(
@@ -77,19 +85,31 @@
 
   export let breadcrumbs = [];
 
-  $: if (activity) {
-    for (let i = 0; i < activity.quizzes.length; i++) {
-      activity.quizzes[i].selectedAnswer = null;
-      activity.quizzes[i].correct = false;
-    }
-  }
-
   function scrollABitToTheTop(scroll = 200) {
     if (y - scroll > 0) {
       y = y - scroll;
     } else {
       y = 0;
     }
+  }
+
+  function lowLevelData(event) {
+    let lowLevelDataObject = event.detail.lowLevelData;
+    lowLevelDataObject.activityId = activity.id;
+    lowLevelDataObject.activityTitle = activity.title;
+    lowLevelDataObject.activityAuthorId = activity.authorId;
+    lowLevelDataObject.activityType = activity.type;
+    lowLevelDataObject.activityDifficulty = activity.difficulty;
+    lowLevelDataObject.activityRevisionId = activity.latestRevisionId;
+    lowLevelDataObject.activityRevisionCreatedAt =
+      activity.latestRevisionCreatedAt;
+    lowLevelDataObject.activityStartTime = activityStartTime;
+    lowLevelDataObject.time =$firebase.firestore.Timestamp.now().seconds;
+    lowLevelDataObject.activityTimeIn =
+      lowLevelDataObject.time - activityStartTime;
+    lowLevelDataObject.goalId = activity.goalId;
+
+    dispatch("lowLevelData", { lowLevelData: lowLevelDataObject });
   }
 </script>
 
@@ -104,11 +124,8 @@
       bind:toggle={toggleFeedback}
       bind:feedbackEnded
       bind:activity
-      bind:firebase
+      
     />
-  {/if}
-  {#if activity && activity.battles}
-    <BattleFight bind:toggle={fightToggle} bind:activity bind:firebase />
   {/if}
   {#if activity}
     <h1 class="text-lg leading-6 font-medium text-gray-900">
@@ -121,7 +138,12 @@
     {/if}
 
     {#if activity.plugins && activity.plugins.length > 0}
-      <ShowPlugins bind:object={activity} bind:finished={pluginFinished} />
+      <ShowPlugins
+        
+        bind:object={activity}
+        bind:finished={pluginFinished}
+        on:lowLevelData={lowLevelData}
+      />
     {/if}
   {:else}
     <p>

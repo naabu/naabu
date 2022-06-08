@@ -33,7 +33,7 @@ export function getTeacherMenuitems(pagePath, $t, activityStatus = "") {
       url: "/lerarenkamer/modules",
       icon: "calendar",
       datacy: "teacher-menu-modules",
-      selected: (pagePath === "/lerarenkamer/modules" || pagePath === "/lerarenkamer/module/maken"),
+      selected: (pagePath === "/lerarenkamer/modules" || pagePath.startsWith("/lerarenkamer/module/")),
     }
   ];
 }

@@ -5,13 +5,14 @@
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
   import MainTabs from "$lib/Internals/Tabs/goal.svelte";
-  export let firebase;
+
   export let goal;
   export let connectionGoal;
   let hasCurriculumProfile = false;
   import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
+  import { firebase } from "$lib/Internals/Firebase/store";
 
   let connection = {
     type: "prerequisit",
@@ -19,7 +20,6 @@
   };
 
   let alert = getDefaultAlertValues();
-  let db;
   let buttonDisabled = false;
   function getDefaultAlertValues() {
     return {
@@ -31,12 +31,9 @@
     };
   }
 
-  onMount(async () => {
-    db = await firebase.firestore();
-  });
-
   async function createConnection() {
-    let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
+    let db = $firebase.firestore();
+    let serverTimestamp = $firebase.firestore.Timestamp.now().seconds;
 
     let data = {
       sourceId: goal.id,
@@ -44,6 +41,8 @@
       linkId: connectionGoal.id,
       authorId: $session.user.uid,
       status: "in-progress",
+      sourceType: "goal",
+      linkType: "goal",
       title: connectionGoal.title,
       createdAt: serverTimestamp,
       modifiedAt: serverTimestamp,

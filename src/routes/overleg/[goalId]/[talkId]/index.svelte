@@ -1,12 +1,12 @@
 <script>
   import Talk from "$lib/Goal/Talk/Components/show.svelte";
   import { getStores, page } from "$app/stores";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
   import GetGoalData from "$lib/Goal/Data/getGoalData.svelte";
   import { t } from "svelte-intl-precompile";
 
-  let firebase;
+ 
 
   let goal;
   let talk;
@@ -14,15 +14,15 @@
   let posts = [];
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
+     
       await retrieveFirestoreData();
       mounted = true;
     }
   })();
 
   async function retrieveFirestoreData() {
-    let db = await firebase.firestore();
+    let db = await $firebase.firestore();
     let ref = db.collection("talk").doc($page.params.talkId);
     let snap = await ref.get();
     if (snap.exists) {
@@ -31,6 +31,7 @@
 
       let postsRef = db.collection("talk").doc(talk.id).collection("posts");
       let postsSnap = await postsRef.get();
+      posts = [];
       postsSnap.forEach((postDoc) => {
         let post = postDoc.data();
         post.id = postDoc.id;
@@ -60,12 +61,12 @@
 <GetGoalData
   bind:goal
   bind:goalId={$page.params.goalId}
-  bind:firebase
+  
   bind:mounted
 />
 {#if mounted}
   {#if goal}
     <ContainerBreadcrumpPageTitle bind:breadcrumbs title={goal.title} />
   {/if}
-  <Talk bind:talk bind:posts bind:firebase bind:goalId={$page.params.goalId} />
+  <Talk bind:talk bind:posts  bind:goalId={$page.params.goalId} />
 {/if}

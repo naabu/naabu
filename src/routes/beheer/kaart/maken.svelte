@@ -1,18 +1,18 @@
 <script>
 	import CreateMap from '$lib/Module/Map/Components/create.svelte';
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import { getStores, session} from "$app/stores"
   import { onMount } from 'svelte';
   
-  let firebase;
+ 
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
+     
     }
   })();
 </script>
 
-{#if firebase}
-  <CreateMap bind:firebase/>
+{#if $firebase}
+  <CreateMap />
 {/if}

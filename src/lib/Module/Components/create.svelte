@@ -7,7 +7,8 @@
   import { getStores, session } from "$app/stores";
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
-  export let firebase;
+  import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
+  import { firebase } from "$lib/Internals/Firebase/store";
 
   let y;
   let db;
@@ -19,11 +20,12 @@
     moduleName: "",
     moduleDescription: "",
     moduleSvg: "",
+    moduleDashboardPlugins: [],
   };
   let allMaps = [];
 
   onMount(async () => {
-    db = await firebase.firestore();
+    db = await $firebase.firestore();
     let querySnapshot = await db.collection("maps").get();
     allMaps = [];
     querySnapshot.forEach((doc) => {
@@ -40,10 +42,11 @@
 
   async function createModule() {
     let data = formatMapObject(module, false, true, false);
+    data.moduleDashboardPlugins = getPluginDataFromForm(module.moduleDashboardPlugins);
     alert = getDefaultAlertValues();
     data.authorId = $session.user.uid;
-    data.createdAt = firebase.firestore.Timestamp.now().seconds;
-    data.modifiedAt = firebase.firestore.Timestamp.now().seconds;
+    data.createdAt =$firebase.firestore.Timestamp.now().seconds;
+    data.modifiedAt =$firebase.firestore.Timestamp.now().seconds;
     try {
       let collectionRef = db.collection("modules");
       let result = await collectionRef.add(data);

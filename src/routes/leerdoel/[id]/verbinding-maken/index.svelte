@@ -4,10 +4,10 @@
   import { getStores, session, page } from "$app/stores";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/Components/helper";
   import { onMount } from "svelte";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
+  import { firebase } from "$lib/Internals/Firebase/store";
   import { t } from "svelte-intl-precompile";
   let goal;
-  let firebase;
+ 
   let breadcrumbs;
   let listLinkedGoalIds;
   let mounted = false;
@@ -25,15 +25,15 @@
   }
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
+     
       await retrieveFirestoreData();
       mounted = true;
     }
   })();
 
   async function retrieveFirestoreData() {
-    let db = await firebase.firestore();
+    let db = await $firebase.firestore();
     let collections = [
       "prerequisites",
       "deeperunderstandings",
@@ -60,9 +60,9 @@
   }
 </script>
 
-<ConnectionTemplate bind:goal bind:firebase bind:breadcrumbs>
+<ConnectionTemplate bind:goal  bind:breadcrumbs>
   {#if mounted}
-    <SearchGoalForConnection bind:goal bind:firebase bind:listLinkedGoalIds />
+    <SearchGoalForConnection bind:goal  bind:listLinkedGoalIds />
   {:else}
     {$t("loading")}
   {/if}

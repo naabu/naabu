@@ -4,8 +4,8 @@
   // import { getMap, getUserMap } from "$lib/Module/Map/Components/helper";
   import GetModuleData from "$lib/Module/Data/getModuleData.svelte";
   import { t } from "svelte-intl-precompile";
+  import { firebase } from "$lib/Internals/Firebase/store";
 
-  let firebase;
   let module;
   let userModule;
 
@@ -28,7 +28,7 @@
   $: if (userModule && !done) {
     done = true;
     userModule.newUnlockedLocation = false;
-    let db = firebase.firestore();
+    let db = $firebase.firestore();
     let userModuleRef = db
       .collection("modules/" + $page.params.moduleId + "/players")
       .doc(userModule.id);
@@ -36,7 +36,7 @@
   }
 </script>
 
-<GetModuleData bind:firebase bind:module bind:userModule />
+<GetModuleData  bind:module bind:userModule />
 {#if module && module.mapId}
   <Show bind:map={module} bind:userMap={userModule} isModule="true" />
 {:else}

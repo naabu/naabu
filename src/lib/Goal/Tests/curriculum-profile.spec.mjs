@@ -1,0 +1,64 @@
+
+
+import base from '@playwright/test';
+
+export const test = base.extend({
+  domain: ['http://localhost:3000', { option: true }],
+  showAllConsole: [false, { option: true }],
+});
+
+function printMessages(page, showAllConsole) {
+  page.on("console", (message) => {
+    if (message.type() === "error" || showAllConsole) {
+      console.log(message.text());
+    }
+  })
+}
+
+const expect = base.expect;
+
+
+test('Test flow for creating and editing learning goals @goal', async ({ page, domain, showAllConsole }) => {
+  printMessages(page, showAllConsole);
+  await page.goto(domain);
+  await page.click('[data-test=curriculum-menu]');
+  await page.click('[data-test=create-goal-link]');
+  await page.locator('[data-test=create-goal-submit-button]').isDisabled();
+  await page.click('[data-test=create-curriculum-profile-message]');
+  
+  // Login with Google$firebase emulator.
+  await page.goto(domain + '/cypress/user/deletegoalsnoprofile2@example.com/password/login');
+  await page.waitForSelector('[data-test=complete]');
+  await page.click('[data-test=curriculum-menu]');
+  await page.click('[data-test=create-goal-link]');
+  await page.click('[data-test=create-curriculum-profile-message]');
+  
+  await expect(page.locator('#linkGoogleButton')).not.toBeVisible();
+  // Fil in curriculum profile.
+  await page.fill('#fullname', 'John Doe');
+  await page.fill('#institution', 'University of Logic');
+  await page.fill('#email', 'johndoe@unilogic.org');
+  await page.fill('#credentials', 'Proffesor of logic (5 years) Head of department of logic.');
+  await page.click('[data-test=submit-button]');
+});
+
+
+async function clearData(page, domain) {
+  await page.goto(domain + '/cypress/user/deletegoalsnoprofile2@example.com/password/login');
+  await page.waitForSelector('[data-test=complete]');
+  await page.goto(domain + '/cypress/curriculumProfile/clear');
+  await page.waitForSelector('[data-test=complete]');
+  await page.goto(domain + '/cypress/user/clear');
+  await page.waitForSelector('[data-test=complete]');
+}
+
+test.beforeEach(async ({ page, domain, showAllConsole }, testInfo) => {
+  printMessages(page, showAllConsole);
+  await clearData(page, domain)
+});
+
+
+test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {
+  printMessages(page, showAllConsole);
+  await clearData(page, domain)
+});

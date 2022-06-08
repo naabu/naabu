@@ -1,8 +1,8 @@
 <!-- Create a map -->
 <script>
   import { getStores, session, page } from "$app/stores";
-  import { firebaseStore } from "$lib/Internals/Firebase/store";
-  let firebase;
+  import { firebase } from "$lib/Internals/Firebase/store";
+ 
   let moduleCreated = false;
   let ready = false;
 
@@ -14,8 +14,8 @@
   }
 
   $: (async () => {
-    if ($firebaseStore) {
-      firebase = $firebaseStore;
+    if ($firebase) {
+     
       if (
         ($session.environment === "cypress" ||
         $session.environment === "test"||
@@ -25,14 +25,14 @@
         !moduleCreated
       ) {
         moduleCreated = true;
-        let db = await firebase.firestore();
+        let db = await $firebase.firestore();
         try {
           let module = await getMapData(db);
           if (module) {
             module.moduleDescription = "Test module 1 description";
             module.moduleName = "Test module 1 title";
             module.moduleSvg = "";
-            (module.modifiedAt = firebase.firestore.Timestamp.now().seconds),
+            (module.modifiedAt =$firebase.firestore.Timestamp.now().seconds),
               (module.authorId = $session.user.uid);
             module.locations[0].goals = [
               {

@@ -2,7 +2,7 @@ version: "3"
 
 services:
   sveltekit-test:
-    image: ghcr.io/naabu/naabu_sveltekit<EXTRA>:<GITHUB_SHA>
+    image: ghcr.io/naabu/naabu_sveltekit<EXTRA>:<GITHUB_REF_NAME>
     volumes:
       - ./config/:/var/www/config
     entrypoint: ["npm", "run", "dev"]
@@ -13,7 +13,7 @@ services:
       - internal_network
 
   firebase:
-    image: ghcr.io/naabu/naabu_firebase<EXTRA>:<GITHUB_SHA>
+    image: ghcr.io/naabu/naabu_firebase<EXTRA>:<GITHUB_REF_NAME>
     volumes:
       - ./config/:/var/www/config
     environment:
@@ -23,7 +23,7 @@ services:
       - internal_network
 
   playwright:
-    image: ghcr.io/naabu/naabu_playwright<EXTRA>:<GITHUB_SHA>
+    image: ghcr.io/naabu/naabu_playwright<EXTRA>:<GITHUB_REF_NAME>
     volumes:
       - ./test-results/:/var/www/test-results
     environment:

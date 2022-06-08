@@ -1,18 +1,14 @@
 <script>
-  import {
-    getDifficultyToString,
-    getTypeText,
-  } from "$lib/Activity/Components/helper";
   import { formatToTimeAgo } from "$lib/Internals/Misc/helper";
   import nl from "javascript-time-ago/locale/nl.json";
   import en from "javascript-time-ago/locale/en.json";
-  import { getStores, page } from "$app/stores";
   import TimeAgo from "javascript-time-ago";
   import { t, locale } from "svelte-intl-precompile";
   import Button from "../Button/Button.svelte";
   import RemoveDialog from "$lib/Internals/Misc/RemoveDialog.svelte";
+  import { firebase } from "$lib/Internals/Firebase/store";
+  
   export let modules;
-  export let firebase;
 
   let moduleDeleteId = null;
   let moduleDeleteIndex = null;
@@ -31,7 +27,7 @@
 
   async function removeModule() {
     if (moduleDeleteId !== null && moduleDeleteIndex !== null) {
-      let db = await firebase.firestore();
+      let db = await $firebase.firestore();
       try {
         await db.collection("modules").doc(moduleDeleteId).delete();
         alert.successTitle = $t("module-removed");
@@ -98,12 +94,18 @@
                 </td>
                 <td class="px-6 py-4">
                   <div class="text-sm text-gray-900">
-                    {formatToTimeAgo(module.modifiedAt, firebase, timeAgo, $t)}
+                    {formatToTimeAgo(module.modifiedAt,$firebase, timeAgo, $t)}
                   </div>
                 </td>
                 <td
                   class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                 >
+                    <a
+                    data-test="module-dashboard-button-{index}"
+                    href="/lerarenkamer/module/{module.id}/dashboard"
+                    class="mr-1 underline text-indigo-600 hover:text-indigo-900"
+                    >{$t("dashboard")}</a
+                  >
                   <a
                     data-test="module-edit-button-{index}"
                     href="/lerarenkamer/module/{module.id}"

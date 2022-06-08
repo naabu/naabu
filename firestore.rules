@@ -57,6 +57,18 @@ service cloud.firestore {
         allow read, write, delete: if true
       }
     }
+
+    match /assessments/{assessmentId} {
+      allow read: if true
+      allow create, update: if get(/databases/$(database)/documents/players/$(request.auth.uid)).data.curriculumProfileId is string
+      allow delete: if (request.auth.token.canDeleteGoals)
+    }
+
+    match /models/{modelId} {
+      allow read: if true
+      allow create, update: if get(/databases/$(database)/documents/players/$(request.auth.uid)).data.curriculumProfileId is string
+      allow delete: if (request.auth.token.canDeleteGoals)
+    }
     
     match /curriculumProfile/{curriculumProfileId} {
       allow read: if true
@@ -133,6 +145,17 @@ service cloud.firestore {
     match /path/{userId} {
       allow read: if (request.auth.uid == userId)
     }
+
+    match /lowLevelData/{lowLevelDataId} {
+      allow read: if true
+      allow create: if (request.auth.uid == request.resource.data.studentId)
+    }
+
+    match /dashboardItems/{dashboardItemId} {
+      allow read: if true
+      allow write, delete: if (request.auth.token.canModerate)
+    }
+
 
     match /triggers/{triggerId} {
       allow read, write, update: if (request.auth.token.canDebugDevelopment)

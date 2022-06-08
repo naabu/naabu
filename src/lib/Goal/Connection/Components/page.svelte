@@ -4,6 +4,7 @@
   import en from "javascript-time-ago/locale/en.json";
   import { getStores, session, page } from "$app/stores";
   import { onMount } from "svelte";
+  import Feeds from "$lib/Update/Components/Feed.svelte";
   import {
     formatActivityKeys,
     formatActivityValue,
@@ -24,18 +25,17 @@
   import FormField from "$lib/Internals/FormFields/FormField.svelte";
   import AdditionalFormText from "$lib/Internals/FormFields/AdditionalFormText.svelte";
   import { t, locale } from "svelte-intl-precompile";
-
-  export let firebase;
+  import { firebase } from "$lib/Internals/Firebase/store";
+ 
   export let goal;
   export let connection;
 
   let newCommentText;
   let buttonDisabled = true;
-  let db;
   let timeAgo;
   let delayDone = false;
   let timer;
-  let isTeacher;
+  export let isTeacher;
   let hasCurriculumProfile;
   let updates = [];
   let updatesReceived;
@@ -73,6 +73,17 @@
     }
   })();
 
+  $: {
+    for (let i = 0; i < updates.length; i++) {
+      updates[i].createdAtTimeAgo = formatToTimeAgo(
+        updates[i].createdAt,
+       $firebase,
+        timeAgo,
+        $t
+      );
+    }
+  }
+
   $: if (connection) {
     clearTimeout(timer);
     timer = setTimeout(() => {
@@ -83,17 +94,19 @@
   }
 
   let alert = getDefaultAlertValues();
+  let db;
+  
   onMount(async () => {
     TimeAgo.addLocale(en);
     TimeAgo.addLocale(nl);
     timeAgo = new TimeAgo($locale);
-    db = await firebase.firestore();
+    db = await $firebase.firestore();
   });
 
   async function changeStatus(checkStatus, changeStatus) {
     if (connection.status === checkStatus) {
       delayDone = false;
-      let serverTimestamp = firebase.firestore.Timestamp.now().seconds;
+      let serverTimestamp =$firebase.firestore.Timestamp.now().seconds;
       let data = {
         status: changeStatus,
         modifiedAt: serverTimestamp,
@@ -132,8 +145,13 @@
         type: "status-change-by-user",
         content: connection.status,
         authorId: $session.user.uid,
-        createdAt: firebase.firestore.Timestamp.now().seconds,
+        createdAt:$firebase.firestore.Timestamp.now().seconds,
         connectionId: connection.id,
+        connectionSourceId: connection.sourceId,
+        connectionLinkId: connection.linkId,
+        connectionType: connection.type,
+        connectionSourceType: connection.sourceType,
+        connectionLinkType: connection.linkType,
       };
 
       data.curriculumProfile = await getCurriculumProfile(
@@ -175,8 +193,14 @@
           type: "comment-teacher",
           content: newCommentText,
           authorId: $session.user.uid,
-          createdAt: firebase.firestore.Timestamp.now().seconds,
+          createdAt:$firebase.firestore.Timestamp.now().seconds,
           connectionId: connection.id,
+          connectionSourceId: connection.sourceId,
+          connectionLinkId: connection.linkId,
+          connectionType: connection.type,
+          connectionSourceType: connection.sourceType,
+          connectionLinkType: connection.linkType,
+          curriculumProfile: curriculumProfileData,
         };
 
         if (hasCurriculumProfile) {
@@ -187,8 +211,13 @@
           type: "comment",
           content: newCommentText,
           connectionId: connection.id,
+          connectionSourceId: connection.sourceId,
+          connectionLinkId: connection.linkId,
+          connectionType: connection.type,
+          connectionSourceType: connection.sourceType,
+          connectionLinkType: connection.linkType,
           curriculumProfile: curriculumProfileData,
-          createdAt: firebase.firestore.Timestamp.now().seconds,
+          createdAt:$firebase.firestore.Timestamp.now().seconds,
         };
       }
 
@@ -236,81 +265,7 @@
 
 {#if connection}
   <div class="mt-8">
-    <div class="bg-white shadow overflow-hidden sm:rounded-lg">
-      <div class="px-4 py-5 sm:px-6">
-        <h3
-          data-test="title-learning-goal-connection-page"
-          class="text-lg leading-6 font-medium text-gray-900"
-        >
-          {#if connection.type === "goal-activity"}
-            {$t("connection-goal-activity-information")}
-          {:else}
-            {$t("information")}
-          {/if}
-        </h3>
-        <div class="flex">
-          {#if connection.type === "goal-activity"}
-            <div class="ml-auto">
-              {#if isTeacher && !connection.archive}
-                <a
-                  data-test="edit-activity-page-link"
-                  href="/lerarenkamer/activiteit/{connection.linkId}"
-                  class="mr-8 font-medium text-indigo-600 hover:text-indigo-500"
-                >
-                  {$t("change-activity")}
-                </a>
-              {/if}
-              {#if !connection.archive}
-                <a
-                  href="/activiteit/{connection.linkId}?redirect={$page.url
-                    .pathname}"
-                  class="font-medium text-indigo-600 hover:text-indigo-500"
-                >
-                  {$t("show-activity")}
-                </a>
-              {:else}
-                <div
-                  class="inline-flex items-center px-3 py-0.5 rounded-full text-sm font-medium bg-green-100 text-green-800"
-                >
-                  {$t("archived")}
-                </div>
-              {/if}
-            </div>
-          {:else}
-            <a
-              href="/leerdoel/{connection.linkId}"
-              class="ml-auto font-medium text-indigo-600 hover:text-indigo-500"
-            >
-              {$t("show-goal")}
-            </a>
-          {/if}
-        </div>
-      </div>
-      <div class="border-t border-gray-200 px-4 py-5 sm:px-6">
-        <dl class="grid grid-cols-1 gap-x-4 gap-y-8 sm:grid-cols-2">
-          <div class="sm:col-span-1">
-            <dt class="text-sm font-medium text-gray-500">{$t("title")}</dt>
-            <dd data-test="field-Title" class="mt-1 text-sm text-gray-900">
-              {connection.title}
-            </dd>
-          </div>
-          {#if connection.fields}
-            {#each connection.fields as field}
-              <div class="sm:col-span-1">
-                <dt class="text-sm font-medium text-gray-500">{field.title}</dt>
-                <dd
-                  data-test="field-{field.title}"
-                  class="mt-1 text-sm text-gray-900"
-                >
-                  {@html DOMPurify.sanitize(field.value)}
-                </dd>
-              </div>
-            {/each}
-          {/if}
-        </dl>
-      </div>
-    </div>
-
+    <slot />
     <div class="flex">
       <div class="ml-auto mt-4">
         {#if !connection.archive}
@@ -369,346 +324,8 @@
     </div>
   </div>
 
-  {#if updates}
-    <div class="max-w-lg mx-auto px-6 mt-16">
-      <div class="flow-root">
-        <ul role="list" class="-mb-8">
-          {#each updates as update, i}
-            <li>
-              <div class="relative pb-8">
-                {#if i + 1 !== updates.length}
-                  <span
-                    class="absolute top-5 left-5 -ml-px h-full w-0.5 bg-gray-200"
-                    aria-hidden="true"
-                  />
-                {/if}
-                <div class="relative flex items-start space-x-3">
-                  {#if update.type === "comment-teacher"}
-                    <div class="relative">
-                      <span
-                        class="h-10 w-10 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white"
-                      >
-                        <!-- <svg class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-              </svg>  -->
-                      </span>
-                      <!-- <img
-              class="h-10 w-10 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white"
-              src="https://images.unsplash.com/photo-1520785643438-5bf77931f493?ixlib=rb-=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=8&w=256&h=256&q=80"
-              alt=""
-            /> -->
-                      <!-- <svg class="h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-              <path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd" />
-            </svg> -->
-                      <span
-                        class="absolute -bottom-0.5 -right-1 bg-white rounded-tl px-0.5 py-px"
-                      >
-                        <svg
-                          class="h-5 w-5 text-gray-400"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          aria-hidden="true"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z"
-                            clip-rule="evenodd"
-                          />
-                        </svg>
-                      </span>
-                    </div>
-                    <div class="min-w-0 flex-1">
-                      <div>
-                        <div class="text-sm">
-                          {#if update.curriculumProfile}
-                            <a
-                              href="/curriculum-profiel/{update
-                                .curriculumProfile.id}"
-                              class="font-medium text-gray-900"
-                              >{update.curriculumProfile.fullname} - {$t(
-                                "teacher"
-                              )}</a
-                            >
-                          {:else}
-                            <span class="font-medium text-gray-900"
-                              >{$t("teacher")}</span
-                            >
-                          {/if}
-                        </div>
-                        <p class="mt-0.5 text-sm text-gray-500">
-                          {formatToTimeAgo(
-                            update.createdAt,
-                            firebase,
-                            timeAgo,
-                            $t
-                          )}
-                        </p>
-                      </div>
-                      <div class="mt-2 ">
-                        <p data-test="comment-teacher-content-{i}">
-                          {update.content}
-                        </p>
-                      </div>
-                    </div>
-                  {:else if update.type === "comment"}
-                    <div class="relative">
-                      <span
-                        class="h-10 w-10 rounded-full bg-gray-400 flex items-center justify-center ring-8 ring-white"
-                      />
-                      <span
-                        class="absolute -bottom-0.5 -right-1 bg-white rounded-tl px-0.5 py-px"
-                      >
-                        <svg
-                          class="h-5 w-5 text-gray-400"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                          aria-hidden="true"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z"
-                            clip-rule="evenodd"
-                          />
-                        </svg>
-                      </span>
-                    </div>
-                    <div class="min-w-0 flex-1">
-                      <div>
-                        <div class="text-sm">
-                          <a
-                            href="/curriculum-profiel/{update.curriculumProfile
-                              .id}"
-                            class="font-medium text-gray-900"
-                            >{update.curriculumProfile.fullname}</a
-                          >
-                        </div>
-                        <p class="mt-0.5 text-sm text-gray-500">
-                          {formatToTimeAgo(
-                            update.createdAt,
-                            firebase,
-                            timeAgo,
-                            $t
-                          )}
-                        </p>
-                      </div>
-                      <div class="mt-2 ">
-                        <p>
-                          {update.content}
-                        </p>
-                      </div>
-                    </div>
-                  {:else if update.type === "status-change-by-user"}
-                    <div>
-                      <div class="relative px-1">
-                        <div
-                          class="h-8 w-8 bg-gray-100 rounded-full ring-8 ring-white flex items-center justify-center"
-                        >
-                          <svg
-                            class="h-5 w-5 text-gray-500"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            aria-hidden="true"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
-                              clip-rule="evenodd"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="min-w-0 flex-1 py-1.5">
-                      <div
-                        data-test="status-changed-content-{i}"
-                        class="text-sm text-gray-500"
-                      >
-                        <a
-                          href="/curriculum-profiel/{update.curriculumProfile
-                            .id}"
-                          class="font-medium text-gray-900"
-                          >{update.curriculumProfile.fullname}</a
-                        >
-                        {$t("has-changed-status-to")}
-                        {#if update.content === "in-trash"}
-                          <a
-                            href="/leerdoel/{goal.id}/avonturen/prullenbak"
-                            class="font-medium text-gray-900">{$t("trash")}</a
-                          >
-                        {:else if update.content === "needs-work"}
-                          <a
-                            href="/leerdoel/{goal.id}/avonturen/werk-nodig"
-                            class="font-medium text-gray-900"
-                            >{$t("needs-work")}</a
-                          >
-                        {:else if update.content === "in-progress"}
-                          <a
-                            href="/leerdoel/{goal.id}/avonturen/uitvoering"
-                            class="font-medium text-gray-900"
-                            >{$t("in-progress")}</a
-                          >
-                        {:else if update.content === "needs-approval"}
-                          <a
-                            href="/leerdoel/{goal.id}/avonturen/goedkeuring"
-                            class="font-medium text-gray-900"
-                            >{$t("needs-approval")}</a
-                          >
-                        {:else if update.content === "published"}
-                          <a
-                            href="/leerdoel/{goal.id}/avonturen"
-                            class="font-medium text-gray-900"
-                            >{$t("published")}</a
-                          >
-                        {:else}
-                          <span class="font-medium text-gray-900">
-                            {update.content}
-                          </span>
-                        {/if}
-                        <span class="whitespace-nowrap"
-                          >{formatToTimeAgo(
-                            update.createdAt,
-                            firebase,
-                            timeAgo,
-                            $t
-                          )}</span
-                        >
-                      </div>
-                    </div>
-                  {:else if update.type === "created-teacher" || update.type === "activity-updated-teacher"}
-                    <div>
-                      <div class="relative px-1">
-                        <div
-                          class="h-8 w-8 bg-gray-100 rounded-full ring-8 ring-white flex items-center justify-center"
-                        >
-                          <svg
-                            class="h-5 w-5 text-gray-500"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            aria-hidden="true"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
-                              clip-rule="evenodd"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="min-w-0 flex-1 py-1.5">
-                      <div
-                        data-test="connection-write-by-teacher-update-content-{i}"
-                        class="text-sm text-gray-500"
-                      >
-                        {#if update.curriculumProfile}
-                          <a
-                            href="/curriculum-profiel/{update.curriculumProfile
-                              .id}"
-                            class="font-medium text-gray-900"
-                            >{update.curriculumProfile.fullname}- {$t(
-                              "teacher"
-                            )}</a
-                          >
-                        {:else}
-                          <span class="font-medium text-gray-900"
-                            >{$t("teacher")}</span
-                          >
-                        {/if}
-                        {#if update.type === "created-teacher"}
-                          {$t("activity-connected-to-activity")}
-                        {:else}
-                          {$t("activity-updated")}
-                        {/if}
-
-                        <span class="whitespace-nowrap"
-                          >{formatToTimeAgo(
-                            update.createdAt,
-                            firebase,
-                            timeAgo,
-                            $t
-                          )}</span
-                        >
-                        <div>
-                          {#if update.differences}
-                            {#each update.differences as difference}
-                              {#if difference.type === "string"}
-                                <div class="text-gray-900">
-                                  <div>
-                                    {formatActivityKeys(difference.keys, $t)}
-                                    {@html DOMPurify.sanitize(
-                                      getDiffStrings(
-                                        "" +
-                                          formatActivityValue(
-                                            difference,
-                                            difference.oldValue,
-                                            $t
-                                          ),
-                                        "" +
-                                          formatActivityValue(
-                                            difference,
-                                            difference.newValue,
-                                            $t
-                                          )
-                                      )
-                                    )}
-                                  </div>
-                                </div>
-                              {/if}
-                            {/each}
-                          {/if}
-                        </div>
-                      </div>
-                    </div>
-                  {:else if update.type === "activity-removed"}
-                    <div>
-                      <div class="relative px-1">
-                        <div
-                          class="h-8 w-8 bg-gray-100 rounded-full ring-8 ring-white flex items-center justify-center"
-                        >
-                          <svg
-                            class="h-5 w-5 text-gray-500"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                            aria-hidden="true"
-                          >
-                            <path
-                              fill-rule="evenodd"
-                              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-6-3a2 2 0 11-4 0 2 2 0 014 0zm-2 4a5 5 0 00-4.546 2.916A5.986 5.986 0 0010 16a5.986 5.986 0 004.546-2.084A5 5 0 0010 11z"
-                              clip-rule="evenodd"
-                            />
-                          </svg>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="min-w-0 flex-1 py-1.5">
-                      <div
-                        data-test="connection-write-by-teacher-update-content-{i}"
-                        class="text-sm text-gray-500"
-                      >
-                        {$t("activity-removed-connection-archived")}
-                        <span class="whitespace-nowrap"
-                          >{formatToTimeAgo(
-                            update.createdAt,
-                            firebase,
-                            timeAgo,
-                            $t
-                          )}</span
-                        >
-                      </div>
-                    </div>
-                  {/if}
-                </div>
-              </div>
-            </li>
-          {/each}
-        </ul>
-      </div>
-    </div>
+  {#if updatesReceived}
+    <Feeds bind:updates />
   {/if}
 
   <div class="max-w-lg mx-auto px-6 mt-12 mb-32">

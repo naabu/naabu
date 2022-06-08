@@ -6,7 +6,7 @@
   import { t } from "svelte-intl-precompile";
   
   let goal;
-  let firebase;
+ 
   let breadcrumbs;
 
   $: if (goal) {
@@ -22,6 +22,6 @@
   }
 </script>
 
-<ConnectionTemplate bind:goal bind:firebase bind:breadcrumbs>
-  <OverviewPage bind:goal bind:firebase />
+<ConnectionTemplate bind:goal  bind:breadcrumbs>
+  <OverviewPage bind:goal  />
 </ConnectionTemplate>

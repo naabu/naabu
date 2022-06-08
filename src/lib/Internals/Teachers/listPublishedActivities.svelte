@@ -4,10 +4,10 @@
   import Button from "$lib/Internals//Button/Button.svelte";
   import ShareDialog from "$lib/Activity/Components/ShareDialog.svelte";
   export let activities = [];
-  export let firebase;
+ 
 </script>
 
-<DataTableActivities bind:firebase bind:activities let:goalId let:connectionId>
+<DataTableActivities  bind:activities let:goalId let:connectionId>
   <svelte:fragment slot="cta" let:activityId>
     <a
       href="/leerdoel/{goalId}/activiteiten/{connectionId}"

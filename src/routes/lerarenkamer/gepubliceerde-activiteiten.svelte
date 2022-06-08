@@ -8,10 +8,10 @@
 
   let menuitems = getTeacherMenuitems($page.url.pathname, $t);
   let activities;
-  let firebase;
+ 
 </script>
 
-<GetActivityListData bind:firebase bind:activities status="published" />
+<GetActivityListData  bind:activities status="published" />
 
 <Sidebar bind:menuitems>
   <span slot="title">{$t("published-activities")}</span>
@@ -28,7 +28,7 @@
 
   <span slot="content">
     {#if activities}
-      <ListPublishedActivities bind:firebase bind:activities />
+      <ListPublishedActivities  bind:activities />
     {:else}
       {$t("loading")}
     {/if}

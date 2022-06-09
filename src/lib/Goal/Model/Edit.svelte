@@ -1,7 +1,6 @@
 <script>
   // import$firebase from "firebase/app";
   import { getStores, session } from "$app/stores";
-  import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
   import ModelForm from "$lib/Goal/Model/Form.svelte";
   import { onMount } from "svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
@@ -74,7 +73,6 @@
 
 <div>
   <ResultFeedback bind:alert />
-  <CheckPlayerHasProfile bind:hasCurriculumProfile />
 
   <form class="mt-8 space-y-8" on:submit|preventDefault={formSubmit}>
     <ModelForm bind:model />

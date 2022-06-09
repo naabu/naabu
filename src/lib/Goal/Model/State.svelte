@@ -14,7 +14,7 @@
 </script>
 
 <div
-  class="w-fit border-gray-300 rounded-lg border-2 bg-white px-6 py-5 shadow-sm flex items-center space-x-3"
+  class="border-gray-300 rounded-lg border-2 bg-white px-6 py-5 shadow-sm flex items-center space-x-3"
 >
   <div>
     {#if stateKC.label}
@@ -33,5 +33,9 @@
       />
     {/if}
   </div>
-  <Textarea id="state-kc-{index}" bind:value={stateKC.abstract} rows="2" />
+  <Textarea
+    id="state-kc-{index}"
+    bind:value={stateKC.abstract}
+    rows={index == 0 ? 5 : 2}
+  />
 </div>

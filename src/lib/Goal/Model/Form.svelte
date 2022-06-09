@@ -46,9 +46,14 @@
   </FormField>
   <div class="grid grid-cols-1 justify-items-center gap-14 pt-10">
     {#each model.statesKCArray as stateKC, i}
-      <div class="relative">
+      <div class="relative w-full" class:max-w-xl={i === 0} class:max-w-sm={i !== 0}>
         {#if stateKC.type === "kc"}
-          <KnowledgeComponent on:splitKC={splitKC} bind:stateKC bind:model index={i} />
+          <KnowledgeComponent
+            on:splitKC={splitKC}
+            bind:stateKC
+            bind:model
+            index={i}
+          />
         {:else if stateKC.type === "state"}
           <State
             on:deleteState={deleteState}

@@ -105,7 +105,7 @@
 </script>
 
 <div
-  class="w-fit border-2 border-green-300 bg-white px-6 py-5 shadow-sm items-center space-x-3"
+  class="ml-auto mr-auto border-2 border-green-300 bg-white px-6 py-5 shadow-sm items-center space-x-3"
 >
   <div class="flex">
     <div>

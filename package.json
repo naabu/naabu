@@ -4,12 +4,11 @@
   "license": "GPLv2",
   "scripts": {
     "dev": "node scripts/generateClientConfig.js; svelte-kit dev --host",
-    "build": "svelte-kit build",
+    "build": "bash scripts/build.sh",
     "preview": "svelte-kit preview",
     "lint": "prettier --check . && eslint --ignore-path .gitignore .",
     "format": "prettier --write .",
     "addUserClaims": "export GOOGLE_APPLICATION_CREDENTIALS=/var/www/adminkey.json; node scripts/addUserClaims.js",
-    "deploy": "bash scripts/deploy.sh",
     "emulate": "node scripts/generateServerConfig.js; firebase emulators:start  --import=./data/.devdata --export-on-exit --only auth,functions,firestore,pubsub",
     "emulateCypress": "node scripts/generateServerConfig.js; firebase emulators:start --only auth,functions,firestore,pubsub",
     "playwright": "npx playwright test --project=localhost src",

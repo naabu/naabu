@@ -8,10 +8,9 @@
   import Button from "$lib/Internals/Button/Button.svelte";
   import { firebase } from "$lib/Internals/Firebase/store";
   import { t } from "svelte-intl-precompile";
- 
+
   $: (async () => {
     if ($firebase) {
-     
     }
   })();
 
@@ -22,6 +21,13 @@
   let buttonDisabled = false;
   let hasCurriculumProfile;
 
+  $: {
+    if ($session.player && $session.player.curriculumProfileId) {
+      hasCurriculumProfile = true;
+    } else {
+      hasCurriculumProfile = false;
+    }
+  }
   let alert = getDefaultAlertValues();
 
   function getDefaultAlertValues() {

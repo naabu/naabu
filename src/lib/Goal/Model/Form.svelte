@@ -5,12 +5,18 @@
   import KnowledgeComponent from "$lib/Goal/Model/KnowledgeComponent.svelte";
   import State from "$lib/Goal/Model/State.svelte";
   import { t } from "svelte-intl-precompile";
+  import ActivitySlideOverForm from "$lib/Goal/Model/ActivitySlideOverForm.svelte";
   export let model;
+  export let goal;
+  let showActivityForm = false;
+  let activeKC;
+  let activeIndex = -1;
+  let lastActiveIndex = -1;
+  let sliderActivity;
+  let resetSlider = false;
 
   function splitKC(event) {
-    console.log(event);
     let i = event.detail.i;
-    console.log(i);
     model.statesKCArray.splice(
       i + 1,
       0,
@@ -35,7 +41,30 @@
     model.statesKCArray.splice(event.detail.i, 2);
     model.statesKCArray = model.statesKCArray;
   }
+
+  function newActivity(knowledgeComponent, index) {
+    activeKC = knowledgeComponent;
+    if (index !== lastActiveIndex) {
+      resetSlider = true;
+    }
+    showActivityForm = true;
+    activeIndex = index;
+    lastActiveIndex = index;
+  }
+
+  $: if (!showActivityForm) {
+    activeIndex = -1;
+  }
 </script>
+
+<ActivitySlideOverForm
+  bind:toggle={showActivityForm}
+  bind:activity={sliderActivity}
+  bind:knowledgeComponent={activeKC}
+  bind:reset={resetSlider}
+  bind:goal
+  bind:model
+/>
 
 <FieldSet title={$t("model")} description={$t("model-description")}>
   <FormField title={$t("title")} forId="title-textarea">
@@ -50,13 +79,16 @@
         class="relative"
         class:w-full={i === 0}
         class:max-w-xl={i === 0}
-        class:max-w-sm={i !== 0}
+        class:max-w-md={i % 2 === 1}
+        class:max-w-sm={i !== 0 && i % 2 !== 1}
       >
         {#if stateKC.type === "kc"}
           <KnowledgeComponent
             on:splitKC={splitKC}
-            bind:stateKC
+            bind:knowledgeComponent={stateKC}
             bind:model
+            activeActivityForm={i === activeIndex}
+            on:newActivity={() => newActivity(stateKC, i)}
             index={i}
           />
         {:else if stateKC.type === "state"}

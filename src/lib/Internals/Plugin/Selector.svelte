@@ -68,7 +68,7 @@
   >
     <div class="w-screen max-w-2xl">
       <div
-        class="h-full flex flex-col py-6 bg-white shadow-xl overflow-y-scroll"
+        class="h-full flex flex-col py-6 bg-white shadow-inner overflow-y-scroll"
       >
         <div class="px-4 sm:px-6">
           <div class="flex items-start justify-between">

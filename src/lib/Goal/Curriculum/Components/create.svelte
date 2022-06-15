@@ -77,7 +77,7 @@
         let result = await profileRef.add(data);
         $session.player.curriculumProfileId = result.id;
         let playerRef = db.collection("players").doc($session.user.uid);
-        await playerRef.update({ curriculumProfileId: result.id });
+        await playerRef.update({ curriculumProfileId: result.id, curriculumProfileName: data.fullname });
         alert.success = true;
         alert.successTitle = "Curriculum profiel gemaakt";
         alert.successMessage = "id: " + result.id;

@@ -13,11 +13,11 @@
   import "@algolia/autocomplete-theme-classic";
   import TextAndRemove from "$lib/Internals/FormFields/TextAndRemove.svelte";
 
-  export let stateKC;
+  export let knowledgeComponent;
   export let index;
   export let model;
-  $: console.log(model);
   let filters = "";
+  export let activeActivityForm = false;
 
   let connectionIndex = getConnectionIndex($session.environment);
   let autoCompleteElementExists = null;
@@ -31,10 +31,9 @@
 
   function resetFilters() {
     filters = "type:goal-activity" + " AND sourceId:" + model.goalId;
-    for (let i = 0; i < stateKC.activities.length; i++) {
-      filters += " AND NOT linkId:" + stateKC.activities[i].id;
+    for (let i = 0; i < knowledgeComponent.activities.length; i++) {
+      filters += " AND NOT linkId:" + knowledgeComponent.activities[i].id;
     }
-    console.log(filters);
   }
 
   function splitKC(i) {
@@ -42,14 +41,18 @@
   }
 
   function addActivity(connectionGoalActivity) {
-    stateKC.activities = [
-      ...stateKC.activities,
+    knowledgeComponent.activities = [
+      ...knowledgeComponent.activities,
       {
         id: connectionGoalActivity.linkId,
         title: connectionGoalActivity.title,
       },
     ];
     resetFilters();
+  }
+
+  function newActivity() {
+    dispatch("newActivity");
   }
 
   function initializeAutocomplete() {
@@ -98,37 +101,58 @@
   }
 
   function removeActivity(event) {
-    stateKC.activities.splice(event.detail.i, 1);
-    stateKC.activities = stateKC.activities;
+    knowledgeComponent.activities.splice(event.detail.i, 1);
+    knowledgeComponent.activities = knowledgeComponent.activities;
     resetFilters();
   }
 </script>
 
 <div
-  class="ml-auto mr-auto border-2 border-green-300 bg-white px-6 py-5 shadow-sm items-center space-x-3"
+  class="ml-auto mr-auto border-2  bg-white px-6 py-5 shadow-sm items-center"
+  class:border-green-500={!activeActivityForm}
+  class:border-blue-500={activeActivityForm}
 >
   <div class="flex">
     <div>
-      {#if stateKC.label}
+      {#if knowledgeComponent.label}
         <label
           for="state-kc-{index}"
           class="block text-sm font-medium text-gray-700 sm:mt-px sm:pt-2"
         >
-          {stateKC.label}
+          {knowledgeComponent.label}
         </label>
       {/if}
-      <Button
-        content={$t("add")}
-        size="tiny"
-        on:click={() => splitKC(index)}
-      />
+      <Button content={$t("add")} size="tiny" on:click={() => splitKC(index)} />
     </div>
-    <Textarea id="state-kc-{index}" bind:value={stateKC.abstract} rows="2" />
+    <Textarea
+      id="state-kc-{index}"
+      bind:value={knowledgeComponent.abstract}
+      rows="2"
+    />
   </div>
   <div class="mt-4">
-    <TextAndRemove items={stateKC.activities} on:remove={removeActivity}>
+    <div
+      class="sm:grid sm:grid-cols-3 space-between justify-items-start items-center"
+    >
+      <h3 class="text-base font-medium col-span-2 text-gray-900">
+        {$t("activities")}
+      </h3>
+      <Button
+        extraClasses={["justify-self-end"]}
+        color="primary"
+        size="very-small"
+        content={$t("new")}
+        on:click={newActivity}
+      />
+    </div>
+    <TextAndRemove
+      items={knowledgeComponent.activities}
+      on:remove={removeActivity}
+    >
       <svelte:fragment let:item={activity} slot="show">
-        <a href="/a/{activity.id}" target="_blank">{activity.title}</a>
+        <a href="/a/{activity.id}" class="underline" target="_blank"
+          >{activity.title}</a
+        >
       </svelte:fragment>
     </TextAndRemove>
     <div id="autocomplete-activities-{index}" class="max-w-lg mt-2" />

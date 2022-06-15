@@ -4,6 +4,7 @@
   import ModelEdit from "$lib/Goal/Model/Edit.svelte";
   export let connection;
   export let model;
+  export let goal;
 </script>
 
 <div class="bg-white shadow overflow-hidden sm:rounded-lg">
@@ -16,7 +17,7 @@
     </h3>
     <div class="flex" />
 
-    <ModelEdit bind:model/>
+    <ModelEdit bind:model bind:goal/>
   </div>
 
 </div>

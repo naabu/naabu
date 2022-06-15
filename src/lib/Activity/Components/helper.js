@@ -1,8 +1,8 @@
 import { renderKatexOutput } from "$lib/Internals/Misc/helper.js";
 
-export function getDefaultEmptyActivity() {
+export function getDefaultEmptyActivity(title = "") {
   return {
-    title: "",
+    title: title,
     descriptionRaw: "",
     status: "draft",
     description: "",

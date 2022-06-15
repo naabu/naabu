@@ -14,7 +14,7 @@
 </script>
 
 <div
-  class=" ml-auto mr-auto border-gray-300 rounded-lg border-2 bg-white px-6 py-5 shadow-sm flex items-center space-x-3"
+  class=" ml-auto mr-auto border-gray-300 rounded-lg border-2 bg-white px-6 py-5 shadow-sm flex items-center"
 >
   <div>
     {#if stateKC.label}

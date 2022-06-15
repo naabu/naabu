@@ -81,7 +81,7 @@
   <ResultFeedback bind:alert />
 
   <form class="mt-8 space-y-8" on:submit|preventDefault={formSubmit}>
-    <ModelForm bind:model />
+    <ModelForm bind:model bind:goal/>
     <div class="pt-5">
       <div class="flex justify-end">
         <Button

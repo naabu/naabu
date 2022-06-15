@@ -2,7 +2,6 @@ import { loginUser } from "$lib/Internals/User/helper.js";
 
 export async function login(firebase, $t) {
   try {
-    console.log(firebase);
     let auth = firebase.auth();
     const provider = new firebase.auth.GoogleAuthProvider();
     let anonymousUser = firebase.auth().currentUser;

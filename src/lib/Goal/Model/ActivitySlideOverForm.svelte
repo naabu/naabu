@@ -139,8 +139,6 @@
           },
         ];
 
-      
-
         closeForm();
         dispatch("formActivityComplete");
 
@@ -165,7 +163,7 @@
   }
 </script>
 
-<ResultFeedback bind:alert />
+
 
 <!-- Background backdrop, show/hide based on slide-over state. -->
 <div class="fixed inset-y-0 right-0 max-w-3xl flex z-10">

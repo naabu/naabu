@@ -8,7 +8,6 @@
   export let updates;
   let feedLength = 0;
   export let showConnectionInfo = null;
-  $:console.log(showConnectionInfo);
   $: feedLength = updates.length;
 </script>
 

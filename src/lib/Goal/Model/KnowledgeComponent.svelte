@@ -12,7 +12,7 @@
   import { autocomplete, getAlgoliaResults } from "@algolia/autocomplete-js";
   import "@algolia/autocomplete-theme-classic";
   import TextAndRemove from "$lib/Internals/FormFields/TextAndRemove.svelte";
-
+  export let hasCurriculumProfile;
   export let knowledgeComponent;
   export let index;
   export let model;
@@ -44,10 +44,12 @@
     knowledgeComponent.activities = [
       ...knowledgeComponent.activities,
       {
-        id: connectionGoalActivity.linkId,
+        connectionId: connectionGoalActivity.id,
+        activityId: connectionGoalActivity.linkId,
         title: connectionGoalActivity.title,
       },
     ];
+    model.statesKCArray = model.statesKCArray; 
     resetFilters();
   }
 
@@ -122,7 +124,7 @@
           {knowledgeComponent.label}
         </label>
       {/if}
-      <Button content={$t("add")} size="tiny" on:click={() => splitKC(index)} />
+      <Button content={$t("add")} isDisabled={!hasCurriculumProfile} size="tiny" on:click={() => splitKC(index)} />
     </div>
     <Textarea
       id="state-kc-{index}"
@@ -142,15 +144,17 @@
         color="primary"
         size="very-small"
         content={$t("new")}
+        isDisabled={!hasCurriculumProfile}
         on:click={newActivity}
       />
     </div>
     <TextAndRemove
       items={knowledgeComponent.activities}
       on:remove={removeActivity}
+      isDisabled={!hasCurriculumProfile}
     >
       <svelte:fragment let:item={activity} slot="show">
-        <a href="/a/{activity.id}" class="underline" target="_blank"
+        <a href="/leerdoel/{model.goalId}/activiteiten/{activity.connectionId}" class="underline" target="_blank"
           >{activity.title}</a
         >
       </svelte:fragment>

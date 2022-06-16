@@ -12,7 +12,7 @@
 
   let y;
   let buttonDisabled = false;
-  let hasCurriculumProfile;
+  let hasCurriculumProfile = false;
 
   let model = {
     title: "",
@@ -103,7 +103,7 @@
 
   {#if model && goal}
     <form class="mt-8 space-y-8" on:submit|preventDefault={formSubmit}>
-      <ModelForm bind:model bind:goal />
+      <ModelForm bind:model bind:goal bind:hasCurriculumProfile />
       <div class="pt-5">
         <div class="flex justify-end">
           <Button

@@ -8,7 +8,6 @@
   export let i;
   export let feedLength;
   export let showConnectionInfo;
-  $:console.log(showConnectionInfo);
 </script>
 
 <UpdateContentMultiLine bind:i bind:feedLength bind:update bind:showConnectionInfo>

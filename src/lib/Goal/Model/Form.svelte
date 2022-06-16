@@ -8,6 +8,7 @@
   import ActivitySlideOverForm from "$lib/Goal/Model/ActivitySlideOverForm.svelte";
   export let model;
   export let goal;
+  export let hasCurriculumProfile;
   let showActivityForm = false;
   let activeKC;
   let activeIndex = -1;
@@ -42,8 +43,8 @@
     model.statesKCArray = model.statesKCArray;
   }
 
-  function newActivity(knowledgeComponent, index) {
-    activeKC = knowledgeComponent;
+  function newActivity(index) {
+    activeKC = model.statesKCArray[index];
     if (index !== lastActiveIndex) {
       resetSlider = true;
     }
@@ -55,6 +56,11 @@
   $: if (!showActivityForm) {
     activeIndex = -1;
   }
+
+  function formActivityComplete() {
+    model.statesKCArray = model.statesKCArray;
+  }
+
 </script>
 
 <ActivitySlideOverForm
@@ -62,8 +68,10 @@
   bind:activity={sliderActivity}
   bind:knowledgeComponent={activeKC}
   bind:reset={resetSlider}
+  bind:hasCurriculumProfile
   bind:goal
   bind:model
+  on:formActivityComplete={formActivityComplete}
 />
 
 <FieldSet title={$t("model")} description={$t("model-description")}>
@@ -87,14 +95,16 @@
             on:splitKC={splitKC}
             bind:knowledgeComponent={stateKC}
             bind:model
+            bind:hasCurriculumProfile
             activeActivityForm={i === activeIndex}
-            on:newActivity={() => newActivity(stateKC, i)}
+            on:newActivity={() => newActivity(i)}
             index={i}
           />
         {:else if stateKC.type === "state"}
           <State
             on:deleteState={deleteState}
             bind:model
+            bind:hasCurriculumProfile
             bind:stateKC
             index={i}
           />

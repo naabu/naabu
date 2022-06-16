@@ -25,7 +25,6 @@
   init(config);
 
   function handleLoginEvent(event) {
-    console.log($firebase);
     if ($firebase) {
       let serverTimestamp = $firebase.firestore.Timestamp.now().seconds;
       $session.serverFirestoreTimeStamp = serverTimestamp;

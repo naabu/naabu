@@ -4,6 +4,7 @@
   import { t } from "svelte-intl-precompile";
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
+  export let hasCurriculumProfile;
   export let stateKC;
   export let index;
   export let model;
@@ -30,6 +31,7 @@
         content={$t("remove")}
         size="tiny"
         on:click={() => deleteState(index)}
+        isDisabled={!hasCurriculumProfile}
       />
     {/if}
   </div>

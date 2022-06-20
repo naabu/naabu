@@ -21,7 +21,9 @@ const expect = base.expect;
 test('Test flow for creating and editing learning goals @goal', async ({ page, domain, showAllConsole }) => {
   printMessages(page, showAllConsole);
   await page.goto(domain);
+  await page.waitForLoadState('domcontentloaded');
   await page.click('[data-test=curriculum-menu]');
+  await page.waitForLoadState('domcontentloaded');
   await page.click('[data-test=create-goal-link]');
   await page.locator('[data-test=create-goal-submit-button]').isDisabled();
   await page.click('[data-test=create-curriculum-profile-message]');

@@ -43,10 +43,8 @@ test('Create activities and attach them @activity', async ({ page, domain, showA
   await page.click('[data-test=select-learning-goal-0]');
   await page.click("#explanation");
   await page.fill('#title', 'Test activity title');
-  await page.fill('#description', "Test description $$\\cfrac{5}{4}$$");
-  await page.click('[data-test=preview-description]');
   await page.fill('#difficulty', '2');
-  await page.waitForTimeout(500);
+  await page.waitForTimeout(2000);
   await page.click('[data-test="add-plugin-button"]');
   await page.click('[data-test="plugin-option-vimeo-player"]');
   await page.waitForTimeout(500);
@@ -89,8 +87,6 @@ test('Create activities and attach them @activity', async ({ page, domain, showA
   // Edit form.
   await page.fill('#title', 'Test activity title changed');
   await expect(page.locator('[data-test=concept-status]')).toBeVisible();
-  await page.fill('#description', "Test description $$\\cfrac{5}{3}$$");
-  await page.click('[data-test=preview-description]');
   await page.fill('#difficulty', '3');
   await page.fill('#vimeo_id', '115154289');
   await page.click('[data-test="edit-plugin-0-button"]');
@@ -111,8 +107,6 @@ test('Create activities and attach them @activity', async ({ page, domain, showA
   await page.waitForSelector('[data-test=title-old]');
   await expect(page.locator('[data-test=title-old]')).toContainText('Test activity title');
   await expect(page.locator('[data-test=title-new]')).toContainText('Test activity title changed');
-  await expect(page.locator('[data-test=descriptionRaw-old]')).toContainText('Test description $$\\cfrac{5}{4}$$');
-  await expect(page.locator('[data-test=descriptionRaw-new]')).toContainText('Test description $$\\cfrac{5}{3}$$');
   await expect(page.locator('[data-test=difficulty-old]')).toContainText('Easy');
   await expect(page.locator('[data-test=difficulty-new]')).toContainText('Not easy, not difficult');
 
@@ -133,7 +127,6 @@ test('Create activities and attach them @activity', async ({ page, domain, showA
   await page.waitForSelector('[data-test=type-new]');
   await expect(page.locator('[data-test=type-new]')).toContainText('Explanation');
   await expect(page.locator('[data-test=title-new]')).toContainText("Test activity title");
-  await expect(page.locator('[data-test=descriptionRaw-new]')).toContainText("Test description $$\\cfrac{5}{4}$$");
   await expect(page.locator('[data-test=difficulty-new]')).toContainText("Easy");
 
   await expect(page.locator('[data-test=plugins-new]')).toContainText("{\"answers\":[{\"answer\":\"1\",\"correct\":false},{\"answer\":\"2\",\"correct\":true},{\"answer\":\"3\",\"correct\":false}],\"question\":\"Weet jij het antwoord? $$1+1=$$..\"}");

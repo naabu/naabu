@@ -22,21 +22,16 @@
       ,
     ];
   }
- 
 
   $: (async () => {
     if ($firebase) {
-     
     }
   })();
 </script>
 
-<GetGoalData bind:goal  bind:mounted />
+<GetGoalData bind:goal bind:mounted />
 
 {#if $firebase}
-  <ContainerBreadcrumpPageTitle
-    bind:breadcrumbs
-    title={$t("create-model")}
-  />
-  <CreateModel  bind:goal />
+  <ContainerBreadcrumpPageTitle bind:breadcrumbs title={$t("create-model")} />
+  <CreateModel bind:goal />
 {/if}

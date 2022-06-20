@@ -42,6 +42,38 @@ async function runMigrations() {
       await db.collection("migrations").doc("update-status-connection-fields").set({ success: true, timestamp: Math.round(Date.now() / 1000) })
     }
   }
+  if (!ranMigrations.includes("update-activity-created-teacher")) {
+    let result = await updateActivityCreatedTeacher();
+    if (result) {
+      await db.collection("migrations").doc("update-activity-created-teacher").set({ success: true, timestamp: Math.round(Date.now() / 1000) })
+    }
+  }
+}
+
+async function updateActivityCreatedTeacher() {
+  const fb = helper.getFirebaseApp();
+  let db = fb.firestore();
+  let ref = db.collection("updates");
+  let querySnap = await ref.get();
+
+  await querySnap.forEach(async (updateSnap) => {
+    let update = updateSnap.data();
+    if (update.type === "created-teacher") {
+      update.type = "created-activity-teacher"
+      delete update.differences;
+      let activityRef = db.collection("activity").doc(update.connectionLinkId);
+      let activitySnap = await activityRef.get();
+      if (activitySnap.exists) {
+        let activity = activitySnap.data();
+        update.activity = activity;
+        await db.collection("updates").doc(updateSnap.id).set(update);
+      }
+      else {
+        await db.collection("updates").doc(updateSnap.id).delete();
+      }
+    }
+  });
+  return true;
 }
 
 async function updateStatusConnectionFields() {

@@ -81,7 +81,7 @@
 {#if connection !== null && model !== null}
   <ConnectionTemplate bind:goal  bind:breadcrumbs>
     <ConnectionPage bind:goal  bind:connection>
-      <ModelConnectionPage bind:model bind:connection />
+      <ModelConnectionPage bind:model bind:goal bind:connection />
     </ConnectionPage>
   </ConnectionTemplate>
 {:else if timeout}

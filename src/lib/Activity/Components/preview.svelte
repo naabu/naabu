@@ -139,32 +139,9 @@
         let activityRef = db.collection("activities").doc(activity.id);
         activityRef.update(activityData);
 
-        let sortListOrder = getActivitySort();
-
         if (activity.plugins) {
           activity.plugins = getPluginDataFromForm(activity.plugins);
         }
-
-        let differences = getDifferencesBetweenRevisions(
-          {},
-          activity,
-          sortListOrder
-        );
-
-        let updateData = {
-          type: "created-teacher",
-          differences: differences,
-          authorId: $session.user.uid,
-          createdAt:$firebase.firestore.Timestamp.now().seconds,
-          connectionId: result.id,
-          connectionSourceId: connectionData.sourceId,
-          connectionLinkId: connectionData.linkId,
-          connectionType: connectionData.type,
-          connectionSourceType: connectionData.sourceType,
-          connectionLinkType: connectionData.linkType,
-        };
-        await createUpdate(db, $session, updateData);
-
         goto("/leerdoel/" + activity.goalId + "/activiteiten/" + result.id);
       } catch (e) {
         console.error(e);

@@ -26,7 +26,7 @@ else if (fs.existsSync(configPath)) {
 let objectToJson = {
   algolia: {
     app: applicationID,
-    key: algoliaApiKey
+    key: algoliaApiKey.replace(/(\r\n|\n|\r)/gm, "")
   },
   app: {
     environment: environment

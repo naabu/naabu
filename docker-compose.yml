@@ -30,7 +30,6 @@ services:
       - firebase_functions_node_modules:/var/www/functions/node_modules/
       - ./firestore.rules:/var/www/firestore.rules
       - ./firebase.json:/var/www/firebase.json
-      - ./.firebaserc:/var/www/.firebaserc
       - ./firestore.indexes.json:/var/www/firestore.indexes.json
       - ./scripts/:/var/www/scripts/
       - ./config/:/var/www/config/

@@ -12,7 +12,7 @@ A small guide on how to get the Tool to work locally.
 ## Local installation
 
 Requirements:
-- Create a [Firebase App](https://firebase.google.com/)
+- Create a [Firebase App](https://firebase.google.com/). First create a project then create an web app in the project and you will see the config.
 - Store the config of Firebase in config/config-firebase.js (project settings => config)
 - Create an [Algolia](https://www.algolia.com/) account and get the API configuration.
   - Algolia Admin API Key
@@ -20,7 +20,8 @@ Requirements:
   - Algolia public key.
 - Algolia Application Id and Algoliase search client should be in ``config/config-algolia.js``
 - Algolia Admin key should be in ``algolia-secret-admin-api-key.txt``
-- Algolia indexes should be created: ``dev_goals``, ``dev_activities``, and ``dev_maps``
+- Algolia indexes should be created: ``dev_goals``, ``dev_activities``, ``dev-connections`` and ``dev_maps``
+- Import index configurations from files in repo (``config/algolia-indexes-config``) in the algolia interface
 - Install [Docker](https://docs.docker.com/get-docker/) and [Docker Compose](https://docs.docker.com/compose/install/)
 
 Installation steps:

@@ -24,7 +24,6 @@ exports.updatesForConnectionCreatedActivity = functions.firestore.document('conn
           connectionLinkType: connection.linkType,
           connectionType: connection.type,
         };
-        console.log(updateData);
 
         await db.collection("updates").add(updateData);
       }

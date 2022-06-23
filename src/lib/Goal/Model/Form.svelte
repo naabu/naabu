@@ -17,7 +17,6 @@
   let resetSlider = false;
 
   $: if (model.statesKCArray) {
-    console.log("reactivce code!");
     model.linkedActivityConnectionIds = [];
     for (let i = 0; i < model.statesKCArray.length; i++) {
       let kcState =  model.statesKCArray[i];

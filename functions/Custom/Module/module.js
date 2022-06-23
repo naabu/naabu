@@ -107,7 +107,6 @@ async function updateUserActivitiesForModule(module, uid, unlock = false, locati
   for (let i2 = 0; i2 < module.locations.length; i2++) {
     let location = module.locations[i2];
     if (unlock && location.id === locationId) {
-      console.log("unlock location", location.id);
       userModule = await unlockLocationsBasedOnNumberOfActivities(userModule, module, location.id, uid);
     }
     for (let i3 = 0; i3 < location.goals.length; i3++) {

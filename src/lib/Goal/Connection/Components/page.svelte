@@ -64,7 +64,6 @@
   })();
 
   async function getUpdates() {
-    console.log("getting new updates!");
     let updatesCol = db
       .collection("updates")
       .where("connectionId", "==", connection.id);

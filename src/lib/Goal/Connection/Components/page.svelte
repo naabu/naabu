@@ -26,7 +26,7 @@
   import AdditionalFormText from "$lib/Internals/FormFields/AdditionalFormText.svelte";
   import { t, locale } from "svelte-intl-precompile";
   import { firebase } from "$lib/Internals/Firebase/store";
- 
+
   export let goal;
   export let connection;
 
@@ -57,27 +57,41 @@
     if (connection && db) {
       if (connection.id !== updatesReceived) {
         updates = [];
-        let updatesCol = db
-          .collection("updates")
-          .where("connectionId", "==", connection.id);
-        const querySnapshot = await updatesCol.get();
-        querySnapshot.forEach((updateDoc) => {
-          let updateObject = updateDoc.data();
-          updateObject.id = updateDoc.id;
-          updates = [...updates, updateObject];
-        });
-        sortOnCreatedAt(updates);
-        updates = updates.reverse();
-        updatesReceived = connection.id;
+        getUpdates();
+        setInterval(getUpdates, 3000);
       }
     }
   })();
+
+  async function getUpdates() {
+    console.log("getting new updates!");
+    let updatesCol = db
+      .collection("updates")
+      .where("connectionId", "==", connection.id);
+    const querySnapshot = await updatesCol.get();
+    querySnapshot.forEach((updateDoc) => {
+      let found = false;
+      for (let i = 0; i < updates.length; i++) {
+        if (updateDoc.id === updates[i].id) {
+          found = true;
+        }
+      }
+      if (!found) {
+        let updateObject = updateDoc.data();
+        updateObject.id = updateDoc.id;
+        updates = [...updates, updateObject];
+      }
+    });
+    sortOnCreatedAt(updates);
+    updates = updates.reverse();
+    updatesReceived = connection.id;
+  }
 
   $: {
     for (let i = 0; i < updates.length; i++) {
       updates[i].createdAtTimeAgo = formatToTimeAgo(
         updates[i].createdAt,
-       $firebase,
+        $firebase,
         timeAgo,
         $t
       );
@@ -95,7 +109,7 @@
 
   let alert = getDefaultAlertValues();
   let db;
-  
+
   onMount(async () => {
     TimeAgo.addLocale(en);
     TimeAgo.addLocale(nl);
@@ -106,7 +120,7 @@
   async function changeStatus(checkStatus, changeStatus) {
     if (connection.status === checkStatus) {
       delayDone = false;
-      let serverTimestamp =$firebase.firestore.Timestamp.now().seconds;
+      let serverTimestamp = $firebase.firestore.Timestamp.now().seconds;
       let data = {
         status: changeStatus,
         modifiedAt: serverTimestamp,
@@ -145,7 +159,7 @@
         type: "status-change-by-user",
         content: connection.status,
         authorId: $session.user.uid,
-        createdAt:$firebase.firestore.Timestamp.now().seconds,
+        createdAt: $firebase.firestore.Timestamp.now().seconds,
         connectionId: connection.id,
         connectionSourceId: connection.sourceId,
         connectionLinkId: connection.linkId,
@@ -193,7 +207,7 @@
           type: "comment-teacher",
           content: newCommentText,
           authorId: $session.user.uid,
-          createdAt:$firebase.firestore.Timestamp.now().seconds,
+          createdAt: $firebase.firestore.Timestamp.now().seconds,
           connectionId: connection.id,
           connectionSourceId: connection.sourceId,
           connectionLinkId: connection.linkId,
@@ -217,7 +231,7 @@
           connectionSourceType: connection.sourceType,
           connectionLinkType: connection.linkType,
           curriculumProfile: curriculumProfileData,
-          createdAt:$firebase.firestore.Timestamp.now().seconds,
+          createdAt: $firebase.firestore.Timestamp.now().seconds,
         };
       }
 

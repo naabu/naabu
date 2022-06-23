@@ -237,7 +237,7 @@
                       isSubmit={true}
                       isDisabled={buttonDisabled || !hasCurriculumProfile}
                       dataTest="submit-activity-create-button"
-                      content={$t("activity-save-concept-and-look")}
+                      content={$t("create-activity")}
                     />
                   </div>
                 </div>

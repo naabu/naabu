@@ -16,6 +16,21 @@
   let sliderActivity;
   let resetSlider = false;
 
+  $: if (model.statesKCArray) {
+    console.log("reactivce code!");
+    model.linkedActivityConnectionIds = [];
+    for (let i = 0; i < model.statesKCArray.length; i++) {
+      let kcState =  model.statesKCArray[i];
+      if (kcState.type == "kc") {
+        for (let i2 = 0; i2 < kcState.activities.length; i2++) {
+          let activity = kcState.activities[i2];
+          model.linkedActivityConnectionIds.push(activity.connectionId);
+        }
+      }
+    }
+    model.linkedActivityConnectionIds = [...new Set(model.linkedActivityConnectionIds)]
+  }
+
   function splitKC(event) {
     let i = event.detail.i;
     model.statesKCArray.splice(

@@ -48,6 +48,7 @@
         statesKCArray: model.statesKCArray,
         goalId: model.goalId,
         authorId: $session.user.uid,
+        linkedActivityConnectionIds: model.linkedActivityConnectionIds,
       };
 
       alert = getDefaultAlertValues();

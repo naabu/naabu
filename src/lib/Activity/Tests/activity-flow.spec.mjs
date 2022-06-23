@@ -143,6 +143,7 @@ test('Create activities and attach them @activity', async ({ page, domain, showA
   await expect(page.locator('[data-test=field-Title]')).toContainText("Test activity title");
   await expect(page.locator('[data-test=field-Difficulty]')).toContainText("Easy");
   await expect(page.locator('[data-test=field-Type]')).toContainText("Explanation");
+  await page.waitForSelector('[data-test="status-content-0"]');
   await expect(page.locator('[data-test="status-content-0"]')).toContainText("Activity connected to learning goal");
   await page.fill('#comment', "Hey this is a comment on a learning goal activity connection page");
   await page.click('[data-test=post-reaction-button]');

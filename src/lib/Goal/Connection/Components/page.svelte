@@ -33,7 +33,6 @@
   let newCommentText;
   let buttonDisabled = true;
   let timeAgo;
-  let delayDone = false;
   let timer;
   export let isTeacher;
   let hasCurriculumProfile;
@@ -97,15 +96,6 @@
     }
   }
 
-  $: if (connection) {
-    clearTimeout(timer);
-    timer = setTimeout(() => {
-      if (hasCurriculumProfile) {
-        delayDone = true;
-      }
-    }, 5000);
-  }
-
   let alert = getDefaultAlertValues();
   let db;
 
@@ -118,7 +108,6 @@
 
   async function changeStatus(checkStatus, changeStatus) {
     if (connection.status === checkStatus) {
-      delayDone = false;
       let serverTimestamp = $firebase.firestore.Timestamp.now().seconds;
       let data = {
         status: changeStatus,
@@ -179,7 +168,7 @@
         alert.success = true;
         alert.successTitle = $t("status-update-created");
         alert.successMessage = "id: " + result.id;
-        updates = [...updates, data];
+        // updates = [...updates, data];
       } catch (e) {
         alert.error = true;
         alert.errorCode = e.code;
@@ -242,7 +231,7 @@
           alert.success = true;
           alert.successTitle = $t("reaction-placed");
           alert.successMessage = "id: " + result.id;
-          updates = [...updates, data];
+          // updates = [...updates, data];
         } catch (e) {
           alert.error = true;
           alert.errorCode = e.code;
@@ -285,7 +274,6 @@
           {#if connection.status === "in-progress"}
             <Button
               color="primary"
-              isDisabled={!delayDone}
               on:click={() => changeStatus("in-progress", "needs-approval")}
               dataTest="ready-to-publish-button"
               content={$t("activity-ready-to-publish")}
@@ -293,33 +281,28 @@
           {/if}
           {#if connection.status === "needs-approval"}
             <Button
-              isDisabled={!delayDone}
               on:click={() => changeStatus("needs-approval", "needs-work")}
               content={$t("needs-work")}
             />
             <Button
               color="primary"
-              isDisabled={!delayDone}
               on:click={() => changeStatus("needs-approval", "published")}
               content={$t("activity-publish")}
             />
           {/if}
           {#if connection.status === "needs-work"}
             <Button
-              isDisabled={!delayDone}
               on:click={() => changeStatus("needs-work", "in-trash")}
               content={$t("activity-in-trash")}
             />
             <Button
               color="primary"
-              isDisabled={!delayDone}
               on:click={() => changeStatus("needs-work", "in-progress")}
               content={$t("work-on-activity")}
             />
           {/if}
           {#if connection.status === "published"}
             <Button
-              isDisabled={!delayDone}
               on:click={() => changeStatus("published", "needs-work")}
               content={$t("activity-unpublish-action")}
             />
@@ -327,7 +310,6 @@
           {#if connection.status === "in-trash"}
             <Button
               color="primary"
-              isDisabled={!delayDone}
               on:click={() => changeStatus("in-trash", "needs-work")}
               content={$t("activity-from-trash-to-backlog")}
             />

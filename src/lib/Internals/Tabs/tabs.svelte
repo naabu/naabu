@@ -49,6 +49,8 @@
     "px-1",
     "border-b-2",
     "font-medium text-sm",
+    "ml-3",
+    "mr-3",
   ];
 
   let nonSelectedAClasses = [
@@ -125,7 +127,7 @@
   <div class="hidden sm:block">
     <div class="border-b border-gray-200">
       <nav class="-mb-px flex" aria-label="Tabs">
-        <div class="flex space-x-8">
+        <div class="flex flex-wrap">
           {#each mainTabs as tab}
             <a
               data-test={tab.dataTest}
@@ -139,7 +141,7 @@
           <slot name="after-main-tabs" mobile={false} />
         </div>
         {#if subTabs}
-          <div class="ml-auto flex space-x-8">
+          <div class="ml-auto flex">
             {#each subTabs as tab}
               <a
                 data-test={tab.dataTest}

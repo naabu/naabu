@@ -49,7 +49,7 @@
         title: connectionGoalActivity.title,
       },
     ];
-    model.statesKCArray = model.statesKCArray; 
+    model.statesKCArray = model.statesKCArray;
     resetFilters();
   }
 
@@ -102,6 +102,10 @@
     });
   }
 
+  function editActivity(event) {
+    console.log("Edit activity logic here!");
+  }
+
   function removeActivity(event) {
     knowledgeComponent.activities.splice(event.detail.i, 1);
     knowledgeComponent.activities = knowledgeComponent.activities;
@@ -124,7 +128,12 @@
           {knowledgeComponent.label}
         </label>
       {/if}
-      <Button content={$t("add")} isDisabled={!hasCurriculumProfile} size="tiny" on:click={() => splitKC(index)} />
+      <Button
+        content={$t("add")}
+        isDisabled={!hasCurriculumProfile}
+        size="tiny"
+        on:click={() => splitKC(index)}
+      />
     </div>
     <Textarea
       id="state-kc-{index}"
@@ -154,9 +163,20 @@
       isDisabled={!hasCurriculumProfile}
     >
       <svelte:fragment let:item={activity} slot="show">
-        <a href="/leerdoel/{model.goalId}/activiteiten/{activity.connectionId}" class="underline" target="_blank"
-          >{activity.title}</a
+        <a
+          href="/leerdoel/{model.goalId}/activiteiten/{activity.connectionId}"
+          class="underline"
+          target="_blank">{activity.title}</a
         >
+      </svelte:fragment>
+
+      <svelte:fragment slot="extra-actions">
+        <Button
+          size="very-small"
+          color="secondary"
+          content={$t("edit")}
+          on:click={() => editActivity()}
+        />
       </svelte:fragment>
     </TextAndRemove>
     <div id="autocomplete-activities-{index}" class="max-w-lg mt-2" />

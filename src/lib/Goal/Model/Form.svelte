@@ -52,7 +52,6 @@
   }
 
   function deleteState(event) {
-    // TODO: Combine KC before and after state.
     model.statesKCArray.splice(event.detail.i, 2);
     model.statesKCArray = model.statesKCArray;
   }

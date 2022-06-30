@@ -6,7 +6,6 @@
   import CreatedTeacher from "$lib/Update/Updates/CreatedTeacher.svelte";
   import StatusChangeByUser from "$lib/Update/Updates/StatusChangeByUser.svelte";
   export let updates;
-  $:console.log(updates);
   let feedLength = 0;
   export let showConnectionInfo = null;
   $: feedLength = updates.length;

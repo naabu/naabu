@@ -275,6 +275,7 @@
             <Button
               color="primary"
               on:click={() => changeStatus("in-progress", "needs-approval")}
+              isDisabled={!hasCurriculumProfile}
               dataTest="ready-to-publish-button"
               content={$t("activity-ready-to-publish")}
             />
@@ -282,28 +283,33 @@
           {#if connection.status === "needs-approval"}
             <Button
               on:click={() => changeStatus("needs-approval", "needs-work")}
+              isDisabled={!hasCurriculumProfile}
               content={$t("needs-work")}
             />
             <Button
               color="primary"
               on:click={() => changeStatus("needs-approval", "published")}
+              isDisabled={!hasCurriculumProfile}
               content={$t("activity-publish")}
             />
           {/if}
           {#if connection.status === "needs-work"}
             <Button
               on:click={() => changeStatus("needs-work", "in-trash")}
+              isDisabled={!hasCurriculumProfile}
               content={$t("activity-in-trash")}
             />
             <Button
               color="primary"
               on:click={() => changeStatus("needs-work", "in-progress")}
+              isDisabled={!hasCurriculumProfile}
               content={$t("work-on-activity")}
             />
           {/if}
           {#if connection.status === "published"}
             <Button
               on:click={() => changeStatus("published", "needs-work")}
+              isDisabled={!hasCurriculumProfile}
               content={$t("activity-unpublish-action")}
             />
           {/if}
@@ -311,6 +317,7 @@
             <Button
               color="primary"
               on:click={() => changeStatus("in-trash", "needs-work")}
+              isDisabled={!hasCurriculumProfile}
               content={$t("activity-from-trash-to-backlog")}
             />
           {/if}

@@ -174,6 +174,7 @@
         <Button
           size="very-small"
           color="secondary"
+          isDisabled={!hasCurriculumProfile}
           content={$t("edit")}
           on:click={() => editActivity()}
         />

@@ -30,7 +30,7 @@
       </slot>
     </div>
     <div class="col-span-2 justify-self-end">
-      <slot name="extra-actions"/>
+      <slot name="extra-actions" {i}/>
       <Button
         size="very-small"
         extraClasses={[]}

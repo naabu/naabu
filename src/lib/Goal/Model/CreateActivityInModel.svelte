@@ -12,17 +12,16 @@
   import { getStores, session } from "$app/stores";
   import Button from "$lib/Internals/Button/Button.svelte";
   import { firebase } from "$lib/Internals/Firebase/store";
-  import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
   import { getDefaultAlertValues } from "$lib/Internals/Misc/helper";
   import { createRevision } from "$lib/Internals/Revision/helper";
   import { createEventDispatcher } from "svelte";
+  import MediumRightSlideOver from "$lib/Internals/SlideOver/MediumRight.svelte";
 
-  export let toggle = false;
-  export let showPluginSelector = true;
   export let activity;
   export let goal;
   export let model;
+  export let toggle;
   export let reset = false;
   export let hasCurriculumProfile = false;
   const dispatch = createEventDispatcher();
@@ -85,14 +84,13 @@
     reset = false;
   }
 
+  function closeForm() {
+    toggle = false;
+  }
+
   function getDefaultTitle() {
     let defaultTitle = knowledgeComponentText;
     return defaultTitle;
-  }
-
-  function closeForm() {
-    toggle = false;
-    showPluginSelector = false;
   }
 
   async function createActivity() {
@@ -141,6 +139,7 @@
 
         closeForm();
         dispatch("formActivityComplete");
+        console.log("complete!");
 
         alert.success = true;
         alert.successTitle = $t("activity-create-success-title");
@@ -163,89 +162,31 @@
   }
 </script>
 
+<MediumRightSlideOver
+  bind:toggle
+  bind:slideOverTitle
+  bind:slideOverText={knowledgeComponentText}
+>
+  {#if activity}
+    <form
+      class="space-y-8 divide-y divide-gray-200"
+      on:submit|preventDefault={formSubmit}
+    >
+      <ActivityForm bind:activity showGoalForm={false} bind:userChangedTitle />
 
-
-<!-- Background backdrop, show/hide based on slide-over state. -->
-<div class="fixed inset-y-0 right-0 max-w-3xl flex z-10">
-  <Transition
-    {toggle}
-    inTransition="transform transition ease-in-out duration-500 sm:duration-700"
-    inState="translate-x-full"
-    onState="translate-x-0"
-    outTransition="transform transition ease-in-out duration-500 sm:duration-700"
-    outState="translate-x-full"
-  >
-    <div class="pointer-events-auto w-screen max-w-3xl">
-      <div
-        class="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl"
-      >
-        <div class="px-4 sm:px-6">
-          <div class="flex items-start justify-between">
-            <div>
-              <h2
-                class="text-lg font-medium text-gray-900"
-                id="slide-over-title"
-              >
-                {slideOverTitle}
-              </h2>
-              <AdditionalFormText content={knowledgeComponentText} />
-            </div>
-            <div class="ml-3 flex h-7 items-center">
-              <button
-                type="button"
-                class="rounded-md bg-white text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
-                on:click={closeForm}
-              >
-                <span class="sr-only">Close panel</span>
-                <!-- Heroicon name: outline/x -->
-                <svg
-                  class="h-6 w-6"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke-width="2"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                  />
-                </svg>
-              </button>
-            </div>
+      <div class="">
+        <div class="pt-5">
+          <div class="flex justify-end">
+            <Button
+              color="primary"
+              isSubmit={true}
+              isDisabled={buttonDisabled || !hasCurriculumProfile}
+              dataTest="submit-activity-create-button"
+              content={$t("create-activity")}
+            />
           </div>
         </div>
-        <div class="relative mt-6 flex-1 px-4 sm:px-6">
-          {#if activity}
-            <form
-              class="space-y-8 divide-y divide-gray-200"
-              on:submit|preventDefault={formSubmit}
-            >
-              <ActivityForm
-                bind:activity
-                showGoalForm={false}
-                bind:userChangedTitle
-              />
-
-              <div class="">
-                <div class="pt-5">
-                  <div class="flex justify-end">
-                    <Button
-                      color="primary"
-                      isSubmit={true}
-                      isDisabled={buttonDisabled || !hasCurriculumProfile}
-                      dataTest="submit-activity-create-button"
-                      content={$t("create-activity")}
-                    />
-                  </div>
-                </div>
-              </div>
-            </form>
-          {/if}
-        </div>
       </div>
-    </div>
-  </Transition>
-</div>
+    </form>
+  {/if}
+</MediumRightSlideOver>

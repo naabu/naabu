@@ -5,21 +5,26 @@
   import KnowledgeComponent from "$lib/Goal/Model/KnowledgeComponent.svelte";
   import State from "$lib/Goal/Model/State.svelte";
   import { t } from "svelte-intl-precompile";
-  import ActivitySlideOverForm from "$lib/Goal/Model/ActivitySlideOverForm.svelte";
+  import { firebase } from "$lib/Internals/Firebase/store";
+  import CreateActivityInModel from "$lib/Goal/Model/CreateActivityInModel.svelte";
+  import EditActivityInModel from "$lib/Goal/Model/EditActivityInModel.svelte";
+  import GetActivityData from "$lib/Activity/Data/getActivityData.svelte";
+  import { loadPluginData } from "$lib/Activity/Components/helper";
   export let model;
   export let goal;
   export let hasCurriculumProfile;
   let showActivityForm = false;
+  let showActivityEditForm = false;
   let activeKC;
   let activeIndex = -1;
   let lastActiveIndex = -1;
-  let sliderActivity;
+  let activeActivity;
   let resetSlider = false;
 
   $: if (model.statesKCArray) {
     model.linkedActivityConnectionIds = [];
     for (let i = 0; i < model.statesKCArray.length; i++) {
-      let kcState =  model.statesKCArray[i];
+      let kcState = model.statesKCArray[i];
       if (kcState.type == "kc") {
         for (let i2 = 0; i2 < kcState.activities.length; i2++) {
           let activity = kcState.activities[i2];
@@ -27,7 +32,9 @@
         }
       }
     }
-    model.linkedActivityConnectionIds = [...new Set(model.linkedActivityConnectionIds)]
+    model.linkedActivityConnectionIds = [
+      ...new Set(model.linkedActivityConnectionIds),
+    ];
   }
 
   function splitKC(event) {
@@ -56,6 +63,18 @@
     model.statesKCArray = model.statesKCArray;
   }
 
+  async function editActivity(event, knowledgeComponentIndex) {
+    showActivityEditForm = true;
+    activeKC = model.statesKCArray[knowledgeComponentIndex];
+    let activityId = activeKC.activities[event.detail.activityIndex].activityId;
+    activeActivity = null;
+    let db = $firebase.firestore();
+    let ref = db.collection("activities").doc(activityId);
+    let snap = await ref.get();
+    let object = await loadPluginData(activityId, snap, "form");
+    activeActivity = object;
+  }
+
   function newActivity(index) {
     activeKC = model.statesKCArray[index];
     if (index !== lastActiveIndex) {
@@ -73,14 +92,23 @@
   function formActivityComplete() {
     model.statesKCArray = model.statesKCArray;
   }
-
 </script>
 
-<ActivitySlideOverForm
+<CreateActivityInModel
   bind:toggle={showActivityForm}
-  bind:activity={sliderActivity}
+  bind:activity={activeActivity}
   bind:knowledgeComponent={activeKC}
   bind:reset={resetSlider}
+  bind:hasCurriculumProfile
+  bind:goal
+  bind:model
+  on:formActivityComplete={formActivityComplete}
+/>
+
+<EditActivityInModel
+  bind:toggle={showActivityEditForm}
+  bind:activity={activeActivity}
+  bind:knowledgeComponent={activeKC}
   bind:hasCurriculumProfile
   bind:goal
   bind:model
@@ -111,6 +139,7 @@
             bind:hasCurriculumProfile
             activeActivityForm={i === activeIndex}
             on:newActivity={() => newActivity(i)}
+            on:editActivity={async (event) => await editActivity(event, i)}
             index={i}
           />
         {:else if stateKC.type === "state"}

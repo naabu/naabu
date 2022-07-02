@@ -102,7 +102,8 @@
     });
   }
 
-  function editActivity(event) {
+  function editActivity(activityIndex) {
+    dispatch("editActivity", {activityIndex});
     console.log("Edit activity logic here!");
   }
 
@@ -170,13 +171,13 @@
         >
       </svelte:fragment>
 
-      <svelte:fragment slot="extra-actions">
+      <svelte:fragment slot="extra-actions" let:i={activityIndex}>
         <Button
           size="very-small"
           color="secondary"
           isDisabled={!hasCurriculumProfile}
           content={$t("edit")}
-          on:click={() => editActivity()}
+          on:click={() => editActivity(activityIndex)}
         />
       </svelte:fragment>
     </TextAndRemove>

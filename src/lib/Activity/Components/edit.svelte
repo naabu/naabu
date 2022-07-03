@@ -34,11 +34,13 @@
   async function edit() {
     if ($session.user) {
       let activityData = getActivitySaveData(activity);
-
       activityData.plugins = getPluginDataFromForm(activity.plugins);
 
+      let previousActivityData = getActivitySaveData(previousActivity);
+      previousActivity.plugins = getPluginDataFromForm(previousActivity.plugins);
+
       let differences = getDifferencesBetweenRevisions(
-        previousActivity,
+        previousActivityData,
         activityData
       );
       if (differences.length > 0) {

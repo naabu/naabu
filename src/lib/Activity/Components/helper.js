@@ -1,4 +1,5 @@
 import { renderKatexOutput } from "$lib/Internals/Misc/helper.js";
+import { loadPluginRecursively } from "$lib/Internals/Plugin/loader";
 
 export function getDefaultEmptyActivity(title = "") {
   return {
@@ -47,6 +48,28 @@ export function getTypeText(theType, $t) {
       return $t("boss");
   }
   return $t("no-type");
+}
+
+export async function loadPluginData(id, snap, loadComponent = "render") {
+  if (snap.exists) {
+    let object = snap.data();
+    object.id = id;
+
+    if (object.plugins) {
+      object.plugins = JSON.parse(object.plugins);
+
+      let loadPluginsObject = {
+        plugins: object.plugins,
+      };
+      await loadPluginRecursively(loadPluginsObject, loadComponent);
+      object.plugins = loadPluginsObject.plugins;
+      for (let i = 0; i < object.plugins.length; i++) {
+        object.plugins[i].currentPlugin = object.plugins[i];
+      }
+    }
+    return object;
+  }
+  return null;
 }
 
 export function getDifficultyToString(difficulty, $t) {

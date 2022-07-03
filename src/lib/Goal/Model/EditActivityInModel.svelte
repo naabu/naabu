@@ -36,10 +36,7 @@
     activity.goalTitle = goal.title;
   }
 
-  $: console.log(toggle);
-
   function closeForm() {
-    console.log("close");
     toggle = false;
   }
 

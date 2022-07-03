@@ -139,7 +139,6 @@
 
         closeForm();
         dispatch("formActivityComplete");
-        console.log("complete!");
 
         alert.success = true;
         alert.successTitle = $t("activity-create-success-title");

@@ -104,7 +104,6 @@
 
   function editActivity(activityIndex) {
     dispatch("editActivity", {activityIndex});
-    console.log("Edit activity logic here!");
   }
 
   function removeActivity(event) {

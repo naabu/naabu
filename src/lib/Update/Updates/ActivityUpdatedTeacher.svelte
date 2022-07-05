@@ -3,7 +3,10 @@
   import UpdatedIcon from "$lib/Update/Icons/UpdatedIcon.svelte";
   import { t } from "svelte-intl-precompile";
   import ShowUpdateDifferences from "$lib/Update/Components/ShowUpdateDifferences.svelte";
-  import { getActivitySort, getDifferencesBetweenRevisions } from "$lib/Internals/Revision/helper";
+  import {
+    getActivitySort,
+    getDifferencesBetweenRevisions,
+  } from "$lib/Internals/Revision/helper";
 
   export let updates;
   export let update;
@@ -14,10 +17,13 @@
 
   $: if (update.activity) {
     let previousActivity = {};
-    for(let i2 = i-1; i2 >= 0 ; i2--) {
-      if (updates[i2].type === "created-activity-teacher" || updates[i2].type === "activity-updated-teacher") {
-        previousActivity = updates[i2].activity
-        break;  
+    for (let i2 = i - 1; i2 >= 0; i2--) {
+      if (
+        updates[i2].type === "created-activity-teacher" ||
+        updates[i2].type === "activity-updated-teacher"
+      ) {
+        previousActivity = updates[i2].activity;
+        break;
       }
     }
     update.differences = getDifferencesBetweenRevisions(
@@ -28,18 +34,20 @@
   }
 </script>
 
-<UpdateContentMultiLine
-  bind:i
-  bind:feedLength
-  bind:update
-  bind:showConnectionInfo
->
-  <svelte:fragment slot="icon">
-    <UpdatedIcon />
-  </svelte:fragment>
-  <svelte:fragment slot="aftername">
-    - {$t("teacher")}
-  </svelte:fragment>
-  {$t("activity-updated")}
-  <ShowUpdateDifferences bind:update />
-</UpdateContentMultiLine>
+{#if update.differences && update.differences.length > 0}
+  <UpdateContentMultiLine
+    bind:i
+    bind:feedLength
+    bind:update
+    bind:showConnectionInfo
+  >
+    <svelte:fragment slot="icon">
+      <UpdatedIcon />
+    </svelte:fragment>
+    <svelte:fragment slot="aftername">
+      - {$t("teacher")}
+    </svelte:fragment>
+    {$t("activity-updated")}
+    <ShowUpdateDifferences bind:update />
+  </UpdateContentMultiLine>
+{/if}

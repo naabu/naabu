@@ -35,8 +35,11 @@ exports.updatesForConnectionCreatedActivity = functions.firestore.document('conn
   .onUpdate(async (change, context) => {
     const fb = helper.getFirebaseApp();
     let db = fb.firestore();
+    let previousConnection = change.before.data();
     let connection = change.after.data();
-    if (connection.type === "goal-activity") {
+    console.log(previousConnection.status);
+    console.log(connection.status);
+    if (connection.type === "goal-activity" && previousConnection.status === connection.status) {
       let activityRef = db.collection("activities").doc(connection.linkId);
       let activitySnap = await activityRef.get();
       if (activitySnap.exists) {
@@ -114,7 +117,7 @@ exports.updateConnectionForActivityGoal = functions.firestore.document('activiti
         inProgressAt: change.after["_updateTime"].seconds,
         authorId: newActivity.authorId,
         title: newActivity.title,
-        connectionStatus: "published",
+        status: "published",
         fields: [
           {
             title: "description",

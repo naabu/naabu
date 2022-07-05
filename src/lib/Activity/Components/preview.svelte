@@ -44,7 +44,7 @@
       on:click={goBackToActivityEdit}
     />
 
-    {#if activity.connectionId}
+    {#if activity.updateConnectionAt}
       <Button
         color="primary"
         isDisabled={buttonDisabled}

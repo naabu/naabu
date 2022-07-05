@@ -141,8 +141,8 @@ test('Create activities and attach them @activity', async ({ page, domain, showA
 
   await expect(page.locator('[data-test=title-learning-goal-connection-page]')).toContainText("Connection learning goal activity information");
   await expect(page.locator('[data-test=field-Title]')).toContainText("Test activity title");
-  await expect(page.locator('[data-test=field-Difficulty]')).toContainText("Easy");
-  await expect(page.locator('[data-test=field-Type]')).toContainText("Explanation");
+  await expect(page.locator('[data-test=field-difficulty]')).toContainText("Easy");
+  await expect(page.locator('[data-test=field-type]')).toContainText("Explanation");
   await page.waitForSelector('[data-test="status-content-0"]');
   await expect(page.locator('[data-test="status-content-0"]')).toContainText("Activity connected to learning goal");
   await page.fill('#comment', "Hey this is a comment on a learning goal activity connection page");
@@ -158,8 +158,8 @@ test('Create activities and attach them @activity', async ({ page, domain, showA
   await page.fill('#title', 'CHECKCHECKCHECK');
   await page.click('[data-test=edit-activity-submit-button]');
   await page.click('[data-test=update-activity-learning-goal-button]');
-  await page.waitForSelector('[data-test="status-content-3"]');
-  await expect(page.locator('[data-test="status-content-3"]')).toContainText("CHECKCHECKCHECK");
+  await page.waitForSelector('[data-test="status-content-2"]');
+  await expect(page.locator('[data-test="status-content-2"]')).toContainText("CHECKCHECKCHECK");
 });
 
 test.afterEach(async ({ page, domain, showAllConsole }, testInfo) => {

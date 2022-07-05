@@ -28,8 +28,8 @@
       let kcState = model.statesKCArray[i];
       if (kcState.type == "kc") {
         for (let i2 = 0; i2 < kcState.activities.length; i2++) {
-          let activity = kcState.activities[i2];
-          model.linkedActivityConnectionIds.push(activity.connectionId);
+          let activityConnection = kcState.activities[i2];
+          model.linkedActivityConnectionIds.push(activityConnection.connectionId);
         }
       }
     }

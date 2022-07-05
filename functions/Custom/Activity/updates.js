@@ -114,6 +114,7 @@ exports.updateConnectionForActivityGoal = functions.firestore.document('activiti
         inProgressAt: change.after["_updateTime"].seconds,
         authorId: newActivity.authorId,
         title: newActivity.title,
+        connectionStatus: "published",
         fields: [
           {
             title: "description",

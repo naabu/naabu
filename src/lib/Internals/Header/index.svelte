@@ -183,7 +183,7 @@
                   tabindex="-1"
                 >
                   <a
-                    href="/lerarenkamer"
+                    href="/lerarenkamer/modules"
                     on:click={() => (openUserMenu = false)}
                     class="block px-4 py-2 text-sm text-gray-700"
                     role="menuitem"
@@ -217,7 +217,7 @@
     <div class:hidden={!openMenu} class="sm:hidden" id="mobile-menu">
       <div class="px-2 pt-2 pb-3 space-y-1 highz">
         <a
-          href="/lerarenkamer"
+          href="/lerarenkamer/modules"
           on:click={() => (openUserMenu = false)}
           class="text-gray-300 hover:bg-blue-600 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
           role="menuitem"

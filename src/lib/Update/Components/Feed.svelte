@@ -25,7 +25,7 @@
           {:else if update.type === "created-activity-teacher"}
             <CreatedTeacher bind:update {i} {feedLength} bind:showConnectionInfo />
           {:else if update.type === "activity-updated-teacher"}
-            <ActivityUpdatedTeacher bind:update {i} {feedLength} bind:showConnectionInfo/>
+            <ActivityUpdatedTeacher bind:updates bind:update {i} {feedLength} bind:showConnectionInfo/>
           {:else if update.type === "activity-removed"}
             <ActivityRemoved bind:update {i} {feedLength} bind:showConnectionInfo/>
           {/if}

@@ -164,7 +164,7 @@
     >
       <svelte:fragment let:item={activity} slot="show">
         <a
-          href="/leerdoel/{model.goalId}/activiteiten/{activity.connectionId}"
+          href="/leerdoel/{model.goalId}/activiteiten/{activity.activityId}"
           class="underline"
           target="_blank">{activity.title}</a
         >

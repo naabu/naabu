@@ -36,7 +36,7 @@
 
   <svelte:fragment slot="cta" let:activityId>
     <a
-      href="/leerdoel/{goalId}/activiteiten/{connectionId}"
+      href="/leerdoel/{goalId}/activiteiten/{activityId}"
       class=" underline text-indigo-600 hover:text-indigo-900 text-right text-sm font-medium"
     >
       {$t("connection-with-goal")}

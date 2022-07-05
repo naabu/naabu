@@ -38,6 +38,7 @@
 
   function closeForm() {
     toggle = false;
+    dispatch("close");
   }
 
   async function editActivity() {
@@ -46,6 +47,7 @@
       let activityData = getActivitySaveData(activity);
       activityData.plugins = getPluginDataFromForm(activity.plugins);
       activityData.authorId = $session.user.uid;
+      activityData.updateConnectionAt = $firebase.firestore.Timestamp.now().seconds,
       alert = getDefaultAlertValues();
       try {
         let collectionRef = db.collection("activities");
@@ -59,17 +61,8 @@
         activityData.latestRevisionCreatedAt = $firebase.firestore.Timestamp.now().seconds;
         let result = await collectionRef.doc(activity.id).set(activityData);
 
-
-        // knowledgeComponent.activities = [
-        //   ...knowledgeComponent.activities,
-        //   {
-        //     connectionId: resultConnection.id,
-        //     activityId: activity.id,
-        //     title: activity.title,
-        //   },
-        // ];
-
         closeForm();
+        dispatch("formActivityEdit", {activity: activity});
         dispatch("formActivityComplete");
 
         alert.success = true;
@@ -97,6 +90,7 @@
   bind:toggle
   bind:slideOverTitle
   bind:slideOverText={knowledgeComponentText}
+  on:closeSlideOver={closeForm}
 >
   {#if activity}
     <form

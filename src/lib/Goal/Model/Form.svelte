@@ -11,6 +11,7 @@
   import GetActivityData from "$lib/Activity/Data/getActivityData.svelte";
   import { loadPluginData } from "$lib/Activity/Components/helper";
   export let model;
+  $:console.log(model);
   export let goal;
   export let hasCurriculumProfile;
   let showActivityForm = false;
@@ -27,8 +28,8 @@
       let kcState = model.statesKCArray[i];
       if (kcState.type == "kc") {
         for (let i2 = 0; i2 < kcState.activities.length; i2++) {
-          let activity = kcState.activities[i2];
-          model.linkedActivityConnectionIds.push(activity.connectionId);
+          let activityConnection = kcState.activities[i2];
+          model.linkedActivityConnectionIds.push(activityConnection.connectionId);
         }
       }
     }
@@ -66,6 +67,7 @@
   async function editActivity(event, knowledgeComponentIndex) {
     showActivityEditForm = true;
     activeKC = model.statesKCArray[knowledgeComponentIndex];
+    activeIndex = knowledgeComponentIndex;
     let activityId = activeKC.activities[event.detail.activityIndex].activityId;
     activeActivity = null;
     let db = $firebase.firestore();
@@ -85,12 +87,27 @@
     lastActiveIndex = index;
   }
 
-  $: if (!showActivityForm) {
+  function closeSlide() {
     activeIndex = -1;
   }
 
+
   function formActivityComplete() {
     model.statesKCArray = model.statesKCArray;
+  }
+
+  function formActivityEdit(event) {
+    for (let i = 0; i < model.statesKCArray.length; i++) {
+      let kcState = model.statesKCArray[i];
+      if (kcState.type == "kc") {
+        for (let i2 = 0; i2 < kcState.activities.length; i2++) {
+          console.log(kcState);
+          if (kcState.activities[i2].activityId === event.detail.activity.id) {
+            model.statesKCArray[i].activities[i2].title = event.detail.activity.title;
+          }
+        }
+      }
+    }
   }
 </script>
 
@@ -102,6 +119,7 @@
   bind:hasCurriculumProfile
   bind:goal
   bind:model
+  on:close={closeSlide}
   on:formActivityComplete={formActivityComplete}
 />
 
@@ -112,7 +130,9 @@
   bind:hasCurriculumProfile
   bind:goal
   bind:model
+  on:close={closeSlide}
   on:formActivityComplete={formActivityComplete}
+  on:formActivityEdit={formActivityEdit}
 />
 
 <FieldSet title={$t("model")} description={$t("model-description")}>

@@ -86,6 +86,7 @@
 
   function closeForm() {
     toggle = false;
+    dispatch("close");
   }
 
   function getDefaultTitle() {

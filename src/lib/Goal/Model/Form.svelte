@@ -66,6 +66,7 @@
   async function editActivity(event, knowledgeComponentIndex) {
     showActivityEditForm = true;
     activeKC = model.statesKCArray[knowledgeComponentIndex];
+    activeIndex = knowledgeComponentIndex;
     let activityId = activeKC.activities[event.detail.activityIndex].activityId;
     activeActivity = null;
     let db = $firebase.firestore();
@@ -85,12 +86,14 @@
     lastActiveIndex = index;
   }
 
-  $: if (!showActivityForm) {
+  function closeSlide() {
     activeIndex = -1;
   }
 
+
   function formActivityComplete() {
     model.statesKCArray = model.statesKCArray;
+
   }
 </script>
 
@@ -102,6 +105,7 @@
   bind:hasCurriculumProfile
   bind:goal
   bind:model
+  on:close={closeSlide}
   on:formActivityComplete={formActivityComplete}
 />
 
@@ -112,6 +116,7 @@
   bind:hasCurriculumProfile
   bind:goal
   bind:model
+  on:close={closeSlide}
   on:formActivityComplete={formActivityComplete}
 />
 

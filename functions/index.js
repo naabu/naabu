@@ -10,7 +10,6 @@ exports.manualTrigger = require('./Custom/Trigger/manualTrigger.js');
 exports.talkPost = require('./Custom/Talk/post.js');
 exports.searchActivity = require('./Custom/Activity/searchIndex.js');
 exports.removeActivity = require('./Custom/Activity/remove.js');
-exports.connection = require('./Custom/Connection/connection.js');
 exports.connectionUpdate = require('./Custom/Connection/connectionUpdate.js');
 exports.connectionSearchIndex = require("./Custom/Connection/searchIndex.js");
 exports.module = require('./Custom/Module/module.js');

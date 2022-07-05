@@ -47,6 +47,7 @@
       let activityData = getActivitySaveData(activity);
       activityData.plugins = getPluginDataFromForm(activity.plugins);
       activityData.authorId = $session.user.uid;
+      activityData.updateConnectionAt = $firebase.firestore.Timestamp.now().seconds,
       alert = getDefaultAlertValues();
       try {
         let collectionRef = db.collection("activities");
@@ -61,6 +62,7 @@
         let result = await collectionRef.doc(activity.id).set(activityData);
 
         closeForm();
+        dispatch("formActivityEdit", {activity: activity});
         dispatch("formActivityComplete");
 
         alert.success = true;

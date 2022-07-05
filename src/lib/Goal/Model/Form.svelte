@@ -11,6 +11,7 @@
   import GetActivityData from "$lib/Activity/Data/getActivityData.svelte";
   import { loadPluginData } from "$lib/Activity/Components/helper";
   export let model;
+  $:console.log(model);
   export let goal;
   export let hasCurriculumProfile;
   let showActivityForm = false;
@@ -93,7 +94,20 @@
 
   function formActivityComplete() {
     model.statesKCArray = model.statesKCArray;
+  }
 
+  function formActivityEdit(event) {
+    for (let i = 0; i < model.statesKCArray.length; i++) {
+      let kcState = model.statesKCArray[i];
+      if (kcState.type == "kc") {
+        for (let i2 = 0; i2 < kcState.activities.length; i2++) {
+          console.log(kcState);
+          if (kcState.activities[i2].activityId === event.detail.activity.id) {
+            model.statesKCArray[i].activities[i2].title = event.detail.activity.title;
+          }
+        }
+      }
+    }
   }
 </script>
 
@@ -118,6 +132,7 @@
   bind:model
   on:close={closeSlide}
   on:formActivityComplete={formActivityComplete}
+  on:formActivityEdit={formActivityEdit}
 />
 
 <FieldSet title={$t("model")} description={$t("model-description")}>

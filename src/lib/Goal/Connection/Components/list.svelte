@@ -14,23 +14,14 @@
     compareTimeLeftToNeedsWork,
     compareTimeLeftToTrash,
   } from "$lib/Goal/Connection/Components/helper";
- 
+
   export let goalId;
   export let urlType;
   export let status;
-  let serverTimestamp =$firebase.firestore.Timestamp.now().seconds;
+  let serverTimestamp = $firebase.firestore.Timestamp.now().seconds;
   let daysToSendToTrash = 100 * 86400;
   let daysToSendToApproval = 2 * 86400;
   let daysToSendToNeedsWork = 3 * 86400;
-
-  $: if (connections) {
-    for (let i = 0; i < connections.length; i++) {
-      connections[i].connectionToLinkId = connections[i].linkId;
-      if (connections[i].type === "goal-activity") {
-        connections[i].connectionToLinkId = connections[i].id;
-      }
-    }
-  }
 
   $: if (status === "needs-work") {
     for (let i = 0; i < connections.length; i++) {
@@ -60,7 +51,7 @@
   }
 
   function setServerTimeInFunction() {
-    serverTimestamp =$firebase.firestore.Timestamp.now().seconds;
+    serverTimestamp = $firebase.firestore.Timestamp.now().seconds;
   }
 
   setInterval(setServerTimeInFunction, 3000);
@@ -126,7 +117,7 @@
                     <div class="text-sm text-gray-900">
                       {formatToTimeAgo(
                         connection.modifiedAt,
-                       $firebase,
+                        $firebase,
                         timeAgo,
                         $t
                       )}
@@ -136,7 +127,7 @@
                     <div class="text-sm text-gray-900">
                       {formatToTimeAgo(
                         connection.lastUpdatesAt,
-                       $firebase,
+                        $firebase,
                         timeAgo,
                         $t
                       )}
@@ -144,7 +135,9 @@
                   </td>
                   <td class="px-6 py-4 whitespace-nowrap">
                     <div class="text-sm text-gray-900">
-                      {$t(connection.status)}
+                      {#if connection.status}
+                        {$t(connection.status)}
+                      {/if}
                     </div>
                   </td>
 
@@ -152,7 +145,7 @@
                     class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
                   >
                     <a
-                      href="/leerdoel/{goalId}/{urlType}/{connection.connectionToLinkId}"
+                      href="/leerdoel/{goalId}/{urlType}/{connection.linkId}"
                       class="text-indigo-600 hover:text-indigo-900"
                       >{$t("history")}</a
                     >

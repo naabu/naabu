@@ -4,13 +4,11 @@
   export let showConnectionInfo;
 
   let connectionLinkUrl = "";
-  let connectionIdOfLink = update.connectionLinkId;
 
   $: if (update.connectionLinkType) {
     switch (update.connectionLinkType) {
       case "activity":
         connectionLinkUrl = "activiteiten";
-        connectionIdOfLink = update.connectionId;
         break;
       case "assessment":
         connectionLinkUrl = "assessments";
@@ -22,7 +20,7 @@
 {#if showConnectionInfo == "link" && update.connectionSourceType == "goal"}
   -
   <a
-    href="/leerdoel/{update.connectionSourceId}/{connectionLinkUrl}/{connectionIdOfLink}"
+    href="/leerdoel/{update.connectionSourceId}/{connectionLinkUrl}/{update.connectionLinkId}"
     class="font-medium text-gray-900"
   >
     {$t("in")}

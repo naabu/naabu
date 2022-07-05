@@ -3,7 +3,6 @@
   import DOMPurify from "dompurify";
   import { t } from "svelte-intl-precompile";
   export let connection;
-  export let activity;
   export let isTeacher = false;
 </script>
 

@@ -30,7 +30,7 @@
 
   async function editGoal() {
     const db = await $firebase.firestore();
-    let data = getGoalSaveData(goal, $session.serverFirestoreTimeStamp);
+    let data = getGoalSaveData(goal, $firebase.firestore.Timestamp.now().seconds);
     alert = getDefaultAlertValues();
     try {
       let goalRef = db.collection("goals").doc(goal.id);

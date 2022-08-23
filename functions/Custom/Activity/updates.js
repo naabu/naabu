@@ -37,8 +37,6 @@ exports.updatesForConnectionCreatedActivity = functions.firestore.document('conn
     let db = fb.firestore();
     let previousConnection = change.before.data();
     let connection = change.after.data();
-    console.log(previousConnection.status);
-    console.log(connection.status);
     if (connection.type === "goal-activity" && previousConnection.status === connection.status) {
       let activityRef = db.collection("activities").doc(connection.linkId);
       let activitySnap = await activityRef.get();

@@ -18,7 +18,6 @@ export function getGoalSaveData(goal, timestamp) {
     createdAt: goal.createdAt,
     modifiedAt: timestamp,
   };
-
   if (goal.unitopic) {
     data.unitopic = goal.unitopic;
   }

@@ -28,7 +28,7 @@
       "custom"
     ],
     "customRanking": [
-      "asc(title)"
+      "desc(modifiedAt)"
     ],
     "separatorsToIndex": "",
     "removeWordsIfNoResults": "none",

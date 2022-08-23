@@ -49,8 +49,8 @@
   async function createGoal() {
     let db = $firebase.firestore();
     if ($session.user) {
-      goal.createdAt = $session.serverFirestoreTimeStamp
-      let data = getGoalSaveData(goal, $session.serverFirestoreTimeStamp);
+      goal.createdAt = $firebase.firestore.Timestamp.now().seconds
+      let data = getGoalSaveData(goal, $firebase.firestore.Timestamp.now().seconds);
       alert = getDefaultAlertValues();
       try {
         let talkResult = await db.collection("talk").add({ type: "goal" });

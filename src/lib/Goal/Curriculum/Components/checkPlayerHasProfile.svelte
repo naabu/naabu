@@ -21,6 +21,9 @@
   $: if ($page.url.pathname.startsWith("/overleg")) {
     type = "discuss";
   }
+  $: if ($page.url.pathname.startsWith("/topic")) {
+    type = "topic";
+  }
 </script>
 
 {#if !hasCurriculumProfile}
@@ -52,6 +55,8 @@
           >
             {#if type === "goal"}
               {$t(" create-profile-to-work-on-goal")}
+            {:else if type === "topic"}
+              {$t("create-profile-to-discuss-topic")}
             {:else if type === "discuss"}
               {$t("create-profile-to-discuss-goal")}
             {/if}

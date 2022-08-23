@@ -23,7 +23,7 @@
 
   export let knowledgeComponent;
 
-  let slideOverTitle = $t("add-new-activity-to-model");
+  let slideOverTitle = $t("edit-activity-in-model");
 
   let knowledgeComponentText = "";
 

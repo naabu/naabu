@@ -163,13 +163,8 @@
       isDisabled={!hasCurriculumProfile}
     >
       <svelte:fragment let:item={activity} slot="show">
-        <a href="/a/{activity.id}" class="underline" target="_blank"
+        <a href="/activiteit/{activity.activityId}?redirect=/leerdoel/{model.goalId}/activiteiten/{activity.activityId}" class="underline" target="_blank"
           >{activity.title}</a
-        >
-        <a
-          href="/leerdoel/{model.goalId}/activiteiten/{activity.activityId}"
-          class="underline"
-          target="_blank">{$t("goal-page")}</a
         >
       </svelte:fragment>
 

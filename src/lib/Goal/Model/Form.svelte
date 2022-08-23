@@ -8,6 +8,7 @@
   import ActivitySlideOverForm from "$lib/Goal/Model/ActivitySlideOverForm.svelte";
   export let model;
   export let goal;
+  export let hasCurriculumProfile ;
   let showActivityForm = false;
   let activeKC;
   let activeIndex = -1;
@@ -67,9 +68,11 @@
   }
 
   async function editActivity(event, knowledgeComponentIndex) {
+    console.log(event)
     showActivityEditForm = true;
     activeKC = model.statesKCArray[knowledgeComponentIndex];
     activeIndex = knowledgeComponentIndex;
+
     let activityId = activeKC.activities[event.detail.activityIndex].activityId;
     activeActivity = null;
     let db = $firebase.firestore();
@@ -121,6 +124,7 @@
   bind:toggle={showActivityForm}
   bind:activity={sliderActivity}
   bind:knowledgeComponent={activeKC}
+  bind:hasCurriculumProfile
   bind:reset={resetSlider}
   bind:goal
   bind:model />
@@ -129,6 +133,7 @@
   bind:toggle={showActivityForm}
   bind:activity={activeActivity}
   bind:knowledgeComponent={activeKC}
+  bind:hasCurriculumProfile
   bind:reset={resetSlider}
   bind:goal
   bind:model
@@ -140,6 +145,7 @@
   bind:toggle={showActivityEditForm}
   bind:activity={activeActivity}
   bind:knowledgeComponent={activeKC}
+  bind:hasCurriculumProfile
   bind:goal
   bind:model
   on:close={closeSlide}
@@ -168,6 +174,7 @@
             on:splitKC={splitKC}
             bind:knowledgeComponent={stateKC}
             bind:model
+            bind:hasCurriculumProfile
             activeActivityForm={i === activeIndex}
             on:newActivity={() => newActivity(stateKC, i)}
             on:editActivity={async (event) => await editActivity(event, i)}

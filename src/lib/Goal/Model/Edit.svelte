@@ -19,7 +19,7 @@
 
   let y;
   let buttonDisabled = false;
-  let hasCurriculumProfile = false;
+  export let hasCurriculumProfile = false;
 
   $: {
     if ($session.player && $session.player.curriculumProfileId) {
@@ -82,7 +82,7 @@
   <ResultFeedback bind:alert />
 
   <form class="mt-8 space-y-8" on:submit|preventDefault={formSubmit}>
-    <ModelForm bind:model bind:goal/>
+    <ModelForm bind:model bind:goal bind:hasCurriculumProfile/>
     <div class="pt-5">
       <div class="flex justify-end">
         <Button

@@ -19,7 +19,7 @@
 
   let y;
   let buttonDisabled = false;
-  let hasCurriculumProfile;
+  let hasCurriculumProfile = false;
 
   $: {
     if ($session.player && $session.player.curriculumProfileId) {
@@ -48,6 +48,7 @@
         statesKCArray: model.statesKCArray,
         goalId: model.goalId,
         authorId: $session.user.uid,
+        linkedActivityConnectionIds: model.linkedActivityConnectionIds,
       };
 
       alert = getDefaultAlertValues();

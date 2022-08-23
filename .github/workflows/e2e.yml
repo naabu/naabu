@@ -11,8 +11,8 @@ jobs:
     env:
       GITHUB_ACTOR: ${{ github.actor }}
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      DAGGER_CACHE_TO: type=gha,mode=max,scope=dagger-ci-build-main
-      DAGGER_CACHE_FROM: type=gha,scope=dagger-ci-build-main
+      # DAGGER_CACHE_TO: type=gha,mode=max,scope=dagger-ci-build-main
+      # DAGGER_CACHE_FROM: type=gha,scope=dagger-ci-build-main
 
     steps:
       - uses: actions/checkout@v2

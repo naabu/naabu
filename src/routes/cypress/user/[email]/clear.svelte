@@ -16,7 +16,9 @@
       ) {
         let email = $page.params.email;
         if ($session.user.email === email) {
-          await $firebase.auth().currentUser.delete();
+          let user = $firebase.auth().currentUser;
+          await $firebase.auth().signOut();
+          user.delete();
         }
         else {
           console.error("trying to delete a wrong user");

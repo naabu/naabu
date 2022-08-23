@@ -34,7 +34,6 @@ export async function getPlayer(firebase, user) {
 }
 
 export async function loginUser(firebase, newUser) {
-  console.log(firebase);
   let user;
   let player;
   if (newUser) {

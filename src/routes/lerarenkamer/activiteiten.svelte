@@ -1,5 +1,5 @@
 <script>
-  import ListPublishedActivities from "$lib/Internals/Teachers/listPublishedActivities.svelte";
+  import ListActivities from "$lib/Internals/Teachers/ListActivities.svelte";
   import Sidebar from "$lib/Internals/Containers/sidebar.svelte";
   import GetActivityListData from "$lib/Activity/Data/getActivityListData.svelte";
   import { getStores, page } from "$app/stores";
@@ -11,7 +11,7 @@
  
 </script>
 
-<GetActivityListData  bind:activities status="published" />
+<GetActivityListData  bind:activities />
 
 <Sidebar bind:menuitems>
   <span slot="title">{$t("published-activities")}</span>
@@ -28,7 +28,7 @@
 
   <span slot="content">
     {#if activities}
-      <ListPublishedActivities  bind:activities />
+      <ListActivities  bind:activities />
     {:else}
       {$t("loading")}
     {/if}

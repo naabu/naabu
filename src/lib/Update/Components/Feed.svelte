@@ -8,7 +8,6 @@
   export let updates;
   let feedLength = 0;
   export let showConnectionInfo = null;
-  $:console.log(showConnectionInfo);
   $: feedLength = updates.length;
 </script>
 
@@ -23,10 +22,10 @@
             <CommentTeacher bind:update {i} {feedLength} bind:showConnectionInfo />
           {:else if update.type === "status-change-by-user"}
             <StatusChangeByUser bind:update {i} {feedLength} bind:showConnectionInfo/>
-          {:else if update.type === "created-teacher"}
+          {:else if update.type === "created-activity-teacher"}
             <CreatedTeacher bind:update {i} {feedLength} bind:showConnectionInfo />
           {:else if update.type === "activity-updated-teacher"}
-            <ActivityUpdatedTeacher bind:update {i} {feedLength} bind:showConnectionInfo/>
+            <ActivityUpdatedTeacher bind:updates bind:update {i} {feedLength} bind:showConnectionInfo/>
           {:else if update.type === "activity-removed"}
             <ActivityRemoved bind:update {i} {feedLength} bind:showConnectionInfo/>
           {/if}

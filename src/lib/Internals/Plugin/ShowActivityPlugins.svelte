@@ -141,8 +141,6 @@
       lowLevelDataObject.isInterruption = true;
       lowLevelDataObject.interruptionId = interruptionPlugin.interuptionId;
     }
-    console.log("low level data");
-    console.log(lowLevelDataObject);
 
     dispatch("lowLevelData", { lowLevelData: lowLevelDataObject });
 

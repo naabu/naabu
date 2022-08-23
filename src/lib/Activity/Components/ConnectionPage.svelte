@@ -2,8 +2,8 @@
   import { getStores, page } from "$app/stores";
   import DOMPurify from "dompurify";
   import { t } from "svelte-intl-precompile";
+  import { getDifficultyToString, getTypeText } from "./helper";
   export let connection;
-  export let activity;
   export let isTeacher = false;
 </script>
 
@@ -54,12 +54,18 @@
       {#if connection.fields}
         {#each connection.fields as field}
           <div class="sm:col-span-1">
-            <dt class="text-sm font-medium text-gray-500">{field.title}</dt>
+            <dt class="text-sm font-medium text-gray-500">{$t(field.title)}</dt>
             <dd
               data-test="field-{field.title}"
               class="mt-1 text-sm text-gray-900"
             >
-              {@html DOMPurify.sanitize(field.value)}
+              {#if field.title === "difficulty"}
+                {getDifficultyToString(field.value, $t)}
+              {:else if field.title === "type"}
+                {getTypeText(field.value, $t)}
+              {:else}
+                {@html DOMPurify.sanitize(field.value)}
+              {/if}
             </dd>
           </div>
         {/each}

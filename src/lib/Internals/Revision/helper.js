@@ -73,6 +73,7 @@ export function getDifferencesBetweenRevisions(revision1, revision2, sortListOrd
     "svg",
     "connectionStatus",
     "connectionId",
+    "updateConnectionAt",
   ]
   for (let i = 0; i < diff.length; i++) {
     let ignore = false;

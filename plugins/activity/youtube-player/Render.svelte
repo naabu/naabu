@@ -60,10 +60,8 @@
       lastYoutubeId !== data.video.youtubeId &&
       youTubeIframeReady
     ) {
-      console.log("trigger?");
       iframe = document.querySelector("#youtubeVideo iframe");
       if (iframe !== null && player) {
-        console.log(player);
         lastYoutubeId = data.video.youtubeId;
         await player.pauseVideo();
         await player.loadVideoById(data.video.youtubeId);
@@ -89,7 +87,6 @@
         lastYoutubeId = data.video.youtubeId;
         player = new YT.Player("youtubeIframe", youtubeOptions);
       }
-      console.log(player);
     }
   }
 

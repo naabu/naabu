@@ -7,6 +7,7 @@
   export let noItemsMessage;
   const dispatch = createEventDispatcher();
   export let dataTest = "text-and-remove-button-";
+  export let isDisabled = false;
 
   export function remove(item, i) {
     dispatch("remove", {
@@ -36,6 +37,7 @@
         color="secondary"
         content={$t("remove")}
         dataTest={dataTest + i}
+        bind:isDisabled={isDisabled}
         on:click={() => remove(item, i)}
       />
     </div>

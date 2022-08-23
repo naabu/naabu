@@ -128,7 +128,6 @@
                 </td>
                 <slot
                   name="table-d"
-                  connectionStatus={activity.connectionStatus}
                 />
                 <td
                   class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium"
@@ -149,7 +148,6 @@
                     activityId={activity.id}
                     {index}
                     goalId={activity.goalId}
-                    connectionId={activity.connectionId}
                   />
 
                   <Button

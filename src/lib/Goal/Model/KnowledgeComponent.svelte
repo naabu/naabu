@@ -12,7 +12,7 @@
   import { autocomplete, getAlgoliaResults } from "@algolia/autocomplete-js";
   import "@algolia/autocomplete-theme-classic";
   import TextAndRemove from "$lib/Internals/FormFields/TextAndRemove.svelte";
-
+  export let hasCurriculumProfile;
   export let knowledgeComponent;
   export let index;
   export let model;
@@ -44,10 +44,12 @@
     knowledgeComponent.activities = [
       ...knowledgeComponent.activities,
       {
-        id: connectionGoalActivity.linkId,
+        connectionId: connectionGoalActivity.id,
+        activityId: connectionGoalActivity.linkId,
         title: connectionGoalActivity.title,
       },
     ];
+    model.statesKCArray = model.statesKCArray;
     resetFilters();
   }
 
@@ -100,6 +102,10 @@
     });
   }
 
+  function editActivity(activityIndex) {
+    dispatch("editActivity", {activityIndex});
+  }
+
   function removeActivity(event) {
     knowledgeComponent.activities.splice(event.detail.i, 1);
     knowledgeComponent.activities = knowledgeComponent.activities;
@@ -122,7 +128,12 @@
           {knowledgeComponent.label}
         </label>
       {/if}
-      <Button content={$t("add")} size="tiny" on:click={() => splitKC(index)} />
+      <Button
+        content={$t("add")}
+        isDisabled={!hasCurriculumProfile}
+        size="tiny"
+        on:click={() => splitKC(index)}
+      />
     </div>
     <Textarea
       id="state-kc-{index}"
@@ -142,17 +153,34 @@
         color="primary"
         size="very-small"
         content={$t("new")}
+        isDisabled={!hasCurriculumProfile}
         on:click={newActivity}
       />
     </div>
     <TextAndRemove
       items={knowledgeComponent.activities}
       on:remove={removeActivity}
+      isDisabled={!hasCurriculumProfile}
     >
       <svelte:fragment let:item={activity} slot="show">
         <a href="/a/{activity.id}" class="underline" target="_blank"
           >{activity.title}</a
         >
+        <a
+          href="/leerdoel/{model.goalId}/activiteiten/{activity.activityId}"
+          class="underline"
+          target="_blank">{$t("goal-page")}</a
+        >
+      </svelte:fragment>
+
+      <svelte:fragment slot="extra-actions" let:i={activityIndex}>
+        <Button
+          size="very-small"
+          color="secondary"
+          isDisabled={!hasCurriculumProfile}
+          content={$t("edit")}
+          on:click={() => editActivity(activityIndex)}
+        />
       </svelte:fragment>
     </TextAndRemove>
     <div id="autocomplete-activities-{index}" class="max-w-lg mt-2" />

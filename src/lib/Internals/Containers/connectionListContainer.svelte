@@ -42,7 +42,6 @@
       if (status !== "all") {
         filters += " AND status:" + status;
       }
-      console.log(filters);
       await search();
     }
   })();
@@ -67,12 +66,10 @@
         filters: filters,
       });
       connections = result.hits;
-      console.log(connections);
     }
   }
 
   $: if (goal) {
-    console.log(connectionType);
     if (connectionType) {
       if (connectionType === "goal-activity") {
         selectedTab = "activities";

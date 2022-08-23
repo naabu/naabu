@@ -14,6 +14,31 @@
   let lastActiveIndex = -1;
   let sliderActivity;
   let resetSlider = false;
+  let activeActivity;
+  let showActivityEditForm = false;
+  import { firebase } from "$lib/Internals/Firebase/store";
+  import CreateActivityInModel from "$lib/Goal/Model/CreateActivityInModel.svelte";
+  import EditActivityInModel from "$lib/Goal/Model/EditActivityInModel.svelte";
+  import GetActivityData from "$lib/Activity/Data/getActivityData.svelte";
+  import { loadPluginData } from "$lib/Activity/Components/helper";
+  
+  
+
+  $: if (model.statesKCArray) {
+    model.linkedActivityConnectionIds = [];
+    for (let i = 0; i < model.statesKCArray.length; i++) {
+      let kcState = model.statesKCArray[i];
+      if (kcState.type == "kc") {
+        for (let i2 = 0; i2 < kcState.activities.length; i2++) {
+          let activityConnection = kcState.activities[i2];
+          model.linkedActivityConnectionIds.push(activityConnection.connectionId);
+        }
+      }
+    }
+    model.linkedActivityConnectionIds = [
+      ...new Set(model.linkedActivityConnectionIds),
+    ];
+  }
 
   function splitKC(event) {
     let i = event.detail.i;
@@ -37,9 +62,21 @@
   }
 
   function deleteState(event) {
-    // TODO: Combine KC before and after state.
     model.statesKCArray.splice(event.detail.i, 2);
     model.statesKCArray = model.statesKCArray;
+  }
+
+  async function editActivity(event, knowledgeComponentIndex) {
+    showActivityEditForm = true;
+    activeKC = model.statesKCArray[knowledgeComponentIndex];
+    activeIndex = knowledgeComponentIndex;
+    let activityId = activeKC.activities[event.detail.activityIndex].activityId;
+    activeActivity = null;
+    let db = $firebase.firestore();
+    let ref = db.collection("activities").doc(activityId);
+    let snap = await ref.get();
+    let object = await loadPluginData(activityId, snap, "form");
+    activeActivity = object;
   }
 
   function newActivity(knowledgeComponent, index) {
@@ -55,6 +92,29 @@
   $: if (!showActivityForm) {
     activeIndex = -1;
   }
+
+  function closeSlide() {
+    activeIndex = -1;
+  }
+
+
+  function formActivityComplete() {
+    model.statesKCArray = model.statesKCArray;
+  }
+
+  function formActivityEdit(event) {
+    for (let i = 0; i < model.statesKCArray.length; i++) {
+      let kcState = model.statesKCArray[i];
+      if (kcState.type == "kc") {
+        for (let i2 = 0; i2 < kcState.activities.length; i2++) {
+          console.log(kcState);
+          if (kcState.activities[i2].activityId === event.detail.activity.id) {
+            model.statesKCArray[i].activities[i2].title = event.detail.activity.title;
+          }
+        }
+      }
+    }
+  }
 </script>
 
 <ActivitySlideOverForm
@@ -63,7 +123,28 @@
   bind:knowledgeComponent={activeKC}
   bind:reset={resetSlider}
   bind:goal
+  bind:model />
+ 
+<CreateActivityInModel
+  bind:toggle={showActivityForm}
+  bind:activity={activeActivity}
+  bind:knowledgeComponent={activeKC}
+  bind:reset={resetSlider}
+  bind:goal
   bind:model
+  on:close={closeSlide}
+  on:formActivityComplete={formActivityComplete}
+/>
+
+<EditActivityInModel
+  bind:toggle={showActivityEditForm}
+  bind:activity={activeActivity}
+  bind:knowledgeComponent={activeKC}
+  bind:goal
+  bind:model
+  on:close={closeSlide}
+  on:formActivityComplete={formActivityComplete}
+  on:formActivityEdit={formActivityEdit}
 />
 
 <FieldSet title={$t("model")} description={$t("model-description")}>
@@ -89,12 +170,14 @@
             bind:model
             activeActivityForm={i === activeIndex}
             on:newActivity={() => newActivity(stateKC, i)}
+            on:editActivity={async (event) => await editActivity(event, i)}
             index={i}
           />
         {:else if stateKC.type === "state"}
           <State
             on:deleteState={deleteState}
             bind:model
+            bind:hasCurriculumProfile
             bind:stateKC
             index={i}
           />

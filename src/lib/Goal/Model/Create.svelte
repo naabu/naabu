@@ -12,11 +12,12 @@
 
   let y;
   let buttonDisabled = false;
-  let hasCurriculumProfile;
+  let hasCurriculumProfile = false;
 
   let model = {
     title: "",
     description: "",
+    linkedActivityConnectionIds: [],
     statesKCArray: [],
     goalId: "",
   };
@@ -66,6 +67,7 @@
         statesKCArray: model.statesKCArray,
         goalId: model.goalId,
         authorId: $session.user.uid,
+        linkedActivityConnectionIds: model.linkedActivityConnectionIds,
       };
 
       alert = getDefaultAlertValues();

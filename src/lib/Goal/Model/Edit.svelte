@@ -19,7 +19,7 @@
 
   let y;
   let buttonDisabled = false;
-  let hasCurriculumProfile = false;
+  export let hasCurriculumProfile = false;
 
   $: {
     if ($session.player && $session.player.curriculumProfileId) {

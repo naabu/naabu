@@ -5,22 +5,25 @@
   import KnowledgeComponent from "$lib/Goal/Model/KnowledgeComponent.svelte";
   import State from "$lib/Goal/Model/State.svelte";
   import { t } from "svelte-intl-precompile";
+  import ActivitySlideOverForm from "$lib/Goal/Model/ActivitySlideOverForm.svelte";
+  export let model;
+  export let goal;
+  export let hasCurriculumProfile ;
+  let showActivityForm = false;
+  let activeKC;
+  let activeIndex = -1;
+  let lastActiveIndex = -1;
+  let sliderActivity;
+  let resetSlider = false;
+  let activeActivity;
+  let showActivityEditForm = false;
   import { firebase } from "$lib/Internals/Firebase/store";
   import CreateActivityInModel from "$lib/Goal/Model/CreateActivityInModel.svelte";
   import EditActivityInModel from "$lib/Goal/Model/EditActivityInModel.svelte";
   import GetActivityData from "$lib/Activity/Data/getActivityData.svelte";
   import { loadPluginData } from "$lib/Activity/Components/helper";
-  export let model;
-  $:console.log(model);
-  export let goal;
-  export let hasCurriculumProfile;
-  let showActivityForm = false;
-  let showActivityEditForm = false;
-  let activeKC;
-  let activeIndex = -1;
-  let lastActiveIndex = -1;
-  let activeActivity;
-  let resetSlider = false;
+  
+  
 
   $: if (model.statesKCArray) {
     model.linkedActivityConnectionIds = [];
@@ -65,9 +68,11 @@
   }
 
   async function editActivity(event, knowledgeComponentIndex) {
+    console.log(event)
     showActivityEditForm = true;
     activeKC = model.statesKCArray[knowledgeComponentIndex];
     activeIndex = knowledgeComponentIndex;
+
     let activityId = activeKC.activities[event.detail.activityIndex].activityId;
     activeActivity = null;
     let db = $firebase.firestore();
@@ -77,14 +82,18 @@
     activeActivity = object;
   }
 
-  function newActivity(index) {
-    activeKC = model.statesKCArray[index];
+  function newActivity(knowledgeComponent, index) {
+    activeKC = knowledgeComponent;
     if (index !== lastActiveIndex) {
       resetSlider = true;
     }
     showActivityForm = true;
     activeIndex = index;
     lastActiveIndex = index;
+  }
+
+  $: if (!showActivityForm) {
+    activeIndex = -1;
   }
 
   function closeSlide() {
@@ -111,12 +120,21 @@
   }
 </script>
 
+<ActivitySlideOverForm
+  bind:toggle={showActivityForm}
+  bind:activity={sliderActivity}
+  bind:knowledgeComponent={activeKC}
+  bind:hasCurriculumProfile
+  bind:reset={resetSlider}
+  bind:goal
+  bind:model />
+ 
 <CreateActivityInModel
   bind:toggle={showActivityForm}
   bind:activity={activeActivity}
   bind:knowledgeComponent={activeKC}
-  bind:reset={resetSlider}
   bind:hasCurriculumProfile
+  bind:reset={resetSlider}
   bind:goal
   bind:model
   on:close={closeSlide}
@@ -158,7 +176,7 @@
             bind:model
             bind:hasCurriculumProfile
             activeActivityForm={i === activeIndex}
-            on:newActivity={() => newActivity(i)}
+            on:newActivity={() => newActivity(stateKC, i)}
             on:editActivity={async (event) => await editActivity(event, i)}
             index={i}
           />

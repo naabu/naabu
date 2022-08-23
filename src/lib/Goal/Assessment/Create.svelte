@@ -53,6 +53,7 @@
 
       alert = getDefaultAlertValues();
       try {
+        const db = await $firebase.firestore();
         let result = await db.collection("assessments").add(data);
         alert.success = true;
         alert.successTitle = $t("assessment-created");

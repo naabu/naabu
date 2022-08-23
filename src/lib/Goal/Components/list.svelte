@@ -106,6 +106,24 @@
                 scope="col"
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
+                {$t("number-of-models")}
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                {$t("number-of-activities")}
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                {$t("number-of-assessments")}
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
                 {$t("last-change-on")}
               </th>
               <th scope="col" class="relative px-6 py-3">
@@ -119,6 +137,33 @@
                 <td class="px-6 py-4">
                   <div class="text-sm font-medium text-gray-900">
                     {hit.title}
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm font-medium text-gray-900">
+                    {#if hit.numberOfModels}
+                    {hit.numberOfModels}
+                   {:else}
+                     0
+                   {/if}
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm font-medium text-gray-900">
+                    {#if hit.numberOfActivities}
+                     {hit.numberOfActivities}
+                    {:else}
+                      0
+                    {/if}
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm font-medium text-gray-900">
+                    {#if hit.numberOfAssessments}
+                     {hit.numberOfAssessments}
+                    {:else}
+                      0
+                    {/if}
                   </div>
                 </td>
                 <td class="px-6 py-4">

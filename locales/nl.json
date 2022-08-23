@@ -1,5 +1,5 @@
 {
-  " create-profile-to-work-on-goal": "Maak eerst een curriculum profiel aan om aan leerdoelen te werken",
+  " create-profile-to-work-on-goal": "Maak eerst een curriculumprofiel voordat je aan leerdoelen gaat werken",
   "access": "Toegang",
   "access-to-locations": " Toegang tot locaties",
   "acties": "Acties",
@@ -164,8 +164,11 @@
   "create-new-map": "Nieuwe kaart maken",
   "create-new-model": "Maak een nieuw model",
   "create-new-module-with-a-map": "Maak een nieuwe module aan met een kaart",
+  "create-new-topic": "Nieuw onderwerp maken",
   "create-profile-to-discuss-goal": "Maak eerst een curriculum profiel aan om te overleggen over leerdoelen",
+  "create-profile-to-discuss-topic": "Maak eerst een curriculumprofiel voordat je aan onderwerpen gaat werken",
   "create-profile-with": "Profiel aanmaken met",
+  "create-topic": "Onderwerp maken",
   "creating": "Creëren",
   "creating-bloom": "Maken",
   "creating-description": "Ontwikkelen van nieuwe ideeën, oplossingen of producten",

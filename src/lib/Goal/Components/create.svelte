@@ -49,6 +49,7 @@
   async function createGoal() {
     let db = $firebase.firestore();
     if ($session.user) {
+      goal.createdAt = $session.serverFirestoreTimeStamp
       let data = getGoalSaveData(goal, $session.serverFirestoreTimeStamp);
       alert = getDefaultAlertValues();
       try {

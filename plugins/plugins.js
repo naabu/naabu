@@ -1,10 +1,11 @@
 export async function loadConfigAllPlugins() {
   let plugins = [];
-  plugins.push((await import("@plugins/activity/youtube-player/config.js")).default);
-  plugins.push((await import("@plugins/activity/vimeo-player/config.js")).default);
-  plugins.push((await import("@plugins/activity/multiple-choice/config.js")).default);
   plugins.push((await import("@plugins/activity/classify-drag-and-drop/config.js")).default);
   plugins.push((await import("@plugins/activity/exponential-simulator/config.js")).default);
+  plugins.push((await import("@plugins/activity/multiple-choice/config.js")).default);
+  plugins.push((await import("@plugins/activity/open-question/config.js")).default);
+  plugins.push((await import("@plugins/activity/youtube-player/config.js")).default);
+  plugins.push((await import("@plugins/activity/vimeo-player/config.js")).default);
   plugins.push((await import("@plugins/dashboard/feedback/data-table/config.js")).default);
   plugins.push((await import("@plugins/dashboard/feedback/learning-graph/config.js")).default);
   plugins.push((await import("@plugins/dashboard/models/analytics/config.js")).default);
@@ -31,6 +32,15 @@ export async function loadPluginComponent(pluginId, svelteComponent = "Render") 
     }
     else if (svelteComponent === "Form") {
       return (await import("@plugins/activity/multiple-choice/Form.svelte")).default;
+    }
+  }
+
+  if (pluginId == "open-question") {
+    if (svelteComponent === "Render") {
+      return (await import("@plugins/activity/open-question/Render.svelte")).default;
+    }
+    else if (svelteComponent === "Form") {
+      return (await import("@plugins/activity/open-question/Form.svelte")).default;
     }
   }
 

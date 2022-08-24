@@ -66,6 +66,7 @@
         }
       }
     }
+
     currentPlugin = newCurrentPlugin;
   }
 
@@ -155,7 +156,7 @@
     {#if currentPlugin.pluginConfig && currentPlugin.pluginConfig.canBeInterrupted}
       <svelte:component
         this={currentPlugin.component}
-        bind:data={currentPlugin.data}
+        data={currentPlugin.data}
         bind:interruptions={currentPlugin.interruptions}
         on:interrupt={handleInteruptPlugin}
         on:end={handleEndPlugin}
@@ -169,7 +170,7 @@
             {#if interruptionPlugin.pluginConfig.canObserve && interruptionPlugin.canObserve}
               <svelte:component
                 this={interruptionPlugin.component}
-                bind:data={interruptionPlugin.data}
+                data={interruptionPlugin.data}
                 canObserve={true}
                 on:end={handleInterruptionEndPlugin}
                 on:observeParent={observeParent}
@@ -179,7 +180,7 @@
             {:else}
               <svelte:component
                 this={interruptionPlugin.component}
-                bind:data={interruptionPlugin.data}
+                data={interruptionPlugin.data}
                 on:end={handleInterruptionEndPlugin}
                 on:observeParent={observeParent}
                 on:exerciseAttempt={(event) =>
@@ -192,7 +193,7 @@
     {:else}
       <svelte:component
         this={currentPlugin.component}
-        bind:data={currentPlugin.data}
+        data={currentPlugin.data}
         on:end={handleEndPlugin}
         on:exerciseAttempt={(event) => exerciseAttempt(event, currentPlugin)}
       />{/if}

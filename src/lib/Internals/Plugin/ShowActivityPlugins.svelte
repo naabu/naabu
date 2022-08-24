@@ -43,8 +43,6 @@
   }
 
   async function setDataCurrentPlugin() {
-    console.log("begin setDataCurrentPlugin")
-    console.log(plugins)
     let newCurrentPlugin = plugins[currentPluginIndex];
     newCurrentPlugin.exerciseAttemptNumber = 1;
 
@@ -68,8 +66,6 @@
         }
       }
     }
-    console.log(newCurrentPlugin)
-    console.log("end setDataCurrentPlugin")
 
     currentPlugin = newCurrentPlugin;
   }

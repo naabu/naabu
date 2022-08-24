@@ -14,7 +14,7 @@ Create a directory in the ``plugin`` folder with your plugin-id.
 Create a ``config.js``, ``Form.svelte`` a ``Render.svelte`` file.
 
 ## Step 3
-Create sensible [config](/naabu/references/plugin/) for your plugin.
+Create sensible [config](/naabu/references/plugin-api.md) for your plugin.
 
 ## Step 4
 Create your ``Form.svelte``:

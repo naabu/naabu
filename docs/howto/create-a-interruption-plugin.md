@@ -8,7 +8,7 @@ permalink: /how-to-guides/create-interruption-plugin
 # Guide to create a plugin that can be interrupted.
 
 ## Step 1
-Follow [Guide to create a plugin](/naabu/how-to-guides/create-plugin)
+Follow [Guide to create a plugin](/naabu/howto/create-plugin)
 
 ## Step 2
 Set the ``canBeInterrupted`` plugin setting in the [config.js](/naabu/references/plugin/) to true.

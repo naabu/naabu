@@ -110,7 +110,6 @@
       let kcState = model.statesKCArray[i];
       if (kcState.type == "kc") {
         for (let i2 = 0; i2 < kcState.activities.length; i2++) {
-          console.log(kcState);
           if (kcState.activities[i2].activityId === event.detail.activity.id) {
             model.statesKCArray[i].activities[i2].title = event.detail.activity.title;
           }

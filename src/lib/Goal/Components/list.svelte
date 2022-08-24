@@ -4,12 +4,14 @@
     getAlgoliaSearchClient,
     getGoalIndex,
   } from "$lib/Internals/Algolia/algolia";
-  import DOMPurify from 'dompurify';
+  import nl from "javascript-time-ago/locale/nl.json";
+  import en from "javascript-time-ago/locale/en.json";
+  import DOMPurify from "dompurify";
   import { getStores, session } from "$app/stores";
-
-  import { truncate } from "$lib/Internals/Misc/helper";
-  import { t } from "svelte-intl-precompile";
-
+  import { firebase } from "$lib/Internals/Firebase/store";
+  import TimeAgo from "javascript-time-ago";
+  import { formatToTimeAgo, truncate } from "$lib/Internals/Misc/helper";
+  import { t, locale } from "svelte-intl-precompile";
   let truncateDescription = 600;
 
   let goalIndex;
@@ -21,6 +23,7 @@
   onMount(async () => {
     const searchClient = getAlgoliaSearchClient();
     goalIndex = searchClient.initIndex(goalIndexName);
+
     await search();
   });
 
@@ -40,6 +43,10 @@
       }
     }
   }
+
+  TimeAgo.addLocale(en);
+  TimeAgo.addLocale(nl);
+  const timeAgo = new TimeAgo($locale);
 </script>
 
 <slot name="link" />
@@ -99,7 +106,25 @@
                 scope="col"
                 class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
               >
-                {$t("description")}
+                {$t("number-of-models")}
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                {$t("number-of-activities")}
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                {$t("number-of-assessments")}
+              </th>
+              <th
+                scope="col"
+                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+              >
+                {$t("last-change-on")}
               </th>
               <th scope="col" class="relative px-6 py-3">
                 <span class="sr-only">{$t("edit")}</span>
@@ -115,9 +140,38 @@
                   </div>
                 </td>
                 <td class="px-6 py-4">
+                  <div class="text-sm font-medium text-gray-900">
+                    {#if hit.numberOfModels}
+                    {hit.numberOfModels}
+                   {:else}
+                     0
+                   {/if}
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm font-medium text-gray-900">
+                    {#if hit.numberOfActivities}
+                     {hit.numberOfActivities}
+                    {:else}
+                      0
+                    {/if}
+                  </div>
+                </td>
+                <td class="px-6 py-4">
+                  <div class="text-sm font-medium text-gray-900">
+                    {#if hit.numberOfAssessments}
+                     {hit.numberOfAssessments}
+                    {:else}
+                      0
+                    {/if}
+                  </div>
+                </td>
+                <td class="px-6 py-4">
                   <div class="text-sm text-gray-900">
-                    {#if hit.description}{@html DOMPurify.sanitize(hit.description)}{:else}
-                      {$t("no-description")}
+                    {#if hit.modifiedAt}
+                      {formatToTimeAgo(hit.modifiedAt, $firebase, timeAgo, $t)}
+                    {:else}
+                      --
                     {/if}
                   </div>
                 </td>
@@ -126,7 +180,8 @@
                 >
                   <a
                     href="/leerdoel/{hit.objectID}"
-                    class="text-indigo-600 hover:text-indigo-900">{$t("show")}</a
+                    class="text-indigo-600 hover:text-indigo-900"
+                    >{$t("show")}</a
                   >
                   <slot
                     name="cta-learning-goal"
@@ -136,7 +191,8 @@
                   >
                     <a
                       href="/leerdoel/{hit.objectID}/wijzigen"
-                      class="text-indigo-600 hover:text-indigo-900">{$t("edit")}</a
+                      class="text-indigo-600 hover:text-indigo-900"
+                      >{$t("edit")}</a
                     >
                   </slot>
                 </td>
@@ -147,13 +203,9 @@
         {#if hits.length === 0}
           <div class="m-4">
             {$t("goals-not-found")}
-            <a
-              class="underline"
-              href="/leerdoel/maken"
-            >
+            <a class="underline" href="/leerdoel/maken">
               {$t("create-goal-message")}
-              </a
-            >
+            </a>
           </div>
         {/if}
       </div>

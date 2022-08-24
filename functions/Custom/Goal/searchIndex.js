@@ -4,6 +4,10 @@ const helper = require('../helper');
 exports.addToIndex = functions.firestore.document('goals/{goalId}')
   .onCreate((snap, context) => {
     const data = snap.data();
+    data.numberOfModels = 0;
+    data.numberOfActivities = 0;
+    data.numberOfAssessment = 0;
+
     const objectID = snap.id;
     return helper.goalIndex.saveObject({ ...data, objectID });
   });

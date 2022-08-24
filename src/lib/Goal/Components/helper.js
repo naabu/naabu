@@ -15,9 +15,9 @@ export function getGoalSaveData(goal, timestamp) {
 
   const data = {
     title: goal.title,
-    createdAt: timestamp,
+    createdAt: goal.createdAt,
+    modifiedAt: timestamp,
   };
-
   if (goal.unitopic) {
     data.unitopic = goal.unitopic;
   }

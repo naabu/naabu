@@ -170,7 +170,7 @@
             {#if interruptionPlugin.pluginConfig.canObserve && interruptionPlugin.canObserve}
               <svelte:component
                 this={interruptionPlugin.component}
-                bind:data={interruptionPlugin.data}
+                data={interruptionPlugin.data}
                 canObserve={true}
                 on:end={handleInterruptionEndPlugin}
                 on:observeParent={observeParent}
@@ -180,7 +180,7 @@
             {:else}
               <svelte:component
                 this={interruptionPlugin.component}
-                bind:data={interruptionPlugin.data}
+                data={interruptionPlugin.data}
                 on:end={handleInterruptionEndPlugin}
                 on:observeParent={observeParent}
                 on:exerciseAttempt={(event) =>

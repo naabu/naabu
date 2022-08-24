@@ -43,6 +43,8 @@
   }
 
   async function setDataCurrentPlugin() {
+    console.log("begin setDataCurrentPlugin")
+    console.log(plugins)
     let newCurrentPlugin = plugins[currentPluginIndex];
     newCurrentPlugin.exerciseAttemptNumber = 1;
 
@@ -66,6 +68,9 @@
         }
       }
     }
+    console.log(newCurrentPlugin)
+    console.log("end setDataCurrentPlugin")
+
     currentPlugin = newCurrentPlugin;
   }
 
@@ -155,7 +160,7 @@
     {#if currentPlugin.pluginConfig && currentPlugin.pluginConfig.canBeInterrupted}
       <svelte:component
         this={currentPlugin.component}
-        bind:data={currentPlugin.data}
+        data={currentPlugin.data}
         bind:interruptions={currentPlugin.interruptions}
         on:interrupt={handleInteruptPlugin}
         on:end={handleEndPlugin}
@@ -192,7 +197,7 @@
     {:else}
       <svelte:component
         this={currentPlugin.component}
-        bind:data={currentPlugin.data}
+        data={currentPlugin.data}
         on:end={handleEndPlugin}
         on:exerciseAttempt={(event) => exerciseAttempt(event, currentPlugin)}
       />{/if}

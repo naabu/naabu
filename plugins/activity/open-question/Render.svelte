@@ -10,7 +10,10 @@
   let givenAnswer = "";
   let correct = false;
   let feedback = "";
+  let numberOfTries = 0;
+  let triesBeforeShowingSolution = 3;
 
+  let buttonDisabled = false;
   export let canObserve = false;
 
   const dispatch = createEventDispatcher();
@@ -20,6 +23,11 @@
   }
 
   function checkCorrectAnswer(data) {
+    buttonDisabled = true;
+    setTimeout(() => {
+      buttonDisabled = false;
+    }, 5000);
+    numberOfTries = numberOfTries + 1;
     correct = false;
     for (let i = 0; i < data.correctAnswers.length; i++) {
       if (
@@ -49,10 +57,15 @@
     return data;
   }
 
+  function flagAnswerCorrect() {
+    // In the future we could store this data and show it to the teacher.
+    close();
+  }
+
   function close() {
     givenAnswer = "";
     feedback = "";
-    data.feedback = "hi"
+    numberOfTries = 0;
     correct = false;
     dispatch("end");
   }
@@ -123,7 +136,6 @@
       </h3>
       <p class="mt-1 text-sm ">
         {#if feedback}
-
           {@html DOMPurify.sanitize(feedback)}
         {/if}
       </p>
@@ -134,12 +146,12 @@
 
 <div class="p-5 sm:p-6 w-full max-w-lg">
   <Textarea bind:value={givenAnswer} rows="3" />
-  <div class="float-right">
+  <div class="flex justify-end">
     {#if !correct}
       <Button
-        isDisabled={correct}
+        isDisabled={correct || buttonDisabled}
         on:click={() => (data = checkCorrectAnswer(data))}
-        content={$t("check")}
+        content={numberOfTries == 0 ? $t("check") : $t("try-again")}
         color="primary"
       />
     {:else}
@@ -151,4 +163,26 @@
       />
     {/if}
   </div>
+
+  {#if numberOfTries >= triesBeforeShowingSolution}
+    <b>List of correct answers</b>
+    <div class="mt-4 bg-gray-100 shadow overflow-hidden sm:rounded-md max-w-lg">
+      <ul class="divide-y divide-black-500">
+        {#each data.correctAnswers as correctAnswer}
+          <li class="py-4">
+            <p
+              class="text-sm font-medium text-gray-900 truncate ml-auto mr-auto w-fit"
+            >
+              {correctAnswer}
+            </p>
+          </li>
+        {/each}
+      </ul>
+      <div class="flex pr-2 justify-end border-t-black-500 border-t">
+        <Button on:click={flagAnswerCorrect}>
+          {$t("my-answer-was-correct")}</Button
+        >
+      </div>
+    </div>
+  {/if}
 </div>

@@ -1,7 +1,10 @@
 const functions = require('firebase-functions');
 const helper = require('../helper');
 
-async function updateGoalIndex(data) {
+async function updateGoalIndex(snap) {
+  const fb = helper.getFirebaseApp();
+  let db = fb.firestore();
+  const data = snap.data();
   if (data.type == "goal-activity") {
     let goalId = data.sourceId;
     querySnapshot = await db.collection("connections").where("type", "==", "goal-activity").where("sourceId", "==", goalId).get();
@@ -27,10 +30,8 @@ async function updateGoalIndex(data) {
 
 exports.addToIndex = functions.firestore.document('connections/{connectionId}')
   .onCreate(async (snap, context) => {
-    const fb = helper.getFirebaseApp();
-    let db = fb.firestore();
     const data = snap.data();
-    updateGoalIndex(data, )
+    updateGoalIndex(snap)
     const objectID = snap.id;
     data.id = objectID;
     return helper.connectionIndex.saveObject({ ...data, objectID });
@@ -46,7 +47,6 @@ exports.updateIndex = functions.firestore.document('connections/{connectionId}')
 
 exports.deleteIndex = functions.firestore.document('connections/{connectionId}')
   .onDelete((snap, context) => {
-    let deletedConnection = snap.data()
-    updateGoalIndex(deletedConnection)
+    updateGoalIndex(snap)
     return helper.connectionIndex.deleteObject(snap.id);
   });

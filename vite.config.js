@@ -1,6 +1,5 @@
 import path from 'path';
 import { sveltekit } from '@sveltejs/kit/vite';
-import path from 'path'
 import precompileIntl from "svelte-intl-precompile/sveltekit-plugin.js";
 
 /** @type {import('vite').UserConfig} */

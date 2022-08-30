@@ -8,8 +8,6 @@
   import { loginUser } from "$lib/Internals/User/helper";
   import { init } from "svelte-intl-precompile";
 
-  $: console.log($page);
-
   let config = {
     fallbackLocale: "en",
   };

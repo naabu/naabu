@@ -13,24 +13,6 @@ const config = {
 
   kit: {
     adapter: firebase(),
-    vite: {
-      plugins: [
-        precompileIntl('locales'),
-      ],
-      ssr: {
-        noExternal: ['@algolia/autocomplete-js']
-      },
-      resolve: {
-        alias: {
-          '@plugins': path.resolve('./plugins')
-        }
-      },
-      server: {
-        fs: {
-          allow: ["locales", "plugins"]
-        }
-      }
-    }
   }
 };
 

@@ -1,11 +1,3 @@
-<script context="module">
-  import { addMessages, init } from "svelte-intl-precompile";
-  import en from "$locales/en.js";
-  import nl from "$locales/nl.js";
-  addMessages("en", en);
-  addMessages("nl", nl);
-</script>
-
 <script>
   import { getStores, session } from "$app/stores";
   import { firebase } from "$lib/Internals/Firebase/store";

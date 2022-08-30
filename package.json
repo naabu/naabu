@@ -28,7 +28,7 @@
     "@storybook/builder-webpack4": "^6.4.19",
     "@storybook/source-loader": "^6.4.19",
     "@storybook/svelte": "^6.4.19",
-    "@sveltejs/kit": "1.0.0-next.405",
+    "@sveltejs/kit": "1.0.0-next.454",
     "autoprefixer": "^10.4.4",
     "babel-loader": "^8.2.4",
     "cssnano": "^5.1.5",
@@ -45,13 +45,12 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "svelte": "^3.46.2",
-    "svelte-adapter-firebase": "^0.14.0",
+    "svelte-adapter-firebase": "^0.14",
     "svelte-knobby": "^0.3.4",
     "svelte-loader": "^3.1.2",
     "svelte-preprocess": "^4.10.4",
     "sveltedoc-parser": "^4.2.1",
-    "tailwindcss": "^3.0.12",
-    "vite": "^3.0.9"
+    "tailwindcss": "^3.0.12"
   },
   "type": "module",
   "dependencies": {

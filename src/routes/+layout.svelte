@@ -1,32 +1,30 @@
 <script>
-  import { getStores, session } from "$app/stores";
+  import { page } from '$app/stores';
   import { firebase } from "$lib/Internals/Firebase/store";
+  import { user, player } from "$lib/Internals/User/store";
   import Header from "$lib/Internals/Header/index.svelte";
   import "../app.css";
   import LoadFirebase from "$lib/Internals/Firebase/loadFirebase.svelte";
   import { loginUser } from "$lib/Internals/User/helper";
+  import { init } from "svelte-intl-precompile";
+
+  $: console.log($page);
 
   let config = {
     fallbackLocale: "en",
   };
 
-  if ($session.defaultLanguage) {
-    config.initialLocale = $session.defaultLanguage;
+  if ($page.data.session.defaultLanguage) {
+    config.initialLocale = $page.data.session.defaultLanguage;
   }
-
   init(config);
 
   function handleLoginEvent(event) {
     if ($firebase) {
-      let serverTimestamp = $firebase.firestore.Timestamp.now().seconds;
-      $session.serverFirestoreTimeStamp = serverTimestamp;
       $firebase.auth().onAuthStateChanged(async (newUser) => {
         let userPlayer = await loginUser($firebase, newUser);
-        $session.user = userPlayer.user;
-        $session.player = userPlayer.player;
-        if (userPlayer.player && userPlayer.player.currentMapId) {
-          $session.defaultMapId = userPlayer.player.currentMapId;
-        }
+        $user = userPlayer.user;
+        $player = userPlayer.player;
       });
     }
   }

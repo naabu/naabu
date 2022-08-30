@@ -1,4 +1,4 @@
-export function getSession(request) {
+function getSession() {
 	return {
 		environment: process.env['environment'],
     defaultMapId: process.env['defaultMapId'],
@@ -16,6 +16,8 @@ export function getSession(request) {
 
 /** @type {import('@sveltejs/kit').Handle} */
 export async function handle({ event, resolve }) {
+  let session = getSession();
+  event.locals.session = session;
 	if (event.url.searchParams.has('_method')) {
 		event.method = event.url.searchParams.get('_method').toUpperCase();
 	}

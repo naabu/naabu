@@ -1,5 +1,5 @@
 <script>
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import { firebase } from "$lib/Internals/Firebase/store";
  
   let mapCreated = false;
@@ -10,7 +10,7 @@
       image:
         "https://firebasestorage.googleapis.com/v0/b/expwis.appspot.com/o/map1.png?alt=media&token=12e1ee07-a782-40c1-addc-e2179fc89d95",
       title: "Map1",
-      authorId: $session.user.uid,
+      authorId: $user.uid,
       locations: [
         {
           accessLocations: ["1cjn3"],
@@ -54,11 +54,11 @@
     if ($firebase) {
      
       if (
-        ($session.environment === "cypress" ||
-        $session.environment === "test"||
-          $session.environment === "development") &&
-        $session.user &&
-        !$session.user.isAnonymous &&
+        ($page.data.session.environment === "cypress" ||
+        $page.data.session.environment === "test"||
+          $page.data.session.environment === "development") &&
+        $user &&
+        !$user.isAnonymous &&
         !mapCreated
       ) {
         mapCreated = true;

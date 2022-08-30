@@ -2,7 +2,7 @@
   import TimeAgo from "javascript-time-ago";
   import nl from "javascript-time-ago/locale/nl.json";
   import en from "javascript-time-ago/locale/en.json";
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import { onMount } from "svelte";
   import Feeds from "$lib/Update/Components/Feed.svelte";
   import {
@@ -26,6 +26,7 @@
   import AdditionalFormText from "$lib/Internals/FormFields/AdditionalFormText.svelte";
   import { t, locale } from "svelte-intl-precompile";
   import { firebase } from "$lib/Internals/Firebase/store";
+  import { user, player } from "$lib/Internals/User/store";
 
   export let goal;
   export let connection;
@@ -40,8 +41,8 @@
   let updatesReceived;
 
   $: {
-    if ($session.user && connection) {
-      isTeacher = $session.user.uid === connection.authorId;
+    if ($user && connection) {
+      isTeacher = $user.uid === connection.authorId;
       if (isTeacher || hasCurriculumProfile) {
         buttonDisabled = false;
       } else {
@@ -142,11 +143,11 @@
   }
 
   async function createStatusUpdate() {
-    if ($session.user && $session.player.curriculumProfileId) {
+    if ($user && $player.curriculumProfileId) {
       let data = {
         type: "status-change-by-user",
         content: connection.status,
-        authorId: $session.user.uid,
+        authorId: $user.uid,
         createdAt: $firebase.firestore.Timestamp.now().seconds,
         connectionId: connection.id,
         connectionSourceId: connection.sourceId,
@@ -158,7 +159,7 @@
 
       data.curriculumProfile = await getCurriculumProfile(
         db,
-        $session.player.curriculumProfileId
+        $player.curriculumProfileId
       );
 
       alert = getDefaultAlertValues();
@@ -178,15 +179,15 @@
   }
 
   async function createCommentUpdate() {
-    if ($session.user) {
-      let isTeacher = $session.user.uid === connection.authorId;
+    if ($user) {
+      let isTeacher = $user.uid === connection.authorId;
 
       let curriculumProfileData = {};
       let data = {};
       if (hasCurriculumProfile) {
         curriculumProfileData = await getCurriculumProfile(
           db,
-          $session.player.curriculumProfileId
+          $player.curriculumProfileId
         );
       }
 
@@ -194,7 +195,7 @@
         data = {
           type: "comment-teacher",
           content: newCommentText,
-          authorId: $session.user.uid,
+          authorId: $user.uid,
           createdAt: $firebase.firestore.Timestamp.now().seconds,
           connectionId: connection.id,
           connectionSourceId: connection.sourceId,

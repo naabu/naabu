@@ -1,6 +1,6 @@
 <script>
     // import$firebase from "firebase/app";
-    import { getStores, session } from "$app/stores";
+    
     import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
     import TopicForm from "$lib/Topic/Form.svelte";
     import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
@@ -35,7 +35,7 @@
   
     async function createTopic() {
       let db = $firebase.firestore();
-      if ($session.user) {
+      if ($user) {
   
         try{
           alert.success = true;

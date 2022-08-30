@@ -21,7 +21,7 @@
       if (fb.apps.length == 0) {
         fb.initializeApp(firebaseConfig);
       }
-    } else if ($page.data.page.data.session.environment === "development") {
+    } else if ($page.data.session.environment== "development") {
       fb = await import("firebase");
       await import("firebase/auth");
       await import("firebase/firestore");

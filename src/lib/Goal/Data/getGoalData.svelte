@@ -1,6 +1,6 @@
 <script>
   import { onMount } from "svelte";
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import { firebase } from "$lib/Internals/Firebase/store";
 
   export let goal;

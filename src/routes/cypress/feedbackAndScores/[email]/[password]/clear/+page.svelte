@@ -1,6 +1,6 @@
 <script>
   import ClearHelper from "$lib/Internals/Cypress/clearFirestore.svelte";
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import { firebase } from "$lib/Internals/Firebase/store";
   let oldUser = null;
  
@@ -8,8 +8,8 @@
   let resetFeedback = false;
   let resetUserGoalScore = false;
 
-  $: if ($session.user && $session.user.uid && oldUser == null && auth) {
-    oldUser = $session.user;
+  $: if ($user && $user.uid && oldUser == null && auth) {
+    oldUser = $user;
     let email = $page.params.email;
     let password = $page.params.password;
     auth.signInWithEmailAndPassword(email, password);
@@ -22,7 +22,7 @@
   })();
 </script>
 
-{#if oldUser && $session.user && oldUser.uid != $session.user.uid}
+{#if oldUser && $user && oldUser.uid != $user.uid}
   <ClearHelper
     collection="feedback"
     fieldUserId="uid"

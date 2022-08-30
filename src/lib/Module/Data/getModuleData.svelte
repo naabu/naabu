@@ -1,10 +1,11 @@
 <script>
   import { onMount } from "svelte";
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import { firebase } from "$lib/Internals/Firebase/store";
   import { getUserModule } from "$lib/Module/Components/helper";
   import { loadPluginRecursively } from "$lib/Internals/Plugin/loader";
- 
+  import { user, player } from "$lib/Internals/User/store";
+  
   export let module;
   export let mounted = false;
   export let moduleId = $page.params.moduleId;
@@ -25,14 +26,14 @@
       loadUserModule &&
       mounted &&
       module &&
-      $session.player &&
-      $session.player.id
+      $player &&
+      $player.id
     ) {
       userModule = await getUserModule(
        $firebase,
         module.id,
         module,
-        $session.player
+        $player
       );
       loadUserModule = false;
     }

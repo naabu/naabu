@@ -1,11 +1,12 @@
 <script>
   import ActivitiesTeaserList from "$lib/Activity/Components/teaserList.svelte";
   import GetModuleData from "$lib/Module/Data/getModuleData.svelte";
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import { filterSelectedActivities, getUserModule } from "$lib/Module/Components/helper";
   import { t } from "svelte-intl-precompile";
   import { firebase } from "$lib/Internals/Firebase/store";
-
+  import { user, player } from "$lib/Internals/User/store";
+  
   let module;
   let userModule = null;
   let filteredActivities;
@@ -28,7 +29,7 @@
            $firebase,
             module.id,
             module,
-            $session.player
+            $player
           );
         }, 500);
       }

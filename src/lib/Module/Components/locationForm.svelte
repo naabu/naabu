@@ -1,5 +1,5 @@
 <script>
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import PathsForm from "$lib/Module/Components/pathsForm.svelte";
   import { onMount } from "svelte";
   import {
@@ -22,7 +22,7 @@
   import { t } from "svelte-intl-precompile";
 
   let filters = "";
-  let goalIndex = getGoalIndex($session.environment);
+  let goalIndex = getGoalIndex($page.data.session.environment);
 
   export let map;
 

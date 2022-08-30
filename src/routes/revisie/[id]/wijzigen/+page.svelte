@@ -1,7 +1,7 @@
 <script>
   import EditRevision from "$lib/Internals/Revision/edit.svelte";
   import { onMount } from "svelte";
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import { firebase } from "$lib/Internals/Firebase/store";
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
   import { getDefaultGoalBreadcrumbs } from "$lib/Goal/Components/helper";

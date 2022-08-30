@@ -2,7 +2,7 @@
     import CreateTopic from "$lib/Topic/Create.svelte";
     import { onMount } from "svelte";
     import { firebase } from "$lib/Internals/Firebase/store";
-    import { getStores, session } from "$app/stores";
+    
     import { t } from "svelte-intl-precompile";
   
     import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";

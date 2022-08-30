@@ -1,7 +1,6 @@
 import preprocess from "svelte-preprocess";
 import firebase from "svelte-adapter-firebase";
-import path from 'path'
-import precompileIntl from "svelte-intl-precompile/sveltekit-plugin.js";
+
 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {

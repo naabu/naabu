@@ -9,7 +9,7 @@
     getTypeText,
   } from "$lib/Activity/Components/helper";
   import AdditionalFormText from "$lib/Internals/FormFields/AdditionalFormText.svelte";
-  import { getStores, session } from "$app/stores";
+  
   import Button from "$lib/Internals/Button/Button.svelte";
   import { firebase } from "$lib/Internals/Firebase/store";
   import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
@@ -17,6 +17,7 @@
   import { createRevision } from "$lib/Internals/Revision/helper";
   import { createEventDispatcher } from "svelte";
   import MediumRightSlideOver from "$lib/Internals/SlideOver/MediumRight.svelte";
+  import { user, player } from "$lib/Internals/User/store";
 
   export let activity;
   export let goal;
@@ -48,7 +49,7 @@
       updatedAt: $firebase.firestore.Timestamp.now().seconds,
       publishedAt: $firebase.firestore.Timestamp.now().seconds,
       modifiedAt: $firebase.firestore.Timestamp.now().seconds,
-      authorId: $session.user.uid,
+      authorId: $user.uid,
       title: activity.title,
       fields: [
         {
@@ -72,7 +73,7 @@
     activity.goalTitle = goal.title;
   }
 
-  $: if (!activity && model && knowledgeComponent && $session.player) {
+  $: if (!activity && model && knowledgeComponent && $player) {
     activity = getDefaultEmptyActivity(getDefaultTitle());
     activity.status = "published";
   }
@@ -101,7 +102,7 @@
 
       activityData.plugins = getPluginDataFromForm(activity.plugins);
 
-      activityData.authorId = $session.user.uid;
+      activityData.authorId = $user.uid;
       alert = getDefaultAlertValues();
       try {
         let collectionRef = db.collection("activities");
@@ -112,7 +113,7 @@
           $firebase,
           activity,
           activityData,
-          $session.user.uid
+          $user.uid
         );
 
         let connectionCollRef = db.collection("connections");

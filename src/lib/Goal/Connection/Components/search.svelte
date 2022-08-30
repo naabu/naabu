@@ -4,7 +4,7 @@
     getAlgoliaSearchClient,
     getGoalIndex,
   } from "$lib/Internals/Algolia/algolia";
-  import { getStores, session } from "$app/stores";
+  
   import { truncate } from "$lib/Internals/Misc/helper";
   import { t } from "svelte-intl-precompile";
   import DOMPurify from 'dompurify';
@@ -14,7 +14,7 @@
   let truncateDescription = 600;
 
   let goalIndex;
-  let goalIndexName = getGoalIndex($session.environment);
+  let goalIndexName = getGoalIndex($page.data.session.environment);
 
   // List of all linked goal ids.
 

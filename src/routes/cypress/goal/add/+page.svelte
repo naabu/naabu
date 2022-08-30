@@ -1,8 +1,9 @@
 <script>
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import { onMount } from "svelte";
   import { firebase } from "$lib/Internals/Firebase/store";
   import DOMPurify from 'dompurify';
+  import { user, player } from "$lib/Internals/User/store";
  
   let resetDone = false;
   let mounted = false;
@@ -10,16 +11,16 @@
   let feedbackstring = "<br> feedback: <br>";
 
   async function setupLearningGoals() {
-    if (!$session.player.curriculumProfileId) {
+    if (!$player.curriculumProfileId) {
       feedbackstring += "creating a profile <br>";
       let profileData = {
         fullname: "Cypress test user",
-        uid: $session.user.uid,
+        uid: $user.uid,
       };
       let profileRef = db.collection("curriculumProfile");
       let result = await profileRef.add(profileData);
-      $session.player.curriculumProfileId = result.id;
-      let playerRef = db.collection("players").doc($session.user.uid);
+      $player.curriculumProfileId = result.id;
+      let playerRef = db.collection("players").doc($user.uid);
       await playerRef.update({ curriculumProfileId: result.id });
       feedbackstring += "profile created " + result.id + "<br>";
     }
@@ -69,9 +70,9 @@
   // $: (async () => {
   //   if (
   //     mounted &&
-  //     ($session.environment === "cypress" ||
-  //       $session.environment === "development") &&
-  //     $session.user &&
+  //     ($page.data.session.environment === "cypress" ||
+  //       $page.data.session.environment === "development") &&
+  //     $user &&
   //     !deleted
   //   ) {
   //     deleted = true;
@@ -81,13 +82,13 @@
 
   $: (async () => {
     if (
-      ($session.environment === "cypress" ||
-      $session.environment === "test" ||
-        $session.environment === "development") &&
+      ($page.data.session.environment === "cypress" ||
+      $page.data.session.environment === "test" ||
+        $page.data.session.environment === "development") &&
       db &&
-      $session.player &&
-      $session.user &&
-      !$session.user.isAnonymous
+      $player &&
+      $user &&
+      !$user.isAnonymous
     ) {
       await setupLearningGoals();
     }
@@ -102,7 +103,7 @@
   })();
 </script>
 
-{#if $session.environment === "cypress" || $session.environment === "test" || $session.environment === "development"}
+{#if $page.data.session.environment === "cypress" || $page.data.session.environment === "test" || $page.data.session.environment === "development"}
   Now setting up the learning goals
   {@html DOMPurify.sanitize(feedbackstring)}
 

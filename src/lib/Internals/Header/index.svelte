@@ -9,6 +9,7 @@
   import Button from "../Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
   import { user, player } from "$lib/Internals/User/store";
+  
 
   let openMenu = false;
   let openUserMenu = false;

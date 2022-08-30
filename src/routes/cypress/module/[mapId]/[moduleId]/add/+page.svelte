@@ -1,6 +1,6 @@
 <!-- Create a map -->
 <script>
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import { firebase } from "$lib/Internals/Firebase/store";
  
   let moduleCreated = false;
@@ -17,11 +17,11 @@
     if ($firebase) {
      
       if (
-        ($session.environment === "cypress" ||
-        $session.environment === "test"||
-          $session.environment === "development") &&
-        $session.user &&
-        !$session.user.isAnonymous &&
+        ($page.data.session.environment === "cypress" ||
+        $page.data.session.environment === "test"||
+          $page.data.session.environment === "development") &&
+        $user &&
+        !$user.isAnonymous &&
         !moduleCreated
       ) {
         moduleCreated = true;
@@ -33,7 +33,7 @@
             module.moduleName = "Test module 1 title";
             module.moduleSvg = "";
             (module.modifiedAt =$firebase.firestore.Timestamp.now().seconds),
-              (module.authorId = $session.user.uid);
+              (module.authorId = $user.uid);
             module.locations[0].goals = [
               {
                 id: "cypress-test-goal-1",

@@ -1,6 +1,6 @@
 <script>
   import Form from "$lib/Goal/Curriculum/Components/form.svelte";
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import { goto } from "$app/navigation";
   import CurriculumTabs from "$lib/Internals/Tabs/curriculum.svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
@@ -8,7 +8,7 @@
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
   import { firebase } from "$lib/Internals/Firebase/store";
- 
+  import { user, player } from "$lib/Internals/User/store";
 
   let curriculumProfile = {
     fullname: "",
@@ -17,14 +17,14 @@
     credentials: "",
   };
 
-  $: if ($session.user) {
-    curriculumProfile.uid = $session.user.uid;
+  $: if ($user) {
+    curriculumProfile.uid = $user.uid;
   }
 
   let buttonDisabled;
 
   $: {
-    if (!$session.user || $session.user.isAnonymous) {
+    if (!$user || $user.isAnonymous) {
       buttonDisabled = true;
     } else {
       buttonDisabled = false;
@@ -33,7 +33,7 @@
   let y;
   let alert = getDefaultAlertValues();
 
-  // $: if ($session.player && $session.player.curriculumProfileId) {
+  // $: if ($player && $player.curriculumProfileId) {
   //   redirect();
   // }
 
@@ -72,11 +72,11 @@
     delete data.id;
     alert = getDefaultAlertValues();
     try {
-      if (!$session.player.curriculumProfileId) {
+      if (!$player.curriculumProfileId) {
         let profileRef = db.collection("curriculumProfile");
         let result = await profileRef.add(data);
-        $session.player.curriculumProfileId = result.id;
-        let playerRef = db.collection("players").doc($session.user.uid);
+        $player.curriculumProfileId = result.id;
+        let playerRef = db.collection("players").doc($user.uid);
         await playerRef.update({ curriculumProfileId: result.id, curriculumProfileName: data.fullname });
         alert.success = true;
         alert.successTitle = "Curriculum profiel gemaakt";
@@ -84,7 +84,7 @@
       } else {
         let profileRef = db
           .collection("curriculumProfile")
-          .doc($session.player.curriculumProfileId);
+          .doc($player.curriculumProfileId);
         let result = await profileRef.update(data);
         alert.success = true;
         alert.successTitle = $t("curriculum-profile-created-success");
@@ -107,8 +107,8 @@
     let fb = $firebase;
     let result = await login(fb, $t);
     if (result !== null) {
-      $session.user = result.user;
-      $session.player = result.player;
+      $user = result.user;
+      $player = result.player;
     }
   }
 </script>
@@ -122,12 +122,12 @@
 >
   <p class="text-sm font-medium text-gray-700">{$t("create-profile-with")}</p>
   <div class="mt-1 sm:mt-0 sm:col-span-2">
-    {#if !$session.user || $session.user.isAnonymous}
+    {#if !$user || $user.isAnonymous}
       <div>
         <Button on:click={signInWithGoogle} isLinkToGoogle={true} />
       </div>
     {:else}
-      <p>{$session.user.email}</p>
+      <p>{$user.email}</p>
     {/if}
   </div>
 </div>

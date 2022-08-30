@@ -1,7 +1,8 @@
 <script>
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import { onMount } from "svelte";
   import { t } from "svelte-intl-precompile";
+  import { user, player } from "$lib/Internals/User/store";
   export let hasCurriculumProfile;
   let mounted = false;
 
@@ -10,7 +11,7 @@
   });
 
   $: if (mounted) {
-    if ($session.player && $session.player.curriculumProfileId) {
+    if ($player && $player.curriculumProfileId) {
       hasCurriculumProfile = true;
     } else {
       hasCurriculumProfile = false;

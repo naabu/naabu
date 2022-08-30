@@ -1,5 +1,5 @@
 <script>
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import { onMount } from "svelte";
   import "@algolia/autocomplete-theme-classic";
   import { renderKatexOutput } from "$lib/Internals/Misc/helper.js";

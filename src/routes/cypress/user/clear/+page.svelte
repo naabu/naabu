@@ -1,5 +1,5 @@
 <script>
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import { onMount } from "svelte";
   import { firebase } from "$lib/Internals/Firebase/store";
  
@@ -8,11 +8,11 @@
     if ($firebase) {
      
       if (
-        ($session.environment === "cypress" ||
-        $session.environment === "test"||
-          $session.environment === "development") &&
-        $session.user &&
-        !$session.user.isAnonymous
+        ($page.data.session.environment === "cypress" ||
+        $page.data.session.environment === "test"||
+          $page.data.session.environment === "development") &&
+        $user &&
+        !$user.isAnonymous
       ) {
         await $firebase.auth().currentUser.delete();
       }
@@ -20,9 +20,9 @@
   })();
 </script>
 
-{#if $session.environment === "cypress" || $session.environment === "test" || $session.environment === "development"}
+{#if $page.data.session.environment === "cypress" || $page.data.session.environment === "test" || $page.data.session.environment === "development"}
   Great success! Now logout!
-  {#if $session.user && $session.user.isAnonymous}
+  {#if $user && $user.isAnonymous}
     <div data-test="complete">Deleting user complete</div>
   {/if}
 {/if}

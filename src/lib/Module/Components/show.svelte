@@ -1,10 +1,10 @@
 <script>
-  import { browser } from "$app/env";
+  import { browser } from "$app/environment";
   import { goto } from "$app/navigation";
   export let map;
   export let userMap;
   import { onMount } from "svelte";
-  import { getStores, session } from "$app/stores";
+  
 
   let leafletMap;
   let bounds;
@@ -47,7 +47,7 @@
   });
 
   function putLocationDataOnmap() {
-    if ($session.player) {
+    if ($player) {
       let tooltip = L.tooltip({
         direction: "center",
         permanent: true,
@@ -63,7 +63,7 @@
         let location = map.locations[i];
         let unlockedLocation = false;
         if (
-          $session.player &&
+          $player &&
           userMap &&
           userMap.unlockedLocations.includes(location.id)
         ) {

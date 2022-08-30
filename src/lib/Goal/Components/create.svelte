@@ -1,6 +1,6 @@
 <script>
   // import$firebase from "firebase/app";
-  import { getStores, session } from "$app/stores";
+  
   import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
   import GoalForm from "$lib/Goal/Components/form.svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
@@ -13,7 +13,7 @@
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
   import { firebase } from "$lib/Internals/Firebase/store";
- 
+  import { user, player } from "$lib/Internals/User/store";
 
   let y;
   let buttonDisabled = false;
@@ -48,7 +48,7 @@
 
   async function createGoal() {
     let db = $firebase.firestore();
-    if ($session.user) {
+    if ($user) {
       goal.createdAt = $firebase.firestore.Timestamp.now().seconds
       let data = getGoalSaveData(goal, $firebase.firestore.Timestamp.now().seconds);
       alert = getDefaultAlertValues();
@@ -67,9 +67,9 @@
           await battleDocRef.set(battleData);
         }
 
-        data.authorId = $session.player.curriculumProfileId;
+        data.authorId = $player.curriculumProfileId;
         data.goalId = goalResult.id;
-        await createGoalRevision(db, goal, data, $session.user.uid,$firebase);
+        await createGoalRevision(db, goal, data, $user.uid,$firebase);
 
         alert.success = true;
         alert.successTitle = $t("goal-created")

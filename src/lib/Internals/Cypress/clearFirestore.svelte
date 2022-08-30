@@ -1,7 +1,8 @@
 <script>
-  import { getStores, session } from "$app/stores";
+  
   import { firebase } from "$lib/Internals/Firebase/store";
   import { t } from "svelte-intl-precompile";
+  import { user, player } from "$lib/Internals/User/store";
   import DOMPurify from 'dompurify';
   export let collection;
   export let userCheck = true;
@@ -24,11 +25,11 @@
 
   async function clear() {
     try {
-      if ($session.user.uid) {
+      if ($user.uid) {
         let clearCollection = db.collection(collection);
         if (userCheck) {
           if (uid == null) {
-            uid = $session.user.uid;
+            uid = $user.uid;
           }
           clearCollection = db
             .collection(collection)
@@ -45,7 +46,7 @@
             .where("title", "==", title);
         }
 
-        // clearCollection = db.collection("modules").where("authorId", "==", $session.user.uid);
+        // clearCollection = db.collection("modules").where("authorId", "==", $user.uid);
         let querySnapshot = await clearCollection.get();
         let docRefArray = [];
         querySnapshot.forEach((updateDoc) => {
@@ -64,7 +65,7 @@
 
   async function subcollectionClear() {
     try {
-      if ($session.user.uid) {
+      if ($user.uid) {
         let clearCollection = db.collection(collection);
         let querySnapshot = await clearCollection.get();
         let docRefArray = [];
@@ -101,13 +102,13 @@
 
   $: (async () => {
     if (
-      ($session.environment === "cypress" ||
-        $session.environment === "test" ||
-        $session.environment === "development") &&
+      ($page.data.session.environment === "cypress" ||
+        $page.data.session.environment === "test" ||
+        $page.data.session.environment === "development") &&
       db &&
-      $session.player &&
-      $session.user &&
-      (!checkAnon || !$session.user.isAnonymous)
+      $player &&
+      $user &&
+      (!checkAnon || !$user.isAnonymous)
     ) {
       if (subcollectionDelete) {
         await subcollectionClear();
@@ -126,7 +127,7 @@
   })();
 </script>
 
-{#if $session.environment === "cypress" || $session.environment === "test" || $session.environment === "development"}
+{#if $page.data.session.environment === "cypress" || $page.data.session.environment === "test" || $page.data.session.environment === "development"}
   {$t("clearing-collection", { values: { collection: collection } })}
   {@html DOMPurify.sanitize(feedbackstring)}
 

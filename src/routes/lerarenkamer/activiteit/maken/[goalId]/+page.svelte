@@ -2,7 +2,7 @@
   import CreateActivity from "$lib/Activity/Components/create.svelte";
   import { onMount } from "svelte";
   import { firebase } from "$lib/Internals/Firebase/store";
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import Sidebar from "$lib/Internals/Containers/sidebar.svelte";
   import { getTeacherMenuitems } from "$lib/Internals/Teachers/helper";
   import GetGoalData from "$lib/Goal/Data/getGoalData.svelte";

@@ -1,7 +1,6 @@
 <script>
   import ShowActivity from "$lib/Activity/Components/show.svelte";
-  import { getStores, session } from "$app/stores";
-  import { onMount } from "svelte";
+  import { user } from "$lib/Internals/User/store";
   import { firebase } from "$lib/Internals/Firebase/store";
   export let activity;
   export let module;
@@ -18,7 +17,7 @@
     lowLevelDataObject.moduleId = module.id;
     lowLevelDataObject.moduleAuthorId = module.authorId;
     lowLevelDataObject.moduleLocationId = locationId;
-    lowLevelDataObject.studentId = $session.user.uid;
+    lowLevelDataObject.studentId = $user.uid;
     storeLowLevelObject(lowLevelDataObject);
   }
 </script>

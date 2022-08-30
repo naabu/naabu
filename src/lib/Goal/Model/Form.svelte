@@ -9,6 +9,7 @@
   export let model;
   export let goal;
   export let hasCurriculumProfile ;
+  
   let showActivityForm = false;
   let activeKC;
   let activeIndex = -1;

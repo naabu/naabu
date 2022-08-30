@@ -1,7 +1,7 @@
 <script>
   import CurriculumProfile from "$lib/Goal/Curriculum/Components/profile.svelte";
   import { onMount } from "svelte";
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import { firebase } from "$lib/Internals/Firebase/store";
 
  
@@ -26,7 +26,7 @@
       curriculumProfile = snap.data();
       curriculumProfile.id = ref.id;
 
-      if ($session.user && curriculumProfile.uid === $session.user.uid) {
+      if ($user && curriculumProfile.uid === $user.uid) {
         isOwnProfile = true;
       }
     }

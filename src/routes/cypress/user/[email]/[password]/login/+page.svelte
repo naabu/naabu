@@ -1,5 +1,5 @@
 <script>
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import { onMount } from "svelte";
   import { firebase } from "$lib/Internals/Firebase/store";
  
@@ -8,11 +8,11 @@
     if ($firebase) {
       {console.log("firebase is working")}
       if (
-        ($session.environment === "cypress" ||
-          $session.environment === "development" ||
-          $session.environment === "test") &&
-        $session.user &&
-        $session.user.isAnonymous
+        ($page.data.session.environment === "cypress" ||
+          $page.data.session.environment === "development" ||
+          $page.data.session.environment === "test") &&
+        $user &&
+        $user.isAnonymous
       ) {
         let email = $page.params.email;
         let password = $page.params.password;
@@ -28,9 +28,9 @@
   })();
 </script>
 
-{#if $session.environment === "cypress" || $session.environment === "development" || $session.environment === "test"}
+{#if $page.data.session.environment === "cypress" || $page.data.session.environment === "development" || $page.data.session.environment === "test"}
   Great success! Now login!
-  {#if $session.user && !$session.user.isAnonymous}
+  {#if $user && !$user.isAnonymous}
     <div data-test="complete">Login complete</div>
   {/if}
 {/if}

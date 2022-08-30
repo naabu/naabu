@@ -1,5 +1,5 @@
 <script>
-  import { getStores, session } from "$app/stores";
+  
   import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
   import ModelForm from "$lib/Goal/Model/Form.svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
@@ -7,7 +7,8 @@
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
   import { firebase } from "$lib/Internals/Firebase/store";
- 
+  import { user } from "$lib/Internals/User/store";
+
   export let goal;
 
   let y;
@@ -60,13 +61,13 @@
   }
 
   async function create() {
-    if ($session.user) {
+    if ($user) {
       let data = {
         title: model.title,
         description: model.description,
         statesKCArray: model.statesKCArray,
         goalId: model.goalId,
-        authorId: $session.user.uid,
+        authorId: $user.uid,
         linkedActivityConnectionIds: model.linkedActivityConnectionIds,
       };
 

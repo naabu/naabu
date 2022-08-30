@@ -1,6 +1,6 @@
 <script>
   import { goto } from "$app/navigation";
-  import { getStores, session } from "$app/stores";
+  
   import { getActivitySaveData } from "$lib/Activity/Components/helper";
   import { createRevision } from "$lib/Internals/Revision/helper";
   import Button from "../Button/Button.svelte";
@@ -14,13 +14,13 @@
 
   async function save() {
     let db = await $firebase.firestore();
-    if ($session.user) {
+    if ($user) {
       let activityData = getActivitySaveData(activity);
       let resultRevision = await createRevision(
        $firebase,
         activity,
         activityData,
-        $session.user.uid
+        $user.uid
       );
 
       activityData.latestRevisionId = resultRevision.id;
@@ -30,7 +30,7 @@
         activityData.previousRevisionId = activity.latestRevisionId;
       }
 
-      activityData.authorId = $session.user.uid;
+      activityData.authorId = $user.uid;
       delete activityData.status;
       let db =$firebase.firestore();
 

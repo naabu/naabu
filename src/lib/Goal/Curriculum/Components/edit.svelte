@@ -1,13 +1,14 @@
 <script>
   import Form from "$lib/Goal/Curriculum/Components/form.svelte";
-  import { getStores, session } from "$app/stores";
+  
   import CurriculumTabs from "$lib/Internals/Tabs/curriculum.svelte";
   import { onMount } from "svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
   import { firebase } from "$lib/Internals/Firebase/store";
- 
+  import { user, player } from "$lib/Internals/User/store";
+
   export let curriculumProfile;
 
   let buttonDisabled = false;
@@ -51,7 +52,7 @@
 
 <svelte:window bind:scrollY={y} />
 
-{#if $session.player}
+{#if $player}
   <CurriculumTabs
     bind:curriculumProfile
     subSelected="edit"

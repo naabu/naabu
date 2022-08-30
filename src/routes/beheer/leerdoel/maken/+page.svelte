@@ -2,7 +2,7 @@
   import CreateGoal from "$lib/Goal/Components/create.svelte";
   import { onMount } from "svelte";
   import { firebase } from "$lib/Internals/Firebase/store";
-  import { getStores, session } from "$app/stores";
+  
   import ShowBreadcrumb from "$lib/Internals/Breadcrumb/show.svelte";
   import { t } from "svelte-intl-precompile";
  

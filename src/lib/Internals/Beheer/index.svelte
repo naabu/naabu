@@ -83,7 +83,7 @@
 
 <br />
 
-{#if $session.user && $session.user.idTokenResult.claims.canDebugDevelopment}
+{#if $user && $user.idTokenResult.claims.canDebugDevelopment}
   <Button
     on:click={trigger}
     color="primary"

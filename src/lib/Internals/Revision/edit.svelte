@@ -1,5 +1,5 @@
 <script>
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import GoalForm from "$lib/Goal/Components/form.svelte";
   import { onMount } from "svelte";
   import ShowBreadcrumb from "$lib/Internals/Breadcrumb/show.svelte";
@@ -12,6 +12,7 @@
   import Button from "../Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
   import { firebase } from "$lib/Internals/Firebase/store";
+  import { user, player } from "$lib/Internals/User/store";
   export let battleCol;
  
 
@@ -70,12 +71,12 @@
 
   async function editGoal() {
     const db = await $firebase.firestore();
-    let data = getGoalSaveData(revision, $session.serverFirestoreTimeStamp);
+    let data = getGoalSaveData(revision, $firebase.firestore.Timestamp.now().seconds);
 
     alert = getDefaultAlertValues();
     // Edit a goal not a revision!
     try {
-      if ($session.user && $session.player.curriculumProfileId) {
+      if ($user && $player.curriculumProfileId) {
         let goalRef = db.collection("goals").doc(revision.goalId);
         await goalRef.update(data);
         for (let i = 0; i < revision.battles.length; i++) {
@@ -94,13 +95,13 @@
           }
         }
 
-        data.authorId = $session.player.curriculumProfileId;
+        data.authorId = $player.curriculumProfileId;
         data.goalId = goalRef.id;
         await createGoalRevision(
           db,
           revision,
           data,
-          $session.user.uid,
+          $user.uid,
          $firebase
         );
 

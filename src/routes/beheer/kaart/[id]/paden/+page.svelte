@@ -1,7 +1,7 @@
 <script>
   import Paths from "$lib/Module/Map/Components/editPathForm.svelte";
   import { onMount } from "svelte";
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import { firebase } from "$lib/Internals/Firebase/store";
 
  

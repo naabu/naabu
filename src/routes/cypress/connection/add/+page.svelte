@@ -1,5 +1,5 @@
 <script>
-  import { getStores, session } from "$app/stores";
+  
   import { firebase } from "$lib/Internals/Firebase/store";
  
   let created = false;
@@ -8,7 +8,7 @@
   function getData(activityId, goalId, connectionType = "goal-activity") {
     let timestamp =$firebase.firestore.FieldValue.serverTimestamp();
     let data = {
-      authorId: $session.user.uid,
+      authorId: $user.uid,
       createdAt: timestamp,
       fields: [
         {
@@ -46,11 +46,11 @@
     if ($firebase) {
      
       if (
-        ($session.environment === "cypress" ||
-        $session.environment === "test" ||
-          $session.environment === "development") &&
-        $session.user &&
-        !$session.user.isAnonymous &&
+        ($page.data.session.environment === "cypress" ||
+        $page.data.session.environment === "test" ||
+          $page.data.session.environment === "development") &&
+        $user &&
+        !$user.isAnonymous &&
         !created
       ) {
         created = true;

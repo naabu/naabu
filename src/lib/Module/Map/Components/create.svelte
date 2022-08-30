@@ -3,7 +3,7 @@
   import ShowBreadcrumb from "$lib/Internals/Breadcrumb/show.svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import { getMapSaveData } from "$lib/Module/Map/Components/helper";
-  import { getStores, session } from "$app/stores";
+  
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
   import { firebase } from "$lib/Internals/Firebase/store";
@@ -48,7 +48,7 @@
   async function createMap() {
     let db = $firebase.firestore();
     let data = getMapSaveData(map);
-    data.authorId = $session.user.uid;
+    data.authorId = $user.uid;
     alert = getDefaultAlertValues();
     try {
       let collectionRef = db.collection("maps");

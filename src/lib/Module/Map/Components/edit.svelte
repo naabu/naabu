@@ -1,5 +1,5 @@
 <script>
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import { onMount } from "svelte";
   import Form from "$lib/Module/Map/Components/form.svelte";
   import ShowBreadcrumb from "$lib/Internals/Breadcrumb/show.svelte";
@@ -63,7 +63,7 @@
 
   async function edit() {
     let data = getMapSaveData(map);
-    data.authorId = $session.user.uid;
+    data.authorId = $user.uid;
     alert = getDefaultAlertValues();
     try {
       await ref.update(data);

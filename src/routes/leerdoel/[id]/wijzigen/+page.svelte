@@ -1,6 +1,6 @@
 <script>
   import EditGoal from "$lib/Goal/Components/edit.svelte";
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import { firebase } from "$lib/Internals/Firebase/store";
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
   import GetGoalData from "$lib/Goal/Data/getGoalData.svelte";

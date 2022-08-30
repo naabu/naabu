@@ -1,5 +1,5 @@
 <script>
-  import { getStores, session } from "$app/stores";
+  
   import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import { getDateString } from "$lib/Internals/Misc/helper";
@@ -11,7 +11,8 @@
   import AdditionalFormText from "$lib/Internals/FormFields/AdditionalFormText.svelte";
   import { t } from "svelte-intl-precompile";
   import { firebase } from "$lib/Internals/Firebase/store";
-  
+  import { user, player } from "$lib/Internals/User/store";
+
   export let talk;
   export let goalId;
   export let revision;
@@ -40,10 +41,10 @@
 
   async function createPost() {
     let db = $firebase.firestore()
-    if ($session.user) {
+    if ($user) {
       let profileRef = db
         .collection("curriculumProfile")
-        .doc($session.player.curriculumProfileId);
+        .doc($player.curriculumProfileId);
 
       let data = {
         title: newPostTitle,

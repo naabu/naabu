@@ -4,7 +4,7 @@
   import { onMount } from "svelte";
   import { getDefaultAlertValues } from "$lib/Internals/Misc/helper";
   import { formatMapObject } from "$lib/Module/Components/helper";
-  import { getStores, session } from "$app/stores";
+  
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
   import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
@@ -41,7 +41,7 @@
       module.moduleDashboardPlugins
     );
     alert = getDefaultAlertValues();
-    data.authorId = $session.user.uid;
+    data.authorId = $user.uid;
     data.modifiedAt = $firebase.firestore.Timestamp.now().seconds;
     try {
       let moduleRef = db.collection("modules").doc(module.id);

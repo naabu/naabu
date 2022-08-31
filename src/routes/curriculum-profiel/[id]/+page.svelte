@@ -3,7 +3,7 @@
   import { onMount } from "svelte";
   import { page } from "$app/stores";
   import { firebase } from "$lib/Internals/Firebase/store";
-
+  import { user } from "$lib/Internals/User/store";
  
 
   let curriculumProfile;

@@ -5,15 +5,13 @@
   import { firebase } from "$lib/Internals/Firebase/store";
   import ContainerBreadcrumpPageTitle from "$lib/Internals/Containers/breadcrumbPageTitle.svelte";
   import { t } from "svelte-intl-precompile";
-import { user, player } from "$lib/Internals/User/store";
- 
+  import { user, player } from "$lib/Internals/User/store";
+
   let curriculumProfile;
   let mounted = false;
 
   $: (async () => {
     if ($firebase) {
-     
-
       await retrieveFirestoreData();
       mounted = true;
     }
@@ -49,5 +47,5 @@ import { user, player } from "$lib/Internals/User/store";
   title={$t("create-curriculum-profile")}
 />
 {#if mounted && !curriculumProfile}
-  <MakeCurriculumProfile  />
+  <MakeCurriculumProfile />
 {/if}

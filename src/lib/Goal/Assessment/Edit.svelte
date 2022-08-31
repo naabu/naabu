@@ -14,7 +14,8 @@
   } from "$lib/Goal/Components/helper";
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
-
+  import { user } from "$lib/Internals/User/store";
+  
   export let battleCol;
  
   export let previousBattles = [];

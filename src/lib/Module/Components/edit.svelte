@@ -9,7 +9,8 @@
   import { t } from "svelte-intl-precompile";
   import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
   import { firebase } from "$lib/Internals/Firebase/store";
-
+  import { user } from "$lib/Internals/User/store";
+  
   export let module;
   let y;
   let db;

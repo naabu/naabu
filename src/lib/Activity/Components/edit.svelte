@@ -13,7 +13,8 @@
   import Button from "$lib/Internals/Button/Button.svelte";
   import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
   import { t } from "svelte-intl-precompile";
-
+  import { user } from "$lib/Internals/User/store";
+  
   let y;
   export let previousActivity;
   export let activity;

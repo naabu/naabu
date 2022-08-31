@@ -6,7 +6,8 @@
   import Button from "../Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
   import { firebase } from "$lib/Internals/Firebase/store";
-
+  import { user } from "$lib/Internals/User/store";
+  
   export let revision;
  
   export let latestRevisionId;

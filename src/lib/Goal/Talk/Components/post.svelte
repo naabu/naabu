@@ -12,6 +12,7 @@
   import Button from "$lib/Internals/Button/Button.svelte";
   import { user, player } from "$lib/Internals/User/store";
   import { t } from "svelte-intl-precompile";
+  import { user } from "$lib/Internals/User/store";
   export let talkId;
   export let post;
   export let replies;

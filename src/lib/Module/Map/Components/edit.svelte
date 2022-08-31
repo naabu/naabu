@@ -10,7 +10,8 @@
     updateActivities,
   } from "$lib/Module/Map/Components/helper";
   import Button from "$lib/Internals/Button/Button.svelte";
-
+  import { user } from "$lib/Internals/User/store";
+  
   let y;
   export let ref;
  

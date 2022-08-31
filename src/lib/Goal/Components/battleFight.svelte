@@ -8,7 +8,8 @@
   import RadioQuestion from "$lib/Internals/Quiz/RadioQuestion.svelte";
   import { t } from "svelte-intl-precompile";
   import { firebase } from "$lib/Internals/Firebase/store";
-
+  import { user } from "$lib/Internals/User/store";
+  
   export let activity;
   export let toggle = false;
 

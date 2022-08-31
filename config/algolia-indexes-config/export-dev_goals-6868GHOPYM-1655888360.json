@@ -11,7 +11,9 @@
     "attributesToRetrieve": null,
     "unretrievableAttributes": null,
     "optionalWords": null,
-    "attributesForFaceting": null,
+    "attributesForFaceting": [
+      "filterOnly(modifiedAt)"
+    ],
     "attributesToSnippet": null,
     "attributesToHighlight": null,
     "paginationLimitedTo": 1000,

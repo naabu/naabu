@@ -1,8 +1,7 @@
 <script>
   import { page } from "$app/stores";
-  import { onMount } from "svelte";
   import { firebase } from "$lib/Internals/Firebase/store";
- 
+  import { user } from "$lib/Internals/User/store";
 
   $: (async () => {
     if ($firebase) {

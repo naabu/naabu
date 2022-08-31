@@ -7,7 +7,7 @@
   import { firebase } from "$lib/Internals/Firebase/store";
   import Button from "../Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
-
+  import { user } from "$lib/Internals/User/store";
  
   let loaded = false;
 
@@ -83,7 +83,7 @@
 
 <br />
 
-{#if $session.user && $session.user.idTokenResult.claims.canDebugDevelopment}
+{#if $user && $user.idTokenResult.claims.canDebugDevelopment}
   <Button
     on:click={trigger}
     color="primary"

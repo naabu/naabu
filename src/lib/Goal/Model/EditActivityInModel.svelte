@@ -2,7 +2,7 @@
   import { t } from "svelte-intl-precompile";
   import ActivityForm from "$lib/Activity/Components/form.svelte";
   import { getActivitySaveData } from "$lib/Activity/Components/helper";
-  import { getStores, session } from "$app/stores";
+  
   import Button from "$lib/Internals/Button/Button.svelte";
   import { firebase } from "$lib/Internals/Firebase/store";
   import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
@@ -10,6 +10,7 @@
   import { createRevision } from "$lib/Internals/Revision/helper";
   import { createEventDispatcher } from "svelte";
   import MediumRightSlideOver from "$lib/Internals/SlideOver/MediumRight.svelte";
+  import { user } from "$lib/Internals/User/store";
 
   export let activity;
   export let goal;
@@ -46,7 +47,7 @@
     if (hasCurriculumProfile) {
       let activityData = getActivitySaveData(activity);
       activityData.plugins = getPluginDataFromForm(activity.plugins);
-      activityData.authorId = $session.user.uid;
+      activityData.authorId = $user.uid;
       activityData.updateConnectionAt = $firebase.firestore.Timestamp.now().seconds,
       alert = getDefaultAlertValues();
       try {
@@ -55,7 +56,7 @@
           $firebase,
           activity,
           activityData,
-          $session.user.uid
+          $user.uid
         );
         activityData.latestRevisionId = resultRevision.id;
         activityData.latestRevisionCreatedAt = $firebase.firestore.Timestamp.now().seconds;

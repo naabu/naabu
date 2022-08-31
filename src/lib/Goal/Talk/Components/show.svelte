@@ -20,7 +20,7 @@
   <CreatePostForm  bind:goalId bind:talk />
   <div class="mt-4 ml-auto mr-auto max-w-xl">
     <h1 class="sr-only">{$t("recent-posts")}</h1>
-    <ul role="list" class="space-y-4">
+    <ul class="space-y-4">
       {#each posts as post}
         <li class="bg-white px-4 py-6 shadow sm:p-6 sm:rounded-lg">
           <article aria-labelledby="question-title-81614">

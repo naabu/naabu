@@ -1,6 +1,6 @@
 <script>
   // import$firebase from "firebase/app";
-  import { getStores, session } from "$app/stores";
+  
   import ModelForm from "$lib/Goal/Model/Form.svelte";
   import { onMount } from "svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
@@ -8,6 +8,7 @@
   import Button from "$lib/Internals/Button/Button.svelte";
   import { firebase } from "$lib/Internals/Firebase/store";
   import { t } from "svelte-intl-precompile";
+  import { user, player } from "$lib/Internals/User/store";
 
   $: (async () => {
     if ($firebase) {
@@ -22,7 +23,7 @@
   export let hasCurriculumProfile = false;
 
   $: {
-    if ($session.player && $session.player.curriculumProfileId) {
+    if ($player && $player.curriculumProfileId) {
       hasCurriculumProfile = true;
     } else {
       hasCurriculumProfile = false;
@@ -41,13 +42,13 @@
   }
 
   async function edit() {
-    if ($session.user) {
+    if ($user) {
       let data = {
         title: model.title,
         description: model.description,
         statesKCArray: model.statesKCArray,
         goalId: model.goalId,
-        authorId: $session.user.uid,
+        authorId: $user.uid,
         linkedActivityConnectionIds: model.linkedActivityConnectionIds,
       };
 

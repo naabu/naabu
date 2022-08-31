@@ -1,7 +1,7 @@
 <script>
   export let revisions = [];
   import { onMount } from "svelte";
-  import { getStores, session } from "$app/stores";
+  
   import { firebase } from "$lib/Internals/Firebase/store";
   import { queryRevisions } from "$lib/Internals/Revision/helper";
 

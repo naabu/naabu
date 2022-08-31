@@ -1,5 +1,5 @@
 <script>
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import ShowBreadcrumb from "$lib/Internals/Breadcrumb/show.svelte";
   import Notification from "$lib/Internals/Misc/notification.svelte";
   import DifficultyFeedback from "$lib/Activity/Components/feedbackDifficulty.svelte";
@@ -7,8 +7,10 @@
   import ShowPlugins from "$lib/Internals/Plugin/ShowActivityPlugins.svelte";
   import { goto } from "$app/navigation";
   import { t } from "svelte-intl-precompile";
-  import DOMPurify from "dompurify";
+  import sanitizeHtml from 'sanitize-html';
+
   import { firebase } from "$lib/Internals/Firebase/store";
+  import { user } from "$lib/Internals/User/store";
 
   import { createEventDispatcher } from "svelte";
   export let activity;
@@ -54,7 +56,7 @@
 
   let y;
 
-  let userHasSpecialClaims = hasSpecialClaims($session.user);
+  let userHasSpecialClaims = hasSpecialClaims($user);
 
   async function endActivity() {
     activityStartTime = null;
@@ -134,7 +136,8 @@
       {/if}
     </h1>
     {#if activity.description}
-      {@html DOMPurify.sanitize(activity.description)}
+      {@html sanitizeHtml
+(activity.description)}
     {/if}
 
     {#if activity.plugins && activity.plugins.length > 0}

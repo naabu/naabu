@@ -10,7 +10,7 @@
   import NumberInput from "$lib/Internals/FormFields/NumberInput.svelte";
   import Tabs from "$lib/Internals/Tabs/tabs.svelte";
   import { t } from "svelte-intl-precompile";
-  import DOMPurify from 'dompurify';
+  import sanitizeHtml from 'sanitize-html';
 
   export let quizzes = [];
   export let showTimeInVideo = false;
@@ -190,7 +190,8 @@
             content={$t("update-preview")}
           />
         </div>
-        <div class="mt-3">{@html DOMPurify.sanitize(renderedKatex)}</div>
+        <div class="mt-3">{@html sanitizeHtml
+(renderedKatex)}</div>
       </svelte:fragment>
     </FormField>
   {:else if quizzes[selectedQuizIndex].answers[selectedFieldIndex]}
@@ -230,6 +231,7 @@
         />
       </div>
     </div>
-    <div class="mt-14">{@html DOMPurify.sanitize(renderedKatex)}</div>
+    <div class="mt-14">{@html sanitizeHtml
+(renderedKatex)}</div>
   {/if}
 {/if}

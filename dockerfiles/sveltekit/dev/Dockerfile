@@ -1,17 +1,14 @@
-FROM node:14
-RUN apt-get update; \
-    apt-get install -y \
-    default-jre; 
-COPY . /var/www/
-RUN chmod -R 777 /var/www
-WORKDIR /var/www/functions
+FROM node:16 
+COPY package.json /var/www/
+COPY package-lock.json /var/www/
+RUN chmod -R 777 /var/www/
 USER node
-RUN npm ci
 WORKDIR /var/www/
-RUN npm ci;
-USER root
-RUN npx playwright install;\
-  npx playwright install chrome;
-EXPOSE 3000
+RUN npm ci \
+ && npm set audit false
 ENV PATH /var/www/node_modules/.bin:$PATH
 CMD ["tail", "-f", "/dev/null"]
+EXPOSE 3000
+COPY . /var/www/
+USER root
+WORKDIR /var/www/

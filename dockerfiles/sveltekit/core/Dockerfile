@@ -1,4 +1,4 @@
-FROM node:14 
+FROM node:16 
 COPY package.json /var/www/
 COPY package-lock.json /var/www/
 RUN chmod -R 777 /var/www/

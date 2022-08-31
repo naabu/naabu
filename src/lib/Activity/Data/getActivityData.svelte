@@ -7,7 +7,7 @@
   export let mounted = false;
   export let activityId = $page.params.activityId;
   export let loadComponent = "render";
-
+  
   $: (async () => {
     if ($firebase && !mounted) {
       await retrieveFirestoreData();

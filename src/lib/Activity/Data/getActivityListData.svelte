@@ -1,8 +1,7 @@
 <script>
-  import { getStores, session, page } from "$app/stores";
   import { firebase } from "$lib/Internals/Firebase/store";
   import { retrieveActivityListFB } from "$lib/Activity/Components/helper";
-
+  import { user } from "$lib/Internals/User/store";
  
   export let activities;
   export let mounted = false;
@@ -16,8 +15,8 @@
 
   async function retrieveFirestoreData() {
     let db = await $firebase.firestore();
-    if ($session.user) {
-      activities = await retrieveActivityListFB(db, $session.user.uid);
+    if ($user) {
+      activities = await retrieveActivityListFB(db, $user.uid);
     }
   }
 </script>

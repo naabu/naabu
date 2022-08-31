@@ -13,7 +13,7 @@ import (
 	_build: docker.#Build & {
 		steps: [
 			docker.#Pull & {
-				source: "node:14"
+				source: "node:16"
 			},
 			docker.#Copy & {
 				contents: source
@@ -56,7 +56,7 @@ import (
 	_build: docker.#Build & {
 		steps: [
 			docker.#Pull & {
-				source: "node:14"
+				source: "node:16"
 			},
       docker.#Run & {
 				command: {

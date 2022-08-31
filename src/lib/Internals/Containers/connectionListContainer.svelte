@@ -30,7 +30,7 @@
   let goal;
  
   let connections;
-  let connectionIndexName = getConnectionIndex($session.environment);
+  let connectionIndexName = getConnectionIndex($page.data.session.environment);
   let connectionIndex;
   let query = "";
   let status = "all";

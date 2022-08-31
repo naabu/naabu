@@ -4,17 +4,18 @@
     getAlgoliaSearchClient,
     getGoalIndex,
   } from "$lib/Internals/Algolia/algolia";
-  import { getStores, session } from "$app/stores";
+  
   import { truncate } from "$lib/Internals/Misc/helper";
   import { t } from "svelte-intl-precompile";
-  import DOMPurify from 'dompurify';
+  import sanitizeHtml from 'sanitize-html';
+  import { page } from "$app/stores";
   export let goal;
   export let listLinkedGoalIds;
 
   let truncateDescription = 600;
 
   let goalIndex;
-  let goalIndexName = getGoalIndex($session.environment);
+  let goalIndexName = getGoalIndex($page.data.session.environment);
 
   // List of all linked goal ids.
 
@@ -135,7 +136,8 @@
                   </td>
                   <td class="px-6 py-4">
                     <div class="text-sm text-gray-900">
-                      {#if hit.description}{@html DOMPurify.sanitize(hit.description)}{:else}{$t(
+                      {#if hit.description}{@html sanitizeHtml
+(hit.description)}{:else}{$t(
                           "no-description"
                         )}{/if}
                     </div>

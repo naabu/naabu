@@ -1,7 +1,7 @@
 <script>
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import ConnectionForm from "$lib/Goal/Connection/Components/form.svelte";
-  import { getStores, session } from "$app/stores";
+  
   import { onMount } from "svelte";
   import { goto } from "$app/navigation";
   import MainTabs from "$lib/Internals/Tabs/goal.svelte";
@@ -13,7 +13,8 @@
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
   import { firebase } from "$lib/Internals/Firebase/store";
-
+  import { user } from "$lib/Internals/User/store";
+  
   let connection = {
     type: "prerequisit",
     description: "",
@@ -39,7 +40,7 @@
       sourceId: goal.id,
       type: connection.type,
       linkId: connectionGoal.id,
-      authorId: $session.user.uid,
+      authorId: $user.uid,
       status: "in-progress",
       sourceType: "goal",
       linkType: "goal",

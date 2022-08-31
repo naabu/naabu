@@ -1,7 +1,7 @@
 <script>
   import Button from "$lib/Internals/Button/Button.svelte";
   import Textarea from "$lib/Internals/FormFields/Textarea.svelte";
-  import { getStores, session } from "$app/stores";
+  
   import { t } from "svelte-intl-precompile";
   import { createEventDispatcher } from "svelte";
   import { onMount } from "svelte";
@@ -12,6 +12,8 @@
   import { autocomplete, getAlgoliaResults } from "@algolia/autocomplete-js";
   import "@algolia/autocomplete-theme-classic";
   import TextAndRemove from "$lib/Internals/FormFields/TextAndRemove.svelte";
+  import { page } from "$app/stores";
+
   export let hasCurriculumProfile;
   export let knowledgeComponent;
   export let index;
@@ -19,7 +21,7 @@
   let filters = "";
   export let activeActivityForm = false;
 
-  let connectionIndex = getConnectionIndex($session.environment);
+  let connectionIndex = getConnectionIndex($page.data.session.environment);
   let autoCompleteElementExists = null;
   let autoCompleteTimer;
 

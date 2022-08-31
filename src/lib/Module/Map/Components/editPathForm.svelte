@@ -1,5 +1,5 @@
 <script>
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import { onMount } from "svelte";
   import Form from "$lib/Module/Map/Components/pathForm.svelte";
   import ShowBreadcrumb from "$lib/Internals/Breadcrumb/show.svelte";

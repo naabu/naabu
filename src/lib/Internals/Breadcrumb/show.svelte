@@ -1,5 +1,5 @@
 <script>
-  import { getStores, session } from "$app/stores"
+  import { page } from "$app/stores"
   import Notification from "$lib/Internals/Misc/notification.svelte";
   import { t } from "svelte-intl-precompile";
 
@@ -12,14 +12,14 @@
 
   function copyLinkToClipboard(url) {
     let clipboardUrl = url;
-    if ($session.environment === 'development')
+    if ($page.data.session.environment === 'development')
     {
       clipboardUrl = "http://localhost:3000" + url;
     }
-    else if ($session.environment === 'acceptance') {
+    else if ($page.data.session.environment === 'acceptance') {
       clipboardUrl = "https://expwis.web.app" + url;
     }
-    else if ($session.environment === 'production') {
+    else if ($page.data.session.environment === 'production') {
       clipboardUrl = "https://naabu.org" + url;
     }
     navigator.clipboard.writeText(clipboardUrl);

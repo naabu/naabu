@@ -1,6 +1,6 @@
 <script>
   // import$firebase from "firebase/app";
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import Transition from "svelte-class-transition";
   import { onMount } from "svelte";
   import { hasSpecialClaims } from "$lib/Internals/User/helper.js";
@@ -8,7 +8,8 @@
   import RadioQuestion from "$lib/Internals/Quiz/RadioQuestion.svelte";
   import { t } from "svelte-intl-precompile";
   import { firebase } from "$lib/Internals/Firebase/store";
-
+  import { user } from "$lib/Internals/User/store";
+  
   export let activity;
   export let toggle = false;
 
@@ -150,11 +151,11 @@
       score: score,
     };
 
-    let userHasSpecialClaims = hasSpecialClaims($session.user);
+    let userHasSpecialClaims = hasSpecialClaims($user);
 
-    if ($session.user && !userHasSpecialClaims) {
+    if ($user && !userHasSpecialClaims) {
       try {
-        data.uid = $session.user.uid;
+        data.uid = $user.uid;
         let collectionRef = db.collection("battleResult");
         let result = collectionRef.add(data);
       } catch (e) {

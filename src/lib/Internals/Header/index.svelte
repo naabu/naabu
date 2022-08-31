@@ -3,11 +3,13 @@
   import logosmall from "$lib/Internals/Header/logo-small.svg";
   import personIcon from "$lib/Internals/Header/person-icon.svg";
   import Transition from "svelte-class-transition";
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import { firebase } from "$lib/Internals/Firebase/store";
   import { login } from "$lib/Internals/Firebase/helper";
   import Button from "../Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
+  import { user, player } from "$lib/Internals/User/store";
+  
 
   let openMenu = false;
   let openUserMenu = false;
@@ -16,8 +18,8 @@
   async function loginWithHeader() {
     let result = await login($firebase, $t);
     if (result !== null) {
-      $session.user = result.user;
-      $session.player = result.player;
+      $user = result.user;
+      $player = result.player;
     }
   }
 
@@ -135,10 +137,10 @@
         <div
           class="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0"
         >
-          {#if !$session.user || $session.user.isAnonymous}
+          {#if !$user || $user.isAnonymous}
             <div class="ml-10 space-x-4">
               <a
-                href="#"
+                href="#top"
                 on:click|preventDefault={() => loginWithHeader()}
                 class="inline-block bg-indigo-500 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75"
                 >{$t("sign-in")}</a

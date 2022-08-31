@@ -6,12 +6,12 @@
     getAlgoliaSearchClient,
     getMapIndex,
   } from "$lib/Internals/Algolia/algolia";
-  import { getStores, session } from "$app/stores";
+  
   import TextInput from "$lib/Internals/FormFields/TextInput.svelte";
   import { t } from "svelte-intl-precompile";
 
   let index;
-  let indexName = getMapIndex($session.environment);
+  let indexName = getMapIndex($page.data.session.environment);
 
   let query = "";
   let hits = [];

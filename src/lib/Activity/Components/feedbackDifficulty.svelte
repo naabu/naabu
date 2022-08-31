@@ -1,12 +1,12 @@
 <script>
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import Transition from "svelte-class-transition";
-  import { onMount } from "svelte";
   import { hasSpecialClaims } from "$lib/Internals/User/helper.js";
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
   import { firebase } from "$lib/Internals/Firebase/store";
-
+  import { user } from "$lib/Internals/User/store";
+  
   export let activity;
   export let moduleId = null;
   export let locationId = null;
@@ -34,16 +34,16 @@
       feedbackValue: label,
     };
 
-    let userHasSpecialClaims = hasSpecialClaims($session.user);
+    let userHasSpecialClaims = hasSpecialClaims($user);
 
-    if ($session.user && !userHasSpecialClaims) {
+    if ($user && !userHasSpecialClaims) {
       try {
-        data.uid = $session.user.uid;
+        data.uid = $user.uid;
         let userModuleRef = db
           .collection("modules")
           .doc(moduleId)
           .collection("players")
-          .doc($session.user.uid);
+          .doc($user.uid);
         await userModuleRef.update({ selectedActivities: [] });
         let collectionRef = db.collection("feedback");
         let result = await collectionRef.add(data);

@@ -1,9 +1,7 @@
 <script>
-  import { onMount } from "svelte";
-  import { getStores, session, page } from "$app/stores";
   import { firebase } from "$lib/Internals/Firebase/store";
   import { retrieveMapsListFB } from "$lib/Module/Components/helper";
-
+  import { user } from "$lib/Internals/User/store";
  
   export let modules;
   export let mounted = false;
@@ -18,8 +16,8 @@
 
   async function retrieveFirestoreData() {
     let db = await $firebase.firestore();
-    if ($session.user) {
-      modules = await retrieveMapsListFB(db, $session.user.uid);
+    if ($user) {
+      modules = await retrieveMapsListFB(db, $user.uid);
     }
   }
 </script>

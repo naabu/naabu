@@ -1,5 +1,5 @@
 <script>
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import { firebase } from "$lib/Internals/Firebase/store";
   import ActivityForm from "$lib/Activity/Components/form.svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
@@ -13,7 +13,8 @@
   import Button from "$lib/Internals/Button/Button.svelte";
   import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
   import { t } from "svelte-intl-precompile";
-
+  import { user } from "$lib/Internals/User/store";
+  
   let y;
   export let previousActivity;
   export let activity;
@@ -32,7 +33,7 @@
   let alert = getDefaultAlertValues();
 
   async function edit() {
-    if ($session.user) {
+    if ($user) {
       let activityData = getActivitySaveData(activity);
       activityData.plugins = getPluginDataFromForm(activity.plugins);
 
@@ -48,7 +49,7 @@
           $firebase,
           activity,
           activityData,
-          $session.user.uid
+          $user.uid
         );
         activityData.latestRevisionId = resultRevision.id;
         activityData.latestRevisionCreatedAt = $firebase.firestore.Timestamp.now().seconds;
@@ -58,7 +59,7 @@
         }
       }
 
-      activityData.authorId = $session.user.uid;
+      activityData.authorId = $user.uid;
       alert = getDefaultAlertValues();
       let db = $firebase.firestore();
 

@@ -1,7 +1,7 @@
 <script>
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
-  import DOMPurify from "dompurify";
+  import sanitizeHtml from 'sanitize-html';
   import { createEventDispatcher } from "svelte";
   import { renderKatexOutput } from "$lib/Internals/Misc/helper";
   import Textarea from "$lib/Internals/FormFields/Textarea.svelte";
@@ -136,7 +136,7 @@
       </h3>
       <p class="mt-1 text-sm ">
         {#if feedback}
-          {@html DOMPurify.sanitize(feedback)}
+          {@html sanitizeHtml(feedback)}
         {/if}
       </p>
     </div>

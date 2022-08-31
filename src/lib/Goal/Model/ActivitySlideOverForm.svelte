@@ -4,7 +4,8 @@
   import ActivityForm from "$lib/Activity/Components/form.svelte";
   import { getDefaultEmptyActivity } from "$lib/Activity/Components/helper";
   import AdditionalFormText from "$lib/Internals/FormFields/AdditionalFormText.svelte";
-  import { getStores, session } from "$app/stores";
+  
+  import { user, player } from "$lib/Internals/User/store";
   export let toggle = false;
   export let showPluginSelector = true;
   export let activity;
@@ -27,7 +28,7 @@
     activity.goalTitle = goal.title;
   }
 
-  $: if ((!activity) && model && knowledgeComponent && $session.player) {
+  $: if ((!activity) && model && knowledgeComponent && $player) {
     activity = getDefaultEmptyActivity(getDefaultTitle());
   }
 

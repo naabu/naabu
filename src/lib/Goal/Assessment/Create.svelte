@@ -1,6 +1,6 @@
 <script>
   // import$firebase from "firebase/app";
-  import { getStores, session } from "$app/stores";
+  
   import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
   import AssessmentForm from "$lib/Goal/Assessment/Form.svelte";
   import { onMount } from "svelte";
@@ -10,6 +10,7 @@
   import { t } from "svelte-intl-precompile";
   import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
   import { firebase } from "$lib/Internals/Firebase/store";
+  import { user } from "$lib/Internals/User/store";
   export let goal;
 
   let y;
@@ -42,12 +43,12 @@
   }
 
   async function create() {
-    if ($session.user) {
+    if ($user) {
       let data = {
         title: assessment.title,
         description: assessment.description,
         goalId: assessment.goalId,
-        authorId: $session.user.uid,
+        authorId: $user.uid,
         plugins: getPluginDataFromForm(assessment.plugins),
       };
 

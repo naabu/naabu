@@ -1,5 +1,5 @@
 <script>
-  import DOMPurify from "dompurify";
+  import sanitizeHtml from 'sanitize-html';
   export let modelData;
 </script>
 
@@ -19,7 +19,7 @@
                       scope="col"
                       class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900"
                     >
-                      {@html DOMPurify.sanitize(heading)}
+                      {@html sanitizeHtml(heading)}
                     </th>
                   {/each}
                 </tr>
@@ -32,7 +32,7 @@
                     <td
                       class="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
                     >
-                      {@html DOMPurify.sanitize(column)}
+                      {@html sanitizeHtml(column)}
                     </td>
                   {/each}
                 </tr>

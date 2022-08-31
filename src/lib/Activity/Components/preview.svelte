@@ -1,10 +1,11 @@
 <script>
   import ShowActivity from "$lib/Activity/Components/show.svelte";
-  import { getStores, session } from "$app/stores";
+  
   import { goto } from "$app/navigation";
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
   import { firebase } from "$lib/Internals/Firebase/store";
+  import { user } from "$lib/Internals/User/store";
 
   export let showActivity;
   export let activity;
@@ -17,7 +18,7 @@
   async function connectionUpdateActivity() {
     let db = $firebase.firestore();
     buttonDisabled = true;
-    if ($session.user.uid) {
+    if ($user.uid) {
       try {
         let activityRef = db.collection("activities").doc(activity.id);
         activityRef.update({
@@ -36,7 +37,7 @@
   <ShowActivity bind:activity={showActivity} showFeedback={false} />
 {/if}
 
-{#if $session.user}
+{#if $user}
   <div class="flex justify-between mt-8 mb-32">
     <Button
       dataTest="back-to-form-button"

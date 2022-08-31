@@ -1,5 +1,5 @@
 <script>
-  import { getStores, session } from "$app/stores";
+  
   import ActivityForm from "$lib/Activity/Components/form.svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
   import { firebase } from "$lib/Internals/Firebase/store";
@@ -12,6 +12,7 @@
   import Button from "$lib/Internals/Button/Button.svelte";
   import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
   import { t } from "svelte-intl-precompile";
+  import { user } from "$lib/Internals/User/store";
   export let goal;
   let draftId;
 
@@ -81,12 +82,12 @@
 
   async function createActivity() {
     let db = await $firebase.firestore();
-    if ($session.user) {
+    if ($user) {
       let activityData = getActivitySaveData(activity);
 
       activityData.plugins = getPluginDataFromForm(activity.plugins);
 
-      activityData.authorId = $session.user.uid;
+      activityData.authorId = $user.uid;
       alert = getDefaultAlertValues();
       try {
         let collectionRef = db.collection("activities");
@@ -97,7 +98,7 @@
           $firebase,
           activity,
           activityData,
-          $session.user.uid
+          $user.uid
         );
 
         activityData = {

@@ -6,8 +6,10 @@
   } from "$lib/Internals/Algolia/algolia";
   import nl from "javascript-time-ago/locale/nl.json";
   import en from "javascript-time-ago/locale/en.json";
-  import DOMPurify from "dompurify";
-  import { getStores, session } from "$app/stores";
+  import sanitizeHtml from 'sanitize-html';
+
+  import { page } from "$app/stores"
+  
   import { firebase } from "$lib/Internals/Firebase/store";
   import TimeAgo from "javascript-time-ago";
   import { formatToTimeAgo, truncate } from "$lib/Internals/Misc/helper";
@@ -15,7 +17,7 @@
   let truncateDescription = 600;
 
   let goalIndex;
-  let goalIndexName = getGoalIndex($session.environment);
+  let goalIndexName = getGoalIndex($page.data.session.environment);
 
   let query = "";
   let hits = [];

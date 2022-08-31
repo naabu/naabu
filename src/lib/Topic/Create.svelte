@@ -1,6 +1,6 @@
 <script>
     // import$firebase from "firebase/app";
-    import { getStores, session } from "$app/stores";
+    
     import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
     import TopicForm from "$lib/Topic/Form.svelte";
     import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
@@ -8,7 +8,7 @@
     import Button from "$lib/Internals/Button/Button.svelte";
     import { t } from "svelte-intl-precompile";
     import { firebase } from "$lib/Internals/Firebase/store";
-   
+    import { user } from "$lib/Internals/User/store";
   
     let y;
     let buttonDisabled = false;
@@ -35,7 +35,7 @@
   
     async function createTopic() {
       let db = $firebase.firestore();
-      if ($session.user) {
+      if ($user) {
   
         try{
           alert.success = true;

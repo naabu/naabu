@@ -1,5 +1,5 @@
 <script>
-  import { getStores, session } from "$app/stores";
+  import { page } from "$app/stores";
   import { firebase } from "$lib/Internals/Firebase/store";
   import { createEventDispatcher } from "svelte";
   import { firebaseConfig } from "$lib/Internals/Firebase/config";
@@ -21,7 +21,7 @@
       if (fb.apps.length == 0) {
         fb.initializeApp(firebaseConfig);
       }
-    } else if ($session.environment === "development") {
+    } else if ($page.data.session.environment== "development") {
       fb = await import("firebase");
       await import("firebase/auth");
       await import("firebase/firestore");
@@ -38,7 +38,7 @@
       }
     }
 
-    if ($session.environment === "development") {
+    if ($page.data.session.environment === "development") {
       if (!fb.auth().emulatorConfig) {
         await fb.auth().useEmulator("http://localhost:5010");
       }
@@ -48,7 +48,7 @@
       }
     }
 
-    if ($session.environment === "jenkins" || $session.environment === "test") {
+    if ($page.data.session.environment === "jenkins" || $page.data.session.environment === "test") {
       if (!fb.auth().emulatorConfig) {
         await fb
           .auth()

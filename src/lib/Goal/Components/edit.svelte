@@ -1,5 +1,5 @@
 <script>
-  import { getStores, session, page } from "$app/stores";
+  import { page } from "$app/stores";
   import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
   import GoalForm from "$lib/Goal/Components/form.svelte";
   import MainTabs from "$lib/Internals/Tabs/goal.svelte";
@@ -11,6 +11,7 @@
   } from "$lib/Goal/Components/helper";
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
+  import { user, player } from "$lib/Internals/User/store";
 
   let hasCurriculumProfile;
   let y;
@@ -35,9 +36,9 @@
     try {
       let goalRef = db.collection("goals").doc(goal.id);
       await goalRef.update(data);
-      data.authorId = $session.player.curriculumProfileId;
+      data.authorId = $player.curriculumProfileId;
       data.goalId = goalRef.id;
-      await createGoalRevision(db, goal, data, $session.user.uid, $firebase);
+      await createGoalRevision(db, goal, data, $user.uid, $firebase);
 
       alert.success = true;
       alert.successTitle = $t("goal-change");

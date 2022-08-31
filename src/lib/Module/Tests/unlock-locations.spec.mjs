@@ -48,7 +48,6 @@ test('Unlock location on map test @module', async ({ page, domain, showAllConsol
   let teaser = await page.locator('[data-test=activity-teaser-0]');
   await teaser.waitFor();
   await expect(teaser).toBeVisible({ timeout: 100000 });
-  await page.pause();
   await expect(teaser).toContainText('activity 11');
   await teaser.click();
   await page.waitForTimeout(5000)

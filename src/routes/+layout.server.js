@@ -1,4 +1,4 @@
-export const prerender = false;
+export const ssr = false;
 
 /** @type {import('./$types').LayoutServerLoad} */
 export async function load({ request, setHeaders }) {

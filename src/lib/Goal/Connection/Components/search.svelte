@@ -8,6 +8,7 @@
   import { truncate } from "$lib/Internals/Misc/helper";
   import { t } from "svelte-intl-precompile";
   import DOMPurify from 'dompurify';
+  import { page } from "$app/stores";
   export let goal;
   export let listLinkedGoalIds;
 

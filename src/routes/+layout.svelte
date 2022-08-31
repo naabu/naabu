@@ -7,7 +7,8 @@
   import LoadFirebase from "$lib/Internals/Firebase/loadFirebase.svelte";
   import { loginUser } from "$lib/Internals/User/helper";
   import { init } from "svelte-intl-precompile";
-
+  export const ssr = false;
+  
   let config = {
     fallbackLocale: "en",
   };

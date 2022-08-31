@@ -28,7 +28,6 @@
   import { firebase } from "$lib/Internals/Firebase/store";
   import { user, player } from "$lib/Internals/User/store";
 
-  export let goal;
   export let connection;
 
   let newCommentText;

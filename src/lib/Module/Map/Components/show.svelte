@@ -214,23 +214,4 @@
     position: relative;
     top: 0;
   }
-
-  .map {
-    position: relative;
-  }
-
-  .map img {
-    position: absolute;
-    z-index: -1;
-  }
-
-  #title-image {
-    position: absolute;
-    margin-top: 5%;
-    margin-left: 8%;
-    color: #b48456;
-    /* border: 1px solid black; */
-    text-shadow: 0 0 3px black, 0 0 5px grey;
-    font-size: 24px;
-  }
 </style>

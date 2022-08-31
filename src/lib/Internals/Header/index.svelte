@@ -140,7 +140,7 @@
           {#if !$user || $user.isAnonymous}
             <div class="ml-10 space-x-4">
               <a
-                href="#"
+                href="#top"
                 on:click|preventDefault={() => loginWithHeader()}
                 class="inline-block bg-indigo-500 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75"
                 >{$t("sign-in")}</a

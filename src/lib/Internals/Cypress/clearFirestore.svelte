@@ -3,6 +3,8 @@
   import { firebase } from "$lib/Internals/Firebase/store";
   import { t } from "svelte-intl-precompile";
   import { user, player } from "$lib/Internals/User/store";
+  import { page } from "$app/stores";
+  
   import DOMPurify from 'dompurify';
   export let collection;
   export let userCheck = true;

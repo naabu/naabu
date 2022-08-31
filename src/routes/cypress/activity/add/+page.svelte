@@ -2,7 +2,7 @@
   
   import { firebase } from "$lib/Internals/Firebase/store";
   import { user } from "$lib/Internals/User/store";
-  
+  import { page } from "$app/stores";
   let created = false;
   let ready = false;
 

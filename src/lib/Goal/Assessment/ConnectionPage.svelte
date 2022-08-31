@@ -2,7 +2,6 @@
   import DOMPurify from "dompurify";
   import { t } from "svelte-intl-precompile";
   export let connection;
-  export let assessment;
 </script>
 
 <div class="bg-white shadow overflow-hidden sm:rounded-lg">

@@ -27,7 +27,7 @@
   {:else}
     <p>{$t("login-teachersroom-message")}</p>
     <a
-      href="#"
+      href="#top"
       on:click|preventDefault={loginTeacher}
       class="inline-block mt-4 bg-indigo-500 py-2 px-4 border border-transparent rounded-md text-base font-medium text-white hover:bg-opacity-75"
       >{$t("sign-in")}</a

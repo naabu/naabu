@@ -2,7 +2,7 @@
   import * as Pancake from "@sveltejs/pancake";
   import { t } from "svelte-intl-precompile";
   import DOMPurify from "dompurify";
-import { goto } from "$app/navigation";
+  import { goto } from "$app/navigation";
 
   export let modelData;
   let x1 = 1;
@@ -48,7 +48,6 @@ import { goto } from "$app/navigation";
   }, []);
 
   function goToActivity() {
-
     goto("/activiteit/" + closest.activityId);
   }
 </script>
@@ -104,11 +103,6 @@ import { goto } from "$app/navigation";
     height: 400px;
     padding: 3em 0 2em 2em;
     margin: 0 0 36px 0;
-  }
-  input {
-    font-size: inherit;
-    font-family: inherit;
-    padding: 0.5em;
   }
   .grid-line {
     position: relative;

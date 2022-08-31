@@ -2,7 +2,6 @@
   import DOMPurify from "dompurify";
   import { t } from "svelte-intl-precompile";
   import ModelEdit from "$lib/Goal/Model/Edit.svelte";
-  export let connection;
   export let model;
   export let goal;
 </script>

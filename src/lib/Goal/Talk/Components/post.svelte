@@ -12,7 +12,6 @@
   import Button from "$lib/Internals/Button/Button.svelte";
   import { user, player } from "$lib/Internals/User/store";
   import { t } from "svelte-intl-precompile";
-  import { user } from "$lib/Internals/User/store";
   export let talkId;
   export let post;
   export let replies;
@@ -110,7 +109,7 @@
 <CheckPlayerHasProfile bind:hasCurriculumProfile />
 {#if post}
   <div class="mt-4 ml-auto mr-auto max-w-2xl">
-    <ul role="list" class="space-y-4">
+    <ul class="space-y-4">
       <article aria-labelledby="question-title-81614">
         <div>
           <div class="flex space-x-3">

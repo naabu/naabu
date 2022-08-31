@@ -1,3 +1,5 @@
+export const prerender = false;
+
 /** @type {import('./$types').LayoutServerLoad} */
 export async function load({ request, setHeaders }) {
   let session = {

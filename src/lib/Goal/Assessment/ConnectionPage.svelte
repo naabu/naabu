@@ -1,5 +1,6 @@
 <script>
-  import DOMPurify from "dompurify";
+  import sanitizeHtml from 'sanitize-html';
+
   import { t } from "svelte-intl-precompile";
   export let connection;
 </script>
@@ -38,7 +39,8 @@
               data-test="field-{field.title}"
               class="mt-1 text-sm text-gray-900"
             >
-              {@html DOMPurify.sanitize(field.value)}
+              {@html sanitizeHtml
+(field.value)}
             </dd>
           </div>
         {/each}

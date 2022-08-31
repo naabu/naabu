@@ -6,7 +6,8 @@
   } from "$lib/Internals/Algolia/algolia";
   import nl from "javascript-time-ago/locale/nl.json";
   import en from "javascript-time-ago/locale/en.json";
-  import DOMPurify from "dompurify";
+  import sanitizeHtml from 'sanitize-html';
+
   import { page } from "$app/stores"
   
   import { firebase } from "$lib/Internals/Firebase/store";

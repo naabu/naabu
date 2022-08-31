@@ -5,7 +5,8 @@
   } from "$lib/Activity/Components/helper";
   import { getDefaultAlertValues, truncate } from "$lib/Internals/Misc/helper";
   import { getStores, page } from "$app/stores";
-  import DOMPurify from "dompurify";
+  import sanitizeHtml from 'sanitize-html';
+
   import { t } from "svelte-intl-precompile";
   import ResultFeedback from "../Form/resultFeedback.svelte";
   import RemoveDialog from "../Misc/RemoveDialog.svelte";
@@ -112,7 +113,8 @@
                       {getTypeText(activity.type, $t)} <br />
                     {/if}
                     {#if activity.title}{activity.title}<br />{/if}
-                    {#if activity.descriptionRaw}{@html DOMPurify.sanitize(
+                    {#if activity.descriptionRaw}{@html sanitizeHtml
+(
                         truncate(activity.descriptionRaw, 60)
                       )}<br />{/if}
                     {#if activity.difficulty}{getDifficultyToString(

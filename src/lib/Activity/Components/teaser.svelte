@@ -1,7 +1,7 @@
 <script>
   import Stars from "$lib/Internals/Misc/stars.svelte";
   import { t } from "svelte-intl-precompile";
-  import DOMPurify from 'dompurify';
+  import sanitizeHtml from 'sanitize-html';
   export let activity;
   export let moduleId;
   export let locationId;
@@ -32,7 +32,7 @@
     <div class="pt-6 pl-8 pr-6 pb-4">
       <div class="-mt-px">
         <div class="w-0 bottom-14 absolute">
-          {@html DOMPurify.sanitize(activity.svg)}
+          {@html sanitizeHtml(activity.svg)}
         </div>
         <div
           class="float-right flex-1 flex bg-black-500 relative z-10 rounded-lg"

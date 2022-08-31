@@ -10,7 +10,8 @@
     formatActivityValue,
     sortOnCreatedAt,
   } from "$lib/Internals/Revision/helper";
-  import DOMPurify from "dompurify";
+  import sanitizeHtml from 'sanitize-html';
+
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
 
   import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";

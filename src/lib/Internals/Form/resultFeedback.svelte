@@ -2,7 +2,7 @@
   import { getStores, page } from "$app/stores";
   import Button from "../Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
-  import DOMPurify from 'dompurify';
+  import sanitizeHtml from 'sanitize-html';
   
   export let alert = {
     success: false,
@@ -42,7 +42,8 @@
         </h3>
         <div class="mt-2 text-sm text-green-700">
           <p>
-            {@html DOMPurify.sanitize(alert.successMessage)}
+            {@html sanitizeHtml
+(alert.successMessage)}
           </p>
         </div>
         <div class="mt-4">

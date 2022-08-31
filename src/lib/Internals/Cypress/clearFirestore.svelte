@@ -4,8 +4,9 @@
   import { t } from "svelte-intl-precompile";
   import { user, player } from "$lib/Internals/User/store";
   import { page } from "$app/stores";
-  
-  import DOMPurify from 'dompurify';
+
+  import sanitizeHtml from 'sanitize-html';
+
   export let collection;
   export let userCheck = true;
   export let fieldUserId = "authorId";
@@ -131,7 +132,8 @@
 
 {#if $page.data.session.environment === "cypress" || $page.data.session.environment === "test" || $page.data.session.environment === "development"}
   {$t("clearing-collection", { values: { collection: collection } })}
-  {@html DOMPurify.sanitize(feedbackstring)}
+  {@html sanitizeHtml
+(feedbackstring)}
 
   {#if resetDone && showComplete}
     <div data-test="complete">

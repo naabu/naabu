@@ -6,7 +6,7 @@
   import FormField from "$lib/Internals/FormFields/FormField.svelte";
   import Tabs from "$lib/Internals/Tabs/tabs.svelte";
   import { t } from "svelte-intl-precompile";
-  import DOMPurify from 'dompurify';
+  import sanitizeHtml from 'sanitize-html';
 
   export let data;
 
@@ -100,7 +100,7 @@
             content={$t("update-preview")}
           />
         </div>
-        <div class="mt-3">{@html DOMPurify.sanitize(renderedKatex)}</div>
+        <div class="mt-3">{@html sanitizeHtml(renderedKatex)}</div>
       </svelte:fragment>
     </FormField>
   {:else if data.answers[selectedFieldIndex]}
@@ -136,6 +136,6 @@
         />
       </div>
     </div>
-    <div class="mt-14">{@html DOMPurify.sanitize(renderedKatex)}</div>
+    <div class="mt-14">{@html sanitizeHtml(renderedKatex)}</div>
   {/if}
 {/if}

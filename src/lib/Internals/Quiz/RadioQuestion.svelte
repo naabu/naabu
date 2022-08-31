@@ -18,8 +18,7 @@
       </h3>
       <p class="mt-1 text-sm ">
         {#if quiz.feedback}
-          {@html sanitizeHtml
-(quiz.feedback)}
+          {@html quiz.feedback}
         {/if}
       </p>
     </div>

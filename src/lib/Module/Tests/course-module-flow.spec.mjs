@@ -64,10 +64,10 @@ test('Create course modules @module', async ({ page, domain, showAllConsole }) =
   await page.fill('[placeholder="Search for learning goals"]', 'Cypress');
 
   // Algolia autocomplete.
-  await page.waitForSelector(".aa-Panel >> .aa-List >> li >> nth=0");
-  await expect(page.locator(".aa-Panel >> .aa-List >> li >> nth=0")).toContainText("Cypress Test Goal 1");
-  await expect(page.locator(".aa-Panel >> .aa-List >> li >> nth=1")).toContainText("Cypress Test Goal 2");
-  await page.click(".aa-Panel >> .aa-List >> li >> nth=1");
+  await page.waitForSelector(".aa-Panel >> .aa-List >> li >> nth=1");
+  await expect(page.locator(".aa-Panel >> .aa-List >> li >> nth=1")).toContainText("Cypress Test Goal 1");
+  await expect(page.locator(".aa-Panel >> .aa-List >> li >> nth=0")).toContainText("Cypress Test Goal 2");
+  await page.click(".aa-Panel >> .aa-List >> li >> nth=0");
   await expect(page.locator('#learning-goals')).toContainText('Cypress Test Goal 2');
 
   // Change the waypoints.
@@ -103,10 +103,10 @@ test('Create course modules @module', async ({ page, domain, showAllConsole }) =
 
   // Autocomplete Algolia widget.
   await page.fill('[placeholder="Search for learning goals"]', 'Cypress');
-  await page.waitForSelector(".aa-Panel >> .aa-List >> li >> nth=0");
-  await expect(page.locator(".aa-Panel >> .aa-List >> li >> nth=0")).toContainText("Cypress Test Goal 1");
-  await expect(page.locator(".aa-Panel >> .aa-List >> li >> nth=1")).toContainText("Cypress Test Goal 2");
-  await page.click(".aa-Panel >> .aa-List >> li >> nth=0");
+  await page.waitForSelector(".aa-Panel >> .aa-List >> li >> nth=1");
+  await expect(page.locator(".aa-Panel >> .aa-List >> li >> nth=1")).toContainText("Cypress Test Goal 1");
+  await expect(page.locator(".aa-Panel >> .aa-List >> li >> nth=0")).toContainText("Cypress Test Goal 2");
+  await page.click(".aa-Panel >> .aa-List >> li >> nth=1");
   await expect(page.locator('#learning-goals')).toContainText('Cypress Test Goal 1');
 
   await page.click('[data-test=waypoints-button]');
@@ -166,9 +166,9 @@ test('Create course modules @module', async ({ page, domain, showAllConsole }) =
 
   await page.fill('[placeholder="Search for learning goals"]', 'Cypress');
   await page.waitForSelector(".aa-Panel >> .aa-List >> li >> nth=0");
-  await expect(page.locator(".aa-Panel >> .aa-List >> li >> nth=0")).toContainText("Cypress Test Goal 1");
-  await expect(page.locator(".aa-Panel >> .aa-List >> li >> nth=1")).toContainText("Cypress Test Goal 2");
-  await page.click(".aa-Panel >> .aa-List >> li >> nth=0");
+  await expect(page.locator(".aa-Panel >> .aa-List >> li >> nth=0")).toContainText("Cypress Test Goal 2");
+  await expect(page.locator(".aa-Panel >> .aa-List >> li >> nth=1")).toContainText("Cypress Test Goal 1");
+  await page.click(".aa-Panel >> .aa-List >> li >> nth=1");
   await expect(page.locator('#learning-goals')).toContainText('Cypress Test Goal 1');
 
   // Edit waypoints location 1.

@@ -29,6 +29,12 @@ export async function getPlayer(firebase, user) {
   }
   if (player !== null) {
     player.id = user.uid;
+    if (player.curriculumProfileId) {
+      player.hasCurriculumProfile = true;
+    }
+    else{
+      player.hasCurriculumProfile = false;
+    }
   }
   return player;
 }

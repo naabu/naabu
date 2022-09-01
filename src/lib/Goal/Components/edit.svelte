@@ -13,7 +13,6 @@
   import { t } from "svelte-intl-precompile";
   import { user, player } from "$lib/Internals/User/store";
 
-  let hasCurriculumProfile;
   let y;
   export let goal;
 
@@ -63,14 +62,14 @@
   <MainTabs bind:goal subSelected="edit" />
   <div class="mt-8">
     <ResultFeedback bind:alert />
-    <CheckPlayerHasProfile bind:hasCurriculumProfile />
+    <CheckPlayerHasProfile />
     <form class="space-y-8" on:submit|preventDefault={formSubmit}>
       <GoalForm bind:goal />
 
       <div class="pt-5">
         <div class="flex justify-end">
           <Button
-            isDisabled={!hasCurriculumProfile}
+            isDisabled={!$player.hasCurriculumProfile}
             dataTest="edit-goal-submit-button"
             isSubmit={true}
             color="primary"

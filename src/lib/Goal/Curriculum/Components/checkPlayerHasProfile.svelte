@@ -3,7 +3,7 @@
   import { onMount } from "svelte";
   import { t } from "svelte-intl-precompile";
   import { player } from "$lib/Internals/User/store";
-  export let hasCurriculumProfile = null;
+  let hasCurriculumProfile = null;
   let mounted = false;
 
   onMount(async () => {
@@ -11,13 +11,15 @@
   });
 
   $: if (mounted) {
-    if ($player && $player.curriculumProfileId) {
+    if ($player.curriculumProfileId) {
       hasCurriculumProfile = true;
     } else {
       hasCurriculumProfile = false;
     }
     $player.hasCurriculumProfile = hasCurriculumProfile;
   }
+
+
   let type = "goal";
 
   $: if ($page.url.pathname.startsWith("/overleg")) {

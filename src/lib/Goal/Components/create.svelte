@@ -17,9 +17,6 @@
 
   let y;
   let buttonDisabled = false;
-  let hasCurriculumProfile;
-
-
 
   let goal = {
     title: "",
@@ -98,7 +95,7 @@
 
 <div>
   <ResultFeedback bind:alert />
-  <CheckPlayerHasProfile bind:hasCurriculumProfile />
+  <CheckPlayerHasProfile />
 
   <form
     class="mt-8 space-y-8"
@@ -108,7 +105,7 @@
     <div class="pt-5">
       <div class="flex justify-end">
         <Button content={$t("publish-goals")} 
-          isDisabled={buttonDisabled || !hasCurriculumProfile}
+          isDisabled={buttonDisabled || !$player.hasCurriculumProfile}
           isSubmit={true}
           color="primary"
           dataTest="create-goal-submit-button"/>

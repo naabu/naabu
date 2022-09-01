@@ -30,8 +30,6 @@
   let buttonDisabled = false;
   let userChangedTitle = false;
 
-  $: console.log($user)
-
   export let knowledgeComponent;
 
   let slideOverTitle = $t("add-new-activity-to-model");

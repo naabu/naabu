@@ -8,7 +8,6 @@
 
   export let goal;
   export let connectionGoal;
-  let hasCurriculumProfile = false;
   import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
   import Button from "$lib/Internals/Button/Button.svelte";
   import { t } from "svelte-intl-precompile";
@@ -115,7 +114,7 @@
 <div>
   <MainTabs bind:goal mainSelected="connections" />
 
-  <CheckPlayerHasProfile bind:hasCurriculumProfile />
+  <CheckPlayerHasProfile />
 
   <ResultFeedback bind:alert />
 
@@ -153,7 +152,7 @@
         />
 
         <Button
-          isDisabled={buttonDisabled || !hasCurriculumProfile}
+          isDisabled={buttonDisabled || !$player.hasCurriculumProfile}
           isSubmit={true}
           content={$t("create-connection")}
           color="primary"

@@ -66,7 +66,7 @@
 <div>
   <ResultFeedback bind:alert />
   <CheckPlayerHasProfile />
-  <!-- <form class="mt-8 space-y-8" on:submit|preventDefault={formSubmit}>
+  <form class="mt-8 space-y-8" on:submit|preventDefault={formSubmit}>
     <ModelForm bind:model bind:goal/>
     <div class="pt-5">
       <div class="flex justify-end">
@@ -78,5 +78,5 @@
         />
       </div>
     </div>
-  </form> -->
+  </form>
 </div>

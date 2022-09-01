@@ -1,24 +1,7 @@
 <script>
   import { page } from "$app/stores";
-  import { onMount } from "svelte";
   import { t } from "svelte-intl-precompile";
   import { player } from "$lib/Internals/User/store";
-  let hasCurriculumProfile = null;
-  let mounted = false;
-
-  onMount(async () => {
-    mounted = true;
-  });
-
-  $: if (mounted) {
-    if ($player.curriculumProfileId) {
-      hasCurriculumProfile = true;
-    } else {
-      hasCurriculumProfile = false;
-    }
-    $player.hasCurriculumProfile = hasCurriculumProfile;
-  }
-
 
   let type = "goal";
 
@@ -30,7 +13,7 @@
   }
 </script>
 
-{#if !hasCurriculumProfile}
+{#if !$player.hasCurriculumProfile}
   <div class="bg-yellow-50 border-l-4 border-yellow-400 p-4">
     <div class="flex">
       <div class="flex-shrink-0">

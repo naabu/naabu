@@ -10,7 +10,7 @@
     formatActivityValue,
     sortOnCreatedAt,
   } from "$lib/Internals/Revision/helper";
-  import sanitizeHtml from 'sanitize-html';
+ import DOMPurify from 'dompurify';
 
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
 

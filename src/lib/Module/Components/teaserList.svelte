@@ -1,6 +1,6 @@
 <script>
   import { t } from "svelte-intl-precompile";
-  import sanitizeHtml from 'sanitize-html';
+ import DOMPurify from 'dompurify';
 
   export let modules;
 </script>
@@ -38,8 +38,7 @@
                     class="flex-shrink-0 w-full aspect-w-1 aspect-h-1 rounded-lg overflow-hidden sm:aspect-none sm:w-40 sm:h-40"
                   >
                     <a href="/module/{module.id}">
-                      {@html sanitizeHtml
-(module.moduleSvg)}
+                      {@html DOMPurify.sanitize(module.moduleSvg)}
                     </a>
                   </div>
 

@@ -5,7 +5,7 @@
   import { user, player } from "$lib/Internals/User/store";
   import { page } from "$app/stores";
 
-  import sanitizeHtml from 'sanitize-html';
+ import DOMPurify from 'dompurify';
 
   export let collection;
   export let userCheck = true;
@@ -132,8 +132,7 @@
 
 {#if $page.data.session.environment === "cypress" || $page.data.session.environment === "test" || $page.data.session.environment === "development"}
   {$t("clearing-collection", { values: { collection: collection } })}
-  {@html sanitizeHtml
-(feedbackstring)}
+  {@html DOMPurify.sanitize(feedbackstring)}
 
   {#if resetDone && showComplete}
     <div data-test="complete">

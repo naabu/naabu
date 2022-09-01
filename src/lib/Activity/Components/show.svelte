@@ -7,7 +7,7 @@
   import ShowPlugins from "$lib/Internals/Plugin/ShowActivityPlugins.svelte";
   import { goto } from "$app/navigation";
   import { t } from "svelte-intl-precompile";
-  import sanitizeHtml from 'sanitize-html';
+ import DOMPurify from 'dompurify';
 
   import { firebase } from "$lib/Internals/Firebase/store";
   import { user } from "$lib/Internals/User/store";
@@ -136,8 +136,7 @@
       {/if}
     </h1>
     {#if activity.description}
-      {@html sanitizeHtml
-(activity.description)}
+      {@html DOMPurify.sanitize(activity.description)}
     {/if}
 
     {#if activity.plugins && activity.plugins.length > 0}

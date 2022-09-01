@@ -1,6 +1,6 @@
 <script>
   import { getDiffStrings } from "$lib/Internals/Misc/helper";
-  import sanitizeHtml from 'sanitize-html';
+ import DOMPurify from 'dompurify';
   import { t } from "svelte-intl-precompile";
 
   import {
@@ -18,8 +18,7 @@
         <div class="text-gray-900">
           <div>
             {formatActivityKeys(difference.keys, $t)}
-            {@html sanitizeHtml
-(
+            {@html DOMPurify.sanitize(
               getDiffStrings(
                 "" + formatActivityValue(difference, difference.oldValue, $t),
                 "" + formatActivityValue(difference, difference.newValue, $t)

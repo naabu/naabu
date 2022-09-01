@@ -3,7 +3,7 @@
   import { getDateString, truncate } from "$lib/Internals/Misc/helper";
   import { sortOnCreatedAt } from "$lib/Internals/Revision/helper";
   import { t } from "svelte-intl-precompile";
-  import sanitizeHtml from 'sanitize-html';
+ import DOMPurify from 'dompurify';
   export let curriculumProfile;
 
   $: if (curriculumProfile.revisionList) {
@@ -46,8 +46,7 @@
                       {#if revision.revisionId && revision.goalTitle}
                         <div class="text-sm text-gray-900">
                           <a class="underline" href="/revisie/{revision.revisionId}"
-                            >{@html sanitizeHtml
-(truncate(revision.goalTitle, 70))}</a
+                            >{@html DOMPurify.sanitize(truncate(revision.goalTitle, 70))}</a
                           >
                         </div>
                       {/if}

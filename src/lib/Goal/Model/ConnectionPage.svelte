@@ -1,5 +1,5 @@
 <script>
-  import sanitizeHtml from 'sanitize-html';
+ import DOMPurify from 'dompurify';
 
   import { t } from "svelte-intl-precompile";
   import ModelEdit from "$lib/Goal/Model/Edit.svelte";

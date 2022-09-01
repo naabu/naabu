@@ -2,7 +2,7 @@
   import { page } from "$app/stores";
   import { onMount } from "svelte";
   import { firebase } from "$lib/Internals/Firebase/store";
-  import sanitizeHtml from 'sanitize-html';
+ import DOMPurify from 'dompurify';
   import { user, player } from "$lib/Internals/User/store";
   
   let mounted = false;
@@ -66,8 +66,7 @@
 
 {#if $page.data.session.environment === "cypress" || $page.data.session.environment === "test" || $page.data.session.environment === "development"}
   Now setting up the curriculumProfile
-  {@html sanitizeHtml
-(feedbackstring)}
+  {@html DOMPurify.sanitize(feedbackstring)}
 
   {#if ready}
     <div data-test="complete">CurriciulumProfile ready for testing</div>

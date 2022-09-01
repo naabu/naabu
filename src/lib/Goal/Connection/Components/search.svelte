@@ -7,7 +7,7 @@
   
   import { truncate } from "$lib/Internals/Misc/helper";
   import { t } from "svelte-intl-precompile";
-  import sanitizeHtml from 'sanitize-html';
+ import DOMPurify from 'dompurify';
   import { page } from "$app/stores";
   export let goal;
   export let listLinkedGoalIds;
@@ -136,8 +136,7 @@
                   </td>
                   <td class="px-6 py-4">
                     <div class="text-sm text-gray-900">
-                      {#if hit.description}{@html sanitizeHtml
-(hit.description)}{:else}{$t(
+                      {#if hit.description}{@html DOMPurify.sanitize(hit.description)}{:else}{$t(
                           "no-description"
                         )}{/if}
                     </div>

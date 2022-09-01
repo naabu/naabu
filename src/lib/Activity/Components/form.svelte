@@ -13,7 +13,7 @@
   import AdditionalFormText from "$lib/Internals/FormFields/AdditionalFormText.svelte";
   import PluginForm from "$lib/Internals/Plugin/Form.svelte";
   import { t } from "svelte-intl-precompile";
-  import sanitizeHtml from 'sanitize-html';
+ import DOMPurify from 'dompurify';
 
 
   const dispatch = createEventDispatcher();

@@ -3,7 +3,7 @@
   import { onMount } from "svelte";
   import { t } from "svelte-intl-precompile";
   import { player } from "$lib/Internals/User/store";
-  export let hasCurriculumProfile;
+  export let hasCurriculumProfile = null;
   let mounted = false;
 
   onMount(async () => {
@@ -16,6 +16,7 @@
     } else {
       hasCurriculumProfile = false;
     }
+    $player.hasCurriculumProfile = hasCurriculumProfile;
   }
   let type = "goal";
 

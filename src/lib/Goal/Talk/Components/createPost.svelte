@@ -16,7 +16,6 @@
   export let talk;
   export let goalId;
   export let revision;
-  let hasCurriculumProfile;
 
   let newPostTitle = "";
   let newPostText = "";
@@ -93,7 +92,7 @@
 </script>
 
 <ResultFeedback bind:alert />
-<CheckPlayerHasProfile bind:hasCurriculumProfile />
+<CheckPlayerHasProfilen />
 
 {#if talk}
   <div class="ml-auto mr-auto max-w-xl mt-8">
@@ -110,7 +109,7 @@
             />
             <Button
               dataTest="post-button"
-              isDisabled={buttonDisabled || !hasCurriculumProfile}
+              isDisabled={buttonDisabled || !$player.hasCurriculumProfile}
               isSubmit={true}
               color="primary"
               content={$t("post")}

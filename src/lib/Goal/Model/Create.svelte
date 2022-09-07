@@ -8,12 +8,11 @@
   import { t } from "svelte-intl-precompile";
   import { firebase } from "$lib/Internals/Firebase/store";
   import { user } from "$lib/Internals/User/store";
-
+  import { player } from "$lib/Internals/User/store";
   export let goal;
 
   let y;
   let buttonDisabled = false;
-  let hasCurriculumProfile = false;
 
   let model = {
     title: "",
@@ -96,22 +95,22 @@
       buttonDisabled = false;
     }, 5000);
   }
+
 </script>
 
 <svelte:window bind:scrollY={y} />
 
 <div>
   <ResultFeedback bind:alert />
-  <CheckPlayerHasProfile bind:hasCurriculumProfile />
-
+  <CheckPlayerHasProfile />
   {#if model && goal}
     <form class="mt-8 space-y-8" on:submit|preventDefault={formSubmit}>
-      <ModelForm bind:model bind:goal bind:hasCurriculumProfile/>
+      <ModelForm bind:model bind:goal />
       <div class="pt-5">
         <div class="flex justify-end">
           <Button
             content={$t("create-model")}
-            isDisabled={buttonDisabled || !hasCurriculumProfile}
+            isDisabled={buttonDisabled || !$player.hasCurriculumProfile}
             isSubmit={true}
             color="primary"
           />

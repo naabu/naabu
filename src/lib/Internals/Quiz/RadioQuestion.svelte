@@ -1,7 +1,7 @@
 <script>
   import { renderKatexOutput } from "../Misc/helper";
   import { t } from "svelte-intl-precompile";
-  import sanitizeHtml from 'sanitize-html';
+ import DOMPurify from 'dompurify';
   export let quiz;
 </script>
 
@@ -36,8 +36,7 @@
         value={i}
         data-test="input-value-{i}"
       />
-      {@html sanitizeHtml
-("<span class='pl-3'>" +
+      {@html DOMPurify.sanitize("<span class='pl-3'>" +
         renderKatexOutput(answer.answer) +
         "</span>")}
     </label>

@@ -1,7 +1,7 @@
 <script>
   import * as Pancake from "@sveltejs/pancake";
   import { t } from "svelte-intl-precompile";
-  import sanitizeHtml from 'sanitize-html';
+  import DOMPurify from 'dompurify';
   import { goto } from "$app/navigation";
 
   export let modelData;
@@ -87,7 +87,7 @@
             style="transform: translate(-{100 *
               ((closest.x - x1) / (x2 - x1))}%,0)"
           >
-            <strong>{@html sanitizeHtml(closest.exerciseName)}</strong>
+            <strong>{@html DOMPurify.sanitize(closest.exerciseName)}</strong>
             <span>{closest.y.toFixed(2)} {$t("learning")}</span>
           </div>
         </Pancake.Point>

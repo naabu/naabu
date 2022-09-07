@@ -11,10 +11,7 @@
     import { user } from "$lib/Internals/User/store";
   
     let y;
-    let buttonDisabled = false;
-    let hasCurriculumProfile;
-  
-  
+    let buttonDisabled = false;  
   
     let topic = {
       title: "",
@@ -67,7 +64,7 @@
 
   <div>
     <ResultFeedback bind:alert />
-    <CheckPlayerHasProfile bind:hasCurriculumProfile type="topic"/>
+    <CheckPlayerHasProfile type="topic"/>
   
     <form
       class="mt-8 space-y-8"
@@ -77,7 +74,7 @@
       <div class="pt-5">
         <div class="flex justify-end">
           <Button content={$t("create-topic")} 
-            isDisabled={buttonDisabled || !hasCurriculumProfile}
+            isDisabled={buttonDisabled || !$player.hasCurriculumProfile}
             isSubmit={true}
             color="primary"
             dataTest="create-goal-submit-button"/>

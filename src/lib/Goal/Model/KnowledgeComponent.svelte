@@ -1,7 +1,7 @@
 <script>
   import Button from "$lib/Internals/Button/Button.svelte";
   import Textarea from "$lib/Internals/FormFields/Textarea.svelte";
-  
+  import { player } from "$lib/Internals/User/store";
   import { t } from "svelte-intl-precompile";
   import { createEventDispatcher } from "svelte";
   import { onMount } from "svelte";
@@ -13,8 +13,7 @@
   import "@algolia/autocomplete-theme-classic";
   import TextAndRemove from "$lib/Internals/FormFields/TextAndRemove.svelte";
   import { page } from "$app/stores";
-
-  export let hasCurriculumProfile;
+  
   export let knowledgeComponent;
   export let index;
   export let model;
@@ -132,7 +131,7 @@
       {/if}
       <Button
         content={$t("add")}
-        isDisabled={!hasCurriculumProfile}
+        isDisabled={!$player.hasCurriculumProfile}
         size="tiny"
         on:click={() => splitKC(index)}
       />
@@ -155,14 +154,14 @@
         color="primary"
         size="very-small"
         content={$t("new")}
-        isDisabled={!hasCurriculumProfile}
+        isDisabled={!$player.hasCurriculumProfile}
         on:click={newActivity}
       />
     </div>
     <TextAndRemove
       items={knowledgeComponent.activities}
       on:remove={removeActivity}
-      isDisabled={!hasCurriculumProfile}
+      isDisabled={!$player.hasCurriculumProfile}
     >
       <svelte:fragment let:item={activity} slot="show">
         <a href="/activiteit/{activity.activityId}?redirect=/leerdoel/{model.goalId}/activiteiten/{activity.activityId}" class="underline" target="_blank"
@@ -174,7 +173,7 @@
         <Button
           size="very-small"
           color="secondary"
-          isDisabled={!hasCurriculumProfile}
+          isDisabled={!$player.hasCurriculumProfile}
           content={$t("edit")}
           on:click={() => editActivity(activityIndex)}
         />

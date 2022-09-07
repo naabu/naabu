@@ -1,6 +1,6 @@
 <script>
   import { getStores, page } from "$app/stores";
-  import sanitizeHtml from "sanitize-html";
+  import DOMPurify from 'dompurify';
   import { t } from "svelte-intl-precompile";
   import { getDifficultyToString, getTypeText } from "./helper";
   export let connection;
@@ -64,7 +64,7 @@
               {:else if field.title === "type"}
                 {getTypeText(field.value, $t)}
               {:else}
-                {@html sanitizeHtml(field.value)}
+                {@html DOMPurify.sanitize(field.value)}
               {/if}
             </dd>
           </div>

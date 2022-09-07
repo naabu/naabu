@@ -19,7 +19,6 @@
   export let battleCol;
  
   export let previousBattles = [];
-  let hasCurriculumProfile;
   let y;
 
   export let goalRef;
@@ -104,7 +103,7 @@
   <MainTabs bind:goal subSelected="edit" />
   <div class="mt-8">
     <ResultFeedback bind:alert />
-    <CheckPlayerHasProfile bind:hasCurriculumProfile />
+    <CheckPlayerHasProfile/>
     <form
       class="space-y-8"
       on:submit|preventDefault={formSubmit}
@@ -114,7 +113,7 @@
       <div class="pt-5">
         <div class="flex justify-end">
           <Button
-            isDisabled={!hasCurriculumProfile}
+            isDisabled={!$player.hasCurriculumProfile}
             dataTest="edit-goal-submit-button"
             isSubmit={true}
             color="primary"

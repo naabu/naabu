@@ -3,9 +3,9 @@
   import Textarea from "$lib/Internals/FormFields/Textarea.svelte";
   import { t } from "svelte-intl-precompile";
   import { createEventDispatcher } from "svelte";
-  
+  import { player } from "$lib/Internals/User/store";
+
   const dispatch = createEventDispatcher();
-  export let hasCurriculumProfile;
   export let stateKC;
   export let index;
   export let model;
@@ -32,7 +32,7 @@
         content={$t("remove")}
         size="tiny"
         on:click={() => deleteState(index)}
-        isDisabled={!hasCurriculumProfile}
+        isDisabled={!$player.hasCurriculumProfile}
       />
     {/if}
   </div>

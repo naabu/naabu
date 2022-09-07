@@ -6,7 +6,7 @@
   } from "$lib/Internals/Algolia/algolia";
   import nl from "javascript-time-ago/locale/nl.json";
   import en from "javascript-time-ago/locale/en.json";
-  import sanitizeHtml from 'sanitize-html';
+ import DOMPurify from 'dompurify';
 
   import { page } from "$app/stores"
   

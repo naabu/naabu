@@ -10,7 +10,7 @@
     formatActivityValue,
     sortOnCreatedAt,
   } from "$lib/Internals/Revision/helper";
-  import sanitizeHtml from 'sanitize-html';
+ import DOMPurify from 'dompurify';
 
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
 
@@ -36,14 +36,13 @@
   let timeAgo;
   let timer;
   export let isTeacher;
-  let hasCurriculumProfile;
   let updates = [];
   let updatesReceived;
 
   $: {
     if ($user && connection) {
       isTeacher = $user.uid === connection.authorId;
-      if (isTeacher || hasCurriculumProfile) {
+      if (isTeacher || $player.hasCurriculumProfile) {
         buttonDisabled = false;
       } else {
         buttonDisabled = true;
@@ -184,7 +183,7 @@
 
       let curriculumProfileData = {};
       let data = {};
-      if (hasCurriculumProfile) {
+      if ($player.hasCurriculumProfile) {
         curriculumProfileData = await getCurriculumProfile(
           db,
           $player.curriculumProfileId
@@ -206,10 +205,10 @@
           curriculumProfile: curriculumProfileData,
         };
 
-        if (hasCurriculumProfile) {
+        if ($player.hasCurriculumProfile) {
           data.curriculumProfile = curriculumProfileData;
         }
-      } else if (hasCurriculumProfile) {
+      } else if ($player.hasCurriculumProfile) {
         data = {
           type: "comment",
           content: newCommentText,
@@ -224,7 +223,7 @@
         };
       }
 
-      if (isTeacher || hasCurriculumProfile) {
+      if (isTeacher || $player.hasCurriculumProfile) {
         alert = getDefaultAlertValues();
         try {
           let updatesColRef = db.collection("updates");
@@ -247,7 +246,7 @@
     await createCommentUpdate();
     newCommentText = "";
     setTimeout(() => {
-      if (hasCurriculumProfile || isTeacher) {
+      if ($player.hasCurriculumProfile || isTeacher) {
         buttonDisabled = false;
       }
     }, 5000);
@@ -264,7 +263,7 @@
 </svelte:head>
 
 <ResultFeedback bind:alert />
-<CheckPlayerHasProfile bind:hasCurriculumProfile />
+<CheckPlayerHasProfile />
 
 {#if connection}
   <div class="mt-8">
@@ -276,14 +275,14 @@
             <Button
               color="primary"
               on:click={() => changeStatus("needs-work", "published")}
-              isDisabled={!hasCurriculumProfile}
+              isDisabled={!$player.hasCurriculumProfile}
               content={$t("activity-publish")}
             />
           {/if}
           {#if connection.status === "published"}
             <Button
               on:click={() => changeStatus("published", "needs-work")}
-              isDisabled={!hasCurriculumProfile}
+              isDisabled={!$player.hasCurriculumProfile}
               content={$t("activity-unpublish-action")}
             />
           {/if}

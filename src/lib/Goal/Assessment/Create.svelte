@@ -10,13 +10,11 @@
   import { t } from "svelte-intl-precompile";
   import { getPluginDataFromForm } from "$lib/Internals/Plugin/data";
   import { firebase } from "$lib/Internals/Firebase/store";
-  import { user } from "$lib/Internals/User/store";
+  import { user, player } from "$lib/Internals/User/store";
   export let goal;
 
   let y;
   let buttonDisabled = false;
-  let hasCurriculumProfile;
-
 
 
   let assessment = {
@@ -83,7 +81,7 @@
 
 <div>
   <ResultFeedback bind:alert />
-  <CheckPlayerHasProfile bind:hasCurriculumProfile />
+  <CheckPlayerHasProfile />
 
   <form class="mt-8 space-y-8" on:submit|preventDefault={formSubmit}>
     <AssessmentForm bind:assessment  />
@@ -91,7 +89,7 @@
       <div class="flex justify-end">
         <Button
           content={$t("create-assessment")}
-          isDisabled={buttonDisabled || !hasCurriculumProfile}
+          isDisabled={buttonDisabled || !$player.hasCurriculumProfile}
           isSubmit={true}
           color="primary"
         />

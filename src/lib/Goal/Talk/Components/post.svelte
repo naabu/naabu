@@ -22,8 +22,6 @@
   let newReplyText = "";
   let buttonDisabled = false;
   let db;
-  let hasCurriculumProfile;
-
 
   let alert = getDefaultAlertValues();
 
@@ -106,7 +104,7 @@
   <MainTabs bind:objectId={goalId} bind:talkId talkType="goal" />
 {/if}
 <ResultFeedback bind:alert />
-<CheckPlayerHasProfile bind:hasCurriculumProfile />
+<CheckPlayerHasProfile />
 {#if post}
   <div class="mt-4 ml-auto mr-auto max-w-2xl">
     <ul class="space-y-4">
@@ -202,7 +200,7 @@
             {$t("keep-it-friendly-and-professional")}
           </span>
           <Button
-            isDisabled={buttonDisabled || !hasCurriculumProfile}
+            isDisabled={buttonDisabled || !$player.hasCurriculumProfile}
             isSubmit={true}
             color="primary"
             content={$t("answers")}

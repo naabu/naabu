@@ -1,34 +1,18 @@
 <script>
   // import$firebase from "firebase/app";
-  
+  import CheckPlayerHasProfile from "$lib/Goal/Curriculum/Components/checkPlayerHasProfile.svelte";
   import ModelForm from "$lib/Goal/Model/Form.svelte";
-  import { onMount } from "svelte";
   import ResultFeedback from "$lib/Internals/Form/resultFeedback.svelte";
-  import { goto } from "$app/navigation";
   import Button from "$lib/Internals/Button/Button.svelte";
   import { firebase } from "$lib/Internals/Firebase/store";
   import { t } from "svelte-intl-precompile";
   import { user, player } from "$lib/Internals/User/store";
-
-  $: (async () => {
-    if ($firebase) {
-    }
-  })();
 
   export let goal;
   export let model;
 
   let y;
   let buttonDisabled = false;
-  export let hasCurriculumProfile = false;
-
-  $: {
-    if ($player && $player.curriculumProfileId) {
-      hasCurriculumProfile = true;
-    } else {
-      hasCurriculumProfile = false;
-    }
-  }
   let alert = getDefaultAlertValues();
 
   function getDefaultAlertValues() {
@@ -81,14 +65,14 @@
 
 <div>
   <ResultFeedback bind:alert />
-
+  <CheckPlayerHasProfile />
   <form class="mt-8 space-y-8" on:submit|preventDefault={formSubmit}>
-    <ModelForm bind:model bind:goal bind:hasCurriculumProfile/>
+    <ModelForm bind:model bind:goal/>
     <div class="pt-5">
       <div class="flex justify-end">
         <Button
           content={$t("save-model")}
-          isDisabled={buttonDisabled || !hasCurriculumProfile}
+          isDisabled={buttonDisabled || !$player.hasCurriculumProfile}
           isSubmit={true}
           color="primary"
         />

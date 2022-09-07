@@ -24,7 +24,6 @@
   export let model;
   export let toggle;
   export let reset = false;
-  export let hasCurriculumProfile = false;
   const dispatch = createEventDispatcher();
   let alert;
 
@@ -38,7 +37,7 @@
   let knowledgeComponentText = "";
   let connectionData;
 
-  $: if (activity) {
+  $: if (activity && $user) {
     connectionData = {
       type: "goal-activity",
       sourceId: activity.goalId,
@@ -97,7 +96,7 @@
 
   async function createActivity() {
     let db = await $firebase.firestore();
-    if (hasCurriculumProfile) {
+    if ($player.hasCurriculumProfile) {
       let activityData = getActivitySaveData(activity);
 
       activityData.plugins = getPluginDataFromForm(activity.plugins);
@@ -181,7 +180,7 @@
             <Button
               color="primary"
               isSubmit={true}
-              isDisabled={buttonDisabled || !hasCurriculumProfile}
+              isDisabled={buttonDisabled || !$player.hasCurriculumProfile}
               dataTest="submit-activity-create-button"
               content={$t("create-activity")}
             />

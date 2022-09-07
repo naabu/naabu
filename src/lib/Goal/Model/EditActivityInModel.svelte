@@ -10,12 +10,11 @@
   import { createRevision } from "$lib/Internals/Revision/helper";
   import { createEventDispatcher } from "svelte";
   import MediumRightSlideOver from "$lib/Internals/SlideOver/MediumRight.svelte";
-  import { user } from "$lib/Internals/User/store";
+  import { user, player } from "$lib/Internals/User/store";
 
   export let activity;
   export let goal;
   export let toggle;
-  export let hasCurriculumProfile = false;
   const dispatch = createEventDispatcher();
   let alert;
 
@@ -44,7 +43,7 @@
 
   async function editActivity() {
     let db = await $firebase.firestore();
-    if (hasCurriculumProfile) {
+    if ($player.hasCurriculumProfile) {
       let activityData = getActivitySaveData(activity);
       activityData.plugins = getPluginDataFromForm(activity.plugins);
       activityData.authorId = $user.uid;
@@ -83,7 +82,7 @@
     await editActivity();
     setTimeout(() => {
       buttonDisabled = false;
-    }, 5000);
+    }, 2000);
   }
 </script>
 
@@ -106,7 +105,7 @@
             <Button
               color="primary"
               isSubmit={true}
-              isDisabled={buttonDisabled || !hasCurriculumProfile}
+              isDisabled={buttonDisabled || !$player.hasCurriculumProfile}
               content={$t("edit-activity")}
             />
           </div>

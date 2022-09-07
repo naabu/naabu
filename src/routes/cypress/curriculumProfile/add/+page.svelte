@@ -2,7 +2,7 @@
   import { page } from "$app/stores";
   import { onMount } from "svelte";
   import { firebase } from "$lib/Internals/Firebase/store";
-  import sanitizeHtml from 'sanitize-html';
+ import DOMPurify from 'dompurify';
   import { user, player } from "$lib/Internals/User/store";
   
   let mounted = false;
@@ -20,6 +20,7 @@
       let profileRef = db.collection("curriculumProfile");
       let result = await profileRef.add(profileData);
       $player.curriculumProfileId = result.id;
+      $player.hasCurriculumProfile = true;
       let playerRef = db.collection("players").doc($user.uid);
       await playerRef.update({ curriculumProfileId: result.id });
       feedbackstring += "profile created " + result.id + "<br>";
@@ -66,8 +67,7 @@
 
 {#if $page.data.session.environment === "cypress" || $page.data.session.environment === "test" || $page.data.session.environment === "development"}
   Now setting up the curriculumProfile
-  {@html sanitizeHtml
-(feedbackstring)}
+  {@html DOMPurify.sanitize(feedbackstring)}
 
   {#if ready}
     <div data-test="complete">CurriciulumProfile ready for testing</div>

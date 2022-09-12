@@ -7,6 +7,7 @@
   import Tabs from "$lib/Internals/Tabs/tabs.svelte";
   import { t } from "svelte-intl-precompile";
   import DOMPurify from 'dompurify';
+import UploadMultipleImages from "$lib/Internals/FormFields/UploadMultipleImages.svelte";
 
   export let data;
 
@@ -103,6 +104,9 @@
         <div class="mt-3">{@html DOMPurify.sanitize(renderedKatex)}</div>
       </svelte:fragment>
     </FormField>
+
+    <UploadMultipleImages/>
+    
   {:else if data.answers[selectedFieldIndex]}
     <FormField labelPosition="top" title={$t("answer")} forId="answeranswer">
       <Textarea

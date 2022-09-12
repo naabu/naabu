@@ -13,8 +13,7 @@
   import AdditionalFormText from "$lib/Internals/FormFields/AdditionalFormText.svelte";
   import PluginForm from "$lib/Internals/Plugin/Form.svelte";
   import { t } from "svelte-intl-precompile";
- import DOMPurify from 'dompurify';
-
+  import DOMPurify from "dompurify";
 
   const dispatch = createEventDispatcher();
 
@@ -32,7 +31,7 @@
       value: "practice",
       label: $t("practice"),
       description: $t("practice_description"),
-    }
+    },
   ];
 
   function goBackToSearchGoals() {
@@ -71,7 +70,12 @@
   </FormField>
 
   <FormField title={$t("title")} forId="title">
-    <Textarea id="title" bind:value={activity.title} on:input={() => userChangedTitle = true} required={true} />
+    <Textarea
+      id="title"
+      bind:value={activity.title}
+      on:input={() => (userChangedTitle = true)}
+      required={true}
+    />
   </FormField>
   <FormField title={$t("difficulty")} forId="difficulty">
     <NumberInput

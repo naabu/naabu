@@ -15,13 +15,13 @@
   }
 </script>
 
-<FormField title={$t("text-with-image")}>
-  <TextInput bind:value={newTextValue} />
-</FormField>
-
 <FormField title={$t("image")}>
   <UploadImage value={newImageValue} />
 </FormField>
 
-<Button on:click={newImage} content={$t("add-new-image")} />
-Z
+<FormField title={$t("text-with-image")} showBorder={false}>
+  <TextInput bind:value={newTextValue} />
+</FormField>
+<div class="flex justify-end">
+  <Button on:click={newImage} content={$t("add-new-image")} />
+</div>

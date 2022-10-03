@@ -4,16 +4,19 @@
   export let title;
   export let component;
   export let labelPosition = "left";
+  export let showBorder = true;
   let labelTopClasses = ["mt-3"];
   let labelLeftClasses = [
     "sm:grid",
     "sm:grid-cols-3",
     "sm:gap-4",
     "sm:items-start",
-    "sm:border-t",
-    "sm:border-gray-200",
     "sm:pt-5",
   ];
+  $: if (showBorder) {
+    labelLeftClasses = [...labelLeftClasses, ...["sm:border-t", "sm:border-gray-200"]]
+    console.log(labelLeftClasses)
+  }
   let classes = [];
 
   $: {

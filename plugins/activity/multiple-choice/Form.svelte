@@ -7,7 +7,8 @@
   import Tabs from "$lib/Internals/Tabs/tabs.svelte";
   import { t } from "svelte-intl-precompile";
   import DOMPurify from 'dompurify';
-import UploadMultipleImages from "$lib/Internals/FormFields/UploadMultipleImages.svelte";
+  import UploadMultipleImages from "$lib/Internals/FormFields/UploadMultipleImages.svelte";
+  import UploadImage from "$lib/Internals/FormFields/UploadImage.svelte";
 
   export let data;
 
@@ -105,7 +106,12 @@ import UploadMultipleImages from "$lib/Internals/FormFields/UploadMultipleImages
       </svelte:fragment>
     </FormField>
 
-    <UploadMultipleImages/>
+  <FormField title={$t("image")}>
+    <UploadImage bind:value={data.image} bind:image={data.image} />
+    {#if data.image}
+      <img src={data.image} alt="mutiple choice"/>
+    {/if}
+  </FormField>
     
   {:else if data.answers[selectedFieldIndex]}
     <FormField labelPosition="top" title={$t("answer")} forId="answeranswer">

@@ -14,8 +14,13 @@
         data-test="quiz-question"
         class="text-lg leading-6 font-medium text-gray-900"
       >
-        {@html renderKatexOutput(quiz.question)}
+        {#if quiz.question}
+          {@html renderKatexOutput(quiz.question)}
+        {/if}
       </h3>
+      {#if quiz.image}
+        <img src={quiz.image} alt="mutiple choice"/>
+      {/if}
       <p class="mt-1 text-sm ">
         {#if quiz.feedback}
           {@html quiz.feedback}

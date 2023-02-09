@@ -13,13 +13,13 @@
     "emulateCypress": "node scripts/generateServerConfig.js; firebase emulators:start --only auth,functions,firestore,pubsub",
     "playwright": "npx playwright test --project=localhost src",
     "playwright-docker": "npx playwright test --project=docker src",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook -o docs/references/storybook"
   },
   "devDependencies": {
+    "@babel/core": "^7.20.12",
     "@playwright/test": "^1.30.0",
     "@sveltejs/kit": "1.5.2",
     "autoprefixer": "^10.4.13",
+    "babel-loader": "^8.3.0",
     "cssnano": "^5.1.14",
     "eslint": "^8.33.0",
     "eslint-config-prettier": "^8.6.0",

@@ -1,10 +1,11 @@
 <script>
   import { page } from '$app/stores';
-  import { firebase } from "$lib/Internals/Firebase/store";
+  import { firebase, auth } from "$lib/Internals/Firebase/store";
   import { user, player } from "$lib/Internals/User/store";
   import Header from "$lib/Internals/Header/index.svelte";
   import "../app.css";
   import LoadFirebase from "$lib/Internals/Firebase/loadFirebase.svelte";
+  import { onAuthStateChanged } from "firebase/auth";
   import { loginUser } from "$lib/Internals/User/helper";
   import { init } from "svelte-intl-precompile";
 
@@ -12,14 +13,15 @@
     fallbackLocale: "en",
   };
 
-  if ($page.data.session.defaultLanguage) {
-    config.initialLocale = $page.data.session.defaultLanguage;
-  }
-  init(config);
+  // if ($page.data.session.defaultLanguage) {
+  //   config.initialLocale = $page.data.session.defaultLanguage;
+  // }
+  // init(config);
 
   function handleLoginEvent(event) {
-    if ($firebase) {
-      $firebase.auth().onAuthStateChanged(async (newUser) => {
+    if ($auth) {
+      onAuthStateChanged(async (auth, newUser) => {
+        console.log('Check for user status')
         let userPlayer = await loginUser($firebase, newUser);
         $user = userPlayer.user;
         $player = userPlayer.player;

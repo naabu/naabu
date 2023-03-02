@@ -16,6 +16,7 @@
   let mainMenuLinks = [];
 
   async function loginWithHeader() {
+    console.log($firebase)
     let result = await login($firebase, $t);
     if (result !== null) {
       $user = result.user;

@@ -9,7 +9,7 @@
   $: (async () => {
     if ($firebase) {
       
-      await retrieveAllModules();
+      // await retrieveAllModules();
       mounted = true;
     }
   })();

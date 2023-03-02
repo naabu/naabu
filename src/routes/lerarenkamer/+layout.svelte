@@ -8,7 +8,9 @@
   async function loginTeacher() {
     if ($firebase) {
       try {
+        console.log("here")
         let fb = $firebase;
+        console.log(fb)
         let result = await login(fb, $t);
         if (result !== null) {
           $user = result.user;

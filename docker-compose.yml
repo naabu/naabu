@@ -8,8 +8,8 @@ services:
     volumes:
       - ./:/var/www/
     environment:
-      - environment=development
-      - defaultLanguage=en
+      - PUBLIC_ENVIRONMENT=development
+      - PUBLIC_DEFAULT_LANGUAGE=en
     ports:
       - 3000:3000
       - 3001:3001

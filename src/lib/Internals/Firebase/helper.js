@@ -1,10 +1,11 @@
 import { loginUser } from "$lib/Internals/User/helper.js";
+import { firebase, auth } from "$lib/Internals/Firebase/store";
+import { t } from "svelte-intl-precompile";
 
-export async function login(firebase, $t) {
+export async function login() {
   try {
-    let auth = firebase.auth();
-    const provider = new firebase.auth.GoogleAuthProvider();
-    let anonymousUser = firebase.auth().currentUser;
+    const provider = new $firebase.auth.GoogleAuthProvider();
+    let anonymousUser = $auth.currentUser;
     if (anonymousUser) {
       return anonymousUser.linkWithPopup(provider).then(function (linkResult) {
         return auth.signInWithCredential(linkResult.credential).then(async function (loginResult) {

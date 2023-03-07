@@ -1,10 +1,3 @@
----
-layout: page
-title: How to create a new interruption plugin
-parent: How to guides
-permalink: /how-to-guides/create-interruption-plugin
----
-
 # Guide to create a plugin that can be interrupted.
 
 ## Step 1

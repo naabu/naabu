@@ -1,10 +1,3 @@
----
-layout: page
-title: Plug-in API Reference
-permalink: /references/plugin/ 
-parent: References
-nav_order: 3
----
 # Plugin reference
 
 ## Plugin config.js settings

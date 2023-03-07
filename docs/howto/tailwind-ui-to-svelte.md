@@ -1,10 +1,3 @@
----
-layout: page
-title: How to convert Tailwind UI transitions to Svelte
-parent: How to guides
-permalink: /how-to-guides/tailwind-ui-to-svelte
----
-
 # How to make transitions with tailwind and Svelte.
 
 [TailwindUI](https://tailwindui.com) uses Tailwind classes for transitions (e.g. motion and slide in). Svelte has its own [motion API](https://svelte.dev/tutorial/tweened) but it is not compatible to this workflow with classes.

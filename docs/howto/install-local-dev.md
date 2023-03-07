@@ -1,10 +1,3 @@
----
-layout: page
-title: Install a local environment
-parent: How to guides
-permalink: /how-to-guides/install-local-dev
----
-
 # How to install the project for your local environment
 
 A small guide on how to get the Tool to work locally.

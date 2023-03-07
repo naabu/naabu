@@ -47,15 +47,6 @@ services:
       - 4400:4400
     networks:
       - internal_network
-  
-  jekyll:
-    build:
-      context: .
-      dockerfile: dockerfiles/jekyll/core/Dockerfile
-    volumes:
-      - ./:/var/www/
-    ports:
-      - 4000:4000
 
 volumes:
   firebase_functions_node_modules:

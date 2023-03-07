@@ -1,10 +1,3 @@
----
-layout: page
-title: How to create a custom plugin
-parent: How to guides
-permalink: /how-to-guides/create-plugin
----
-
 # Guide to create a plugin.
 
 ## Step 1

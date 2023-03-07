@@ -1,10 +1,3 @@
----
-layout: page
-title: How to work with Firebase
-parent: How to guides
-permalink: /how-to-guides/work-with-firebase
----
-
 # How to guide of using Firebase
 Useful how to guide on how to use Firebase in the project.
 

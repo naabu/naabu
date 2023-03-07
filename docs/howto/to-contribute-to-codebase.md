@@ -1,11 +1,3 @@
----
-layout: page
-title: Contribute code to codebase
-parent: How to guides
-permalink: /how-to-guides/contribute-to-codebase
----
-
-
 # How to contribute code to the project
 
 

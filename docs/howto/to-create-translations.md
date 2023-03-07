@@ -1,10 +1,3 @@
----
-layout: page
-title: How to create translations
-parent: How to guides
-permalink: /how-to-guides/to-create-translations
----
-
 Import the ``$t()`` function from [Svelte-intl-precompile](https://github.com/cibernox/svelte-intl-precompile)
 
 ```js

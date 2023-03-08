@@ -2,11 +2,10 @@
   "name": "functions",
   "description": "Cloud Functions for Firebase",
   "scripts": {
-    "serve": "firebase emulators:start --only functions",
-    "shell": "firebase functions:shell",
-    "start": "npm run shell",
-    "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log"
+    "addUserClaims": "export GOOGLE_APPLICATION_CREDENTIALS=/var/www/adminkey.json; node scripts/addUserClaims.js",
+    "deploy": "bash scripts/deploy.sh",
+    "emulate": "node scripts/generateServerConfig.js; firebase emulators:start  --import=./data/.devdata --export-on-exit --only auth,functions,firestore,pubsub",
+    "emulateCypress": "node scripts/generateServerConfig.js; firebase emulators:start --only auth,functions,firestore,pubsub"
   },
   "engines": {
     "node": "14"
@@ -21,8 +20,9 @@
     "algoliasearch": "^4.12.0",
     "cookie": "^0.4.1",
     "firebase": "^8.10.0",
-    "firebase-admin": "^9.12.0",
+    "firebase-admin": "^11.5.0",
     "firebase-functions": "^3.16.0",
+    "firebase-tools": "^11.24.0",
     "leaflet": "^1.7.1",
     "svelte": "^3.46.2"
   },

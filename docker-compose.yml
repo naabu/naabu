@@ -33,7 +33,7 @@ services:
       - ./firestore.indexes.json:/var/www/firestore.indexes.json
       - ./scripts/:/var/www/scripts/
       - ./config/:/var/www/config/
-      - ./dockerfiles/firebase/core/package.json:/var/www/package.json
+      - ./functions/package.json:/var/www/package.json
       - ./data/:/var/www/data/
       - ./public:/var/www/public/
     environment:

@@ -22,7 +22,6 @@
     "firebase": "^8.10.0",
     "firebase-admin": "^11.5.0",
     "firebase-functions": "^3.16.0",
-    "firebase-tools": "^11.24.0",
     "leaflet": "^1.7.1",
     "svelte": "^3.46.2"
   },

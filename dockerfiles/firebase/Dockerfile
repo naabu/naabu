@@ -3,17 +3,20 @@ RUN apt-get update; \
     apt-get install -y \
     default-jre; 
 
-COPY functions/package.json functions/package-lock.json /var/www/functions/
-
-# Just need this for the emulate script.
-COPY functions/package.json /var/www/
+COPY dockerfiles/firebase/package.json /usr/local/package.json
+RUN chmod -R 777 /usr/local/
+USER node
+WORKDIR /usr/local/
+RUN npm install && \
+    npm set audit false
 USER root
+ENV PATH /usr/local/node_modules/.bin:$PATH
+COPY functions/package.json functions/package-lock.json /var/www/functions/
+WORKDIR /var/www/functions
 RUN chmod -R 777 /var/www/functions
 USER node
-WORKDIR /var/www/functions
-# Install dependencies in functions directory
 RUN npm ci
-WORKDIR /var/www/
+USER root
 CMD ["npm", "run", "emulate"]
 EXPOSE 5010 5011 5012
 

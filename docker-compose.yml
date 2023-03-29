@@ -4,7 +4,7 @@ services:
   sveltekit:
     build:
       context: .
-      dockerfile: dockerfiles/sveltekit/dev/Dockerfile
+      dockerfile: dockerfiles/sveltekit/Dockerfile
     volumes:
       - ./:/var/www/
     environment:

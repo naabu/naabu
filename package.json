@@ -51,6 +51,7 @@
     "javascript-time-ago": "^2.3.13",
     "katex": "^0.13.24",
     "leaflet": "^1.7.1",
+    "svelte-canvas": "^0.9.3",
     "svelte-class-transition": "^1.0.4",
     "svelte-cubed": "^0.2.1",
     "svelte-intl-precompile": "^0.8.1",

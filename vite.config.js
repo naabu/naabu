@@ -8,9 +8,6 @@ const config = {
     sveltekit(),
     precompileIntl('locales'),
   ],
-  ssr: {
-    noExternal: ['@algolia/autocomplete-js']
-  },
   resolve: {
     alias: {
       '@plugins': path.resolve('./plugins')

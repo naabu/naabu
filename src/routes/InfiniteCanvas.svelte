@@ -15,8 +15,6 @@
     context.clearRect(0, 0, width, height);
 
     context.save();
-    console.log(offsetX)
-    console.log(offsetY)
     context.translate(offsetX, offsetY);
     context.scale(zoom, zoom);
 
@@ -24,30 +22,24 @@
     const radius = (gridSpace / 16) * zoom;
     const numCols = Math.ceil(width / gridSpace / zoom);
     const numRows = Math.ceil(height / gridSpace / zoom);
-    console.log(numCols)
-    console.log(numRows)
-    const numColsOffset = Math.ceil(offsetX / gridSpace / zoom);
-    const numRowsOffset = Math.ceil(offsetY / gridSpace / zoom);
-    console.log(numColsOffset)
-    console.log(numRowsOffset)
-    console.log("draw")
+    const numColsOffset = Math.ceil(offsetX / (gridSpace * zoom));
+    const numRowsOffset = Math.ceil(offsetY / (gridSpace * zoom));
 
     context.beginPath();
-    for (let x = -numColsOffset - 5; x < -numColsOffset + numCols + 5; x++) {
-      for (let y = -numRowsOffset - 5; y < -numRowsOffset + numRows + 5; y++) {
-        const centerX = x * gridSpace;
-        const centerY = y * gridSpace;
-        context.fillStyle = "#C7C7C7"
+    for (let x = -numColsOffset - 1; x < numCols - numColsOffset + 1; x++) {
+      for (let y = -numRowsOffset - 1; y < numRows - numRowsOffset + 1; y++) {
+        const centerX = x * gridSpace + gridSpace / 2;
+        const centerY = y * gridSpace + gridSpace / 2;
+        context.fillStyle = "#C7C7C7";
         context.moveTo(centerX + radius, centerY);
         context.arc(centerX, centerY, radius, 0, 2 * Math.PI);
       }
-    }    
+    }
     context.fill();
     context.beginPath();
     context.fillStyle = "#00FF00"
-    context.arc(10, 10, radius, 0, 100 * Math.PI);
+    context.arc(15, 15, 100, 0, 100 * Math.PI);
     context.fill();
-
     context.restore();
   };
 
@@ -73,12 +65,6 @@
 
   function handleMouseWheel(e) {
     e.preventDefault();
-
-    // if (e.deltaY) < 0 {
-    //   zoom = zoom * 1.1;
-    // } else {
-    //   zoom = zoom * 0.9;
-    // }
     const wheelDelta = e.deltaY < 0 ? 1 + zoomStep : 1 - zoomStep;
     const newZoom = zoom * wheelDelta;
     if (newZoom > maxZoom || newZoom < minZoom) return;
@@ -97,17 +83,6 @@
 </script>
 
 <svelte:window bind:innerWidth={width} bind:innerHeight={height} />
-
-<!-- Change width to be full screen -->
-<!-- <canvas
-  bind:this="{canvas}"
-  width={width}
-  height={height}
-  on:mousedown="{handleMouseDown}"
-  on:mouseup="{handleMouseUp}"
-  on:mousemove="{handleMouseMove}"
-  on:wheel="{handleMouseWheel}"
-></canvas> -->
 
 <Canvas
   {width}

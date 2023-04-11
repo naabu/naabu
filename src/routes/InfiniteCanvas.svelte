@@ -4,13 +4,14 @@
   let offsetX = 0;
   let offsetY = 0;
   let zoom = 1;
-  let maxZoom = 1.3;
-  let minZoom = 0.1;
+  let maxZoom = 5;
+  let minZoom = 0.0;
   let zoomStep = 0.05;
-  const gridSize = 20;
+  const gridSize = 5;
   let isDragging = false;
   let dragStartX, dragStartY;
-
+  let imageURI;
+  let svelteCanvas;
   $: draw = ({ context, width, height }) => {
     context.clearRect(0, 0, width, height);
 
@@ -19,28 +20,41 @@
     context.scale(zoom, zoom);
 
     const gridSpace = gridSize;
-    const radius = (gridSpace / 16) * zoom;
+    let radius = (gridSpace / 16) * zoom/2;
     const numCols = Math.ceil(width / gridSpace / zoom);
     const numRows = Math.ceil(height / gridSpace / zoom);
     const numColsOffset = Math.ceil(offsetX / (gridSpace * zoom));
     const numRowsOffset = Math.ceil(offsetY / (gridSpace * zoom));
-
-    context.beginPath();
-    for (let x = -numColsOffset - 1; x < numCols - numColsOffset + 1; x++) {
-      for (let y = -numRowsOffset - 1; y < numRows - numRowsOffset + 1; y++) {
-        const centerX = x * gridSpace + gridSpace / 2;
-        const centerY = y * gridSpace + gridSpace / 2;
-        context.fillStyle = "#C7C7C7";
-        context.moveTo(centerX + radius, centerY);
-        context.arc(centerX, centerY, radius, 0, 2 * Math.PI);
-      }
+    if (radius > 0.5) {
+      radius = 0.5;
     }
-    context.fill();
+    else if (radius > 0.1 && radius < 0.5) {
+      radius = 0.4;
+    }
+    else if (radius < 0.1) {
+      radius = 0.1;
+    }
+
+    // Only show grid if zoom is not too far out
+    if (zoom > 0.5) {
+      context.beginPath();
+      for (let x = -numColsOffset - 1; x < numCols - numColsOffset + 1; x++) {
+        for (let y = -numRowsOffset - 1; y < numRows - numRowsOffset + 1; y++) {
+          const centerX = x * gridSpace + gridSpace / 2;
+          const centerY = y * gridSpace + gridSpace / 2;
+          context.fillStyle = "#C7C7C7";
+          context.moveTo(centerX + radius, centerY);
+          context.arc(centerX, centerY, radius, 0, 2 * Math.PI);
+        }
+      }
+      context.fill();
+    }
     context.beginPath();
     context.fillStyle = "#00FF00"
     context.arc(15, 15, 100, 0, 100 * Math.PI);
     context.fill();
     context.restore();
+
   };
 
   function handleMouseDown(e) {
@@ -80,6 +94,15 @@
 
   let width = "800";
   let height = "400";
+
+  async function downloadCanvas(el) {
+    
+    svelteCanvas.getCanvas().toBlob(function (blob) {
+      console.log(blob)
+      saveAs(blob, "example.png");
+    });
+  };
+
 </script>
 
 <svelte:window bind:innerWidth={width} bind:innerHeight={height} />
@@ -87,6 +110,7 @@
 <Canvas
   {width}
   {height}
+  bind:this={svelteCanvas}
   on:mousedown={handleMouseDown}
   on:mouseup={handleMouseUp}
   on:mousemove={handleMouseMove}
@@ -95,5 +119,21 @@
   <Layer render={draw} />
 </Canvas>
 
+<div class="grid">
+
+</div>
+<div class="absolute top-1/4 left-4 w-4 bg-gray-800 border-slate-700 rounded-xl">
+  Side bar
+</div>
+
+<a download="example.jpg" href="" on:click={downloadCanvas}>Download example.jpg</a>
+
 <style>
+  .grid{
+    display: grid;
+    grid-template-areas: "top top top"
+                         "left . right"
+                         "bottom bottom bottom";
+    grid-template-columns: 64px 1fr 330px;
+  }
 </style>
